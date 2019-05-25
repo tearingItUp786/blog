@@ -5,5 +5,17 @@
  */
 
 module.exports = {
-  plugins: [`gatsby-plugin-styled-components`],
+  siteMetadata: {
+    title: 'Taran "tearing it up" Bains',
+    description: "An outlet for the thoughts of Taran",
+  },
+  plugins: [
+    `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [`open sans\:400`, `raleway\:400`],
+      },
+    },
+  ],
 }
