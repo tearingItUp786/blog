@@ -50,7 +50,7 @@ function Header() {
             fixed={data.avatar.childImageSharp.fixed}
             alt={author}
           />
-          <Name>{author}</Name>
+          <Name>{social.twitter}</Name>
         </AvatarContainer>
         <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
         <LinksContainer isOpen={isOpen} offsetTop={offsetTop}>
@@ -64,7 +64,6 @@ function Header() {
           <NavLink
             aria-label="View Blog Posts"
             to="/blog"
-            marginLeft="10px"
             activeClassName="active"
           >
             Blog
@@ -72,7 +71,6 @@ function Header() {
           <NavLink
             aria-label="View today I learned page"
             to="/til"
-            marginLeft="10px"
             activeClassName="active"
           >
             TIL

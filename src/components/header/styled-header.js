@@ -1,5 +1,5 @@
 import { Link } from "gatsby"
-import styled from "styled-components"
+import styled, { keyframes, css } from "styled-components"
 import Image from "gatsby-image"
 import media, { defaultBreakpoints } from "styled-media-query"
 import { fluidFontSize } from "../../utils/styling/helper"
@@ -85,6 +85,10 @@ export const NavLink = styled(Link)`
     margin-left: 0;
     padding: 30px;
   `}
+
+  & + {
+    margin-left: 10px;
+  }
 `
 
 export const AvatarContainer = styled.a`
@@ -109,20 +113,54 @@ export const Name = styled.span`
   `}
 `
 
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-1000px);
+    visibility: hidden;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
+`
+
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-1000px);
+    visibility: hidden;
+  }
+`
+
 export const LinksContainer = styled.div`
   display: block;
   transition: transform 300ms ease;
 
   ${media.lessThan("medium")`
-  z-index: 29;
-  background: ${props => props.theme.colors.text}
-  position: absolute;
-  top: ${props => (props.offsetTop ? `${props.offsetTop}px` : 0)};
-  left: 0;
-  transform: ${props =>
-    props.isOpen ? "translateX(0)" : "translateX(-1000px)"};
-    visibility: ${props => (props.isOpen ? "visible" : "hidden")}
-  width: 100%
-  padding-bottom: 30px;
+    opacity: 0;
+    z-index: 29;
+    background: ${props => props.theme.colors.text}
+    position: absolute;
+    top: ${props => (props.offsetTop ? `${props.offsetTop}px` : 0)};
+    left: 0;
+    animation: ${props =>
+      props.isOpen
+        ? css`
+            ${slideIn} 300ms ease-in-out forwards
+          `
+        : css`
+            ${slideOut} 300ms ease-in-out forwards
+          `};
+    width: 100%
+    padding-bottom: 30px;
 `}
 `
