@@ -9,6 +9,7 @@ exports.createPages = ({ graphql, actions }) => {
     `
       {
         allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } }
           sort: { fields: [frontmatter___date], order: DESC }
           limit: 1000
         ) {

@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Taran "tearing it up" Bains`,
-    author: `Taran Bains`,
+    author: `Taran "tearing it up" Bains`,
     description: `A home for the mostly developer thoughts of Taran Bains`,
     siteUrl: `https://taranveerbains.ca`,
     social: {
@@ -17,10 +17,21 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {},
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/assets`,
         name: `assets`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/til`,
+        name: `til`,
       },
     },
     {
@@ -68,11 +79,5 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-plugin-typography`,
-      options: {
-        pathToConfigModule: `src/utils/typography`,
-      },
-    },
   ],
 }
