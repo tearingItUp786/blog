@@ -1,7 +1,8 @@
+import React from "react"
 import { Link } from "gatsby"
 import styled, { keyframes, css } from "styled-components"
 import Image from "gatsby-image"
-import media, { defaultBreakpoints } from "styled-media-query"
+import media from "styled-media-query"
 import { fluidFontSize } from "../../utils/styling/helper"
 
 export const StyledHeader = styled.header`
@@ -27,8 +28,11 @@ export const StyledNav = styled.nav`
   `}
 `
 
-export const NavLink = styled(Link)`
+export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
+  <Link {...restProps} />
+))`
   color: ${props => props.theme.colors.body};
+  display: ${props => (props.hideDesktop ? "none" : "inline-block")};
   font-weight: ${props => props.fontWeight || "normal"};
   text-decoration: none;
   font-family: ${props => props.theme.font.title || "serif"};
@@ -91,7 +95,7 @@ export const NavLink = styled(Link)`
   }
 `
 
-export const AvatarContainer = styled.a`
+export const AvatarContainer = styled(Link)`
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -143,7 +147,6 @@ const slideOut = keyframes`
 
 export const LinksContainer = styled.div`
   display: block;
-  transition: transform 300ms ease;
 
   ${media.lessThan("medium")`
     opacity: 0;

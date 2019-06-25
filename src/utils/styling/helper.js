@@ -1,4 +1,4 @@
-import { breakpointNumbers } from "."
+import { breakpointNumbers } from "./index"
 
 export function fluidFontSize(
   {

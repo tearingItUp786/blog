@@ -18,7 +18,7 @@ function Header() {
     query HeaderQuery {
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
         childImageSharp {
-          fixed(width: 75, height: 75) {
+          fixed(width: 50, height: 50) {
             ...GatsbyImageSharpFixed
           }
         }
@@ -41,11 +41,7 @@ function Header() {
   return (
     <StyledHeader ref={headerRef}>
       <StyledNav>
-        <AvatarContainer
-          aria-label="Go to twitter page"
-          target="blank"
-          href={`https://twitter.com/${social.twitter}`}
-        >
+        <AvatarContainer aria-label="Go to twitter page" to="/">
           <StyledAvatar
             fixed={data.avatar.childImageSharp.fixed}
             alt={author}
@@ -58,6 +54,7 @@ function Header() {
             aria-label="Go back to home page"
             to="/"
             activeClassName="active"
+            hideDesktop={true}
           >
             Home
           </NavLink>

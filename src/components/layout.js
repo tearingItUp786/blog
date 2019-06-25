@@ -4,7 +4,10 @@ import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 
 import Header from "./header"
-import { lightTheme, GlobalStyle } from "../utils/styling"
+import { lightTheme } from "../utils/styling"
+import { GlobalStyle } from "../utils/styling/base-components"
+import Hero from "./hero"
+
 const Main = styled.main`
   margin: 2rem auto 4rem;
   max-width: ${props => props.theme.sizing["max-width"]};
@@ -20,6 +23,7 @@ function Layout(props) {
         <Normalize />
         <GlobalStyle />
         <Header />
+        <Hero />
         <Main>{children}</Main>
         <footer>
           © {new Date().getFullYear()}, Built with

@@ -1,4 +1,3 @@
-import { createGlobalStyle } from "styled-components"
 import { defaultBreakpoints } from "styled-media-query"
 
 export const lightTheme = {
@@ -29,11 +28,3 @@ export const breakpointNumbers = Object.keys(defaultBreakpoints).reduce(
   },
   {}
 )
-
-export const GlobalStyle = createGlobalStyle`
-  html, body {
-    background-color: ${props => props.theme.colors.body || "white"};
-    font-family: ${props => props.theme.font.body || "sans-serif"};
-    color: ${props => props.theme.colors.text || "black"};
-  }
-`
