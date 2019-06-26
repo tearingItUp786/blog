@@ -6,7 +6,14 @@ import media from "styled-media-query"
 import { fluidFontSize } from "../../utils/styling/helper"
 
 export const StyledHeader = styled.header`
-  background-color: ${props => props.theme.colors.text || "black"};
+  background: ${props => props.theme.colors.text};
+
+  ${media.greaterThan("medium")`
+    background: transparent;
+    position: absolute;
+    width: 100vw;
+    z-index: 5;
+  `}
 `
 
 export const StyledAvatar = styled(Image)`
@@ -43,11 +50,10 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
   transition: background-color 300ms ease;
   border-radius: 2px;
   position: relative;
-  font-weight: 200;
 
   &.active {
     &:after {
-      background: ${props => props.theme.colors.accent};
+      background: ${props => props.theme.colors.mainAccent};
       transform: translateX(0);
       opacity: 1;
     }
@@ -68,10 +74,10 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
     transform: translateX(-100%);
     opacity: 0;
     content: "";
-    height: 1px;
+    height: 2px;
     bottom: 2px;
     color: white;
-    background: ${props => props.theme.colors.accent};
+    background: ${props => props.theme.colors.mainAccent};
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -104,11 +110,10 @@ export const AvatarContainer = styled(Link)`
 export const Name = styled.span`
   display: block;
   font-family: ${props => props.theme.font.title};
-  font-weight: 200;
   color: ${props => props.theme.colors.body};
   font-size: ${fluidFontSize({ minSize: 16, maxSize: 18 })};
-  font-weight: 300;
-  margin-left: 10px;
+  font-weight: 400;
+  margin-left: 16px;
   letter-spacing: 0.5px;
 
   ${media.lessThan("small")`

@@ -5,7 +5,7 @@ module.exports = {
     description: `A home for the mostly developer thoughts of Taran Bains`,
     siteUrl: `https://taranveerbains.ca`,
     social: {
-      twitter: `tearingitup786`,
+      twitter: `tearingItUp786`,
     },
   },
   plugins: [

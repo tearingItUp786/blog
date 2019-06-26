@@ -1,4 +1,4 @@
-import { defaultBreakpoints } from "styled-media-query"
+import { fluidFontSize } from "./helper"
 
 export const lightTheme = {
   colors: {
@@ -11,20 +11,17 @@ export const lightTheme = {
     title: `"Raleway", sans-serif`,
     body: `"Open Sans", sans-serif`,
   },
+  fontSizes: {
+    h1: fluidFontSize({ minSize: 28, maxSize: 40 }),
+    h2: fluidFontSize({ minSize: 24, maxSize: 36 }),
+    h3: fluidFontSize({ minSize: 18, maxSize: 24 }),
+    h4: fluidFontSize({ minSize: 16, maxSize: 22 }),
+    h5: fluidFontSize({ minSize: 16, maxSize: 20 }),
+    h6: fluidFontSize({ minSize: 14, maxSize: 16 }),
+    body: fluidFontSize({ minSize: 14, maxSize: 16 }),
+  },
   sizing: {
     "max-width": "90vw",
     width: "800px",
   },
 }
-
-// take the breakpoint strings given to us by the styled media query
-// and for each key, strip out the px
-export const breakpointNumbers = Object.keys(defaultBreakpoints).reduce(
-  (acc, cur) => {
-    return {
-      ...acc,
-      [cur]: defaultBreakpoints[cur].split("px")[0],
-    }
-  },
-  {}
-)

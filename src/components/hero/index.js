@@ -3,13 +3,12 @@ import styled from "styled-components"
 import { useStaticQuery } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
 import { fluidFontSize } from "../../utils/styling/helper"
-import { H3 } from "../../utils/styling/base-components"
 import media from "styled-media-query"
 
 const ImageBackground = styled(BackgroundImage)`
   background-position: top 20% center;
   background-size: cover;
-  height: 50vh;
+  height: 65vh;
 
   /* override the default margin for sibling elements  */
   + * {
@@ -18,7 +17,7 @@ const ImageBackground = styled(BackgroundImage)`
 `
 
 const TextBox = styled.div`
-  background-image: linear-gradient(to top, #cc00004d 2rem, #f5ae0052);
+  background-image: linear-gradient(to top, #cc00004d 2rem, #0000008c);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -30,8 +29,10 @@ const TextBox = styled.div`
     padding: 0 calc((100vw - 793px) / 2) 2rem
   `}
 
-  h3 {
+  h2 {
     margin-bottom: 8px;
+    font-size: ${props => props.theme.fontSizes.h2}
+    color: ${props => props.theme.colors.body};
   }
 
   p {
@@ -57,8 +58,8 @@ const Hero = () => {
   return (
     <ImageBackground Tag="section" fluid={image.sharp.fluid} fadeIn="soft">
       <TextBox>
-        <H3>Welcome to my domain</H3>
-        <p>Written by Taran "tearing it up" Bains</p>
+        <h2>Welcome to my domain</h2>
+        <p>Home to the thoughts of Taran "tearing it up" Bains</p>
       </TextBox>
     </ImageBackground>
   )

@@ -1,4 +1,11 @@
-import { breakpointNumbers } from "./index"
+import { defaultBreakpoints } from "styled-media-query"
+
+const breakpointNumbers = Object.keys(defaultBreakpoints).reduce((acc, cur) => {
+  return {
+    ...acc,
+    [cur]: defaultBreakpoints[cur].split("px")[0],
+  }
+}, {})
 
 export function fluidFontSize(
   {

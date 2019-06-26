@@ -1,7 +1,7 @@
 ---
 title: Hello World
 date: "2015-05-01T22:12:03.284Z"
-description: a little desc
+description: Function currying, what it is and why you should care.
 ---
 
 This is my first post on my new fake blog! How exciting!
