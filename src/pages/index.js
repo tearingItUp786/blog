@@ -9,7 +9,8 @@ import BlogCard from "../components/blog-card"
 function blogMapper({ node }) {
   const title = node.frontmatter.title || node.fields.slug
   const description = node.frontmatter.description || node.excerpt
-
+  const tag = node.frontmatter.tag
+  console.log(tag)
   return (
     <BlogCard
       key={node.fields.slug}
@@ -17,6 +18,7 @@ function blogMapper({ node }) {
       date={node.frontmatter.date}
       description={description}
       title={title}
+      tag={tag}
     />
   )
 }
@@ -55,6 +57,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            tag
           }
         }
       }

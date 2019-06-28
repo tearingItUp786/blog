@@ -53,7 +53,7 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
 
   &.active {
     &:after {
-      background: ${props => props.theme.colors.mainAccent};
+      background: ${props => props.theme.colors.accent};
       transform: translateX(0);
       opacity: 1;
     }
@@ -77,7 +77,7 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
     height: 2px;
     bottom: 2px;
     color: white;
-    background: ${props => props.theme.colors.mainAccent};
+    background: ${props => props.theme.colors.accent};
     margin: 0 auto;
     left: 0;
     right: 0;
