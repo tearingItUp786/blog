@@ -16,10 +16,17 @@ const Main = styled.main`
       ? "auto"
       : `calc(
     100vh - ${props.headerHeight} - ${props.footerHeight} -
-      6rem
+      5.75rem
   )`};
   max-width: ${props => props.theme.sizing["max-width"]};
   width: ${props => props.theme.sizing.width};
+`
+
+const ContentContainer = styled.div`
+  outline: none;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
 `
 
 function Layout(props) {
@@ -31,7 +38,7 @@ function Layout(props) {
 
   return (
     <ThemeProvider theme={lightTheme}>
-      <React.Fragment>
+      <ContentContainer>
         <Normalize />
         <GlobalStyle />
         <Header main={isHome} updateHeaderHeight={updateHeaderHeight} />
@@ -44,7 +51,7 @@ function Layout(props) {
           {children}
         </Main>
         <Footer updateFooterHeight={updateFooterHeight} />
-      </React.Fragment>
+      </ContentContainer>
     </ThemeProvider>
   )
 }

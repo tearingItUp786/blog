@@ -2,13 +2,13 @@ import React from "react"
 import styled from "styled-components"
 import { useStaticQuery } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
-import { fluidFontSize } from "../../utils/styling/helper"
 import media from "styled-media-query"
 
 const ImageBackground = styled(BackgroundImage)`
   background-position: top 20% center;
   background-size: cover;
   height: 65vh;
+  width: 100vw;
 
   /* override the default margin for sibling elements  */
   + * {
@@ -21,13 +21,8 @@ const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-left: 5vw;
   justify-content: flex-end;
   width: 100%;
-
-  ${media.greaterThan("medium")`
-    padding: 0 calc((100vw - 793px) / 2) 2rem
-  `}
 
   h2 {
     margin-bottom: 8px;
@@ -40,6 +35,13 @@ const TextBox = styled.div`
     margin-top: 0;
     color: ${props => props.theme.colors.body || "white"};
   }
+`
+
+const TextWrapper = styled.div`
+  width: 800px;
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
 `
 
 const Hero = () => {
@@ -58,8 +60,10 @@ const Hero = () => {
   return (
     <ImageBackground Tag="section" fluid={image.sharp.fluid} fadeIn="soft">
       <TextBox>
-        <h2>Welcome to my domain</h2>
-        <p>Home to the thoughts of Taran "tearing it up" Bains</p>
+        <TextWrapper>
+          <h2>Welcome to my domain</h2>
+          <p>Home to the thoughts of Taran "tearing it up" Bains</p>
+        </TextWrapper>
       </TextBox>
     </ImageBackground>
   )

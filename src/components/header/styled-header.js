@@ -7,6 +7,7 @@ import { fluidFontSize } from "../../utils/styling/helper"
 
 export const StyledHeader = styled.header`
   background: ${props => props.theme.colors.text};
+  width: 100vw;
 
   ${media.greaterThan("medium")`
     background: ${props =>
