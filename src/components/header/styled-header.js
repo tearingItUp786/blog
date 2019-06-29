@@ -142,7 +142,7 @@ const slideOut = keyframes`
   from {
     opacity: 1;
     transform: translateX(0);
-    visibility: visible;
+    visibility: hidden;
   }
 
   to {
