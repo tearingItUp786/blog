@@ -36,6 +36,18 @@ const PostTag = styled.span`
   margin-left: 8px;
 `
 
+const TitleLink = props => {
+  if (props.slug === null) {
+    return <span>{props.title}</span>
+  } else {
+    return (
+      <a aria-label={`Go to ${props.slug} blog post`} href={props.slug}>
+        {props.title}
+      </a>
+    )
+  }
+}
+
 function BlogCard(props) {
   const {
     title = "No Title",
@@ -45,16 +57,25 @@ function BlogCard(props) {
     tag = "",
   } = props
 
-  const postTag = tag ? <PostTag> 🏷️ ️{tag}</PostTag> : null
+  const postTag = tag ? (
+    <PostTag>
+      {" "}
+      <span role="img" aria-label="tag emoji!">
+        🏷️
+      </span>{" "}
+      ️{tag}
+    </PostTag>
+  ) : null
   return (
     <CardContainer>
       <Title>
-        <a aria-label={`Go to ${slug} blog post`} href={slug}>
-          {title}
-        </a>
+        <TitleLink slug={slug} title={title} />
       </Title>
       <PostInfo>
-        🗓️ {date} {postTag}
+        <span role="img" aria-label="calendar emoji!">
+          🗓️
+        </span>{" "}
+        {date} {postTag}
       </PostInfo>
       <PostIntro>{description}</PostIntro>
     </CardContainer>

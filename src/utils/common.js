@@ -5,11 +5,13 @@ export function blogMapper({ node }) {
   const title = node.frontmatter.title || node.fields.slug
   const description = node.frontmatter.description || node.excerpt
   const tag = node.frontmatter.tag
-  console.log(tag)
+  const key = node.fields ? node.fields.slug : title
+  const slug = node.fields ? node.fields.slug : null
+
   return (
     <BlogCard
-      key={node.fields.slug}
-      slug={node.fields.slug}
+      key={key}
+      slug={slug}
       date={node.frontmatter.date}
       description={description}
       title={title}
