@@ -11,7 +11,7 @@ import {
 } from "./styled-header"
 import MobileNav from "./mobile"
 
-function Header() {
+function Header(props) {
   const [isOpen, updateMenu] = React.useState(false)
   const headerRef = React.useRef(null)
   const data = useStaticQuery(graphql`
@@ -37,9 +37,8 @@ function Header() {
   const { author, social } = data.site.siteMetadata
   const offsetTop =
     headerRef && headerRef.current ? headerRef.current.clientHeight : 0
-
   return (
-    <StyledHeader ref={headerRef}>
+    <StyledHeader ref={headerRef} main={props.main}>
       <StyledNav>
         <AvatarContainer aria-label="Go to twitter page" to="/">
           <StyledAvatar

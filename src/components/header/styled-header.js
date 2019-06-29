@@ -9,8 +9,9 @@ export const StyledHeader = styled.header`
   background: ${props => props.theme.colors.text};
 
   ${media.greaterThan("medium")`
-    background: transparent;
-    position: absolute;
+    background: ${props =>
+      props.main ? "transparent" : props.theme.colors.text};
+    position: ${props => (props.main ? "absolute" : "relative")};
     width: 100vw;
     z-index: 5;
   `}

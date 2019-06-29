@@ -15,15 +15,15 @@ const Main = styled.main`
 `
 
 function Layout(props) {
-  const { children } = props
-
+  const { children, location } = props
+  const hero = location.pathname === "/" ? <Hero /> : null
   return (
     <ThemeProvider theme={lightTheme}>
       <React.Fragment>
         <Normalize />
         <GlobalStyle />
-        <Header />
-        <Hero />
+        <Header main={location.pathname === "/"} />
+        {hero}
         <Main>{children}</Main>
         <footer>
           © {new Date().getFullYear()}, Built with

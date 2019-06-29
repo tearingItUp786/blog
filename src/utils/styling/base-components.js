@@ -1,5 +1,4 @@
-import styled, { createGlobalStyle } from "styled-components"
-import { fluidFontSize } from "./helper"
+import { createGlobalStyle } from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
   html, body {
