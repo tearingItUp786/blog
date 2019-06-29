@@ -13,7 +13,16 @@ import MobileNav from "./mobile"
 
 function Header(props) {
   const [isOpen, updateMenu] = React.useState(false)
-  const headerRef = React.useRef(null)
+  const [height, setHeight] = React.useState(0)
+  const ref = React.useRef(null)
+
+  React.useEffect(() => {
+    if (ref && ref.current && ref.current.clientHeight) {
+      setHeight(ref.current.clientHeight)
+      props.updateHeaderHeight(`${ref.current.clientHeight}px`)
+    }
+  }, [props])
+
   const data = useStaticQuery(graphql`
     query HeaderQuery {
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
@@ -35,10 +44,9 @@ function Header(props) {
   `)
 
   const { author, social } = data.site.siteMetadata
-  const offsetTop =
-    headerRef && headerRef.current ? headerRef.current.clientHeight : 0
+
   return (
-    <StyledHeader ref={headerRef} main={props.main}>
+    <StyledHeader ref={ref} main={props.main}>
       <StyledNav>
         <AvatarContainer aria-label="Go to twitter page" to="/">
           <StyledAvatar
@@ -48,7 +56,7 @@ function Header(props) {
           <Name>{social.twitter}</Name>
         </AvatarContainer>
         <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
-        <LinksContainer isOpen={isOpen} offsetTop={offsetTop}>
+        <LinksContainer isOpen={isOpen} offsetTop={height}>
           <NavLink
             aria-label="Go back to home page"
             to="/"
