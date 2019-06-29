@@ -5,7 +5,7 @@ import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-function BlogIndex(props) {
+function Blog(props) {
   const { data } = props
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMarkdownRemark.edges
@@ -13,13 +13,13 @@ function BlogIndex(props) {
 
   return (
     <Layout location={props.location} title={siteTitle}>
-      <SEO title="All posts" />
+      <SEO title="Blog posts" />
       {BlogCards}
     </Layout>
   )
 }
 
-export default BlogIndex
+export default Blog
 
 export const pageQuery = graphql`
   query {
