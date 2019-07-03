@@ -19,6 +19,7 @@ export const lightTheme = {
     h5: fluidFontSize({ minSize: 16, maxSize: 20 }),
     h6: fluidFontSize({ minSize: 14, maxSize: 16 }),
     body: fluidFontSize({ minSize: 14, maxSize: 16 }),
+    code: fluidFontSize({ minSize: 12, maxSize: 14 }),
   },
   sizing: {
     "max-width": "90vw",

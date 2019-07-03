@@ -27,6 +27,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
+  position: relative;
 `
 
 function Layout(props) {
