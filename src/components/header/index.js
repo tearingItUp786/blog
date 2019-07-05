@@ -67,14 +67,16 @@ function Header(props) {
           </NavLink>
           <NavLink
             aria-label="View Blog Posts"
-            to="/blog"
+            partiallyActive
+            to="/blog/"
             activeClassName="active"
           >
             Blog
           </NavLink>
           <NavLink
             aria-label="View today I learned page"
-            to="/til"
+            to="/til/"
+            partiallyActive
             activeClassName="active"
           >
             TIL

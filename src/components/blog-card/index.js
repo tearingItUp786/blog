@@ -55,6 +55,7 @@ function BlogCard(props) {
     date = "No Date",
     description = "No Desc",
     tag = "",
+    html = null,
   } = props
 
   const postTag = tag ? (
@@ -78,6 +79,7 @@ function BlogCard(props) {
         {date} {postTag}
       </PostInfo>
       <PostIntro>{description}</PostIntro>
+      {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : html}
     </CardContainer>
   )
 }
