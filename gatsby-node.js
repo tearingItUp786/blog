@@ -1,4 +1,5 @@
 const path = require(`path`)
+const nodeHelpers = require("./src/utils/node/helpers")
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = ({ graphql, actions }) => {
@@ -8,7 +9,7 @@ exports.createPages = ({ graphql, actions }) => {
   return graphql(
     `
       {
-        allMarkdownRemark(
+        blog: allMarkdownRemark(
           filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } }
           sort: { fields: [frontmatter___date], order: DESC }
           limit: 1000
@@ -24,6 +25,25 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        til: allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "/(?=til).*$/" } }
+          sort: { fields: [frontmatter___date], order: DESC }
+        ) {
+          edges {
+            node {
+              excerpt
+              fields {
+                slug
+              }
+              html
+              frontmatter {
+                date(formatString: "MMMM DD, YYYY")
+                title
+                tag
+              }
+            }
+          }
+        }
       }
     `
   ).then(result => {
@@ -32,11 +52,13 @@ exports.createPages = ({ graphql, actions }) => {
     }
 
     // Create blog posts pages.
-    const posts = result.data.allMarkdownRemark.edges
-
-    posts.forEach((post, index) => {
-      const previous = index === posts.length - 1 ? null : posts[index + 1].node
-      const next = index === 0 ? null : posts[index - 1].node
+    const blogPosts = result.data.blog.edges
+    const tilPosts = result.data.til.edges
+    console.log(blogPosts, tilPosts)
+    blogPosts.forEach((post, index) => {
+      const previous =
+        index === blogPosts.length - 1 ? null : blogPosts[index + 1].node
+      const next = index === 0 ? null : blogPosts[index - 1].node
       createPage({
         path: post.node.fields.slug,
         component: blogPost,
@@ -48,22 +70,28 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
 
-    // Create blog-list pages
+    // Create blog-list pages that'll be from both blogPosts and tilPosts
     const postsPerPage = 6
-    const numPages = Math.ceil(posts.length / postsPerPage)
-    Array.from({ length: numPages }).forEach((_, i) => {
-      createPage({
-        path: i === 0 ? `/blog` : `/blog/${i + 1}`,
-        component: path.resolve("./src/templates/blog-list.js"),
-        context: {
-          limit: postsPerPage,
-          skip: i * postsPerPage,
-          numPages,
-          currentPage: i + 1,
-        },
-      })
+    const blogNumPages = Math.ceil(blogPosts.length / postsPerPage)
+    const tilNumPages = Math.ceil(tilPosts.length / postsPerPage)
+
+    // creates a number of pages for blogs posts using a helper
+    nodeHelpers.generatePages({
+      length: blogNumPages,
+      basePath: "blog",
+      postsPerPage,
+      callback: createPage,
+      componentPath: "./src/templates/blog-list.js",
     })
 
+    // creates a number of pages for til list
+    nodeHelpers.generatePages({
+      length: tilNumPages,
+      basePath: "til",
+      postsPerPage,
+      callback: createPage,
+      componentPath: "./src/templates/til-list.js",
+    })
     return null
   })
 }

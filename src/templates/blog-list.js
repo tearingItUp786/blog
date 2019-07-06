@@ -1,16 +1,17 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql } from "gatsby"
 
 import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Pagination from "../components/pagination"
 
 function BlogList(props) {
-  const { currentPage, numPages } = props.pageContext
-  const isFirst = currentPage === 1
-  const isLast = currentPage === numPages
-  const prevPage = currentPage - 1 === 1 ? "/blog/" : `/blog/${currentPage - 1}`
-  const nextPage = `/blog/${currentPage + 1}`
+  console.log(props)
+  const { currentPage, numPages, basePath } = props.pageContext
+  const prevPage =
+    currentPage - 1 === 1 ? `${basePath}` : `/${basePath}/${currentPage - 1}`
+  const nextPage = `/${basePath}/${currentPage + 1}`
 
   const { data } = props
   const posts = data.allMarkdownRemark.edges
@@ -20,16 +21,12 @@ function BlogList(props) {
     <Layout location={props.location} title={"Blog list"}>
       <SEO title="Blog posts" />
       {BlogCards}
-      {!isFirst && (
-        <Link to={prevPage} rel="prev">
-          ← Previous Page
-        </Link>
-      )}
-      {!isLast && (
-        <Link to={nextPage} rel="next">
-          Next Page →
-        </Link>
-      )}
+      <Pagination
+        prevPage={prevPage}
+        nextPage={nextPage}
+        numPages={numPages}
+        currentPage={currentPage}
+      />
     </Layout>
   )
 }
