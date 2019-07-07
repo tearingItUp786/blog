@@ -2,7 +2,7 @@
   "name": "taran-blog",
   "private": true,
   "description": "Taran's personal blog",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Taran Bains <taranveer786@gmail.com>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.1",
