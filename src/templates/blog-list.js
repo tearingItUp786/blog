@@ -7,7 +7,6 @@ import SEO from "../components/seo"
 import Pagination from "../components/pagination"
 
 function BlogList(props) {
-  console.log(props)
   const { currentPage, numPages, basePath } = props.pageContext
   const prevPage =
     currentPage - 1 === 1 ? `${basePath}` : `/${basePath}/${currentPage - 1}`

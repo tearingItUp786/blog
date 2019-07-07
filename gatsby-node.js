@@ -54,7 +54,7 @@ exports.createPages = ({ graphql, actions }) => {
     // Create blog posts pages.
     const blogPosts = result.data.blog.edges
     const tilPosts = result.data.til.edges
-    console.log(blogPosts, tilPosts)
+
     blogPosts.forEach((post, index) => {
       const previous =
         index === blogPosts.length - 1 ? null : blogPosts[index + 1].node
