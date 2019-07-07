@@ -7,4 +7,4 @@ tag: Cool Tech
 Buddy works allows us to create pipelines for our projects! Similar to how envoyer and deploybot works!  
 It comes with a bunch of prebuilt recipes for when you try to set up your actions.
 We're using it to do deployments to a project site after PRs are merged and firing off notifications on slack!
-[Check it out](https://buddy.works/)
+<a href="https://buddy.works/" target="_blank">Check it out</a>
