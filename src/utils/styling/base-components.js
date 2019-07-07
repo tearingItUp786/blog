@@ -1,8 +1,16 @@
 import { createGlobalStyle } from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
-  html, body {
+
+  html {
+    background: ${props => props.theme.colors.text};
+  }
+
+  body {
     background-color: ${props => props.theme.colors.body || "white"};
+  }
+
+  html, body {
     font-family: ${props => props.theme.font.body || "sans-serif"};
     font-size: ${props => props.theme.fontSizes.body}
     line-height: 1.5rem;
