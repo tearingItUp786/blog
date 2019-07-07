@@ -72,9 +72,7 @@ function BlogCard(props) {
     <PostIntro>{description}</PostIntro>
   ) : html ? (
     <div dangerouslySetInnerHTML={{ __html: html }} />
-  ) : (
-    html
-  )
+  ) : null
 
   return (
     <CardContainer>
