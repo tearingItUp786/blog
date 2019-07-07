@@ -67,6 +67,15 @@ function BlogCard(props) {
       ️{tag}
     </PostTag>
   ) : null
+
+  const contentSection = description ? (
+    <PostIntro>{description}</PostIntro>
+  ) : html ? (
+    <div dangerouslySetInnerHTML={{ __html: html }} />
+  ) : (
+    html
+  )
+
   return (
     <CardContainer>
       <Title>
@@ -78,8 +87,7 @@ function BlogCard(props) {
         </span>{" "}
         {date} {postTag}
       </PostInfo>
-      <PostIntro>{description}</PostIntro>
-      {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : html}
+      {contentSection}
     </CardContainer>
   )
 }

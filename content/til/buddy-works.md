@@ -1,7 +1,6 @@
 ---
 title: Buddy works!
 date: "2019-07-05"
-description: If you want your code to be tested, make it easy to test!
 tag: Cool Tech
 ---
 

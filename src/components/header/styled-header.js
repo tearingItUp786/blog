@@ -117,11 +117,6 @@ export const Name = styled.span`
   font-weight: 400;
   margin-left: 16px;
   letter-spacing: 0.5px;
-
-  ${media.lessThan("small")`
-    display: none;
-
-  `}
 `
 
 const slideIn = keyframes`

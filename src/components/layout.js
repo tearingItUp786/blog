@@ -26,7 +26,6 @@ const ContentContainer = styled.div`
   outline: none;
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
   position: relative;
 `
 

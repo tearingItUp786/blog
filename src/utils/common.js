@@ -4,7 +4,7 @@ import BlogCard from "../components/blog-card"
 export function blogMapper({ node }) {
   const title = node.frontmatter.title || node.fields.slug
   const html = node.html || null
-  const description = html ? null : node.frontmatter.description || node.excerpt
+  const description = node.frontmatter.description || node.excerpt
   const tag = node.frontmatter.tag
   const key = node.fields ? node.fields.slug : title
   const slug = node.fields ? node.fields.slug : null

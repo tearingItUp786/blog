@@ -1,7 +1,6 @@
 ---
 title: Make the right thing the easy thing
 date: "2019-07-04"
-description: If you want your code to be tested, make it easy to test!
 tag: Best Practices
 ---
 

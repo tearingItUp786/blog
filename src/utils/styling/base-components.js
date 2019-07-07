@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.colors.text || "black"};
     font-weight: 400;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1,h2,h3,h4,h5,h6 {
