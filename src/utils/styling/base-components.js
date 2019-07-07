@@ -21,6 +21,12 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  hr {
+    margin-top: 16px;
+    border-color: ${props => props.theme.colors.text};
+    border-style: solid;
+  }
+
   code[class*="language-"], 
   pre[class*="language-"] {
     font-size: ${props => props.theme.fontSizes.code}

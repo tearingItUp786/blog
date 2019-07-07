@@ -1,15 +1,21 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Pagination from "../components/pagination"
 
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
+
+    const prevPage = previous ? previous.fields.slug : null
+    const prevText = previous ? previous.frontmatter.title : null
+
+    const nextPage = next ? next.fields.slug : null
+    const nextText = next ? next.frontmatter.title : null
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -20,25 +26,13 @@ class BlogPostTemplate extends React.Component {
         <h1>{post.frontmatter.title}</h1>
         <p>{post.frontmatter.date}</p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
-        <hr />
-        <Bio />
-
-        <ul>
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
-              </Link>
-            )}
-          </li>
-        </ul>
+        {previous || next ? <hr /> : null}
+        <Pagination
+          prevPage={prevPage}
+          prevText={prevText}
+          nextPage={nextPage}
+          nextText={nextText}
+        />
       </Layout>
     )
   }

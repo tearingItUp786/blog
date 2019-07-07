@@ -56,7 +56,7 @@ function Header(props) {
           <Name>{social.twitter}</Name>
         </AvatarContainer>
         <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
-        <LinksContainer isOpen={isOpen} offsetTop={height}>
+        <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
           <NavLink
             aria-label="Go back to home page"
             to="/"

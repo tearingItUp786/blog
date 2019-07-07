@@ -12,25 +12,32 @@ const StyledSpan = styled.span`
 `
 
 function Pagination(props) {
-  const { prevPage, nextPage, numPages, currentPage } = props
-  const isFirst = currentPage === 1
-  const isLast = currentPage === numPages
+  const {
+    prevPage,
+    nextPage,
+    numPages,
+    currentPage,
+    prevText = null,
+    nextText = null,
+  } = props
+  const showPrev = currentPage ? currentPage !== 1 : Boolean(prevPage)
+  const showNext = currentPage ? currentPage !== numPages : Boolean(nextPage)
 
   return (
     <>
-      {!isFirst && (
+      {showPrev && (
         <Link to={prevPage} rel="prev">
           {/* eslint-disable-next-line */}
           <StyledSpan role="img" aria-label="Go back to previous page">
-            ⬅️
+            ⬅️{prevText}
           </StyledSpan>
         </Link>
       )}
-      {!isLast && (
+      {showNext && (
         <Link to={nextPage} rel="next">
           {/* eslint-disable-next-line */}
           <StyledSpan role="img" aria-label="Go to next page">
-            ➡️
+            {nextText} ➡️
           </StyledSpan>
         </Link>
       )}
