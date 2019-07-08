@@ -7,13 +7,13 @@ import { fluidFontSize } from "../../utils/styling/helper"
 
 export const StyledHeader = styled.header`
   background: ${props => props.theme.colors.text};
-  width: 100vw;
+  width: 100%;
 
   ${media.greaterThan("medium")`
     background: ${props =>
       props.main ? "transparent" : props.theme.colors.text};
     position: ${props => (props.main ? "absolute" : "relative")};
-    width: 100vw;
+    width: 100%;
     z-index: 5;
   `}
 `

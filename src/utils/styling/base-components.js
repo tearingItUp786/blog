@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${props => props.theme.colors.body || "white"};
+    overflow-y: scroll;
   }
 
   html, body {
@@ -16,7 +17,6 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5rem;
     color: ${props => props.theme.colors.text || "black"};
     font-weight: 400;
-    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
 
