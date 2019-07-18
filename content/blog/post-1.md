@@ -1,0 +1,59 @@
+---
+title: "My first year as a legit FE Developer"
+date: "2019-07-18"
+description: "As my first year comes to a close, I thought it apt to share what I thought were the most important things that I learned"
+tag: "Reflection"
+---
+
+My 1st year as what I’d personally consider to be a “legit” frontend engineer is coming to a close and I thought it apt to write a post about the lessons I’ve learned. People often say that self-reflection is one of the most important things for personal growth so that’s what this is post is all about… self-reflection. I should clarify that by “legit” front-end engineer I mean working on or thinking about, in some capacity, HTML, JS, and CSS.  
+
+TLDR;  
+
+  1. Learn to accept ambiguity
+  2. Asking the right questions is more important than having an immediate answer
+  3. Collaborate, collaborate, collaborate.
+  4. Make Haste Slowly.
+
+## Learn to accept ambiguity
+
+One thing I’ve had to come to terms with is **ambiguity** and the role that it plays in the projects that an agency developer works on. As a developer, I’ve learned that one of the most fundamental and valuable things a piece of code can be is "deterministic". When a piece of code is deterministic, it means that given the same inputs it will give you back the same outputs… every single damn time. If I give my double function 2, it will return 4 -- this is true the 1st time and the nth time. I value predictability and having well thought out requirements -- the more constraints the better but that’s just not how the real world works!  
+
+When starting on a project, I sometimes do not know what frontend framework I’ll be using, the APIs I’ll be interfacing with, and hell, sometimes I don’t even know who I’m going to be working with! At first, this worried and stressed me out to no end. Not knowing if I should be ramping up on Vue or React; not knowing if I was going to be using ImageRelay or Brandfolder; and not personally knowing if the contractor we were hiring to work with me on projects all seemed like valid reasons to be pulling out my hair… but they really aren’t. 
+
+Just because we want our code to be predictable and deterministic, doesn’t mean that the world is going to behave the same way. Randomness and not knowing are a part of life;  if you can’t make your peace with that, well you’ve got a rough life ahead of you my friend. Somewhere along the line, I realized that even if we’re not sure on the specifics, such as the framework that we’ll be using, the overall goal and vision of the project weren’t ever really going to move. Rather than focusing on what I couldn’t know or couldn’t control, I chose to start focusing on what I did know.
+
+If I was going to be working with an API that was meant to act as the data source for my app, it didn’t really matter what the API gave back as long as it could help me produce the components and features that I needed -- I could still write my components and figure out the data layer later (thanks React). If I was going to be working with a contractor whose code style or conventions I couldn’t be sure about, I’d set up proper mechanisms to ensure code quality and linting in addition to regular code reviews. 
+
+We can’t really know what's going to happen tomorrow… all we can really do is prepare as best we can today with the information that we have today. When the future comes to meet us, we just need to believe and hope that we’ve prepared a plan that lets us continue on with our lives.
+
+> “You can’t control the weather outside… but you sure as hell can grab a jacket.”
+
+## Asking the right questions
+
+Always having an answer for each and every question you’re asked means you’re a smart, well-informed person, right? It’s better to give an immediate definite response than respond to a question with a question, right?
+
+I used to think these things; I used to think that it wasn’t okay to say “I don’t know” and that if I didn’t have the answer right away that I was some sort of “imposter” who didn’t deserve to be called a developer. Boy was I wrong. As I watched the senior developers around me, I realized that rather than giving an immediate response to questions, they themselves would ask questions in order to solidify their understanding and to get to the heart of what the real question actually was! In meetings, when they were posed with questions such as “Should we use Shopify or BigCommerce for this project?” what followed from my seniors was usually something like, “well it depends on what the client's needs are -- do we have a list of features that are considered must haves?”.
+
+> “It is not the answer that enlightens, but the question.” – Eugene Ionesco
+
+## Collaborate, collaborate, collaborate
+
+Great software, great solutions are crafted by teams, not individuals. Even if you’re the greatest engineer in the world, you’re still, more than likely, going to be collaborating in some fashion with either other developers or different discipline groups in order to get your solution to market. What’s most important is to remember that you’re working with other humans and that clear communication, respect, and a smile can go a long way.
+
+During the most intense times, what got me through the hell weeks wasn’t my ability to craft great software (I’m not that great after all) but it was other people. Other people who provided me with support when I was stumped by tough engineering problems. Other people who were willing to go to meetings in my stead so I could focus on patching a critical bug. Other people who could help me push back on requirements if they weren’t technically feasible in the budget/timeline that we had at our disposal. Other people  my teammates are what got me through some of my toughest weeks as a 1st year FE developer.
+
+More than emotional support, collaboration allows a developer to divide and conquer. If I know that a teammate is going to be tackling a specific feature, I can devote my time and effort to developing what I have assigned to myself without needlessly stressing about whether or not I’ll have enough time to finish the second feature while I work on this first feature. Stuck on a tough issue? Call someone over and whiteboard that puppy. Not sure on requirements? Ask a strategist. Worried about timeline or what’s priority? There’s a PM for that. Really, collaboration enables us to focus on our craft and provide the best quality solution; cut through the weeds and do your thang son.
+
+## Make haste slowly
+
+This may seem like a paradox, but it’s not, I swear! This last lesson is one that I learned after almost burning out. I was working 9 - 10 hour days in addition to weekends trying to get a project ready for launch. On top of my work schedule, I was trying (and failing) to work on my own side projects -- essentially I was coding for about 12 - 15 hours a day. Needless to say, this crazy coding schedule left me little time to attend to my physical health (I gained 40 lbs in 6 months) and created a situation in which my grandmother thought I had up and moved across the country because she hadn’t seen me at home for the better part of a year (my grandma, like a lot of grandmas, goes to bed at 7 pm). 
+
+Why was I working such crazy hours? Why was I still working on side projects when I was clearly working myself to the bone at my day job? Simple really. I wanted and still want to be the best FE developer, period. It’s my dream to stand at the upper echelon alongside some of my role models and heroes: Kyle Simpson, Dan Abramov, and Brian Holt, to name a few. I want to be giving conference talks… I want to be teaching people about best practices and coding standards… I want to give back to the community that helped me become, well, me. But a flame that burns to bright eventually burns itself out… and that’s what almost happened to me. 
+
+I realized (after a short vacation with my best friends) that what I truly wanted was to be the best developer but also to be a well-rounded individual who was physically fit and someone who had healthy, loving relationships with his friends and family. If being the best FE developer meant sacrificing either of those two areas, then it wasn’t for me. Lucky for me, and thanks to the example set by the individuals in the community, it is possible to have a well-balanced life and still be a major contributor to the community -- you just need to know how to balance your time and how to prioritize your life -- I’m working on it. 
+
+> "Make haste slowly; Festina lente"
+
+## Closing thoughts
+
+The end of my first year is just the beginning of my second year; I’ll take these learnings with me and continue on down my path. More than anything, I want to be the best, the absolute best at what I do and whether or not I reach that goal doesn’t matter. Why? Because even if I fail at trying to achieve a spectacular feat, at least I’ll fail spectacularly.

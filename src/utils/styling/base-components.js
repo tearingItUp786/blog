@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
   html, body {
     font-family: ${props => props.theme.font.body || "sans-serif"};
     font-size: ${props => props.theme.fontSizes.body}
-    line-height: 1.5rem;
+    line-height: 1.75rem;
     color: ${props => props.theme.colors.text || "black"};
     font-weight: 400;
     -webkit-overflow-scrolling: touch;
@@ -24,6 +24,8 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.font.title || "sans-serif"};
     font-weight: 500;
     letter-spacing: 2px;
+    line-height: 2.5rem;
+    margin-top: 3.5rem;
   }
 
   a {

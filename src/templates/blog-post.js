@@ -1,9 +1,14 @@
 import React from "react"
 import { graphql } from "gatsby"
+import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+
+const Title = styled.h1`
+  margin-top: 0;
+`
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -23,7 +28,7 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        <h1>{post.frontmatter.title}</h1>
+        <Title>{post.frontmatter.title}</Title>
         <p>{post.frontmatter.date}</p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
         {previous || next ? <hr /> : null}

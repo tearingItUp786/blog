@@ -14,6 +14,7 @@ const Title = styled.h2`
   font-size: ${props => props.theme.fontSizes.h3};
   font-weight: 700;
   margin-bottom: 8px;
+  margin-top: 8px;
 
   a {
     color: ${props => props.theme.colors.accent};
