@@ -1,6 +1,6 @@
 ---
 title: Potato seeds are actually just rotten potatoes!
-date: "2019-07-27"
+date: "2019-07-26"
 tag: Random
 ---
 
