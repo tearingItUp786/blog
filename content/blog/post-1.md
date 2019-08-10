@@ -1,8 +1,8 @@
 ---
-title: "My first year as a legit FE Developer"
-date: "2019-07-18"
-description: "As my first year comes to a close, I thought it apt to share what I thought were the most important things that I learned"
-tag: "Reflection"
+title: My first year as a legit FE Developer
+date: 2019-07-18
+description: As my first year comes to a close, I thought it apt to share what I thought were the most important things that I learned
+tag: Reflection
 ---
 
 My 1st year as what I’d personally consider to be a “legit” frontend engineer is coming to a close and I thought it apt to write a post about the lessons I’ve learned. People often say that self-reflection is one of the most important things for personal growth so that’s what this is post is all about… self-reflection. I should clarify that by “legit” front-end engineer I mean working on or thinking about, in some capacity, HTML, JS, and CSS.  

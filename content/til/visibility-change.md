@@ -1,7 +1,7 @@
 ---
-title: "Don't use the unload event!"
-date: "2019-07-14"
-tag: "Web API"
+title: Don't use the unload event!
+date: 2019-07-14
+tag: Web API
 ---
 
 The `unload` event that is available to us web developers isn't consistent across browsers (but we already know that many things arent 😂).

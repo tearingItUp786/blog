@@ -1,6 +1,6 @@
 ---
 title: Call a Spade a Spade
-date: "2019-07-27"
+date: 2019-07-27
 tag: Random
 ---
 

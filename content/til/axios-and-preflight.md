@@ -1,6 +1,6 @@
 ---
 title: Axios, a DAM, and preflight
-date: "2019-07-30"
+date: 2019-07-30
 tag: Best Practices
 ---
 

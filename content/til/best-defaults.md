@@ -1,6 +1,6 @@
 ---
 title: Make the right thing the easy thing
-date: "2019-07-04"
+date: 2019-07-04
 tag: Best Practices
 ---
 
