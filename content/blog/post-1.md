@@ -1,11 +1,11 @@
 ---
-title: My first year as a legit FE Developer
+title: My year at an agile agency
 date: 2019-07-18
 description: As my first year comes to a close, I thought it apt to share what I thought were the most important things that I learned
 tag: Reflection
 ---
 
-My 1st year as what I’d personally consider to be a “legit” frontend engineer is coming to a close and I thought it apt to write a post about the lessons I’ve learned. People often say that self-reflection is one of the most important things for personal growth so that’s what this is post is all about… self-reflection. I should clarify that by “legit” front-end engineer I mean working on or thinking about, in some capacity, HTML, JS, and CSS.  
+My 1st year at an agile agency is coming to a close and I thought it apt to write a post about the lessons I’ve learned. People often say that self-reflection is one of the most important things for personal growth so that’s what this is post is all about… self-reflection.
 
 TLDR;  
 
@@ -18,11 +18,11 @@ TLDR;
 
 One thing I’ve had to come to terms with is **ambiguity** and the role that it plays in the projects that an agency developer works on. As a developer, I’ve learned that one of the most fundamental and valuable things a piece of code can be is "deterministic". When a piece of code is deterministic, it means that given the same inputs it will give you back the same outputs… every single damn time. If I give my double function 2, it will return 4 -- this is true the 1st time and the nth time. I value predictability and having well thought out requirements -- the more constraints the better but that’s just not how the real world works!  
 
-When starting on a project, I sometimes do not know what frontend framework I’ll be using, the APIs I’ll be interfacing with, and hell, sometimes I don’t even know who I’m going to be working with! At first, this worried and stressed me out to no end. Not knowing if I should be ramping up on Vue or React; not knowing if I was going to be using ImageRelay or Brandfolder; and not personally knowing if the contractor we were hiring to work with me on projects all seemed like valid reasons to be pulling out my hair… but they really aren’t. 
+When starting on a project, I sometimes do not know what frontend framework I’ll be using, the APIs I’ll be interfacing with, and hell, sometimes I don’t even know who I’m going to be working with! At first, this worried and stressed me out to no end. Not knowing if I should be ramping up on Vue or React; not knowing if I was going to be using ImageRelay or Brandfolder; and not personally knowing if the contractor we were hiring to work with me on projects all seemed like valid reasons to be pulling out my hair… but they really aren’t.
 
 Just because we want our code to be predictable and deterministic, doesn’t mean that the world is going to behave the same way. Randomness and not knowing are a part of life;  if you can’t make your peace with that, well you’ve got a rough life ahead of you my friend. Somewhere along the line, I realized that even if we’re not sure on the specifics, such as the framework that we’ll be using, the overall goal and vision of the project weren’t ever really going to move. Rather than focusing on what I couldn’t know or couldn’t control, I chose to start focusing on what I did know.
 
-If I was going to be working with an API that was meant to act as the data source for my app, it didn’t really matter what the API gave back as long as it could help me produce the components and features that I needed -- I could still write my components and figure out the data layer later (thanks React). If I was going to be working with a contractor whose code style or conventions I couldn’t be sure about, I’d set up proper mechanisms to ensure code quality and linting in addition to regular code reviews. 
+If I was going to be working with an API that was meant to act as the data source for my app, it didn’t really matter what the API gave back as long as it could help me produce the components and features that I needed -- I could still write my components and figure out the data layer later (thanks React). If I was going to be working with a contractor whose code style or conventions I couldn’t be sure about, I’d set up proper mechanisms to ensure code quality and linting in addition to regular code reviews.
 
 We can’t really know what's going to happen tomorrow… all we can really do is prepare as best we can today with the information that we have today. When the future comes to meet us, we just need to believe and hope that we’ve prepared a plan that lets us continue on with our lives.
 
@@ -46,7 +46,7 @@ More than emotional support, collaboration allows a developer to divide and conq
 
 ## Make haste slowly
 
-This may seem like a paradox, but it’s not, I swear! This last lesson is one that I learned after almost burning out. I was working 9 - 10 hour days in addition to weekends trying to get a project ready for launch. On top of my work schedule, I was trying (and failing) to work on my own side projects -- essentially I was coding for about 12 - 15 hours a day. Needless to say, this crazy coding schedule left me little time to attend to my physical health (I gained 40 lbs in 6 months) and created a situation in which my grandmother thought I had up and moved across the country because she hadn’t seen me at home for the better part of a year (my grandma, like a lot of grandmas, goes to bed at 7 pm). 
+This may seem like a paradox, but it’s not, I swear! This last lesson is one that I learned after almost burning out. I was working 9 - 10 hour days in addition to weekends trying to get a project ready for launch. On top of my work schedule, I was trying (and failing) to work on my own side projects -- essentially I was coding for about 12 - 15 hours a day. Needless to say, this crazy coding schedule left me little time to attend to my physical health (I gained 40 lbs in 6 months) and created a situation in which my grandmother thought I had up and moved across the country because she hadn’t seen me at home for the better part of a year (my grandma, like a lot of grandmas, goes to bed at 7 pm).
 
 Why was I working such crazy hours? Why was I still working on side projects when I was clearly working myself to the bone at my day job? Simple really. I wanted and still want to be the best FE developer, period. It’s my dream to stand at the upper echelon alongside some of my role models and heroes: Kyle Simpson, Dan Abramov, and Brian Holt, to name a few. I want to be giving conference talks… I want to be teaching people about best practices and coding standards… I want to give back to the community that helped me become, well, me. But a flame that burns to bright eventually burns itself out… and that’s what almost happened to me. 
 
