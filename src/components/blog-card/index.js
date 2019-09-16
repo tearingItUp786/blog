@@ -10,18 +10,15 @@ const CardContainer = styled.article`
 `
 
 const Title = styled.h2`
-  font-size: ${props => props.theme.fontSizes.h3};
   font-weight: 700;
   margin-bottom: 8px;
   margin-top: 8px;
 
   a {
-    color: ${props => props.theme.colors.accent};
   }
 `
 
 const PostInfo = styled.p`
-  font-family: ${props => props.theme.font.title};
   font-size: 14px;
   font-weight: 300;
   margin-top: 0;

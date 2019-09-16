@@ -3,8 +3,6 @@ import styled from "styled-components"
 
 const StyledFooter = styled.footer`
   width: 100vw;
-  background: ${props => props.theme.colors.text};
-  color: ${props => props.theme.colors.body};
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -14,7 +12,6 @@ const StyledFooter = styled.footer`
 `
 
 const GatsbyLink = styled.a`
-  color: ${props => props.theme.colors.body};
   font-size: 14px;
   text-align: center;
   flex-basis: 100%;

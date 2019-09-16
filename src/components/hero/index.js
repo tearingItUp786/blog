@@ -26,14 +26,11 @@ const TextBox = styled.div`
 
   h2 {
     margin-bottom: 8px;
-    font-size: ${props => props.theme.fontSizes.h2}
-    color: ${props => props.theme.colors.body};
   }
 
   p {
     font-weight: 300;
     margin-top: 0;
-    color: ${props => props.theme.colors.body || "white"};
   }
 `
 

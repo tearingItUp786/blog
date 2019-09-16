@@ -31,8 +31,7 @@ const HamburgerLines = styled.div`
   height: 2px;
   position: absolute;
   left: 0px;
-  background: ${props =>
-    props.isOpen ? "transparent" : props.theme.colors.body};
+  background: ${props => (props.isOpen ? "transparent" : "blue")};
   transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
 
   &::before {
@@ -43,7 +42,6 @@ const HamburgerLines = styled.div`
     position: absolute;
     left: 0px;
     transform: ${props => (props.isOpen ? "rotate(-45deg)" : "rotate(0deg)")};
-    background: ${props => props.theme.colors.body};
     transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
   }
 
@@ -55,7 +53,6 @@ const HamburgerLines = styled.div`
     position: absolute;
     left: 0px;
     transform: ${props => (props.isOpen ? "rotate(45deg)" : "rotate(0deg)")};
-    background: ${props => props.theme.colors.body};
     transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
     top: ${props => (props.isOpen ? "0px" : "")};
   }

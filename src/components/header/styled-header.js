@@ -5,12 +5,9 @@ import Image from "gatsby-image"
 import media from "styled-media-query"
 
 export const StyledHeader = styled.header`
-  background: ${props => props.theme.colors.text};
   width: 100%;
 
   ${media.greaterThan("medium")`
-    background: ${props =>
-      props.main ? "transparent" : props.theme.colors.text};
     position: ${props => (props.main ? "absolute" : "relative")};
     width: 100%;
     z-index: 5;
@@ -26,8 +23,6 @@ export const StyledNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: ${props => props.theme.sizing["max-width"]};
-  width: ${props => props.theme.sizing.width};
   padding: 15px 0;
   flex-wrap: wrap;
 
@@ -39,11 +34,9 @@ export const StyledNav = styled.nav`
 export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
   <Link {...restProps} />
 ))`
-  color: ${props => props.theme.colors.body};
   display: ${props => (props.hideDesktop ? "none" : "inline-block")};
   font-weight: ${props => props.fontWeight || "normal"};
   text-decoration: none;
-  font-family: ${props => props.theme.font.title || "serif"};
   letter-spacing: 2px;
   font-size: 14px 
   padding: 10px;
@@ -54,7 +47,6 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
 
   &.active {
     &:after {
-      background: ${props => props.theme.colors.accent};
       transform: translateX(0);
       opacity: 1;
     }
@@ -78,7 +70,6 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
     height: 2px;
     bottom: 2px;
     color: white;
-    background: ${props => props.theme.colors.accent};
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -110,8 +101,6 @@ export const AvatarContainer = styled(Link)`
 
 export const Name = styled.span`
   display: block;
-  font-family: ${props => props.theme.font.title};
-  color: ${props => props.theme.colors.body};
   font-size: 14px;
   font-weight: 400;
   margin-left: 16px;
@@ -152,7 +141,6 @@ export const LinksContainer = styled.div`
   ${media.lessThan("medium")`
     opacity: 0;
     z-index: 29;
-    background: ${props => props.theme.colors.text}
     position: absolute;
     top: ${props => (props.offsetTop ? `${props.offsetTop}px` : 0)};
     left: 0;
