@@ -1,10 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 import { Link } from "gatsby"
-import { fluidFontSize } from "../../utils/styling/helper"
 
 const StyledSpan = styled.span`
-  font-size: ${fluidFontSize({ minSize: 16, maxSize: 20 })};
+  font-size: 14px;
 
   &:first-child {
     margin-right: 16px;

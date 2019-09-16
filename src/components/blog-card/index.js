@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import { fluidFontSize } from "../../utils/styling/helper"
 const CardContainer = styled.article`
   width: 100%;
   margin-bottom: 48px;
@@ -23,7 +22,7 @@ const Title = styled.h2`
 
 const PostInfo = styled.p`
   font-family: ${props => props.theme.font.title};
-  font-size: ${fluidFontSize({ minSize: 12, maxSize: 14 })};
+  font-size: 14px;
   font-weight: 300;
   margin-top: 0;
   margin-bottom: 0;

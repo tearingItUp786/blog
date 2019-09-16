@@ -1,5 +1,3 @@
-import { fluidFontSize } from "./helper"
-
 export const lightTheme = {
   colors: {
     body: `#fff`,
@@ -12,14 +10,14 @@ export const lightTheme = {
     body: `"Open Sans", sans-serif`,
   },
   fontSizes: {
-    h1: fluidFontSize({ minSize: 28, maxSize: 40 }),
-    h2: fluidFontSize({ minSize: 24, maxSize: 36 }),
-    h3: fluidFontSize({ minSize: 18, maxSize: 24 }),
-    h4: fluidFontSize({ minSize: 16, maxSize: 22 }),
-    h5: fluidFontSize({ minSize: 16, maxSize: 20 }),
-    h6: fluidFontSize({ minSize: 14, maxSize: 16 }),
-    body: fluidFontSize({ minSize: 14, maxSize: 16 }),
-    code: fluidFontSize({ minSize: 12, maxSize: 14 }),
+    h1: '15px',
+    h2: '15px',
+    h3: '15px',
+    h4: '15px',
+    h5: '15px',
+    h6: '15px',
+    body: '15px',
+    code: '15px',
   },
   sizing: {
     "max-width": "90vw",

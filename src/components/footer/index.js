@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import { fluidFontSize } from "../../utils/styling/helper"
 
 const StyledFooter = styled.footer`
   width: 100vw;
@@ -16,7 +15,7 @@ const StyledFooter = styled.footer`
 
 const GatsbyLink = styled.a`
   color: ${props => props.theme.colors.body};
-  font-size: ${fluidFontSize({ minSize: 12, maxSize: 14 })};
+  font-size: 14px;
   text-align: center;
   flex-basis: 100%;
   display: block;

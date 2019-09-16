@@ -3,7 +3,6 @@ import { Link } from "gatsby"
 import styled, { keyframes, css } from "styled-components"
 import Image from "gatsby-image"
 import media from "styled-media-query"
-import { fluidFontSize } from "../../utils/styling/helper"
 
 export const StyledHeader = styled.header`
   background: ${props => props.theme.colors.text};
@@ -46,7 +45,7 @@ export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
   text-decoration: none;
   font-family: ${props => props.theme.font.title || "serif"};
   letter-spacing: 2px;
-  font-size: ${fluidFontSize({ minSize: 16, maxSize: 18 })};
+  font-size: 14px 
   padding: 10px;
   margin-left: ${props => props.marginLeft || 0};
   transition: background-color 300ms ease;
@@ -113,7 +112,7 @@ export const Name = styled.span`
   display: block;
   font-family: ${props => props.theme.font.title};
   color: ${props => props.theme.colors.body};
-  font-size: ${fluidFontSize({ minSize: 16, maxSize: 18 })};
+  font-size: 14px;
   font-weight: 400;
   margin-left: 16px;
   letter-spacing: 0.5px;
