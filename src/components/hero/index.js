@@ -2,7 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
-import { Title } from "../../utils/styling/typo"
+import def from "../../utils/styling/typo"
+const Title = def()
 
 const ImageBackground = styled(BackgroundImage)`
   background-position: top 20% center;
