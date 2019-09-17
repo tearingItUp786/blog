@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
+import tw from "tailwind.macro"
 
 import { defaultTheme } from "../utils/styling"
 import Header from "./header"
@@ -10,6 +11,8 @@ import Hero from "./hero"
 import Footer from "./footer"
 
 const Main = styled.main`
+  width: 1280px;
+  max-width: 90vw;
   margin: 2rem auto 4rem;
   min-height: ${props =>
     props.isHome

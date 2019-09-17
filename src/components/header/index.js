@@ -3,13 +3,13 @@ import { useStaticQuery, graphql } from "gatsby"
 import {
   StyledHeader,
   StyledNav,
-  AvatarContainer,
-  StyledAvatar,
-  Name,
+  LogoContainer,
+  StyledLogo,
   LinksContainer,
-  NavLink,
 } from "./styled-header"
+import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
+import { NavLink } from "../../utils/styling/typo"
 
 function Header(props) {
   const [isOpen, updateMenu] = React.useState(false)
@@ -25,13 +25,6 @@ function Header(props) {
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {
-      avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
-        childImageSharp {
-          fixed(width: 50, height: 50) {
-            ...GatsbyImageSharpFixed
-          }
-        }
-      }
       site {
         siteMetadata {
           author
@@ -43,18 +36,14 @@ function Header(props) {
     }
   `)
 
-  const { author, social } = data.site.siteMetadata
+  const { author } = data.site.siteMetadata
 
   return (
     <StyledHeader ref={ref} main={props.main}>
       <StyledNav>
-        <AvatarContainer aria-label="Go to twitter page" to="/">
-          <StyledAvatar
-            fixed={data.avatar.childImageSharp.fixed}
-            alt={author}
-          />
-          <Name>{social.twitter}</Name>
-        </AvatarContainer>
+        <LogoContainer aria-label="Go to twitter page" to="/">
+          <StyledLogo src={logoPath} alt={`${author} Logo`} />
+        </LogoContainer>
         <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
         <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
           <NavLink

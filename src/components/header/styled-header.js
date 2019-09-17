@@ -1,21 +1,18 @@
 import React from "react"
 import { Link } from "gatsby"
 import styled, { keyframes, css } from "styled-components"
-import Image from "gatsby-image"
+import tw from "tailwind.macro"
 import media from "styled-media-query"
 
 export const StyledHeader = styled.header`
-  width: 100%;
-
-  ${media.greaterThan("medium")`
-    position: ${props => (props.main ? "absolute" : "relative")};
-    width: 100%;
-    z-index: 5;
-  `}
+  ${tw`mx-auto`};
+  width: 1280px;
+  max-width: 90vw;
 `
 
-export const StyledAvatar = styled(Image)`
+export const StyledLogo = styled.img`
   border-radius: 50%;
+  width: 65px;
 `
 
 export const StyledNav = styled.nav`
@@ -31,69 +28,7 @@ export const StyledNav = styled.nav`
   `}
 `
 
-export const NavLink = styled(({ marginLeft, hideDesktop, ...restProps }) => (
-  <Link {...restProps} />
-))`
-  display: ${props => (props.hideDesktop ? "none" : "inline-block")};
-  font-weight: ${props => props.fontWeight || "normal"};
-  text-decoration: none;
-  letter-spacing: 2px;
-  font-size: 14px 
-  padding: 10px;
-  margin-left: ${props => props.marginLeft || 0};
-  transition: background-color 300ms ease;
-  border-radius: 2px;
-  position: relative;
-
-  &.active {
-    &:after {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  &:hover,
-  &:focus {
-    &:after {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  &:after {
-    position: absolute;
-    transition: transform 300ms ease, opacity 300ms ease;
-    width: calc(100% - 20px);
-    transform: translateX(-100%);
-    opacity: 0;
-    content: "";
-    height: 2px;
-    bottom: 2px;
-    color: white;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-
-    ${media.lessThan("medium")`
-      width: 100px;
-      bottom: 15px;
-    `}
-  }
-
-  ${media.lessThan("medium")`
-    width: calc(100% - 30px);
-    display: block;
-    text-align: center;
-    margin-left: 0;
-    padding: 30px;
-  `}
-
-  & + {
-    margin-left: 10px;
-  }
-`
-
-export const AvatarContainer = styled(Link)`
+export const LogoContainer = styled(Link)`
   text-decoration: none;
   display: flex;
   align-items: center;

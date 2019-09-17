@@ -1,4 +1,6 @@
+import React from "react"
 import styled from "styled-components"
+import { Link } from "gatsby"
 import tw from "tailwind.macro"
 import { arrToFontString, arrTransitionCss } from "../helpers"
 
@@ -42,15 +44,19 @@ export const PhotoCaption = styled.figcaption`
   font-family: ${props =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
 `
-export const NavLink = styled.a`
-  ${tw`uppercase cursor-pointer tracking-widest text-text text-base `};
+export const NavLink = styled(({ hideDesktop, ...restProps }) => (
+  <Link {...restProps} />
+))`
+  ${tw`ml-4 no-underline uppercase cursor-pointer tracking-widest text-text text-base `};
+  ${tw`focus:text-accent hover:text-accent hover:font-bold focus:font-bold`};
+  ${props => (props.hideDesktop ? tw`hidden` : tw`inline-block`)};
   transition: ${arrTransitionCss([{ attr: "color" }])};
   font-family: ${props =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
-  ${props =>
-    props.active
-      ? tw`font-bold text-oppBody underline`
-      : tw`focus:text-accent hover:text-accent hover:font-bold focus:font-bold`};
+
+  &.active {
+    ${tw`font-bold text-oppBody underline`};
+  }
 `
 
-export default () => NavLink
+export default () => Title
