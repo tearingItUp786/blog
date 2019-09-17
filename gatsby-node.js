@@ -111,3 +111,12 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     }
   }
 }
+
+// Required to get gatsby to work with tailwind
+exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
+  const config = getConfig()
+  config.node = {
+    fs: "empty",
+  }
+  actions.replaceWebpackConfig(config)
+}

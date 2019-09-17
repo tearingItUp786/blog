@@ -1,4 +1,4 @@
-import { defaultTheme } from "./src/utils/styling"
+const defaultTheme = require("./src/utils/styling").defaultTheme
 
 module.exports = {
   theme: defaultTheme,

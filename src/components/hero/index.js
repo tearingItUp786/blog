@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
-import media from "styled-media-query"
+import { Title } from "../../utils/styling/typo"
 
 const ImageBackground = styled(BackgroundImage)`
   background-position: top 20% center;
@@ -58,7 +58,7 @@ const Hero = () => {
     <ImageBackground Tag="section" fluid={image.sharp.fluid} fadeIn="soft">
       <TextBox>
         <TextWrapper>
-          <h2>Welcome to my domain</h2>
+          <Title>Welcome to my domain</Title>
           <p>Home to the thoughts of Taran "tearing it up" Bains</p>
         </TextWrapper>
       </TextBox>
