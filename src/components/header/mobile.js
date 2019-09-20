@@ -1,59 +1,47 @@
 import React from "react"
+import tw from "tailwind.macro"
 import styled from "styled-components"
 import { customMedia } from "../../utils/styling"
 
 const MobileNavContainer = styled.div`
-  display: none;
-
+  ${tw`hidden`};
   ${customMedia.lessThan("md")`
-    display: block;
+    ${tw`block`};
   `}
 `
 
 const HamburgerButton = styled.button`
-  z-index: 30;
-  top: -5px;
-  position: relative;
-  background: transparent;
-  border-width: initial;
+  ${tw`z-30 top-0 relative bg-transparent border-none border-0 cursor-pointer px-4 py-4 text-text`};
   border-style: none;
-  border-color: initial;
-  border-image: initial;
-  color: rgb(255, 255, 255);
-  cursor: pointer;
   border-radius: 4px;
-  padding: 8px 15px;
-  transition: all 200ms ease 0s;
 `
 
 const HamburgerLines = styled.div`
+  ${tw`absolute`};
+  left: 3px;
+  ${props => (props.isOpen ? tw`bg-transparent` : tw`bg-accent`)};
   width: 24px;
   height: 2px;
-  position: absolute;
-  left: 0px;
-  background: ${props => (props.isOpen ? "transparent" : "blue")};
-  transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
+  transition: background 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
 
   &::before {
+    ${tw`absolute left-0 bg-accent`};
     content: "";
     top: ${props => (props.isOpen ? "0px" : "-8px")};
     width: 24px;
     height: 2px;
-    position: absolute;
-    left: 0px;
     transform: ${props => (props.isOpen ? "rotate(-45deg)" : "rotate(0deg)")};
-    transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
+    transition: transform 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
   }
 
   &::after {
+    ${tw`absolute left-0 bg-accent`};
     top: 8px;
     content: "";
     width: 24px;
     height: 2px;
-    position: absolute;
-    left: 0px;
     transform: ${props => (props.isOpen ? "rotate(45deg)" : "rotate(0deg)")};
-    transition: all 250ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
+    transition: transform 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
     top: ${props => (props.isOpen ? "0px" : "")};
   }
 `

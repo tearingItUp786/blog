@@ -1,4 +1,3 @@
-import React from "react"
 import { Link } from "gatsby"
 import styled, { keyframes, css } from "styled-components"
 import tw from "tailwind.macro"
@@ -8,14 +7,14 @@ export const StyledHeader = styled.header`
   ${tw`mx-auto`};
   width: 1280px;
   max-width: 90vw;
-  min-height: 100px;
+  min-height: 90px;
 `
 
 export const StyledLogo = styled.img`
   transition: transform 300ms ease-in-out;
   border-radius: 50%;
   width: 65px;
-  transform: ${props => (props.isFixed ? "scale(.8)" : "scale(1)")};
+  transform: ${props => (props.isFixed ? "scale(.6)" : "scale(1)")};
 `
 
 const translateTop = keyframes`
@@ -34,7 +33,7 @@ export const StyledNavContainer = styled.div`
   width: ${props => (props.isFixed ? "100vw" : "100%")};
   background: ${props => (props.isFixed ? "white" : "transparent")};
   ${props =>
-    props.isFixed ? tw`fixed left-0 z-10 opacity-0` : "relative mx-auto"};
+    props.isFixed ? tw`fixed left-0 z-10 opacity-0` : tw`relative mx-auto`};
   animation: ${props =>
     props.isFixed
       ? css`
@@ -44,13 +43,14 @@ export const StyledNavContainer = styled.div`
 `
 
 export const StyledNav = styled.nav`
+  ${tw`relative flex items-center justify-between flex-wrap mx-auto`};
   width: ${props => (props.isFixed ? customMediaObject.xl : "100%")};
-  ${tw`flex items-center justify-between flex-wrap mx-auto`};
+  max-width: 90vw;
   ${props => {
-    return props.isFixed ? tw`py-2 px-8` : tw`relative py-2`
+    return props.isFixed ? tw`py-0 px-0` : tw`relative py-2`
   }}
   ${customMedia.lessThan("md")`
-    flex-wrap: no-wrap;
+    ${tw`flex-no-wrap`}
   `};
 `
 

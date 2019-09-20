@@ -16,6 +16,7 @@ export const defaultTheme = {
     textLight: `#666666`,
     textLighter: `#949494`,
     accent: `#f410a1`,
+    transparent: "transparent",
   },
   fontFamily: {
     display: ["DM Serif Display", "serif"],
