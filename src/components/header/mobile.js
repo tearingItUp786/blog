@@ -1,11 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import media from "styled-media-query"
+import { customMedia } from "../../utils/styling"
 
 const MobileNavContainer = styled.div`
   display: none;
 
-  ${media.lessThan("medium")`
+  ${customMedia.lessThan("md")`
     display: block;
   `}
 `
