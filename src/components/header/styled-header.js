@@ -16,7 +16,6 @@ export const StyledHeader = styled.header`
 
 export const StyledLogo = styled.img`
   transition: transform 300ms ease-in-out;
-  border-radius: 50%;
   width: 65px;
   transform: ${props =>
     props.isFixed ? "scale(.6) translateX(-35%)" : "scale(1)"};
