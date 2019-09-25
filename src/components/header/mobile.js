@@ -7,11 +7,24 @@ const MobileNavContainer = styled.div`
   ${tw`hidden`};
   ${customMedia.lessThan("md")`
     ${tw`block`};
+    &::before {
+      ${tw`z-10 absolute rounded-lg left-0 bg-body`}; 
+      transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+      top: -5vh;
+      width: 100vw
+      height: 105vh;
+      transform-origin: right top;
+      ${props =>
+        props.isOpen
+          ? "transform: scale(1); opacity: 1"
+          : "transform: scale(0); opacity: 0"};
+      content: "";
+    }
   `}
 `
 
 const HamburgerButton = styled.button`
-  ${tw`z-30 top-0 relative bg-transparent border-none border-0 cursor-pointer px-4 py-4 text-text`};
+  ${tw`z-10 top-0 relative bg-transparent border-none border-0 cursor-pointer px-4 py-4 text-text`};
   border-style: none;
   border-radius: 4px;
 `
@@ -49,7 +62,7 @@ const HamburgerLines = styled.div`
 function MobileNav(props) {
   const { isOpen, updateMenu } = props
   return (
-    <MobileNavContainer>
+    <MobileNavContainer isOpen={isOpen}>
       <HamburgerButton onClick={() => updateMenu(!isOpen)} isOpen={isOpen}>
         <HamburgerLines isOpen={isOpen} />
       </HamburgerButton>

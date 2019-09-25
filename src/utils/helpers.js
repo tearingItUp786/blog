@@ -41,3 +41,24 @@ export const arrTransitionCss = arrOfTrans => {
     }, "")
     .trim()
 }
+
+export function debounce(func, time) {
+  if (typeof func !== "function") {
+    throw new Error("Expected a function to be passed")
+  }
+
+  if (typeof time !== "number") {
+    throw new Error("Expected a number time but received", typeof time)
+  }
+
+  let dTimer = null
+
+  return function inner(...args) {
+    if (!dTimer) {
+      dTimer = setTimeout(() => {
+        func.apply(this, args)
+        dTimer = clearTimeout(dTimer)
+      }, time)
+    }
+  }
+}

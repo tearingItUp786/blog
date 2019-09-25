@@ -47,7 +47,7 @@ export const PhotoCaption = styled.figcaption`
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
   <Link {...restProps} />
 ))`
-  ${tw`ml-4 no-underline uppercase cursor-pointer tracking-widest text-text text-base `};
+  ${tw`w-full py-2 md:py-0 text-center md:w-auto md:ml-4 no-underline uppercase cursor-pointer tracking-widest text-text text-base `};
   ${tw`focus:text-accent hover:text-accent hover:font-bold focus:font-bold`};
   ${props => (props.hideDesktop ? tw`hidden` : tw`inline-block`)};
   transition: ${arrTransitionCss([{ attr: "color" }])};

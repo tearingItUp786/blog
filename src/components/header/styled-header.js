@@ -4,17 +4,22 @@ import tw from "tailwind.macro"
 import { customMedia, customMediaObject } from "../../utils/styling"
 
 export const StyledHeader = styled.header`
-  ${tw`mx-auto`};
+  ${tw`mx-auto px-0 flex items-center`};
   width: 1280px;
-  max-width: 90vw;
+  max-width: 100vw;
   min-height: 90px;
+  ${customMedia.greaterThan("md")`
+    max-width: 90vw;
+    padding: 0 5vw;
+  `}
 `
 
 export const StyledLogo = styled.img`
   transition: transform 300ms ease-in-out;
   border-radius: 50%;
   width: 65px;
-  transform: ${props => (props.isFixed ? "scale(.6)" : "scale(1)")};
+  transform: ${props =>
+    props.isFixed ? "scale(.6) translateX(-35%)" : "scale(1)"};
 `
 
 const translateTop = keyframes`
@@ -29,17 +34,23 @@ const translateTop = keyframes`
   }
 `
 export const StyledNavContainer = styled.div`
-  ${tw`mx-auto`};
+  ${tw`mx-auto z-10`};
   width: ${props => (props.isFixed ? "100vw" : "100%")};
   background: ${props => (props.isFixed ? "white" : "transparent")};
   ${props =>
-    props.isFixed ? tw`fixed left-0 z-10 opacity-0` : tw`relative mx-auto`};
+    props.isFixed
+      ? tw`fixed left-0 top-0 z-10 opacity-0`
+      : tw`relative mx-auto`};
   animation: ${props =>
     props.isFixed
       ? css`
-          ${translateTop} 300ms ease-in forwards 200ms
+          ${translateTop} 300ms ease-in forwards
         `
       : ``};
+
+  ${customMedia.lessThan("md")`
+      position: ${props => (props.isOpen && !props.isFixed ? "fixed" : "")};
+    `}
 `
 
 export const StyledNav = styled.nav`
@@ -51,10 +62,13 @@ export const StyledNav = styled.nav`
   }}
   ${customMedia.lessThan("md")`
     ${tw`flex-no-wrap`}
+    max-width: calc(100vw - 10vw);
+    padding: 0 5vw;
   `};
 `
 
 export const LogoContainer = styled(Link)`
+  ${tw`z-20`};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -68,52 +82,45 @@ export const Name = styled.span`
   letter-spacing: 0.5px;
 `
 
-const slideIn = keyframes`
+const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateX(-1000px);
-    visibility: hidden;
+    transform: translateY(0);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
     visibility: visible;
   }
 `
 
-const slideOut = keyframes`
+const fadeOut = keyframes`
   from {
     opacity: 1;
-    transform: translateX(0);
-    visibility: hidden;
   }
 
   to {
     opacity: 0;
-    transform: translateX(-1000px);
     visibility: hidden;
   }
 `
 
 export const LinksContainer = styled.div`
-  display: block;
+  ${tw`block`};
 
   ${customMedia.lessThan("md")`
-    opacity: 0;
-    z-index: 29;
-    position: absolute;
+    ${tw`opacity-0 z-10 absolute left-0 w-full bg-transparent`};
+    transform: translateY(-300px);
     top: ${props => (props.offsetTop ? `${props.offsetTop}px` : 0)};
-    left: 0;
     animation: ${props =>
       props.isOpen
         ? css`
-            ${slideIn} 300ms ease-in-out forwards
+            ${fadeIn} 300ms ease-in-out forwards 300ms
           `
         : css`
-            ${slideOut} 300ms ease-in-out forwards
+            ${fadeOut} 300ms ease-in-out forwards
           `};
-    width: 100%
     padding-bottom: 30px;
 `}
 `

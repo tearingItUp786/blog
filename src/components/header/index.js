@@ -10,6 +10,7 @@ import {
 } from "./styled-header"
 import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
+import { debounce } from "../../utils/helpers"
 import { NavLink } from "../../utils/styling/typo"
 
 function Header(props) {
@@ -29,16 +30,32 @@ function Header(props) {
   // is greater than the height of navbar
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
-      console.log(document.body.scrollTop, ref.current.clientHeight)
-      window.onscroll = () => {
+      var onScroll = () => {
         if (window.scrollY > ref.current.clientHeight / 10) {
-          setFixed(true)
+          if (!isOpen) {
+            setFixed(true)
+          }
         } else {
-          setFixed(false)
+          if (!isOpen) {
+            setFixed(false)
+          }
         }
       }
+      window.onscroll = onScroll
     }
-  }, [isFixed, setFixed])
+  }, [isFixed, setFixed, isOpen])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.top = `-${window.scrollY}px`
+      document.body.style.position = "fixed"
+    } else {
+      const scrollY = document.body.style.top
+      document.body.style.position = ""
+      document.body.style.top = ""
+      window.scrollTo(0, parseInt(scrollY || "0") * -1)
+    }
+  }, [isOpen])
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {
@@ -57,7 +74,7 @@ function Header(props) {
 
   return (
     <StyledHeader ref={ref}>
-      <StyledNavContainer isFixed={isFixed}>
+      <StyledNavContainer isOpen={isOpen} isFixed={isFixed}>
         <StyledNav isFixed={isFixed}>
           <LogoContainer aria-label="Go to twitter page" to="/">
             <StyledLogo
