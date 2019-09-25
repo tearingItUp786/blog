@@ -23,11 +23,15 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     hr {
-      margin-top: 16px;
+      margin-top: 0;
       border-color: ${props => props.theme.colors.text};
       border-style: solid;
     }
-
+    
+    a {
+      text-decoration: none;
+    }
+    
     code[class*="language-"], 
     pre[class*="language-"] {
       ${tw`text-sm`};

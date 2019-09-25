@@ -33,13 +33,13 @@ function Header(props) {
   // is greater than the height of navbar
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
-      const val = ref.current.clientHeight / 7 || 0
+      const val = ref.current.clientHeight || 0
       var onScroll = () => {
         if (window.scrollY > val) {
           if (!isOpen) {
             setFixed(true)
           }
-        } else {
+        } else if (window.scrollY < val / 10) {
           if (!isOpen) {
             setFixed(false)
           }

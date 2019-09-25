@@ -1,13 +1,14 @@
 import React from "react"
+import tw from "tailwind.macro"
 import styled from "styled-components"
 import { Link } from "gatsby"
 
 const StyledSpan = styled.span`
-  font-size: 14px;
+  ${tw`text-2xl`};
+`
 
-  &:first-child {
-    margin-right: 16px;
-  }
+const StyledPrevLink = styled(Link)`
+  ${tw`mr-4`};
 `
 
 function Pagination(props) {
@@ -25,12 +26,12 @@ function Pagination(props) {
   return (
     <>
       {showPrev && (
-        <Link to={prevPage} rel="prev">
+        <StyledPrevLink to={prevPage} rel="prev">
           {/* eslint-disable-next-line */}
           <StyledSpan role="img" aria-label="Go back to previous page">
             ⬅️{prevText}
           </StyledSpan>
-        </Link>
+        </StyledPrevLink>
       )}
       {showNext && (
         <Link to={nextPage} rel="next">

@@ -5,6 +5,7 @@ import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+import { Title } from "../utils/styling/typo"
 
 function TILList(props) {
   const { currentPage, numPages, basePath } = props.pageContext
@@ -18,7 +19,11 @@ function TILList(props) {
 
   return (
     <Layout location={props.location} title={"TIL list"}>
-      <SEO title="TIL posts" />
+      <SEO title="Today I Learned posts" />
+      <Title css={"margin-bottom: 0"}>
+        Today I Learned Page: {currentPage}
+      </Title>
+      <hr css />
       {BlogCards}
       <Pagination
         prevPage={prevPage}

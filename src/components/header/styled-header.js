@@ -53,7 +53,7 @@ export const StyledNavContainer = styled.div`
 
 export const StyledNav = styled.nav`
   ${tw`relative flex items-center justify-between flex-wrap mx-auto`};
-  transition: width 100ms ease;
+  transition: width 100ms ease 400ms;
   width: ${props =>
     props.isFixed ? `calc(${customMediaObject.xl} * 0.66)` : "100%"};
   max-width: 90vw;

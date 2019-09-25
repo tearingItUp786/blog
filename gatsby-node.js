@@ -71,7 +71,7 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     // Create blog-list pages that'll be from both blogPosts and tilPosts
-    const postsPerPage = 6
+    const postsPerPage = 2
     const blogNumPages = Math.ceil(blogPosts.length / postsPerPage)
     const tilNumPages = Math.ceil(tilPosts.length / postsPerPage)
 

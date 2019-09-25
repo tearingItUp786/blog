@@ -15,7 +15,7 @@ const Title = styled(Title2)`
   ${tw`mb-4`};
 `
 
-const PostInfo = styled(DateAndAuth)``
+const PostInfo = DateAndAuth
 
 const PostIntro = styled(Paragraph)``
 
@@ -23,14 +23,22 @@ const PostTag = styled.span`
   margin-left: 8px;
 `
 
+const Anchor = styled(Title2)`
+  ${tw`text-accent no-underline`};
+`
+
 const TitleLink = props => {
   if (props.slug === null) {
     return <span>{props.title}</span>
   } else {
     return (
-      <a aria-label={`Go to ${props.slug} blog post`} href={props.slug}>
+      <Anchor
+        as="a"
+        aria-label={`Go to ${props.slug} blog post`}
+        href={props.slug}
+      >
         {props.title}
-      </a>
+      </Anchor>
     )
   }
 }
@@ -66,7 +74,7 @@ function BlogCard(props) {
       <Title>
         <TitleLink slug={slug} title={title} />
       </Title>
-      <PostInfo>
+      <PostInfo inverse={true}>
         <span role="img" aria-label="calendar emoji!">
           🗓️
         </span>{" "}

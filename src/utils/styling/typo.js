@@ -5,7 +5,8 @@ import tw from "tailwind.macro"
 import { arrToFontString, arrTransitionCss } from "../helpers"
 
 export const Title = styled.h1`
-  ${tw`text-text text-3xl md:text-5xl`};
+  ${tw`text-3xl md:text-5xl`};
+  ${props => (props.pink ? tw`text-accent` : tw`text-text`)};
   font-family: ${props =>
     props.theme.fontFamily.display.reduce(arrToFontString)};
 `
@@ -35,7 +36,8 @@ export const TextLink = styled.a`
   font-family: ${props => props.theme.fontFamily.body.reduce(arrToFontString)};
 `
 export const DateAndAuth = styled.p`
-  ${tw`text-accent text-sm`};
+  ${tw`text-sm`};
+  ${props => (props.inverse ? tw`text-oppBody` : tw`text-accent`)};
   font-family: ${props =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
 `

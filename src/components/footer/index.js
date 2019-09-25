@@ -1,27 +1,16 @@
-import React from "react"
+import React, { useEffect } from "react"
+import tw from "tailwind.macro"
 import styled from "styled-components"
 
 const StyledFooter = styled.footer`
-  width: 100vw;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 0;
+  ${tw`w-full justify-center py-4`};
 `
 
 const GatsbyLink = styled.a`
-  font-size: 14px;
-  text-align: center;
-  flex-basis: 100%;
-  display: block;
+  ${tw`text-base text-text text-center block mx-auto hover:text-accent`};
+  max-width: 90vw;
+  width: 400px;
   transition: color 300ms ease-in-out;
-
-  &:hover,
-  &:active {
-    color: rebeccapurple;
-  }
 `
 const TwitterLink = styled(GatsbyLink)`
   &:hover,
@@ -33,7 +22,7 @@ const TwitterLink = styled(GatsbyLink)`
 function Footer(props) {
   const ref = React.useRef(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
       props.updateFooterHeight(`${ref.current.clientHeight}px`)
     }

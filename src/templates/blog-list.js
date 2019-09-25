@@ -5,6 +5,7 @@ import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+import { Title } from "../utils/styling/typo"
 
 function BlogList(props) {
   const { currentPage, numPages, basePath } = props.pageContext
@@ -19,6 +20,8 @@ function BlogList(props) {
   return (
     <Layout location={props.location} title={"Blog list"}>
       <SEO title="Blog posts" />
+      <Title css={"margin-bottom: 0"}>Blog Posts Page: {currentPage}</Title>
+      <hr />
       {BlogCards}
       <Pagination
         prevPage={prevPage}
