@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=DM+Sans:400,700|DM+Serif+Display|Lora&display=swap');
     
     html, body {
-      ${tw`font-regular text-text scrolling-touch leading-normal`};
+      ${tw`font-regular text-text scrolling-touch leading-relaxed`};
       font-family: ${props =>
         props.theme.fontFamily.body.reduce(arrToFontString)};
     }
@@ -15,14 +15,11 @@ export const GlobalStyle = createGlobalStyle`
       background: ${props => props.theme.colors.body};
     }
     body {
-      ${tw`overflow-scroll text-text bg-body`};
-    }
-
-    body {
+      ${tw`overflow-scroll bg-body text-text text-lg`};
       padding: 0;
       margin: 0;
       font-family: ${props =>
-        props.theme.fontFamily.display.reduce(arrToFontString)};
+        props.theme.fontFamily.body.reduce(arrToFontString)};
     }
 
     hr {

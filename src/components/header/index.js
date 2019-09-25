@@ -10,28 +10,32 @@ import {
 } from "./styled-header"
 import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
-import { debounce } from "../../utils/helpers"
 import { NavLink } from "../../utils/styling/typo"
+import useLocation from "../../hooks/use-location"
+import usePrevious from "../../hooks/use-previous"
 
 function Header(props) {
   const [isOpen, updateMenu] = useState(false)
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
   const ref = useRef(null)
+  const wLoc = useLocation()
+  const pLoc = usePrevious(wLoc.location.pathname)
 
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
       setHeight(ref.current.clientHeight)
       props.updateHeaderHeight(`${ref.current.clientHeight}px`)
     }
-  }, [props])
+  }, [props, ref])
 
   // on window scroll, lets check to see if the scroll of the window
   // is greater than the height of navbar
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
+      const val = ref.current.clientHeight / 7 || 0
       var onScroll = () => {
-        if (window.scrollY > ref.current.clientHeight / 10) {
+        if (window.scrollY > val) {
           if (!isOpen) {
             setFixed(true)
           }
@@ -42,20 +46,28 @@ function Header(props) {
         }
       }
       window.onscroll = onScroll
+      return () => {
+        onScroll = () => {}
+        window.onscroll = onScroll
+      }
     }
-  }, [isFixed, setFixed, isOpen])
+  }, [isFixed, setFixed, isOpen, ref])
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.top = `-${window.scrollY}px`
       document.body.style.position = "fixed"
     } else {
-      const scrollY = document.body.style.top
-      document.body.style.position = ""
-      document.body.style.top = ""
-      window.scrollTo(0, parseInt(scrollY || "0") * -1)
+      if (wLoc.location.pathname !== pLoc) {
+        window.scrollTo(0, 0)
+      } else {
+        const scrollY = document.body.style.top
+        document.body.style.position = ""
+        document.body.style.top = ""
+        window.scrollTo(0, parseInt(scrollY || "0") * -1)
+      }
     }
-  }, [isOpen])
+  }, [isOpen, wLoc, pLoc])
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {

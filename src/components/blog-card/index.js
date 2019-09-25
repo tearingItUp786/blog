@@ -1,5 +1,7 @@
 import React from "react"
 import styled from "styled-components"
+import tw from "tailwind.macro"
+import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
 const CardContainer = styled.article`
   width: 100%;
   margin-bottom: 48px;
@@ -9,25 +11,13 @@ const CardContainer = styled.article`
   }
 `
 
-const Title = styled.h2`
-  font-weight: 700;
-  margin-bottom: 8px;
-  margin-top: 8px;
-
-  a {
-  }
+const Title = styled(Title2)`
+  ${tw`mb-4`};
 `
 
-const PostInfo = styled.p`
-  font-size: 14px;
-  font-weight: 300;
-  margin-top: 0;
-  margin-bottom: 0;
-`
+const PostInfo = styled(DateAndAuth)``
 
-const PostIntro = styled.p`
-  margin-top: 8px;
-`
+const PostIntro = styled(Paragraph)``
 
 const PostTag = styled.span`
   margin-left: 8px;

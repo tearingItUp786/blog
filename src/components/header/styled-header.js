@@ -34,12 +34,11 @@ const translateTop = keyframes`
   }
 `
 export const StyledNavContainer = styled.div`
-  ${tw`mx-auto z-10`};
-  width: ${props => (props.isFixed ? "100vw" : "100%")};
+  ${tw`mx-auto w-full z-10`};
   background: ${props => (props.isFixed ? "white" : "transparent")};
   ${props =>
     props.isFixed
-      ? tw`fixed left-0 top-0 z-10 opacity-0`
+      ? tw`fixed left-0 top-0 z-10 opacity-0 shadow`
       : tw`relative mx-auto`};
   animation: ${props =>
     props.isFixed
@@ -55,7 +54,9 @@ export const StyledNavContainer = styled.div`
 
 export const StyledNav = styled.nav`
   ${tw`relative flex items-center justify-between flex-wrap mx-auto`};
-  width: ${props => (props.isFixed ? customMediaObject.xl : "100%")};
+  transition: width 100ms ease;
+  width: ${props =>
+    props.isFixed ? `calc(${customMediaObject.xl} * 0.66)` : "100%"};
   max-width: 90vw;
   ${props => {
     return props.isFixed ? tw`py-0 px-0` : tw`relative py-2`
