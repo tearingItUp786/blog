@@ -8,7 +8,7 @@ import SEO from "../components/seo"
 function BlogIndex(props) {
   const { data } = props
   const siteTitle = data.site.siteMetadata.title
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allMdx.edges
   const BlogCards = posts.map(blogMapper)
 
   return (
@@ -28,17 +28,14 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-      limit: 6
-    ) {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }, limit: 6) {
       edges {
         node {
           excerpt
           fields {
             slug
           }
-          html
+          body
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title

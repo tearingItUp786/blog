@@ -14,7 +14,7 @@ function TILList(props) {
   const nextPage = `/${basePath}/${currentPage + 1}`
 
   const { data } = props
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allMdx.edges
   const BlogCards = posts.map(blogMapper)
 
   return (
@@ -39,7 +39,7 @@ export default TILList
 
 export const pageQuery = graphql`
   query($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/(?=til).*$/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: $limit
@@ -48,10 +48,7 @@ export const pageQuery = graphql`
       edges {
         node {
           excerpt
-          fields {
-            slug
-          }
-          html
+          body
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title

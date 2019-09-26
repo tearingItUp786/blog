@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
+
 import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
 const CardContainer = styled.article`
   width: 100%;
@@ -66,7 +68,7 @@ function BlogCard(props) {
   const contentSection = description ? (
     <PostIntro>{description}</PostIntro>
   ) : html ? (
-    <div dangerouslySetInnerHTML={{ __html: html }} />
+    <MDXRenderer>{html}</MDXRenderer>
   ) : null
 
   return (
