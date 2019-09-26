@@ -42,7 +42,7 @@ export const StyledNavContainer = styled.div`
   animation: ${props =>
     props.isFixed
       ? css`
-          ${translateTop} 300ms ease-in forwards
+          ${translateTop} 300ms ease-in forwards 300ms
         `
       : ``};
 
