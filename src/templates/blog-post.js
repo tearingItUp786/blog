@@ -1,15 +1,11 @@
 import React from "react"
 import { graphql } from "gatsby"
-import styled from "styled-components"
 import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
-
-const Title = styled.h1`
-  margin-top: 0;
-`
+import { Title, Title3, DateAndAuth } from "../utils/styling/typo"
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -29,8 +25,15 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        <Title>{post.frontmatter.title}</Title>
-        <p>{post.frontmatter.date}</p>
+        <Title center marginBottom="1">
+          {post.frontmatter.title}
+        </Title>
+        <Title3 center noMarginTop noMarginBottom>
+          {post.frontmatter.subtitle}
+        </Title3>
+        <DateAndAuth center marginTop="1">
+          Taran "tearing it up" Bains • {post.frontmatter.date}
+        </DateAndAuth>
         <MDXRenderer>{post.body}</MDXRenderer>
         {previous || next ? <hr /> : null}
         <Pagination
@@ -60,6 +63,7 @@ export const pageQuery = graphql`
       body
       frontmatter {
         title
+        subtitle
         date(formatString: "MMMM DD, YYYY")
         description
       }

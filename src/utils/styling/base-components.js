@@ -1,9 +1,17 @@
 import tw from "tailwind.macro"
 import { createGlobalStyle } from "styled-components"
 import { arrToFontString } from "../helpers"
+import {
+  title2Styles,
+  title1Styles,
+  title3Styles,
+  title4Styles,
+  title5Styles,
+  paragraphStyles,
+} from "./typo"
 
 export const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css?family=DM+Sans:400,700|DM+Serif+Display|Lora&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=DM+Sans:400,700|DM+Serif+Display:400,400i|Lora&display=swap');
     
     html, body {
       ${tw`font-regular text-text scrolling-touch leading-relaxed`};
@@ -21,7 +29,24 @@ export const GlobalStyle = createGlobalStyle`
       font-family: ${props =>
         props.theme.fontFamily.body.reduce(arrToFontString)};
     }
-
+    h1 {
+      ${props => title1Styles(props)}
+    }
+    h2 {
+      ${props => title2Styles({ ...props, noMarginBottom: true })} 
+    }
+    h3{ 
+      ${props => title3Styles(props)}
+    }
+    h4 {
+      ${props => title4Styles(props)}
+    }
+    h5 {
+      ${props => title5Styles({ ...props, marginBottom: "2" })}
+    }
+    p {
+      ${props => paragraphStyles(props)};
+    }
     hr {
       margin-top: 0;
       border-color: ${props => props.theme.colors.text};
@@ -34,7 +59,7 @@ export const GlobalStyle = createGlobalStyle`
     
     code[class*="language-"], 
     pre[class*="language-"] {
-      ${tw`text-sm overflow-x-scroll`};
+      ${tw`text-sm`};
     }
     
     /**
