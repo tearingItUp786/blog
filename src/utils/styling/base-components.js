@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
     
     code[class*="language-"], 
     pre[class*="language-"] {
-      ${tw`text-sm`};
+      ${tw`text-sm overflow-x-scroll`};
     }
     
     /**
