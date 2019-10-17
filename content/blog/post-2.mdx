@@ -1,0 +1,91 @@
+---
+title: React Suspense with Chantastic
+subtitle: Some awesome things I learned at a remote workshop with Michael Chan
+date: 2019-10-16
+description: Figures a workshop on Suspense would leave me on the edge of my seat!😅
+tag: Workshop
+---
+
+import { TextLink, ShortQuote } from "../../src/utils/styling/typo.js"
+
+Hey y'all (most likely just me) but here's a high level overview of the things I learned from the remote <TextLink href="https://egghead.io">egghead</TextLink> worskhop I attended today.
+
+<TextLink href="https://github.com/chantastic/react-suspense-course">
+  Here's a link to the repo
+</TextLink>
+
+TLDR;
+
+1. What is React Suspense and why it matters
+2. React Suspense -- the meat of the workshop
+3. Designing flexible components
+4. Nuggets picked up from the workshop
+
+## What is React Suspense and why it matters
+
+## React Suspense -- the meat of the workshop
+
+## Designing flexible components
+
+A big piece of knowledge/wisdom I was able to pick up from this workshop regards components in the post react age.
+
+<ShortQuote>Each component should have one specific intent</ShortQuote>
+
+What this means to me is that a button components intent is to fire off some click event once clicked;
+we leave it up to the user of the component to decide what this click event will be. If we abstract this idea out even further,
+if we have a component that is responsible for rendering a list of data, we should allow the user of this component to
+dictate what the rendering function will look like.
+
+```jsx:title=index.js
+import React from "react"
+import { PokemonList } from "./PokemonList.js"
+
+function App(props) {
+  return (
+    <PokemonList
+      as="ul"
+      renderItem={pokemon => (
+        <li key={pokemon.name}>
+          <button onClick={() => alert(`You selected ${pokemon.name}`)}>
+            {pokemon.name}
+          </button>
+        </li>
+      )}
+    />
+  )
+}
+```
+
+```jsx:title=PokemonList.js
+import React from "react"
+import { unstable_createResource as createResource } from "react-cache"
+
+let PokemonCollection = createResource(() =>
+  fetch("https://pokeapi.co/api/v2/pokemon").then(res => res.json())
+)
+
+export function PokemonList({
+  as: As = React.Fragment,
+  renderItem = pokemon => <div key={pokemon.name}>{pokemon.name}</div>,
+}) {
+  // highlight-next-line
+  return <As>{PokemonCollection.read().results.map(renderItem)}</As>
+}
+```
+
+## Little nuggets from the workshop
+
+At the end of the workshop, <TextLink>Chantastic</TextLink> invited us all to ask some questions and like most
+question and answer segements, this one was ripe with golden nuggets.
+The following are 4 libraries that Micahel Chan (Chantastic) recommends to teams he works with:
+
+1. <TextLink href="https://ui.reach.tech/">ReachUI</TextLink>
+2. <TextLink>React Router</TextLink>
+3. <TextLink href="https://egghead.io/courses/immutable-javascript-data-structures-with-immer">
+     Immer
+   </TextLink>
+4. <TextLink href="https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd">
+     react-beautiful-dnd
+   </TextLink>
+
+##### Closing Thoughts

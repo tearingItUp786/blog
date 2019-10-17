@@ -28,7 +28,11 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }, limit: 6) {
+    allMdx(
+      filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } }
+      sort: { fields: [frontmatter___date], order: DESC }
+      limit: 6
+    ) {
       edges {
         node {
           excerpt

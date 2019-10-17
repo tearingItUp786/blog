@@ -80,7 +80,9 @@ export const Paragraph = styled.p`
   ${props => paragraphStyles(props)}
 `
 
-export const TextLink = styled.a`
+export const TextLink = styled.a.attrs(props => ({
+  target: "blank",
+}))`
   ${tw`text-accent text-lg underline`}
   ${props => commonProps(props)}
   font-family: ${props => props.theme.fontFamily.body.reduce(arrToFontString)};
@@ -105,7 +107,7 @@ export const BlockQuote = styled.blockquote`
   border-color: ${props => props.theme.colors.accent};
 `
 
-export const ShortQuote = styled.blockquote`
+const ShortQuoteInternal = styled.blockquote`
   ${tw`text-3xl md:text-4xl my-16 pt-8 italic`};
   font-family: ${props =>
     props.theme.fontFamily.display.reduce(arrToFontString)};
@@ -117,6 +119,13 @@ export const ShortQuote = styled.blockquote`
     color: ${props => props.theme.colors.accent};
   }
 `
+
+export const ShortQuote = ({ children }) => (
+  <ShortQuoteInternal>
+    <span>“</span>
+    {children}
+  </ShortQuoteInternal>
+)
 
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
   <Link {...restProps} />
