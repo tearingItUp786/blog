@@ -121,6 +121,14 @@ function Header(props) {
             >
               TIL
             </NavLink>
+            <NavLink
+              aria-label="View Taran's about page"
+              to="/about/"
+              partiallyActive
+              activeClassName="active"
+            >
+              About
+            </NavLink>
           </LinksContainer>
         </StyledNav>
       </StyledNavContainer>

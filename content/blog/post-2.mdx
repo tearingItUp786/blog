@@ -8,7 +8,7 @@ tag: Workshop
 
 import {
   TextLink,
-  ShortQuote,
+  BlockQuote,
   SmallAsterisk,
 } from "../../src/utils/styling/typo.js"
 
@@ -57,8 +57,7 @@ Once Suspsene and react-cache have stabilized, we will no longer need to worry a
 
 ## React Suspense -- the meat of the workshop
 
-Simliar to the workshop, I'll try to chunk up the meat into sections!
-I'm just going to show the code and explain it later <span role="img" aria-label="smile emoji">😁</span>.
+I'm just going to show the code and explain it below<span role="img" aria-label="smile emoji">😁</span>.
 
 ```jsx:title=pokemon.js
 import React from "react"
@@ -91,11 +90,27 @@ export default function() {
 }
 ```
 
+### pokemon.js
+
+In this file we are creating and exporting a very simple component `Pokemon`. This component
+is meant to display some data in a `div` -- not very inspired but that's not the point of this blog post
+and it wasn't the point of the workshop either.
+
+On line 4 we're using the `createResource` function that we imported from <TextLink href="https://www.npmjs.com/package/react-cache">react-cache</TextLink>
+and providing it with a function as an argument. The caveat with the function argument is that it needs to return a thenable;
+luckily, the modern `fetch` implementation that ships with browsers or packages uch as <TextLink href="https://www.npmjs.com/package/axios">axios</TextLink> provide us with
+thenable implementations.
+
+Remember what I said above, we need to provide Suspense with a component that will throw a thenable! Thanks to our
+`createResource` call, if we attempt to read from the resource with read prior to the promise being fulfilled,
+`createResource` will throw the promise and Suspsene will catch it and do what it will... in this case, show some sort of
+fallback component or text.
+
 ## Designing flexible components
 
 A big piece of knowledge/wisdom I was able to pick up from this workshop regards components in the post react age.
 
-<ShortQuote>Each component should have one specific intent</ShortQuote>
+<BlockQuote>Each component should have one specific intent</BlockQuote>
 
 What this means to me is that a button component's intent is to fire off some click event once clicked;
 we leave it up to the user of the component to decide what this click event will be. If we abstract this idea out even further,
