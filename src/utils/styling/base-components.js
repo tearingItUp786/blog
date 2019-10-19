@@ -56,6 +56,29 @@ export const GlobalStyle = createGlobalStyle`
     a {
       text-decoration: none;
     }
+
+    // These two are for gatsby-remark-autolink-headers:
+    a.anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+    }
+
+    a.anchor svg[aria-hidden="true"] {
+      stroke: ${props => props.theme.colors.accent};
+    }
+
+    h1,h2,h3,h4,h5 {
+      .anchor svg {
+        visibility: hidden;
+      }
+
+      &:hover {
+        .anchor svg {
+          visibility: visible;
+        }
+      }
+    }
     
     code[class*="language-"], 
     pre[class*="language-"] {

@@ -72,6 +72,10 @@ export default function Pokemon() {
 }
 ```
 
+<div>
+  <br />
+</div>
+
 ```jsx:title=index.js
 import React from "react"
 import ErrorBoundary from "./error-boundary"
@@ -105,6 +109,49 @@ Remember what I said above, we need to provide Suspense with a component that wi
 `createResource` call, if we attempt to read from the resource with read prior to the promise being fulfilled,
 `createResource` will throw the promise and Suspsene will catch it and do what it will... in this case, show some sort of
 fallback component or text.
+
+### index.js
+
+In this file, we see Suspense shine. There's two components that we need to be paying attention to here: `ErrorBoundary` and `React.Suspense`.
+
+#### ErrorBoundary
+
+We'll start our discussion here as this component is higher up in the tree. Remember how I mentioned above
+that Suspense expects the component it lazily loads to throw a thenable? Well ErrorBoundary is a component
+that when an error is thrown, it catches and responds to it. The reason why this component wraps our Suspense component
+is if for whatever reason our lazily loaded component(s) that Suspense wraps throws an error rather than returning a value
+or throwing a promise, we need a way for our UI to react to this. ErrorBoundary is the component that allows us to react!
+
+_Please not that ErrorBoundary cannot be a functional component -- React requires it to currently be implemented via a class_
+
+```jsx:title=ErrorBoundary.js
+import React from "react"
+
+export default class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      hasError: true,
+    })
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback
+    }
+
+    return this.props.children
+  }
+}
+
+ErrorBoundary.defaultProps = {
+  fallback: <h1>Something went wrong.</h1>,
+}
+```
 
 ## Designing flexible components
 

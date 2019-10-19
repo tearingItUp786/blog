@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import tw from "tailwind.macro"
 import { arrToFontString, arrTransitionCss } from "../helpers"
 import { marginBottom, marginTop } from "./tailwind-macro-helpers"
+// const tw = () => {}
 
 function commonProps(props) {
   const ret = [
