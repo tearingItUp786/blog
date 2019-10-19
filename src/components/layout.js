@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
-import tw from "tailwind.macro"
 
 import { defaultTheme, customMediaObject } from "../utils/styling"
 import Header from "./header"

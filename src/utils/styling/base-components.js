@@ -61,18 +61,17 @@ export const GlobalStyle = createGlobalStyle`
     pre[class*="language-"] {
       ${tw`text-sm`};
     }
-    
     /**
     * Add back the container background-color, border-radius, padding, margin
     * and overflow that we removed from <pre>.
     */
     .gatsby-highlight {
       background-color: #191919;
-      border-radius: 0.3em;
       margin: 0.5em 0;
       padding: 1em;
       overflow: auto;
     }
+
     .gatsby-highlight-code-line {
       background-color: #b3b3b338
       display: block;

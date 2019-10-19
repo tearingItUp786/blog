@@ -6,7 +6,11 @@ description: Figures a workshop on Suspense would leave me on the edge of my sea
 tag: Workshop
 ---
 
-import { TextLink, ShortQuote } from "../../src/utils/styling/typo.js"
+import {
+  TextLink,
+  ShortQuote,
+  SmallAsterisk,
+} from "../../src/utils/styling/typo.js"
 
 Hey y'all (most likely just me) but here's a high level overview of the things I learned from the remote <TextLink href="https://egghead.io">egghead</TextLink> worskhop I attended today.
 
@@ -23,7 +27,69 @@ TLDR;
 
 ## What is React Suspense and why it matters
 
+Prior to the advent of Webpack and other bundlers, code-splitting -- the ability to "split" our JavaScript bundles into mutliple chunks --
+was something that was not possible. However, thanks to the aforementioned tools, code-splitting is a commonly used practice
+that helps to ensure that the JavaScript bundles that our users receive are as small as possible; this equates to better performance!
+We all know that the fastest code is no code... so less code means faster code <span role="img" aria-label="winking emoji">😉</span>
+
+For example if we have a Single Page Application (SPA), prior to React Suspense, a common practice was to use a package
+like <TextLink href="https://github.com/jamiebuilds/react-loadable">React Loadable</TextLink> to handle splitting the various routes for
+said application\*. It would be wasteful to load all the code for every route at initial load time/runtime because there could be several routes
+that a specific user never ends up actually visiting -- what a waste! <span role="img" aria-label="face sccreaming emoji">😱</span>.
+
+There is one thing that Suspense requires to work though: a cache! Currently, there is no stable caching pacakge for React, but don't you worry,
+the React team is working diligently on a package that will plug in and work with Suspense when it lands. Why do we need react cache?
+Simply put, Suspense needs to know if a promise has resolved so under the hood react cache will throw a thenable(promise) and until the
+thenable has resolved, Suspense will show sort of fallback.
+
+Chances are if you've ever written a component that required data from some external resource, you've made an API request for that data and
+you've rendered your component with the data once it was fetched. However, once that component had unmounted and been destroyed, the data that was tied to that
+component went with it! If that component then would need to be mounted again, you'd have to potentially make the same API request for the same data and
+while browsers have implemented caches for network requests, that doesn't really help with our components rendering!
+But with react cache, if the said data had been requested earlier the data will be available in the in memory cache and there will be no need to fetch the data from the network request. <span role="img" aria-label="thumbs up emoji">👍</span>
+
+Once Suspsene and react-cache have stabilized, we will no longer need to worry about the logic regarding async resource loading!
+
+<SmallAsterisk>
+  *This is assuming that the SPA in question has multiple routes that users can
+  reach.
+</SmallAsterisk>
+
 ## React Suspense -- the meat of the workshop
+
+Simliar to the workshop, I'll try to chunk up the meat into sections!
+I'm just going to show the code and explain it later <span role="img" aria-label="smile emoji">😁</span>.
+
+```jsx:title=pokemon.js
+import React from "react"
+import { unstable_createResource as createResource } from "react-cache"
+
+let PokemonResource = createResource(() =>
+  fetch("https://pokeapi.co/api/v2/pokemon/x").then(res => res.json())
+)
+
+export default function Pokemon() {
+  return <div>{PokemonResource.read().name}</div>
+}
+```
+
+```jsx:title=index.js
+import React from "react"
+import ErrorBoundary from "./error-boundary"
+const Pokemon = React.lazy(() => import("./pokemon"))
+
+export default function() {
+  return (
+    <React.Fragment>
+      <ErrorBoundary fallback={<h1>...couldn't catch 'em all</h1>}>
+        <React.Suspense fallback="Locating pokemon...">
+          <Pokemon />
+        </React.Suspense>
+      </ErrorBoundary>
+    </React.Fragment>
+  )
+}
+```
 
 ## Designing flexible components
 
@@ -31,10 +97,10 @@ A big piece of knowledge/wisdom I was able to pick up from this workshop regards
 
 <ShortQuote>Each component should have one specific intent</ShortQuote>
 
-What this means to me is that a button components intent is to fire off some click event once clicked;
+What this means to me is that a button component's intent is to fire off some click event once clicked;
 we leave it up to the user of the component to decide what this click event will be. If we abstract this idea out even further,
 if we have a component that is responsible for rendering a list of data, we should allow the user of this component to
-dictate what the rendering function will look like.
+dictate what the rendering function will look like for a data item.
 
 ```jsx:title=index.js
 import React from "react"
@@ -44,6 +110,7 @@ function App(props) {
   return (
     <PokemonList
       as="ul"
+      // highlight-next-line
       renderItem={pokemon => (
         <li key={pokemon.name}>
           <button onClick={() => alert(`You selected ${pokemon.name}`)}>
@@ -67,11 +134,26 @@ let PokemonCollection = createResource(() =>
 export function PokemonList({
   as: As = React.Fragment,
   renderItem = pokemon => <div key={pokemon.name}>{pokemon.name}</div>,
+  ...restProps
 }) {
   // highlight-next-line
-  return <As>{PokemonCollection.read().results.map(renderItem)}</As>
+  return (
+    <As {...restProps}>{PokemonCollection.read().results.map(renderItem)}</As>
+  )
 }
 ```
+
+Notice how on line 8 of `index.js` we have provided a renderItem property to the `PokemonList` component.
+This type of inversion of control is called, at least to the best of my recollection, dependency injection.
+Michael's feelings are that any components that are iterable or iterate over some data should provide a capability
+for its users to override the default rendering behavior for each item. That's what the highlighted line in `PokemonList.js` is doing!
+As shown on line 12, the renderItem attribute on props, which defaults to a function, allows a user to define their own map function.
+
+Another nice thing that `PokemonList` allows its users to do is decide what the base container component should be; that's what the `as` property is!
+Similar to what is done in styled components, we can say that a component should render itself "as" another valid JSX component.
+
+This kind of thinking when designing components will help the developer who has to create resources (functions and components in React which are actually just functions)
+that start general but allow for specificity.
 
 ## Little nuggets from the workshop
 

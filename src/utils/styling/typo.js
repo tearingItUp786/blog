@@ -127,6 +127,10 @@ export const ShortQuote = ({ children }) => (
   </ShortQuoteInternal>
 )
 
+export const SmallAsterisk = styled.span`
+  ${tw`text-sm`};
+`
+
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
   <Link {...restProps} />
 ))`
