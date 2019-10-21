@@ -3,13 +3,15 @@ import styled from "styled-components"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 
+import { defaultTheme, customMediaObject } from "../utils/styling"
 import Header from "./header"
-import { lightTheme } from "../utils/styling"
 import { GlobalStyle } from "../utils/styling/base-components"
 import Hero from "./hero"
 import Footer from "./footer"
 
 const Main = styled.main`
+  width: calc(${customMediaObject.xl} * 0.66);
+  max-width: 90vw;
   margin: 2rem auto 4rem;
   min-height: ${props =>
     props.isHome
@@ -18,8 +20,6 @@ const Main = styled.main`
     100vh - ${props.headerHeight} - ${props.footerHeight} -
       5.75rem
   )`};
-  max-width: ${props => props.theme.sizing["max-width"]};
-  width: ${props => props.theme.sizing.width};
 `
 
 const ContentContainer = styled.div`
@@ -37,7 +37,7 @@ function Layout(props) {
   const hero = isHome ? <Hero /> : null
 
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <ContentContainer>
         <Normalize />
         <GlobalStyle />

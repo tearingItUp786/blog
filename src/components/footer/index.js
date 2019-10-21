@@ -1,30 +1,25 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
-import { fluidFontSize } from "../../utils/styling/helper"
 
 const StyledFooter = styled.footer`
-  width: 100vw;
-  background: ${props => props.theme.colors.text};
-  color: ${props => props.theme.colors.body};
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  width: 100%;
+  padding-top: 1rem;
   justify-content: center;
-  align-items: center;
-  padding: 16px 0;
 `
 
 const GatsbyLink = styled.a`
-  color: ${props => props.theme.colors.body};
-  font-size: ${fluidFontSize({ minSize: 12, maxSize: 14 })};
+  font-size: 1rem;
+  color: ${props => props.theme.colors.text};
   text-align: center;
-  flex-basis: 100%;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+  width: 400px;
   transition: color 300ms ease-in-out;
 
-  &:hover,
-  &:active {
-    color: rebeccapurple;
+  &:hover {
+    color: ${props => props.theme.colors.accent};
   }
 `
 const TwitterLink = styled(GatsbyLink)`
@@ -37,7 +32,7 @@ const TwitterLink = styled(GatsbyLink)`
 function Footer(props) {
   const ref = React.useRef(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
       props.updateFooterHeight(`${ref.current.clientHeight}px`)
     }

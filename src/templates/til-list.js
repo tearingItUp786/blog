@@ -5,6 +5,7 @@ import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+import { Title } from "../utils/styling/typo"
 
 function TILList(props) {
   const { currentPage, numPages, basePath } = props.pageContext
@@ -13,12 +14,16 @@ function TILList(props) {
   const nextPage = `/${basePath}/${currentPage + 1}`
 
   const { data } = props
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allMdx.edges
   const BlogCards = posts.map(blogMapper)
 
   return (
     <Layout location={props.location} title={"TIL list"}>
-      <SEO title="TIL posts" />
+      <SEO title="Today I Learned posts" />
+      <Title css={"margin-bottom: 0"}>
+        Today I Learned Page: {currentPage}
+      </Title>
+      <hr />
       {BlogCards}
       <Pagination
         prevPage={prevPage}
@@ -34,7 +39,7 @@ export default TILList
 
 export const pageQuery = graphql`
   query($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/(?=til).*$/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: $limit
@@ -43,10 +48,7 @@ export const pageQuery = graphql`
       edges {
         node {
           excerpt
-          fields {
-            slug
-          }
-          html
+          body
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title

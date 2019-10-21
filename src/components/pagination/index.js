@@ -1,14 +1,14 @@
 import React from "react"
+ 
 import styled from "styled-components"
 import { Link } from "gatsby"
-import { fluidFontSize } from "../../utils/styling/helper"
 
 const StyledSpan = styled.span`
-  font-size: ${fluidFontSize({ minSize: 16, maxSize: 20 })};
+  font-size: 1.5rem;
+`
 
-  &:first-child {
-    margin-right: 16px;
-  }
+const StyledPrevLink = styled(Link)`
+  margin-right: 1rem;
 `
 
 function Pagination(props) {
@@ -26,12 +26,12 @@ function Pagination(props) {
   return (
     <>
       {showPrev && (
-        <Link to={prevPage} rel="prev">
+        <StyledPrevLink to={prevPage} rel="prev">
           {/* eslint-disable-next-line */}
           <StyledSpan role="img" aria-label="Go back to previous page">
             ⬅️{prevText}
           </StyledSpan>
-        </Link>
+        </StyledPrevLink>
       )}
       {showNext && (
         <Link to={nextPage} rel="next">

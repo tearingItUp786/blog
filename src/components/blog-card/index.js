@@ -1,6 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { fluidFontSize } from "../../utils/styling/helper"
+ 
+import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
+
+import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
 const CardContainer = styled.article`
   width: 100%;
   margin-bottom: 48px;
@@ -10,31 +13,21 @@ const CardContainer = styled.article`
   }
 `
 
-const Title = styled.h2`
-  font-size: ${props => props.theme.fontSizes.h3};
-  font-weight: 700;
-  margin-bottom: 8px;
-  margin-top: 8px;
-
-  a {
-    color: ${props => props.theme.colors.accent};
-  }
+const Title = styled(Title2)`
+  margin-bottom: 1rem;
 `
 
-const PostInfo = styled.p`
-  font-family: ${props => props.theme.font.title};
-  font-size: ${fluidFontSize({ minSize: 12, maxSize: 14 })};
-  font-weight: 300;
-  margin-top: 0;
-  margin-bottom: 0;
-`
+const PostInfo = DateAndAuth
 
-const PostIntro = styled.p`
-  margin-top: 8px;
-`
+const PostIntro = styled(Paragraph)``
 
 const PostTag = styled.span`
   margin-left: 8px;
+`
+
+const Anchor = styled(Title2)`
+  color: ${props => props.theme.colors.accent};
+  text-decoration: none;
 `
 
 const TitleLink = props => {
@@ -42,9 +35,13 @@ const TitleLink = props => {
     return <span>{props.title}</span>
   } else {
     return (
-      <a aria-label={`Go to ${props.slug} blog post`} href={props.slug}>
+      <Anchor
+        as="a"
+        aria-label={`Go to ${props.slug} blog post`}
+        href={props.slug}
+      >
         {props.title}
-      </a>
+      </Anchor>
     )
   }
 }
@@ -72,7 +69,7 @@ function BlogCard(props) {
   const contentSection = description ? (
     <PostIntro>{description}</PostIntro>
   ) : html ? (
-    <div dangerouslySetInnerHTML={{ __html: html }} />
+    <MDXRenderer>{html}</MDXRenderer>
   ) : null
 
   return (
@@ -80,7 +77,7 @@ function BlogCard(props) {
       <Title>
         <TitleLink slug={slug} title={title} />
       </Title>
-      <PostInfo>
+      <PostInfo inverse={true}>
         <span role="img" aria-label="calendar emoji!">
           🗓️
         </span>{" "}

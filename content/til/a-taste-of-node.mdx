@@ -7,12 +7,12 @@ tag: Backend
 Node is super useful for doing high throughput low latency I/O tasks! Here's a diagram
 that roughly describes how Node works (I omitted libuv but you can bet it's there):
 
-<pre style="overflow: scroll">
-Server/A machine                                               World/Another machine  
+```
+Server/A machine                                               World/Another machine
 +-----------------------------------------------+              +-------------+
 | +-------------+                               |              |             |
 | |JS           |                               |              |             |
-| |             |                               +--------------&gt;             |
+| |             |                               +-------------->             |
 | |             |                               |              |             |
 | |             |                               |              |             |
 | |             |                               |              +-----+-------+
@@ -25,11 +25,11 @@ Server/A machine                                               World/Another mac
 |  +--v--+------------+  +------------------+   |                    |
 |  |Node (C++)        |  |OSS               |   |                    |
 |  |                  |  |                  |   |                    |
-|  |                  &lt;--+                  |   |                    |
-|  |                  +--&gt;                  |   |                    |
-|  |                  |  |                  |   |&lt;-------------------+
+|  |                  <--+                  |   |                    |
+|  |                  +-->                  |   |                    |
+|  |                  |  |                  |   |<-------------------+
 |  |                  |  |                  |   |
 |  +------------------+  +------------------+   |
 |                                               |
 +-----------------------------------------------+
-</pre>
+```

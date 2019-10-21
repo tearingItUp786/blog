@@ -5,6 +5,7 @@ import { blogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+import { Title } from "../utils/styling/typo"
 
 function BlogList(props) {
   const { currentPage, numPages, basePath } = props.pageContext
@@ -13,12 +14,14 @@ function BlogList(props) {
   const nextPage = `/${basePath}/${currentPage + 1}`
 
   const { data } = props
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allMdx.edges
   const BlogCards = posts.map(blogMapper)
 
   return (
     <Layout location={props.location} title={"Blog list"}>
       <SEO title="Blog posts" />
+      <Title css={"margin-bottom: 0"}>Blog Posts Page: {currentPage}</Title>
+      <hr />
       {BlogCards}
       <Pagination
         prevPage={prevPage}
@@ -34,7 +37,7 @@ export default BlogList
 
 export const pageQuery = graphql`
   query($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
+    allMdx(
       filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: $limit
