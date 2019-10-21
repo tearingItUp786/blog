@@ -1,4 +1,3 @@
-import tw from "tailwind.macro"
 import { createGlobalStyle } from "styled-components"
 import { arrToFontString } from "../helpers"
 import {
@@ -14,7 +13,10 @@ export const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=DM+Sans:400,700|DM+Serif+Display:400,400i|Lora&display=swap');
     
     html, body {
-      ${tw`font-regular text-text scrolling-touch leading-relaxed`};
+      font-weight: 400;
+      color: ${props => props.theme.colors.text};
+      -webkit-overflow-scrolling: touch;
+      line-height: 1.625;
       font-family: ${props =>
         props.theme.fontFamily.body.reduce(arrToFontString)};
     }
@@ -23,7 +25,10 @@ export const GlobalStyle = createGlobalStyle`
       background: ${props => props.theme.colors.body};
     }
     body {
-      ${tw`overflow-scroll bg-body text-text text-lg`};
+      overflow: scroll;
+      background: ${props => props.theme.colors.body};
+      color: ${props => props.theme.colors.text};
+      font-size: 1.125rem;
       padding: 0;
       margin: 0;
       font-family: ${props =>
@@ -82,7 +87,7 @@ export const GlobalStyle = createGlobalStyle`
     
     code[class*="language-"], 
     pre[class*="language-"] {
-      ${tw`text-sm`};
+      font-size: 0.875rem;
     }
     /**
     * Add back the container background-color, border-radius, padding, margin

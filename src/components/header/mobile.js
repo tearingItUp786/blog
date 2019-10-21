@@ -1,14 +1,18 @@
 import React from "react"
-import tw from "tailwind.macro"
+
 import styled from "styled-components"
 import { customMedia } from "../../utils/styling"
 
 const MobileNavContainer = styled.div`
-  ${tw`hidden`};
+  display: none;
   ${customMedia.lessThan("md")`
-    ${tw`block`};
+    display: block;
     &::before {
-      ${tw`z-10 absolute rounded-lg left-0 bg-body`}; 
+      z-index: 10;
+      position: absolute;
+      border-radius: .5rem;
+      left: 0;
+      background: ${props => props.theme.colors.body};
       transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       top: -5vh;
       width: 100vw
@@ -24,21 +28,34 @@ const MobileNavContainer = styled.div`
 `
 
 const HamburgerButton = styled.button`
-  ${tw`z-10 top-0 relative bg-transparent border-none border-0 cursor-pointer px-4 py-4 text-text`};
+  z-index: 10;
+  top: 0;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-width: 0;
+  cursor: pointer;
+  padding: 1rem;
+  color: ${props => props.theme.colors.text};
+  transform: translateY(50%);
+  right: 5vw;
   border-style: none;
   border-radius: 4px;
 `
 
 const HamburgerLines = styled.div`
-  ${tw`absolute`};
+  position: absolute;
   left: 3px;
-  ${props => (props.isOpen ? tw`bg-transparent` : tw`bg-accent`)};
+  background: ${props =>
+    props.isOpen ? "transparent" : props.theme.colors.accent};
   width: 24px;
   height: 2px;
   transition: background 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
 
   &::before {
-    ${tw`absolute left-0 bg-accent`};
+    position: absolute;
+    left: 0;
+    background: ${props => props.theme.colors.accent};
     content: "";
     top: ${props => (props.isOpen ? "0px" : "-8px")};
     width: 24px;
@@ -48,7 +65,9 @@ const HamburgerLines = styled.div`
   }
 
   &::after {
-    ${tw`absolute left-0 bg-accent`};
+    position: absolute;
+    left: 0;
+    background: ${props => props.theme.colors.accent};
     top: 8px;
     content: "";
     width: 24px;

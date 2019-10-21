@@ -1,10 +1,15 @@
 import { Link } from "gatsby"
 import styled, { keyframes, css } from "styled-components"
-import tw from "tailwind.macro"
+
 import { customMedia, customMediaObject } from "../../utils/styling"
 
 export const StyledHeader = styled.header`
-  ${tw`mx-auto px-0 flex items-center`};
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  align-items: center;
   width: 1280px;
   max-width: 100vw;
   min-height: 90px;
@@ -33,12 +38,23 @@ const translateTop = keyframes`
   }
 `
 export const StyledNavContainer = styled.div`
-  ${tw`mx-auto w-full z-10`};
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  z-index: 10;
   background: ${props => (props.isFixed ? "white" : "transparent")};
   ${props =>
     props.isFixed
-      ? tw`fixed left-0 top-0 z-10 opacity-0 shadow`
-      : tw`relative mx-auto`};
+      ? {
+          position: "fixed",
+          left: 0,
+          top: 0,
+          zIndex: 10,
+          opacity: 0,
+          boxShadow:
+            "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+        }
+      : { position: "relative", marginLeft: "auto", marginRight: "auto" }};
   animation: ${props =>
     props.isFixed
       ? css`
@@ -52,23 +68,27 @@ export const StyledNavContainer = styled.div`
 `
 
 export const StyledNav = styled.nav`
-  ${tw`relative flex items-center justify-between flex-wrap mx-auto`};
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
   transition: width 100ms ease 400ms;
   width: ${props =>
     props.isFixed ? `calc(${customMediaObject.xl} * 0.66)` : "100%"};
   max-width: 90vw;
-  ${props => {
-    return props.isFixed ? tw`py-0 px-0` : tw`relative py-2`
-  }}
+  padding: ${props => (props.isFixed ? "0" : "0.5rem 0")};
   ${customMedia.lessThan("md")`
-    ${tw`flex-no-wrap`}
+    flex-wrap: nowrap;
     max-width: calc(100vw - 10vw);
     padding: 0 5vw;
   `};
 `
 
 export const LogoContainer = styled(Link)`
-  ${tw`z-20`};
+  z-index: 20;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -107,10 +127,14 @@ const fadeOut = keyframes`
 `
 
 export const LinksContainer = styled.div`
-  ${tw`block`};
-
+  display: block;
   ${customMedia.lessThan("md")`
-    ${tw`opacity-0 z-10 absolute left-0 w-full bg-transparent`};
+    opacity: 0;
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: transparent;
     transform: translateY(-300px);
     top: ${props => (props.offsetTop ? `${props.offsetTop}px` : 0)};
     animation: ${props =>

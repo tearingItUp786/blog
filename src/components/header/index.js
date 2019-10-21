@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useLayoutEffect, useState, useRef } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import {
   StyledHeader,
@@ -15,12 +15,11 @@ import useLocation from "../../hooks/use-location"
 import usePrevious from "../../hooks/use-previous"
 
 function Header(props) {
-  const [isOpen, updateMenu] = useState(false)
+  const [isOpen, updateMenu] = useState()
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
   const ref = useRef(null)
   const wLoc = useLocation()
-  const pLoc = usePrevious(wLoc.location.pathname)
 
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
@@ -57,17 +56,21 @@ function Header(props) {
     if (isOpen) {
       document.body.style.top = `-${window.scrollY}px`
       document.body.style.position = "fixed"
-    } else {
-      if (wLoc.location.pathname !== pLoc) {
-        window.scrollTo(0, 0)
-      } else {
-        const scrollY = document.body.style.top
-        document.body.style.position = ""
-        document.body.style.top = ""
-        window.scrollTo(0, parseInt(scrollY || "0") * -1)
-      }
+      // isOpen is null on first render -- we don't want this behavior on first render.
+    } else if (isOpen !== null) {
+      const scrollY = document.body.style.top
+      document.body.style.position = ""
+      document.body.style.top = ""
+      window.scrollTo(0, parseInt(scrollY || "0") * -1)
     }
-  }, [isOpen, wLoc, pLoc])
+  }, [isOpen])
+
+  useEffect(() => {
+    const { hash } = wLoc.location
+    if (wLoc && hash) {
+      window.scrollTo(0, document.querySelector(hash).offsetTop - 100)
+    }
+  }, [wLoc])
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {

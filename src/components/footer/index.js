@@ -1,16 +1,26 @@
 import React, { useEffect } from "react"
-import tw from "tailwind.macro"
 import styled from "styled-components"
 
 const StyledFooter = styled.footer`
-  ${tw`w-full justify-center py-4`};
+  width: 100%;
+  padding-top: 1rem;
+  justify-content: center;
 `
 
 const GatsbyLink = styled.a`
-  ${tw`text-base text-text text-center block mx-auto hover:text-accent`};
+  font-size: 1rem;
+  color: ${props => props.theme.colors.text};
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 90vw;
   width: 400px;
   transition: color 300ms ease-in-out;
+
+  &:hover {
+    color: ${props => props.theme.colors.accent};
+  }
 `
 const TwitterLink = styled(GatsbyLink)`
   &:hover,

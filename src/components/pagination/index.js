@@ -1,14 +1,14 @@
 import React from "react"
-import tw from "tailwind.macro"
+ 
 import styled from "styled-components"
 import { Link } from "gatsby"
 
 const StyledSpan = styled.span`
-  ${tw`text-2xl`};
+  font-size: 1.5rem;
 `
 
 const StyledPrevLink = styled(Link)`
-  ${tw`mr-4`};
+  margin-right: 1rem;
 `
 
 function Pagination(props) {

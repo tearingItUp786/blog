@@ -45,16 +45,16 @@ module.exports = {
               maxwidth: 590,
             },
           },
+          `gatsby-remark-copy-linked-files`,
+          `gatsby-remark-smartypants`,
+          {
+            resolve: "gatsby-remark-autolink-headers",
+          },
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
               showLineNumbers: true,
             },
-          },
-          `gatsby-remark-copy-linked-files`,
-          `gatsby-remark-smartypants`,
-          {
-            resolve: "gatsby-remark-autolink-headers",
           },
         ],
       },

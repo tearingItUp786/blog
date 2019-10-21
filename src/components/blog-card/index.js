@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import tw from "tailwind.macro"
+ 
 import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
 import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
@@ -14,7 +14,7 @@ const CardContainer = styled.article`
 `
 
 const Title = styled(Title2)`
-  ${tw`mb-4`};
+  margin-bottom: 1rem;
 `
 
 const PostInfo = DateAndAuth
@@ -26,7 +26,8 @@ const PostTag = styled.span`
 `
 
 const Anchor = styled(Title2)`
-  ${tw`text-accent no-underline`};
+  color: ${props => props.theme.colors.accent};
+  text-decoration: none;
 `
 
 const TitleLink = props => {

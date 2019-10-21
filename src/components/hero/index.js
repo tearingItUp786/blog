@@ -1,14 +1,18 @@
 import React from "react"
 import styled from "styled-components"
-import tw from "tailwind.macro"
+
 import { motion } from "framer-motion"
 
 const SVGContainer = styled.div`
-  ${tw`mx-auto w-full text-center`}
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
 `
 
 const SVG = styled.svg`
-  ${tw`mx-auto`};
+  margin-left: auto;
+  margin-right: auto;
   width: 66vw;
   max-width: 500px;
 `

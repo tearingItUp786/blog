@@ -23,7 +23,7 @@ function TILList(props) {
       <Title css={"margin-bottom: 0"}>
         Today I Learned Page: {currentPage}
       </Title>
-      <hr css />
+      <hr />
       {BlogCards}
       <Pagination
         prevPage={prevPage}
