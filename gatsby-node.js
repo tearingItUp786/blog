@@ -9,7 +9,7 @@ exports.createPages = ({ graphql, actions }) => {
   return graphql(
     `
       {
-        blog: allMarkdownRemark(
+        blog: allMdx(
           filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } }
           sort: { fields: [frontmatter___date], order: DESC }
           limit: 1000
@@ -25,7 +25,7 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
-        til: allMarkdownRemark(
+        til: allMdx(
           filter: { fileAbsolutePath: { regex: "/(?=til).*$/" } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
@@ -35,7 +35,7 @@ exports.createPages = ({ graphql, actions }) => {
               fields {
                 slug
               }
-              html
+              body
               frontmatter {
                 date(formatString: "MMMM DD, YYYY")
                 title
@@ -71,7 +71,7 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     // Create blog-list pages that'll be from both blogPosts and tilPosts
-    const postsPerPage = 6
+    const postsPerPage = 5
     const blogNumPages = Math.ceil(blogPosts.length / postsPerPage)
     const tilNumPages = Math.ceil(tilPosts.length / postsPerPage)
 
@@ -98,7 +98,7 @@ exports.createPages = ({ graphql, actions }) => {
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
-  if (node.internal.type === `MarkdownRemark`) {
+  if (node.internal.type === `Mdx`) {
     const parent = getNode(node.parent)
 
     if (parent.dir.match(/^((?!til).)*$/)) {
@@ -106,8 +106,17 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       createNodeField({
         name: `slug`,
         node,
-        value,
+        value: `/blog${value}`,
       })
     }
   }
+}
+
+// Required to get gatsby to work with tailwind
+exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
+  const config = getConfig()
+  config.node = {
+    fs: "empty",
+  }
+  actions.replaceWebpackConfig(config)
 }

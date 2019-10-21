@@ -1,28 +1,26 @@
-import { fluidFontSize } from "./helper"
+import { generateMedia } from "styled-media-query"
+// based on tailwind base
+export const customMediaObject = {
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+}
+export const customMedia = generateMedia(customMediaObject)
 
-export const lightTheme = {
+export const defaultTheme = {
   colors: {
-    body: `#fff`,
-    text: `#0d0d0d`,
-    accent: `#f5ae00`,
-    mainAccent: `#cc0000`,
+    body: "#ffffff",
+    oppBody: "#000000",
+    text: `#1c1b19`,
+    textLight: `#666666`,
+    textLighter: `#949494`,
+    accent: `#f410a1`,
+    transparent: "transparent",
   },
-  font: {
-    title: `"Raleway", sans-serif`,
-    body: `"Open Sans", sans-serif`,
-  },
-  fontSizes: {
-    h1: fluidFontSize({ minSize: 28, maxSize: 40 }),
-    h2: fluidFontSize({ minSize: 24, maxSize: 36 }),
-    h3: fluidFontSize({ minSize: 18, maxSize: 24 }),
-    h4: fluidFontSize({ minSize: 16, maxSize: 22 }),
-    h5: fluidFontSize({ minSize: 16, maxSize: 20 }),
-    h6: fluidFontSize({ minSize: 14, maxSize: 16 }),
-    body: fluidFontSize({ minSize: 14, maxSize: 16 }),
-    code: fluidFontSize({ minSize: 12, maxSize: 14 }),
-  },
-  sizing: {
-    "max-width": "90vw",
-    width: "800px",
+  fontFamily: {
+    display: ["DM Serif Display", "serif"],
+    displaySecondary: ["DM Sans", "sans-serif"],
+    body: ["Lora", "serif"],
   },
 }

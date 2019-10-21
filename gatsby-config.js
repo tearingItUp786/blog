@@ -10,15 +10,15 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {},
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,
         name: `blog`,
       },
-    },
-    {
-      resolve: `gatsby-plugin-styled-components`,
-      options: {},
     },
     {
       resolve: `gatsby-source-filesystem`,
@@ -35,25 +35,27 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-plugin-mdx`,
       options: {
-        plugins: [
+        gatsbyRemarkPlugins: [
+          "gatsby-remark-code-titles",
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 590,
+              maxwidth: 590,
             },
           },
-          {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
-          `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
-          `gatsby-remark-autolink-headers`
+          {
+            resolve: "gatsby-remark-autolink-headers",
+          },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              showLineNumbers: true,
+            },
+          },
         ],
       },
     },
@@ -82,8 +84,8 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.edges.map(edge => {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.date,
@@ -95,7 +97,7 @@ module.exports = {
             },
             query: `
               {
-                allMarkdownRemark(
+                allMdx(
                   filter: { fileAbsolutePath: { regex: "/^((?!til).)*$/" } },
                   sort: { order: DESC, fields: [frontmatter___date] },
                 ) {
@@ -130,10 +132,10 @@ module.exports = {
         name: `Taran "tearing it up" Blog`,
         short_name: `tearingItUp`,
         start_url: `/`,
-        background_color: `#0d0d0d`,
-        theme_color: `#f5ae00`,
+        background_color: `#ffffff`,
+        theme_color: `#f410a1`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/taran-icon.png`,
       },
     },
     `gatsby-plugin-offline`,

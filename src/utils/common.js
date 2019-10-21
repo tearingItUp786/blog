@@ -3,7 +3,7 @@ import BlogCard from "../components/blog-card"
 
 export function blogMapper({ node }) {
   const title = node.frontmatter.title || node.fields.slug
-  const html = node.html || null
+  const html = node.body || null
   const description = node.frontmatter.description || null
   const tag = node.frontmatter.tag
   const key = node.fields ? node.fields.slug : title

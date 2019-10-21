@@ -1,18 +1,15 @@
 import React from "react"
 import { graphql } from "gatsby"
-import styled from "styled-components"
+import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
-
-const Title = styled.h1`
-  margin-top: 0;
-`
+import { Title, Title3, DateAndAuth } from "../utils/styling/typo"
 
 class BlogPostTemplate extends React.Component {
   render() {
-    const post = this.props.data.markdownRemark
+    const post = this.props.data.mdx
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
 
@@ -28,9 +25,16 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        <Title>{post.frontmatter.title}</Title>
-        <p>{post.frontmatter.date}</p>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        <Title center marginBottom="1">
+          {post.frontmatter.title}
+        </Title>
+        <Title3 center noMarginTop noMarginBottom>
+          {post.frontmatter.subtitle}
+        </Title3>
+        <DateAndAuth center marginTop="1">
+          Taran "tearing it up" Bains • {post.frontmatter.date}
+        </DateAndAuth>
+        <MDXRenderer>{post.body}</MDXRenderer>
         {previous || next ? <hr /> : null}
         <Pagination
           prevPage={prevPage}
@@ -53,12 +57,13 @@ export const pageQuery = graphql`
         author
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    mdx(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
-      html
+      body
       frontmatter {
         title
+        subtitle
         date(formatString: "MMMM DD, YYYY")
         description
       }
