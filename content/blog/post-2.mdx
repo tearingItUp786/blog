@@ -102,7 +102,7 @@ and it wasn't the point of the workshop either.
 
 On line 4 we're using the `createResource` function that we imported from <TextLink href="https://www.npmjs.com/package/react-cache">react-cache</TextLink>
 and providing it with a function as an argument. The caveat with the function argument is that it needs to return a thenable;
-luckily, the modern `fetch` implementation that ships with browsers or packages uch as <TextLink href="https://www.npmjs.com/package/axios">axios</TextLink> provide us with
+luckily, the modern `fetch` implementation that ships with browsers or packages such as <TextLink href="https://www.npmjs.com/package/axios">axios</TextLink> provide us with
 thenable implementations.
 
 Remember what I said above, we need to provide Suspense with a component that will throw a thenable! Thanks to our
