@@ -10,8 +10,6 @@ import {
 } from "./typo"
 
 export const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css?family=DM+Sans:400,700|DM+Serif+Display:400,400i|Lora&display=swap');
-    
     html, body {
       font-weight: 400;
       color: ${props => props.theme.colors.text};

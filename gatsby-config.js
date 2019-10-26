@@ -14,6 +14,14 @@ module.exports = {
       options: {},
     },
     {
+      resolve: "gatsby-plugin-web-font-loader",
+      options: {
+        google: {
+          families: ["DM Sans", "DM Serif Display", "Lora"],
+        },
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,
