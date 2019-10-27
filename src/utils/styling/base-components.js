@@ -85,7 +85,7 @@ export const GlobalStyle = createGlobalStyle`
     
     code[class*="language-"], 
     pre[class*="language-"] {
-      font-size: 0.875rem;
+      font-size: 0.875rem !important;
     }
     /**
     * Add back the container background-color, border-radius, padding, margin

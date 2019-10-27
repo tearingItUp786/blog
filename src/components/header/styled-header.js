@@ -76,9 +76,8 @@ export const StyledNav = styled.nav`
   margin-left: auto;
   margin-right: auto;
   transition: width 100ms ease 400ms;
-  width: ${props =>
-    props.isFixed ? `calc(${customMediaObject.xl} * 0.66)` : "100%"};
-  max-width: 1280px;
+  width: calc(${customMediaObject.xl} * 0.66);
+  max-width: 90vw;
   padding: ${props => (props.isFixed ? "0" : "0.5rem 0")};
   ${customMedia.lessThan("md")`
     flex-wrap: nowrap;
