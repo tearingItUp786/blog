@@ -155,9 +155,9 @@ const ShortQuoteInternal = styled.blockquote`
   }
 `
 
-export const ShortQuote = ({ children }) => (
-  <ShortQuoteInternal>
-    <span>“</span>
+export const ShortQuote = ({ children, quote, ...rest }) => (
+  <ShortQuoteInternal {...rest}>
+    {quote ? <span>“</span> : null}
     {children}
   </ShortQuoteInternal>
 )
