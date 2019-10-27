@@ -55,7 +55,7 @@ const Input = styled.input`
   }
 
   &:checked + span:before {
-    transform: translateX(60px);
+    transform: translateX(62px);
   }
 `
 
