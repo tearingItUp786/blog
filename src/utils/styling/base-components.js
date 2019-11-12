@@ -82,10 +82,15 @@ export const GlobalStyle = createGlobalStyle`
         }
       }
     }
+
+    strong {
+      color: ${props => props.theme.colors.accent};
+    }
     
     code[class*="language-"], 
     pre[class*="language-"] {
       font-size: 0.875rem !important;
+      padding: 0.3rem !important;
     }
     /**
     * Add back the container background-color, border-radius, padding, margin
@@ -115,7 +120,6 @@ export const GlobalStyle = createGlobalStyle`
       float: left; /* 1 */
       min-width: 100%; /* 2 */
     }
-
     .gatsby-code-title {
       margin-bottom: -0.6rem;
       padding: 0.5em 1em;

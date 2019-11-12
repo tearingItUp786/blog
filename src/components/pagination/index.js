@@ -1,10 +1,10 @@
 import React from "react"
- 
+
 import styled from "styled-components"
 import { Link } from "gatsby"
 
 const StyledSpan = styled.span`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 `
 
 const StyledPrevLink = styled(Link)`
