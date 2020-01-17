@@ -1,0 +1,21 @@
+---
+title: Focusing in with focus-within
+date: 2020-01-16
+tag: CSS
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+The `focus-within` pseduo class represents an element that has received focus or
+**contains** an element that has received focus.
+
+```css
+/* Selects a <div> when one of its descendants is focused */
+div:focus-within {
+  background: cyan;
+}
+```
+
+<TextLink href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-within">
+  Read more here
+</TextLink>

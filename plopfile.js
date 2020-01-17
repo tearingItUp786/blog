@@ -18,6 +18,7 @@ module.exports = plop => {
         message: "What tag is this TIL associated with?",
         choices: [
           "JS",
+          "CSS",
           "Random",
           "React",
           "Backend",
