@@ -6,10 +6,10 @@ tag: Best Practices
 
 import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
 
-My senior Danny taught me today about how to easily create declaration files in components.
+My colleague Danny taught me how to easily create exportable interfaces for react components.
 
-Rather than exporting interfaces in a component, you can set up a `typings.d.ts` inside of a directory
-and it will be available in the scope of any files in that directory. 😁
+Rather than exporting interfaces in a component (imperatively), you can set up a `typings.d.ts` inside of a directory
+and it will be available to all components that reside in subdirectories. 😁
 
 ```
 GeneralComponent
