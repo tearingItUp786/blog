@@ -1,0 +1,21 @@
+---
+title: TypeScript declarations
+date: 2020-04-27
+tag: Best Practices
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+My senior Danny taught me today about how to easily create declaration files in components.
+
+Rather than exporting interfaces in a component, you can set up a `typings.d.ts` inside of a directory
+and it will be available in the scope of any files in that directory. 😁
+
+```
+GeneralComponent
+|--> GeneralComponent.tsx
+|--> typings.d.ts
+|--> Specialized // has access to interfaces in typings
+     |---> Specialized.tsx
+     |---> __tests__
+```
