@@ -10,8 +10,8 @@ import { Title } from "../utils/styling/typo"
 function TILList(props) {
   const { currentPage, numPages, basePath } = props.pageContext
   const prevPage =
-    currentPage - 1 === 1 ? `${basePath}` : `/${basePath}/${currentPage - 1}`
-  const nextPage = `/${basePath}/${currentPage + 1}`
+    currentPage - 1 === 1 ? `${basePath}` : `/${basePath}/${currentPage - 1}/`
+  const nextPage = `/${basePath}/${currentPage + 1}/`
 
   const { data } = props
   const posts = data.allMdx.edges

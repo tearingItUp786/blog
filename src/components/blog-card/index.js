@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
- 
+
 import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
 import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
@@ -26,7 +26,8 @@ const PostTag = styled.span`
 `
 
 const Anchor = styled(Title2)`
-  color: ${props => props.theme.colors.accent};
+  color: ${props =>
+    props.black ? props.theme.colors.text : props.theme.colors.accent};
   text-decoration: none;
 `
 
@@ -39,6 +40,7 @@ const TitleLink = props => {
         as="a"
         aria-label={`Go to ${props.slug} blog post`}
         href={props.slug}
+        black={props.black}
       >
         {props.title}
       </Anchor>
@@ -54,6 +56,7 @@ function BlogCard(props) {
     description = "No Desc",
     tag = "",
     html = null,
+    id,
   } = props
 
   const postTag = tag ? (
@@ -74,8 +77,8 @@ function BlogCard(props) {
 
   return (
     <CardContainer>
-      <Title>
-        <TitleLink slug={slug} title={title} />
+      <Title id={id}>
+        <TitleLink black={id} slug={slug} title={title} />
       </Title>
       <PostInfo inverse={true}>
         <span role="img" aria-label="calendar emoji!">

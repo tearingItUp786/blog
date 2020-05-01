@@ -7,7 +7,9 @@ export function blogMapper({ node }) {
   const description = node.frontmatter.description || null
   const tag = node.frontmatter.tag
   const key = node.fields ? node.fields.slug : title
-  const slug = node.fields ? node.fields.slug : null
+  const id =
+    node.fields && node.fields.slug ? "" : title.replace(/[^\w]/gi, "-")
+  const slug = node.fields ? node.fields.slug : `#${id}`
 
   return (
     <BlogCard
@@ -18,6 +20,7 @@ export function blogMapper({ node }) {
       title={title}
       tag={tag}
       html={html}
+      id={id}
     />
   )
 }

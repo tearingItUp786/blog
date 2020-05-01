@@ -65,10 +65,11 @@ function Header(props) {
     }
   }, [isOpen])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const { hash } = wLoc.location
     if (wLoc && hash) {
-      window.scrollTo(0, document.querySelector(hash).offsetTop - 100)
+      const elementOffset = document.querySelector(hash).offsetTop
+      window.scrollTo(0, elementOffset - 100)
     }
   }, [wLoc])
 
