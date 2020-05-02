@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import { Container } from "./styled-comps"
 // Search component
 export default class Search extends Component {
   constructor(props) {
@@ -12,9 +12,14 @@ export default class Search extends Component {
 
   render() {
     return (
-      <div>
-        <input type="text" value={this.state.query} onChange={this.search} />
-        <ul>
+      <Container>
+        <input
+          placeholder="Search material"
+          type="text"
+          value={this.state.query}
+          onChange={this.search}
+        />
+        <ul style={{ display: "none" }}>
           {this.state.results.map(page => (
             <>
               <li>{page.title}</li>
@@ -22,7 +27,7 @@ export default class Search extends Component {
             </>
           ))}
         </ul>
-      </div>
+      </Container>
     )
   }
 

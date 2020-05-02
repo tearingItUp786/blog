@@ -12,7 +12,7 @@ import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
 import { NavLink } from "../../utils/styling/typo"
 import useLocation from "../../hooks/use-location"
-import usePrevious from "../../hooks/use-previous"
+import Search from "../search"
 
 function Header(props) {
   const [isOpen, updateMenu] = useState()
@@ -133,6 +133,8 @@ function Header(props) {
             >
               About
             </NavLink>
+
+            <Search lng="en" />
           </LinksContainer>
         </StyledNav>
       </StyledNavContainer>
