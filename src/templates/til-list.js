@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 
-import { blogMapper } from "../utils/common"
+import { BlogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
@@ -15,7 +15,7 @@ function TILList(props) {
 
   const { data } = props
   const posts = data.allMdx.edges
-  const BlogCards = posts.map(blogMapper)
+  const BlogCards = posts.map(({ node }) => <BlogMapper node={node} />)
 
   return (
     <Layout location={props.location} title={"TIL list"}>
@@ -48,6 +48,9 @@ export const pageQuery = graphql`
       edges {
         node {
           excerpt
+          fields {
+            slug
+          }
           body
           frontmatter {
             date(formatString: "MMMM DD, YYYY")

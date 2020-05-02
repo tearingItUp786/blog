@@ -174,7 +174,6 @@ module.exports = {
             content: node => node.rawBody,
             url: node => {
               const { rawBody, ...rest } = node
-              console.log(rest)
               return (node && node.fields && node.fields.slug) || ""
             },
           },

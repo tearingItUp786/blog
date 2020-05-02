@@ -109,6 +109,16 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         value: `/blog${value}`,
       })
     }
+
+    if (parent.dir.match(/(?=til).*$/)) {
+      createNodeField({
+        name: `slug`,
+        node,
+        value: `${node.frontmatter.title
+          .replace(/[^\w]/gi, "-")
+          .toLocaleLowerCase()}`,
+      })
+    }
   }
 }
 

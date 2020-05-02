@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Container } from "./styled-comps"
+import { SearchContainer, SearchInput, SearchList } from "./styled-comps"
 // Search component
 export default class Search extends Component {
   constructor(props) {
@@ -11,23 +11,25 @@ export default class Search extends Component {
   }
 
   render() {
+    const { query, results } = this.state
     return (
-      <Container>
-        <input
+      <SearchContainer>
+        <SearchInput
+          resultsLength={results.length}
           placeholder="Search material"
-          type="text"
-          value={this.state.query}
+          type="search"
+          value={query}
           onChange={this.search}
         />
-        <ul style={{ display: "none" }}>
-          {this.state.results.map(page => (
-            <>
+        <SearchList>
+          {results.map(page => (
+            <React.Fragment key={page.title}>
               <li>{page.title}</li>
               {JSON.stringify(page, null, 4)}
-            </>
+            </React.Fragment>
           ))}
-        </ul>
-      </Container>
+        </SearchList>
+      </SearchContainer>
     )
   }
 
