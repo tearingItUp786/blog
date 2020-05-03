@@ -1,15 +1,15 @@
 import React from "react"
 import BlogCard from "../components/blog-card"
 
-export function blogMapper({ node }) {
+export function BlogMapper({ node }) {
   const title = node.frontmatter.title || node.fields.slug
   const html = node.body || null
   const description = node.frontmatter.description || null
   const tag = node.frontmatter.tag
   const key = node.fields ? node.fields.slug : title
-  const id =
-    node.fields && node.fields.slug ? "" : title.replace(/[^\w]/gi, "-")
-  const slug = node.fields ? node.fields.slug : `#${id}`
+  const slug = node.fields.slug
+  // if it is a valid url, it will have a slash
+  const id = node.fields.slug[0] !== "/"
 
   return (
     <BlogCard

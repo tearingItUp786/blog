@@ -87,6 +87,12 @@ export const GlobalStyle = createGlobalStyle`
       color: ${props => props.theme.colors.accent};
     }
     
+    input { 
+      font-size: 1rem;
+      font-family: ${props =>
+        props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
+    }
+
     code[class*="language-"], 
     pre[class*="language-"] {
       font-size: 0.875rem !important;

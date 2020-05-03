@@ -147,3 +147,7 @@ export const LinksContainer = styled.div`
     padding-bottom: 30px;
 `}
 `
+export const SearchAndLinksContainer = styled.div`
+  display: flex;
+  align-items: center;
+`

@@ -7,17 +7,19 @@ import {
   StyledLogo,
   LinksContainer,
   StyledNavContainer,
+  SearchAndLinksContainer,
 } from "./styled-header"
 import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
 import { NavLink } from "../../utils/styling/typo"
 import useLocation from "../../hooks/use-location"
-import usePrevious from "../../hooks/use-previous"
+import Search from "../search"
 
 function Header(props) {
-  const [isOpen, updateMenu] = useState()
+  const [isOpen, updateMenu] = useState(null)
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
+  const [query, setQuery] = useState("")
   const ref = useRef(null)
   const wLoc = useLocation()
 
@@ -33,7 +35,7 @@ function Header(props) {
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
       const val = ref.current.clientHeight || 0
-      var onScroll = () => {
+      let onScroll = () => {
         if (window.scrollY > val) {
           if (!isOpen) {
             setFixed(true)
@@ -44,6 +46,7 @@ function Header(props) {
           }
         }
       }
+      onScroll()
       window.onscroll = onScroll
       return () => {
         onScroll = () => {}
@@ -68,8 +71,11 @@ function Header(props) {
   useLayoutEffect(() => {
     const { hash } = wLoc.location
     if (wLoc && hash) {
-      const elementOffset = document.querySelector(hash).offsetTop
-      window.scrollTo(0, elementOffset - 100)
+      const el = document.querySelector(hash)
+      if (el) {
+        const elementOffset = el && el.offsetTop
+        window.scrollTo(0, elementOffset - 100)
+      }
     }
   }, [wLoc])
 
@@ -100,40 +106,43 @@ function Header(props) {
             />
           </LogoContainer>
           <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
-          <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
-            <NavLink
-              aria-label="Go back to home page"
-              to="/"
-              activeClassName="active"
-              hideDesktop={true}
-            >
-              Home
-            </NavLink>
-            <NavLink
-              aria-label="View Blog Posts"
-              partiallyActive
-              to="/blog/"
-              activeClassName="active"
-            >
-              Blog
-            </NavLink>
-            <NavLink
-              aria-label="View today I learned page"
-              to="/til/"
-              partiallyActive
-              activeClassName="active"
-            >
-              TIL
-            </NavLink>
-            <NavLink
-              aria-label="View Taran's about page"
-              to="/about/"
-              partiallyActive
-              activeClassName="active"
-            >
-              About
-            </NavLink>
-          </LinksContainer>
+          <SearchAndLinksContainer>
+            <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
+              <NavLink
+                aria-label="Go back to home page"
+                to="/"
+                activeClassName="active"
+                hideDesktop={true}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                aria-label="View Blog Posts"
+                partiallyActive
+                to="/blog/"
+                activeClassName="active"
+              >
+                Blog
+              </NavLink>
+              <NavLink
+                aria-label="View today I learned page"
+                to="/til/"
+                partiallyActive
+                activeClassName="active"
+              >
+                TIL
+              </NavLink>
+              <NavLink
+                aria-label="View Taran's about page"
+                to="/about/"
+                partiallyActive
+                activeClassName="active"
+              >
+                About
+              </NavLink>
+            </LinksContainer>
+            <Search lng="en" query={query} setQuery={setQuery} />
+          </SearchAndLinksContainer>
         </StyledNav>
       </StyledNavContainer>
     </StyledHeader>

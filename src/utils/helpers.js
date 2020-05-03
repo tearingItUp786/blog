@@ -62,3 +62,7 @@ export function debounce(func, time) {
     }
   }
 }
+
+export function isTIL(slug) {
+  if (slug[0] === "/") return false
+}

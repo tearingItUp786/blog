@@ -29,6 +29,11 @@ const Anchor = styled(Title2)`
   color: ${props =>
     props.black ? props.theme.colors.text : props.theme.colors.accent};
   text-decoration: none;
+  transition: color 300ms;
+
+  &:hover {
+    color: ${props => props.theme.colors.accent};
+  }
 `
 
 const TitleLink = props => {
@@ -77,8 +82,8 @@ function BlogCard(props) {
 
   return (
     <CardContainer>
-      <Title id={id}>
-        <TitleLink black={id} slug={slug} title={title} />
+      <Title id={slug}>
+        <TitleLink black={id} slug={id ? `#${slug}` : slug} title={title} />
       </Title>
       <PostInfo inverse={true}>
         <span role="img" aria-label="calendar emoji!">

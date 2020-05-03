@@ -1,3 +1,14 @@
+const capitalize = require(`remark-capitalize`)
+const emoji = require(`remark-emoji`)
+const remark = require("remark")
+const mdx = require("remark-mdx")
+const visit = require("unist-util-visit")
+const frontmatter = require("remark-frontmatter")
+
+function isTIL(slug) {
+  return slug[0] !== "/"
+}
+
 module.exports = {
   siteMetadata: {
     title: `Taran "tearing it up" Bains`,
@@ -65,6 +76,7 @@ module.exports = {
             },
           },
         ],
+        remarkPlugins: [capitalize, emoji],
       },
     },
     `gatsby-transformer-sharp`,
@@ -148,5 +160,56 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-plugin-lunr`,
+      options: {
+        languages: [
+          {
+            // ISO 639-1 language codes. See https://lunrjs.com/guides/language_support.html for details
+            name: "en",
+            // A function for filtering nodes. () => true by default
+            filterNodes: () => true,
+          },
+        ],
+        // Fields to index. If store === true value will be stored in index file.
+        // Attributes for custom indexing logic. See https://lunrjs.com/docs/lunr.Builder.html for details
+        fields: [
+          { name: "title", store: true, attributes: { boost: 20 } },
+          { name: "excerpt", store: true },
+          { name: "content" },
+          { name: "type", store: true },
+          { name: "url", store: true },
+        ],
+        // How to resolve each field's value for a supported node type
+        resolvers: {
+          // For any node of type MarkdownRemark, list how to resolve the fields' values
+          Mdx: {
+            title: node => node.frontmatter.title,
+            excerpt: node => {
+              const tree = remark()
+                .use(mdx)
+                .use(frontmatter, ["yaml"])
+                .parse(node.rawBody)
+              let excerpt = ""
+              visit(tree, "text", an => {
+                excerpt += an.value
+              })
+              const length = 140
+              const val = excerpt.slice(0, length) + "..."
+              return val
+            },
+            type: node => (isTIL(node.fields.slug) ? "TIL" : "Blog"),
+            content: node => node.rawBody,
+            url: node => node.fields.slug,
+          },
+        },
+        //custom index file name, default is search_index.json
+        filename: "search_index.json",
+        //custom options on fetch api call for search_ındex.json
+        fetchOptions: {
+          credentials: "same-origin",
+        },
+      },
+    },
   ],
 }

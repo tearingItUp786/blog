@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 
-import { blogMapper } from "../utils/common"
+import { BlogMapper } from "../utils/common"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
@@ -15,7 +15,9 @@ function BlogList(props) {
 
   const { data } = props
   const posts = data.allMdx.edges
-  const BlogCards = posts.map(blogMapper)
+  const BlogCards = posts.map(({ node }) => (
+    <BlogMapper key={node.fields.slug} node={node} />
+  ))
 
   return (
     <Layout location={props.location} title={"Blog list"}>
