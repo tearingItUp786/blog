@@ -16,9 +16,10 @@ import useLocation from "../../hooks/use-location"
 import Search from "../search"
 
 function Header(props) {
-  const [isOpen, updateMenu] = useState()
+  const [isOpen, updateMenu] = useState(null)
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
+  const [query, setQuery] = useState("")
   const ref = useRef(null)
   const wLoc = useLocation()
 
@@ -34,7 +35,7 @@ function Header(props) {
   useEffect(() => {
     if (ref && ref.current && ref.current.clientHeight) {
       const val = ref.current.clientHeight || 0
-      var onScroll = () => {
+      let onScroll = () => {
         if (window.scrollY > val) {
           if (!isOpen) {
             setFixed(true)
@@ -45,6 +46,7 @@ function Header(props) {
           }
         }
       }
+      onScroll()
       window.onscroll = onScroll
       return () => {
         onScroll = () => {}
@@ -69,8 +71,11 @@ function Header(props) {
   useLayoutEffect(() => {
     const { hash } = wLoc.location
     if (wLoc && hash) {
-      const elementOffset = document.querySelector(hash).offsetTop
-      window.scrollTo(0, elementOffset - 100)
+      const el = document.querySelector(hash)
+      if (el) {
+        const elementOffset = el && el.offsetTop
+        window.scrollTo(0, elementOffset - 100)
+      }
     }
   }, [wLoc])
 
@@ -136,7 +141,7 @@ function Header(props) {
                 About
               </NavLink>
             </LinksContainer>
-            <Search lng="en" />
+            <Search lng="en" query={query} setQuery={setQuery} />
           </SearchAndLinksContainer>
         </StyledNav>
       </StyledNavContainer>

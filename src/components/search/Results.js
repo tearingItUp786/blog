@@ -7,7 +7,6 @@ const SList = styled.ul`
   position: absolute;
   padding: 0;
   opacity: 0;
-  transition: opacity 300ms;
   background-color: ${props => props.theme.colors.body};
   width: 500px;
   transform: translatex(-100%);
@@ -16,13 +15,33 @@ const SList = styled.ul`
   max-height: 500px;
 `
 
-function Results({ results }) {
-  if (results.length === 0) return null
+function Results({
+  results,
+  highlightIndex,
+  highlightIndexSet,
+  showResults,
+  fromKeyboard,
+  setFromKeyboard,
+}) {
+  if (results.length === 0 || !showResults) return null
 
   return (
     <SList>
-      {results.map(page => (
-        <ResultCard key={page.title} {...page} />
+      {results.map((page, index) => (
+        <ResultCard
+          key={page.title}
+          highlighted={index === highlightIndex}
+          onMouseOver={() => {
+            highlightIndexSet(index)
+            setFromKeyboard(false)
+          }}
+          onMouseLeave={() => {
+            highlightIndexSet(-1)
+            setFromKeyboard(false)
+          }}
+          fromKeyboard={fromKeyboard}
+          {...page}
+        />
       ))}
     </SList>
   )

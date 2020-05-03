@@ -25,25 +25,6 @@ exports.createPages = ({ graphql, actions, ...rest }) => {
             }
           }
         }
-        til: allMdx(
-          filter: { fileAbsolutePath: { regex: "/(?=til).*$/" } }
-          sort: { fields: [frontmatter___date], order: DESC }
-        ) {
-          edges {
-            node {
-              excerpt
-              fields {
-                slug
-              }
-              body
-              frontmatter {
-                date(formatString: "MMMM DD, YYYY")
-                title
-                tag
-              }
-            }
-          }
-        }
       }
     `
   ).then(result => {
@@ -52,7 +33,6 @@ exports.createPages = ({ graphql, actions, ...rest }) => {
     }
     // Create blog posts pages.
     const blogPosts = result.data.blog.edges
-    const tilPosts = result.data.til.edges
 
     blogPosts.forEach((post, index) => {
       const previous =
@@ -72,7 +52,6 @@ exports.createPages = ({ graphql, actions, ...rest }) => {
     // Create blog-list pages that'll be from both blogPosts and tilPosts
     const postsPerPage = 5
     const blogNumPages = Math.ceil(blogPosts.length / postsPerPage)
-    const tilNumPages = Math.ceil(tilPosts.length / postsPerPage)
 
     // creates a number of pages for blogs posts using a helper
     nodeHelpers.generatePages({
@@ -83,14 +62,6 @@ exports.createPages = ({ graphql, actions, ...rest }) => {
       componentPath: "./src/templates/blog-list.js",
     })
 
-    // creates a number of pages for til list
-    nodeHelpers.generatePages({
-      length: tilNumPages,
-      basePath: "til",
-      postsPerPage,
-      callback: createPage,
-      componentPath: "./src/templates/til-list.js",
-    })
     return null
   })
 }

@@ -14,15 +14,19 @@ const SInput = styled.input`
   transition: border-color 300ms;
 `
 
-function SearchInput({ onChange, resultsLength, placeholder, value }) {
-  return (
-    <SInput
-      onChange={onChange}
-      resultsLength={resultsLength}
-      placeholder={placeholder}
-      value={value}
-    />
-  )
-}
+const SearchInput = React.forwardRef(
+  ({ onChange, resultsLength, placeholder, value, ...rest }, ref) => {
+    return (
+      <SInput
+        {...rest}
+        ref={ref}
+        onChange={onChange}
+        resultsLength={resultsLength}
+        placeholder={placeholder}
+        value={value}
+      />
+    )
+  }
+)
 
 export default SearchInput

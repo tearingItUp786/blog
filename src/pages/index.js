@@ -9,7 +9,9 @@ function BlogIndex(props) {
   const { data } = props
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMdx.edges
-  const BlogCards = posts.map(({ node }) => <BlogMapper node={node} />)
+  const BlogCards = posts.map(({ node }) => (
+    <BlogMapper key={node.fields.slug} node={node} />
+  ))
 
   return (
     <Layout location={props.location} title={siteTitle}>

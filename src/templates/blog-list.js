@@ -15,7 +15,9 @@ function BlogList(props) {
 
   const { data } = props
   const posts = data.allMdx.edges
-  const BlogCards = posts.map(({ node }) => <BlogMapper node={node} />)
+  const BlogCards = posts.map(({ node }) => (
+    <BlogMapper key={node.fields.slug} node={node} />
+  ))
 
   return (
     <Layout location={props.location} title={"Blog list"}>
