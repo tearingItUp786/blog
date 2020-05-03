@@ -2,7 +2,7 @@ const path = require(`path`)
 const nodeHelpers = require("./src/utils/node/helpers")
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = ({ graphql, actions, ...rest }) => {
   const { createPage } = actions
 
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
@@ -50,7 +50,6 @@ exports.createPages = ({ graphql, actions }) => {
     if (result.errors) {
       throw result.errors
     }
-
     // Create blog posts pages.
     const blogPosts = result.data.blog.edges
     const tilPosts = result.data.til.edges

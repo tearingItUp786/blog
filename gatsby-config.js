@@ -1,3 +1,10 @@
+const capitalize = require(`remark-capitalize`)
+const emoji = require(`remark-emoji`)
+const remark = require("remark")
+const mdx = require("remark-mdx")
+const visit = require("unist-util-visit")
+const frontmatter = require("remark-frontmatter")
+
 module.exports = {
   siteMetadata: {
     title: `Taran "tearing it up" Bains`,
@@ -65,6 +72,7 @@ module.exports = {
             },
           },
         ],
+        remarkPlugins: [capitalize, emoji],
       },
     },
     `gatsby-transformer-sharp`,
@@ -163,7 +171,8 @@ module.exports = {
         // Attributes for custom indexing logic. See https://lunrjs.com/docs/lunr.Builder.html for details
         fields: [
           { name: "title", store: true, attributes: { boost: 20 } },
-          { name: "content", store: true },
+          { name: "excerpt", store: true },
+          { name: "content" },
           { name: "url", store: true },
         ],
         // How to resolve each field's value for a supported node type
@@ -171,11 +180,21 @@ module.exports = {
           // For any node of type MarkdownRemark, list how to resolve the fields' values
           Mdx: {
             title: node => node.frontmatter.title,
-            content: node => node.rawBody,
-            url: node => {
-              const { rawBody, ...rest } = node
-              return (node && node.fields && node.fields.slug) || ""
+            excerpt: node => {
+              const tree = remark()
+                .use(mdx)
+                .use(frontmatter, ["yaml"])
+                .parse(node.rawBody)
+              let excerpt = ""
+              visit(tree, "text", an => {
+                excerpt += an.value
+              })
+              const length = 140
+              const val = excerpt.slice(0, length) + "..."
+              return val
             },
+            content: node => node.rawBody,
+            url: node => node.fields.slug,
           },
         },
         //custom index file name, default is search_index.json

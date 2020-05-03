@@ -1,5 +1,7 @@
 import React, { Component } from "react"
-import { SearchContainer, SearchInput, SearchList } from "./styled-comps"
+import { SearchContainer, SearchList } from "./styled-comps"
+import SearchInput from "./SearchInput"
+import Results from "./Results"
 // Search component
 export default class Search extends Component {
   constructor(props) {
@@ -21,14 +23,7 @@ export default class Search extends Component {
           value={query}
           onChange={this.search}
         />
-        <SearchList>
-          {results.map(page => (
-            <React.Fragment key={page.title}>
-              <li>{page.title}</li>
-              {JSON.stringify(page, null, 4)}
-            </React.Fragment>
-          ))}
-        </SearchList>
+        <Results results={results} />
       </SearchContainer>
     )
   }
@@ -37,7 +32,6 @@ export default class Search extends Component {
     if (!query || !window.__LUNR__) return []
     const lunrIndex = window.__LUNR__[this.props.lng]
     const results = lunrIndex.index.search(`${query}~1`) // you can  customize your search , see https://lunrjs.com/guides/searching.html
-    console.log(results)
     return results.map(({ ref }) => lunrIndex.store[ref])
   }
 

@@ -7,7 +7,7 @@ export const SearchContainer = styled.div`
   position: relative;
 `
 
-export const SearchInput = styled.input`
+export const SInput = styled.input`
   border: none;
   border-radius: 4px;
   padding: 4px 4px 4px 30px;
@@ -24,14 +24,15 @@ export const SearchInput = styled.input`
     border-color: ${props => props.theme.colors.text};
 
     & + ul {
-      display: ${props => (props.resultsLength ? "flex" : "")};
+      opacity: ${props => (props.resultsLength ? "1" : "0")};
     }
   }
 `
 
-export const SearchList = styled.ul`
+export const SList = styled.ul`
   list-style-type: none;
   position: absolute;
   padding: 0;
-  display: none;
+  opacity: 0;
+  transition: opacity 300ms;
 `
