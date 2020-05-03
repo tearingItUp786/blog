@@ -126,8 +126,7 @@ const fadeOut = keyframes`
 `
 
 export const LinksContainer = styled.div`
-  display: flex;
-  align-items: center;
+  display: block;
   ${customMedia.lessThan("md")`
     opacity: 0;
     z-index: 10;
@@ -147,4 +146,8 @@ export const LinksContainer = styled.div`
           `};
     padding-bottom: 30px;
 `}
+`
+export const SearchAndLinksContainer = styled.div`
+  display: flex;
+  align-items: center;
 `

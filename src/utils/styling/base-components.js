@@ -88,6 +88,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     
     input { 
+      font-size: 1rem;
       font-family: ${props =>
         props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
     }

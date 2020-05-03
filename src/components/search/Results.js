@@ -1,17 +1,28 @@
 import React from "react"
-import { SList } from "./styled-comps"
+import styled from "styled-components"
+import ResultCard from "./ResultCard"
+
+const SList = styled.ul`
+  list-style-type: none;
+  position: absolute;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  background-color: ${props => props.theme.colors.body};
+  width: 500px;
+  transform: translatex(-100%);
+  left: 100%;
+  overflow: auto;
+  max-height: 500px;
+`
 
 function Results({ results }) {
   if (results.length === 0) return null
-  console.log(results)
 
   return (
     <SList>
       {results.map(page => (
-        <React.Fragment key={page.title}>
-          <li>{page.title}</li>
-          {JSON.stringify(page, null, 4)}
-        </React.Fragment>
+        <ResultCard key={page.title} {...page} />
       ))}
     </SList>
   )

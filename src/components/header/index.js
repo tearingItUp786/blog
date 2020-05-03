@@ -7,6 +7,7 @@ import {
   StyledLogo,
   LinksContainer,
   StyledNavContainer,
+  SearchAndLinksContainer,
 } from "./styled-header"
 import logoPath from "../../images/logo/logo-black.svg"
 import MobileNav from "./mobile"
@@ -100,42 +101,43 @@ function Header(props) {
             />
           </LogoContainer>
           <MobileNav isOpen={isOpen} updateMenu={updateMenu} />
-          <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
-            <NavLink
-              aria-label="Go back to home page"
-              to="/"
-              activeClassName="active"
-              hideDesktop={true}
-            >
-              Home
-            </NavLink>
-            <NavLink
-              aria-label="View Blog Posts"
-              partiallyActive
-              to="/blog/"
-              activeClassName="active"
-            >
-              Blog
-            </NavLink>
-            <NavLink
-              aria-label="View today I learned page"
-              to="/til/"
-              partiallyActive
-              activeClassName="active"
-            >
-              TIL
-            </NavLink>
-            <NavLink
-              aria-label="View Taran's about page"
-              to="/about/"
-              partiallyActive
-              activeClassName="active"
-            >
-              About
-            </NavLink>
-
+          <SearchAndLinksContainer>
+            <LinksContainer isOpen={isOpen} offsetTop={height - 1}>
+              <NavLink
+                aria-label="Go back to home page"
+                to="/"
+                activeClassName="active"
+                hideDesktop={true}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                aria-label="View Blog Posts"
+                partiallyActive
+                to="/blog/"
+                activeClassName="active"
+              >
+                Blog
+              </NavLink>
+              <NavLink
+                aria-label="View today I learned page"
+                to="/til/"
+                partiallyActive
+                activeClassName="active"
+              >
+                TIL
+              </NavLink>
+              <NavLink
+                aria-label="View Taran's about page"
+                to="/about/"
+                partiallyActive
+                activeClassName="active"
+              >
+                About
+              </NavLink>
+            </LinksContainer>
             <Search lng="en" />
-          </LinksContainer>
+          </SearchAndLinksContainer>
         </StyledNav>
       </StyledNavContainer>
     </StyledHeader>

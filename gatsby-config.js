@@ -5,6 +5,10 @@ const mdx = require("remark-mdx")
 const visit = require("unist-util-visit")
 const frontmatter = require("remark-frontmatter")
 
+function isTIL(slug) {
+  return slug[0] !== "/"
+}
+
 module.exports = {
   siteMetadata: {
     title: `Taran "tearing it up" Bains`,
@@ -173,6 +177,7 @@ module.exports = {
           { name: "title", store: true, attributes: { boost: 20 } },
           { name: "excerpt", store: true },
           { name: "content" },
+          { name: "type", store: true },
           { name: "url", store: true },
         ],
         // How to resolve each field's value for a supported node type
@@ -193,6 +198,7 @@ module.exports = {
               const val = excerpt.slice(0, length) + "..."
               return val
             },
+            type: node => (isTIL(node.fields.slug) ? "TIL" : "Blog"),
             content: node => node.rawBody,
             url: node => node.fields.slug,
           },

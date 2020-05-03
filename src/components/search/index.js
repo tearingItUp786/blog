@@ -1,23 +1,43 @@
 import React, { Component } from "react"
-import { SearchContainer, SearchList } from "./styled-comps"
+import styled from "styled-components"
+
 import SearchInput from "./SearchInput"
 import Results from "./Results"
+import { customMedia } from "../../utils/styling"
+
 // Search component
-export default class Search extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      query: ``,
-      results: [],
+export const SearchContainer = styled.div`
+  margin-left: 1rem;
+  position: relative;
+  margin-right: 3rem;
+  margin-bottom: 0.7rem;
+
+  &:focus-within {
+    > input {
+      outline: none;
+      border-color: ${props => props.theme.colors.text};
+    }
+
+    > ul {
+      opacity: ${props => (props.resultsLength ? "1" : "0")};
     }
   }
 
+  ${customMedia.greaterThan("md")`
+    margin-bottom: 0.2rem;
+    margin-right: 0;
+  `}
+`
+export default class Search extends Component {
+  state = {
+    query: ``,
+    results: [],
+  }
   render() {
     const { query, results } = this.state
     return (
-      <SearchContainer>
+      <SearchContainer resultsLength={results.length}>
         <SearchInput
-          resultsLength={results.length}
           placeholder="Search material"
           type="search"
           value={query}
