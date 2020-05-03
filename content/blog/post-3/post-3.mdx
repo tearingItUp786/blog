@@ -14,12 +14,12 @@ import {
 Today I'd like to discucss iterators and _iterables_! You know that they are different things
 but if you're like me, you can never quite remember which is which. First and foremost, they aren't unrelated and secondly they do have one similiarity....
 they are both protocols (a set of rules) that can be applied to objects in JavaScript.
-I'll also delve a little bit into Generators and how they relate to the two aformentioned topics.
+I'll also delve a little bit into `Generators` and how they relate to the two aformentioned topics.
 
 ## Iterator protocol
 
 The iterator protocol defines a standard way to produce a sequence of values (finitie or infinite), and maybe
-return a value when all values have been generated. They allow us to access one item from a collection of item, whilst keeping track
+return a value when all values have been generated. They allow us to access one item from a collection of items, whilst keeping track
 of the current position.
 
 **_An object is an iterator when it implements a `next()` method with the following semantics:_**
@@ -34,7 +34,7 @@ of the current position.
 
 ## Iterable protocol
 
-In JavaScript, the iterable protcol defines custom iteration behavior. When we're looping over an array with a for of, what's going on under the hood
+In JavaScript, the iterable protcol defines custom iteration behavior. When we're looping over an array with a `for of`, what's going on under the hood
 is that we're actually using the built in iterator method that ships with Arrays. Whenever an iterable is iterated over, its **iteartor** method is called with no arguments,
 and its returned _iterator_ is used to obtain the values to be iterated.
 
@@ -70,13 +70,13 @@ console.log(it.next().value) //2
 
 ## Generators
 
-Generators, if you don't know about them, they are an amazing addition to the JavaScript spec!
+Generators, if you don't know about them, are an amazing addition to the JavaScript spec!
 Generators bundled with Promises are the building blocks for `async await`; you know, that awesome feature
 that allows us to write asynchronous code in a synchronous manner.
 
-Generators cand be thought of as _pausable_ functions that **yield** control (or the thread of execution) to some other function.
+Generators can be thought of as _pausable_ functions that **yield** control (or the thread of execution) to some other function.
 They define their own custom iterative algorithm **yield**ing each item in their sequence. They return an iterator when called.
-The beauty of them is that they can decrease the lines of code written for our iterators!
+The beauty of this feature is that they can decrease the lines of code written for our iterators!
 
 ```JavaScript
 var taran = {
@@ -143,7 +143,7 @@ console.log(iterator.next().value);
 
 Prior to `async await`, utilities like <TextLink href="https://www.npmjs.com/package/co">Co</TextLink> and <TextLink href="http://bluebirdjs.com/docs/getting-started.html">Bluebird</TextLink>
 allowed us to write asynchronous code that appeared to be synchronous! In fact, it's not so hard to create our own
-generator consumer (like Co) and I did just that, I wrote my own example that you should be able to run in Node <span rol="img" aria-label="grinning smile emoji">😁</span>
+generator consumer (like Co) and I did just that, I wrote my own example that you should be able to run in Node 😁.
 
 ```JavaScript:title=taran-gen-consumer
 // what do we want this thing to look like
@@ -266,5 +266,5 @@ const request = url => {
 
 Abstractions are great and they allow us to quickly develop applications/programs but there is a cost associated with using them.
 Namely, since we're able to engage with an idea without understanding what's going on under the hood, when the abstraction falls apart
-or if we need to go/delve a little deeper and build on top of the abstraction, we are unable to do this because we don't know what the overall
-plumbing is.
+or if we need to go/delve a little bit deeper and build on top of the abstraction, we are unable to do this because we don't know have any knowledge
+regarding the internal plumbing.
