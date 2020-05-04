@@ -95,6 +95,7 @@ export default function Search(props) {
 
     if (evt.keyCode === 13) {
       evt.preventDefault()
+      setHasFocus(false)
       const { url, type } = results[highlightIndex]
       if (type !== "TIL") navigate(url, {})
       else {
