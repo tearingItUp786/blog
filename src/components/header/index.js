@@ -62,9 +62,11 @@ function Header(props) {
   const { hash } = wLoc.location
   useLayoutEffect(() => {
     if (isOpen) {
-      document.body.style.top = `-${window.scrollY}px`
-      document.body.style.position = "fixed"
-      setFixed(true)
+      if (document.body.offsetTop !== 0) {
+        document.body.style.top = `-${window.scrollY}px`
+        document.body.style.position = "fixed"
+        setFixed(true)
+      }
       // isOpen is null on first render -- we don't want this behavior on first render.
     } else if (!isOpen) {
       const scrollY = document.body.style.top

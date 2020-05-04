@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react"
+import React, { useLayoutEffect, useEffect } from "react"
 import styled, { keyframes } from "styled-components"
 import { navigate } from "gatsby"
 
@@ -51,6 +51,11 @@ export default function Search(props) {
   useLayoutEffect(() => {
     if (highlightIndex === -1 && sRef.current) sRef.current.focus()
   }, [highlightIndex])
+
+  useEffect(() => {
+    const results = getSearchResults(query)
+    resultsSet(results)
+  }, [])
 
   function getSearchResults(query) {
     if (!query || !window.__LUNR__) return []

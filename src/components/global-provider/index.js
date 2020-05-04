@@ -9,7 +9,6 @@ const initialState = {
 
 export default function GlobalProvider({ children }) {
   const [state, dispatch] = React.useReducer(reducer, initialState)
-  console.log("sup state is", state)
   return (
     <GlobalAppStateContext.Provider value={state}>
       <GlobalAppDispatchContext.Provider value={dispatch}>
