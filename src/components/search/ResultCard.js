@@ -1,6 +1,7 @@
-import React, { useRef, useLayoutEffect, useState } from "react"
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
+import useLocation from "../../hooks/use-location"
 
 const Card = styled.li`
   transition: background 300ms;
@@ -56,10 +57,13 @@ function ResultCard({
   excerpt,
   highlighted,
   fromKeyboard,
+  onCardClick,
   ...rest
 }) {
   const ref = useRef(null)
   const [cur, setCur] = useState(false)
+  const wLoc = useLocation()
+
   useLayoutEffect(() => {
     if (highlighted && ref.current && fromKeyboard) {
       ref.current.scrollIntoView({
@@ -68,6 +72,15 @@ function ResultCard({
       })
     }
   }, [highlighted, fromKeyboard])
+
+  const { hash } = wLoc.location
+  useEffect(() => {
+    if (type === "TIL" && hash) {
+      const isCurrent = hash === `#${url}`
+      setCur(isCurrent)
+    }
+  }, [hash, type, cur])
+
   const href = type === "TIL" ? `/til/#${url}` : url
   return (
     <Card
@@ -82,7 +95,12 @@ function ResultCard({
         to={href}
         aria-label={`Go to ${url} ${type} post`}
         getProps={lProps => {
-          setCur(lProps.isCurrent)
+          if (type !== "TIL") {
+            setCur(lProps.isCurrent)
+          }
+        }}
+        onClick={evt => {
+          onCardClick()
         }}
       >
         <Title>{title}</Title>

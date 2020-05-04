@@ -130,6 +130,7 @@ export default function Search(props) {
         showResults={hasFocus}
         fromKeyboard={fromKeyboard}
         setFromKeyboard={setFromKeyboard}
+        onCardClick={() => setHasFocus(false)}
       />
     </SearchContainer>
   )

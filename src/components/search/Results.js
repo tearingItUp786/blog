@@ -36,6 +36,7 @@ function Results({
   showResults,
   fromKeyboard,
   setFromKeyboard,
+  onCardClick,
 }) {
   if (results.length === 0 || !showResults) return null
 
@@ -54,6 +55,7 @@ function Results({
             setFromKeyboard(false)
           }}
           fromKeyboard={fromKeyboard}
+          onCardClick={onCardClick}
           {...page}
         />
       ))}

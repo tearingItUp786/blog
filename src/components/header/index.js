@@ -54,12 +54,14 @@ function Header(props) {
     }
   }, [isFixed, setFixed, isOpen, ref])
 
-  useEffect(() => {
+  const { hash } = wLoc.location
+  useLayoutEffect(() => {
     if (isOpen) {
       document.body.style.top = `-${window.scrollY}px`
       document.body.style.position = "fixed"
+      setFixed(true)
       // isOpen is null on first render -- we don't want this behavior on first render.
-    } else if (isOpen !== null) {
+    } else if (!isOpen) {
       const scrollY = document.body.style.top
       document.body.style.position = ""
       document.body.style.top = ""
@@ -68,15 +70,14 @@ function Header(props) {
   }, [isOpen])
 
   useLayoutEffect(() => {
-    const { hash } = wLoc.location
-    if (wLoc && hash) {
+    if (hash) {
       const el = document.querySelector(hash)
       if (el) {
         const elementOffset = el && el.offsetTop
         window.scrollTo(0, elementOffset - 100)
       }
     }
-  }, [wLoc])
+  }, [hash])
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {
