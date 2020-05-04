@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import ResultCard from "./ResultCard"
+import { customMedia } from "../../utils/styling"
 
 const SList = styled.ul`
   list-style-type: none;
@@ -12,7 +13,13 @@ const SList = styled.ul`
   transform: translatex(-100%);
   left: 100%;
   overflow: auto;
+  max-width: 98vw;
   max-height: 500px;
+
+  ${customMedia.lessThan("md")`
+    left: -25%;
+    transform: translateX(-33%);
+  `}
 `
 
 function Results({

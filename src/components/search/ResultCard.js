@@ -12,7 +12,7 @@ const Card = styled.li`
   a:focus {
     outline: 0;
   }
-  background-color: ${props => props.highlighted && "rgba(0,0,0, .1)"};
+  background-color: ${props => props.highlighted && "rgba(0,0,0, .2)"};
   background-color: ${props => props.isCurrent && "rgba(28, 27, 25, .8);"};
 `
 
