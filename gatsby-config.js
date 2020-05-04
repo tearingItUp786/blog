@@ -211,5 +211,23 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        // Setting a color is optional.
+        color: `#f410a1`,
+        // Disable the loading spinner.
+        showSpinner: false,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-page-progress",
+      options: {
+        includePaths: [{ regex: "^/blog" }, { regex: "^/til" }],
+        height: 3,
+        prependToBody: false,
+        color: `#f410a1`,
+      },
+    },
   ],
 }
