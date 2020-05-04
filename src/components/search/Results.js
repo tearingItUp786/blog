@@ -17,8 +17,15 @@ const SList = styled.ul`
   max-height: 500px;
 
   ${customMedia.lessThan("md")`
-    left: -25%;
-    transform: translateX(-33%);
+    max-width: 80vw;
+    left: -20%; 
+    transform: translateX(-50%);
+  `}
+
+  ${customMedia.lessThan("sm")`
+    max-width: 75vw;
+    left: 0%;
+    transform: translateX(-30%);
   `}
 `
 
