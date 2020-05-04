@@ -4,10 +4,11 @@ import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 
 import { defaultTheme, customMediaObject } from "../utils/styling"
-import Header from "./header"
 import { GlobalStyle } from "../utils/styling/base-components"
+import Header from "./header"
 import Hero from "./hero"
 import Footer from "./footer"
+import useLocation from "../hooks/use-location"
 
 const Main = styled.main`
   width: calc(${customMediaObject.xl} * 0.66);
@@ -32,8 +33,9 @@ const ContentContainer = styled.div`
 function Layout(props) {
   const [headerHeight, updateHeaderHeight] = React.useState("0px")
   const [footerHeight, updateFooterHeight] = React.useState("0px")
-  const { children, location } = props
-  const isHome = location.pathname === "/"
+  const wLoc = useLocation()
+  const { children } = props
+  const isHome = wLoc.location.pathname === "/"
   const hero = isHome ? <Hero /> : null
 
   return (

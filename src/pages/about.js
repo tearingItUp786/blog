@@ -49,7 +49,7 @@ const ProfileImageContainer = styled.div`
 function About(props) {
   const { data } = props
   return (
-    <Layout location={props.location} title={"About Taran"}>
+    <Layout>
       <SEO title="About Taran Bains" />
       <Title marginBottom="0">About</Title>
       <Container>

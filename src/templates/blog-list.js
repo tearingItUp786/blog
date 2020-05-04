@@ -20,7 +20,7 @@ function BlogList(props) {
   ))
 
   return (
-    <Layout location={props.location} title={"Blog list"}>
+    <Layout>
       <SEO title="Blog posts" />
       <Title css={"margin-bottom: 0"}>Blog Posts Page: {currentPage}</Title>
       <hr />

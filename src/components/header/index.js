@@ -1,5 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+
+import { useGlobalAppDispatch, useGlobalAppState } from "../global-provider"
+import { updateQuery } from "../global-provider/reducer"
 import {
   StyledHeader,
   StyledNav,
@@ -16,10 +19,12 @@ import useLocation from "../../hooks/use-location"
 import Search from "../search"
 
 function Header(props) {
+  const { query } = useGlobalAppState()
+  const globalDispatch = useGlobalAppDispatch()
+  const setQuery = val => updateQuery(globalDispatch, val)
   const [isOpen, updateMenu] = useState(null)
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
-  const [query, setQuery] = useState("")
   const ref = useRef(null)
   const wLoc = useLocation()
 

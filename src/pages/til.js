@@ -14,7 +14,7 @@ function TIL(props) {
   ))
 
   return (
-    <Layout location={props.location} title={"TIL list"}>
+    <Layout>
       <SEO title="Today I Learned posts" />
       <Title css={"margin-bottom: 0"}>Today I Learned:</Title>
       <hr />
