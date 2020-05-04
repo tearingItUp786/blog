@@ -2,19 +2,27 @@ import React, { useRef, useLayoutEffect, useState, useEffect } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import useLocation from "../../hooks/use-location"
+import { customMedia } from "../../utils/styling"
 
 const Card = styled.li`
   transition: background 300ms;
-  pointer-events: ${props =>
-    props.allowClick && !props.isCurrent ? "auto" : "none"};
   &:focus {
     outline: 0;
   }
   a:focus {
     outline: 0;
   }
-  background-color: ${props => props.highlighted && "rgba(0,0,0, .2)"};
+
   background-color: ${props => props.isCurrent && "rgba(28, 27, 25, .8);"};
+  &:active,
+  &:focus {
+    background-color: rgba(28, 27, 25, 0.2);
+  }
+
+  ${customMedia.greaterThan("md")`
+    background-color: ${props => props.isCurrent && "rgba(28, 27, 25, .8);"};
+    background-color: ${props => props.highlighted && "rgba(0,0,0, .2)"};
+  `}
 `
 
 const Title = styled.h5`
@@ -30,6 +38,9 @@ const Title = styled.h5`
 const ContentContainer = styled.aside`
   display: flex;
   padding: 1rem 0.5rem;
+  border-right-color: ${props => props.theme.colors.accent};
+  border-right-style: solid;
+  border-right-width: ${props => (props.highlighted ? "2px" : "0")};
 `
 
 const Type = styled.span`
@@ -104,7 +115,7 @@ function ResultCard({
         }}
       >
         <Title>{title}</Title>
-        <ContentContainer>
+        <ContentContainer highlighted={highlighted}>
           <Type isCurrent={cur}>{type}</Type>
           <Excerpt isCurrent={cur}>{excerpt}</Excerpt>
         </ContentContainer>

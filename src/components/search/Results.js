@@ -15,6 +15,12 @@ const SList = styled.ul`
   overflow: auto;
   max-width: 98vw;
   max-height: 500px;
+  border-radius: 4px;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
 
   ${customMedia.lessThan("md")`
     max-width: 80vw;

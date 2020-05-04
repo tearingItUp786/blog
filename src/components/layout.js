@@ -33,9 +33,7 @@ const ContentContainer = styled.div`
 function Layout(props) {
   const [headerHeight, updateHeaderHeight] = React.useState("0px")
   const [footerHeight, updateFooterHeight] = React.useState("0px")
-  const wLoc = useLocation()
-  const { children } = props
-  const isHome = wLoc.location.pathname === "/"
+  const { children, isHome } = props
   const hero = isHome ? <Hero /> : null
 
   return (
