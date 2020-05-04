@@ -141,7 +141,7 @@ function Header(props) {
                 About
               </NavLink>
             </LinksContainer>
-            <Search lng="en" query={query} setQuery={setQuery} />
+            {/* <Search lng="en" query={query} setQuery={setQuery} /> */}
           </SearchAndLinksContainer>
         </StyledNav>
       </StyledNavContainer>
