@@ -62,7 +62,7 @@ function Header(props) {
   const { hash } = wLoc.location
   useLayoutEffect(() => {
     if (isOpen) {
-      if (document.body.offsetTop !== 0) {
+      if (window.scrollY > 100) {
         document.body.style.top = `-${window.scrollY}px`
         document.body.style.position = "fixed"
         setFixed(true)
