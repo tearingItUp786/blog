@@ -17,6 +17,7 @@ import MobileNav from "./mobile"
 import { NavLink } from "../../utils/styling/typo"
 import useLocation from "../../hooks/use-location"
 import Search from "../search"
+import { debounce } from "../../utils/helpers"
 
 function Header(props) {
   const { query } = useGlobalAppState()
@@ -51,6 +52,7 @@ function Header(props) {
           }
         }
       }
+      onScroll = debounce(onScroll, 300)
       window.onscroll = onScroll
       return () => {
         onScroll = () => {}

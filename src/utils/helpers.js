@@ -63,6 +63,20 @@ export function debounce(func, time) {
   }
 }
 
+export function staggeredRun(func) {
+  let isRunning = false
+
+  return function inner(...args) {
+    const ctx = this
+    if (!isRunning) {
+      isRunning = true
+      func.apply(ctx, args)
+    } else {
+      isRunning = false
+    }
+  }
+}
+
 export function isTIL(slug) {
   if (slug[0] === "/") return false
 }
