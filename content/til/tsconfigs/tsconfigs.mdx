@@ -1,0 +1,20 @@
+---
+title: tsconfigs
+date: 2020-05-19
+tag: Best Practices
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Ever run into the problem of having your `__tests__` directory sit outside of your `src` and this in turn causing issues with TypeScript?
+I'm a big fan of colocating tests but if you're ever working on a codebase that doesn't embrace this philosophy and instead has a `__tests__` directory that sits
+at the same level as `src`, you may need a a separate `tsconfig` for your tests.
+
+This is possible thanks to the `-p` flag in TS and the fact that we can `extend` tsconfig files. For the project in question,
+we used:
+
+1. tsconfig.json
+2. tsconfig.build.json
+3. tsconfig.test.json
+
+<MDXTextLink src="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html">Read more here...<MDXTextLink>
