@@ -29,7 +29,7 @@ function Pagination(props) {
         <StyledPrevLink to={prevPage} rel="prev">
           {/* eslint-disable-next-line */}
           <StyledSpan role="img" aria-label="Go back to previous page">
-            ⬅️{prevText}
+            ⬅️ {prevText}
           </StyledSpan>
         </StyledPrevLink>
       )}
