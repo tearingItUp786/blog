@@ -73,6 +73,7 @@ export default function Search(props) {
 
   function onKeyDown(evt) {
     evt.stopPropagation()
+    setHasFocus(true)
     if (evt.keyCode === 40) {
       evt.preventDefault()
 
