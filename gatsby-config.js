@@ -59,13 +59,13 @@ module.exports = {
       resolve: `gatsby-plugin-mdx`,
       options: {
         gatsbyRemarkPlugins: [
-          "gatsby-remark-code-titles",
           {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 1200,
             },
           },
+          "gatsby-remark-code-titles",
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
           {
