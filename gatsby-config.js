@@ -53,6 +53,8 @@ module.exports = {
         name: `til`,
       },
     },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
@@ -61,7 +63,8 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxwidth: 590,
+              maxWidth: 1200,
+              tracedSVG: true,
             },
           },
           `gatsby-remark-copy-linked-files`,
@@ -79,8 +82,6 @@ module.exports = {
         remarkPlugins: [capitalize, emoji],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {

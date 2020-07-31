@@ -100,7 +100,7 @@ export const TextLink = styled.a.attrs(props => ({
 }))`
   ${props => commonProps(props)}
   color: ${props => props.theme.colors.accent};
-  font-size: 1.125rem;
+  font-size: ${props => (props.small ? ".875rem" : "1.125rem")};
   text-decoration: underline;
   font-family: ${props => props.theme.fontFamily.body.reduce(arrToFontString)};
 `
@@ -164,6 +164,7 @@ export const ShortQuote = ({ children, quote, ...rest }) => (
 
 export const SmallAsterisk = styled.span`
   font-size: 0.875rem;
+  text-align: ${props => (props.center ? "center" : "inherit")};
 `
 
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
