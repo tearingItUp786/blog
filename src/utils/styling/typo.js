@@ -164,7 +164,6 @@ export const ShortQuote = ({ children, quote, ...rest }) => (
 
 export const SmallAsterisk = styled.span`
   font-size: 0.875rem;
-  text-align: ${props => (props.center ? "center" : "inherit")};
 `
 
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
