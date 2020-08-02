@@ -1,7 +1,12 @@
-// what do we want this thing to look like
-//  it takes in a generator function and each time it encounters a yield
-// exit execution and resume when it is time.
 const https = require("https")
+
+// gen runner that accepts a generator function as the first parameter.
+// keeps trying to call .next on the generator until it's finished processing (we get back done: true)
+// by using promises, we're able to do async tasks in a sync way.
+// when we encounter a promise as the value of return value of .next
+// we chain off the promise and pass the return value of the promise evaluation to
+// our generators.next() function.
+// For example, if we make an api call and we do something like const data = yield apiReq().
 
 function taran(gen, ...rest) {
   const context = this
@@ -32,6 +37,9 @@ function taran(gen, ...rest) {
       if (done) return resolve(value)
       const promisedValue = toPromise(value)
       if (isPromise(promisedValue)) {
+        // continue execution of the iterator and pass the result of
+        // the promise to the onFulfilled.
+        // if the promise is on the right hand side of an assignment, the variable on the left gets the value
         return ret.value.then(onFulfilled)
       }
     }
@@ -41,7 +49,7 @@ function taran(gen, ...rest) {
 function toPromise(val) {
   if (isPromise(val)) return val
   // hook this back into our runner and then the next will be called on this puppy
-  if (isGen(val)) return taran.call(this, obj)
+  if (isGen(val)) return taran.call(this, val)
   if (typeof val === "function") return funcToPromise(val)
   return val
 }
@@ -67,10 +75,8 @@ function isPromise(val) {
 taran(function* gen() {
   try {
     yield new Promise((resolve, reject) => resolve(console.log(1)))
-    yield request("https://api.chucknorris.io/jokes/random").then(data => {
-      const parsed = JSON.parse(data)
-      console.log(parsed.value)
-    })
+    const data = yield request("https://api.chucknorris.io/jokes/random")
+    console.log(JSON.parse(data).value)
     yield* someGen()
     yield request("https://api.chucknorris.io/jokes/random").then(data => {
       const parsed = JSON.parse(data)
