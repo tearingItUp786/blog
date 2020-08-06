@@ -25,7 +25,7 @@ function TIL(props) {
 
 export default TIL
 
-export const query = graphql`
+export const pageQuery = graphql`
   query {
     site {
       siteMetadata {

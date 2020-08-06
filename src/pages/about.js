@@ -76,7 +76,7 @@ function About(props) {
 
 export default About
 
-export const query = graphql`
+export const pageQuery = graphql`
   query {
     file(absolutePath: { regex: "/about/" }) {
       childImageSharp {
