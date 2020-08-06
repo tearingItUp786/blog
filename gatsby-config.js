@@ -25,11 +25,22 @@ module.exports = {
       options: {},
     },
     {
-      resolve: "gatsby-plugin-web-font-loader",
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
-        google: {
-          families: ["DM Sans", "DM Serif Display", "Lora"],
-        },
+        fonts: [
+          {
+            family: `DM Sans`,
+            variants: [`400`, `700`],
+          },
+          {
+            family: `DM Serif Display`,
+            variants: [`400`],
+          },
+          {
+            family: `Lora`,
+            variants: [`400`],
+          },
+        ],
       },
     },
     {
