@@ -55,6 +55,10 @@ export const GlobalStyle = createGlobalStyle`
       border-color: ${props => props.theme.colors.text};
       border-style: solid;
     }
+
+    img {
+      width: 100%;
+    }
     
     a {
       text-decoration: none;

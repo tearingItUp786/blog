@@ -1,0 +1,20 @@
+---
+title: Shadow DOM
+date: 2020-09-18
+tag: Best Practices
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Encapsulation in the web is hard (especially when it comes to CSS)... thank god for the Shadow DOM.
+
+The Shadow DOM allows us the ability to keep the markup structure, styling, and behavior (JS) so that different
+parts of the application do not clash. This is entirely important for a micro frontend architecture -- **we do not want style clashing**.
+
+My colleague Danny and I were able to utilize the Shadow DOM and Single SPA to create an encapsulated navbar. 😁
+
+![Shadow](https://media.prod.mdn.mozit.cloud/attachments/2018/01/29/15788/9d23f749f26b93a00f5c2aa72f00e720/shadow-dom.png)
+
+<TextLink href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM">
+  Read more about it here
+</TextLink>
