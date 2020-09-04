@@ -13,18 +13,17 @@ Anyway, here's how the pascal triangle code will work in JS and in Scala
 
 ```JS:title=js-example
 function run() {
-  for (let col = 0; col < 10; col++) {
+  for (let row = 0; row <= 10; row++) {
     const rec = []
-    for (let row = 0; row < col; row++) {
+    for (let col = 0; col <= row; col++) {
       rec.push(pascal(col, row))
     }
-
     console.log(rec)
   }
 }
 
 const pascal = (col, row) => {
-  if (col === 0 || row < 2 || col == row) return 1
+  if (col === 0 || row < 1 || col === row) return 1
   else return pascal(col, row - 1) + pascal(col - 1, row - 1)
 }
 
