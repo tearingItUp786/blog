@@ -74,6 +74,7 @@ export default function Search(props) {
   function onKeyDown(evt) {
     evt.stopPropagation()
     setHasFocus(true)
+    // down key
     if (evt.keyCode === 40) {
       evt.preventDefault()
 
@@ -83,6 +84,7 @@ export default function Search(props) {
       }
     }
 
+    // up key
     if (evt.keyCode === 38) {
       evt.preventDefault()
       if (highlightIndex <= 0) {
@@ -94,7 +96,8 @@ export default function Search(props) {
       }
     }
 
-    if (evt.keyCode === 13) {
+    // enter and tab
+    if (evt.keyCode === 13 || evt.keyCode === 9) {
       evt.preventDefault()
       setHasFocus(false)
       const { url, type } = results[highlightIndex]

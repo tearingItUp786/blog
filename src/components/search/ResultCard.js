@@ -79,7 +79,8 @@ function ResultCard({
     if (highlighted && ref.current && fromKeyboard) {
       ref.current.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "nearest",
+        inline: "start",
       })
     }
   }, [highlighted, fromKeyboard])
