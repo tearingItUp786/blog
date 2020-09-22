@@ -16,6 +16,7 @@ const SList = styled.ul`
   max-width: 98vw;
   max-height: 500px;
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   scrollbar-width: none;
   ::-webkit-scrollbar {
     width: 0px;
