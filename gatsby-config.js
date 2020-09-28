@@ -241,5 +241,6 @@ module.exports = {
         color: `#f410a1`,
       },
     },
+    `gatsby-plugin-well-known`,
   ],
 }

@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: taranveerbains.ca
+Token: f7edc73c0560bc8c21560a7ab04cc407b076e630240c9b52cdd8c08c72d04423
