@@ -3,7 +3,12 @@ import styled from "styled-components"
 
 import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
-import { Title2, DateAndAuth, Paragraph } from "../../utils/styling/typo"
+import {
+  Title2,
+  DateAndAuth,
+  Paragraph,
+  TagsPageLink,
+} from "../../utils/styling/typo"
 const CardContainer = styled.article`
   width: 100%;
   margin-bottom: 48px;
@@ -70,7 +75,9 @@ function BlogCard(props) {
       <span role="img" aria-label="tag emoji!">
         🏷️
       </span>{" "}
-      ️{tag}
+      <TagsPageLink small css={{ marginLeft: ".25rem" }} href={`/tags/${tag}`}>
+        {tag}
+      </TagsPageLink>
     </PostTag>
   ) : null
 

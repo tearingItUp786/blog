@@ -1,3 +1,14 @@
+function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear()
+
+  if (month.length < 2) month = "0" + month
+  if (day.length < 2) day = "0" + day
+
+  return [year, month, day].join("-")
+}
 module.exports = plop => {
   plop.setGenerator("til", {
     description: "Create a brand new TIL",
@@ -8,6 +19,7 @@ module.exports = plop => {
         message: "What is your TIL title",
       },
       {
+        default: formatDate(Date.now()),
         type: "input",
         name: "date",
         message: "What is the date of this TIL",

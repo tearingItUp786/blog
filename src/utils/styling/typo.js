@@ -96,7 +96,7 @@ export const Paragraph = styled.p`
 `
 
 export const TextLink = styled.a.attrs(props => ({
-  target: "blank",
+  target: props.target || "blank",
 }))`
   ${props => commonProps(props)}
   color: ${props => props.theme.colors.accent};

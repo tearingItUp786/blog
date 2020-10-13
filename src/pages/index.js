@@ -7,7 +7,6 @@ import SEO from "../components/seo"
 
 function BlogIndex(props) {
   const { data } = props
-  const siteTitle = data.site.siteMetadata.title
   const posts = data.allMdx.edges
   const BlogCards = posts.map(({ node }) => (
     <BlogMapper key={node.fields.slug} node={node} />

@@ -39,7 +39,7 @@ function Tags({
         <h2>{key}</h2>
         <TagsLinkContainer>
           {val.map(({ fieldValue, totalCount }) => (
-            <TagsPageLink key={fieldValue} href={`./tags/${fieldValue}/`}>
+            <TagsPageLink key={fieldValue} href={`/tags/${fieldValue}/`}>
               {fieldValue} ({totalCount})
             </TagsPageLink>
           ))}
