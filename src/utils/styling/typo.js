@@ -104,6 +104,16 @@ export const TextLink = styled.a.attrs(props => ({
   text-decoration: underline;
   font-family: ${props => props.theme.fontFamily.body.reduce(arrToFontString)};
 `
+
+export const TagsPageLink = styled(TextLink).attrs(props => ({
+  target: "_self",
+}))`
+  margin-right: 2rem;
+  &:last-of-type {
+    margin-right: 0;
+  }
+`
+
 export const DateAndAuth = styled.p`
   font-size: .875rem;
   color: ${props =>

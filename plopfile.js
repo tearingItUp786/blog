@@ -25,7 +25,16 @@ module.exports = plop => {
           "Node",
           "Best Practices",
           "Cool Tech",
+          "Other",
         ],
+      },
+      {
+        when: function(answers) {
+          return answers.tag === "Other"
+        },
+        type: "input",
+        name: "tag",
+        message: "What is your custom tag",
       },
     ],
     actions: [
