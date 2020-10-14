@@ -96,8 +96,8 @@ export default function Search(props) {
       }
     }
 
-    // enter and tab
-    if (evt.keyCode === 13 || evt.keyCode === 9) {
+    // enter
+    if (evt.keyCode === 13) {
       evt.preventDefault()
       setHasFocus(false)
       const { url, type } = results[highlightIndex]
