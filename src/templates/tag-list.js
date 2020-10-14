@@ -4,6 +4,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Title, TextLink } from "../utils/styling/typo"
 import { BlogMapper } from "../utils/common"
+import { compareDesc } from "date-fns"
 
 function TagList(props) {
   const {
@@ -11,7 +12,13 @@ function TagList(props) {
     pageContext: { tag },
   } = props
   const posts = data.allMdx.edges
-  const Cards = posts.map(({ node }) => (
+  const sortedPosts = posts.sort((a, b) =>
+    compareDesc(
+      new Date(a.node.frontmatter.date),
+      new Date(b.node.frontmatter.date)
+    )
+  )
+  const Cards = sortedPosts.map(({ node }) => (
     <BlogMapper key={node.fields.slug} node={node} />
   ))
 

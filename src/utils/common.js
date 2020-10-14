@@ -2,7 +2,6 @@ import React from "react"
 import BlogCard from "../components/blog-card"
 
 export function BlogMapper({ node }) {
-  console.log(node, "yooo")
   const title = node.frontmatter.title || node.fields.slug
   const html = node.body || null
   const description = node.frontmatter.description || null
