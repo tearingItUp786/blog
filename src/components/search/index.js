@@ -39,6 +39,13 @@ export const SearchContainer = styled.div`
     margin-right: 0;
   `}
 `
+function getSearchResults(query, lng) {
+  if (!query || !window.__LUNR__) return []
+  const lunrIndex = window.__LUNR__[lng]
+  const results = lunrIndex.index.search(`${query}~1`) // you can  customize your search , see https://lunrjs.com/guides/searching.html
+  return results.map(({ ref }) => lunrIndex.store[ref])
+}
+
 export default function Search(props) {
   const { query, setQuery } = props
   const [results, resultsSet] = React.useState([])
@@ -53,16 +60,9 @@ export default function Search(props) {
   }, [highlightIndex])
 
   useEffect(() => {
-    const results = getSearchResults(query)
+    const results = getSearchResults(query, props.lng)
     resultsSet(results)
-  }, [])
-
-  function getSearchResults(query) {
-    if (!query || !window.__LUNR__) return []
-    const lunrIndex = window.__LUNR__[props.lng]
-    const results = lunrIndex.index.search(`${query}~1`) // you can  customize your search , see https://lunrjs.com/guides/searching.html
-    return results.map(({ ref }) => lunrIndex.store[ref])
-  }
+  }, [query, props.lng, resultsSet])
 
   function search(event) {
     const val = event.target.value
