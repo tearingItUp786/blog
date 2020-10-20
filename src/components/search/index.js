@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useEffect } from "react"
+import React, { useLayoutEffect } from "react"
 import styled, { keyframes } from "styled-components"
 import { navigate } from "gatsby"
 
 import SearchInput from "./SearchInput"
 import Results from "./Results"
 import { customMedia } from "../../utils/styling"
+import useLunr from "../../hooks/use-lunr"
 
 const fadeIn = keyframes`
   from {
@@ -39,16 +40,10 @@ export const SearchContainer = styled.div`
     margin-right: 0;
   `}
 `
-function getSearchResults(query, lng) {
-  if (!query || !window.__LUNR__) return []
-  const lunrIndex = window.__LUNR__[lng]
-  const results = lunrIndex.index.search(`${query}~1`) // you can  customize your search , see https://lunrjs.com/guides/searching.html
-  return results.map(({ ref }) => lunrIndex.store[ref])
-}
 
 export default function Search(props) {
-  const { query, setQuery } = props
-  const [results, resultsSet] = React.useState([])
+  const { query, setQuery, lng } = props
+  const { results } = useLunr({ query, lng })
   const [highlightIndex, highlightIndexSet] = React.useState(0)
   const [hasFocus, setHasFocus] = React.useState(false)
   const [fromKeyboard, setFromKeyboard] = React.useState(false)
@@ -59,15 +54,8 @@ export default function Search(props) {
     if (highlightIndex === -1 && sRef.current) sRef.current.focus()
   }, [highlightIndex])
 
-  useEffect(() => {
-    const results = getSearchResults(query, props.lng)
-    resultsSet(results)
-  }, [query, props.lng, resultsSet])
-
   function search(event) {
     const val = event.target.value
-    const results = getSearchResults(val)
-    resultsSet(results)
     setQuery(val)
   }
 
