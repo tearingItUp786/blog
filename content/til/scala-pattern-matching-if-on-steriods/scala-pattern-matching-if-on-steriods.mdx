@@ -1,0 +1,36 @@
+---
+title: Scala pattern matching. If on steriods
+date: 2020-10-20
+tag: Scala
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Pattern matching in Scala allows us to do some very nifty things. This is all possible
+due to the fact that the comparison of objects is not done at the reference level but at the value level.
+
+Refer to the TIL regarding Scala's case classes😁.
+
+```Scala
+case class Cat(color: String, food: String)
+
+val oswald = Cat("black", "Chips")
+
+object ChipShop {
+  def willServe(c: Cat): Boolean = {
+    c match {
+      case Cat(_, "Chips") => true //don't care about the first argument
+      case Cat(_, _) => false // don't care about any arguments (this is the default case essentially)
+    }
+  }
+}
+
+ChipShop.willServe(oswald) // true
+```
+
+A pattern can be one of
+
+1. a name, binding any value to that name;
+2. an underscore, matching any value and ignoring it;
+3. a literal, matching the value the literal denotes; or
+4. a constructor-style pattern for a case class.

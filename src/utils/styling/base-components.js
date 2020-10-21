@@ -100,21 +100,10 @@ export const GlobalStyle = createGlobalStyle`
     code[class*="language-"], 
     pre[class*="language-"] {
       font-size: 0.875rem !important;
-      padding: 0.3rem !important;
-    }
-    /**
-    * Add back the container background-color, border-radius, padding, margin
-    * and overflow that we removed from <pre>.
-    */
-    .gatsby-highlight {
-      background-color: #191919;
-      margin: 0.5em 0;
-      padding: 1em;
-      overflow: auto;
     }
 
     .gatsby-highlight-code-line {
-      background-color: #b3b3b338
+      background-color: #b3b3b338;
       display: block;
       margin-right: -1em;
       margin-left: -1em;
@@ -122,6 +111,7 @@ export const GlobalStyle = createGlobalStyle`
       padding-left: 0.75em;
       border-left: 0.25em solid ${props => props.theme.colors.accent};
     }
+
     .gatsby-highlight pre[class*="language-"] {
       background-color: transparent;
       margin: 0;
@@ -144,5 +134,31 @@ export const GlobalStyle = createGlobalStyle`
     
       border-top-left-radius: 0.3em;
       border-top-right-radius: 0.3em;
+    }
+    /**
+    * If you only want to use line numbering
+    */
+
+    /* Adjust the position of the line numbers */
+    .gatsby-highlight pre[class*="language-"].line-numbers {
+      padding-left: 2.8em;
+    }
+
+    .gatsby-highlight {
+      background-color: #191919;
+      margin: 0.5em 0;
+      padding: 1em;
+      overflow: auto;
+      border-radius: 0.3em;
+    }
+
+    .gatsby-highlight pre[class*="language-"].line-numbers {
+      padding: 0;
+      padding-left: 2.8em;
+      overflow: initial;
+    }
+
+    .gatsby-code-title + .gatsby-highlight {
+      border-radius: 0;
     }
 `
