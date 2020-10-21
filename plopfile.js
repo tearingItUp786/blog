@@ -37,6 +37,7 @@ module.exports = plop => {
           "Node",
           "Best Practices",
           "Cool Tech",
+          "Scala",
           "Other",
         ],
       },
@@ -45,6 +46,7 @@ module.exports = plop => {
           return answers.tag === "Other"
         },
         type: "input",
+        askAnswered: true,
         name: "tag",
         message: "What is your custom tag",
       },
