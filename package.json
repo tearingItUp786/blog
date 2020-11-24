@@ -50,7 +50,7 @@
     "remark-frontmatter": "2.0.0",
     "remark-mdx": "1.6.16",
     "strip-markdown": "3.1.2",
-    "styled-components": "4.4.1",
+    "styled-components": "5.2.1",
     "styled-media-query": "2.1.2",
     "styled-normalize": "8.0.7",
     "tailwind.macro": "1.0.0-alpha.10",
