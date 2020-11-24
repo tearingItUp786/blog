@@ -1,4 +1,4 @@
 {
   "extends": ["config:base"],
-  "ignoreDeps": ["react"]
+  "ignoreDeps": ["monorepo:react"]
 }
