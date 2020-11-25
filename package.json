@@ -21,7 +21,7 @@
     "gatsby-plugin-mdx": "1.2.30",
     "gatsby-plugin-nprogress": "2.3.10",
     "gatsby-plugin-offline": "3.2.38",
-    "gatsby-plugin-page-progress": "2.1.0",
+    "gatsby-plugin-page-progress": "2.1.1",
     "gatsby-plugin-prefetch-google-fonts": "1.4.3",
     "gatsby-plugin-react-helmet": "3.3.10",
     "gatsby-plugin-sharp": "2.6.24",
