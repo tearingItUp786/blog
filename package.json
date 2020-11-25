@@ -63,7 +63,7 @@
     "eslint-plugin-react-hooks": "1.7.0",
     "plop": "2.7.4",
     "prettier": "1.19.1",
-    "tailwindcss": "1.6.0"
+    "tailwindcss": "1.9.6"
   },
   "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
   "keywords": [
