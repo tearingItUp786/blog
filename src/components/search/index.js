@@ -56,6 +56,7 @@ export default function Search(props) {
 
   function search(event) {
     const val = event.target.value
+    highlightIndexSet(0)
     setQuery(val)
   }
 
