@@ -15,7 +15,7 @@ const MobileNavContainer = styled.div`
       background: ${props => props.theme.colors.body};
       transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       top: -5vh;
-      width: 100vw
+      width: 100vw;
       height: 105vh;
       transform-origin: right top;
       ${props =>
