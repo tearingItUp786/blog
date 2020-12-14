@@ -42,6 +42,7 @@ const Anchor = styled(Title2)`
 `
 
 const TitleLink = props => {
+  const title = props.title.replace('\\n', '')
   if (props.slug === null) {
     return <span>{props.title}</span>
   } else {
@@ -52,7 +53,7 @@ const TitleLink = props => {
         href={props.slug}
         black={props.black}
       >
-        {props.title}
+        {title}
       </Anchor>
     )
   }
