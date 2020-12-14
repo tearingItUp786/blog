@@ -1,5 +1,5 @@
 ---
-title: Functional programming \n what it is and why I care
+title: Functional programming:\n what it is and why I care
 subtitle:
 date: 2020-12-13
 description: A brief introduction to the benefits of functional programming
@@ -35,21 +35,22 @@ import {
 
 When talking about programming paradigms, there are two words that often get thrown around: imperative and declarative.
 Imperative code is code in which the programmer specifies to the computer exactly what actions they’d like it to take. 
-Imagine that the computer were the driver of a car and you were the passenger. Your driver happens to be well meaning
-but has a terrible sense of direction so you are tasked with providing directions on how to 
-get to your house (every left and right turn and every highway/exit that would be needs to be taken). 
+Imagine that the computer were the driver of a car and you were the passenger. Your driver happens to be very well-meaning
+but incredibly clueless when it comes to geography. Therefore, you are ultimately tasked with providing directions on how to 
+get to your house (every left and right turn and every highway/exit that would need to be taken would be your responsibility). 
 Conversely, declarative code is code in which the programmer is not interested in the how but the what — there’s little to no control flow.
 If we continue with our driving example from above, this would be you telling your driver to take you home and 
-unlike the imperative example where the driver had no sense of direction it would be up to the driver's responsbility
-to figure out the route. All you really care about the end result, that is, you ending up at home (hopefully there’s a cute puppy there to 
+unlike the imperative example where the driver had no sense of direction of all, the driver knows how to navigate the streets
+and therefore it would be up to the driver's responsbility to figure out the route that gets you home. 
+All you really care about the end result, that is, you ending up at home (hopefully there’s a cute puppy there to 
 greet you though because who doesn’t love being greeted by a puppy? 😍).
 
-Functional programming is a declarative style of programming. This means that the code, at least in theory, that
+**Functional programming is a declarative style of writing code.** This means that the code, at least in theory, that
 is written in this style is more concerned with the what and not the how of program execution. 
 You might be thinking to yourself, well why should I care about my code being more declarative? 
 As long as it works and gets the job done, code is code, right? WRONG! Okay... you're not entirely wrong.
-We live in the real world and working code beats code that doesn't even exist. **However**, while there are pros and cons to both styles of 
-programming, there’s one thing that both camps can agree on: all things being equal, code 
+We live in the real world and working code beats code that doesn't even exist. *However*, while there are pros and cons to both styles of 
+programming, there’s one thing that both camps agree on: all things being equal, code 
 that is easier for a human to understand is preferred, since humans (at least at the time of this blog post)
 are the ones maintaining said code. Arguably, one of the greatest benefits of declarative code is that it is
 easier for humans to understand. Refer to the below examples:
@@ -68,7 +69,6 @@ for (user of users) {
 }
 ```
 <br />
-<br />
 
 ```ts:title=declarative-get-user-names
 const users = [
@@ -77,17 +77,17 @@ const users = [
     { name: "Carlen", age: 26 }
 ]
 
-const names = users.map(getUpperCaseUserName);
+const names = users.map(getUpperCaseName);
 ```
 
 The examples above are a lot of things (trivial being one of those things) but they aptly
 demonstrate the key difference between imperative and declarative code. The first code block (like the second) has an array of users
 with various attributes. It then declares a new names array (which is empty) -- signalling to the programmer that they should
-reserve some space in their brain for this variable because it will show when this things shows up later on in the program. 
-Finally, it loops over the list of users and pushes onto the names array (from earlier, remember! 😱) the result of user.name.toUpperCase(). 
+reserve some space in their brain for this variable because it will show up later on in the program. 
+Finally, it loops over the list of users and pushes onto the names array (from earlier, remember! 😱) the result of `user.name.toUpperCase()`. 
 
 The declarative example declares an array of users (exactly like the first example) and
 then declares a names array and assigns its value to be the result of mapping over the users with
-the `getUpperCaseUserName` function (gee, I wonder what that function does? -.-). Assuming you know that the map function 
+the `getUpperCaseName` function (gee, I wonder what that function does? -.-). Assuming you know that the map function 
 on the Array prototype applies a transformation function (the argument to `.map`) and returns a new array with the newly
-transformed values, you would agree that the second, declarative example is more readable and maintainable. 
+transformed values, you would agree that the second example is the  more readable piece of code. 
