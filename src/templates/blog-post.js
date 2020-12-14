@@ -19,7 +19,7 @@ class BlogPostTemplate extends React.Component {
     const nextPage = next ? next.fields.slug : null
     const nextText = next ? next.frontmatter.title : null
 
-    const splitTitle = post.frontmatter.title.split('\\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)
+    const splitTitle = post.frontmatter.title
 
     return (
       <Layout>
@@ -28,7 +28,7 @@ class BlogPostTemplate extends React.Component {
           description={post.frontmatter.description || post.excerpt}
         />
         <Title center marginBottom="1">
-          { splitTitle }
+          {splitTitle}
         </Title>
         <Title3 center noMarginTop noMarginBottom>
           {post.frontmatter.subtitle}

@@ -31,18 +31,18 @@ const PostTag = styled.span`
 `
 
 const Anchor = styled(Title2)`
-  color: ${props =>
+  color: ${(props) =>
     props.black ? props.theme.colors.text : props.theme.colors.accent};
   text-decoration: none;
   transition: color 300ms;
 
   &:hover {
-    color: ${props => props.theme.colors.accent};
+    color: ${(props) => props.theme.colors.accent};
   }
 `
 
-const TitleLink = props => {
-  const title = props.title.replace('\\n', '')
+const TitleLink = (props) => {
+  const title = props.title
   if (props.slug === null) {
     return <span>{props.title}</span>
   } else {
