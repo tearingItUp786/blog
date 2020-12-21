@@ -18,7 +18,6 @@ const Container = styled.div`
 const FlexParagraph = styled(Paragraph)`
   margin-left: 0;
   margin-right: 0;
-  order: 2;
 `
 
 const FlexQuote = styled(ShortQuote)`
@@ -35,8 +34,12 @@ const FlexQuote = styled(ShortQuote)`
     margin-left: 2rem;
     margin-top: 0;
     flex: 1;
-    order: 1;
 `}
+`
+
+const FlexBlockQuote = styled(BlockQuote)`
+  margin-left: 0;
+  margin-right: 0;
 `
 
 const ProfileImageContainer = styled.div`
@@ -67,7 +70,24 @@ function About(props) {
           with some of the best digital agencies in Vancouver. He's worked on a
           variety of projects for companies such as BC Hydro, MasterCard, and
           Digital Asset. 1 part techie, 1 part business, and 100% dedicated to
-          his craft and the communities he belongs to.{" "}
+          his craft and the communities he belongs to. Dedicated to solving
+          difficult problems and belonging to teams that not only create the
+          environment for great work to be done, but also inspire their team
+          members/employees to be legendary.
+        </FlexParagraph>
+        <FlexBlockQuote>
+          If you do what is easy, your life will be hard. If you do what is
+          hard, your life will be easy.
+        </FlexBlockQuote>
+        <FlexParagraph>
+          At his core, Taran loves a challenge. He believes in doing something
+          that sucks everyday. Whether that's running 2 miles, doing a hike in a
+          torrential downpour, or, if running two miles is no longer
+          uncomfortable, picking up a skipping rope and working on some new
+          skipping technique. By not allowing the mind to become overly
+          comfortable in a simple life, we will be able to test how far we
+          really can go and do things that seem impossible to the normal person.
+          Become more of yourself, <strong>every damn day</strong>.
         </FlexParagraph>
       </Container>
     </Layout>
