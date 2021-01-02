@@ -1,0 +1,31 @@
+---
+title: content-editable
+date: 2021-01-01
+tag: html5
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Turns out you can have a `contenteditable` attribute on your html and that'll make
+(you guessed it), your content editable lol.
+
+...go ahead... try it out on the list below... you know you want to. 🤪
+
+<ul
+  contentEditable={true}
+  suppressContentEditableWarning={true}
+  onBlur={(e) =>
+    window.alert(
+      JSON.stringify(
+        Array.from(e?.target?.children).reduce(
+          (acc, curr) => [...acc, curr?.innerText],
+          []
+        )
+      )
+    )
+  }
+>
+  <li>Food</li>
+  <li>Food</li>
+  <li>Food</li>
+</ul>
