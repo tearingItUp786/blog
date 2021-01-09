@@ -36,8 +36,8 @@ When talking about programming paradigms, there are two words that often get thr
 
 Imperative code is code in which the programmer specifies to the computer exactly what actions they’d like it to take.
 Imagine that the computer were the driver of a car and you were the passenger. Your driver happens to be very well-meaning
-but incredibly clueless when it comes to geography. Therefore, you are ultimately tasked with providing directions on how to
-get to your house (every left and right turn and every highway/exit that would need to be taken would be your responsibility).
+but incredibly clueless person when it comes to geography. Therefore, you are ultimately tasked with providing directions on how to
+get to your house (every left turn, every right turn, and every exit that would need to be taken... it is up to you to tell them which direction to take).
 
 Conversely, declarative code is code in which the programmer is interested in what the computer produces rather than how it gets there.
 If we continue with our driving example from above, this would be you telling your driver to take you home and
@@ -46,7 +46,8 @@ and therefore it would be up to the driver's responsibility to figure out the ro
 All you really care about the end result, that is, you ending up at home (hopefully there’s a cute puppy there to
 greet you though because who doesn’t love being greeted by a puppy? 😍).
 
-**Functional programming is a declarative style of writing code.** This means that the code, at least in theory, that
+**Functional programming is a declarative style of writing code.**. Declarative programming is a style and Functional Programming
+is a flavour of this style. This means that the code, at least in theory, that
 is written in this style is more concerned with the **what** and not the **how** of program execution.
 You might be thinking to yourself, well why should I care about my code being more declarative?
 As long as it works and gets the job done, code is code, right? WRONG! Okay... you're not entirely wrong.
@@ -82,7 +83,7 @@ const users = [
 const names = users.map(getUpperCaseName);
 ```
 
-The examples above are a lot of things (trivial being one of those things) but they aptly
+The examples above are a lot of things (trivial being one of those said things) but they aptly
 demonstrate the key difference between imperative and declarative code. The first code block (like the second) has an array of users
 with various attributes. It then declares a new names array (which is empty) -- signalling to the programmer that they should
 reserve some space in their brain for this variable because it will show up later on in the program.
@@ -155,3 +156,12 @@ Simply put, the reason I care about functional programming is that it can potent
 requires deeper thought (or at least I think it does), employs and favors things like composition
 which ultimately leads to more code reuse and that is equivalent to us writing less code. The less code we write,
 the less code we have to test, and potentially the less code that'll cause bugs 😂.
+
+##### Closing Thoughts
+
+While JS isn't a strictly functional language (like Haskell), we are able to leverage
+some of the concepts/benefits of Functional Programming in our JS code. Ways in which
+we can make our code more functional will be covered in a later blog post 😊. To learn more
+about Functional Programming in JS, check out the following resources:
+
+1. <TextLink href="">Functional Programming Light</TextLink>
