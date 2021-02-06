@@ -8,13 +8,12 @@ import { GlobalStyle } from "../utils/styling/base-components"
 import Header from "./header"
 import Hero from "./hero"
 import Footer from "./footer"
-import useLocation from "../hooks/use-location"
 
 const Main = styled.main`
   width: calc(${customMediaObject.xl} * 0.66);
   max-width: 90vw;
   margin: 2rem auto 4rem;
-  min-height: ${props =>
+  min-height: ${(props) =>
     props.isHome
       ? "auto"
       : `calc(
