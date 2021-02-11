@@ -106,7 +106,7 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMdx } }) => {
-              return allMdx.edges.map(edge => {
+              return allMdx.edges.map((edge) => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.date,
@@ -185,23 +185,23 @@ module.exports = {
         resolvers: {
           // For any node of type MarkdownRemark, list how to resolve the fields' values
           Mdx: {
-            title: node => node.frontmatter.title,
-            excerpt: node => {
+            title: (node) => node.frontmatter.title,
+            excerpt: (node) => {
               const tree = remark()
                 .use(mdx)
                 .use(frontmatter, ["yaml"])
                 .parse(node.rawBody)
               let excerpt = ""
-              visit(tree, "text", an => {
+              visit(tree, "text", (an) => {
                 excerpt += an.value
               })
               const length = 140
               const val = excerpt.slice(0, length) + "..."
               return val
             },
-            type: node => (isTIL(node.fields.slug) ? "TIL" : "Blog"),
-            content: node => node.rawBody,
-            url: node => node.fields.slug,
+            type: (node) => (isTIL(node.fields.slug) ? "TIL" : "Blog"),
+            content: (node) => node.rawBody,
+            url: (node) => node.fields.slug,
           },
         },
         //custom index file name, default is search_index.json
@@ -228,6 +228,14 @@ module.exports = {
         height: 3,
         prependToBody: false,
         color: `#f410a1`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /\.inline\.svg$/,
+        },
       },
     },
     `gatsby-plugin-well-known`,

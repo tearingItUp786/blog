@@ -1,26 +1,10 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import styled from "styled-components"
-import Img from "gatsby-image"
+import Face from "./opti-face.inline.svg"
 
 function Hero(props) {
-  const data = useStaticQuery(graphql`
-    query {
-      file(absolutePath: { regex: "/taran1/" }) {
-        childImageSharp {
-          fluid(maxWidth: 1920, maxHeight: 1080) {
-            ...GatsbyImageSharpFluid
-            ...GatsbyImageSharpFluidLimitPresentationSize
-          }
-        }
-      }
-    }
-  `)
-
-  console.log("data", data)
   return (
-    <div style={{ width: "100vw" }}>
-      <Img fluid={data.file.childImageSharp.fluid} />
+    <div style={{ width: "100vw", maxWidth: "1200px", margin: "auto" }}>
+      <Face />
     </div>
   )
 }
