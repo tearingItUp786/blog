@@ -2,31 +2,29 @@ import React from "react"
 import Face from "./face2.inline.svg"
 import { gsap } from "gsap"
 import { ExpoScaleEase, TimelineLite } from "gsap/all"
-import { useGlobalAppDispatch, useGlobalAppState } from "../global-provider"
-import { updateVisitedHome } from "../global-provider/reducer"
+
 import styled from "styled-components"
 
 gsap.registerPlugin(ExpoScaleEase)
 
 const HiddenFace = styled(Face)`
-  visibility: ${(props) => (props.$visitedHome ? "visible" : "hidden")};
+  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
 `
 
 function Hero(props) {
   const faceRef = React.useRef()
-  const { visitedHome } = useGlobalAppState()
-  const globalDispatch = useGlobalAppDispatch()
+
   React.useLayoutEffect(() => {
-    if (!faceRef.current && !visitedHome) {
+    if (!faceRef.current) {
       faceRef.current = document.querySelector("#face")
       new TimelineLite()
         .set("svg", { visibility: "visible" })
-        .from("#Middle-Face", 1, {
+        .from("#Middle-Face", 0.75, {
           opacity: 0,
-          stagger: 2,
-          scale: 3.5,
+          delay: 0.5,
+          scale: 3,
           transformOrigin: "50% 50%",
-          ease: ExpoScaleEase.config(3.5, 1),
+          ease: ExpoScaleEase.config(3, 1),
         })
         .from(
           "#Left-Echo",
@@ -63,9 +61,9 @@ function Hero(props) {
           },
           "-=.75"
         )
-      updateVisitedHome(globalDispatch)
     }
   }, [])
+
   return (
     <div style={{ width: "100vw" }}>
       <div
@@ -75,7 +73,7 @@ function Hero(props) {
           margin: "auto",
         }}
       >
-        <HiddenFace $visitedHome={visitedHome} id="face" />
+        <HiddenFace $visible={Boolean(faceRef.current)} id="face" />
       </div>
     </div>
   )

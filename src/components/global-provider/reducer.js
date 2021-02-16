@@ -9,12 +9,6 @@ function reducer(state, action) {
         query: payload,
       }
     }
-    case types.VISITED_HOME: {
-      return {
-        ...state,
-        visitedHome: true,
-      }
-    }
     default: {
       throw new Error(`Unhandled action type: ${type}`)
     }
@@ -28,10 +22,6 @@ reducer.types = {
 
 export function updateQuery(dispatch, payload) {
   dispatch({ type: reducer.types.UPDATE_QUERY, payload })
-}
-
-export function updateVisitedHome(dispatch) {
-  dispatch({ type: reducer.types.VISITED_HOME })
 }
 
 export default reducer

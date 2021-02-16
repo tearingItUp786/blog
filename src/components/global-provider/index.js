@@ -5,7 +5,6 @@ const GlobalAppStateContext = React.createContext()
 const GlobalAppDispatchContext = React.createContext()
 const initialState = {
   query: "",
-  visitedHome: false,
 }
 
 const init = (initialState) => {
