@@ -9,7 +9,7 @@ import styled from "styled-components"
 gsap.registerPlugin(ExpoScaleEase)
 
 const HiddenFace = styled(Face)`
-  visibility: hidden;
+  visibility: ${(props) => (props.visitedHome ? "visible" : "hidden")};
 `
 
 function Hero(props) {
@@ -75,7 +75,7 @@ function Hero(props) {
           margin: "auto",
         }}
       >
-        <HiddenFace id="face" />
+        <HiddenFace visitedHome={visitedHome} id="face" />
       </div>
     </div>
   )
