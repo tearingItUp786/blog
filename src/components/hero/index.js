@@ -19,31 +19,32 @@ function Hero(props) {
       faceRef.current = document.querySelector("#face")
       new TimelineLite()
         .set("svg", { visibility: "visible" })
-        .from("#Middle-Face", 0.75, {
-          opacity: 0,
-          delay: 0.5,
-          scale: 3,
+        .set("#Middle-Face", {
+          scale: 1.5,
           transformOrigin: "50% 50%",
-          ease: ExpoScaleEase.config(3, 1),
         })
-        .from(
-          "#Left-Echo",
-          0.5,
+        .from("#Middle-Face path", 0.75, {
+          delay: 0.5,
+          stroke: "rgb(255, 0, 255)",
+        })
+        .to(
+          "#Middle-Face",
+          0.75,
           {
-            opacity: 0,
-            x: 0,
+            scale: 1,
+            transformOrigin: "50% 50%",
+            ease: ExpoScaleEase.config(3, 1),
           },
-          "-=.5"
+          "-=.75"
         )
-        .from(
-          "#Right-Echo",
-          0.5,
-          {
-            opacity: 0,
-            x: -175,
-          },
-          "-=.5"
-        )
+        .from("#Right-Echo", 0.5, {
+          opacity: 0,
+          x: -175,
+        })
+        .from("#Left-Echo", 0.5, {
+          opacity: 0,
+          x: 175,
+        })
         .from("#Right-Face", 0.75, {
           opacity: 0,
           scale: 1.5,
