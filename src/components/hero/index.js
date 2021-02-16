@@ -17,7 +17,7 @@ function Hero(props) {
   const { visitedHome } = useGlobalAppState()
   const globalDispatch = useGlobalAppDispatch()
   React.useEffect(() => {
-    if (!faceRef.current && visitedHome) {
+    if (!faceRef.current && !visitedHome) {
       faceRef.current = document.querySelector("#face")
       new TimelineLite()
         .set("svg", { visibility: "visible" })
