@@ -16,7 +16,7 @@ function Hero(props) {
   const faceRef = React.useRef()
   const { visitedHome } = useGlobalAppState()
   const globalDispatch = useGlobalAppDispatch()
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!faceRef.current && !visitedHome) {
       faceRef.current = document.querySelector("#face")
       new TimelineLite()
