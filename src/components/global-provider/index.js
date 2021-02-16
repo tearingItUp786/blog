@@ -8,8 +8,20 @@ const initialState = {
   visitedHome: false,
 }
 
+const init = (initialState) => {
+  const globalState = sessionStorage.getItem("globalState")
+  console.log("init", globalState)
+  if (!globalState) return initialState
+  else return JSON.parse(globalState)
+}
+
 export default function GlobalProvider({ children }) {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(reducer, initialState, init)
+
+  React.useEffect(() => {
+    sessionStorage.setItem("globalState", JSON.stringify(state))
+  }, [state])
+
   return (
     <GlobalAppStateContext.Provider value={state}>
       <GlobalAppDispatchContext.Provider value={dispatch}>
