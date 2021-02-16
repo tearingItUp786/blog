@@ -41,10 +41,15 @@ function Hero(props) {
           opacity: 0,
           x: -175,
         })
-        .from("#Left-Echo", 0.5, {
-          opacity: 0,
-          x: 175,
-        })
+        .from(
+          "#Left-Echo",
+          0.5,
+          {
+            opacity: 0,
+            x: 175,
+          },
+          "-=0.5"
+        )
         .from("#Right-Face", 0.75, {
           opacity: 0,
           scale: 1.5,
