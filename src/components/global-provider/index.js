@@ -5,6 +5,7 @@ const GlobalAppStateContext = React.createContext()
 const GlobalAppDispatchContext = React.createContext()
 const initialState = {
   query: "",
+  visitedHome: false,
 }
 
 export default function GlobalProvider({ children }) {
