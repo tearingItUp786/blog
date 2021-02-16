@@ -9,8 +9,7 @@ const initialState = {
 }
 
 const init = (initialState) => {
-  const globalState = sessionStorage.getItem("globalState")
-  console.log("init", globalState)
+  const globalState = window?.sessionStorage.getItem("globalState")
   if (!globalState) return initialState
   else return JSON.parse(globalState)
 }
@@ -19,7 +18,8 @@ export default function GlobalProvider({ children }) {
   const [state, dispatch] = React.useReducer(reducer, initialState, init)
 
   React.useEffect(() => {
-    sessionStorage.setItem("globalState", JSON.stringify(state))
+    if (window.sessionStorage)
+      window.sessionStorage.setItem("globalState", JSON.stringify(state))
   }, [state])
 
   return (
