@@ -39,9 +39,7 @@ function Hero(props) {
         )
         .from("#Right-Echo", 0.5, {
           opacity: 0,
-          scale: 0,
-          transformOrigin: "50% 50%",
-          x: -175,
+          x: -250,
           ease: ExpoScaleEase.config(0.2, 1),
         })
         .from(
@@ -49,16 +47,14 @@ function Hero(props) {
           0.5,
           {
             opacity: 0,
-            scale: 0,
-            transformOrigin: "50% 50%",
-            x: 175,
+            x: 250,
             ease: ExpoScaleEase.config(0.2, 1),
           },
           "-=0.5"
         )
         .from("#Right-Face", 0.5, {
           opacity: 0,
-          scale: 1.25,
+          scale: 1.5,
           transformOrigin: "50% 50%",
           ease: ExpoScaleEase.config(1.5, 1),
         })
@@ -67,7 +63,7 @@ function Hero(props) {
           0.5,
           {
             opacity: 0,
-            scale: 1.25,
+            scale: 1.5,
             transformOrigin: "50% 50%",
             ease: ExpoScaleEase.config(1.5, 1),
           },
@@ -80,8 +76,7 @@ function Hero(props) {
     <div style={{ width: "100vw" }}>
       <div
         style={{
-          width: "calc(1280px * .66)",
-          maxWidth: "90vw",
+          maxWidth: "1080px",
           margin: "auto",
         }}
       >
