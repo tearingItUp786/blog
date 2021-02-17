@@ -39,33 +39,39 @@ function Hero(props) {
         )
         .from("#Right-Echo", 0.5, {
           opacity: 0,
+          scale: 0,
+          transformOrigin: "50% 50%",
           x: -175,
+          ease: ExpoScaleEase.config(0.2, 1),
         })
         .from(
           "#Left-Echo",
           0.5,
           {
             opacity: 0,
+            scale: 0,
+            transformOrigin: "50% 50%",
             x: 175,
+            ease: ExpoScaleEase.config(0.2, 1),
           },
           "-=0.5"
         )
-        .from("#Right-Face", 0.75, {
+        .from("#Right-Face", 0.5, {
           opacity: 0,
-          scale: 1.5,
+          scale: 1.25,
           transformOrigin: "50% 50%",
           ease: ExpoScaleEase.config(1.5, 1),
         })
         .from(
           "#Left-Face",
-          0.75,
+          0.5,
           {
             opacity: 0,
-            scale: 1.5,
+            scale: 1.25,
             transformOrigin: "50% 50%",
             ease: ExpoScaleEase.config(1.5, 1),
           },
-          "-=.75"
+          "-=.5"
         )
     }
   }, [])
