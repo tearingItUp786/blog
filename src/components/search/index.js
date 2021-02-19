@@ -22,12 +22,12 @@ export const SearchContainer = styled.div`
   margin-left: 1rem;
   position: relative;
   margin-right: 3rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0;
 
   &:focus-within {
     > input {
       outline: none;
-      border-color: ${props => props.theme.colors.text};
+      border-color: ${(props) => props.theme.colors.text};
     }
 
     > ul {
@@ -110,7 +110,7 @@ export default function Search(props) {
         onFocus={() => {
           setHasFocus(true)
         }}
-        onBlur={evt => {
+        onBlur={(evt) => {
           if (
             containerRef.current &&
             !containerRef.current.contains(evt.relatedTarget)

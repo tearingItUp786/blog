@@ -12,13 +12,13 @@ const MobileNavContainer = styled.div`
       position: absolute;
       border-radius: .5rem;
       left: 0;
-      background: ${props => props.theme.colors.body};
+      background: ${(props) => props.theme.colors.body};
       transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       top: -5vh;
       width: 100vw;
       height: 105vh;
       transform-origin: right top;
-      ${props =>
+      ${(props) =>
         props.isOpen
           ? "transform: scale(1); opacity: 1"
           : "transform: scale(0); opacity: 0"};
@@ -36,7 +36,7 @@ const HamburgerButton = styled.button`
   border-width: 0;
   cursor: pointer;
   padding: 1rem;
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
   transform: translateY(50%);
   right: 5vw;
   border-style: none;
@@ -46,7 +46,7 @@ const HamburgerButton = styled.button`
 const HamburgerLines = styled.div`
   position: absolute;
   left: 3px;
-  background: ${props =>
+  background: ${(props) =>
     props.isOpen ? "transparent" : props.theme.colors.accent};
   width: 24px;
   height: 2px;
@@ -55,26 +55,26 @@ const HamburgerLines = styled.div`
   &::before {
     position: absolute;
     left: 0;
-    background: ${props => props.theme.colors.accent};
+    background: ${(props) => props.theme.colors.accent};
     content: "";
-    top: ${props => (props.isOpen ? "0px" : "-8px")};
+    top: ${(props) => (props.isOpen ? "0px" : "-8px")};
     width: 24px;
     height: 2px;
-    transform: ${props => (props.isOpen ? "rotate(-45deg)" : "rotate(0deg)")};
+    transform: ${(props) => (props.isOpen ? "rotate(-45deg)" : "rotate(0deg)")};
     transition: transform 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
   }
 
   &::after {
     position: absolute;
     left: 0;
-    background: ${props => props.theme.colors.accent};
+    background: ${(props) => props.theme.colors.accent};
     top: 8px;
     content: "";
     width: 24px;
     height: 2px;
-    transform: ${props => (props.isOpen ? "rotate(45deg)" : "rotate(0deg)")};
+    transform: ${(props) => (props.isOpen ? "rotate(45deg)" : "rotate(0deg)")};
     transition: transform 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
-    top: ${props => (props.isOpen ? "0px" : "")};
+    top: ${(props) => (props.isOpen ? "-5px" : "")};
   }
 `
 
