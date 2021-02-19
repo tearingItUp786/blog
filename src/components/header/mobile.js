@@ -29,7 +29,7 @@ const MobileNavContainer = styled.div`
 
 const HamburgerButton = styled.button`
   z-index: 10;
-  top: 0;
+  top: -5px;
   position: absolute;
   background: transparent;
   border: none;
@@ -74,7 +74,7 @@ const HamburgerLines = styled.div`
     height: 2px;
     transform: ${(props) => (props.isOpen ? "rotate(45deg)" : "rotate(0deg)")};
     transition: transform 300ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
-    top: ${(props) => (props.isOpen ? "-5px" : "")};
+    top: ${(props) => (props.isOpen ? "0px" : "")};
   }
 `
 
