@@ -1,7 +1,7 @@
 import React from "react"
 import Face from "./face2.inline.svg"
 import { gsap } from "gsap"
-import { ExpoScaleEase, TimelineLite } from "gsap/all"
+import { ExpoScaleEase, TimelineLite, Bounce } from "gsap/all"
 
 import styled from "styled-components"
 
@@ -68,6 +68,25 @@ function Hero(props) {
             ease: ExpoScaleEase.config(1.5, 1),
           },
           "-=.5"
+        )
+        .to("#Left-Echo", 2, {
+          repeat: -1,
+          scale: 0.98,
+          yoyo: true,
+          transformOrigin: "50%, 50%",
+          ease: ExpoScaleEase.config(1, 0.98),
+        })
+        .to(
+          "#Right-Echo",
+          2,
+          {
+            repeat: -1,
+            scale: 0.98,
+            yoyo: true,
+            transformOrigin: "50%, 50%",
+            ease: ExpoScaleEase.config(1, 0.98),
+          },
+          "-=2"
         )
     }
   }, [])
