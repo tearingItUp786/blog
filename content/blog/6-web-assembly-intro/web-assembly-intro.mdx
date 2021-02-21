@@ -1,0 +1,247 @@
+---
+title: WebAssembly Beginner Workshop
+subtitle: My recap of what I learned with Jem Young regarding WebAssembly
+date: 2021-02-20
+description: A recap of what I learned in Jem Young's Web Assembly Beginner workshop
+tag: Cool Tech
+---
+
+import {
+  MDXBlockQuote as BlockQuote,
+  MDXShortQuote as ShortQuote,
+  MDXTextLink as TextLink,
+  MDXSmallAsterisk as SmallAsterisk,
+} from "../../../src/components/mdx-comps"
+
+![Matrix](./matrix.jpg)
+
+<SmallAsterisk>
+  Image by {""}
+  <TextLink
+    small
+    href="https://pixabay.com/users/comfreak-51581/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=356024"
+  >
+    Comfreak
+  </TextLink> from <TextLink
+    small
+    href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=356024"
+  >
+    Pixabay
+  </TextLink>
+</SmallAsterisk>
+
+## The why
+
+True to form, I like to start with why (something I picked up from Simon Sinek) and thus, a question that
+I was wanting to have answered in this workshop was why should I, as a Front-end Engineer, care about WebAssembly (WASM).
+
+In a nutshell 🌰, WASM is a low-level language that is meant to be a compile target for high-level languages. It is designed
+to be portable and ran in many different environments. It's a _compliment_ to JavaScript... not a replacement, ye damn trolls 👹.
+Admittedly, my day to day is spent working in one of the highest of the high-level languages (JavaScript) but I the
+"high-level" languages referred to above would be language such as C++, Java, Rust, etc.
+
+At the time of this blog post, all major browsers ship with a <TextLink href="https://mzl.la/3sgLt4m">WebAssembly global object</TextLink>
+that allow us to load in and utilize WASMs.
+
+So again, why, as a Front-end Engineer, do I care about the fact that people who know Rust and other traditionally
+non client side languages can now ship code that can run in the browser? The answer is simple:
+we can now offload work that JavaScript has been historically terrible at to a module written in a more memory efficient and
+battle tested language.
+
+Listen, I love JavaScript, but like all things in the world, it has its shortcomings; never forget, `[] == ![]` evaluates to true... how the heck does the
+empty array equal the parody of the empty array 🤣. I mean, I know why and I'll post it at the bottom of this article, but if you're just picking up the
+language and you saw this piece of code, you'd maybe just say, "fuck it, I don't want to JS". So WASM make senses for things that require memory efficiency
+and powerful computing capabilities, including, but not limited to:
+
+1. Graphics
+2. Compression
+3. Video/Image Processing
+4. Physics simulations
+
+During my day to day, I don't have to worry about creating amazing visual animations or processing massive images to create unique browser experiences,
+but I do know that if I tried to do this in native JavaScript, the experience and the resulting code would be clunky and bug ridden.
+
+## For the JavaScripter who wants to write WASM
+
+If you're like me and other Front-end Engineers, you're probably proficient with JavaScript and know a little bit about
+another language but not enough to do any crazy hectic computing with that secondary language. So how does someone like myself
+get started with WASM without having to put in the backbreaking work of refamiliarising myself or learning a programming
+language? The answer: <TextLink href="https://www.assemblyscript.org/">AssemblyScript</TextLink>
+
+AssemblyScript is a variant of TypeScript that allows us to easily compile to WASM without learning a new language (yay) 😊!
+That being said, this doesn't mean, assuming you're someone who hasn't delved into languages like C/C++, that we don't
+have to learn some new things and think about our programs differently. The big thing that WASM and AssemblyScript ask of
+the programmer is to think about memory allocation and how said memory is being used; if you're a native JS dev,
+you've never probably had to think about garbage collection and efficiency (unless you're a performance engineer).
+
+Here's an example of what I'm talking about:
+
+```JavaScript
+// somefile.js
+export function minusOne(n) {
+  return n - 1;
+}
+
+// assembly/index.ts
+export function minusOne(n: i32): i32 {
+  return n - 1;
+}
+```
+
+Did you notice the difference? It was subtle! The second `minusOne` had the type parameter for the
+`n` argument set as **i32** and the return type as **i32**... but what the heck is **i32?**. Essentially,
+the **i32** is a data type defined in WASM and it stands for 32-bit integer. In JavaScript, we're generally
+not thinking about how many bits comprise our numbers... a number is a number right? No. Not right. Even if
+we've never thought about it, the fact remains, the JavaScript `Number` type is actually a 64 bit signed floating point number; this means
+our numbers in JavaScript can't be greater than 2^53 - 1 (it's not 2^64 because some bits have to be reserved for
+headers etc).
+
+WASM and AssemblyScript **demand** that the programmer think about memory allocation and memory efficiency... it comes with the territory.
+
+Enough about the theory, give me some code...
+
+## Example
+
+### Step 1 - installs
+
+I'm assuming you have the latest version of node installed (we need a version > 14). Create a new directory to huck all this code.
+
+```bash
+$ npm init --yes
+$ npm i --save-dev assemblyscript
+$ npx asinit .
+$ npm run asbuild
+# need this for serving content since we need
+# to set a header of application/wasm on wasm files
+$ npm i express
+```
+
+### Step 2 - The files
+
+Your directory structure should look something like this
+
+```bash
+├── asconfig.json
+├── assembly
+├── build
+├── index.js
+├── node_modules
+├── package-lock.json
+├── package.json
+└── tests
+```
+
+In the `package.json` make these changes so that we utilize the glue code that comes with the AssemblyScript loader:
+
+```JSON:title=package.json
+"asbuild:untouched": "asc assembly/index.ts --target debug --exportRuntime",
+"asbuild:optimized": "asc assembly/index.ts --target release --exportRuntime"
+```
+
+In the `assembly` directory, copy this into index.ts
+
+```ts:title=index.ts
+export function minusOne(n: i32): i32 {
+  return n - 1;
+}
+```
+
+In the root create the following files:
+
+```JavaScript:title=loader.js
+// Basic interface to abstract away loading logic (glue code essentially)
+class WasmLoader {
+  constructor() {
+    // functions we want available as globals to wasm modules
+    this._imports = {
+      env: {
+        abort() {
+          throw new Error("Abort called from wasm file");
+        },
+      },
+      index: {
+        log(x) {
+          console.log(x);
+        },
+      },
+    };
+  }
+
+  async wasm(path, imports = this._imports) {
+    console.log(`fetching ${path}`);
+
+    // loader being the assembly script loader that we imported in index.html
+    if (!loader.instantiateStreaming) {
+      return this.wasmFallback(path, imports);
+    }
+
+    const instance = await loader.instantiateStreaming(fetch(path), imports);
+
+    return instance?.exports;
+  }
+
+  // since safari doesn't have great WASM support
+  async wasmFallback(path, imports) {
+    console.log("using fallback");
+    const response = await fetch(path);
+    const bytes = await response?.arrayBuffer();
+    const instance = await loader.instantiate(bytes, imports);
+
+    return instance?.exports;
+  }
+}
+```
+
+```JavaScript:title=server.js
+const express = require('express');
+const app = express();
+// Serve static files from root (note: do not do this in production code)
+app.use(express.static('./'))
+
+app.listen(3000, () => console.log('Server up on port 3000!'));
+```
+
+```html:title=index.html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="main"></div>
+  <!-- Need this to actually be able to use assembly script in the browser -->
+  <script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"></script>
+
+  <script src=/js/loader.js></script>
+  <script>
+    const WL = new WasmLoader();
+    WL.wasm('/build/optimized.wasm')
+      .then(instance => {
+          const { minusOne } = instance;
+          document.write(minusOne(44));
+      });
+  </script>
+</body>
+</html>
+```
+
+### Step 3 - build and run
+
+First, use node to run your server with `node server.js` so that when you hit localhost:3000, you'll be served something.
+
+Then, we need to actually compile our wasm code so run `npm run asbuild`.
+
+Finally, visit `localhost:3000` and behold the glory.
+
+#### Closing Thoughts
+
+WASM is a pretty damn cool idea that will make web applications way better in the future! But, again, like a lot of things
+in computer science, it depends on the use case. If I were to create a case management application, for example,
+it may be more performant to do it in AssemblyScript but not was programatically friendly as something done in
+TypeScript that compiles into native JavaScript. However, if I was making something like a virtual tour viewer
+like for a museum or something, I'd consider doing some of the processing in WASM and the navigation or other items
+in JavaScript.
+
+Where to learn more:
+
+- <TextLink href="https://wasi.dev/">Wasi</TextLink> - WASM System interface.
+- <TextLink href="https://madewithwebassembly.com/">Made with WASM</TextLink> - Showcase
+  of WASM applications!
