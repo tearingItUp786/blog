@@ -65,7 +65,7 @@ but I do know that if I tried to do this in native JavaScript, the experience an
 
 If you're like me and other Front-end Engineers, you're probably proficient with JavaScript and know a little bit about
 another language but not enough to do any crazy hectic computing with that secondary language. So how does someone like myself
-get started with WASM without having to put in the backbreaking work of refamiliarising myself or learning a programming
+get started with WASM without having to put in the backbreaking work of refamiliarising myself or learning a new programming
 language? The answer: <TextLink href="https://www.assemblyscript.org/">AssemblyScript</TextLink>
 
 AssemblyScript is a variant of TypeScript that allows us to easily compile to WASM without learning a new language (yay) 😊!
@@ -91,9 +91,9 @@ export function minusOne(n: i32): i32 {
 Did you notice the difference? It was subtle! The second `minusOne` had the type parameter for the
 `n` argument set as **i32** and the return type as **i32**... but what the heck is **i32?**. Essentially,
 the **i32** is a data type defined in WASM and it stands for 32-bit integer. In JavaScript, we're generally
-not thinking about how many bits comprise our numbers... a number is a number right? No. Not right. Even if
+not thinking about how many bits comprise our numbers... a number is a number, right? No. Not right. Even if
 we've never thought about it, the fact remains, the JavaScript `Number` type is actually a 64 bit signed floating point number; this means
-our numbers in JavaScript can't be greater than 2^53 - 1 (it's not 2^64 because some bits have to be reserved for
+numbers in JavaScript can't be greater than 2^53 - 1 (it's not 2^64 because some bits have to be reserved for
 headers etc).
 
 WASM and AssemblyScript **demand** that the programmer think about memory allocation and memory efficiency... it comes with the territory.
@@ -194,6 +194,7 @@ class WasmLoader {
 ```
 
 ```JavaScript:title=server.js
+// this is needed so we can serve application/wasm
 const express = require('express');
 const app = express();
 // Serve static files from root (note: do not do this in production code)
@@ -236,8 +237,8 @@ Finally, visit `localhost:3000` and behold the glory.
 
 WASM is a pretty damn cool idea that will make web applications way better in the future! But, again, like a lot of things
 in computer science, it depends on the use case. If I were to create a case management application, for example,
-it may be more performant to do it in AssemblyScript but not was programatically friendly as something done in
-TypeScript that compiles into native JavaScript. However, if I was making something like a virtual tour viewer
+it may be more performant to do it in AssemblyScript but not as programatically friendly as something done in
+JavaScript/TypeScript. However, if I was making something like a virtual tour viewer
 like for a museum or something, I'd consider doing some of the processing in WASM and the navigation or other items
 in JavaScript.
 
@@ -246,3 +247,13 @@ Where to learn more:
 - <TextLink href="https://wasi.dev/">Wasi</TextLink> - WASM System interface.
 - <TextLink href="https://madewithwebassembly.com/">Made with WASM</TextLink> - Showcase
   of WASM applications!
+
+#### **What's going on with `[] == ![]`**
+
+1. Remember that there is operator precedence
+2. First the ! Operator does Boolean([]) which evaluates to true
+3. Then the negate operator says: I need to give you the parody of this value
+4. So now the right side is false
+5. So what we have is [] == false.
+
+Now both left and right are coerced into Number as == prefers numbers. So what we get is 0 == 0.
