@@ -1,0 +1,13 @@
+---
+title: Valid header values
+date: 2021-02-22
+tag: Best Practices
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Turns out header values are always strings. So if there's a header value like x-header and you want
+to see if it is true or false in JS, doing Boolean(req.header['x-header']) would be `true` regardless because
+"true" and "false" are both true for `Boolean` constructor. 
+
+You can do something like req.header['x-header'] === 'true' 
