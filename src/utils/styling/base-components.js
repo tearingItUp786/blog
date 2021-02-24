@@ -10,49 +10,177 @@ import {
 } from "./typo"
 
 export const GlobalStyle = createGlobalStyle`
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-BoldItalic.woff2') format('woff2'),
+        url('DMSans-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-Bold.woff2') format('woff2'),
+        url('DMSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-MediumItalic.woff2') format('woff2'),
+        url('DMSans-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-Bold.woff2') format('woff2'),
+        url('Lora-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Serif Display';
+    src: url('DMSerifDisplay-Italic.woff2') format('woff2'),
+        url('DMSerifDisplay-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-BoldItalic.woff2') format('woff2'),
+        url('Lora-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Serif Display';
+    src: url('DMSerifDisplay-Regular.woff2') format('woff2'),
+        url('DMSerifDisplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-Italic.woff2') format('woff2'),
+        url('DMSans-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-Regular.woff2') format('woff2'),
+        url('DMSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('DMSans-Medium.woff2') format('woff2'),
+        url('DMSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-Italic.woff2') format('woff2'),
+        url('Lora-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-Medium.woff2') format('woff2'),
+        url('Lora-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-Regular.woff2') format('woff2'),
+        url('Lora-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('Lora-MediumItalic.woff2') format('woff2'),
+        url('Lora-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+
     html, body {
       font-weight: 400;
-      color: ${props => props.theme.colors.text};
+      color: ${(props) => props.theme.colors.text};
       -webkit-overflow-scrolling: touch;
       line-height: 1.625;
-      font-family: ${props =>
+      font-family: ${(props) =>
         props.theme.fontFamily.body.reduce(arrToFontString)};
     }
 
     html {
-      background: ${props => props.theme.colors.body};
+      background: ${(props) => props.theme.colors.body};
     }
     body {
       overflow: scroll;
-      background: ${props => props.theme.colors.body};
-      color: ${props => props.theme.colors.text};
+      background: ${(props) => props.theme.colors.body};
+      color: ${(props) => props.theme.colors.text};
       font-size: 1.125rem;
       padding: 0;
       margin: 0;
-      font-family: ${props =>
+      font-family: ${(props) =>
         props.theme.fontFamily.body.reduce(arrToFontString)};
     }
     h1 {
-      ${props => title1Styles(props)}
+      ${(props) => title1Styles(props)}
     }
     h2 {
-      ${props => title2Styles({ ...props, noMarginBottom: true })} 
+      ${(props) => title2Styles({ ...props, noMarginBottom: true })} 
     }
     h3{ 
-      ${props => title3Styles(props)}
+      ${(props) => title3Styles(props)}
     }
     h4 {
-      ${props => title4Styles(props)}
+      ${(props) => title4Styles(props)}
     }
     h5 {
-      ${props => title5Styles({ ...props, marginBottom: "2" })}
+      ${(props) => title5Styles({ ...props, marginBottom: "2" })}
     }
     p {
-      ${props => paragraphStyles(props)};
+      ${(props) => paragraphStyles(props)};
     }
     hr {
       margin-top: 0;
-      border-color: ${props => props.theme.colors.text};
+      border-color: ${(props) => props.theme.colors.text};
       border-style: solid;
     }
 
@@ -72,7 +200,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     a.anchor svg[aria-hidden="true"] {
-      stroke: ${props => props.theme.colors.accent};
+      stroke: ${(props) => props.theme.colors.accent};
     }
 
     h1,h2,h3,h4,h5 {
@@ -88,12 +216,12 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     strong {
-      color: ${props => props.theme.colors.accent};
+      color: ${(props) => props.theme.colors.accent};
     }
     
     input { 
       font-size: 1rem;
-      font-family: ${props =>
+      font-family: ${(props) =>
         props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
     }
 
@@ -109,7 +237,7 @@ export const GlobalStyle = createGlobalStyle`
       margin-left: -1em;
       padding-right: 1em;
       padding-left: 0.75em;
-      border-left: 0.25em solid ${props => props.theme.colors.accent};
+      border-left: 0.25em solid ${(props) => props.theme.colors.accent};
     }
 
     .gatsby-highlight pre[class*="language-"] {
