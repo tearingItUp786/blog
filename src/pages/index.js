@@ -14,7 +14,7 @@ function BlogIndex(props) {
 
   return (
     <Layout isHome>
-      <SEO title="All posts" />
+      <SEO title="Home of my thoughts" />
       {BlogCards}
     </Layout>
   )
