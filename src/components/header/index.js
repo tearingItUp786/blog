@@ -22,7 +22,7 @@ import { debounce } from "../../utils/helpers"
 function Header(props) {
   const { query } = useGlobalAppState()
   const globalDispatch = useGlobalAppDispatch()
-  const setQuery = val => updateQuery(globalDispatch, val)
+  const setQuery = (val) => updateQuery(globalDispatch, val)
   const [isOpen, updateMenu] = useState(null)
   const [height, setHeight] = useState(0)
   const [isFixed, setFixed] = useState(false)
@@ -80,7 +80,9 @@ function Header(props) {
 
   useLayoutEffect(() => {
     if (hash) {
-      const el = document.querySelector(hash)
+      // can't have an id leading with a number;
+      const idToUse = hash.slice(1)
+      const el = document.querySelector(`[id='${idToUse}']`)
       if (el) {
         const elementOffset = el && el.offsetTop
         window.scrollTo(0, elementOffset - 100)
