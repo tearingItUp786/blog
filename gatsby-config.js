@@ -25,14 +25,6 @@ module.exports = {
       options: {},
     },
     {
-      resolve: "gatsby-plugin-web-font-loader",
-      options: {
-        google: {
-          families: ["DM Sans:400, 700", "DM Serif Display:400", "Lora:400"],
-        },
-      },
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,

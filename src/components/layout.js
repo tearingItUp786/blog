@@ -8,6 +8,9 @@ import { GlobalStyle } from "../utils/styling/base-components"
 import Header from "./header"
 import Hero from "./hero"
 import Footer from "./footer"
+import "@fontsource/dm-sans"
+import "@fontsource/dm-serif-display"
+import "@fontsource/lora"
 
 const Main = styled.main`
   width: calc(${customMediaObject.xl} * 0.66);
