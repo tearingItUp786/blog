@@ -44,6 +44,7 @@ export const StyledNavContainer = styled.div`
   width: 100%;
   z-index: 10;
   background: ${(props) => (props.isFixed ? "white" : "transparent")};
+  will-change: transform;
   ${(props) =>
     props.isFixed
       ? {
