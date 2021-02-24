@@ -1,3 +1,7 @@
+import "@fontsource/dm-sans"
+import "@fontsource/dm-serif-display"
+import "@fontsource/lora"
+
 import React from "react"
 import styled from "styled-components"
 import { ThemeProvider } from "styled-components"
