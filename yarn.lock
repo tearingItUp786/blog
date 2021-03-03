@@ -1467,10 +1467,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.1.tgz#76cc8a6dca92c196b00cec20460bea05942e61b7"
   integrity sha512-kLPBImOXWzRulMHJEHKrnhaEDcck4Qoc0b2N4qKy94DKDeUdoU3kcb/y9279Ak3GZ+by3JmzT6OMC4f6M5gjeg==
 
-"@fontsource/dm-serif-display@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.1.tgz#7c9d7e7d0afc43abf6a998f6c2aef88a95aa42bf"
-  integrity sha512-gwf0RLBB0xfxSsUBJqJqC23ePuW1DEphFz3HiN0lBitgUwFNjHlnv33zMcNQ/JTEUyroaCRBgN/nH66VLev8FQ==
+"@fontsource/dm-serif-display@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.2.tgz#b7e034b77013c3f0a86689168fe0d014c2135efd"
+  integrity sha512-4f9dWpCb8AbmTtl16jxOGj9THRtajXAGNBSbyhbs6+YF3IGI4bOhKMEG6hQEhMnhgOY+PKJVn4fUD4t9sn4ZKw==
 
 "@fontsource/lora@4.2.1":
   version "4.2.1"
