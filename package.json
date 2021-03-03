@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "author": "Taran Bains <taranveer786@gmail.com>",
   "dependencies": {
-    "@fontsource/dm-sans": "4.2.1",
+    "@fontsource/dm-sans": "4.2.2",
     "@fontsource/dm-serif-display": "4.2.1",
     "@fontsource/lora": "4.2.1",
     "@mdx-js/mdx": "1.6.21",
