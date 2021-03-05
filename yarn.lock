@@ -1462,21 +1462,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/dm-sans@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.1.tgz#76cc8a6dca92c196b00cec20460bea05942e61b7"
-  integrity sha512-kLPBImOXWzRulMHJEHKrnhaEDcck4Qoc0b2N4qKy94DKDeUdoU3kcb/y9279Ak3GZ+by3JmzT6OMC4f6M5gjeg==
-
-"@fontsource/dm-serif-display@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.1.tgz#7c9d7e7d0afc43abf6a998f6c2aef88a95aa42bf"
-  integrity sha512-gwf0RLBB0xfxSsUBJqJqC23ePuW1DEphFz3HiN0lBitgUwFNjHlnv33zMcNQ/JTEUyroaCRBgN/nH66VLev8FQ==
-
-"@fontsource/lora@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/lora/-/lora-4.2.1.tgz#0e52d21f167b3d0433744bcef9bd1c00ecbf3181"
-  integrity sha512-alufqFaVNyHyA/Aa21EgPxyWbzTShraw8nNNWL6qu+O1eMmNB8T3HYQe1vrDAgZjPhSFYLUhxBphctk3AYsT5w==
-
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-2.3.0.tgz"
