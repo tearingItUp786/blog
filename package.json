@@ -58,7 +58,7 @@
     "unist-util-visit": "2.0.3"
   },
   "devDependencies": {
-    "eslint-config-react-app": "5.2.1",
+    "eslint-config-react-app": "6.0.0",
     "eslint-plugin-react-hooks": "1.7.0",
     "plop": "2.7.4",
     "prettier": "2.2.1",
