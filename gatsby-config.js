@@ -108,7 +108,7 @@ module.exports = {
         // Fields to index. If store === true value will be stored in index file.
         // Attributes for custom indexing logic. See https://lunrjs.com/docs/lunr.Builder.html for details
         fields: [
-          { name: "title", store: true, attributes: { boost: 20 } },
+          { name: "title", store: true, attributes: { boost: 40 } },
           { name: "excerpt", store: true },
           { name: "content" },
           { name: "type", store: true },
@@ -126,7 +126,13 @@ module.exports = {
                 .parse(node.rawBody)
               let excerpt = ""
               visit(tree, "text", (an) => {
-                excerpt += an.value
+                if (!an.value.match(/^import {/gi)) {
+                  if (!excerpt.match(/\s+$/gi)) {
+                    excerpt += ` ${an.value}`
+                  } else {
+                    excerpt += an.value
+                  }
+                }
               })
               const length = 140
               const val = excerpt.slice(0, length) + "..."
