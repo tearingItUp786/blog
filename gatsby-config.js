@@ -111,7 +111,6 @@ module.exports = {
         fields: [
           { name: "title", store: true, attributes: { boost: 40 } },
           { name: "excerpt", store: true },
-          { name: "content" },
           { name: "type", store: true },
           { name: "url", store: true },
         ],
