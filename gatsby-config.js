@@ -1,4 +1,5 @@
 const capitalize = require(`remark-capitalize`)
+const fs = require("fs")
 const emoji = require(`remark-emoji`)
 const remark = require("remark")
 const mdx = require("remark-mdx")
@@ -126,7 +127,7 @@ module.exports = {
                 .parse(node.rawBody)
               let excerpt = ""
               visit(tree, "text", (an) => {
-                if (!an.value.match(/^import {/gi)) {
+                if (!an.value.match(/^import {?/gi)) {
                   if (!excerpt.match(/\s+$/gi)) {
                     excerpt += ` ${an.value}`
                   } else {
