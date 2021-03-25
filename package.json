@@ -38,7 +38,7 @@
     "gatsby-source-filesystem": "3.0.0",
     "gatsby-transformer-remark": "3.0.0",
     "gatsby-transformer-sharp": "3.0.0",
-    "gsap": "3.6.0",
+    "gsap": "3.6.1",
     "prismjs": "1.23.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
