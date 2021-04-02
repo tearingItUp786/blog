@@ -51,7 +51,7 @@
     "remark-mdx": "1.6.22",
     "remark-mdx-remove-imports": "^1.6.22",
     "remark-react": "^8.0.0",
-    "styled-components": "5.2.1",
+    "styled-components": "5.2.3",
     "styled-media-query": "2.1.2",
     "styled-normalize": "8.0.7",
     "tailwind.macro": "1.0.0-alpha.10",
