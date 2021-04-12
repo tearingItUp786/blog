@@ -9,7 +9,7 @@ const StyledFooter = styled.footer`
 
 const GatsbyLink = styled.a`
   font-size: 1rem;
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
   text-align: center;
   display: block;
   margin-left: auto;
@@ -19,7 +19,7 @@ const GatsbyLink = styled.a`
   transition: color 300ms ease-in-out;
 
   &:hover {
-    color: ${props => props.theme.colors.accent};
+    color: ${(props) => props.theme.colors.accent};
   }
 `
 const TwitterLink = styled(GatsbyLink)`
@@ -54,6 +54,9 @@ function Footer(props) {
       >
         Follow me on Twitter!
       </TwitterLink>
+      <GatsbyLink aria-label="Privacy Policy" href="/privacy">
+        Privacy Policy
+      </GatsbyLink>
     </StyledFooter>
   )
 }

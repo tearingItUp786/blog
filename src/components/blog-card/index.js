@@ -11,16 +11,14 @@ import {
 } from "../../utils/styling/typo"
 const CardContainer = styled.article`
   width: 100%;
-  margin-bottom: 48px;
+  margin-bottom: 2rem;
 
   &:last-of-type {
     margin-bottom: 0;
   }
 `
 
-const Title = styled(Title2)`
-  margin-bottom: 1rem;
-`
+const Title = styled(Title2)``
 
 const PostInfo = DateAndAuth
 
@@ -90,7 +88,7 @@ function BlogCard(props) {
 
   return (
     <CardContainer>
-      <Title id={slug}>
+      <Title noMargin id={slug}>
         <TitleLink black={id} slug={id ? `#${slug}` : slug} title={title} />
       </Title>
       <PostInfo inverse={true}>

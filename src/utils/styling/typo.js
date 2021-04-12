@@ -9,6 +9,7 @@ import { marginBottom, marginTop } from "./tailwind-macro-helpers"
 function commonProps(props) {
   const ret = [
     props.center ? { textAlign: "center" } : null,
+    props.noPadding ? { padding: 0 } : null,
     props.noMarginBottom ? { marginBottom: 0 } : null,
     props.noMarginTop ? { marginTop: 0 } : null,
     props.noVertMargin ? { marginTop: 0, marginBottom: 0 } : null,
@@ -23,89 +24,103 @@ function commonProps(props) {
   return ret
 }
 
-export const title1Styles = props => ({
-  ...commonProps(props),
+export const title1Styles = (props) => ({
   fontSize: "1.875rem",
   "@media (min-width: 768px)": {
     fontSize: "3rem",
   },
   fontFamily: props.theme.fontFamily.display.reduce(arrToFontString),
+  ...commonProps(props),
 })
 
-export const title2Styles = props => ({
-  ...commonProps(props),
+export const title2Styles = (props) => ({
   color: props.theme.colors.text,
   fontSize: "1.875rem",
   "@media (min-width: 768px)": {
     fontSize: "2.25rem",
   },
   fontFamily: props.theme.fontFamily.display.reduce(arrToFontString),
+  margin: 0,
+  paddingTop: "1.25rem",
+  paddingBottom: "1rem",
+  ...commonProps(props),
 })
 
-export const title3Styles = props => ({
-  ...commonProps(props),
+export const title3Styles = (props) => ({
   color: props.theme.colors.textLight,
   fontSize: "1.5rem",
   fontWeight: 400,
   fontFamily: props.theme.fontFamily.displaySecondary.reduce(arrToFontString),
+  margin: 0,
+  paddingTop: "1rem",
+  paddingBottom: ".5rem",
+  ...commonProps(props),
 })
 
-export const title4Styles = props => ({
-  ...commonProps(props),
+export const title4Styles = (props) => ({
   color: props.theme.colors.oppBody,
   fontSize: "1.25rem",
   fontWeight: 500,
   fontFamily: props.theme.fontFamily.displaySecondary.reduce(arrToFontString),
+  margin: 0,
+  paddingTop: "1rem",
+  paddingBottom: ".5rem",
+  ...commonProps(props),
 })
 
-export const title5Styles = props => ({
-  ...commonProps(props),
+export const title5Styles = (props) => ({
   fontSize: "1.25rem",
   color: props.theme.colors.text,
   fontWeight: 500,
   fontFamily: props.theme.fontFamily.displaySecondary.reduce(arrToFontString),
+  margin: 0,
+  paddingTop: "1rem",
+  paddingBottom: ".5rem",
+  ...commonProps(props),
 })
 
-export const paragraphStyles = props => ({
-  ...commonProps(props),
+export const paragraphStyles = (props) => ({
   color: props.theme.colors.text,
   fontSize: "1.125rem",
   fontFamily: props.theme.fontFamily.body.reduce(arrToFontString),
+  marginTop: 0,
+  ...commonProps(props),
 })
 
 export const Title = styled.h1`
-  ${props => title1Styles(props)};
+  ${(props) => title1Styles(props)};
 `
 export const Title2 = styled.h2`
-  ${props => title2Styles(props)}
+  ${(props) => title2Styles(props)}
 `
 
 export const Title3 = styled.h3`
-  ${props => title3Styles(props)}
+  ${(props) => title3Styles(props)},
 `
 export const Title4 = styled.h4`
-  ${props => title4Styles(props)}
+  ${(props) => title4Styles(props)}
 `
 
 export const Title5 = styled.h5`
-  ${props => title5Styles(props)}
+  ${(props) => title5Styles(props)}
 `
 
 export const Paragraph = styled.p`
-  ${props => paragraphStyles(props)}
+  ${(props) => paragraphStyles(props)}
 `
 
-export const TextLink = styled.a.attrs(props => ({
+export const TextLink = styled.a.attrs((props) => ({
   target: props.target || "blank",
 }))`
-  ${props => commonProps(props)}
-  color: ${props => props.theme.colors.accent};
-  font-size: ${props => (props.small ? ".875rem" : "1.125rem")};
+  ${(props) => commonProps(props)}
+  color: ${(props) => props.theme.colors.accent};
+  font-size: ${(props) => (props.small ? ".875rem" : "1.125rem")};
   text-decoration: underline;
-  font-family: ${props => props.theme.fontFamily.body.reduce(arrToFontString)};
+  font-family: ${(props) =>
+    props.theme.fontFamily.body.reduce(arrToFontString)};
 `
 
-export const TagsPageLink = styled(TextLink).attrs(props => ({
+export const TagsPageLink = styled(TextLink).attrs((props) => ({
   target: "_self",
 }))`
   margin-right: 2rem;
@@ -115,23 +130,23 @@ export const TagsPageLink = styled(TextLink).attrs(props => ({
 `
 
 export const DateAndAuth = styled.p`
-  font-size: .875rem;
-  color: ${props =>
+  font-size: 0.875rem;
+  color: ${(props) =>
     props.inverse ? props.theme.colors.oppBody : props.theme.colors.accent};
-  ${props => commonProps(props)}
-  font-family: ${props =>
+  ${(props) => commonProps(props)}
+  font-family: ${(props) =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
 `
 export const PhotoCaption = styled.figcaption`
-  ${props => commonProps(props)}
-  color: ${props => props.theme.colors.textLighter};
-  font-size: .75rem;
-  font-family: ${props =>
+  ${(props) => commonProps(props)}
+  color: ${(props) => props.theme.colors.textLighter};
+  font-size: 0.75rem;
+  font-family: ${(props) =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
 `
 
 export const BlockQuote = styled.blockquote`
-  ${props => title2Styles(props)}
+  ${(props) => title2Styles(props)}
   border-left-width: 4px;
   border-right-width: 0;
   border-top-width: 0;
@@ -140,16 +155,15 @@ export const BlockQuote = styled.blockquote`
   padding-left: 0.5rem;
   margin-top: 4rem;
   margin-bottom: 4rem;
-  border-color: ${props => props.theme.colors.accent};
+  border-color: ${(props) => props.theme.colors.accent};
 `
 
 const ShortQuoteInternal = styled.blockquote`
   font-size: 1.875rem;
   margin-top: 4rem;
   margin-bottom: 4rem;
-  padding-top: 2rem;
   font-style: italic;
-  font-family: ${props =>
+  font-family: ${(props) =>
     props.theme.fontFamily.display.reduce(arrToFontString)};
 
   ${customMedia.lessThan("md")`
@@ -161,7 +175,7 @@ const ShortQuoteInternal = styled.blockquote`
     text-align: center;
     font-size: 8rem;
     line-height: 0;
-    color: ${props => props.theme.colors.accent};
+    color: ${(props) => props.theme.colors.accent};
   }
 `
 
@@ -179,24 +193,24 @@ export const SmallAsterisk = styled.span`
 export const NavLink = styled(({ hideDesktop, ...restProps }) => (
   <Link {...restProps} />
 ))`
-
-   width: 100%;
-   padding-top: 0.5rem;
-   padding-bottom: 0.5rem;
-   text-align: center;
-   text-decoration: none;
-   text-transform: uppercase;
-   cursor: pointer;
-   color: ${props => props.theme.colors.text};
-   font-size: 1rem;
-   &:focus, &:hover {
-     color: ${props => props.theme.colors.accent};
-     font-weight: 700;
-   }
-   display: ${props => (props.hideDesktop ? "none" : "inline-block")};
-  ${props => commonProps(props)}
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: ${(props) => props.theme.colors.text};
+  font-size: 1rem;
+  &:focus,
+  &:hover {
+    color: ${(props) => props.theme.colors.accent};
+    font-weight: 700;
+  }
+  display: ${(props) => (props.hideDesktop ? "none" : "inline-block")};
+  ${(props) => commonProps(props)}
   transition: ${arrTransitionCss([{ attr: "color" }])};
-  font-family: ${props =>
+  font-family: ${(props) =>
     props.theme.fontFamily.displaySecondary.reduce(arrToFontString)};
 
   ${customMedia.greaterThan("md")`
@@ -208,7 +222,7 @@ export const NavLink = styled(({ hideDesktop, ...restProps }) => (
 
   &.active {
     font-weight: 700;
-    color: ${props => props.theme.colors.oppBody};
+    color: ${(props) => props.theme.colors.oppBody};
     text-decoration: underline;
   }
 `

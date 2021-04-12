@@ -30,7 +30,7 @@ class BlogPostTemplate extends React.Component {
         <Title center marginBottom="1">
           {splitTitle}
         </Title>
-        <Title3 center noMarginTop noMarginBottom>
+        <Title3 noPadding center noMarginTop noMarginBottom>
           {post.frontmatter.subtitle}
         </Title3>
         <DateAndAuth center marginTop="1">
