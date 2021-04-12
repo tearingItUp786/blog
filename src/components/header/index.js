@@ -79,15 +79,18 @@ function Header(props) {
   }, [isOpen])
 
   useLayoutEffect(() => {
-    if (hash) {
-      // can't have an id leading with a number;
-      const idToUse = hash.slice(1)
-      const el = document.querySelector(`[id='${idToUse}']`)
-      if (el) {
-        const elementOffset = el && el.offsetTop
-        window.scrollTo(0, elementOffset - 100)
+    // use a timeout so that this goes to the bottom of the queue
+    setTimeout(() => {
+      if (hash) {
+        // can't have an id leading with a number;
+        const idToUse = hash.slice(1)
+        const el = document.querySelector(`[id='${idToUse}']`)
+        if (el) {
+          const elementOffset = el && el.offsetTop
+          window.scrollTo(0, elementOffset)
+        }
       }
-    }
+    }, 0)
   }, [hash])
 
   const data = useStaticQuery(graphql`
