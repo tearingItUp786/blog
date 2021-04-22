@@ -57,7 +57,7 @@
     "tailwind.macro": "1.0.0-alpha.10",
     "typography": "0.16.19",
     "typography-theme-wordpress-2016": "0.16.19",
-    "unist-util-visit": "3.0.0"
+    "unist-util-visit": "2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
