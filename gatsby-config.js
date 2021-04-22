@@ -178,40 +178,40 @@ module.exports = {
       },
     },
     `gatsby-plugin-well-known`,
-    // {
-    //   /* Include plugin */
-    //   resolve: "gatsby-omni-font-loader",
+    {
+      /* Include plugin */
+      resolve: "gatsby-omni-font-loader",
 
-    //   /* Plugin options */
-    //   options: {
-    //     /* Font loading mode */
-    //     mode: "async",
+      /* Plugin options */
+      options: {
+        /* Font loading mode */
+        mode: "async",
 
-    //     /* Enable font loading listener to handle FOUT */
-    //     enableListener: true,
+        /* Enable font loading listener to handle FOUT */
+        enableListener: true,
 
-    //     /* Preconnect URL-s. This example is for Google Fonts */
-    //     preconnect: ["https://fonts.gstatic.com"],
+        /* Preconnect URL-s. This example is for Google Fonts */
+        preconnect: ["https://fonts.gstatic.com"],
 
-    //     /* Web fonts. File link should point to font CSS file. */
-    //     web: [
-    //       {
-    //         /* Exact name of the font as defied in @font-face CSS rule */
-    //         name: "DM Sans",
-    //         /* URL to the font CSS file with @font-face definition */
-    //         file:
-    //           "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700",
-    //       },
-    //       {
-    //         name: "DM Serif Display",
-    //         file: "https://fonts.googleapis.com/css2?family=DM+Serif+Display",
-    //       },
-    //       {
-    //         name: "Lora",
-    //         file: "https://fonts.googleapis.com/css2?family=Lora",
-    //       },
-    //     ],
-    //   },
-    // },
+        /* Web fonts. File link should point to font CSS file. */
+        web: [
+          {
+            /* Exact name of the font as defied in @font-face CSS rule */
+            name: "DM Sans",
+            /* URL to the font CSS file with @font-face definition */
+            file:
+              "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700",
+          },
+          {
+            name: "DM Serif Display",
+            file: "https://fonts.googleapis.com/css2?family=DM+Serif+Display",
+          },
+          {
+            name: "Lora",
+            file: "https://fonts.googleapis.com/css2?family=Lora",
+          },
+        ],
+      },
+    },
   ],
 }
