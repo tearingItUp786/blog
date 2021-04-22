@@ -1,0 +1,20 @@
+---
+title: React.FC - don't bother
+date: 2021-04-21
+tag: TS
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+`React.FC` was more meant to help beginners get more comfortable writing
+React components with TS but honestly, the cons of using it (always having the ability
+to pass `children` to your component even though you might not be rendering said `children`)
+make me want to not use it.
+
+If you're wanting to type `children`, you can do:
+
+```tsx
+type Props = {
+  children?: React.ReactNode
+}
+```
