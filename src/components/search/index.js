@@ -118,7 +118,8 @@ export default function Search(props) {
       onMouseMove={() => setFromKeyboard(false)}
     >
       <SearchInput
-        placeholder="Search material... ⁄"
+        hideSlash={hasFocus}
+        placeholder="Search material..."
         type="search"
         value={query}
         onChange={search}
