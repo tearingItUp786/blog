@@ -19,6 +19,7 @@ const SearchInput = React.forwardRef(
     return (
       <SInput
         {...rest}
+        id="global-search"
         ref={ref}
         onChange={onChange}
         resultsLength={resultsLength}

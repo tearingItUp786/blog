@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react"
+import React from "react"
 import styled, { keyframes } from "styled-components"
 import { navigate } from "gatsby"
 
@@ -50,9 +50,23 @@ export default function Search(props) {
   const sRef = React.useRef(null)
   const containerRef = React.useRef(null)
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     if (highlightIndex === -1 && sRef.current) sRef.current.focus()
   }, [highlightIndex])
+
+  React.useEffect(() => {
+    const { current } = sRef
+
+    const handler = (evt) => {
+      if (evt.key === "/" && document.activeElement !== current) {
+        evt.preventDefault()
+        evt.stopPropagation()
+        current?.focus()
+      }
+    }
+    document.addEventListener("keydown", handler)
+    return () => document.removeEventListener("keydown", handler)
+  }, [])
 
   function search(event) {
     const val = event.target.value
@@ -93,6 +107,7 @@ export default function Search(props) {
       if (type !== "TIL") navigate(url, {})
       else {
         navigate(`/til#${url}`, {})
+        sRef.current?.blur()
       }
     }
   }
@@ -103,7 +118,7 @@ export default function Search(props) {
       onMouseMove={() => setFromKeyboard(false)}
     >
       <SearchInput
-        placeholder="Search material"
+        placeholder="Search material... ⁄"
         type="search"
         value={query}
         onChange={search}
