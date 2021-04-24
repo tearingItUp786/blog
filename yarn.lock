@@ -1083,17 +1083,17 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/dm-sans@^4.2.2":
+"@fontsource/dm-sans@4.2.2":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.2.tgz#72601e1ced27468a5fb84853806f5611722961ca"
   integrity sha512-dW370yx7ZF5/wot4+gdZs+uXQFJ1hxtbwz4M7Kgtca98IMxyLUtS2wRgmIKqNLYGX+lJq2OHJS8xZtj7Dvw2rw==
 
-"@fontsource/dm-serif-display@^4.2.3":
+"@fontsource/dm-serif-display@4.2.3":
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.3.tgz#5330c03b57c5014a843d2b4f1aebce2b9c9e94ee"
   integrity sha512-aHa4enUktzEquiBHLoo6VA1vkxd4MXOgDZa8hwMKk1RYL+2O+ykG5UaTrYyfWN0BlqYeMwsW/ygX3blibEK4Zw==
 
-"@fontsource/lora@^4.2.2":
+"@fontsource/lora@4.2.2":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@fontsource/lora/-/lora-4.2.2.tgz#39f6d867fb016b042b148b5ce40cd88444b74dff"
   integrity sha512-FswpuT8Qq44Zp8X3FRiQt81ZAMpsIULVmnAJaNNBZzE0GB5RSTHVtrs0sopDbamkmEoHYHwFBHSVjyQGw14r5g==
@@ -1613,7 +1613,7 @@
   dependencies:
     unist-util-visit "^1.3.0"
 
-"@mdx-js/mdx@^1.6.22":
+"@mdx-js/mdx@1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.6.22.tgz#8a723157bf90e78f17dc0f27995398e6c731f1ba"
   integrity sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==
@@ -1638,7 +1638,7 @@
     unist-builder "2.0.3"
     unist-util-visit "2.0.3"
 
-"@mdx-js/react@^1.6.22":
+"@mdx-js/react@1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.6.22.tgz#ae09b4744fddc74714ee9f9d6f17a66e77c43573"
   integrity sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==
@@ -6423,7 +6423,7 @@ gatsby-link@^3.3.0:
     "@types/reach__router" "^1.3.7"
     prop-types "^15.7.2"
 
-gatsby-omni-font-loader@^1.3.1:
+gatsby-omni-font-loader@1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/gatsby-omni-font-loader/-/gatsby-omni-font-loader-1.3.1.tgz#5fc60ce1543610fde482e02f0d64dfe85690b459"
   integrity sha512-nolzVIP6EBfhuzbvdwFUB3YLfVxwIn8MR+3veFrbdg3Z64rmja7i7VMRRvkThF8+W3ofHzltbbGCpXGlrr8u8g==
@@ -12081,7 +12081,7 @@ react-fast-compare@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-helmet@^6.1.0:
+react-helmet@6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
   integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
@@ -12391,7 +12391,7 @@ remark-gfm@^1.0.0:
     mdast-util-gfm "^0.1.0"
     micromark-extension-gfm "^0.3.0"
 
-remark-mdx-remove-imports@^1.6.22:
+remark-mdx-remove-imports@1.6.22:
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/remark-mdx-remove-imports/-/remark-mdx-remove-imports-1.6.22.tgz#79f711c95359cff437a120d1fbdc1326ec455826"
   integrity sha512-lmjAXD8Ltw0TsvBzb45S+Dxx7LTJAtDaMneMAv8LAUIPEyYoKkmGbmVsiF0/pY6mhM1Q16swCmu1TN+ie/vn/A==
@@ -12484,7 +12484,7 @@ remark-parse@^9.0.0:
   dependencies:
     mdast-util-from-markdown "^0.8.0"
 
-remark-react@^8.0.0:
+remark-react@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/remark-react/-/remark-react-8.0.0.tgz#dc861df69c95e1084059effae699dac68a57191e"
   integrity sha512-Dlafr0cejDMMMelH0MxkY3NYVelbMdqaoXuwIgWtWn5KGE0Jpko47NhkBzptxvzMqCdJxD6aoJTOFyJ1Re5Iyg==
