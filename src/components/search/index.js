@@ -6,6 +6,7 @@ import SearchInput from "./SearchInput"
 import Results from "./Results"
 import { customMedia } from "../../utils/styling"
 import useLunr from "../../hooks/use-lunr"
+import useFocusOnSlash from "../../hooks/use-focusOnSlash"
 
 const fadeIn = keyframes`
   from {
@@ -41,32 +42,33 @@ export const SearchContainer = styled.div`
   `}
 `
 
+const ErrorMessage = styled.div`
+  position: absolute;
+  width: 500px;
+  right: 0;
+  background: #ec0000;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-family: "DM Sans", "sans-serif";
+  margin-top: 18px;
+`
+
 export default function Search(props) {
   const { query, setQuery, lng } = props
-  const { results } = useLunr({ query, lng })
+  const { results, error } = useLunr({ query, lng })
   const [highlightIndex, highlightIndexSet] = React.useState(0)
   const [hasFocus, setHasFocus] = React.useState(false)
   const [fromKeyboard, setFromKeyboard] = React.useState(false)
   const sRef = React.useRef(null)
   const containerRef = React.useRef(null)
+  useFocusOnSlash(sRef)
 
   React.useLayoutEffect(() => {
     if (highlightIndex === -1 && sRef.current) sRef.current.focus()
   }, [highlightIndex])
-
-  React.useEffect(() => {
-    const { current } = sRef
-
-    const handler = (evt) => {
-      if (evt.key === "/" && document.activeElement !== current) {
-        evt.preventDefault()
-        evt.stopPropagation()
-        current?.focus()
-      }
-    }
-    document.addEventListener("keydown", handler)
-    return () => document.removeEventListener("keydown", handler)
-  }, [])
 
   function search(event) {
     const val = event.target.value
@@ -79,7 +81,6 @@ export default function Search(props) {
     // down key
     if (evt.keyCode === 40) {
       evt.preventDefault()
-
       if (highlightIndex < results.length - 1) {
         highlightIndexSet(highlightIndex + 1)
         setFromKeyboard(true)
@@ -100,15 +101,12 @@ export default function Search(props) {
     }
 
     // enter
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === 13 && results.length && !error) {
       evt.preventDefault()
       sRef.current?.blur()
-
       const { url, type } = results[highlightIndex]
-      if (type !== "TIL") navigate(url, {})
-      else {
-        navigate(`/til#${url}`, {})
-      }
+
+      type !== "TIL" ? navigate(url, {}) : navigate(`/til#${url}`, {})
     }
   }
 
@@ -147,6 +145,7 @@ export default function Search(props) {
         setFromKeyboard={setFromKeyboard}
         onCardClick={() => setHasFocus(false)}
       />
+      {error && <ErrorMessage>{error.message}</ErrorMessage>}
     </SearchContainer>
   )
 }

@@ -9,14 +9,21 @@ function getSearchResults(query, lng) {
 
 function useLunr({ query, lng }) {
   const [results, resultsSet] = React.useState([])
-
+  const [error, setError] = React.useState(null)
   React.useEffect(() => {
-    const results = getSearchResults(query, lng)
-    resultsSet(results)
+    try {
+      const results = getSearchResults(query, lng)
+      resultsSet(results)
+      setError(null)
+    } catch (e) {
+      setError(e)
+      resultsSet([])
+    }
   }, [query, lng])
 
   return {
     results,
+    error,
   }
 }
 

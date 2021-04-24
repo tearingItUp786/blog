@@ -55,6 +55,7 @@ const SearchInput = React.forwardRef(
       <>
         <SInput
           {...rest}
+          autoComplete="off"
           id="global-search"
           ref={ref}
           onChange={onChange}
