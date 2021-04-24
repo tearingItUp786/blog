@@ -1,0 +1,15 @@
+---
+title: document.activeElement
+date: 2021-04-23
+tag: JS
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+If you want to know what element on the page currently has focus, you can use
+`document.activeElement` to get access to the reference of the currently focused
+element.
+
+I'm using it to handle the `/` key to force my website to move focus onto the search input
+(similar to what github does) and to not try to make the site refocus the search if is
+the currently active element.
