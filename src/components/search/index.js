@@ -92,7 +92,6 @@ export default function Search(props) {
       evt.preventDefault()
       if (highlightIndex <= 0) {
         highlightIndexSet(-1)
-        sRef.current?.blur()
         setFromKeyboard(true)
       } else {
         highlightIndexSet(highlightIndex - 1)
