@@ -76,7 +76,6 @@ export default function Search(props) {
 
   function onKeyDown(evt) {
     evt.stopPropagation()
-    setHasFocus(true)
     // down key
     if (evt.keyCode === 40) {
       evt.preventDefault()
@@ -92,6 +91,7 @@ export default function Search(props) {
       evt.preventDefault()
       if (highlightIndex <= 0) {
         highlightIndexSet(-1)
+        sRef.current?.blur()
         setFromKeyboard(true)
       } else {
         highlightIndexSet(highlightIndex - 1)
@@ -102,12 +102,12 @@ export default function Search(props) {
     // enter
     if (evt.keyCode === 13) {
       evt.preventDefault()
-      setHasFocus(false)
+      sRef.current?.blur()
+
       const { url, type } = results[highlightIndex]
       if (type !== "TIL") navigate(url, {})
       else {
         navigate(`/til#${url}`, {})
-        sRef.current?.blur()
       }
     }
   }

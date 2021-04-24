@@ -10,6 +10,26 @@ const SInput = styled.input`
   background-position-y: center;
   background-position-x: 4px;
   transition: border-color 300ms;
+
+  &::-webkit-search-decoration:hover,
+  &::-webkit-search-cancel-button:hover {
+    cursor: pointer;
+  }
+
+  &:focus-within,
+  &:focus {
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button {
+      display: block;
+    }
+  }
+
+  &:hover:not(:focus) {
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
 `
 
 const Slash = styled.span`
