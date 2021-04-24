@@ -44,7 +44,7 @@ export const SearchContainer = styled.div`
 
 const ErrorMessage = styled.div`
   position: absolute;
-  width: 500px;
+  width: 200px;
   right: 0;
   background: #ec0000;
   color: white;
@@ -54,6 +54,10 @@ const ErrorMessage = styled.div`
   text-transform: uppercase;
   font-family: "DM Sans", "sans-serif";
   margin-top: 18px;
+
+  @media (min-width: 768px) {
+    width: 500px;
+  }
 `
 
 export default function Search(props) {
