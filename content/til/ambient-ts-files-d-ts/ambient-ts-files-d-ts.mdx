@@ -1,0 +1,43 @@
+---
+title: Ambient TS files (*.d.ts)
+date: 2021-04-29
+tag: TS
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Alright, so I've been writing TS for a while and was never really sure why we needed
+these `.d.ts` files... until today.
+
+The purpose of these files is so that authors/the community can backport popular JS libraries with TS
+type definitions. This allows library authors the freedom to keep on writing their JS code but allows
+users of TS to benefit withing working code and the typings they need.
+
+These typings probably exist in something like Definitely Typed. However, at work, we're using a mix of JS
+and TS (JS is for the jest setup code) and therefore we were required to have ambient TS files so that
+our TS test code could benefit from the typings related to our JS files.
+
+We are using module aliasing for our `TestUtils` so that we can do things like `import { render } from 'TestUtils'`.
+Under the hood, the render function is just a nicely wrapped render function from react-testing-library and so the
+return types are the same. There was a bug where if I tried to import the `RenderResult` from the testing library,
+VS code's TS language server would yell at me for having an undefined module. The following code highlights the fix/issue.
+
+```ts:title=working.d.ts
+// TYPESCRIPT IS A PAIN
+// https://stackoverflow.com/questions/39040108/import-class-in-definition-file-d-ts/51114250#51114251
+declare module "TestUtils" {
+  export function render(
+    v: any,
+    other?: { initialState?: any }
+  ): import("@testing-library/react").RenderResult
+}
+```
+
+```ts:title=not-working.d.ts
+// doesn't work
+import { RenderResult } from "@testing-library/react"
+
+declare module "TestUtils" {
+  export function render(v: any, other?: { initialState?: any }): RenderResult
+}
+```
