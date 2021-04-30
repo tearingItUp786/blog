@@ -41,7 +41,7 @@ export const title2Styles = (props) => ({
   },
   fontFamily: props.theme.fontFamily.display.reduce(arrToFontString),
   margin: 0,
-  paddingTop: "1.25rem",
+  paddingTop: "1rem",
   paddingBottom: "1rem",
   ...commonProps(props),
 })
@@ -226,5 +226,3 @@ export const NavLink = styled(({ hideDesktop, ...restProps }) => (
     text-decoration: underline;
   }
 `
-
-export default () => Title

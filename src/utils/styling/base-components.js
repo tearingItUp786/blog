@@ -147,6 +147,7 @@ export const GlobalStyle = createGlobalStyle`
     .gatsby-highlight {
       background-color: #191919;
       margin: 0.5em 0;
+      margin-bottom: 1em;
       padding: 1em;
       overflow: auto;
       border-radius: 0.3em;

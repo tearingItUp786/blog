@@ -64,7 +64,7 @@ function About(props) {
           journey is by suffering. You have to suffer in order to grow. Some
           people get it, some people don’t. <br /> David Goggins
         </FlexQuote>
-        <FlexParagraph>
+        <FlexParagraph noMarginBottom>
           Taranveer Bains or Taran "tearing it up" Bains, as he likes to be
           called, is a Frontend Developer who has had the pleasure of working
           with some of the best digital agencies in Vancouver. He's worked on a
