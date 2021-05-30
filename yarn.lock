@@ -1083,10 +1083,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/dm-sans@4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.2.tgz#72601e1ced27468a5fb84853806f5611722961ca"
-  integrity sha512-dW370yx7ZF5/wot4+gdZs+uXQFJ1hxtbwz4M7Kgtca98IMxyLUtS2wRgmIKqNLYGX+lJq2OHJS8xZtj7Dvw2rw==
+"@fontsource/dm-sans@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.4.2.tgz#b48bd243ed9f5a9b6e039bb3ed4d4eca5849ae68"
+  integrity sha512-ylr/qBvj/6f9Qtse1vVJGu3RuQjgeWU5Gev3gtZllWuV2yndVd0740WeeCFg6IGSwmZPxdjxm04y3y9QdQpfhw==
 
 "@fontsource/dm-serif-display@4.2.3":
   version "4.2.3"
