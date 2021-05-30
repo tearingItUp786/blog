@@ -1088,10 +1088,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.2.tgz#72601e1ced27468a5fb84853806f5611722961ca"
   integrity sha512-dW370yx7ZF5/wot4+gdZs+uXQFJ1hxtbwz4M7Kgtca98IMxyLUtS2wRgmIKqNLYGX+lJq2OHJS8xZtj7Dvw2rw==
 
-"@fontsource/dm-serif-display@4.2.3":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.3.tgz#5330c03b57c5014a843d2b4f1aebce2b9c9e94ee"
-  integrity sha512-aHa4enUktzEquiBHLoo6VA1vkxd4MXOgDZa8hwMKk1RYL+2O+ykG5UaTrYyfWN0BlqYeMwsW/ygX3blibEK4Zw==
+"@fontsource/dm-serif-display@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.4.2.tgz#15155a7050334563d666a45a9507df0df6889440"
+  integrity sha512-FasjF5VMyGLWsh3P3s6PlBorChoBP8ERmOyJXtdDCLrMDW8MT+Tv5FDQ+GPaSDYE2joquZYkhvDgCqLdSwH/mg==
 
 "@fontsource/lora@4.2.2":
   version "4.2.2"

@@ -6,7 +6,7 @@
   "author": "Taran Bains <taranveer786@gmail.com>",
   "dependencies": {
     "@fontsource/dm-sans": "4.2.2",
-    "@fontsource/dm-serif-display": "4.2.3",
+    "@fontsource/dm-serif-display": "4.4.2",
     "@fontsource/lora": "4.2.2",
     "@mdx-js/mdx": "1.6.22",
     "@mdx-js/react": "1.6.22",
