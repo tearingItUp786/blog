@@ -1,0 +1,28 @@
+---
+title: Require Generic
+date: 2021-06-14
+tag: TS
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+Want to make it so that people need to provide some sort of generic argument
+if they don't use some predefined defaults for your TS code. Check this out:
+
+```ts
+type NoInfer<T> = [T][T extends any ? 0 : never];
+
+type QT<T> = 'first' | 'second' | T;
+type Yolo<T> = {
+  data: QT<T>
+}
+
+function doSomething<T = void>(args: Yolo<NoInfer<T>>): null{
+  // do something
+  return null;
+}
+
+doSomething({ data: 'first' }) // okay
+doSomething({ data: 'three'}) // not okay
+doSomething<'three'>({ data: 'three' }); //okay
+```
