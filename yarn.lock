@@ -1220,14 +1220,14 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.13", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4":
   version "7.13.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
   integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.14.0":
+"@babel/runtime@^7.13.17", "@babel/runtime@^7.14.0":
   version "7.14.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.6.tgz#535203bc0892efc7dec60bdc27b2ecf6e409062d"
   integrity sha512-/PCB2uJ7oM44tz8YhC4Z/6PeOKXp4K588f+5M3clr1M4zbqztlo0XEfJ2LEzj/FgwfgGcIdl8n7YYjTCI0BYwg==
@@ -6606,12 +6606,12 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-gatsby-background-image@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/gatsby-background-image/-/gatsby-background-image-1.4.1.tgz#d084a029b5fc082bac55870d6508c60be545367c"
-  integrity sha512-AJpdc5L+ufOTrxp23QiHXYxrfS6+6mZNjxsE6X3r3OlbFPAF6tkskqECZt8il7R2rU5opW7SV5PjVspq1eqQiQ==
+gatsby-background-image@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/gatsby-background-image/-/gatsby-background-image-1.5.3.tgz#3c16f19beda861e8129f95bb20a8589ee9272e2c"
+  integrity sha512-mELRONXu4QpNJQ8rKqFmqRKO1l7I/xDWCPEjzf4qg6epWisr7QTrBL3mYFdl7+CUjV7Lw2xSXy26JsLw8vbI5w==
   dependencies:
-    "@babel/runtime" "^7.12.13"
+    "@babel/runtime" "^7.13.17"
     filter-invalid-dom-props "^2.0.0"
     global "^4.4.0"
     short-uuid "^4.1.0"
