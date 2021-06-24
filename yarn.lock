@@ -7143,6 +7143,15 @@ gatsby-remark-copy-linked-files@4.4.1:
     probe-image-size "^6.0.0"
     unist-util-visit "^2.0.3"
 
+gatsby-remark-embed-video@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-embed-video/-/gatsby-remark-embed-video-3.1.1.tgz#a457c9ad1c97436734245e90541f7d0dc21678e2"
+  integrity sha512-icqxETtK/WzP6yAwqxlide4UuBY5V6Q6uOYNSdN7d4iLyMxncScmAZFHh0n+NeYWM+lK2nUD9zU0r3v0q5WOhA==
+  dependencies:
+    get-video-id "^3.1.9"
+    remark-burger "^1.0.1"
+    unist-util-visit "^2.0.3"
+
 gatsby-remark-images@5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-5.4.1.tgz#4593e7c61dfe1a5c267ca052f9e3bc7487f9819d"
@@ -7480,6 +7489,11 @@ get-proxy@^2.0.0:
   dependencies:
     npm-conf "^1.1.0"
 
+get-src@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/get-src/-/get-src-1.0.1.tgz#ca11dbe4a93c7f3aa85cec95fcb0b2dfaa9539ee"
+  integrity sha1-yhHb5Kk8fzqoXOyV/LCy36qVOe4=
+
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
@@ -7516,6 +7530,13 @@ get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
+
+get-video-id@^3.1.9:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/get-video-id/-/get-video-id-3.2.0.tgz#852e153c7e651ac222b3887843ef7b1566c2894a"
+  integrity sha512-58JnnJD9uRh1pviNaP3lOMjGawYacnjUSpUqQorRB/GiMl+h4vnNye45mGVvSZhKNyq59I8OfyqwrGmvScb9fQ==
+  dependencies:
+    get-src "^1.0.1"
 
 gifwrap@^0.9.2:
   version "0.9.2"
@@ -12725,6 +12746,11 @@ regjsparser@^0.6.4:
   integrity sha512-ib77G0uxsA2ovgiYbCVGx4Pv3PSttAx2vIwidqQzbL2U5S4Q+j00HdSAneSBuyVcMvEnTXMjiGgB+DlXozVhpQ==
   dependencies:
     jsesc "~0.5.0"
+
+remark-burger@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/remark-burger/-/remark-burger-1.0.1.tgz#cda57d4bc1e952ae86b2407fbcf36492ab352106"
+  integrity sha512-F91SyEzat4hBkWsWElHIvMcCQuWoSeZXTuR4DmLvhUIjYkzzVLaX6GRxhkiDrZb/9asvTrYzwEr9HvxN1tqs9Q==
 
 remark-capitalize@1.1.0:
   version "1.1.0"
