@@ -55,9 +55,9 @@ module.exports = {
           {
             resolve: "gatsby-remark-embed-video",
             options: {
-              width: 800,
-              ratio: 1.77, // Optional: Defaults to 16/9 = 1.77
-              height: 400, // Optional: Overrides optional.ratio
+              // width: 800,
+              // ratio: 1.77, // Optional: Defaults to 16/9 = 1.77
+              // height: 400, // Optional: Overrides optional.ratio
               related: false, //Optional: Will remove related videos from the end of an embedded YouTube video.
               noIframeBorder: true, //Optional: Disable insertion of <style> border: 0
               loadingStrategy: "lazy", //Optional: Enable support for lazy-load offscreen iframes. Default is disabled.
@@ -219,8 +219,7 @@ module.exports = {
             /* Exact name of the font as defied in @font-face CSS rule */
             name: "DM Sans",
             /* URL to the font CSS file with @font-face definition */
-            file:
-              "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700",
+            file: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700",
           },
           {
             name: "DM Serif Display",

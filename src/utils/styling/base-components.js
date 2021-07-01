@@ -162,4 +162,10 @@ export const GlobalStyle = createGlobalStyle`
     .gatsby-code-title + .gatsby-highlight {
       border-radius: 0;
     }
+
+    .embedVideo-container {
+      iframe {
+        width: 100%;
+      }
+    }
 `
