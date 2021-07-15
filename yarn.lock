@@ -1351,20 +1351,20 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/dm-sans@4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.2.2.tgz#72601e1ced27468a5fb84853806f5611722961ca"
-  integrity sha512-dW370yx7ZF5/wot4+gdZs+uXQFJ1hxtbwz4M7Kgtca98IMxyLUtS2wRgmIKqNLYGX+lJq2OHJS8xZtj7Dvw2rw==
+"@fontsource/dm-sans@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-4.5.0.tgz#0dae7ab3563b3ffd47181a3fa4c9c6a33fb04c5e"
+  integrity sha512-GKsjzK7NU6G1NHAxXRCquZQmZSvj3ah5AMR4N6PU2YpshIpr+NLIwYc+SJty+ZJ4Btysr9KN40+X4ng34heGjw==
 
-"@fontsource/dm-serif-display@4.2.3":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.2.3.tgz#5330c03b57c5014a843d2b4f1aebce2b9c9e94ee"
-  integrity sha512-aHa4enUktzEquiBHLoo6VA1vkxd4MXOgDZa8hwMKk1RYL+2O+ykG5UaTrYyfWN0BlqYeMwsW/ygX3blibEK4Zw==
+"@fontsource/dm-serif-display@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-serif-display/-/dm-serif-display-4.5.0.tgz#255322e3bde35e9f11812b7affbe4d9395f59212"
+  integrity sha512-iFUuJ8m3GRpH+ZK8xYKtAj+X7LVn3mdpDbh+lqzPBRbRhwlQkM0AjTXtHwHe7CrD6JGbGrk1kHSCCQJt2IRmfg==
 
-"@fontsource/lora@4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@fontsource/lora/-/lora-4.2.2.tgz#39f6d867fb016b042b148b5ce40cd88444b74dff"
-  integrity sha512-FswpuT8Qq44Zp8X3FRiQt81ZAMpsIULVmnAJaNNBZzE0GB5RSTHVtrs0sopDbamkmEoHYHwFBHSVjyQGw14r5g==
+"@fontsource/lora@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/lora/-/lora-4.5.0.tgz#1b230175236c35d13b3a69a346ca5b0e2df0dbcf"
+  integrity sha512-4ThGnMFbktlQqsTW7kCdzT888esMFfnbHE9PJMQCtcP2JUIJXDQpxvmtlsio1AJBnvUxPxegAAp76Q8lm7t1VQ==
 
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
