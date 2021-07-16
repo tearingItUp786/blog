@@ -8,16 +8,16 @@ import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
 
 There's been a lot of new developments in the space of package bundlers. From the OG
 
-<TextLink href="https://webpack.js.org/">webpack</TextLink>
-to, <TextLink href="https://rollupjs.org/">rollup</TextLink> to the new kid on the
-block <TextLink href="https://github.com/esbuild/esbuild">esbuild</TextLink> each
-of them have their own unique set of features.
+<TextLink href="https://webpack.js.org/">Webpack</TextLink>
+to, <TextLink href="https://rollupjs.org/">Rollup</TextLink> to the new kid on the
+block <TextLink href="https://github.com/evanw/esbuild">esbuild</TextLink> each of
+them have their own unique set of features.
 
 esbuild offers better build times as it is written in Go, which is compiled to JavaScript. The tradeoff here
 is that es5 isn't supported (but that's okay if you're not supporting IE11). It's pretty awesome but as it's
 in active development and fairly new, it's not as widely used as the other bundlers and therefore doesn't have
 the rich plugin resource that somethings like webpack has.
 
-However, you can leverage esbuild and plug it into a webpack config and via <TextLink href="https://github.com/esbuild/esbuild-loader">esbuild-loader</TextLink>
+However, you can leverage esbuild and plug it into a webpack config and via <TextLink href="https://github.com/privatenumber/esbuild-loader">esbuild-loader</TextLink>
 
 I did this at work today and it helped with devserver startup times and greatly improved the production build times.
