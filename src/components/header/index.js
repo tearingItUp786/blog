@@ -53,10 +53,9 @@ function Header(props) {
         }
       }
       onScroll = debounce(onScroll, 300)
-      window.onscroll = onScroll
+      window.addEventListener("scroll", onScroll, { passive: true })
       return () => {
-        onScroll = () => {}
-        window.onscroll = onScroll
+        window.removeEventListener("scroll", onScroll)
       }
     }
   }, [isFixed, setFixed, isOpen, ref])
