@@ -8,16 +8,19 @@ import {
   ScrollRestoration,
 } from "remix";
 import type { MetaFunction } from "remix";
-import tailwindStyles from "./tailwind.css";
+import appStyles from "./styles/app.css";
+
+import tailwindStyles from "./styles/tailwind.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { title: `Taran "tearing it up" Bains` };
 };
 
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "icon", href: "/favicon.ico" },
+    { rel: "stylesheet", href: appStyles },
   ];
 };
 
