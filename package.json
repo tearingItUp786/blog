@@ -11,7 +11,7 @@
     "build:css:prod": "npm run build:css -- --env production",
     "dev": "concurrently \"npm run css:watch\" \"cross-env NODE_ENV=development netlify dev\"",
     "postinstall": "remix setup node",
-    "start": "cross-env NODE_ENV=production netlify dev"
+    "start": "npm run build:css:prod && cross-env NODE_ENV=production netlify dev"
   },
   "dependencies": {
     "@netlify/functions": "^0.10.0",
@@ -20,6 +20,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.2",
+    "clsx": "^1.1.1",
     "postcss": "^8.4.7",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.0.2",

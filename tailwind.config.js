@@ -29,10 +29,26 @@ module.exports = {
     },
   },
   variants: {},
-  purge: {
+  content: {
     mode: "layers",
     enabled: process.env.NODE_ENV === "production",
     content: [fromRoot("./app/**/*.+(js|ts|tsx|mdx|md)")],
+  },
+  extends: {
+    typography: (theme) => {
+      return {
+        DEFAULT: {
+          css: [
+            {
+              p: {
+                marginTop: 0,
+                marginBottom: theme("spacing.4"),
+              },
+            },
+          ],
+        },
+      };
+    },
   },
   plugins: [
     require("@tailwindcss/typography"),

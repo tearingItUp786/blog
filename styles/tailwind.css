@@ -1,12 +1,6 @@
 /* purgecss start ignore */
 @tailwind base;
 
-@layer base {
-  h1 {
-    @apply text-6xl;
-  }
-}
-
 @tailwind components;
 /* purgecss end ignore */
 

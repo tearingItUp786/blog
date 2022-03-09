@@ -1,9 +1,11 @@
+import { H1 } from "~/components/typography";
+
 export default function Index() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1 className="text-pink font-display">Welcome to Remix</h1>
+      <H1>Welcome to my world</H1>
       <ul>
-        <li className="text-black">
+        <li className="text-pink">
           <a
             target="_blank"
             href="https://remix.run/tutorials/blog"
