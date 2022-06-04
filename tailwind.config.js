@@ -4,7 +4,7 @@ const fromRoot = (p) => path.join(__dirname, p);
 
 module.exports = {
   darkMode: "class",
-  content: [fromRoot("./app/**/*.{ts,tsx,jsx,js}")],
+  variants: {},
   theme: {
     screens: {
       md: "640px",
@@ -27,28 +27,30 @@ module.exports = {
       body: ["Avenir", ...defaultTheme.fontFamily.sans],
       display: ["Lemon", ...defaultTheme.fontFamily.sans],
     },
+    extend: {
+      dropShadow: {
+        toggle: "6px 4px 8px var(--color-gray-300)",
+      },
+      typography: (theme) => {
+        return {
+          DEFAULT: {
+            css: [
+              {
+                p: {
+                  marginTop: 0,
+                  marginBottom: theme("spacing.4"),
+                },
+              },
+            ],
+          },
+        };
+      },
+    },
   },
-  variants: {},
-  content: {
+  purge: {
     mode: "layers",
     enabled: process.env.NODE_ENV === "production",
     content: [fromRoot("./app/**/*.+(js|ts|tsx|mdx|md)")],
-  },
-  extends: {
-    typography: (theme) => {
-      return {
-        DEFAULT: {
-          css: [
-            {
-              p: {
-                marginTop: 0,
-                marginBottom: theme("spacing.4"),
-              },
-            },
-          ],
-        },
-      };
-    },
   },
   plugins: [
     require("@tailwindcss/typography"),

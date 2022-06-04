@@ -1,27 +1,59 @@
 import clsx from "clsx";
 
 const fontSizes = {
-  h1: "text-6xl text-gray-100 dark:text-white",
+  h1: "font-display font-bold text-6xl",
+  h2: "font-body font-bold text-5xl",
+  h3: "font-body font-medium text-4xl",
+  h4: "font-body font-medium text-3xl",
+};
+
+const titleColors = {
+  primary: "text-gray-100 dark:text-white",
+  secondary: "text-gray-300 dark:text-white",
 };
 
 type TitleProps = {
+  variant?: "primary" | "secondary";
   As?: React.ElementType;
   className?: string;
-  [key: string]: any;
-};
+  id?: string;
+} & (
+  | { children: React.ReactNode }
+  | {
+      dangerouslySetInnerHTML: {
+        __html: string;
+      };
+    }
+);
 
 function Title({
+  variant = "primary",
   As,
   size,
   className,
   ...rest
 }: TitleProps & { size: keyof typeof fontSizes }) {
   const Tag = As ?? size;
-  return <Tag className={clsx(fontSizes[size])} {...rest} />;
+  return (
+    <Tag
+      className={clsx(fontSizes[size], titleColors[variant], className)}
+      {...rest}
+    />
+  );
 }
 
-const H1 = (props: TitleProps) => {
+export const H1 = (props: TitleProps) => {
   return <Title {...props} size="h1" />;
 };
 
-export { H1 };
+export const H2 = (props: TitleProps) => {
+  return <Title {...props} size="h2" />;
+};
+
+export const H3 = (props: TitleProps) => {
+  return <Title {...props} size="h3" />;
+};
+
+export const H4 = (props: TitleProps) => {
+  return <Title {...props} size="h4" />;
+};

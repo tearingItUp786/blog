@@ -356,18 +356,150 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 /* purgecss end ignore */
+.fixed {
+  position: fixed;
+}
+.bottom-\[16px\] {
+  bottom: 16px;
+}
+.right-\[24px\] {
+  right: 24px;
+}
+.right-\[16px\] {
+  right: 16px;
+}
+.bottom-4 {
+  bottom: 1rem;
+}
+.right-4 {
+  right: 1rem;
+}
+.bottom-6 {
+  bottom: 1.5rem;
+}
+.right-6 {
+  right: 1.5rem;
+}
+.flex {
+  display: flex;
+}
+.h-10 {
+  height: 2.5rem;
+}
+.h-7 {
+  height: 1.75rem;
+}
+.w-\[5\.5rem\] {
+  width: 5.5rem;
+}
+.w-7 {
+  width: 1.75rem;
+}
+.translate-x-\[160\%\] {
+  --tw-translate-x: 160%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-x-0 {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.items-center {
+  align-items: center;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+.bg-white {
+  background-color: var(--color-white);
+}
+.bg-gray-300 {
+  background-color: var(--color-gray-300);
+}
+.bg-\[\#ffffff20\] {
+  background-color: #ffffff20;
+}
+.bg-\[\#00000020\] {
+  background-color: #00000020;
+}
+.p-2 {
+  padding: 0.5rem;
+}
+.font-display {
+  font-family: Lemon, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.font-body {
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
 .text-6xl {
   font-size: 3.75rem;
   line-height: 1;
 }
-.text-pink {
-  color: var(--color-pink);
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-medium {
+  font-weight: 500;
 }
 .text-gray-100 {
   color: var(--color-gray-100);
 }
-.text-white {
-  color: var(--color-white);
+.text-gray-300 {
+  color: var(--color-gray-300);
+}
+.text-pink {
+  color: var(--color-pink);
+}
+.drop-shadow-toggle {
+  --tw-drop-shadow: drop-shadow(6px 4px 8px var(--color-gray-300));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.transition-colors {
+  transition-property: color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dark .dark\:translate-x-\[160\%\] {
+  --tw-translate-x: 160%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.dark .dark\:bg-gray-100 {
+  background-color: var(--color-gray-100);
+}
+.dark .dark\:bg-\[\#ffffff20\] {
+  background-color: #ffffff20;
+}
+.dark .dark\:bg-gray-300 {
+  background-color: var(--color-gray-300);
 }
 .dark .dark\:text-white {
   color: var(--color-white);
