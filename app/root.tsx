@@ -17,6 +17,8 @@ import {
   ThemeProvider,
   useTheme,
 } from "./utils/theme-provider";
+import Toggle from "~/components/theme-toggle";
+import { Navbar } from "./components/navbar";
 
 export const meta: MetaFunction = () => {
   return { title: `Taran "tearing it up" Bains` };
@@ -42,10 +44,12 @@ const App = () => {
         <NonFlashOfWrongThemeEls />
       </head>
       <body className="bg-white dark:bg-gray-100">
+        <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Toggle />
       </body>
     </html>
   );

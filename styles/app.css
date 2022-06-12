@@ -1,5 +1,6 @@
 :root {
   --color-white: #fff;
+  --color-black: #000;
   --color-gray-100: #353535;
   --color-gray-200: #1c1b19;
   --color-gray-300: #1e1e1e;
@@ -20,4 +21,8 @@
   --blog-title-color: var(--color-white);
   --body-text: var(--color-white);
   --accent: var(--color-pink);
+}
+
+.logoNavLink:hover path {
+  fill: var(--accent);
 }
