@@ -35,20 +35,22 @@ export async function getMdxPage({
   return compiledPage;
 }
 
+const mdxComponents = {
+  ...myTypo,
+};
+
 /**
  * This should be rendered within a useMemo
  * @param code the code to get the component from
  * @returns the component
  */
 function getMdxComponent(code: string) {
-  console.log("wtf", myTypo);
-  const Component = mdxBundler.getMDXComponent(code, { myTypo });
+  const Component = mdxBundler.getMDXComponent(code);
   function KCDMdxComponent({
     components,
     ...rest
   }: Parameters<typeof Component>["0"]) {
     return (
-      // @ts-expect-error the types are wrong here
       <Component components={{ ...mdxComponents, ...components }} {...rest} />
     );
   }
