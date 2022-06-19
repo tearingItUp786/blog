@@ -1,0 +1,25 @@
+---
+title: Scala Case Classes
+date: 2020-10-20
+tag: Scala
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+Scala `case classes` are the bread and butter of Scala data types! Learn them ye fool.
+
+The syntax is as normal but with a case prefix. By using the `case` word before class,
+Scala provides us some functionality out of the box, including but not limited to:
+
+1. the ability to omit the val keyword in constructor calls. (A field for each constructor argument)
+2. a nicer toString method for classes
+3. a sensible equals which operates on the field values of an object
+4. a copy method that creates a new object with the same field values as the current one
+
+```Scala
+case class Cat(color: String, food: String)
+
+// vs
+
+class Cat(val color: String, val food: String)
+```

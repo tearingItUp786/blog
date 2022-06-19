@@ -1,0 +1,18 @@
+---
+title: Internationalization in React
+date: 2020-04-16
+tag: React
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+This technically isn't something that I learned "today" but it is something that I wanted to make note of!
+If you're ever working on a project and need to support internationalization, your library of choice—
+assuming you're writing in React— should be <TextLink href="https://react.i18next.com/">react-i18next</TextLink>!
+
+Why? My coworker <TextLink href="https://ca.linkedin.com/in/vincent-sheu">Vincent</TextLink> wrote up a great ADR
+(Architectural Decision Record) and evaluated the library and some of the benefits it totes is...
+
+1. It has a hooks implementation so there's no change needed to be made to the render portion (the view) of your React components.
+2. It generates translation files in a directory that can be easily handed off to a translator to populate
+3. There's enterprise options available if ye need em!

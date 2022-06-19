@@ -1,0 +1,52 @@
+---
+title: pascal-triangle
+date: 2020-09-03
+tag: Cool Tech
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+While working through my functional programming course, I encountered a fun little leet code exercise.
+It's fucking computer science so I'm not even surprised I had to solve a problem like this -.-
+
+Anyway, here's how the pascal triangle code will work in JS and in Scala
+
+```JS:title=js-example
+function run() {
+  for (let row = 0; row <= 10; row++) {
+    const rec = []
+    for (let col = 0; col <= row; col++) {
+      rec.push(pascal(col, row))
+    }
+    console.log(rec)
+  }
+}
+
+const pascal = (col, row) => {
+  if (col === 0 || row < 1 || col === row) return 1
+  else return pascal(col, row - 1) + pascal(col - 1, row - 1)
+}
+
+run()
+```
+
+```Scala:title=scala-example
+def main(args: Array[String]): Unit = {
+  println("Pascal's Triangle")
+  for (row <- 0 to 10) {
+    for (col <- 0 to row)
+      print(s"${pascal(col, row)} ")
+    println()
+  }
+}
+
+/**
+  * Exercise 1
+  */
+def pascal(c: Int, r: Int): Int = {
+  // base case is if c = 0, just 1
+  if (c == 0 || r < 2 || c == r) 1
+  else pascal(c, r -1) + pascal(c - 1, r - 1)
+}
+
+```

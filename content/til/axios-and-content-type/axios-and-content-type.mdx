@@ -1,0 +1,39 @@
+---
+title: Axios and Content-Type
+date: 2020-02-11
+tag: JS
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+During work today, my colleague Mo and I were having issues making `DELETE` requests to a
+micro service that he had created. In Postman and the standard XHR function that ships with
+Google Chrome, the delete requests were going through with no problem but when we tried to make a call
+via `axios.delete(url/id)`, the server kept returning a 400 error.
+
+The truly peculiar thing was that making a call in the following manner worked:
+
+```js
+axios({
+  method: "DELETE",
+  url: `url/${id}`,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer SOME_TOKEN",
+  },
+});
+```
+
+However, this failed:
+
+```js
+axios.delete(`url/${id}`, {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer SOME_TOKEN",
+  },
+});
+```
+
+Long story short, TIL: `axios.delete` will drop the content-type header (which is the right behavior) so
+my buddy Mo had to change up his micro service endpoint to not expect a content type 😁!

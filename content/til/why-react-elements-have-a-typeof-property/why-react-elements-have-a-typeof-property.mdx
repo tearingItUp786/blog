@@ -1,0 +1,19 @@
+---
+title: Why React Elements have a "$$typeof" Property
+date: 2020-10-10
+tag: React
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+While making my way through a new React course, I learned that React elements
+have a `$$typeof` property to help mitigate issues with XSS attacks.
+
+In essence, the `$$typeof` prevents anyone from trying to get React
+to create invalid elements via JSON. Even if a user passed in some
+JSON that mimicked what a React Node looks like, the value of `$$typeof`
+is a `Symbol` and this cannot be mocked by JSON!
+
+<TextLink href="https://overreacted.io/why-do-react-elements-have-typeof-property/">
+  Read More{" "}
+</TextLink>

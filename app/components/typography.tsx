@@ -1,3 +1,4 @@
+import React from "react";
 import clsx from "clsx";
 
 const fontSizes = {
@@ -57,3 +58,18 @@ export const H3 = (props: TitleProps) => {
 export const H4 = (props: TitleProps) => {
   return <Title {...props} size="h4" />;
 };
+
+type CommonProps = {
+  children: React.ReactNode;
+  [key: string]: any;
+};
+
+export const BlockQuote = ({ children, ...rest }: CommonProps) => (
+  <div {...rest}> {children} </div>
+);
+export const ShortQuote = ({ children, ...rest }: CommonProps) => (
+  <div {...rest}>{children}</div>
+);
+export const TextLink = ({ children, ...rest }: CommonProps) => (
+  <div {...rest}>{children}</div>
+);

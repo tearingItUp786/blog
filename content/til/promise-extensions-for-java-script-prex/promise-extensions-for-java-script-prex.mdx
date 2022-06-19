@@ -1,0 +1,28 @@
+---
+title: Promise Extensions for JavaScript (prex)
+date: 2020-10-01
+tag: JS
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+While I was working on something at my day job, I learned about <TextLink href="https://www.npmjs.com/package/prex">prex</TextLink>.
+
+It essentially allows us to cancel our promises (think axios or some other xhr).
+
+```tsx:title=token-example
+return new Promise<void>((resolve, reject) => {
+      const request = http.get(from);
+
+      // abort the request if canceled.
+      const registration = token.register(() => {
+          request.abort();
+          reject(new Error("Operation canceled."));
+      });
+
+      request.on("error", err => {
+          registration.unregister();
+          reject(err);
+      });
+}
+```

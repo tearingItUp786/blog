@@ -1,0 +1,16 @@
+---
+title: Document Fragment
+date: 2021-07-12
+tag: Best Practices
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+So there's this really handy web api that allows you to create a lightweight version of a Document and append nodes to said lightweight Document. The beauty with this is you can create this tree, make changes to it, and then all at once
+append the lightweight tree to the DOM.
+
+This is much better than continually writing to the DOM and causing a shit ton of reflows.
+
+<TextLink href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment">
+  Read more
+</TextLink>

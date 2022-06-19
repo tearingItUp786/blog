@@ -1,0 +1,28 @@
+---
+title: attr
+date: 2021-03-23
+tag: CSS
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+There's a neat little css function that lets you retrieve the value of an attribute
+of the selected element and use it in the stylesheet!
+
+For example:
+
+```jsx
+<h1 data-color="red">Hello</h1>
+```
+
+```css
+h1 {
+  color: attr(data-color);
+}
+```
+
+Would generate an h1 with red text!
+
+<TextLink href="https://developer.mozilla.org/en-US/docs/Web/CSS/attr()">
+  Read more
+</TextLink>

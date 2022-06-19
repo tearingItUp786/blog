@@ -1,0 +1,127 @@
+---
+title: Headless UI Components!😎
+date: 2019-10-25
+tag: React
+---
+
+import CheckboxExample from "./Example.js"
+
+A headless UI component is a component that offers up maximum flexibility by providing no interface itself!
+This sounds like a radical idea but for library authors, it's a great pattern to provide their users with all that sweet sweet
+functionality that they're craving without any of the bloat/stylystic decisions that come with interface decisions.
+
+**This pattern works great when the logic of a component is complex and can be decoupled from its visual representation.**
+
+From a `React` perspective, this can be acheived via an HOC, render props, or if you're using `React > 16.8`, hooks.
+Below is an example of two different interface implementation of a very simple toggle -- the state isn't complicated
+but since we created this headless interface, the UI can easily be changed/edited and does not suffer from the opinions
+of the library author
+
+### The Example
+
+<CheckboxExample />
+
+```jsx:title=renderProps
+class Toggle extends React.Component {
+  state = {
+    on: false,
+  }
+
+  handleClick = (cb = () => {}) => evt => {
+    this.setState({ on: !this.state.on }, () => cb(evt))
+  }
+
+  render() {
+    const { state, handleClick } = this
+    return this.props.children({ state, handleClick })
+  }
+}
+
+function CheckBox() {
+  return (
+    <Toggle>
+      {({ state, handleClick }) => {
+        return (
+          <input
+            type="checkbox"
+            id="scales"
+            name="scales"
+            checked={state.on}
+            onChange={handleClick()}
+          />
+        )
+      }}
+    </Toggle>
+  )
+}
+
+// Just some simple styled components
+// to illustrate how we can decouple the styling from the logic
+const Label = styled.label``
+const Input = styled.input``
+const Slider = styled.span``
+
+function PrettyToggle() {
+  return (
+    <Toggle>
+      {({ state, handleClick }) => {
+        const appliedHandleClick = handleClick(console.log)
+        return (
+          <Label>
+            <Input
+              type="checkbox"
+              checked={state.on}
+              onChange={appliedHandleClick}
+            />
+            <Slider />
+          </Label>
+        )
+      }}
+    </Toggle>
+  )
+}
+```
+
+```jsx:title=hooks
+function useToggle(cb = () => {}) {
+  const [on, updateClick] = React.useState(false)
+  const event = React.useRef()
+
+  React.useEffect(() => {
+    cb(event)
+  }, [on])
+
+  return {
+    on,
+    handleClick(evt) {
+      event.current = evt
+      updateClick(!on)
+    },
+  }
+}
+
+function HookPrettyToggle() {
+  const { on, handleClick } = useToggle(console.log)
+
+  return (
+    <label class="switch">
+      <input type="checkbox" checked={on} onChange={handleClick} />
+      <span class="slider round"></span>
+    </label>
+  )
+}
+
+function HookCheckBox() {
+  const { on, handleClick } = useToggle()
+
+  return (
+    <input
+      type="checkbox"
+      id="scales"
+      name="scales"
+      checked={on}
+      onChange={handleClick}
+    />
+  )
+}
+```

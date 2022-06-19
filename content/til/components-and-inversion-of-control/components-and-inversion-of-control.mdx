@@ -1,0 +1,28 @@
+---
+title: Components and Inversion of Control
+date: 2019-11-21
+tag: React
+---
+
+import { TextLink } from "../../../src/components/mdx-comps";
+
+A neat little concept that I learned about (just briefly) today is this idea of inversion of control.
+Essentially, assuming that we're talking about React/Vue components, instead of having a mega component that accepts
+several different props to handle various things like position, aligment, etc,
+it sometimes make more sense to have a component that inverts control to the caller.
+
+This means that we can extract out our business logic to a base component and then have
+specialized components that utilize the inversion of control to create a huge combination of different
+specializations/configurations. For exampe, we could have a `Base Accordion` that implements some core business logic
+and the rendering/extending can be left to a specialized implementation like `Left aligned accordion` or `All can open acccordion`.
+
+The benefits of this pattern are the following:
+
+1. We no longer have to ship unncessary code to users -- people only get the code that's relevant to their use case
+2. Our bundle sizes will drop considerabley because of number 1
+3. We don't fall victim to the "it's only one more if statement" trap... if someone wants to extend our base component
+   we expose the API'S they need to easily do this.
+
+<TextLink href="https://kentcdodds.com/blog/inversion-of-control">
+  Thanks to Kent for the blog post!
+</TextLink>
