@@ -1,6 +1,6 @@
 import React from "react";
 import * as mdxBundler from "mdx-bundler/client";
-
+import * as myTypo from "~/components/typography";
 import type { MdxPage } from "types";
 import {
   downloadDirList,
@@ -41,7 +41,8 @@ export async function getMdxPage({
  * @returns the component
  */
 function getMdxComponent(code: string) {
-  const Component = mdxBundler.getMDXComponent(code);
+  console.log("wtf", myTypo);
+  const Component = mdxBundler.getMDXComponent(code, { myTypo });
   function KCDMdxComponent({
     components,
     ...rest

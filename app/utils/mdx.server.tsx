@@ -38,6 +38,9 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     const { frontmatter, code } = await bundleMDX({
       source: indexFile.content,
       files,
+      globals: {
+        "~/components/typography": "myTypo",
+      },
       mdxOptions(options) {
         options.remarkPlugins = [
           ...(options.remarkPlugins ?? []),
