@@ -1,7 +1,7 @@
 import React from "react";
 import { json, LoaderFunction, NavLink, useCatch, useLoaderData } from "remix";
 import type { MdxPage } from "types";
-import { H2, H4 } from "~/components/typography";
+import { H1, H4 } from "~/components/typography";
 import { getMdxPage, useMdxComponent } from "~/utils/mdx";
 
 type LoaderData = {
@@ -45,7 +45,7 @@ export default function MdxScreen() {
 
       <div className="mb-12">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
-          <H2>{frontmatter.title}</H2>
+          <H1>{frontmatter.title}</H1>
           {frontmatter.description ? (
             <H4 variant="secondary" className="mt-2">
               {frontmatter.description}

@@ -4,8 +4,6 @@ date: 2020-05-19
 tag: Best Practices
 ---
 
-import { TextLink } from "../../../src/components/mdx-comps";
-
 Ever run into the problem of having your `__tests__` directory sitting outside of your `src` causing issues with TypeScript?
 I'm a big fan of colocating tests but if you're ever working on a codebase that doesn't embrace this philosophy and instead has a `__tests__` directory that sits
 at the same level as `src`, you may need a a separate `tsconfig` for your tests.

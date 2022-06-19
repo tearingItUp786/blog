@@ -36,6 +36,10 @@ export async function getMdxPage({
 }
 
 const mdxComponents = {
+  h1: myTypo.H1,
+  h2: myTypo.H2,
+  h3: myTypo.H3,
+  h4: myTypo.H4,
   ...myTypo,
 };
 
@@ -51,6 +55,7 @@ function getMdxComponent(code: string) {
     ...rest
   }: Parameters<typeof Component>["0"]) {
     return (
+      // @ts-expect-error the types are wrong here
       <Component components={{ ...mdxComponents, ...components }} {...rest} />
     );
   }
