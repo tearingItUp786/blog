@@ -126,6 +126,7 @@ async function downloadFileBySha(sha: string) {
     {
       owner: "tearingItUp786",
       repo: "blog",
+      ref: "main",
       file_sha: sha,
     }
   );
@@ -139,6 +140,7 @@ async function downloadFile(path: string) {
     {
       owner: "tearingItUp786",
       repo: "blog",
+      ref: "main",
       path,
     }
   )) as { data: { content?: string; encoding?: string } };
@@ -164,6 +166,7 @@ async function downloadDirList(path: string) {
   const resp = await octokit.repos.getContent({
     owner: "tearingItUp786",
     repo: "blog",
+    ref: "main",
     path,
   });
   const data = resp.data;
