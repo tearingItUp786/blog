@@ -72,3 +72,7 @@ export const ShortQuote = ({ children, ...rest }: CommonProps) => (
 export const TextLink = ({ children, ...rest }: CommonProps) => (
   <div {...rest}>{children}</div>
 );
+
+export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
+  <div {...rest}>{children}</div>
+);
