@@ -68,7 +68,7 @@
     "babel-eslint": "10.1.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-react-hooks": "1.7.0",
-    "plop": "2.7.4",
+    "plop": "2.7.6",
     "prettier": "2.3.2",
     "tailwindcss": "1.9.6"
   },
