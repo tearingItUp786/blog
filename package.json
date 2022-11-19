@@ -44,8 +44,8 @@
     "gatsby-transformer-sharp": "3.7.1",
     "gsap": "3.6.1",
     "prismjs": "1.24.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-helmet": "6.1.0",
     "react-typography": "0.16.19",
     "remark": "13.0.0",
@@ -67,7 +67,7 @@
   "devDependencies": {
     "babel-eslint": "10.1.0",
     "eslint-config-react-app": "6.0.0",
-    "eslint-plugin-react-hooks": "1.7.0",
+    "eslint-plugin-react-hooks": "4.6.0",
     "plop": "2.7.4",
     "prettier": "2.3.2",
     "tailwindcss": "1.9.6"
