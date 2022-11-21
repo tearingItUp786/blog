@@ -93,5 +93,8 @@
   },
   "resolutions": {
     "webpack": "5.52.1"
+  },
+  "volta": {
+    "node": "14.21.1"
   }
 }
