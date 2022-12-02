@@ -1,0 +1,23 @@
+---
+title: IndexedDB
+date: 2022-12-01
+tag: Browser
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+This technology has been around for a while (> 3 years) and I haven't used it personally, but it's pretty damn slick. IndexedDB is a low-level API for client side storage. It's more popular brother, `localStorage` has its limitations and if you're 
+ever running into them, you might want to take a look at `IndexedDB`. In a nutshell, `IndexedDB` is a transactional database system that allows us to permanently store data inside a user's browser. It would be useful for applications that store a large amount of data and 
+applications that don't need persistent internet connectivity to function. 
+
+Keep these key things in mind:
+
+- It stores key-value pairs. 
+- It's built on a transactional database model.
+- The API is mostly async.
+- It's object-oriented 😲. 
+- It's not SQL
+- It adheres to the same origin policy.
+
+
+`youtube: [Minor introduction to IndexedDB](https://www.youtube.com/watch?v=VNFDoawcmNc)`
