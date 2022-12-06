@@ -47,7 +47,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-helmet": "6.1.0",
-    "react-typography": "0.16.19",
+    "react-typography": "0.16.23",
     "remark": "13.0.0",
     "remark-capitalize": "1.1.0",
     "remark-emoji": "2.2.0",
@@ -60,7 +60,7 @@
     "styled-media-query": "2.1.2",
     "styled-normalize": "8.0.7",
     "tailwind.macro": "1.0.0-alpha.10",
-    "typography": "0.16.19",
+    "typography": "0.16.21",
     "typography-theme-wordpress-2016": "0.16.19",
     "unist-util-visit": "2.0.3"
   },
