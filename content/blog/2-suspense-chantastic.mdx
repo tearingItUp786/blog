@@ -181,7 +181,7 @@ function App(props) {
 }
 ```
 
-```jsx:title=PokemonList.js
+```jsx:title=PokemonList.js {13}
 import React from "react"
 import { unstable_createResource as createResource } from "react-cache"
 
@@ -194,7 +194,6 @@ export function PokemonList({
   renderItem = pokemon => <div key={pokemon.name}>{pokemon.name}</div>,
   ...restProps
 }) {
-  // highlight-next-line
   return (
     <As {...restProps}>{PokemonCollection.read().results.map(renderItem)}</As>
   )
