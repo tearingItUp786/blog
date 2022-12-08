@@ -164,7 +164,7 @@ we leave it up to the user of the component to decide what this click event will
 if we have a component that is responsible for rendering a list of data, we should allow the user of this component to
 dictate what the rendering function will look like for a data item.
 
-```jsx:title=index.js
+```jsx:title=index.js{8}
 import React from "react"
 import { PokemonList } from "./PokemonList.js"
 
@@ -172,7 +172,6 @@ function App(props) {
   return (
     <PokemonList
       as="ul"
-      // highlight-next-line
       renderItem={pokemon => (
         <li key={pokemon.name}>
           <button onClick={() => alert(`You selected ${pokemon.name}`)}>
