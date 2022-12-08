@@ -17,6 +17,11 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   const { default: emoji } = await import("remark-emoji");
   const { default: smartypants } = await import("remark-smartypants");
   const { default: remarkImages } = await import("remark-images");
+  // rehype plugins
+  const { default: rehypeCodeTitles } = await import("rehype-code-titles");
+  const { default: rehypePrism } = await import("@mapbox/rehype-prism");
+
+
 
   const indexRegex = new RegExp(`${slug}\\/index.mdx?$`);
   const indexFile = githubFiles.find(({ path }) => indexRegex.test(path));
@@ -49,6 +54,10 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
           smartypants,
           [remarkImages, { maxWidth: 1200 }],
           [remarkAutolinkHeadings, { behavior: "wrap" }],
+        ];
+        options.rehypePlugins = [...(options.rehypePlugins ?? []),
+          rehypeCodeTitles,
+          rehypePrism,
         ];
         return options;
       },

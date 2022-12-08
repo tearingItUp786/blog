@@ -14,6 +14,7 @@
     "start": "npm run build:css:prod && cross-env NODE_ENV=production netlify dev"
   },
   "dependencies": {
+    "@mapbox/rehype-prism": "^0.8.0",
     "@netlify/functions": "^0.10.0",
     "@octokit/plugin-throttling": "^3.6.2",
     "@octokit/rest": "^18.12.0",
@@ -31,6 +32,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "reading-time": "^1.5.0",
+    "rehype-code-titles": "^1.1.0",
     "remark-autolink-headings": "^7.0.1",
     "remark-capitalize": "^1.1.0",
     "remark-code-titles": "^0.1.2",

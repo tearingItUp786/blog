@@ -55,7 +55,7 @@ Once Suspsene and react-cache have stabilized, we will no longer need to worry a
 
 I'm just going to show the code and explain it below<span role="img" aria-label="smile emoji">😁</span>.
 
-```jsx:title=pokemon.js
+```js:pokemon.js
 import React from "react"
 import { unstable_createResource as createResource } from "react-cache"
 
@@ -72,7 +72,7 @@ export default function Pokemon() {
   <br />
 </div>
 
-```jsx:title=index.js
+```jsx:index.js
 import React from "react"
 import ErrorBoundary from "./error-boundary"
 const Pokemon = React.lazy(() => import("./pokemon"))
@@ -120,7 +120,7 @@ or throwing a promise, we need a way for our UI to react to this. ErrorBoundary 
 
 _Please not that ErrorBoundary cannot be a functional component -- React requires it to currently be implemented via a class_
 
-```jsx:title=ErrorBoundary.js
+```jsx:ErrorBoundary.js
 import React from "react"
 
 export default class ErrorBoundary extends React.Component {
@@ -160,7 +160,7 @@ we leave it up to the user of the component to decide what this click event will
 if we have a component that is responsible for rendering a list of data, we should allow the user of this component to
 dictate what the rendering function will look like for a data item.
 
-```jsx:title=index.js
+```jsx:index.js
 import React from "react"
 import { PokemonList } from "./PokemonList.js"
 
@@ -181,7 +181,7 @@ function App(props) {
 }
 ```
 
-```jsx:title=PokemonList.js
+```jsx:PokemonList.js
 import React from "react"
 import { unstable_createResource as createResource } from "react-cache"
 
