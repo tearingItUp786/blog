@@ -64,13 +64,13 @@ type CommonProps = {
 };
 
 export const BlockQuote = ({ children, ...rest }: CommonProps) => (
-  <div {...rest}> {children} </div>
+  <div {...rest}>{children}</div>
 );
 export const ShortQuote = ({ children, ...rest }: CommonProps) => (
   <div {...rest}>{children}</div>
 );
 export const TextLink = ({ children, ...rest }: CommonProps) => (
-  <div {...rest}>{children}</div>
+  <a target='_blank' {...rest}>{children}</a>
 );
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (

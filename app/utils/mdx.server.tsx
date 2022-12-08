@@ -19,7 +19,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   const { default: remarkImages } = await import("remark-images");
   // rehype plugins
   const { default: rehypeCodeTitles } = await import("rehype-code-titles");
-  const { default: rehypePrism } = await import("@mapbox/rehype-prism");
+  const { default: rehypePrismPlus } = await import("rehype-prism-plus");
 
 
 
@@ -57,7 +57,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         ];
         options.rehypePlugins = [...(options.rehypePlugins ?? []),
           rehypeCodeTitles,
-          rehypePrism,
+         [rehypePrismPlus, { showLineNumbers: true  }]
         ];
         return options;
       },

@@ -12,6 +12,7 @@ import clsx from "clsx";
 import appStyles from "./styles/app.css";
 
 import tailwindStyles from "./styles/tailwind.css";
+import prismaStyles from "./styles/prisma-theme.css";
 import {
   NonFlashOfWrongThemeEls,
   ThemeProvider,
@@ -29,6 +30,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "icon", href: "/favicon.ico" },
     { rel: "stylesheet", href: appStyles },
+    { rel: "stylesheet", href: prismaStyles },
   ];
 };
 
