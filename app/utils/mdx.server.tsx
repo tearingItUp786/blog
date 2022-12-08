@@ -71,7 +71,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     };
   } catch (error: unknown) {
     console.error(`Compilation error for slug: `, slug);
-    console.error(error.errors[0]?.detail);
+    console.error(error.errors[0]);
     throw error;
   }
 }
