@@ -57,7 +57,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         ];
         options.rehypePlugins = [...(options.rehypePlugins ?? []),
           rehypeCodeTitles,
-         [rehypePrismPlus, { showLineNumbers: true  }]
+        [rehypePrismPlus, { showLineNumbers: true }]
         ];
         return options;
       },
@@ -71,6 +71,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     };
   } catch (error: unknown) {
     console.error(`Compilation error for slug: `, slug);
+    console.error(error.errors[0]?.detail);
     throw error;
   }
 }
