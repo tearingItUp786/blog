@@ -1,11 +1,11 @@
 import clsx from "clsx";
 
 const fontSizes = {
-  h1: "font-display font-bold text-6xl",
-  h2: "font-body font-bold text-5xl",
-  h3: "font-body font-medium text-4xl",
-  h4: "font-body font-medium text-3xl",
-  h5: "font-body font-medium text-2xl",
+  h1: "m-0 font-display font-bold text-5xl",
+  h2: "m-0 font-body font-bold text-4xl",
+  h3: "m-0 font-body font-medium text-3xl",
+  h4: "m-0 font-body font-medium text-2xl",
+  h5: "m-0 font-body font-medium text-xl",
 };
 
 const titleColors = {
@@ -71,9 +71,11 @@ type CommonProps = {
 export const BlockQuote = ({ children, ...rest }: CommonProps) => (
   <div {...rest}>{children}</div>
 );
+
 export const ShortQuote = ({ children, ...rest }: CommonProps) => (
   <div {...rest}>{children}</div>
 );
+
 export const TextLink = ({ children, ...rest }: CommonProps) => (
   <a target='_blank' {...rest}>{children}</a>
 );
