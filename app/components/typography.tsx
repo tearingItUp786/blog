@@ -5,6 +5,7 @@ const fontSizes = {
   h2: "font-body font-bold text-5xl",
   h3: "font-body font-medium text-4xl",
   h4: "font-body font-medium text-3xl",
+  h5: "font-body font-medium text-2xl",
 };
 
 const titleColors = {
@@ -57,6 +58,10 @@ export const H3 = (props: TitleProps) => {
 export const H4 = (props: TitleProps) => {
   return <Title {...props} size="h4" />;
 };
+
+export const H5 = (props: TitleProps) => {
+  return <Title {...props} size="h5" />;
+}
 
 type CommonProps = {
   children: React.ReactNode;
