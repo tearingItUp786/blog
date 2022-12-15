@@ -36,10 +36,11 @@ export async function getMdxPage({
 }
 
 const mdxComponents = {
-  h1: myTypo.H1,
-  h2: myTypo.H2,
-  h3: myTypo.H3,
-  h4: myTypo.H4,
+  // h1: myTypo.H1,
+  // h2: myTypo.H2,
+  // h3: myTypo.H3,
+  // h4: myTypo.H4,
+  // h5: myTypo.H5,
   ...myTypo,
 };
 

@@ -4,7 +4,7 @@ import { Logo } from "./logo";
 
 export function Navbar() {
   const navClassName =
-    "flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-white block min-w-[150px] text-center dark:text-gray-300 text-xl italic font-light items-center";
+    "transition-[color] duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-white block min-w-[150px] text-center dark:text-gray-300 text-xl italic font-light items-center";
   const activeClassName =
     "!text-pink font-display not-italic font-bold bg-white dark:bg-gray-100";
   const setNavClassName = ({ isActive }: { isActive: boolean }) => {

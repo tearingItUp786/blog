@@ -26,3 +26,7 @@
 .logoNavLink:hover path {
   fill: var(--accent);
 }
+
+a {
+  color: var(--color-accent);
+}

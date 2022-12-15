@@ -28,7 +28,7 @@ html {
   -moz-tab-size: 4; /* 3 */
   -o-tab-size: 4;
      tab-size: 4; /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
 }
 /*
 1. Remove the margin in all browsers.
@@ -367,13 +367,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 1.2em;
 }
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-links);
+  color: var(--accent);
   text-decoration: underline;
   font-weight: 500;
 }
+.prose :where(a):not(:where([class~="not-prose"] *)) > * {
+  color: inherit;
+}
 .prose :where(strong):not(:where([class~="not-prose"] *)) {
-  color: var(--tw-prose-bold);
-  font-weight: 600;
+  color: var(--color-pink);
+  font-weight: 500;
 }
 .prose :where(ol):not(:where([class~="not-prose"] *)) {
   list-style-type: decimal;
@@ -454,31 +457,35 @@ Ensure the default browser behavior of the `hidden` attribute.
 .prose :where(h2):not(:where([class~="not-prose"] *)) {
   color: var(--tw-prose-headings);
   font-weight: 700;
-  font-size: 1.5em;
-  margin-top: 2em;
-  margin-bottom: 1em;
+  font-size: 1.875rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
   line-height: 1.3333333;
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .prose :where(h2 strong):not(:where([class~="not-prose"] *)) {
   font-weight: 800;
 }
 .prose :where(h3):not(:where([class~="not-prose"] *)) {
   color: var(--tw-prose-headings);
-  font-weight: 600;
-  font-size: 1.25em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
+  font-weight: 500;
+  font-size: 1.5625rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
   line-height: 1.6;
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .prose :where(h3 strong):not(:where([class~="not-prose"] *)) {
   font-weight: 700;
 }
 .prose :where(h4):not(:where([class~="not-prose"] *)) {
   color: var(--tw-prose-headings);
-  font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  font-weight: 500;
+  margin-top: 2.5rem;
+  margin-bottom: 0.25rem;
   line-height: 1.5;
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.375rem;
 }
 .prose :where(h4 strong):not(:where([class~="not-prose"] *)) {
   font-weight: 700;
@@ -611,8 +618,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75;
 }
 .prose :where(p):not(:where([class~="not-prose"] *)) {
-  margin-top: 0;
-  margin-bottom: 1rem;
+  margin-top: 20px;
+  margin-bottom: 2rem;
+  color: var(--body-text);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.625;
 }
 .prose :where(img):not(:where([class~="not-prose"] *)) {
   margin-top: 2em;
@@ -692,9 +703,35 @@ Ensure the default browser behavior of the `hidden` attribute.
 .prose > :where(:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 0;
 }
+.prose :where(h5):not(:where([class~="not-prose"] *)) {
+  font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
+}
+.prose :where(h1,h2,h3,h4,h5,h6):not(:where([class~="not-prose"] *)) > a {
+  transition: color 300ms;
+  text-decoration: none;
+  color: inherit;
+  font-weight: inherit;
+}
+.prose :where(h1,h2,h3,h4,h5,h6):not(:where([class~="not-prose"] *)) > a:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+.prose-light :where(h1,h2):not(:where([class~="not-prose"] *)) {
+  color: var(--color-gray-100);
+}
+.prose-light :where(h3,h4,h5,h6):not(:where([class~="not-prose"] *)) {
+  color: var(--color-gray-300);
+}
 /* purgecss end ignore */
 .fixed {
   position: fixed;
+}
+.relative {
+  position: relative;
 }
 .bottom-4 {
   bottom: 1rem;
@@ -705,17 +742,19 @@ Ensure the default browser behavior of the `hidden` attribute.
 .col-span-full {
   grid-column: 1 / -1;
 }
-.mb-10 {
-  margin-bottom: 2.5rem;
+.mx-\[10vw\] {
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
-.mt-24 {
-  margin-top: 6rem;
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 .mb-12 {
   margin-bottom: 3rem;
 }
-.mt-2 {
-  margin-top: 0.5rem;
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 .block {
   display: block;
@@ -746,6 +785,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .min-w-\[150px\] {
   min-width: 150px;
+}
+.max-w-4xl {
+  max-width: 56rem;
+}
+.max-w-screen-lg {
+  max-width: 1024px;
 }
 .translate-x-0 {
   --tw-translate-x: 0px;
@@ -806,24 +851,20 @@ Ensure the default browser behavior of the `hidden` attribute.
 .font-body {
   font-family: Avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-.text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
-}
 .text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 3.125rem;
 }
 .text-3xl {
   font-size: 1.875rem;
-  line-height: 2.25rem;
+}
+.text-2xl {
+  font-size: 1.5625rem;
 }
 .text-xl {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
+}
+.text-lg {
+  font-size: 1.125rem;
   line-height: 1.75rem;
 }
 .font-bold {
@@ -835,6 +876,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .font-light {
   font-weight: 300;
 }
+.uppercase {
+  text-transform: uppercase;
+}
 .capitalize {
   text-transform: capitalize;
 }
@@ -843,6 +887,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .not-italic {
   font-style: normal;
+}
+.leading-tight {
+  line-height: 1.25;
 }
 .text-gray-100 {
   color: var(--color-gray-100);
@@ -878,14 +925,63 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+.transition-\[fill\] {
+  transition-property: fill;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-\[color\] {
+  transition-property: color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.duration-300 {
+  transition-duration: 300ms;
+}
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.after\:absolute::after {
+  content: var(--tw-content);
+  position: absolute;
+}
+.after\:left-\[50\%\]::after {
+  content: var(--tw-content);
+  left: 50%;
+}
+.after\:bottom-\[-10px\]::after {
+  content: var(--tw-content);
+  bottom: -10px;
+}
+.after\:w-\[150px\]::after {
+  content: var(--tw-content);
+  width: 150px;
+}
+.after\:translate-x-\[-50\%\]::after {
+  content: var(--tw-content);
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.after\:border-b-\[1px\]::after {
+  content: var(--tw-content);
+  border-bottom-width: 1px;
+}
+.after\:border-gray-300::after {
+  content: var(--tw-content);
+  border-color: var(--color-gray-300);
+}
+.after\:content-\[\"\"\]::after {
+  --tw-content: "";
+  content: var(--tw-content);
 }
 .hover\:\!text-pink:hover {
   color: var(--color-pink) !important;
 }
 .focus\:\!text-pink:focus {
   color: var(--color-pink) !important;
+}
+.dark .dark\:prose-dark :where(h1,h2,h3,h4,h5,h6):not(:where([class~="not-prose"] *)) {
+  color: var(--color-white);
 }
 .dark .dark\:translate-x-\[160\%\] {
   --tw-translate-x: 160%;
@@ -918,9 +1014,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
   .lg\:col-start-3 {
     grid-column-start: 3;
-  }
-  .lg\:mb-24 {
-    margin-bottom: 6rem;
   }
 }
 @font-face {

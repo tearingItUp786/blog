@@ -1,5 +1,5 @@
 export const Logo = ({ className }: { className?: string }) => {
-  const pathClassName = "fill-white dark:fill-black";
+  const pathClassName = "fill-white dark:fill-black transition-[fill] duration-300";
   return (
     <svg
       className={className}

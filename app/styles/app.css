@@ -26,3 +26,36 @@
 .logoNavLink:hover path {
   fill: var(--accent);
 }
+
+a {
+  color: var(--color-accent);
+}
+
+/* Language: css */
+.title {
+  position: relative;
+}
+.title a {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100%;
+  color: inherit;
+  top: 0;
+  left: 0;
+  color: var(--accent);
+}
+
+.title a:before {
+  position: absolute;
+  right: 100%;
+  display: block;
+  content: '#';
+  margin-right: 0.2em;
+  visibility: hidden;
+  color: var(--accent);
+}
+
+.title:hover a:before {
+  visibility: visible;
+}
