@@ -30,3 +30,27 @@
 a {
   color: var(--color-accent);
 }
+
+.title {
+  position: relative;
+}
+
+.title a {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  padding-right: 4px;
+  margin-left: -20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transform: translateY(-55%);
+}
+
+.title a svg {
+  visibility: hidden;
+  stroke: var(--accent);
+}
+
+.title:hover a svg {
+  visibility: visible;
+}

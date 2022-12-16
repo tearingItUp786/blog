@@ -37,6 +37,9 @@ module.exports = {
         '6xl': '3.75rem', // 60px
         '7xl': '4.375rem', // 70px
       },
+      gridTemplateRows: {
+        'max-content': 'max-content',
+      },
       fontFamily: {
         sans: ['Avenir', ...defaultTheme.fontFamily.sans],
       },
@@ -53,6 +56,13 @@ module.exports = {
           DEFAULT: {
             css: [
               {
+                '> *': {
+                  gridColumn: '1 / -1',
+
+                  [`@media (min-width: ${theme('screens.lg')})`]: {
+                    gridColumn: '3 / span 8',
+                  },
+                },
                 a: {
                   color: 'var(--accent)',
                   '> *': {
@@ -101,8 +111,8 @@ module.exports = {
                   marginBottom: theme('spacing.10'),
                 },
                 p: {
-                  marginTop: 20,
-                  marginBottom: theme('spacing.8'),
+                  marginTop: 0,
+                  marginBottom: theme('spacing.4'),
                   color: 'var(--body-text)',
                   fontWeight: 500,
                   fontSize: fontSize('lg'),

@@ -31,31 +31,26 @@ a {
   color: var(--color-accent);
 }
 
-/* Language: css */
 .title {
   position: relative;
 }
+
 .title a {
   position: absolute;
-  display: block;
-  height: 100%;
-  width: 100%;
-  color: inherit;
-  top: 0;
   left: 0;
-  color: var(--accent);
+  top: 50%;
+  padding-right: 4px;
+  margin-left: -20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transform: translateY(-55%);
 }
 
-.title a:before {
-  position: absolute;
-  right: 100%;
-  display: block;
-  content: '#';
-  margin-right: 0.2em;
+.title a svg {
   visibility: hidden;
-  color: var(--accent);
+  stroke: var(--accent);
 }
 
-.title:hover a:before {
+.title:hover a svg {
   visibility: visible;
 }
