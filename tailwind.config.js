@@ -106,7 +106,7 @@ module.exports = {
                 },
                 p: {
                   marginTop: 0,
-                  marginBottom: theme('spacing.4'),
+                  marginBottom: theme('spacing.6'),
                   color: 'var(--body-text)',
                   fontWeight: 500,
                   fontSize: fontSize('lg'),
