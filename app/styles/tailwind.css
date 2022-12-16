@@ -374,6 +374,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .prose :where(a):not(:where([class~="not-prose"] *)) > * {
   color: inherit;
 }
+.prose :where(a):not(:where([class~="not-prose"] *)) > *, .prose :where(a):not(:where([class~="not-prose"] *)) p {
+  color: inherit;
+}
 .prose :where(strong):not(:where([class~="not-prose"] *)) {
   color: var(--color-pink);
   font-weight: 500;

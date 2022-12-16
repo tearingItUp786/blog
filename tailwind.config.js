@@ -63,12 +63,6 @@ module.exports = {
                     gridColumn: '3 / span 8',
                   },
                 },
-                a: {
-                  color: 'var(--accent)',
-                  '> *': {
-                    color: 'inherit',
-                  },
-                },
                 'h1,h2,h3,h4,h5,h6': {
                   '> a': {
                     transition: 'color 300ms',
@@ -121,6 +115,12 @@ module.exports = {
                 strong: {
                   fontWeight: 500,
                   color: 'var(--color-pink)',
+                },
+                a: {
+                  color: 'var(--accent)',
+                  '> *, p': {
+                    color: 'inherit',
+                  },
                 },
               },
             ],
