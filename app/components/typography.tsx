@@ -71,7 +71,7 @@ type CommonProps = {
 export const BlockQuote = ({ children, className, ...rest }: CommonProps) => (
   <blockquote
     style={{ fontStyle: 'oblique' }}
-    className={clsx('font-body font-normal', className)}
+    className={clsx('font-body font-normal text-xl uppercase', className)}
     {...rest}
   >
     {children}
@@ -91,3 +91,20 @@ export const TextLink = ({ children, ...rest }: CommonProps) => (
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
   <div {...rest}>{children}</div>
 )
+
+export const InlineImage = ({
+  src,
+  alt,
+  children,
+}: React.ImgHTMLAttributes<HTMLImageElement> & {
+  children?: React.ReactNode
+}) => {
+  const hasChildren = children !== undefined
+  const containerClass = hasChildren ? '' : 'flex center'
+  return (
+    <div className={containerClass}>
+      <img src={src} alt={alt} />
+      {hasChildren ? <div>{children}</div> : null}
+    </div>
+  )
+}

@@ -439,6 +439,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   border: none;
   padding: 0;
 }
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p {
+  font-style: oblique;
+  font-weight: 200;
+  font-size: 1.375rem;
+  text-transform: uppercase;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  font-size: 1.375rem;
+  text-transform: uppercase;
+}
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before {
   content: open-quote;
 }

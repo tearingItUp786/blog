@@ -127,6 +127,15 @@ module.exports = {
                   padding: 0,
                   fontStyle: 'oblique',
                   fontWeight: 200,
+                  fontSize: fontSize('xl'),
+                  textTransform: 'uppercase',
+
+                  '> p': {
+                    fontStyle: 'oblique',
+                    fontWeight: 200,
+                    fontSize: fontSize('xl'),
+                    textTransform: 'uppercase',
+                  },
                 },
               },
             ],
