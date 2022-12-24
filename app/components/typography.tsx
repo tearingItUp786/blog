@@ -19,13 +19,13 @@ type TitleProps = {
   className?: string
   id?: string
 } & (
-    | { children: React.ReactNode }
-    | {
+  | { children: React.ReactNode }
+  | {
       dangerouslySetInnerHTML: {
         __html: string
       }
     }
-  )
+)
 
 function Title({
   variant = 'primary',
@@ -68,8 +68,14 @@ type CommonProps = {
   [key: string]: any
 }
 
-export const BlockQuote = ({ children, ...rest }: CommonProps) => (
-  <div {...rest}>{children}</div>
+export const BlockQuote = ({ children, className, ...rest }: CommonProps) => (
+  <blockquote
+    style={{ fontStyle: 'oblique' }}
+    className={clsx('font-body font-normal', className)}
+    {...rest}
+  >
+    {children}
+  </blockquote>
 )
 
 export const ShortQuote = ({ children, ...rest }: CommonProps) => (

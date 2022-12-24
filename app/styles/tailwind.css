@@ -427,8 +427,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 3em;
 }
 .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
-  font-weight: 500;
-  font-style: italic;
+  font-weight: 200;
+  font-style: oblique;
   color: var(--tw-prose-quotes);
   border-left-width: 0.25rem;
   border-left-color: var(--tw-prose-quote-borders);
@@ -436,6 +436,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding-left: 1em;
+  border: none;
+  padding: 0;
 }
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before {
   content: open-quote;
@@ -899,6 +901,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .font-medium {
   font-weight: 500;
+}
+.font-normal {
+  font-weight: 400;
 }
 .font-light {
   font-weight: 300;

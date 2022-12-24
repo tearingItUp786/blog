@@ -122,6 +122,12 @@ module.exports = {
                     color: 'inherit',
                   },
                 },
+                blockquote: {
+                  border: 'none',
+                  padding: 0,
+                  fontStyle: 'oblique',
+                  fontWeight: 200,
+                },
               },
             ],
           },
