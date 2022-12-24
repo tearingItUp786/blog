@@ -100,7 +100,7 @@ export const InlineImage = ({
   children?: React.ReactNode
 }) => {
   const hasChildren = children !== undefined
-  const containerClass = hasChildren ? '' : 'flex center'
+  const containerClass = hasChildren ? '' : 'mx-auto'
   return (
     <div className={containerClass}>
       <img src={src} alt={alt} />
