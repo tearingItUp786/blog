@@ -447,10 +447,41 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 1.5625rem;
   text-transform: uppercase;
 }
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p :before {
+  content: ;
+  display: none;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p :after {
+  content: ;
+  display: none;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p ::before {
+  display: none;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p ::after {
+  display: none;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p {
+  margin-bottom: 0;
+}
 .prose :where(blockquote):not(:where([class~="not-prose"] *)) span {
   font-style: oblique;
   font-weight: 200;
   color: var(--color-pink);
+  text-align: right;
+  font-size: 1.125rem;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) :before {
+  content: ;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) :after {
+  content: ;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p::before {
+  display: none;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) > p::after {
+  display: none;
 }
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before {
   content: open-quote;

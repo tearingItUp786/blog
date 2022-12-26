@@ -89,7 +89,7 @@ export const ShortQuote = ({ children, ...rest }: CommonProps) => (
     style={{ fontStyle: 'oblique' }}
     className={clsx(
       titleColors['secondary'],
-      'font-body font-normal text-xl uppercase my-4'
+      'font-body font-light text-xl uppercase my-4'
     )}
     {...rest}
   >

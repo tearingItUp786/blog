@@ -135,11 +135,21 @@ module.exports = {
                     fontWeight: 200,
                     fontSize: fontSize('2xl'),
                     textTransform: 'uppercase',
+                    marginBottom: 0,
+                  },
+                  '> p::before': {
+                    display: 'none',
+                  },
+
+                  '> p::after': {
+                    display: 'none',
                   },
                   span: {
                     fontStyle: 'oblique',
+                    fontSize: fontSize('lg'),
                     fontWeight: 200,
                     color: 'var(--color-pink)',
+                    textAlign: 'right',
                   },
                 },
               },
