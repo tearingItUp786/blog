@@ -127,14 +127,19 @@ module.exports = {
                   padding: 0,
                   fontStyle: 'oblique',
                   fontWeight: 200,
-                  fontSize: fontSize('xl'),
+                  fontSize: fontSize('2xl'),
                   textTransform: 'uppercase',
 
                   '> p': {
                     fontStyle: 'oblique',
                     fontWeight: 200,
-                    fontSize: fontSize('xl'),
+                    fontSize: fontSize('2xl'),
                     textTransform: 'uppercase',
+                  },
+                  span: {
+                    fontStyle: 'oblique',
+                    fontWeight: 200,
+                    color: 'var(--color-pink)',
                   },
                 },
               },

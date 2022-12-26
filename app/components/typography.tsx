@@ -68,18 +68,33 @@ type CommonProps = {
   [key: string]: any
 }
 
-export const BlockQuote = ({ children, className, ...rest }: CommonProps) => (
+export const BlockQuote = ({
+  children,
+  className,
+  author,
+  ...rest
+}: CommonProps) => (
   <blockquote
     style={{ fontStyle: 'oblique' }}
-    className={clsx('font-body font-normal text-xl uppercase', className)}
+    className={clsx('font-body font-normal text-2xl uppercase', className)}
     {...rest}
   >
     {children}
+    {author ? <span className='text-pink'>{author}</span> : null}
   </blockquote>
 )
 
 export const ShortQuote = ({ children, ...rest }: CommonProps) => (
-  <div {...rest}>{children}</div>
+  <div
+    style={{ fontStyle: 'oblique' }}
+    className={clsx(
+      titleColors['secondary'],
+      'font-body font-normal text-xl uppercase my-4'
+    )}
+    {...rest}
+  >
+    {children}
+  </div>
 )
 
 export const TextLink = ({ children, ...rest }: CommonProps) => (
@@ -89,7 +104,9 @@ export const TextLink = ({ children, ...rest }: CommonProps) => (
 )
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-  <div {...rest}>{children}</div>
+  <div className='text-sm font-body text-pink' {...rest}>
+    {children}
+  </div>
 )
 
 export const InlineImage = ({
