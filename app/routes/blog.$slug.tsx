@@ -47,6 +47,7 @@ const FrontmatterSubtitle = ({ date }: { date?: string }) => {
               after:bottom-[-10px]
               after:border-b-[1px]
               after:border-gray-300
+              dark:after:border-white
             '
     >
       Taran "tearing it up" Bains •{' '}

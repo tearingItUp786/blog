@@ -130,27 +130,27 @@ module.exports = {
                   fontSize: fontSize('2xl'),
                   textTransform: 'uppercase',
 
-                  '> p': {
-                    fontStyle: 'oblique',
-                    fontWeight: 200,
-                    fontSize: fontSize('2xl'),
-                    textTransform: 'uppercase',
-                    marginBottom: 0,
-                  },
-                  '> p::before': {
-                    display: 'none',
-                  },
-
-                  '> p::after': {
-                    display: 'none',
-                  },
-                  span: {
-                    fontStyle: 'oblique',
-                    fontSize: fontSize('lg'),
-                    fontWeight: 200,
-                    color: 'var(--color-pink)',
-                    textAlign: 'right',
-                  },
+                  // '> p': {
+                  //   fontStyle: 'oblique',
+                  //   fontWeight: 200,
+                  //   fontSize: fontSize('2xl'),
+                  //   textTransform: 'uppercase',
+                  //   marginBottom: 0,
+                  // },
+                  // '> p::before': {
+                  //   display: 'none',
+                  // },
+                  //
+                  // '> p::after': {
+                  //   display: 'none',
+                  // },
+                  // span: {
+                  //   fontStyle: 'oblique',
+                  //   fontSize: fontSize('lg'),
+                  //   fontWeight: 200,
+                  //   color: 'var(--color-pink)',
+                  //   textAlign: 'right',
+                  // },
                 },
               },
             ],
@@ -164,6 +164,9 @@ module.exports = {
                 'h3,h4,h5,h6': {
                   color: 'var(--color-gray-300)',
                 },
+                ol: {
+                  color: 'var(--color-gray-300)',
+                },
               },
             ],
           },
@@ -171,6 +174,9 @@ module.exports = {
             css: [
               {
                 'h1,h2,h3,h4,h5,h6': {
+                  color: 'var(--color-white)',
+                },
+                ol: {
                   color: 'var(--color-white)',
                 },
               },

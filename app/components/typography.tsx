@@ -94,7 +94,12 @@ export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
     {...rest}
   >
     {children}
-    {author ? <span className='block text-pink'>{author}</span> : null}
+    {author ? (
+      <>
+        <span className='ml-2 mr-2'>-</span>
+        <span className='text-pink text-lg'>{author}</span>
+      </>
+    ) : null}
   </div>
 )
 
