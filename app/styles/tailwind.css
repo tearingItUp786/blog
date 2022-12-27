@@ -433,7 +433,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-left-width: 0.25rem;
   border-left-color: var(--tw-prose-quote-borders);
   quotes: "\201C""\201D""\2018""\2019";
-  margin-top: 1.6em;
+  margin-top: 1rem;
   margin-bottom: 1.6em;
   padding-left: 1em;
   border: none;

@@ -129,6 +129,7 @@ module.exports = {
                   fontWeight: 200,
                   fontSize: fontSize('2xl'),
                   textTransform: 'uppercase',
+                  marginTop: theme('spacing.4'),
 
                   // '> p': {
                   //   fontStyle: 'oblique',

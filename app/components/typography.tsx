@@ -76,7 +76,10 @@ export const BlockQuote = ({
 }: CommonProps) => (
   <blockquote
     style={{ fontStyle: 'oblique' }}
-    className={clsx('font-body font-light text-2xl uppercase', className)}
+    className={clsx(
+      'font-body font-light text-2xl uppercase dark:text-white',
+      className
+    )}
     {...rest}
   >
     {children}
