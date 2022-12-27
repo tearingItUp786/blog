@@ -76,15 +76,15 @@ export const BlockQuote = ({
 }: CommonProps) => (
   <blockquote
     style={{ fontStyle: 'oblique' }}
-    className={clsx('font-body font-normal text-2xl uppercase', className)}
+    className={clsx('font-body font-light text-2xl uppercase', className)}
     {...rest}
   >
     {children}
-    {author ? <span className='text-pink'>{author}</span> : null}
+    {author ? <span className='block text-pink'>{author}</span> : null}
   </blockquote>
 )
 
-export const ShortQuote = ({ children, ...rest }: CommonProps) => (
+export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
   <div
     style={{ fontStyle: 'oblique' }}
     className={clsx(
@@ -94,6 +94,7 @@ export const ShortQuote = ({ children, ...rest }: CommonProps) => (
     {...rest}
   >
     {children}
+    {author ? <span className='block text-pink'>{author}</span> : null}
   </div>
 )
 
