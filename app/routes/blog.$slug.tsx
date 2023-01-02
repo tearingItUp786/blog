@@ -1,5 +1,6 @@
 import { json, LoaderFunction, NavLink, useCatch, useLoaderData } from 'remix'
 import type { MdxPage } from 'types'
+import { LineSvg } from '~/components/blog/line-svg'
 import { H1, H4 } from '~/components/typography'
 import { getMdxPage, useMdxComponent } from '~/utils/mdx'
 
@@ -67,6 +68,7 @@ export default function MdxScreen() {
 
   return (
     <div className='relative mx-[10vw]'>
+      <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
       <div className='mb-12 mx-auto max-w-4xl text-center'>
         <div className='col-span-full lg:col-span-8 lg:col-start-3'>
           <H1>{frontmatter.title}</H1>
