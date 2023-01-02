@@ -962,6 +962,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .break-words {
   overflow-wrap: break-word;
 }
