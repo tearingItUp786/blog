@@ -3,6 +3,7 @@ import type { MdxPage } from 'types'
 import { LineSvg } from '~/components/blog/line-svg'
 import { H1, H4 } from '~/components/typography'
 import { getMdxPage, useMdxComponent } from '~/utils/mdx'
+import { dateFormat } from '~/utils/misc'
 
 type LoaderData = {
   page: MdxPage
@@ -51,12 +52,7 @@ const FrontmatterSubtitle = ({ date }: { date?: string }) => {
               dark:after:border-white
             '
     >
-      Taran "tearing it up" Bains •{' '}
-      <span>
-        {new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' }).format(
-          new Date(date)
-        )}
-      </span>
+      Taran "tearing it up" Bains • <span>{dateFormat(date)}</span>
     </div>
   )
 }
@@ -67,7 +63,7 @@ export default function MdxScreen() {
   const Component = useMdxComponent(String(code))
 
   return (
-    <div className='relative mx-[10vw]'>
+    <div className='relative mx-[10vw] mt-8'>
       <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
       <div className='mb-12 mx-auto max-w-4xl text-center'>
         <div className='col-span-full lg:col-span-8 lg:col-start-3'>

@@ -12,14 +12,13 @@ const checkCompiledValue = (value: unknown) =>
   typeof value === 'object' &&
   (value === null || ('code' in value && 'frontmatter' in value))
 
-export async function getMdxPage({
+async function getMdxPage({
   contentDir,
   slug,
 }: {
   contentDir: string
   slug: string
 }): Promise<MdxPage | null> {
-  console.log('test', contentDir, slug)
   const pageFiles = await downloadMdxFileOrDirectory(`${contentDir}/${slug}`)
   const compiledPage = await compileMdx<MdxPage['frontmatter']>(
     slug,
@@ -56,13 +55,46 @@ function getMdxComponent(code: string) {
     ...rest
   }: Parameters<typeof Component>['0']) {
     return (
-      // @ts-expect-error the types are wrong here
       <Component components={{ ...mdxComponents, ...components }} {...rest} />
     )
   }
   return KCDMdxComponent
 }
 
-export function useMdxComponent(code: string) {
+async function getMdxBlogList() {
+  const blogFiles = await downloadMdxFileOrDirectory('blog')
+  const mdxFiles = blogFiles.files.filter((file) => file.path.includes('.mdx'))
+
+  const compileCode = await Promise.all(
+    mdxFiles.map(async (file) => {
+      return {
+        mdx: await compileMdx<MdxPage['frontmatter']>('', [file]).catch((err) => {
+          console.error(`Failed to compile mdx:`, {
+            path: file.path,
+            file,
+          })
+          return Promise.reject(err)
+        }),
+        path: file.path,
+      }
+    })
+  )
+
+  return compileCode
+    .filter((value) => value.mdx !== null)
+    .map((value) => {
+      if (value.mdx) {
+        return {
+          frontmatter: value.mdx.frontmatter,
+          readTime: value.mdx.readTime,
+          path: value.path.replace('index.mdx', '').replace('content', ''),
+        }
+      }
+    })
+}
+
+function useMdxComponent(code: string) {
   return React.useMemo(() => getMdxComponent(code), [code])
 }
+
+export { getMdxPage, getMdxBlogList, useMdxComponent }

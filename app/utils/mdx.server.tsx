@@ -27,7 +27,6 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
 
   const indexRegex = new RegExp(`${slug}\\/index.mdx?$`)
   const indexFile = githubFiles.find(({ path }) => indexRegex.test(path))
-  console.log('running compile mdx')
   if (!indexFile) return null
 
   const rootDir = indexFile.path.replace(/index.mdx?$/, '')

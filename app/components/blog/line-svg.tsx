@@ -1,4 +1,5 @@
 import React from 'react'
+import { dotFormattedDate } from '~/utils/misc'
 
 type Props = {
   date: string
@@ -15,13 +16,7 @@ export const LineSvg = ({ date, tag, ...rest }: Props) => {
     }
   }, [clientHeight])
 
-  let formattedDate = new Intl.DateTimeFormat('en-CA', {
-    dateStyle: 'short',
-  })
-    .formatToParts(new Date(date))
-    .reduce((acc, part) => {
-      return acc + (part.type !== 'literal' ? part.value : '.')
-    }, '')
+  let formattedDate = dotFormattedDate(date)
 
   return (
     <>
@@ -111,4 +106,7 @@ export const LineSvg = ({ date, tag, ...rest }: Props) => {
       <div className='absolute left-[-69px] top-[40px] w-[2px] bg-black dark:bg-white hidden lg:block h-full'></div>
     </>
   )
+}
+function date(date: string) {
+  throw new Error('Function not implemented.')
 }
