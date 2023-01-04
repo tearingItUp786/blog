@@ -54,8 +54,3 @@ a {
 .title:hover a svg {
   visibility: visible;
 }
-
-html,
-body {
-  height: 100%;
-}

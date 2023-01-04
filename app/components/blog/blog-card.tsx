@@ -1,9 +1,10 @@
+import clsx from 'clsx'
 import { NavLink } from 'remix'
 import type { MdxPage } from 'types'
 import { dotFormattedDate } from '~/utils/misc'
 import { H2 } from '../typography'
 
-type Props = MdxPage['frontmatter'] & { slug: string }
+type Props = MdxPage['frontmatter'] & { slug: string; className?: string }
 
 export function BlogCard({
   title,
@@ -12,18 +13,24 @@ export function BlogCard({
   subtitle,
   description,
   slug,
+  className,
 }: Props) {
   return (
-    <div className='max-w-[500px] py-6'>
+    <div
+      className={clsx(
+        'py-6 relative after:content-[""] after:absolute after:top-[2rem] after:right-0 after:h-[2px] after:w-[1.5rem] after:bg-black after:dark:bg-white',
+        className
+      )}
+    >
       <div>
         <span className='text-lg'>
           <NavLink
-            className='font-bold text-pink uppercase mr-2'
+            className='font-bold text-pink dark:opacity-80 uppercase mr-2'
             to={`/tags/${tag}`}
           >
             {tag}
           </NavLink>
-          <span className='text-pink'>
+          <span className='text-pink dark:opacity-80'>
             {date ? dotFormattedDate(date) : null}
           </span>
         </span>
@@ -31,7 +38,7 @@ export function BlogCard({
           <H2 className='uppercase my-0'>{title}</H2>
         </NavLink>
       </div>
-      <p className='dark:text-white'>{description ?? subtitle}</p>
+      <p className='dark:text-white text-left'>{description ?? subtitle}</p>
     </div>
   )
 }

@@ -39,6 +39,7 @@ const FrontmatterSubtitle = ({ date }: { date?: string }) => {
       className='
               relative
               text-pink 
+              dark:opacity-80
               font-medium 
               text-lg 
               after:translate-x-[-50%] 

@@ -180,6 +180,12 @@ module.exports = {
                 ol: {
                   color: 'var(--color-white)',
                 },
+                strong: {
+                  opacity: 0.8,
+                },
+                a: {
+                  opacity: 0.8,
+                },
               },
             ],
           },

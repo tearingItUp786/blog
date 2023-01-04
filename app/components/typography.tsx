@@ -19,13 +19,13 @@ type TitleProps = {
   className?: string
   id?: string
 } & (
-  | { children: React.ReactNode }
-  | {
+    | { children: React.ReactNode }
+    | {
       dangerouslySetInnerHTML: {
         __html: string
       }
     }
-)
+  )
 
 function Title({
   variant = 'primary',
@@ -83,7 +83,9 @@ export const BlockQuote = ({
     {...rest}
   >
     {children}
-    {author ? <span className='block text-pink'>{author}</span> : null}
+    {author ? (
+      <span className='block text-pink dark:opacity-80'>{author}</span>
+    ) : null}
   </blockquote>
 )
 
@@ -100,7 +102,7 @@ export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
     {author ? (
       <>
         <span className='ml-2 mr-2'>-</span>
-        <span className='text-pink text-lg'>{author}</span>
+        <span className='text-pink dark:opacity-80 text-lg'>{author}</span>
       </>
     ) : null}
   </div>
@@ -113,7 +115,7 @@ export const TextLink = ({ children, ...rest }: CommonProps) => (
 )
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-  <div className='text-sm font-body text-pink' {...rest}>
+  <div className='text-sm font-body dark:opacity-80 text-pink' {...rest}>
     {children}
   </div>
 )
