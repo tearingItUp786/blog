@@ -35,11 +35,6 @@ async function getMdxPage({
 }
 
 const mdxComponents = {
-  // h1: myTypo.H1,
-  // h2: myTypo.H2,
-  // h3: myTypo.H3,
-  // h4: myTypo.H4,
-  // h5: myTypo.H5,
   ...myTypo,
 }
 
@@ -61,36 +56,51 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
-async function getMdxBlogList() {
-  const blogFiles = await downloadMdxFileOrDirectory('blog')
-  const mdxFiles = blogFiles.files.filter((file) => file.path.includes('.mdx'))
+async function getMdxDirList(contentDir: string) {
+  const fullContentDirPath = `content/${contentDir}`
 
-  const compileCode = await Promise.all(
-    mdxFiles.map(async (file) => {
+  const dirList = (await downloadDirList(fullContentDirPath)).map(
+    ({ name, path }) => ({
+      name,
+      slug: path.replace('index.mdx', '').replace('content/', ''),
+    })
+  )
+
+  return dirList
+}
+
+async function getMdxBlogList() {
+  const dirList = await getMdxDirList('blog')
+
+  const pageDatas = await Promise.all(
+    dirList.map(async ({ slug }) => {
       return {
-        mdx: await compileMdx<MdxPage['frontmatter']>('', [file]).catch((err) => {
-          console.error(`Failed to compile mdx:`, {
-            path: file.path,
-            file,
-          })
-          return Promise.reject(err)
-        }),
-        path: file.path,
+        ...(await downloadMdxFileOrDirectory(slug)),
+        slug,
       }
     })
   )
 
-  return compileCode
-    .filter((value) => value.mdx !== null)
-    .map((value) => {
-      if (value.mdx) {
-        return {
-          frontmatter: value.mdx.frontmatter,
-          readTime: value.mdx.readTime,
-          path: value.path.replace('index.mdx', '').replace('content', ''),
-        }
+  const pages = await Promise.all(
+    pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
+  )
+
+  console.log('wtf', pageDatas)
+
+  return pages
+    .map((page, i) => {
+      if (!page) return ''
+      return {
+        ...mapFromMdxPageToMdxListItem(page),
+        path: pageDatas?.[i]?.slug ?? '',
       }
     })
+    .filter((v) => v && Boolean(v.path))
+}
+
+function mapFromMdxPageToMdxListItem(page: MdxPage): Omit<MdxPage, 'code'> {
+  const { code, ...mdxListItem } = page
+  return mdxListItem
 }
 
 function useMdxComponent(code: string) {

@@ -47,7 +47,7 @@ export function BlogCard({
             {date ? dotFormattedDate(date) : null}
           </span>
         </span>
-        <NavLink to={`${slug}`}>
+        <NavLink to={`/${slug}`}>
           <H2 className='uppercase my-0'>{title}</H2>
         </NavLink>
       </div>
