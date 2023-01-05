@@ -18,7 +18,20 @@ export function BlogCard({
   return (
     <div
       className={clsx(
-        'py-6 relative after:content-[""] after:absolute after:top-[2rem] after:right-0 after:h-[2px] after:w-[1.5rem] after:bg-black after:dark:bg-white',
+        `
+        py-6 
+        relative 
+        after:content-[""] 
+        after:absolute 
+        after:top-[2rem] 
+        after:right-0 
+        after:h-[2px] 
+        after:w-[1.5rem] 
+        after:bg-black 
+        after:dark:bg-white
+        after:hidden 
+        md:after:block 
+        `,
         className
       )}
     >
@@ -38,7 +51,9 @@ export function BlogCard({
           <H2 className='uppercase my-0'>{title}</H2>
         </NavLink>
       </div>
-      <p className='dark:text-white text-left'>{description ?? subtitle}</p>
+      <p className='dark:text-white text-center md:text-left'>
+        {description ?? subtitle}
+      </p>
     </div>
   )
 }

@@ -1,0 +1,9 @@
+.blog-container {
+  @apply mx-[10vw] pb-8 relative mt-8 before:hidden md:before:block before:content-[""];
+  @apply before:absolute before:left-[50%] before:bg-gray-300 before:dark:bg-white before:w-[18px] before:h-[18px] before:rounded-full before:-translate-x-1/2 before:top-[40px];
+  @apply after:hidden md:after:block after:content-[""] after:absolute after:top-[50px] after:left-[50%] after:bottom-0 after:w-[2px] after:bg-gray-300 after:dark:bg-white;
+}
+
+.welcome-message {
+  @apply text-pink dark:text-pink dark:opacity-80 text-lg font-normal text-center mb-4;
+}
