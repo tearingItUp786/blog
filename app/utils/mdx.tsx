@@ -8,7 +8,7 @@ import {
 } from '~/utils/github.server'
 import { compileMdx } from './mdx.server'
 import { redisCache } from './redis.server'
-import cachified from 'cachified'
+import cachified, { verboseReporter } from 'cachified'
 
 const checkCompiledValue = (value: unknown) =>
   typeof value === 'object' &&
@@ -43,6 +43,7 @@ async function getMdxPage({
 
       return compiledPage
     },
+    reporter: verboseReporter(),
   })
 }
 
