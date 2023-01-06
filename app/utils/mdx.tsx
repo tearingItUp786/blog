@@ -20,6 +20,7 @@ async function getMdxPage({
   slug: string
 }): Promise<MdxPage | null> {
   const pageFiles = await downloadMdxFileOrDirectory(`${contentDir}/${slug}`)
+
   const compiledPage = await compileMdx<MdxPage['frontmatter']>(
     slug,
     pageFiles.files
@@ -85,11 +86,9 @@ async function getMdxBlogList() {
     pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
   )
 
-  console.log('wtf', pageDatas)
-
   return pages
     .map((page, i) => {
-      if (!page) return ''
+      if (!page) return null
       return {
         ...mapFromMdxPageToMdxListItem(page),
         path: pageDatas?.[i]?.slug ?? '',

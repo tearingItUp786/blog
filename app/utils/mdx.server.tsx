@@ -8,6 +8,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   slug: string,
   githubFiles: Array<GitHubFile>
 ) {
+  console.time('compileMdx')
   const { default: remarkAutolinkHeadings } = await import(
     'remark-autolink-headings'
   )
@@ -98,6 +99,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     })
     const readTime = calculateReadingTime(indexFile.content)
 
+    console.timeEnd('compileMdx')
     return {
       code,
       readTime,
@@ -132,7 +134,7 @@ async function getQueue() {
   const { default: PQueue } = await import('p-queue')
   if (_queue) return _queue
 
-  _queue = new PQueue({ concurrency: 1 })
+  _queue = new PQueue({ concurrency: 4 })
   return _queue
 }
 
@@ -143,6 +145,7 @@ async function queuedCompileMdx<
 >(...args: Parameters<typeof compileMdx>) {
   const queue = await getQueue()
   const result = await queue.add(() => compileMdx<FrontmatterType>(...args))
+
   return result
 }
 

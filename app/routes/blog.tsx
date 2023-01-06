@@ -72,7 +72,10 @@ export default function Blog() {
           >
             <BlogCard
               {...firstElement.frontmatter}
-              className={clsx(getBlogCardClassName(), 'pt-2 md:pt-6')}
+              className={clsx(
+                getBlogCardClassName(),
+                'after:w-[1.5rem] pt-2 md:pt-6'
+              )}
               slug={firstElement.path}
             />
           </div>

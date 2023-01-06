@@ -26,7 +26,6 @@ export function BlogCard({
         after:top-[2rem] 
         after:right-0 
         after:h-[2px] 
-        after:w-[1.5rem] 
         after:bg-black 
         after:dark:bg-white
         after:hidden 
