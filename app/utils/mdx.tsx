@@ -24,6 +24,7 @@ async function getMdxPage({
   return cachified({
     key: `${contentDir}:${slug}`,
     cache: redisCache,
+    ttl: 3000,
     getFreshValue: async () => {
       const pageFiles = await downloadMdxFileOrDirectory(
         `${contentDir}/${slug}`
