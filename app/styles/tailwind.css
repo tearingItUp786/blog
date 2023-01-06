@@ -1179,6 +1179,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   content: var(--tw-content);
   width: 150px;
 }
+.after\:w-\[1\.5rem\]::after {
+  content: var(--tw-content);
+  width: 1.5rem;
+}
 .after\:w-\[2px\]::after {
   content: var(--tw-content);
   width: 2px;
@@ -1198,10 +1202,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .after\:w-10::after {
   content: var(--tw-content);
   width: 2.5rem;
-}
-.after\:w-\[1\.5rem\]::after {
-  content: var(--tw-content);
-  width: 1.5rem;
 }
 .after\:w-\[11vw\]::after {
   content: var(--tw-content);
