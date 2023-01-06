@@ -8,7 +8,6 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   slug: string,
   githubFiles: Array<GitHubFile>
 ) {
-  console.time('compileMdx')
   const { default: remarkAutolinkHeadings } = await import(
     'remark-autolink-headings'
   )
@@ -99,7 +98,6 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     })
     const readTime = calculateReadingTime(indexFile.content)
 
-    console.timeEnd('compileMdx')
     return {
       code,
       readTime,

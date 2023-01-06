@@ -52,8 +52,6 @@ async function downloadMdxFileOrDirectory(
 ): Promise<{ entry: string; files: Array<GitHubFile> }> {
   const mdxFileOrDirectory = `content/${relativeMdxFileOrDirectory}`
 
-  console.log('downloading', mdxFileOrDirectory)
-
   const parentDir = nodePath.dirname(mdxFileOrDirectory)
   const dirList = await downloadDirList(parentDir)
 
