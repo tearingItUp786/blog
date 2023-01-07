@@ -1,4 +1,12 @@
+import { json, useLoaderData } from 'remix'
 import { TilCard } from '~/components/til/til-card'
+import { getMdxTilList } from '~/utils/mdx'
+
+export async function loader() {
+  const tilList = await getMdxTilList()
+
+  return json({ tilList })
+}
 
 export default function TilPage() {
   return (

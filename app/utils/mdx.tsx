@@ -88,6 +88,38 @@ async function getMdxDirList(contentDir: string) {
   })
 }
 
+async function getMdxTilList() {
+  return cachified({
+    key: 'til-list',
+    cache: redisCache,
+    getFreshValue: async () => {
+      const dirList = await getMdxDirList('til')
+      const pageDatas = await Promise.all(
+        dirList.map(async ({ slug }) => {
+          return {
+            ...(await downloadMdxFileOrDirectory(slug)),
+            slug,
+          }
+        })
+      )
+
+      const pages = await Promise.all(
+        pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
+      )
+
+      return pages
+        .map((page, i) => {
+          if (!page) return null
+          return {
+            ...page,
+            path: pageDatas?.[i]?.slug ?? '',
+          }
+        })
+        .filter((v) => v && Boolean(v.path))
+    },
+  })
+}
+
 async function getMdxBlogList() {
   return cachified({
     key: 'blog-list',
@@ -130,4 +162,4 @@ function useMdxComponent(code: string) {
   return React.useMemo(() => getMdxComponent(code), [code])
 }
 
-export { getMdxPage, getMdxBlogList, useMdxComponent }
+export { getMdxPage, getMdxBlogList, getMdxTilList, useMdxComponent }

@@ -170,7 +170,6 @@ async function downloadDirList(path: string) {
     path,
   })
   const data = resp.data
-
   if (!Array.isArray(data)) {
     throw new Error(
       `Tried to download content from ${path}. GitHub did not return an array of files. This should never happen...`

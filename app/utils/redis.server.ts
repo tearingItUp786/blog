@@ -13,7 +13,9 @@ function createRedisClient(): redis.RedisClientType {
 
   if (!client) {
     // eslint-disable-next-line no-multi-assign
-    client = global.primaryClient = redis.createClient()
+    client = global.primaryClient = redis.createClient({
+      url: process.env.REDIS_URL || 'redis://localhost:6379',
+    })
 
     client.on('error', (error: string) => {
       console.error(`REDIS ERROR:`, error)
