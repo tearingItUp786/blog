@@ -59,7 +59,7 @@ async function downloadMdxFileOrDirectory(
   const mdxFileWithoutExt = nodePath.parse(mdxFileOrDirectory).name
   const potentials = dirList.filter(({ name }) => name.startsWith(basename))
   const exactMatch = potentials.find(
-    ({ name }) => nodePath.parse(name).name === mdxFileWithoutExt
+    ({ name, type }) => nodePath.parse(name).name === mdxFileWithoutExt
   )
   const dirPotential = potentials.find(({ type }) => type === 'dir')
 
@@ -68,6 +68,7 @@ async function downloadMdxFileOrDirectory(
   )
   let files: Array<GitHubFile> = []
   let entry = mdxFileOrDirectory
+
   if (content) {
     // technically you can get the blog post by adding .mdx at the end... Weird
     // but may as well handle it since that's easy...
@@ -81,6 +82,7 @@ async function downloadMdxFileOrDirectory(
   } else if (dirPotential) {
     entry = dirPotential.path
     files = await downloadDirectory(mdxFileOrDirectory)
+    console.log('test', files)
   }
 
   return { entry, files }
@@ -94,7 +96,6 @@ async function downloadMdxFileOrDirectory(
  */
 async function downloadDirectory(dir: string): Promise<Array<GitHubFile>> {
   const dirList = await downloadDirList(dir)
-
   const result = await Promise.all(
     dirList.map(async ({ path: fileDir, type, sha }) => {
       switch (type) {

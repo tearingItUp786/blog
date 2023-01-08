@@ -92,8 +92,11 @@ async function getMdxTilList() {
   return cachified({
     key: 'til-list',
     cache: redisCache,
+    forceFresh: true,
     getFreshValue: async () => {
-      const dirList = await getMdxDirList('til')
+      const mdxDirList = await getMdxDirList('til')
+      const dirList = mdxDirList.slice(0, 10)
+
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
           return {
@@ -107,7 +110,9 @@ async function getMdxTilList() {
         pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
       )
 
-      return pages
+      console.log('wtf', pages)
+
+      let yolo = pages
         .map((page, i) => {
           if (!page) return null
           return {
@@ -116,6 +121,7 @@ async function getMdxTilList() {
           }
         })
         .filter((v) => v && Boolean(v.path))
+      return yolo
     },
   })
 }

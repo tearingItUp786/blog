@@ -25,12 +25,11 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   )
   const { default: rehypeAddClasses } = await import('rehype-add-classes')
 
-  const indexRegex = new RegExp(`${slug}\\/index.mdx?$`)
-  console.log('test', slug)
-  const indexFile = githubFiles.find(({ path }) => indexRegex.test(path))
-  if (!indexFile) return null
+  const mdxRegex = new RegExp(`${slug}\\/.*mdx?$`)
+  const mdxFile = githubFiles.find(({ path }) => mdxRegex.test(path))
+  if (!mdxFile) return null
 
-  const rootDir = indexFile.path.replace(/index.mdx?$/, '')
+  const rootDir = mdxFile.path.replace(/index.mdx?$/, '')
   const relativeFiles: Array<GitHubFile> = githubFiles.map(
     ({ path, content }) => ({
       path: path.replace(rootDir, './'),

@@ -9,6 +9,7 @@ export async function loader() {
 }
 
 export default function TilPage() {
+  let data = useLoaderData<typeof loader>()
   return (
     <div
       className='
