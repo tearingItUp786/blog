@@ -84,7 +84,9 @@ async function getMdxDirList(contentDir: string) {
         })
       )
 
-      return dirList
+      return dirList.sort((a, b) => {
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+      })
     },
     reporter: verboseReporter(),
   })
@@ -97,6 +99,7 @@ async function getMdxTilList() {
     forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
+      console.log('mdxDirList', mdxDirList)
       const dirList = mdxDirList.slice(0, 10)
 
       const pageDatas = await Promise.all(

@@ -4,6 +4,8 @@ date: 2021-03-04
 tag: React
 ---
 
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
 So I've seen this pattern around but didn't know it had a name! If you've ever used
 Context in React, you're aware of there being a `Provider` and a `Consumer` and those two are namespaced
 to a specific Context. Keep in mind, this is assuming you're using React < 16.8.0.
@@ -11,14 +13,14 @@ to a specific Context. Keep in mind, this is assuming you're using React < 16.8.
 For example:
 
 ```jsx
-const SomeContext = React.createContext();
+const SomeContext = React.createContext()
 
 const SomeContextProvider = ({ children }) => {
-  const [yolo, setYolo] = React.useState(false);
+  const [yolo, setYolo] = React.useState(false)
 
   // highlight-next-line
-  return <SomeContext.Provider>{children}</SomeContext.Provider>;
-};
+  return <SomeContext.Provider>{children}</SomeContext.Provider>
+}
 
 const SomeContextConsumer = ({ children }) => {
   return (
@@ -26,13 +28,13 @@ const SomeContextConsumer = ({ children }) => {
     <SomeContext.Consumer>
       {(context) => {
         if (context === undefined)
-          throw new Error("Must be used within a SomeContextProvider");
+          throw new Error("Must be used within a SomeContextProvider")
 
-        return children(context);
+        return children(context)
       }}
     </SomeContext.Consumer>
-  );
-};
+  )
+}
 ```
 
 I'm still trying to figure out when this _should_ be used.

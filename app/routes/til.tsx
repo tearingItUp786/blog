@@ -10,7 +10,10 @@ export async function loader() {
 
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
-  console.log('yo', data)
+  console.log(
+    'yo',
+    data.tilList.map((a) => a.frontmatter)
+  )
   return (
     <div
       className='

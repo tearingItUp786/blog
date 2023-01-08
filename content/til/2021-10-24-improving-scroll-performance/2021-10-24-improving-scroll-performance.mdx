@@ -4,11 +4,13 @@ date: 2021-10-24
 tag: Best Practices
 ---
 
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
 Turns out there's a way to improve event listeners that are tied to the scrolling event in the browser.
 
 ```javascript
-const onScroll = (e) => console.log("sup", e);
-window.addEventListener("scroll", onScroll, { passive: true });
+const onScroll = (e) => console.log("sup", e)
+window.addEventListener("scroll", onScroll, { passive: true })
 ```
 
 This will make it so that our scroll handler will not block the main thread (yay!).

@@ -1,0 +1,15 @@
+---
+title: "TS Utility: Extract"
+date: 2022-07-29
+tag: TypeScript
+---
+
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
+TypeScript has a handy utility type to `extract` types from a union type 🤭.
+
+```tsx
+  type MyUnion = "Hello" | "Mom" | "I" | "Love" | "You"
+  type WithoutMom = Extract<MyUnion, "Mom">
+  // the above will be the type "Hello" | "I" | "Love" | "You"
+```

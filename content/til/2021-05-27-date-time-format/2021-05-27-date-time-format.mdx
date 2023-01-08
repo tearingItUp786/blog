@@ -4,11 +4,13 @@ date: 2021-05-27
 tag: JS
 ---
 
+import { MDXTextLink as TextLink } from "../../../src/components/mdx-comps"
+
 Turns out that there's a neat little time formatter that most browsers ship with
 that allows us to do locale specific time formatting. It's inside of the Intl.
 
 ```js
-Intl.DateTimeFormat("en-US").format(Date.now());
+  Intl.DateTimeFormat('en-US').format(Date.now());
 ```
 
 <TextLink href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">
