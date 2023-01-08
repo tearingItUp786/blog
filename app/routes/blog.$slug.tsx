@@ -80,7 +80,16 @@ export default function MdxScreen() {
 
       <main
         // className='max-w-screen-lg mx-auto prose prose-light dark:prose-dark'
-        className='relative grid grid-cols-4 gap-x-4 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6 mx-auto max-w-7xl prose prose-light mb-24 break-words dark:prose-dark'
+        className='relative 
+        grid 
+        grid-cols-4 
+        gap-x-4 
+        md:grid-cols-8 
+        lg:grid-cols-12 
+        lg:gap-x-6 mx-auto 
+        max-w-7xl 
+        prose prose-light 
+        mb-24 break-words dark:prose-dark'
       >
         <Component />
       </main>

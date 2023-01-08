@@ -24,6 +24,7 @@ async function getMdxPage({
   return cachified({
     key: `${contentDir}:${slug}`,
     cache: redisCache,
+    forceFresh: true,
     getFreshValue: async () => {
       const pageFiles = await downloadMdxFileOrDirectory(
         `${contentDir}/${slug}`
@@ -99,7 +100,6 @@ async function getMdxTilList() {
     forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
-      console.log('mdxDirList', mdxDirList[1])
       const dirList = mdxDirList.slice(0, 10)
 
       const pageDatas = await Promise.all(
@@ -111,24 +111,18 @@ async function getMdxTilList() {
         })
       )
 
-      try {
-        const pages = await Promise.all(
-          pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
-        )
+      const pages = await Promise.all(
+        pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
+      )
 
-        let yolo = pages
-          .map((page, i) => {
-            return {
-              ...page,
-              path: pageDatas?.[i]?.slug ?? '',
-            }
-          })
-          .filter((v) => v && Boolean(v.path))
-        return yolo
-      } catch (err) {
-        console.log('yo', err)
-        throw err
-      }
+      let test = pages.map((page, i) => {
+        return {
+          ...page,
+          path: pageDatas?.[i]?.slug ?? '',
+        }
+      })
+      console.log('wtf, test', test)
+      return test
     },
   })
 }
@@ -137,6 +131,7 @@ async function getMdxBlogList() {
   return cachified({
     key: 'blog-list',
     cache: redisCache,
+    forceFresh: true,
     getFreshValue: async () => {
       const dirList = await getMdxDirList('blog')
 
@@ -175,4 +170,10 @@ function useMdxComponent(code: string) {
   return React.useMemo(() => getMdxComponent(code), [code])
 }
 
-export { getMdxPage, getMdxBlogList, getMdxTilList, useMdxComponent }
+export {
+  getMdxPage,
+  getMdxBlogList,
+  getMdxTilList,
+  useMdxComponent,
+  getMdxComponent,
+}

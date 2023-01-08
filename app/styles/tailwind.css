@@ -756,7 +756,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 .prose-light :where(h3,h4,h5,h6):not(:where([class~="not-prose"] *)) {
   color: var(--color-gray-300);
 }
-.prose-light :where(ol):not(:where([class~="not-prose"] *)) {
+.prose-light :where(ul,ol):not(:where([class~="not-prose"] *)) {
   color: var(--color-gray-300);
 }
 /* purgecss end ignore */
@@ -1058,6 +1058,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .\!text-pink {
   color: var(--color-pink) !important;
 }
+.no-underline {
+  -webkit-text-decoration-line: none;
+          text-decoration-line: none;
+}
 .drop-shadow-toggle {
   --tw-drop-shadow: drop-shadow(6px 4px 8px var(--color-gray-300));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1247,7 +1251,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 .dark .dark\:prose-dark :where(h1,h2,h3,h4,h5,h6):not(:where([class~="not-prose"] *)) {
   color: var(--color-white);
 }
-.dark .dark\:prose-dark :where(ol):not(:where([class~="not-prose"] *)) {
+.dark .dark\:prose-dark :where(ol, ul):not(:where([class~="not-prose"] *)) {
   color: var(--color-white);
 }
 .dark .dark\:prose-dark :where(strong):not(:where([class~="not-prose"] *)) {

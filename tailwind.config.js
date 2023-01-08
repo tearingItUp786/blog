@@ -165,7 +165,7 @@ module.exports = {
                 'h3,h4,h5,h6': {
                   color: 'var(--color-gray-300)',
                 },
-                ol: {
+                'ul,ol': {
                   color: 'var(--color-gray-300)',
                 },
               },
@@ -177,7 +177,7 @@ module.exports = {
                 'h1,h2,h3,h4,h5,h6': {
                   color: 'var(--color-white)',
                 },
-                ol: {
+                'ol, ul': {
                   color: 'var(--color-white)',
                 },
                 strong: {

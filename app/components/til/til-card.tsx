@@ -6,10 +6,10 @@ type Props = {
   title: string
   date: string
   tag: string
-  description: string
+  children: React.ReactNode
 }
 
-export const TilCard = ({ title, date, tag, description }: Props) => {
+export const TilCard = ({ title, date, tag, children }: Props) => {
   return (
     <div
       className='
@@ -42,7 +42,7 @@ export const TilCard = ({ title, date, tag, description }: Props) => {
         <div className='flex flex-col text-lg mr-6 text-pink dark:opacity-80'>
           {dotFormattedDate(date)}
           <NavLink
-            className='font-bold text-pink dark:opacity-80 uppercase mr-2'
+            className='font-bold no-underline text-pink dark:opacity-80 uppercase mr-2'
             to={`/tags/${tag}`}
           >
             {tag}
@@ -50,7 +50,7 @@ export const TilCard = ({ title, date, tag, description }: Props) => {
         </div>
         <H1 className='uppercase my-0 leading-[1em]'>{title}</H1>
       </div>
-      <p className='text-lg mt-2 md:text-left'>{description}</p>
+      <div className='text-lg mt-2 md:text-left'>{children}</div>
     </div>
   )
 }

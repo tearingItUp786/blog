@@ -1,6 +1,7 @@
+import React from 'react'
 import { json, useLoaderData } from 'remix'
 import { TilCard } from '~/components/til/til-card'
-import { getMdxTilList } from '~/utils/mdx'
+import { getMdxComponent, getMdxTilList } from '~/utils/mdx'
 
 export async function loader() {
   const tilList = await getMdxTilList()
@@ -10,15 +11,20 @@ export async function loader() {
 
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
-  console.log(
-    'yo',
-    data.tilList.map((a) => a.frontmatter)
-  )
+
+  let components = React.useMemo(() => {
+    return data.tilList.map((til) => {
+      return {
+        ...til,
+        component: getMdxComponent(String(til.code)),
+      }
+    })
+  }, [])
+
   return (
     <div
       className='
     ml-[18vw] mr-[10vw] pb-8 relative mt-8
-
     after:hidden
     after:md:block
     after:content-[""]
@@ -31,54 +37,22 @@ export default function TilPage() {
     after:dark:bg-white
     '
     >
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
-      <TilCard
-        title='TIL: How to use the new React JSX transform'
-        date='2021-03-01'
-        tag='react'
-        // some random paragraph description
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Done porttitor efficitur pellentesque. Nullam
-aliquam turpis a condimentum lobortis. Nam posuere leo vel magna maximus.'
-      />
+      <div className='max-w-full prose prose-light dark:prose-dark'>
+        {components.map((til, i) => {
+          const Component: any = components?.[i]?.component
+          console.log('huh', Component)
+          return (
+            <TilCard
+              key={til.slug}
+              title={til.frontmatter.title}
+              date={til.frontmatter.date}
+              tag={til.frontmatter.tag}
+            >
+              <Component />
+            </TilCard>
+          )
+        })}
+      </div>
     </div>
   )
 }
