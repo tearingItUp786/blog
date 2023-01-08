@@ -76,9 +76,10 @@ async function getMdxDirList(contentDir: string) {
     cache: redisCache,
     getFreshValue: async () => {
       const dirList = (await downloadDirList(fullContentDirPath)).map(
-        ({ name, path }) => ({
+        ({ name, path, ...rest }) => ({
           name,
           slug: path.replace('index.mdx', '').replace('content/', ''),
+          ...rest,
         })
       )
 
@@ -109,8 +110,6 @@ async function getMdxTilList() {
       const pages = await Promise.all(
         pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
       )
-
-      console.log('wtf', pages)
 
       let yolo = pages
         .map((page, i) => {

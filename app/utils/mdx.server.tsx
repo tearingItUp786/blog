@@ -43,7 +43,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
 
   try {
     const { frontmatter, code } = await bundleMDX({
-      source: indexFile.content,
+      source: mdxFile.content,
       files,
       cwd: '/app/components/',
       mdxOptions(options) {
@@ -96,7 +96,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         return options
       },
     })
-    const readTime = calculateReadingTime(indexFile.content)
+    const readTime = calculateReadingTime(mdxFile.content)
 
     return {
       code,

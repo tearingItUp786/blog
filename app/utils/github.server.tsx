@@ -82,7 +82,6 @@ async function downloadMdxFileOrDirectory(
   } else if (dirPotential) {
     entry = dirPotential.path
     files = await downloadDirectory(mdxFileOrDirectory)
-    console.log('test', files)
   }
 
   return { entry, files }
