@@ -93,14 +93,15 @@ async function getMdxDirList(contentDir: string) {
   })
 }
 
-async function getMdxTilList() {
+async function getMdxTilList(page = 1) {
   return cachified({
-    key: 'til-list',
+    key: `til-list:${page}`,
     cache: redisCache,
     forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
-      const dirList = mdxDirList.slice(0, 10)
+      const sliceIndex = (page - 1) * 10
+      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + 10)
 
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
@@ -121,7 +122,6 @@ async function getMdxTilList() {
           path: pageDatas?.[i]?.slug ?? '',
         }
       })
-      console.log('wtf, test', test)
       return test
     },
   })
