@@ -99,7 +99,7 @@ async function getMdxTilList() {
     forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
-      console.log('mdxDirList', mdxDirList)
+      console.log('mdxDirList', mdxDirList[1])
       const dirList = mdxDirList.slice(0, 10)
 
       const pageDatas = await Promise.all(
@@ -111,20 +111,24 @@ async function getMdxTilList() {
         })
       )
 
-      const pages = await Promise.all(
-        pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
-      )
+      try {
+        const pages = await Promise.all(
+          pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
+        )
 
-      let yolo = pages
-        .map((page, i) => {
-          if (!page) return null
-          return {
-            ...page,
-            path: pageDatas?.[i]?.slug ?? '',
-          }
-        })
-        .filter((v) => v && Boolean(v.path))
-      return yolo
+        let yolo = pages
+          .map((page, i) => {
+            return {
+              ...page,
+              path: pageDatas?.[i]?.slug ?? '',
+            }
+          })
+          .filter((v) => v && Boolean(v.path))
+        return yolo
+      } catch (err) {
+        console.log('yo', err)
+        throw err
+      }
     },
   })
 }
