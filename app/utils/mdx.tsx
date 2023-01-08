@@ -74,6 +74,7 @@ async function getMdxDirList(contentDir: string) {
   return cachified({
     key: `getMdxDirList-${fullContentDirPath}`,
     cache: redisCache,
+    forceFresh: true,
     getFreshValue: async () => {
       const dirList = (await downloadDirList(fullContentDirPath)).map(
         ({ name, path, ...rest }) => ({
