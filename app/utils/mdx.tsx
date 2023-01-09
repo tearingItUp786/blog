@@ -85,7 +85,7 @@ async function getMdxDirList(contentDir: string) {
         })
       )
 
-      return dirList
+      // sort by the most recent to the oldest
       return dirList.sort((a, b) => {
         return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
       })
