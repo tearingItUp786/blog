@@ -77,7 +77,7 @@ class App extends React.Component {
     return (
       <div className='w-full'>
         <div
-          className={`w-[200px h-[100px] flex flex-nowrap justify-evenly items-center`}
+          className={`w-[200px] h-[100px] flex flex-nowrap justify-evenly items-center`}
         >
           <CheckBox />
           <PrettyToggle />
