@@ -49,7 +49,7 @@ function PrettyToggle() {
               checked={state.on}
               onChange={appliedHandleClick}
             />
-            <div
+            <span
               className={`
           absolute
           top-0 left-0 right-0 bottom-0 bg-gray-300 rounded-full transition duration-300'
@@ -64,7 +64,7 @@ function PrettyToggle() {
           before:bg-white
           before:transition duration-300
           `}
-            ></div>
+            ></span>
           </div>
         )
       }}
