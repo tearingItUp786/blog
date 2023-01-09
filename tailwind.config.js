@@ -194,7 +194,10 @@ module.exports = {
     },
   },
 
-  content: [fromRoot('./app/**/*.+(js|ts|tsx|mdx|md)')],
+  content: [
+    fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md)'),
+    fromRoot('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
+  ],
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),

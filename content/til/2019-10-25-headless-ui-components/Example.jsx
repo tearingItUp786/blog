@@ -6,10 +6,10 @@ class Toggle extends React.Component {
   }
 
   handleClick =
-    (cb = () => {}) =>
-    (evt) => {
-      this.setState({ on: !this.state.on }, () => cb(evt))
-    }
+    (cb = () => { }) =>
+      (evt) => {
+        this.setState({ on: !this.state.on }, () => cb(evt))
+      }
 
   render() {
     const { state, handleClick } = this
@@ -61,7 +61,7 @@ function PrettyToggle() {
           before:w-[50px]
           before:left-[4px]
           before:bottom-[4px]
-          before:bg-white
+          before:bg-gray-300
           before:transition duration-300
           `}
             ></div>
