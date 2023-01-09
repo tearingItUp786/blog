@@ -43,7 +43,7 @@ function PrettyToggle() {
       {({ state, handleClick }) => {
         const appliedHandleClick = handleClick(console.log)
         let transClasses = state.on ? `translate-x-[160%]` : `translate-x-0`
-        let divClasses = state.on ? `bg-[#ffffff20]` : `bg-gray-300`
+        let divClasses = state.on ? `bg-gray-300` : `bg-gray-100`
 
         return (
           <div className='relative block w-[120px] h-[56px]'>
