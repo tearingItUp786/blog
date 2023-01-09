@@ -51,6 +51,7 @@ function PrettyToggle() {
               onChange={appliedHandleClick}
             />
             <div
+              onClick={appliedHandleClick}
               className={`
           absolute
           top-0 left-0 right-0 bottom-0 bg-gray-300 rounded-full transition duration-300'
