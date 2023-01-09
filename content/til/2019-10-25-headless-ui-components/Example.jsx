@@ -52,7 +52,7 @@ function PrettyToggle() {
             <div
               className={`
           absolute
-          top-0 left-0 right-0 bottom-0 bg-gray-400 rounded-full transition duration-300'
+          top-0 left-0 right-0 bottom-0 bg-gray-300 rounded-full transition duration-300'
 
           before:absolute
           before:rounded-full
@@ -61,7 +61,7 @@ function PrettyToggle() {
           before:w-[50px]
           before:left-[4px]
           before:bottom-[4px]
-          before:bg-gray-300
+          before:bg-white
           before:transition duration-300
           `}
             ></div>

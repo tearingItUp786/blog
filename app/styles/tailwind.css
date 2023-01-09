@@ -993,6 +993,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-gray-100 {
   background-color: var(--color-gray-100);
 }
+.bg-gray-300 {
+  background-color: var(--color-gray-300);
+}
 .fill-gray-300 {
   fill: var(--color-gray-300);
 }
