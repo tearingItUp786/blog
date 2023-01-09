@@ -36,11 +36,18 @@ export default function TilPage() {
     [tilList.length]
   )
 
+  console.log(
+    'wtf',
+    tilList.find((til) => !til.code)
+  )
+
   let components = React.useMemo(() => {
     return tilList.map((til) => {
-      return {
-        ...til,
-        component: getMdxComponent(String(til.code)),
+      if (til.code) {
+        return {
+          ...til,
+          component: getMdxComponent(String(til.code)),
+        }
       }
     })
   }, [tilList.length])

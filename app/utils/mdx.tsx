@@ -101,8 +101,8 @@ async function getMdxTilList(page = 1) {
     forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
-      const sliceIndex = (page - 1) * 10
-      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + 10)
+      const sliceIndex = (page - 1) * 5
+      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + 5)
 
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
