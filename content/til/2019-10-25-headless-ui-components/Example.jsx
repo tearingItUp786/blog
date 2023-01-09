@@ -13,7 +13,6 @@ class Toggle extends React.Component {
 
   render() {
     const { state, handleClick } = this
-    console.log('redner toggle')
     return this.props.children({ state, handleClick })
   }
 }
