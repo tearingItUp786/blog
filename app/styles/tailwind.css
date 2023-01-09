@@ -1003,6 +1003,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-\[\#ffffff20\] {
   background-color: #ffffff20;
 }
+.bg-pink {
+  background-color: var(--color-pink);
+}
 .fill-gray-300 {
   fill: var(--color-gray-300);
 }
