@@ -9,9 +9,7 @@ const getPage = (searchParams: URLSearchParams) =>
 export const loader: LoaderFunction = async ({ request }) => {
   const page = getPage(new URL(request.url).searchParams)
 
-  console.log('page is', page)
   const tilList = await getMdxTilList(page)
-  console.log('getting more data', tilList)
 
   return json({ tilList })
 }
@@ -39,7 +37,6 @@ export default function TilPage() {
   )
 
   let components = React.useMemo(() => {
-    console.log('memoizing components', tilList)
     return tilList.map((til) => {
       return {
         ...til,
@@ -70,16 +67,14 @@ export default function TilPage() {
 
   React.useEffect(() => {
     if (!shouldFetch || !height) return
-    if (clientHeight + scrollPosition + 100 < height) return
+    if (clientHeight + scrollPosition + 1000 < height) return
 
-    console.log('asking for more')
     fetcher.load(`/til?index&page=${page}`)
 
     setShouldFetch(false)
   }, [clientHeight, scrollPosition, fetcher])
 
   React.useEffect(() => {
-    console.log('fetcher data', fetcher.data)
     if (fetcher.data && fetcher.data.length === 0) {
       setShouldFetch(false)
       return

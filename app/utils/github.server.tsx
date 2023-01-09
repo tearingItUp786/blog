@@ -59,7 +59,7 @@ async function downloadMdxFileOrDirectory(
   const mdxFileWithoutExt = nodePath.parse(mdxFileOrDirectory).name
   const potentials = dirList.filter(({ name }) => name.startsWith(basename))
   const exactMatch = potentials.find(
-    ({ name, type }) => nodePath.parse(name).name === mdxFileWithoutExt
+    ({ name }) => nodePath.parse(name).name === mdxFileWithoutExt
   )
   const dirPotential = potentials.find(({ type }) => type === 'dir')
 

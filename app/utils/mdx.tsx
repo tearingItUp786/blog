@@ -85,6 +85,7 @@ async function getMdxDirList(contentDir: string) {
         })
       )
 
+      return dirList
       return dirList.sort((a, b) => {
         return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
       })
