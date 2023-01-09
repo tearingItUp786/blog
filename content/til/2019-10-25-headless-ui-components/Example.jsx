@@ -42,6 +42,7 @@ function PrettyToggle() {
     <Toggle>
       {({ state, handleClick }) => {
         const appliedHandleClick = handleClick(console.log)
+        let transClasses = state.on ? `translate-x-[160%]` : `translate-x-0`
         return (
           <div className='relative block w-[120px] h-[56px]'>
             <div
@@ -54,7 +55,7 @@ function PrettyToggle() {
                 className={clsx(
                   'drop-shadow-toggle transition-transform transition-color ease-in-out appearance-none cursor-pointer h-7 w-7 rounded-full',
                   'bg-white translate-x-0',
-                  'dark:translate-x-[160%] dark:bg-gray-300'
+                  transClasses
                 )}
                 type='checkbox'
                 role='switch'
