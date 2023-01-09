@@ -43,11 +43,14 @@ function PrettyToggle() {
       {({ state, handleClick }) => {
         const appliedHandleClick = handleClick(console.log)
         let transClasses = state.on ? `translate-x-[160%]` : `translate-x-0`
+        let divClasses = state.on ? `bg-[#ffffff20]` : `bg-[#00000020]`
+
         return (
           <div className='relative block w-[120px] h-[56px]'>
             <div
               className={clsx(
-                '4 h-10 w-[5.5rem] flex items-center rounded-full p-2 cursor-pointer transition-colors bg-[#00000020] dark:bg-[#ffffff20]'
+                '4 h-10 w-[5.5rem] flex items-center rounded-full p-2 cursor-pointer transition-colors',
+                divClasses
               )}
               onClick={appliedHandleClick}
             >
