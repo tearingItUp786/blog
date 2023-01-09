@@ -29,10 +29,18 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   const mdxFile = githubFiles.find(({ path }) => mdxRegex.test(path))
   if (!mdxFile) return null
 
-  const rootDir = mdxFile.path.replace(/index.mdx?$/, '')
+  // const rootDir = mdxFile.path.replace(/index.mdx?$/, '')
+  const rootDir = mdxFile.path
+    .trim()
+    .split('/')
+    .filter((v) => !v.includes('mdx'))
+    .join('/')
+
+  console.log('root dir', rootDir)
+
   const relativeFiles: Array<GitHubFile> = githubFiles.map(
     ({ path, content }) => ({
-      path: path.replace(rootDir, './'),
+      path: path.replace(mdxFile.path.replace(/index.mdx?$/, ''), './'),
       content,
     })
   )
@@ -47,7 +55,6 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
     const { frontmatter, code } = await bundleMDX({
       source: mdxFile.content,
       files,
-      cwd: `/${rootDir.split('/').slice(0, -1).join('/')}`,
       mdxOptions(options) {
         options.remarkPlugins = [
           ...(options.remarkPlugins ?? []),

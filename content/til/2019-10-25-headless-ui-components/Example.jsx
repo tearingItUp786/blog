@@ -1,14 +1,16 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 class Toggle extends React.Component {
   state = {
     on: false,
   }
 
-  handleClick = (cb = () => {}) => evt => {
-    this.setState({ on: !this.state.on }, () => cb(evt))
-  }
+  handleClick =
+    (cb = () => {}) =>
+    (evt) => {
+      this.setState({ on: !this.state.on }, () => cb(evt))
+    }
 
   render() {
     const { state, handleClick } = this
@@ -22,9 +24,9 @@ function CheckBox() {
       {({ state, handleClick }) => {
         return (
           <input
-            type="checkbox"
-            id="scales"
-            name="scales"
+            type='checkbox'
+            id='scales'
+            name='scales'
             checked={state.on}
             onChange={handleClick()}
             style={{ transform: `scale(1.5)` }}
@@ -47,7 +49,7 @@ const Input = styled.input`
   height: 0;
 
   &:checked + span {
-    background-color: ${props => props.theme.colors.accent || "pink"};
+    background-color: ${(props) => props.theme.colors.accent || 'pink'};
   }
 
   &:focus + span {
@@ -74,7 +76,7 @@ const Slider = styled.span`
   &:before {
     position: absolute;
     border-radius: 50%;
-    content: "";
+    content: '';
     height: 50px;
     width: 50px;
     left: 4px;
@@ -92,7 +94,7 @@ function PrettyToggle() {
         return (
           <Label>
             <Input
-              type="checkbox"
+              type='checkbox'
               checked={state.on}
               onChange={appliedHandleClick}
             />
