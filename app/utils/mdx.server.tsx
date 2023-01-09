@@ -40,7 +40,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
 
   const relativeFiles: Array<GitHubFile> = githubFiles.map(
     ({ path, content }) => ({
-      path: path.replace(mdxFile.path.replace(/index.mdx?$/, ''), './'),
+      path: path.replace(rootDir, './'),
       content,
     })
   )
