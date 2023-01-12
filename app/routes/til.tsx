@@ -1,7 +1,8 @@
 import React from 'react'
-import { json, LoaderFunction, useFetcher, useLoaderData } from 'remix'
+import { useFetcher, useLoaderData } from '@remix-run/react'
 import { TilCard } from '~/components/til/til-card'
 import { getMdxComponent, getMdxTilList } from '~/utils/mdx'
+import { json, LoaderFunction } from '@remix-run/node'
 
 const getPage = (searchParams: URLSearchParams) =>
   Number(searchParams.get('page') || '1')
@@ -17,8 +18,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
-
-  const [shouldFetch, setShouldFetch] = React.useState(true)
   const [page, setPage] = React.useState(2)
   const [tilList, setTilList] = React.useState(data.tilList)
 
@@ -36,17 +35,14 @@ export default function TilPage() {
     [tilList.length]
   )
 
-  console.log(
-    'wtf',
-    tilList.find((til) => !til.code)
-  )
-
   let components = React.useMemo(() => {
     return tilList.map((til) => {
+      let component = getMdxComponent(String(til.code))
+      // let component = null
       if (til.code) {
         return {
           ...til,
-          component: getMdxComponent(String(til.code)),
+          component,
         }
       }
     })
@@ -73,25 +69,21 @@ export default function TilPage() {
   }, [])
 
   React.useEffect(() => {
-    if (!shouldFetch || !height) return
-    if (clientHeight + scrollPosition + 1000 < height) return
+    if (fetcher.state !== 'idle' || !height) return
+    if (clientHeight + scrollPosition + 100 < height) return
 
     fetcher.load(`/til?index&page=${page}`)
-
-    setShouldFetch(false)
-  }, [clientHeight, scrollPosition, fetcher])
+  }, [clientHeight, scrollPosition, fetcher, height])
 
   React.useEffect(() => {
-    if (fetcher.data && fetcher.data.length === 0) {
-      setShouldFetch(false)
-      return
-    }
-
     // Photos contain data, merge them and allow the possiblity of another fetch
-    if (fetcher.data && fetcher.data.tilList.length > 0) {
+    if (
+      fetcher.state === 'idle' &&
+      fetcher.data &&
+      fetcher.data.tilList.length > 0
+    ) {
       setTilList((prev: any) => [...prev, ...fetcher.data.tilList])
       setPage((page: number) => page + 1)
-      setShouldFetch(true)
     }
   }, [fetcher.data])
 
@@ -116,15 +108,15 @@ export default function TilPage() {
         className='max-w-full prose prose-light dark:prose-dark'
       >
         {components.map((til, i) => {
-          const Component: any = components?.[i]?.component
+          const Component: any = components?.[i]?.component || null
           return (
             <TilCard
-              key={til.path}
+              key={til.frontmatter.title}
               title={til.frontmatter.title}
               date={til.frontmatter.date}
               tag={til.frontmatter.tag}
             >
-              <Component />
+              {Component ? <Component /> : null}
             </TilCard>
           )
         })}

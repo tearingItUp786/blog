@@ -1,7 +1,8 @@
 import styles from '~/styles/til.css'
 import { H1 } from '~/components/typography'
-import { json, useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
 import { getMdxTagList } from '~/utils/mdx'
+import { json } from '@remix-run/node'
 
 export async function loader() {
   const tagList = await getMdxTagList()

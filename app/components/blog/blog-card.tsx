@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { NavLink } from 'remix'
+import { NavLink } from '@remix-run/react'
 import type { MdxPage } from 'types'
 import { dotFormattedDate } from '~/utils/misc'
 import { H2 } from '../typography'

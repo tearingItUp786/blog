@@ -19,13 +19,13 @@ type TitleProps = {
   className?: string
   id?: string
 } & (
-    | { children: React.ReactNode }
-    | {
+  | { children: React.ReactNode }
+  | {
       dangerouslySetInnerHTML: {
         __html: string
       }
     }
-  )
+)
 
 function Title({
   variant = 'primary',

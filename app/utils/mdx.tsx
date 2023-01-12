@@ -231,4 +231,5 @@ export {
   useMdxComponent,
   getMdxComponent,
   getMdxTagList,
+  mdxComponents,
 }

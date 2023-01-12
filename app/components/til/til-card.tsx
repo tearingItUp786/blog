@@ -1,4 +1,4 @@
-import { NavLink } from 'remix'
+import { NavLink } from '@remix-run/react'
 import { dotFormattedDate } from '~/utils/misc'
 import { H1 } from '../typography'
 

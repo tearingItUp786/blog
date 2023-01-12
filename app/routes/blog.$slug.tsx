@@ -1,4 +1,5 @@
-import { json, LoaderFunction, NavLink, useCatch, useLoaderData } from 'remix'
+import { useCatch, useLoaderData, NavLink } from '@remix-run/react'
+import { json, LoaderFunction } from '@remix-run/node'
 import type { MdxPage } from 'types'
 import { LineSvg } from '~/components/blog/line-svg'
 import { H1, H4 } from '~/components/typography'

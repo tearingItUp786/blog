@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { json, LoaderFunction, useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
 import { BlogCard } from '~/components/blog/blog-card'
 import { H2 } from '~/components/typography'
 import { getMdxBlogList } from '~/utils/mdx'
@@ -9,6 +9,7 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
+import { json, LoaderFunction } from '@remix-run/node'
 
 type LoaderData = {
   blogList: Awaited<ReturnType<typeof getMdxBlogList>>
