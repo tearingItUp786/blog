@@ -18,6 +18,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
+  const canFetch = React.useRef(true)
   const [page, setPage] = React.useState(2)
   const [tilList, setTilList] = React.useState(data.tilList)
 
@@ -69,8 +70,9 @@ export default function TilPage() {
   }, [])
 
   React.useEffect(() => {
-    if (fetcher.state !== 'idle' || !height) return
+    if (fetcher.state === 'loading' || !height) return
     if (clientHeight + scrollPosition + 100 < height) return
+    if (!canFetch.current) return
 
     fetcher.load(`/til?index&page=${page}`)
   }, [clientHeight, scrollPosition, fetcher, height])
@@ -83,7 +85,11 @@ export default function TilPage() {
       fetcher.data.tilList.length > 0
     ) {
       setTilList((prev: any) => [...prev, ...fetcher.data.tilList])
-      setPage((page: number) => page + 1)
+      setPage((p: number) => p + 1)
+    }
+
+    if (fetcher.data?.tilList.length === 0) {
+      canFetch.current = false
     }
   }, [fetcher.data])
 
