@@ -2,6 +2,7 @@ import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
 import type { MdxPage } from 'types'
+import _ from 'lodash'
 import {
   downloadDirList,
   downloadMdxFileOrDirectory,
@@ -75,7 +76,7 @@ async function getMdxDirList(contentDir: string) {
   return cachified({
     key: `getMdxDirList-${fullContentDirPath}`,
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
       const dirList = (await downloadDirList(fullContentDirPath)).map(
         ({ name, path, ...rest }) => ({
@@ -98,11 +99,12 @@ async function getMdxTilList(page = 1) {
   return cachified({
     key: `til-list:${page}`,
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
-      const sliceIndex = (page - 1) * 5
-      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + 5)
+      const itemCount = 20
+      const sliceIndex = (page - 1) * itemCount
+      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + itemCount)
 
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
@@ -162,6 +164,57 @@ async function getMdxBlogList() {
   })
 }
 
+async function getMdxTagList() {
+  return cachified({
+    key: 'tag-list',
+    cache: redisCache,
+    forceFresh: true,
+    getFreshValue: async () => {
+      // fetch all the content for til and blog from github
+      // then go through the content and pluck out the tag field from the frontmatter;
+      const contentDirList = await Promise.all([
+        getMdxDirList('blog'),
+        getMdxDirList('til'),
+      ])
+
+      const contentDirListFlat = contentDirList.flat()
+
+      const contentData = await Promise.all(
+        contentDirListFlat.flatMap(async ({ slug }) => {
+          return {
+            ...(await downloadMdxFileOrDirectory(slug)),
+            slug,
+          }
+        })
+      )
+
+      const tags = contentData.reduce((acc, { files }) => {
+        const firstMdxFile = files.find((file) => file.path.endsWith('.mdx'))
+        if (!firstMdxFile) return acc
+        const tag = firstMdxFile.content.match(/tag: (.*)/)?.[1]
+        if (!tag) return acc
+        if (!acc.get(tag)) {
+          acc.set(tag, 0)
+        }
+        let currentCount = acc.get(tag) ?? 0
+        acc.set(tag, currentCount + 1)
+        return acc
+      }, new Map())
+
+      let groupTags = _.groupBy(
+        Array.from(tags, ([name, value]) => ({ name, value })),
+        (v: { name: string; value: string }) => {
+          console.log('group by', v)
+          return v.name[0]
+        }
+      )
+      console.log('group', groupTags)
+      return groupTags
+    },
+    reporter: verboseReporter(),
+  })
+}
+
 function mapFromMdxPageToMdxListItem(page: MdxPage): Omit<MdxPage, 'code'> {
   const { code, ...mdxListItem } = page
   return mdxListItem
@@ -177,4 +230,5 @@ export {
   getMdxTilList,
   useMdxComponent,
   getMdxComponent,
+  getMdxTagList,
 }

@@ -1,4 +1,5 @@
 import nodePath from 'path'
+import nodeFs from 'fs'
 import { Octokit as createOctokit } from '@octokit/rest'
 import { throttling } from '@octokit/plugin-throttling'
 import type { GitHubFile } from 'types'
