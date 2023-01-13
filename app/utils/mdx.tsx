@@ -15,6 +15,39 @@ const checkCompiledValue = (value: unknown) =>
   typeof value === 'object' &&
   (value === null || ('code' in value && 'frontmatter' in value))
 
+async function downloadMdxFilesCached(fullPath: string) {
+  const key = `${fullPath}:downloaded`
+
+  const downloaded = await cachified({
+    cache: redisCache,
+    key,
+    checkValue: (value: unknown) => {
+      if (typeof value !== 'object') {
+        return `value is not an object`
+      }
+      if (value === null) {
+        return `value is null`
+      }
+
+      const download = value as Record<string, unknown>
+      if (!Array.isArray(download.files)) {
+        return `value.files is not an array`
+      }
+      if (typeof download.entry !== 'string') {
+        return `value.entry is not a string`
+      }
+
+      return true
+    },
+    getFreshValue: async () => downloadMdxFileOrDirectory(fullPath),
+  })
+  // if there aren't any files, remove it from the cache
+  if (!downloaded.files.length) {
+    void redisCache.delete(key)
+  }
+  return downloaded
+}
+
 async function getMdxPage({
   contentDir,
   slug,
@@ -27,9 +60,7 @@ async function getMdxPage({
     cache: redisCache,
     forceFresh: true,
     getFreshValue: async () => {
-      const pageFiles = await downloadMdxFileOrDirectory(
-        `${contentDir}/${slug}`
-      )
+      const pageFiles = await downloadMdxFilesCached(`${contentDir}/${slug}`)
 
       const compiledPage = await compileMdx<MdxPage['frontmatter']>(
         slug,
@@ -110,7 +141,7 @@ async function getMdxTilList(page = 1) {
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
           return {
-            ...(await downloadMdxFileOrDirectory(slug)),
+            ...(await downloadMdxFilesCached(slug)),
             slug,
           }
         })
@@ -142,7 +173,7 @@ async function getMdxBlogList() {
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
           return {
-            ...(await downloadMdxFileOrDirectory(slug)),
+            ...(await downloadMdxFilesCached(slug)),
             slug,
           }
         })
@@ -183,7 +214,7 @@ async function getMdxTagList() {
       const contentData = await Promise.all(
         contentDirListFlat.flatMap(async ({ slug }) => {
           return {
-            ...(await downloadMdxFileOrDirectory(slug)),
+            ...(await downloadMdxFilesCached(slug)),
             slug,
           }
         })
@@ -244,7 +275,7 @@ async function getMdxIndividualTag(userProvidedTag: string) {
           let possibleValues = await Promise.all(
             value.map(async (pageData) => {
               return {
-                ...(await downloadMdxFileOrDirectory(pageData.slug)),
+                ...(await downloadMdxFilesCached(pageData.slug)),
                 slug: pageData.slug,
               }
             })
@@ -301,4 +332,5 @@ export {
   getMdxTagList,
   mdxComponents,
   getMdxIndividualTag,
+  downloadMdxFilesCached,
 }

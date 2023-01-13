@@ -16,10 +16,10 @@ export default function TagPage() {
     <div className='page-container'>
       <H1>Tags</H1>
       <div className='mt-8'>
-        {Object.entries(tagList).map(([firstLtter, tags]) => {
+        {Object.entries(tagList).map(([firstLetter, tags]) => {
           return (
-            <div className='mb-20 last-of-type:mb-0'>
-              <H2>{firstLtter}</H2>
+            <div key={firstLetter} className='mb-20 last-of-type:mb-0'>
+              <H2>{firstLetter}</H2>
               <ul className='md:flex md:flex-wrap'>
                 {tags.map((tag) => {
                   return (
