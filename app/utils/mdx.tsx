@@ -1,7 +1,7 @@
 import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
-import type { MdxPage } from 'types'
+import type { GitHubFile, MdxPage } from 'types'
 import _ from 'lodash'
 import {
   downloadDirList,
@@ -103,8 +103,9 @@ async function getMdxTilList(page = 1) {
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
       const itemCount = 20
-      const sliceIndex = (page - 1) * itemCount
-      const dirList = mdxDirList.slice(sliceIndex, sliceIndex + itemCount)
+      const dirList = _.chunk(mdxDirList, itemCount)[page - 1]
+
+      if (!dirList) return []
 
       const pageDatas = await Promise.all(
         dirList.map(async ({ slug }) => {
@@ -217,6 +218,71 @@ async function getMdxTagList() {
   })
 }
 
+// TODO: clean this up so that it's not so repetitive
+async function getMdxIndividualTag(userProvidedTag: string) {
+  return cachified({
+    key: `tag:${userProvidedTag}`,
+    cache: redisCache,
+    // forceFresh: true,
+    getFreshValue: async () => {
+      // fetch all the content for til and blog from github
+      // then go through the content and pluck out the tag field from the frontmatter;
+      let getBlogKeyObject = async () => ({ blog: await getMdxDirList('blog') })
+      let getTilKeyObject = async () => ({ til: await getMdxDirList('til') })
+
+      const contentDirList = await Promise.all([
+        getBlogKeyObject(),
+        getTilKeyObject(),
+      ])
+
+      let retObject = await Promise.all(
+        contentDirList.map(async (v) => {
+          const [key, value] = Object.entries(v)?.[0] ?? []
+          if (!key) throw new Error('no key for content dir list')
+          if (!value) throw new Error('no value for content dir list')
+
+          let possibleValues = await Promise.all(
+            value.map(async (pageData) => {
+              return {
+                ...(await downloadMdxFileOrDirectory(pageData.slug)),
+                slug: pageData.slug,
+              }
+            })
+          )
+
+          let filteredValues = possibleValues.filter(
+            ({ files }: { files: Array<GitHubFile> }) => {
+              const firstMdxFile = files.find((file) =>
+                file.path.endsWith('.mdx')
+              )
+              if (!firstMdxFile) return false
+              // break out this regex
+              const tag = firstMdxFile.content
+                .match(/tag: (.*)/)?.[1]
+                ?.toUpperCase()
+
+              return tag === userProvidedTag.toUpperCase()
+            }
+          )
+
+          let retArray = await Promise.all(
+            filteredValues.map((pageData) =>
+              compileMdx(pageData.slug, pageData.files)
+            )
+          )
+
+          return retArray as Array<MdxPage>
+        })
+      )
+
+      return {
+        blog: retObject?.[0]?.map(mapFromMdxPageToMdxListItem) ?? [],
+        til: retObject?.[1] ?? [],
+      }
+    },
+  })
+}
+
 function mapFromMdxPageToMdxListItem(page: MdxPage): Omit<MdxPage, 'code'> {
   const { code, ...mdxListItem } = page
   return mdxListItem
@@ -234,4 +300,5 @@ export {
   getMdxComponent,
   getMdxTagList,
   mdxComponents,
+  getMdxIndividualTag,
 }

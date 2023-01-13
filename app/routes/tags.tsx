@@ -9,9 +9,9 @@ export async function loader() {
   return json({ tagList })
 }
 
-export default function TilPage() {
+export default function TagPage() {
   const { tagList } = useLoaderData<typeof loader>()
-  console.log('yo', tagList)
+
   return (
     <div className='page-container'>
       <H1>Tags</H1>

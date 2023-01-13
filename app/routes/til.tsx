@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
-  const canFetch = React.useRef(true)
+  const [canFetch, setCanFetch] = React.useState(true)
   const [page, setPage] = React.useState(2)
   const [tilList, setTilList] = React.useState(data.tilList)
 
@@ -70,26 +70,25 @@ export default function TilPage() {
   }, [])
 
   React.useEffect(() => {
-    if (fetcher.state === 'loading' || !height) return
+    if (fetcher.state !== 'idle' || !height) return
     if (clientHeight + scrollPosition + 100 < height) return
-    if (!canFetch.current) return
+    if (canFetch === false) return
 
     fetcher.load(`/til?index&page=${page}`)
-  }, [clientHeight, scrollPosition, fetcher, height])
+    setCanFetch(false)
+  }, [clientHeight, scrollPosition, fetcher.state, height])
 
   React.useEffect(() => {
     // Photos contain data, merge them and allow the possiblity of another fetch
     if (
+      !canFetch &&
       fetcher.state === 'idle' &&
       fetcher.data &&
       fetcher.data.tilList.length > 0
     ) {
       setTilList((prev: any) => [...prev, ...fetcher.data.tilList])
       setPage((p: number) => p + 1)
-    }
-
-    if (fetcher.data?.tilList.length === 0) {
-      canFetch.current = false
+      setCanFetch(true)
     }
   }, [fetcher.data])
 
@@ -117,7 +116,7 @@ export default function TilPage() {
           const Component: any = components?.[i]?.component || null
           return (
             <TilCard
-              key={til.frontmatter.title}
+              key={`${til.frontmatter.title}-${til.frontmatter.date}`}
               title={til.frontmatter.title}
               date={til.frontmatter.date}
               tag={til.frontmatter.tag}
