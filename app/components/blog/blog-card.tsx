@@ -36,10 +36,7 @@ export function BlogCard({
     >
       <div>
         <span className='text-lg'>
-          <NavLink
-            className='font-bold text-pink dark:opacity-80 uppercase mr-2'
-            to={`/tags/${tag}`}
-          >
+          <NavLink className='linkable-tag mr-2' to={`/tags/${tag}`}>
             {tag}
           </NavLink>
           <span className='text-pink dark:opacity-80'>

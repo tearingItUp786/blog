@@ -134,7 +134,7 @@ async function getMdxBlogList() {
   return cachified({
     key: 'blog-list',
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
       const dirList = await getMdxDirList('blog')
 
@@ -168,7 +168,7 @@ async function getMdxTagList() {
   return cachified({
     key: 'tag-list',
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
@@ -191,7 +191,8 @@ async function getMdxTagList() {
       const tags = contentData.reduce((acc, { files }) => {
         const firstMdxFile = files.find((file) => file.path.endsWith('.mdx'))
         if (!firstMdxFile) return acc
-        const tag = firstMdxFile.content.match(/tag: (.*)/)?.[1]
+        const tag = firstMdxFile.content.match(/tag: (.*)/)?.[1]?.toUpperCase()
+
         if (!tag) return acc
         if (!acc.get(tag)) {
           acc.set(tag, 0)
@@ -201,14 +202,15 @@ async function getMdxTagList() {
         return acc
       }, new Map())
 
-      let groupTags = _.groupBy(
+      let groupTags: {
+        [key: string]: Array<{ name: string; value: number }>
+      } = _.groupBy(
         Array.from(tags, ([name, value]) => ({ name, value })),
         (v: { name: string; value: string }) => {
           console.log('group by', v)
           return v.name[0]
         }
       )
-      console.log('group', groupTags)
       return groupTags
     },
     reporter: verboseReporter(),

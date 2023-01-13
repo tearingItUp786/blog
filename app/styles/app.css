@@ -55,6 +55,16 @@ a {
   visibility: visible;
 }
 
+.linkable-tag {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-pink);
+}
+
+.dark .linkable-tag {
+  opacity: 0.8;
+}
+
 html,
 body {
   height: 100%;

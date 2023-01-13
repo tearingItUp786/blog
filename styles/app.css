@@ -55,6 +55,10 @@ a {
   visibility: visible;
 }
 
+.linkable-tag {
+  @apply font-bold text-pink dark:opacity-80 uppercase;
+}
+
 html,
 body {
   height: 100%;

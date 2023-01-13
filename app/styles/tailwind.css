@@ -835,6 +835,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-2 {
   margin-top: 0.5rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-20 {
+  margin-bottom: 5rem;
+}
 .block {
   display: block;
 }
@@ -934,6 +943,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .flex-col {
   flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }
 .flex-nowrap {
   flex-wrap: nowrap;
@@ -1271,8 +1283,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 .first-of-type\:mt-16:first-of-type {
   margin-top: 4rem;
 }
+.first-of-type\:ml-6:first-of-type {
+  margin-left: 1.5rem;
+}
+.first-of-type\:ml-0:first-of-type {
+  margin-left: 0px;
+}
 .last-of-type\:mb-0:last-of-type {
   margin-bottom: 0px;
+}
+.last-of-type\:mr-0:last-of-type {
+  margin-right: 0px;
 }
 .hover\:\!text-pink:hover {
   color: var(--color-pink) !important;
@@ -1345,11 +1366,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:col-start-2 {
     grid-column-start: 2;
   }
+  .md\:mb-0 {
+    margin-bottom: 0px;
+  }
+  .md\:ml-0 {
+    margin-left: 0px;
+  }
+  .md\:ml-6 {
+    margin-left: 1.5rem;
+  }
+  .md\:flex {
+    display: flex;
+  }
   .md\:max-w-\[50\%\] {
     max-width: 50%;
   }
   .md\:grid-cols-8 {
     grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .md\:flex-wrap {
+    flex-wrap: wrap;
   }
   .md\:pt-4 {
     padding-top: 1rem;
@@ -1394,6 +1430,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:after\:block::after {
     content: var(--tw-content);
     display: block;
+  }
+  .md\:first-of-type\:ml-6:first-of-type {
+    margin-left: 1.5rem;
   }
 }
 @media (min-width: 1024px) {
