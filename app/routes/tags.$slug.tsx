@@ -1,8 +1,8 @@
-import styles from '~/styles/til.css'
 import { H1 } from '~/components/typography'
-import { getMdxIndividualTag, getMdxTagList } from '~/utils/mdx'
+import { getMdxIndividualTag } from '~/utils/mdx'
 import { json, LoaderArgs } from '@remix-run/node'
-import { useLoaderData } from 'react-router'
+import styles from '~/styles/til.css'
+import { useLoaderData } from '@remix-run/react'
 
 export async function loader({ params }: LoaderArgs) {
   if (!params.slug) {

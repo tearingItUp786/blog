@@ -1,13 +1,15 @@
-import React from 'react'
+import { json, LoaderArgs } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
+import React from 'react'
 import { TilCard } from '~/components/til/til-card'
-import { getMdxComponent, getMdxTilList } from '~/utils/mdx'
-import { json, LoaderFunction } from '@remix-run/node'
+import { useScrollListener } from '~/hooks/use-scroll-listener'
+import { getMdxTilList } from '~/utils/mdx'
+import { initialState, tilMapper, tilReducer } from '~/utils/til-list'
 
 const getPage = (searchParams: URLSearchParams) =>
   Number(searchParams.get('page') || '1')
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const page = getPage(new URL(request.url).searchParams)
 
   const tilList = await getMdxTilList(page)
@@ -18,77 +20,57 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function TilPage() {
   let data = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
-  const [canFetch, setCanFetch] = React.useState(true)
-  const [page, setPage] = React.useState(2)
-  const [tilList, setTilList] = React.useState(data.tilList)
+  const [tilList, setTilList] = React.useState(() => data.tilList)
 
-  const [scrollPosition, setScrollPosition] = React.useState(0)
-  const [clientHeight, setClientHeight] = React.useState(0)
-  const [height, setHeight] = React.useState(null)
+  const [
+    { canFetch, page, scrollPosition, clientHeight, containerHeight },
+    dispatch,
+  ] = React.useReducer(tilReducer, initialState)
 
-  // Set the height of the parent container whenever photos are loaded
+  let tilComponents = React.useMemo(
+    () => tilList.map(tilMapper),
+    [tilList.length]
+  )
+
+  // Add Listeners to scroll of the page
+  useScrollListener({
+    onScroll: React.useCallback(() => {
+      dispatch({
+        type: 'setOnScroll',
+        payload: {
+          scrollPosition: window.scrollY,
+          clientHeight: window.innerHeight,
+        },
+      })
+    }, []),
+  })
+
+  // set the height of the containing div whenever we load in new today i learnes (tils)
   const divHeight = React.useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       if (node !== null) {
-        setHeight(node.getBoundingClientRect().height)
+        dispatch({
+          type: 'setContainerHeight',
+          payload: node.getBoundingClientRect().height,
+        })
       }
     },
     [tilList.length]
   )
 
-  let components = React.useMemo(() => {
-    return tilList.map((til) => {
-      let component = getMdxComponent(String(til.code))
-      // let component = null
-      if (til.code) {
-        return {
-          ...til,
-          component,
-        }
-      }
-    })
-  }, [tilList.length])
-
-  // Add Listeners to scroll and client resize
   React.useEffect(() => {
-    const scrollListener = () => {
-      setClientHeight(window.innerHeight)
-      setScrollPosition(window.scrollY)
-    }
-
-    // Avoid running during SSR
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', scrollListener)
-    }
-
-    // Clean up
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('scroll', scrollListener)
-      }
-    }
-  }, [])
-
-  React.useEffect(() => {
-    if (fetcher.state !== 'idle' || !height) return
-    if (clientHeight + scrollPosition + 100 < height) return
+    if (fetcher.state !== 'idle' || !containerHeight) return
+    if (clientHeight + scrollPosition + 100 < containerHeight) return
     if (canFetch === false) return
 
     fetcher.load(`/til?index&page=${page}`)
-    setCanFetch(false)
-  }, [clientHeight, scrollPosition, fetcher.state, height])
+    dispatch({ type: 'setCanFetch', payload: false })
+  }, [clientHeight, scrollPosition, fetcher.state, containerHeight])
 
   React.useEffect(() => {
-    // Photos contain data, merge them and allow the possiblity of another fetch
-    if (
-      !canFetch &&
-      fetcher.state === 'idle' &&
-      fetcher.data &&
-      fetcher.data.tilList.length > 0
-    ) {
+    if (!canFetch && fetcher.data && fetcher.data.tilList.length > 0) {
       setTilList((prev: any) => [...prev, ...fetcher.data.tilList])
-      setPage((p: number) => p + 1)
-      setCanFetch(true)
+      dispatch({ type: 'setPage', payload: page + 1 })
     }
   }, [fetcher.data])
 
@@ -112,8 +94,10 @@ export default function TilPage() {
         ref={divHeight}
         className='max-w-full prose prose-light dark:prose-dark'
       >
-        {components.map((til, i) => {
-          const Component: any = components?.[i]?.component || null
+        {tilComponents.map((til, i) => {
+          const Component: any = tilComponents?.[i]?.component ?? null
+          if (!til?.frontmatter) return null
+
           return (
             <TilCard
               key={`${til.frontmatter.title}-${til.frontmatter.date}`}

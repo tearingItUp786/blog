@@ -6,7 +6,6 @@ export type GitHubFile = { path: string; content: string }
 
 export type MdxPage = {
   code?: string
-  slug?: string
   readTime?: ReturnType<typeof calculateReadingTime>
 
   frontmatter: {
@@ -16,4 +15,9 @@ export type MdxPage = {
     date?: string
     tag?: string
   }
+}
+
+export type MdxPageAndSlug = MdxPage & {
+  slug?: string
+  path?: string
 }

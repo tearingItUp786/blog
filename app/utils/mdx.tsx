@@ -1,7 +1,7 @@
 import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
-import type { GitHubFile, MdxPage } from 'types'
+import type { GitHubFile, MdxPage, MdxPageAndSlug } from 'types'
 import _ from 'lodash'
 import {
   downloadDirList,
@@ -134,7 +134,10 @@ async function getMdxTilList(page = 1) {
     getFreshValue: async () => {
       const mdxDirList = await getMdxDirList('til')
       const itemCount = 20
-      const dirList = _.chunk(mdxDirList, itemCount)[page - 1]
+      const dirList: Awaited<ReturnType<typeof getMdxDirList>> = _.chunk(
+        mdxDirList,
+        itemCount
+      )[page - 1]
 
       if (!dirList) return []
 
@@ -155,7 +158,7 @@ async function getMdxTilList(page = 1) {
         return {
           ...page,
           path: pageDatas?.[i]?.slug ?? '',
-        }
+        } as MdxPageAndSlug
       })
       return test
     },

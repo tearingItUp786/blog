@@ -34,16 +34,20 @@ export const loader: LoaderFunction = async () => {
 export default function Blog() {
   const { blogList, cssClasses } = useLoaderData() as LoaderData
 
-  let hangRight = true
+  let shouldHangRight = true
   let blogElements: Array<React.ReactNode> = []
 
-  for (let i = 1; i < blogList.length; i += 2, hangRight = !hangRight) {
+  for (
+    let i = 1;
+    i < blogList.length;
+    i += 2, shouldHangRight = !shouldHangRight
+  ) {
     ;[blogList[i], blogList[i + 1]].forEach((el, j) => {
       let currentIndex = i + j
-      let currentContainerClassName = getContainerClassName(hangRight)
+      let currentContainerClassName = getContainerClassName(shouldHangRight)
       let currentBlogClassName = clsx(
-        getBlogCardClassName(hangRight),
-        cssClasses[hangRight ? 'right' : 'left'][currentIndex]
+        getBlogCardClassName(shouldHangRight),
+        cssClasses[shouldHangRight ? 'right' : 'left'][currentIndex]
       )
 
       if (el) {

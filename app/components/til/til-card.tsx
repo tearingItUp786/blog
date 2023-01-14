@@ -3,10 +3,10 @@ import { dotFormattedDate } from '~/utils/misc'
 import { H1 } from '../typography'
 
 type Props = {
-  title: string
-  date: string
-  tag: string
-  children: React.ReactNode
+  title?: string
+  date?: string
+  tag?: string
+  children?: React.ReactNode
 }
 
 export const TilCard = ({ title, date, tag, children }: Props) => {
@@ -40,7 +40,7 @@ export const TilCard = ({ title, date, tag, children }: Props) => {
     >
       <div className='flex items-start'>
         <div className='flex flex-col text-lg mr-6 text-pink dark:opacity-80'>
-          {dotFormattedDate(date)}
+          {date ? dotFormattedDate(date) : null}
           <NavLink
             className='font-bold no-underline text-pink dark:opacity-80 uppercase mr-2'
             to={`/tags/${tag}`}
