@@ -310,8 +310,8 @@ async function getMdxIndividualTag(userProvidedTag: string) {
       )
 
       return {
-        blog: retObject?.[0]?.map(mapFromMdxPageToMdxListItem) ?? [],
-        til: retObject?.[1] ?? [],
+        blogList: retObject?.[0]?.map(mapFromMdxPageToMdxListItem) ?? [],
+        tilList: retObject?.[1] ?? [],
       }
     },
   })

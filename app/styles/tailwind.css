@@ -746,6 +746,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 4rem;
   margin-bottom: 2.5rem;
 }
+.prose :where(.embed > div > iframe):not(:where([class~="not-prose"] *)) {
+  height: 100% !important;
+  width: 100% !important;
+  top: 0;
+  left: 0;
+  position: absolute;
+  border: none;
+  border-radius: 0 !important;
+}
+@media (min-width: 1024px) {
+  .prose :where(.embed > div > iframe):not(:where([class~="not-prose"] *)) {
+    border-radius: 0.5rem !important;
+  }
+}
+.prose :where(.embed):not(:where([class~="not-prose"] *)) {
+  position: relative;
+  margin-left: 0;
+  margin-right: 30vw;
+}
+.prose :where(.embed > div):not(:where([class~="not-prose"] *)) {
+  height: 0px;
+}
 .prose-light :where(h1,h2):not(:where([class~="not-prose"] *)) {
   color: var(--color-gray-100);
 }
@@ -754,6 +776,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .prose-light :where(ul,ol):not(:where([class~="not-prose"] *)) {
   color: var(--color-gray-300);
+}
+.prose-light :where(code):not(:where([class~="not-prose"] *)) {
+  color: var(--color-body);
 }
 /* purgecss end ignore */
 .static {
@@ -823,6 +848,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-24 {
   margin-bottom: 6rem;
 }
+.mt-16 {
+  margin-top: 4rem;
+}
 .mb-20 {
   margin-bottom: 5rem;
 }
@@ -877,6 +905,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-7 {
   width: 1.75rem;
 }
+.w-2\/3 {
+  width: 66.666667%;
+}
 .w-\[2px\] {
   width: 2px;
 }
@@ -924,9 +955,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .cursor-pointer {
   cursor: pointer;
 }
-.resize {
-  resize: both;
-}
 .appearance-none {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -968,6 +996,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .rounded-full {
   border-radius: 9999px;
+}
+.border-b-2 {
+  border-bottom-width: 2px;
 }
 .bg-white {
   background-color: var(--color-white);
@@ -1274,6 +1305,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-content: "";
   content: var(--tw-content);
 }
+.first-of-type\:mt-12:first-of-type {
+  margin-top: 3rem;
+}
 .first-of-type\:ml-0:first-of-type {
   margin-left: 0px;
 }
@@ -1302,6 +1336,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   opacity: 0.8;
 }
 .dark .dark\:prose-dark :where(a):not(:where([class~="not-prose"] *)) {
+  opacity: 0.8;
+}
+.dark .dark\:prose-dark :where(code):not(:where([class~="not-prose"] *)) {
+  color: var(--color-pink);
   opacity: 0.8;
 }
 .dark .dark\:translate-x-\[160\%\] {

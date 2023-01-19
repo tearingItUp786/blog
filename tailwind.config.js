@@ -130,28 +130,23 @@ module.exports = {
                   fontSize: fontSize('2xl'),
                   textTransform: 'uppercase',
                   marginTop: theme('spacing.4'),
-
-                  // '> p': {
-                  //   fontStyle: 'oblique',
-                  //   fontWeight: 200,
-                  //   fontSize: fontSize('2xl'),
-                  //   textTransform: 'uppercase',
-                  //   marginBottom: 0,
-                  // },
-                  // '> p::before': {
-                  //   display: 'none',
-                  // },
-                  //
-                  // '> p::after': {
-                  //   display: 'none',
-                  // },
-                  // span: {
-                  //   fontStyle: 'oblique',
-                  //   fontSize: fontSize('lg'),
-                  //   fontWeight: 200,
-                  //   color: 'var(--color-pink)',
-                  //   textAlign: 'right',
-                  // },
+                },
+                '.embed': {
+                  position: 'relative',
+                  marginRight: '30vw',
+                  marginLeft: 0,
+                },
+                '.embed > div': {
+                  height: '0px',
+                },
+                '.embed > div > iframe': {
+                  height: '100% !important',
+                  width: '100% !important',
+                  top: '0',
+                  left: '0',
+                  position: 'absolute',
+                  border: 'none',
+                  borderRadius: '0 !important',
                 },
               },
             ],
@@ -167,6 +162,9 @@ module.exports = {
                 },
                 'ul,ol': {
                   color: 'var(--color-gray-300)',
+                },
+                code: {
+                  color: 'var(--color-body)',
                 },
               },
             ],
@@ -184,6 +182,10 @@ module.exports = {
                   opacity: 0.8,
                 },
                 a: {
+                  opacity: 0.8,
+                },
+                code: {
+                  color: 'var(--color-pink)',
                   opacity: 0.8,
                 },
               },

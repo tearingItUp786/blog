@@ -1,8 +1,41 @@
 import { bundleMDX } from 'mdx-bundler'
 
+import remarkEmbedder from '@remark-embedder/core'
+import oembedTransformer, { Config } from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
 import type { GitHubFile } from 'types'
+
+function handleEmbedderError({ url }: { url: string }) {
+  return `<p>Error embedding <a href="${url}">${url}</a></p>.`
+}
+
+type GottenHTML = string | null
+function handleEmbedderHtml(html: GottenHTML, info: any) {
+  if (!html) return null
+
+  const url = new URL(info.url)
+  // matches youtu.be and youtube.com
+  if (/youtu\.?be/.test(url.hostname)) {
+    // this allows us to set youtube embeds to 100% width and the
+    // height will be relative to that width with a good aspect ratio
+    return makeEmbed(html, 'youtube')
+  }
+  if (url.hostname.includes('codesandbox.io')) {
+    return makeEmbed(html, 'codesandbox', '80%')
+  }
+  return html
+}
+
+function makeEmbed(html: string, type: string, heightRatio = '40.25%') {
+  return `
+  <div class="embed" data-embed-type="${type}">
+    <div style="padding-bottom: ${heightRatio}">
+      ${html}
+    </div>
+  </div>
+`
+}
 
 async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   slug: string,
@@ -64,6 +97,24 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
           smartypants,
           [remarkImages, { maxWidth: 1200 }],
           [remarkAutolinkHeadings, { behavior: 'wrap' }],
+          [
+            remarkEmbedder,
+            {
+              handleError: handleEmbedderError,
+              handleHTML: handleEmbedderHtml,
+              transformers: [
+                [
+                  oembedTransformer,
+                  {
+                    params: {
+                      height: '390',
+                      width: '1280',
+                    } as Config,
+                  },
+                ],
+              ],
+            },
+          ],
         ]
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),

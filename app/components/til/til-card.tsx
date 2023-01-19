@@ -1,22 +1,18 @@
 import { NavLink } from '@remix-run/react'
+import clsx from 'clsx'
 import { dotFormattedDate } from '~/utils/misc'
-import { H1 } from '../typography'
+import { H1, H2 } from '../typography'
 
 type Props = {
   title?: string
   date?: string
   tag?: string
   children?: React.ReactNode
+  showBlackLine?: boolean
+  titleComponent?: 'h1' | 'h2'
 }
 
-export const TilCard = ({ title, date, tag, children }: Props) => {
-  return (
-    <div
-      className='
-    relative
-    mb-24 last-of-type:mb-0 first-of-type:mt-16
-
-    after:content: ""
+const blackLinkClasses = `
     after:absolute
     after:top-[10px]
     after:left-[-13vw]
@@ -36,8 +32,19 @@ export const TilCard = ({ title, date, tag, children }: Props) => {
     before:dark:bg-white
     before:translate-y-[-50%]
     before:translate-x-[-50%]
-    '
-    >
+`
+
+export const TilCard = ({
+  title,
+  date,
+  tag,
+  children,
+  showBlackLine = true,
+  titleComponent = 'h1',
+}: Props) => {
+  const TitleComp = titleComponent === 'h1' ? H1 : H2
+  return (
+    <div className={clsx(showBlackLine && blackLinkClasses, 'relative')}>
       <div className='flex items-start'>
         <div className='flex flex-col text-lg mr-6 text-pink dark:opacity-80'>
           {date ? dotFormattedDate(date) : null}
@@ -48,7 +55,7 @@ export const TilCard = ({ title, date, tag, children }: Props) => {
             {tag}
           </NavLink>
         </div>
-        <H1 className='uppercase my-0 leading-[1em]'>{title}</H1>
+        <TitleComp className='uppercase my-0 leading-[1em]'>{title}</TitleComp>
       </div>
       <div className='text-lg mt-2 md:text-left'>{children}</div>
     </div>

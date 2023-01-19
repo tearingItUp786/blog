@@ -99,14 +99,18 @@ export default function TilPage() {
           if (!til?.frontmatter) return null
 
           return (
-            <TilCard
+            <div
               key={`${til.frontmatter.title}-${til.frontmatter.date}`}
-              title={til.frontmatter.title}
-              date={til.frontmatter.date}
-              tag={til.frontmatter.tag}
+              className='mb-24 last-of-type:mb-0 first-of-type:mt-16'
             >
-              {Component ? <Component /> : null}
-            </TilCard>
+              <TilCard
+                title={til.frontmatter.title}
+                date={til.frontmatter.date}
+                tag={til.frontmatter.tag}
+              >
+                {Component ? <Component /> : null}
+              </TilCard>
+            </div>
           )
         })}
       </div>
