@@ -133,8 +133,11 @@ module.exports = {
                 },
                 '.embed': {
                   position: 'relative',
-                  marginRight: '30vw',
+                  marginRight: '0 !important',
                   marginLeft: 0,
+                  [`@media (min-width: ${theme('screens.xl')})`]: {
+                    marginRight: '30vw !important',
+                  },
                 },
                 '.embed > div': {
                   height: '0px',

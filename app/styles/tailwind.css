@@ -763,7 +763,22 @@ Ensure the default browser behavior of the `hidden` attribute.
 .prose :where(.embed):not(:where([class~="not-prose"] *)) {
   position: relative;
   margin-left: 0;
-  margin-right: 30vw;
+  margin-right: 0 !important;
+}
+@media (min-width: 1024px) {
+  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
+    margin-right: 30vw;
+  }
+}
+@media (min-width: 640px) {
+  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
+    margin-right: 30vw;
+  }
+}
+@media (min-width: 1500px) {
+  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
+    margin-right: 30vw !important;
+  }
 }
 .prose :where(.embed > div):not(:where([class~="not-prose"] *)) {
   height: 0px;

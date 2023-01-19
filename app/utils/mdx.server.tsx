@@ -27,7 +27,7 @@ function handleEmbedderHtml(html: GottenHTML, info: any) {
   return html
 }
 
-function makeEmbed(html: string, type: string, heightRatio = '40.25%') {
+function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
   return `
   <div class="embed" data-embed-type="${type}">
     <div style="padding-bottom: ${heightRatio}">
