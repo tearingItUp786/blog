@@ -4,6 +4,7 @@ import remarkEmbedder from '@remark-embedder/core'
 import oembedTransformer, { Config } from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
+import type { TransformerInfo } from '@remark-embedder/core'
 import type { GitHubFile } from 'types'
 
 function handleEmbedderError({ url }: { url: string }) {
@@ -11,7 +12,8 @@ function handleEmbedderError({ url }: { url: string }) {
 }
 
 type GottenHTML = string | null
-function handleEmbedderHtml(html: GottenHTML, info: any) {
+
+function handleEmbedderHtml(html: GottenHTML, info: TransformerInfo) {
   if (!html) return null
 
   const url = new URL(info.url)
@@ -36,6 +38,8 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
   </div>
 `
 }
+
+//TODO: come up with a uninst transformer to get rid of the `title`
 
 async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   slug: string,
