@@ -9,10 +9,11 @@ type Props = {
   tag?: string
   children?: React.ReactNode
   showBlackLine?: boolean
-  titleComponent?: 'h1' | 'h2'
 }
 
 const blackLinkClasses = `
+    after:hidden
+    after:md:block
     after:absolute
     after:top-[10px]
     after:left-[-13vw]
@@ -21,6 +22,8 @@ const blackLinkClasses = `
     after:h-[2px]
     after:w-[11vw]
 
+    before:hidden
+    before:md:block
     before:content: ""
     before:absolute
     before:rounded-full
@@ -40,22 +43,20 @@ export const TilCard = ({
   tag,
   children,
   showBlackLine = true,
-  titleComponent = 'h1',
 }: Props) => {
-  const TitleComp = titleComponent === 'h1' ? H1 : H2
   return (
     <div className={clsx(showBlackLine && blackLinkClasses, 'relative')}>
-      <div className='flex items-start'>
-        <div className='flex flex-col text-lg mr-6 text-pink dark:opacity-80'>
+      <div className='block md:flex items-start'>
+        <div className='block md:flex order-0 flex-col text-lg mr-6 text-pink dark:opacity-80'>
           {date ? dotFormattedDate(date) : null}
           <NavLink
-            className='font-bold no-underline text-pink dark:opacity-80 uppercase mr-2'
+            className='ml-4 md:ml-0 font-bold no-underline text-pink dark:opacity-80 uppercase mr-2'
             to={`/tags/${tag}`}
           >
             {tag}
           </NavLink>
         </div>
-        <TitleComp className='uppercase my-0 leading-[1em]'>{title}</TitleComp>
+        <H1 className='uppercase my-4 md:my-0 leading-[1em]'>{title}</H1>
       </div>
       <div className='text-lg mt-2 md:text-left'>{children}</div>
     </div>

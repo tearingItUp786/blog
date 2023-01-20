@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 
 const fontSizes = {
-  h1: 'font-display font-bold text-5xl',
-  h2: 'font-body font-bold text-3xl',
-  h3: 'font-body font-medium text-2xl',
-  h4: 'font-body font-medium text-xl uppercase',
+  h1: 'font-display font-bold text-3xl md:text-5xl',
+  h2: 'font-body font-bold text-2xl md:text-3xl',
+  h3: 'font-body font-medium text-xl md:text-2xl',
+  h4: 'font-body font-medium text-lg md:text-xl uppercase',
   h5: 'font-body font-medium text-lg',
 }
 

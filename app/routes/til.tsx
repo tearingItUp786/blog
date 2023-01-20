@@ -77,7 +77,7 @@ export default function TilPage() {
   return (
     <div
       className='
-    ml-[18vw] mr-[10vw] pb-8 relative mt-8
+    md:ml-[18vw] ml-[10vw] mr-[10vw] pb-8 relative mt-8
     after:hidden
     after:md:block
     after:content-[""]

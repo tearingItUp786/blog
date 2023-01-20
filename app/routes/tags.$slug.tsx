@@ -28,8 +28,11 @@ export default function SingleTag() {
   return (
     <div className='page-container'>
       <div className='max-w-full prose prose-light dark:prose-dark'>
-        <H1 className='border-b-2 w-2/3 mt-16'>
-          Today I learned about... {params.slug}
+        <H1 className='border-b-2 dark:border-b-white w-full mt-16'>
+          Today I learned about... <br />
+          <span className='text-pink dark:opacity-80 text-5xl md:text-7xl  mt-2 block'>
+            {params.slug}
+          </span>
         </H1>
         {tilComponents.map((til, i) => {
           const Component: any = tilComponents?.[i]?.component ?? null

@@ -1,3 +1,4 @@
+import { NavLink } from '@remix-run/react'
 import React from 'react'
 import { dotFormattedDate } from '~/utils/misc'
 
@@ -58,19 +59,21 @@ export const LineSvg = ({ date, tag, ...rest }: Props) => {
               >
                 {formattedDate}
               </text>
-              <text
-                x={169.294}
-                y={199.466}
-                style={{
-                  fontFamily: '&quot',
-                  fontWeight: 700,
-                  fontSize: '23.949px',
-                  fill: '#ff00a4',
-                }}
-                transform='matrix(4.91278 0 0 1.03872 0 -128.939)'
-              >
-                {tag}
-              </text>
+              <NavLink to={`/tags/${tag}`}>
+                <text
+                  x={169.294}
+                  y={199.466}
+                  style={{
+                    fontFamily: '&quot',
+                    fontWeight: 700,
+                    fontSize: '23.949px',
+                    fill: '#ff00a4',
+                  }}
+                  transform='matrix(4.91278 0 0 1.03872 0 -128.939)'
+                >
+                  {tag}
+                </text>
+              </NavLink>
               <path
                 d='M-11.158-11.159c-6.163 0-11.159 4.996-11.159 11.159 0 6.162 4.996 11.158 11.159 11.158S0 6.162 0 0c0-6.163-4.995-11.159-11.158-11.159'
                 className='fill-gray-300 dark:fill-white'
