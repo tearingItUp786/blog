@@ -746,39 +746,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 4rem;
   margin-bottom: 2.5rem;
 }
-.prose :where(.embed > div > iframe):not(:where([class~="not-prose"] *)) {
-  height: 100% !important;
-  width: 100% !important;
-  top: 0;
-  left: 0;
-  position: absolute;
-  border: none;
-  border-radius: 0 !important;
-}
-@media (min-width: 1024px) {
-  .prose :where(.embed > div > iframe):not(:where([class~="not-prose"] *)) {
-    border-radius: 0.5rem !important;
-  }
-}
 .prose :where(.embed):not(:where([class~="not-prose"] *)) {
   position: relative;
-  margin-left: 0;
   margin-right: 0 !important;
-}
-@media (min-width: 1024px) {
-  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
-    margin-right: 30vw;
-  }
-}
-@media (min-width: 640px) {
-  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
-    margin-right: 30vw;
-  }
-}
-@media (min-width: 1500px) {
-  .prose :where(.embed):not(:where([class~="not-prose"] *)) {
-    margin-right: 20vw !important;
-  }
+  margin-left: 0;
 }
 @media (min-width: undefined) {
   .prose :where(.embed):not(:where([class~="not-prose"] *)) {
@@ -787,6 +758,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .prose :where(.embed > div):not(:where([class~="not-prose"] *)) {
   height: 0px;
+}
+.prose :where(.embed > div > iframe):not(:where([class~="not-prose"] *)) {
+  height: 100% !important;
+  width: 100% !important;
+  top: 0;
+  left: 0;
+  position: absolute;
+  border: none;
+  border-radius: 0 !important;
 }
 .prose-light :where(h1,h2):not(:where([class~="not-prose"] *)) {
   color: var(--color-gray-100);
