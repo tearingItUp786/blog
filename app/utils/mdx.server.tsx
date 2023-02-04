@@ -1,72 +1,10 @@
 import { bundleMDX } from "mdx-bundler";
-import type * as H from "hast";
 import remarkEmbedder from "@remark-embedder/core";
 import oembedTransformer, { Config } from "@remark-embedder/transformer-oembed";
 import calculateReadingTime from "reading-time";
 import type TPQueue from "p-queue";
 import type { TransformerInfo } from "@remark-embedder/core";
 import type { GitHubFile } from "types";
-
-function myRehypCodeTitles() {
-  return async function transformer(tree: H.Root) {
-    const { visit } = await import("unist-util-visit");
-
-    visit(tree, "element", (node: H.Element, index, parent) => {
-      if (!parent || node.tagName !== "pre") {
-        return;
-      }
-
-      const [code] = node.children;
-
-      let oldClassName = (code as H.Element)?.properties?.className ?? [];
-
-      // the old class name that we want to update can be an array or just a primitive value (not a sclar)
-      let cls = Array.isArray(oldClassName) ? oldClassName : [oldClassName];
-
-      const updatedCls = cls.reduce((acc, currClassName) => {
-        const [language, title] = String(currClassName)?.split(":title=");
-
-        if (title && language && index) {
-          // we want to insert the title before the pre element
-          // splicing at the current index of the node and not deleting
-          // will allow us to do the insert
-          parent.children.splice(index, 0, {
-            children: [{ type: "text", value: title }],
-            properties: { className: ["custom-code-title"] },
-            tagName: "div",
-            type: "element",
-          });
-
-          acc.push(language);
-          return acc;
-        }
-
-        if (
-          typeof currClassName === "string" &&
-          currClassName.slice(0, 9) === "language-"
-        ) {
-          acc.push(currClassName);
-          return acc;
-        }
-
-        acc.push(String(currClassName));
-
-        return acc;
-      }, [] as Array<string>);
-
-      // append the node with the class name stripped of the "title" part
-      // so that prism can do its thing
-      if (code) {
-        let newElement = {
-          ...(code as H.Element),
-          properties: { className: updatedCls },
-        };
-
-        node.children = [{ ...newElement }];
-      }
-    });
-  };
-}
 
 function handleEmbedderError({ url }: { url: string }) {
   return `<p>Error embedding <a href="${url}">${url}</a></p>.`;
@@ -115,6 +53,9 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   const { default: smartypants } = await import("remark-smartypants");
   const { default: remarkImages } = await import("remark-images");
   // rehype plugins
+  const { default: myRehypeCodeTitles } = await import(
+    "rehype-configure-code-titles"
+  );
   const { default: rehypePrismPlus } = await import("rehype-prism-plus");
   const { default: rehypeSlug } = await import("rehype-slug");
   const { default: rehypeAutolinkHeadings } = await import(
@@ -182,7 +123,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         ];
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),
-          myRehypCodeTitles,
+          [myRehypeCodeTitles, { className: "custom-code-title" }],
           [rehypePrismPlus, { showLineNumbers: true }],
           rehypeSlug,
           [

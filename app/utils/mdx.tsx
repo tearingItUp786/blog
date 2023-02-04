@@ -39,7 +39,7 @@ async function downloadMdxFilesCached(fullPath: string) {
 
       return true;
     },
-    //forceFresh: true,
+    forceFresh: true,
     getFreshValue: async () => downloadMdxFileOrDirectory(fullPath),
   });
   // if there aren't any files, remove it from the cache
@@ -59,7 +59,7 @@ async function getMdxPage({
   return cachified({
     key: `${contentDir}:${slug}`,
     cache: redisCache,
-    // forceFresh: true,
+    forceFresh: true,
     getFreshValue: async () => {
       const pageFiles = await downloadMdxFilesCached(`${contentDir}/${slug}`);
 
@@ -303,24 +303,31 @@ async function getMdxIndividualTag(userProvidedTag: string) {
           );
 
           let retArray = await Promise.all(
-            filteredValues.map((pageData) =>
-              compileMdx(pageData.slug, pageData.files)
-            )
+            filteredValues.map(async (pageData) => {
+              let data = await compileMdx(pageData.slug, pageData.files);
+              return {
+                ...data,
+                slug: pageData.slug,
+              };
+            })
           );
 
-          return retArray as Array<MdxPage>;
+          return retArray as Array<MdxPageAndSlug>;
         })
       );
 
       return {
         blogList: retObject?.[0]?.map(mapFromMdxPageToMdxListItem) ?? [],
         tilList: retObject?.[1] ?? [],
+        retObject,
       };
     },
   });
 }
 
-function mapFromMdxPageToMdxListItem(page: MdxPage): Omit<MdxPage, "code"> {
+function mapFromMdxPageToMdxListItem(
+  page: MdxPage
+): Omit<MdxPageAndSlug, "code"> {
   const { code, ...mdxListItem } = page;
   return mdxListItem;
 }
