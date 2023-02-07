@@ -65,3 +65,11 @@ body {
   width: 100%;
   color: var(--body-text);
 }
+
+p {
+  @apply text-lg;
+}
+
+.page-container {
+  @apply mx-auto relative max-w-screen-xl mt-[2rem] pb-[2rem];
+}

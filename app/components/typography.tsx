@@ -1,138 +1,143 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
 const fontSizes = {
-  h1: 'font-display font-bold text-3xl md:text-5xl',
-  h2: 'font-body font-bold text-2xl md:text-3xl',
-  h3: 'font-body font-medium text-xl md:text-2xl',
-  h4: 'font-body font-medium text-lg md:text-xl uppercase',
-  h5: 'font-body font-medium text-lg',
-}
+  h1: "font-display font-bold text-3xl md:text-5xl",
+  h2: "font-body font-bold text-2xl md:text-3xl",
+  h3: "font-body font-medium text-xl md:text-2xl",
+  h4: "font-body font-medium text-lg md:text-xl uppercase",
+  h5: "font-body font-medium text-lg",
+};
 
 const titleColors = {
-  primary: 'text-gray-100 dark:text-white',
-  secondary: 'text-gray-300 dark:text-white',
-}
+  primary: "text-gray-100 dark:text-white",
+  secondary: "text-gray-300 dark:text-white",
+};
 
 type TitleProps = {
-  variant?: 'primary' | 'secondary'
-  As?: React.ElementType
-  className?: string
-  id?: string
+  variant?: "primary" | "secondary";
+  As?: React.ElementType;
+  className?: string;
+  id?: string;
 } & (
   | { children: React.ReactNode }
   | {
       dangerouslySetInnerHTML: {
-        __html: string
-      }
+        __html: string;
+      };
     }
-)
+);
 
 function Title({
-  variant = 'primary',
+  variant = "primary",
   As,
   size,
   className,
   ...rest
 }: TitleProps & { size: keyof typeof fontSizes }) {
-  const Tag = As ?? size
+  const Tag = As ?? size;
   return (
     <Tag
       className={clsx(fontSizes[size], titleColors[variant], className)}
       {...rest}
     />
-  )
+  );
 }
 
 export const H1 = (props: TitleProps) => {
-  return <Title {...props} size='h1' />
-}
+  return <Title {...props} size="h1" />;
+};
 
 export const H2 = (props: TitleProps) => {
-  return <Title {...props} size='h2' />
-}
+  return <Title {...props} size="h2" />;
+};
 
 export const H3 = (props: TitleProps) => {
-  return <Title {...props} size='h3' />
-}
+  return <Title {...props} size="h3" />;
+};
 
 export const H4 = (props: TitleProps) => {
-  return <Title {...props} size='h4' />
-}
+  return <Title {...props} size="h4" />;
+};
 
 export const H5 = (props: TitleProps) => {
-  return <Title {...props} size='h5' />
-}
+  return <Title {...props} size="h5" />;
+};
 
 type CommonProps = {
-  children: React.ReactNode
-  [key: string]: any
-}
+  children: React.ReactNode;
+  [key: string]: any;
+};
 
 export const BlockQuote = ({
   children,
   className,
   author,
+  authorClassName,
   ...rest
 }: CommonProps) => (
   <blockquote
-    style={{ fontStyle: 'oblique' }}
+    style={{ fontStyle: "oblique" }}
     className={clsx(
-      'font-body font-light text-2xl uppercase dark:text-white',
+      "font-body font-light text-2xl uppercase dark:text-white",
       className
     )}
     {...rest}
   >
     {children}
     {author ? (
-      <span className='block text-pink dark:opacity-80'>{author}</span>
+      <span
+        className={clsx("block text-pink dark:opacity-80", authorClassName)}
+      >
+        -{author}
+      </span>
     ) : null}
   </blockquote>
-)
+);
 
 export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
   <div
-    style={{ fontStyle: 'oblique' }}
+    style={{ fontStyle: "oblique" }}
     className={clsx(
-      titleColors['secondary'],
-      'font-body font-light text-xl uppercase my-4'
+      titleColors["secondary"],
+      "font-body font-light text-xl uppercase my-4"
     )}
     {...rest}
   >
     {children}
     {author ? (
       <>
-        <span className='ml-2 mr-2'>-</span>
-        <span className='text-pink dark:opacity-80 text-lg'>{author}</span>
+        <span className="ml-2 mr-2">-</span>
+        <span className="text-pink dark:opacity-80 text-lg">{author}</span>
       </>
     ) : null}
   </div>
-)
+);
 
 export const TextLink = ({ children, ...rest }: CommonProps) => (
-  <a target='_blank' {...rest}>
+  <a target="_blank" {...rest}>
     {children}
   </a>
-)
+);
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-  <div className='text-sm font-body dark:opacity-80 text-pink' {...rest}>
+  <div className="text-sm font-body dark:opacity-80 text-pink" {...rest}>
     {children}
   </div>
-)
+);
 
 export const InlineImage = ({
   src,
   alt,
   children,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }) => {
-  const hasChildren = children !== undefined
-  const containerClass = hasChildren ? '' : 'mx-auto'
+  const hasChildren = children !== undefined;
+  const containerClass = hasChildren ? "" : "mx-auto";
   return (
     <div className={containerClass}>
       <img src={src} alt={alt} />
       {hasChildren ? <div>{children}</div> : null}
     </div>
-  )
-}
+  );
+};

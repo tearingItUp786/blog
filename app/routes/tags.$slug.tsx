@@ -1,7 +1,6 @@
 import { H1, H2, H3 } from "~/components/typography";
 import { getMdxIndividualTag } from "~/utils/mdx";
 import { json, LoaderArgs } from "@remix-run/node";
-import styles from "~/styles/til.css";
 import { NavLink, useLoaderData, useParams } from "@remix-run/react";
 import { ContentCard as GenericContentCard } from "~/components/til/content-card";
 import { tilMapper } from "~/utils/til-list";
@@ -24,15 +23,22 @@ export default function SingleTag() {
 
   return (
     <div className="page-container">
-      <div className="max-w-full prose prose-light dark:prose-dark">
+      <div
+        className="
+        max-w-full 
+        ml-[10vw] mr-[10vw]
+        xl:mx-auto
+        prose prose-light dark:prose-dark
+        "
+      >
         <H1 className="border-b-2 dark:border-b-white w-full mt-16">
           Today I learned about... <br />
           <span className="text-pink dark:opacity-80 text-5xl md:text-7xl  mt-2 block">
             {params.slug}
           </span>
         </H1>
-        <NavLink to="/tags" className="no-underline">
-          <H3>Back to all tags</H3>
+        <NavLink to="/tags" className="no-underline group">
+          <H3 className="inline group-hover:text-pink">Back to all tags</H3>
         </NavLink>
         {tilComponents.map((til, i) => {
           const Component: any = tilComponents?.[i]?.component ?? null;
@@ -84,8 +90,4 @@ export default function SingleTag() {
       </div>
     </div>
   );
-}
-
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
 }
