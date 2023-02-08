@@ -7,6 +7,7 @@ import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
 
 import { BlockQuote } from "~/components/typography";
 import { max } from "@cloudinary/url-gen/actions/roundCorners";
+import Hero from "~/components/hero";
 
 export async function loader() {
   let cld = new Cloudinary({
@@ -35,7 +36,12 @@ export default function About() {
   return (
     <div className="page-container">
       <div className="max-w-full ml-[10vw] mr-[10vw] xl:mx-auto">
-        <BlockQuote author="David Goggins" authorClassName="text-right text-lg">
+        <Hero />
+        <BlockQuote
+          className="mt-8"
+          author="David Goggins"
+          authorClassName="text-right text-lg"
+        >
           The only way that you’re ever going to get to the other side of this
           journey is by suffering. You have to suffer in order to grow. Some
           people get it, some people don’t.

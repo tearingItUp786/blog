@@ -47,9 +47,10 @@ type Options = {
 
 async function myRehypeCodeTitles() {
   const { visit } = await import("unist-util-visit");
+
   return function optionsHof({
     className = "rehype-configurable-code-title",
-    titleSeparator = ":title=",
+    titleSeparator = ":",
   }: Options) {
     return function transformer(tree: H.Root) {
       const visitor: BuildVisitor<H.Root, "element"> = (
@@ -75,6 +76,7 @@ async function myRehypeCodeTitles() {
           const [language, title] =
             String(currClassName)?.split(titleSeparator);
 
+          console.log("wtf", language, title);
           if (title && language && index) {
             // we want to insert the title before the pre element
             // splicing at the current index of the node and not deleting
@@ -141,6 +143,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   const { default: rehypeAutolinkHeadings } = await import(
     "rehype-autolink-headings"
   );
+  const { default: rehypeCodeTitles } = await import("rehype-code-titles");
   const { default: rehypeAddClasses } = await import("rehype-add-classes");
 
   const mdxRegex = new RegExp(`${slug}\\/.*mdx?$`);
@@ -204,6 +207,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),
           [myRehypeCodeTitles, { className: "custom-code-title" }],
+          // rehypeCodeTitles,
           [rehypePrismPlus, { showLineNumbers: true }],
           rehypeSlug,
           [
