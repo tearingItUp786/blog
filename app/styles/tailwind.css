@@ -364,9 +364,9 @@ Ensure the default browser behavior of the `hidden` attribute.
     max-width: 1024px;
   }
 }
-@media (min-width: 1500px) {
+@media (min-width: 1536px) {
   .container {
-    max-width: 1500px;
+    max-width: 1536px;
   }
 }
 .prose {
@@ -785,6 +785,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .visible {
   visibility: visible;
 }
+.invisible {
+  visibility: hidden;
+}
 .static {
   position: static;
 }
@@ -960,6 +963,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-w-5xl {
   max-width: 64rem;
+}
+.max-w-xl {
+  max-width: 36rem;
+}
+.max-w-2xl {
+  max-width: 42rem;
 }
 .grow {
   flex-grow: 1;
@@ -1594,7 +1603,7 @@ Ensure the default browser behavior of the `hidden` attribute.
          column-gap: 1.5rem;
   }
 }
-@media (min-width: 1500px) {
+@media (min-width: 1536px) {
   .xl\:mx-auto {
     margin-left: auto;
     margin-right: auto;

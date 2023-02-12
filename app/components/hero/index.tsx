@@ -94,7 +94,7 @@ function Hero() {
           margin: "auto",
         }}
       >
-        <Face id="face" className={""} />
+        <Face id="face" className={clsx("invisible")} />
       </div>
     </div>
   );

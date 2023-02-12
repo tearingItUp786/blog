@@ -38,7 +38,7 @@ export default function About() {
       <div className="max-w-full ml-[10vw] mr-[10vw] xl:mx-auto">
         <Hero />
         <BlockQuote
-          className="mt-8"
+          className="mt-8 max-w-5xl mx-auto"
           author="David Goggins"
           authorClassName="text-right text-lg"
         >
@@ -71,6 +71,17 @@ export default function About() {
           environment for great work to be done, but also inspire their team
           members/employees to be legendary.
         </p>
+
+        <p>
+          At his core, Taran loves a challenge. He believes in doing something
+          that sucks everyday. Whether that's running 2 miles, doing a hike in a
+          torrential downpour, or, if running two miles is no longer
+          uncomfortable, picking up a skipping rope and working on some new
+          skipping technique. By not allowing the mind to become overly
+          comfortable in a simple fe, we will be able to test how far we really
+          can go and do things that seem impossible to the normal person. Become
+          more of yourself, <strong>every damn day</strong>.
+        </p>
         <div
           className="md:mx-auto 
         ml-0
@@ -90,21 +101,15 @@ export default function About() {
             srcSet={`${data.mobileImage} 500w, ${data.desktopImage} 300w`}
             src={data.desktopImage}
           />
-          <BlockQuote className="ml-6 mt-6 lg:mt-0 text-center">
+          <BlockQuote
+            author="Les Brown"
+            authorClassName="text-right text-lg"
+            className="ml-6 mx-auto mt-6 lg:mt-0 "
+          >
             If you do what is easy, your life will be hard. If you do what is
             hard, your life will be easy.
           </BlockQuote>
         </div>
-        <p>
-          At his core, Taran loves a challenge. He believes in doing something
-          that sucks everyday. Whether that's running 2 miles, doing a hike in a
-          torrential downpour, or, if running two miles is no longer
-          uncomfortable, picking up a skipping rope and working on some new
-          skipping technique. By not allowing the mind to become overly
-          comfortable in a simple fe, we will be able to test how far we really
-          can go and do things that seem impossible to the normal person. Become
-          more of yourself, <strong>every damn day</strong>.
-        </p>
       </div>
     </div>
   );

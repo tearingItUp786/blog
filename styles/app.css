@@ -1,3 +1,5 @@
+/* These are only for usage in tailwind */
+/* dont reference directly */
 :root {
   --color-white: #fff;
   --color-black: #000;
@@ -48,7 +50,7 @@ a {
 
 .title a svg {
   visibility: hidden;
-  stroke: var(--accent);
+  stroke: var(--color-gray-300);
 }
 
 .title:hover a svg {
@@ -66,8 +68,12 @@ body {
   color: var(--body-text);
 }
 
+::selection {
+  background-color: #f410a1b0;
+}
+
 p {
-  @apply text-lg;
+  @apply text-lg mb-6;
 }
 
 .page-container {

@@ -1,3 +1,5 @@
+/* These are only for usage in tailwind */
+/* dont reference directly */
 :root {
   --color-white: #fff;
   --color-black: #000;
@@ -6,7 +8,6 @@
   --color-gray-300: #1e1e1e;
   --color-pink: #f410a1;
 }
-
 .light {
   --bg-color: var(--color-white);
   --subheading-color: var(--color-gray-100);
@@ -14,7 +15,6 @@
   --body-text: var(--color-gray-300);
   --accent: var(--color-pink);
 }
-
 .dark {
   --bg-color: var(--color-gray-100);
   --subheading-color: var(--color-white);
@@ -22,19 +22,15 @@
   --body-text: var(--color-white);
   --accent: var(--color-pink);
 }
-
 .logoNavLink:hover path {
   fill: var(--accent);
 }
-
 a {
   color: var(--color-accent);
 }
-
 .title {
   position: relative;
 }
-
 .title a {
   position: absolute;
   left: 0;
@@ -45,43 +41,43 @@ a {
   padding-bottom: 8px;
   transform: translateY(-55%);
 }
-
 .title a svg {
   visibility: hidden;
-  stroke: var(--accent);
+  stroke: var(--color-gray-300);
 }
-
 .title:hover a svg {
   visibility: visible;
 }
-
 .linkable-tag {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-pink);
 }
-
 .dark .linkable-tag {
   opacity: 0.8;
 }
-
 html,
 body {
   height: 100%;
   width: 100%;
   color: var(--body-text);
 }
-
+::-moz-selection {
+  background-color: #f410a1b0;
+}
+::selection {
+  background-color: #f410a1b0;
+}
 p {
+  margin-bottom: 1.5rem;
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
-
 .page-container {
   position: relative;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2rem;
-  max-width: 1500px;
+  max-width: 1536px;
   padding-bottom: 2rem;
 }
