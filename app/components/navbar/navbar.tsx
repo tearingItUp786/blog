@@ -13,7 +13,7 @@ export function Navbar() {
 
   return (
     <div className="w-full flex justify-between bg-gray-100 dark:bg-white">
-      <div className="w-[75px]">
+      <div className="w-[80px]">
         <NavLink to="/">
           <Logo className="logoNavLink px-4 py-1" />
         </NavLink>
