@@ -33,12 +33,12 @@ export default function SingleTag() {
       >
         <H1 className="border-b-2 dark:border-b-white w-full mt-16">
           Today I learned about... <br />
-          <span className="text-pink dark:opacity-80 text-5xl md:text-7xl  mt-2 block">
+          <span className="text-accent text-5xl md:text-7xl  mt-2 block">
             {params.slug}
           </span>
         </H1>
         <NavLink to="/tags" className="no-underline group">
-          <H3 className="inline group-hover:text-pink">Back to all tags</H3>
+          <H3 className="inline group-hover:text-accent">Back to all tags</H3>
         </NavLink>
         {tilComponents.map((til, i) => {
           const Component: any = tilComponents?.[i]?.component ?? null;

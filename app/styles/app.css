@@ -7,6 +7,7 @@
   --color-gray-200: #1c1b19;
   --color-gray-300: #1e1e1e;
   --color-pink: #f410a1;
+  --color-pink-100: #f410a1cf;
 }
 .light {
   --bg-color: var(--color-white);
@@ -20,7 +21,7 @@
   --subheading-color: var(--color-white);
   --blog-title-color: var(--color-white);
   --body-text: var(--color-white);
-  --accent: var(--color-pink);
+  --accent: var(--color-pink-100);
 }
 .logoNavLink:hover path {
   fill: var(--accent);
@@ -51,7 +52,7 @@ a {
 .linkable-tag {
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-pink);
+  color: var(--accent);
 }
 .dark .linkable-tag {
   opacity: 0.8;

@@ -46,13 +46,10 @@ type Options = {
 };
 
 function myRehypeCodeTitles(
-  {
-    className = "rehype-configurable-code-title",
-    titleSeparator = ":title=",
-  }: Options = {
-      titleSeparator: ":title=",
-      className: "rehype-configurable-code-title",
-    }
+  { className = "custom-code-title", titleSeparator = ":title=" }: Options = {
+    titleSeparator: ":title=",
+    className: "custom-code-title",
+  }
 ) {
   return async function transformer(tree: H.Root) {
     const { visit } = await import("unist-util-visit");
@@ -123,8 +120,6 @@ function myRehypeCodeTitles(
     visit(tree, "element", visitor);
   };
 }
-
-//TODO: come up with a uninst transformer to get rid of the `title`
 
 async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   slug: string,

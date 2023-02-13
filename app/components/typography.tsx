@@ -86,7 +86,10 @@ export const BlockQuote = ({
     {children}
     {author ? (
       <span
-        className={clsx("block text-pink dark:opacity-80", authorClassName)}
+        className={clsx(
+          "block text-accent text-right text-lg",
+          authorClassName
+        )}
       >
         -{author}
       </span>
@@ -94,12 +97,18 @@ export const BlockQuote = ({
   </blockquote>
 );
 
-export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
+export const ShortQuote = ({
+  children,
+  author,
+  containerClassName,
+  ...rest
+}: CommonProps) => (
   <div
     style={{ fontStyle: "oblique" }}
     className={clsx(
       titleColors["secondary"],
-      "font-body font-light text-xl uppercase my-4"
+      "font-body font-light text-lg uppercase my-4",
+      containerClassName
     )}
     {...rest}
   >
@@ -107,20 +116,20 @@ export const ShortQuote = ({ children, author, ...rest }: CommonProps) => (
     {author ? (
       <>
         <span className="ml-2 mr-2">-</span>
-        <span className="text-pink dark:opacity-80 text-lg">{author}</span>
+        <span className="text-accent text-lg">{author}</span>
       </>
     ) : null}
   </div>
 );
 
 export const TextLink = ({ children, ...rest }: CommonProps) => (
-  <a target="_blank" {...rest}>
+  <a target="_blank" className="text-accent underline font-medium" {...rest}>
     {children}
   </a>
 );
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-  <div className="text-sm font-body dark:opacity-80 text-pink" {...rest}>
+  <div className="text-sm font-body text-accent" {...rest}>
     {children}
   </div>
 );

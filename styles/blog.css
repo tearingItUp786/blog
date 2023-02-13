@@ -5,5 +5,5 @@
 }
 
 .welcome-message {
-  @apply text-pink dark:text-pink dark:opacity-80 text-lg font-normal text-center mb-4;
+  @apply text-accent dark:text-pink dark:opacity-80 text-lg font-normal text-center mb-4;
 }

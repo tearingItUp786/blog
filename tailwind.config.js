@@ -22,6 +22,7 @@ module.exports = {
         200: "var(--color-gray-200)",
         300: "var(--color-gray-300)",
       },
+      accent: "var(--accent)",
     },
     fontFamily: {
       body: ["Avenir", ...defaultTheme.fontFamily.sans],
@@ -114,7 +115,7 @@ module.exports = {
                 },
                 strong: {
                   fontWeight: 500,
-                  color: "var(--color-pink)",
+                  color: "var(--color-accent)",
                 },
                 a: {
                   color: "var(--accent)",
@@ -182,15 +183,8 @@ module.exports = {
                 "ol, ul": {
                   color: "var(--color-white)",
                 },
-                strong: {
-                  opacity: 0.8,
-                },
-                a: {
-                  opacity: 0.8,
-                },
                 code: {
-                  color: "var(--color-pink)",
-                  opacity: 0.8,
+                  color: "var(--color-accent)",
                 },
               },
             ],

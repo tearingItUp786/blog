@@ -47,10 +47,10 @@ export const ContentCard = ({
   return (
     <div className={clsx(showBlackLine && blackLinkClasses, "relative")}>
       <div className="block md:flex items-start">
-        <div className="block md:flex order-0 flex-col text-lg mr-6 text-pink dark:opacity-80">
+        <div className="block md:flex order-0 flex-col text-lg mr-6 text-accent">
           {date ? dotFormattedDate(date) : null}
           <NavLink
-            className="ml-4 md:ml-0 font-bold no-underline text-pink dark:opacity-80 uppercase mr-2"
+            className="ml-4 md:ml-0 font-bold no-underline text-accent uppercase mr-2"
             to={`/tags/${tag}`}
           >
             {tag}

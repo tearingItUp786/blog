@@ -59,7 +59,7 @@
     font-size: 1.125rem;
     line-height: 1.75rem;
     font-weight: 400;
-    color: var(--color-pink)
+    color: var(--accent)
 }
 .dark .welcome-message {
     color: var(--color-pink);

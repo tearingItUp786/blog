@@ -7,6 +7,7 @@
   --color-gray-200: #1c1b19;
   --color-gray-300: #1e1e1e;
   --color-pink: #f410a1;
+  --color-pink-100: #f410a1cf;
 }
 
 .light {
@@ -22,7 +23,7 @@
   --subheading-color: var(--color-white);
   --blog-title-color: var(--color-white);
   --body-text: var(--color-white);
-  --accent: var(--color-pink);
+  --accent: var(--color-pink-100);
 }
 
 .logoNavLink:hover path {
@@ -58,7 +59,7 @@ a {
 }
 
 .linkable-tag {
-  @apply font-bold text-pink dark:opacity-80 uppercase;
+  @apply font-bold text-accent dark:opacity-80 uppercase;
 }
 
 html,
