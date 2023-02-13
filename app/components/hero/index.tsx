@@ -65,24 +65,24 @@ function Hero() {
           },
           "-=.5"
         )
-        .to("#Left-Echo", 2, {
+        .to("#Left-Echo", 0.7, {
           repeat: -1,
-          scale: 0.98,
+          scale: 0.95,
           yoyo: true,
           transformOrigin: "50%, 50%",
-          ease: ExpoScaleEase.config(1, 0.98),
+          ease: ExpoScaleEase.config(1, 0.9),
         })
         .to(
           "#Right-Echo",
-          2,
+          0.7,
           {
             repeat: -1,
-            scale: 0.98,
+            scale: 0.95,
             yoyo: true,
             transformOrigin: "50%, 50%",
-            ease: ExpoScaleEase.config(1, 0.98),
+            ease: ExpoScaleEase.config(1, 0.9),
           },
-          "-=2"
+          "-=.7"
         );
     }
   }, []);
