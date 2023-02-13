@@ -145,7 +145,7 @@ export default function About() {
               you end up, no matter what you do, you are directly responsible
               for how you respond and how you move forward. I choose to move
               forward with the best intentions in my heart and I will always
-              take responsibility for the decisions and choices I made.
+              take responsibility for the decisions and choices I make.
             </p>
           </div>
           <div className="w-full lg:w-[46%]">
