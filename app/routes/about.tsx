@@ -1,9 +1,7 @@
 import { Cloudinary } from "@cloudinary/url-gen";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { crop, scale } from "@cloudinary/url-gen/actions/resize";
-import { autoGravity, focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
-import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
+import { scale } from "@cloudinary/url-gen/actions/resize";
 
 import {
   BlockQuote,
@@ -14,6 +12,49 @@ import {
 } from "~/components/typography";
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
 import Hero from "~/components/hero";
+import clsx from "clsx";
+import {
+  LotrIcon,
+  BeltIcon,
+  BookIcon,
+  PaletteIcon,
+} from "~/components/about/icons";
+
+const RandomThing = ({
+  title,
+  description,
+  className,
+  titleClassName,
+  icon,
+}: {
+  title: string;
+  description: React.ReactNode;
+  icon?: React.ReactNode;
+  className?: string;
+  titleClassName?: string;
+}) => {
+  return (
+    <div
+      className={clsx(
+        className,
+        "w-full p-8 border-solid border border-gray-300 dark:border-white "
+      )}
+    >
+      {icon ? (
+        <div
+          className="
+        first:fill-gray-300 
+        first:dark:fill-white
+         max-w-[40px] mb-4"
+        >
+          {icon}
+        </div>
+      ) : null}
+      <H4 className={clsx(titleClassName, "mb-4")}>{title}</H4>
+      <p className="max-w-md">{description}</p>
+    </div>
+  );
+};
 
 export async function loader() {
   let cld = new Cloudinary({
@@ -80,11 +121,11 @@ export default function About() {
           can ascertain my motivations (staying up-to-date on my skills, fun,
           etc). If I had to distill it down to a single point, however, it is
           that I want to be able to share my knowledge with the world. There are
-          thousands of these websites that have been created by thousands of
-          amazing developers, many of whom are much better than I at software
-          development. However, I strive to go beyond just software development;
-          I want to provide a place to distribute as much knowledge as I can on
-          a myriad of topics. That's why this is the home for{" "}
+          thousands upon thousands of these websites that have been created by
+          thousands of amazing developers, many of whom are much better than I
+          at software development. However, I strive to go beyond just software
+          development; I want to provide a place to distribute as much knowledge
+          as I can on a myriad of topics. That's why this is the home for{" "}
           <strong>"mostly"</strong> my developer thoughts; I've given myself
           room to take the conversation elsewhere.
         </p>
@@ -164,6 +205,45 @@ export default function About() {
               that's why we work together with folks! Two heads are better than
               one.
             </p>
+          </div>
+        </div>
+        <div className="mt-12">
+          <H3>Details about me you'd probably never guess</H3>
+          <div className="mt-8 lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-y-12 gap-x-16">
+            <RandomThing
+              title="I'm a huge fan of Lord of the Rings (LOTR)"
+              description="From its deeply intricate lore, to the amazing stories of brotherhood and love, I love it all. 
+              Also, the fact that Tolkein wrote LOTR to help him process his PTSD from the Vietnam war adds another layer of depth
+              and value to his legacy ❤️ "
+              icon={<LotrIcon />}
+            />
+            <RandomThing
+              icon={<PaletteIcon />}
+              className="border-accent dark:border-accent"
+              titleClassName="text-accent dark:text-accent"
+              title="My favourite colour is pink"
+              description="I mean, since you're on my site, you've probably already guessed that, yeah, I like pink. The color; not the artist. 😆"
+            />
+            <RandomThing
+              icon={<BeltIcon />}
+              title="I love Brazilian jiu-jitsu"
+              description="While injures have precluded me from actively engaging in the sport, 2023 is my comeback year. It's about time I got my blackbelt... its been long enough — 16 years on and off and still a blue!🥋"
+            />
+            <RandomThing
+              icon={<BookIcon />}
+              title="I'm a published poet"
+              description={
+                <>
+                  There was a time where I'd spend my spare moments writing
+                  Shakespearean sonnets. I've since moved on to writing awesome
+                  blog posts but if you'd like to read my only published work{" "}
+                  <TextLink href="https://res.cloudinary.com/dinypqsgl/image/upload/v1676432698/Poem2015.docx_sb0xkh.pdf">
+                    you can find it here
+                  </TextLink>{" "}
+                  🪶
+                </>
+              }
+            />
           </div>
         </div>
       </div>
