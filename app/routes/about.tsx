@@ -103,11 +103,11 @@ export default function About() {
         "
         >
           Hey there, thanks for stopping by. I'm a self-taught software engineer
-          with over six years of experience based and I am based out of
-          Vancouver, Canada. I've got a passion for Typescript in both the
-          Frontend and the Backend. If you'd like to hear about how I went from
-          being a man with a Bachelor's degree in Business Administration to a
-          Software Engineer, feel free to reach out to me on{" "}
+          with over six years of experience and I am based out of Vancouver,
+          Canada. I've got a passion for Typescript in both the Frontend and the
+          Backend. If you'd like to hear about how I went from being someone
+          with a Bachelor's degree in Business Administration to a Software
+          Engineer, feel free to reach out to me on{" "}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
           ; I'd be more than happy to walk you through my journey.
         </p>
