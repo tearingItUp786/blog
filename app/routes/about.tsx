@@ -1,4 +1,3 @@
-import { Cloudinary } from "@cloudinary/url-gen";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { scale } from "@cloudinary/url-gen/actions/resize";
@@ -19,6 +18,7 @@ import {
   BookIcon,
   PaletteIcon,
 } from "~/components/about/icons";
+import { cloudinaryInstance } from "~/utils/cloudinary";
 
 const RandomThing = ({
   title,
@@ -57,14 +57,11 @@ const RandomThing = ({
 };
 
 export async function loader() {
-  let cld = new Cloudinary({
-    cloud: {
-      cloudName: "dinypqsgl",
-    },
-  });
+  let desktopImage = cloudinaryInstance
+    .image("blog/hero")
+    .resize(scale().width(800));
 
-  let desktopImage = cld.image("blog/hero").resize(scale().width(800));
-  let mobileImage = cld
+  let mobileImage = cloudinaryInstance
     .image("blog/hero")
     .resize(scale().width(500).height(500));
 
@@ -106,7 +103,7 @@ export default function About() {
           with over six years of experience and I am based out of Vancouver,
           Canada. I've got a passion for Typescript in both the Frontend and the
           Backend. If you'd like to hear about how I went from being someone
-          with a Bachelor's degree in Business Administration to a Software
+          with a Bachelor's degree in Business Administration to a Softwar
           Engineer, feel free to reach out to me on{" "}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
           ; I'd be more than happy to walk you through my journey.
