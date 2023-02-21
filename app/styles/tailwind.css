@@ -806,6 +806,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .right-4 {
   right: 1rem;
 }
+.top-\[50\%\] {
+  top: 50%;
+}
+.left-\[50\%\] {
+  left: 50%;
+}
 .top-\[10px\] {
   top: 10px;
 }
@@ -817,12 +823,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .top-\[40px\] {
   top: 40px;
-}
-.left-\[50\%\] {
-  left: 50%;
-}
-.top-\[50\%\] {
-  top: 50%;
 }
 .z-\[2\] {
   z-index: 2;
@@ -928,9 +928,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-7 {
   height: 1.75rem;
 }
-.h-\[75vh\] {
-  height: 75vh;
-}
 .h-full {
   height: 100%;
 }
@@ -939,39 +936,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .h-\[100px\] {
   height: 100px;
-}
-.h-\[80vh\] {
-  height: 80vh;
-}
-.h-\[10vh\] {
-  height: 10vh;
-}
-.h-\[100vh\] {
-  height: 100vh;
-}
-.h-\[90vh\] {
-  height: 90vh;
-}
-.h-\[95vh\] {
-  height: 95vh;
-}
-.h-\[92vh\] {
-  height: 92vh;
-}
-.h-\[91vh\] {
-  height: 91vh;
-}
-.h-\[90\.5vh\] {
-  height: 90.5vh;
-}
-.h-\[91\.5vh\] {
-  height: 91.5vh;
-}
-.h-\[91\.8vh\] {
-  height: 91.8vh;
-}
-.h-\[91\.9vh\] {
-  height: 91.9vh;
 }
 .w-\[5\.5rem\] {
   width: 5.5rem;
@@ -1025,20 +989,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-translate-x: 0px;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-.translate-x-\[160\%\] {
-  --tw-translate-x: 160%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
 .translate-x-\[-50\%\] {
   --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-.translate-y-\[-50\%\] {
-  --tw-translate-y: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
 .translate-y-\[-55\%\] {
   --tw-translate-y: -55%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-x-\[160\%\] {
+  --tw-translate-x: 160%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform {
@@ -1126,27 +1086,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-\[\#00000020\] {
   background-color: #00000020;
 }
-.bg-black {
-  background-color: var(--color-black);
-}
 .bg-gray-100 {
   background-color: var(--color-gray-100);
 }
+.bg-black {
+  background-color: var(--color-black);
+}
 .bg-pink {
   background-color: var(--color-pink);
-}
-.bg-accent {
-  background-color: var(--accent);
-}
-.bg-\[\#f410a182\] {
-  background-color: #f410a182;
-}
-.bg-\[white\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.bg-gray-300 {
-  background-color: var(--color-gray-300);
 }
 .bg-contain {
   background-size: contain;
@@ -1172,6 +1119,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .p-8 {
   padding: 2rem;
 }
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -1183,14 +1134,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 .pt-6 {
   padding-top: 1.5rem;
@@ -1235,12 +1178,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-.text-\[5rem\] {
-  font-size: 5rem;
-}
-.text-\[2\.5rem\] {
-  font-size: 2.5rem;
 }
 .text-5xl {
   font-size: 3.125rem;
@@ -1296,9 +1233,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .\!text-pink {
   color: var(--color-pink) !important;
 }
-.text-gray-200 {
-  color: var(--color-gray-200);
-}
 .underline {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
@@ -1306,15 +1240,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .no-underline {
   -webkit-text-decoration-line: none;
           text-decoration-line: none;
-}
-.opacity-5 {
-  opacity: 0.05;
-}
-.opacity-80 {
-  opacity: 0.8;
-}
-.opacity-90 {
-  opacity: 0.9;
 }
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -1582,11 +1507,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .dark .dark\:bg-gray-300 {
   background-color: var(--color-gray-300);
 }
-.dark .dark\:bg-white {
-  background-color: var(--color-white);
-}
 .dark .dark\:bg-accent {
   background-color: var(--accent);
+}
+.dark .dark\:bg-white {
+  background-color: var(--color-white);
 }
 .dark .dark\:fill-white {
   fill: var(--color-white);
@@ -1605,9 +1530,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .dark .dark\:text-gray-300 {
   color: var(--color-gray-300);
-}
-.dark .dark\:text-gray-100 {
-  color: var(--color-gray-100);
 }
 .dark .dark\:opacity-80 {
   opacity: 0.8;
@@ -1720,29 +1642,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:text-xl {
     font-size: 1.375rem;
   }
-  .md\:text-7xl {
-    font-size: 4.375rem;
-  }
   .md\:text-\[5rem\] {
     font-size: 5rem;
+  }
+  .md\:text-\[3\.5rem\] {
+    font-size: 3.5rem;
   }
   .md\:text-\[2\.5rem\] {
     font-size: 2.5rem;
   }
-  .md\:text-4xl {
-    font-size: 2.5rem;
-  }
-  .md\:text-6xl {
-    font-size: 3.75rem;
-  }
-  .md\:text-\[4rem\] {
-    font-size: 4rem;
-  }
-  .md\:text-\[3rem\] {
-    font-size: 3rem;
-  }
-  .md\:text-\[3\.5rem\] {
-    font-size: 3.5rem;
+  .md\:text-7xl {
+    font-size: 4.375rem;
   }
   .before\:md\:block::before {
     content: var(--tw-content);

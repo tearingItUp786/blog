@@ -2,11 +2,9 @@ import { bundleMDX } from "mdx-bundler";
 import remarkEmbedder from "@remark-embedder/core";
 import oembedTransformer, { Config } from "@remark-embedder/transformer-oembed";
 import calculateReadingTime from "reading-time";
-import type * as H from "hast";
 import type TPQueue from "p-queue";
 import type { TransformerInfo } from "@remark-embedder/core";
 import type { GitHubFile } from "types";
-import type { BuildVisitor, VisitorResult } from "unist-util-visit";
 
 function handleEmbedderError({ url }: { url: string }) {
   return `<p>Error embedding <a href="${url}">${url}</a></p>.`;
@@ -38,87 +36,6 @@ function makeEmbed(html: string, type: string, heightRatio = "56.25%") {
     </div>
   </div>
 `;
-}
-
-type Options = {
-  className?: string;
-  titleSeparator?: string;
-};
-
-function myRehypeCodeTitles(
-  { className = "custom-code-title", titleSeparator = ":title=" }: Options = {
-    titleSeparator: ":title=",
-    className: "custom-code-title",
-  }
-) {
-  return async function transformer(tree: H.Root) {
-    const { visit } = await import("unist-util-visit");
-
-    const visitor: BuildVisitor<H.Root, "element"> = (
-      node,
-      index,
-      parent
-    ): VisitorResult => {
-      if (!parent || node.tagName !== "pre") {
-        return;
-      }
-
-      const [code] = node.children;
-
-      let oldClassName = (code as H.Element)?.properties?.className ?? [];
-
-      // the old class name that we want to update can be an array or just a primitive value (not a sclar)
-      let cls = Array.isArray(oldClassName) ? oldClassName : [oldClassName];
-
-      const updatedCls = cls.reduce((acc, currClassName) => {
-        // split `language-Javascript:title=My title`
-        // into ["language-Javascript", "My title"]
-        // the split is based on the titleSeparator and can be changed
-        const [language, title] = String(currClassName)?.split(titleSeparator);
-
-        if (title && language && index) {
-          // we want to insert the title before the pre element
-          // splicing at the current index of the node and not deleting
-          // will allow us to do the insert
-          parent.children.splice(index, 0, {
-            children: [{ type: "text", value: title }],
-            properties: { className: [className] },
-            tagName: "div",
-            type: "element",
-          });
-
-          acc.push(language);
-          return acc;
-        }
-
-        if (
-          typeof currClassName === "string" &&
-          currClassName.slice(0, 9) === "language-"
-        ) {
-          // this should always be a string
-          acc.push(currClassName);
-          return acc;
-        }
-
-        acc.push(String(currClassName));
-
-        return acc;
-      }, [] as Array<string>);
-
-      // append the node with the class name stripped of the "title" part
-      // so that prism can do its thing
-      if (code) {
-        let newElement = {
-          ...(code as H.Element),
-          properties: { className: updatedCls },
-        };
-
-        node.children = [{ ...newElement }];
-      }
-    };
-
-    visit(tree, "element", visitor);
-  };
 }
 
 async function compileMdx<FrontmatterType extends Record<string, unknown>>(
@@ -202,8 +119,10 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
         ];
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),
-          myRehypeCodeTitles,
-          // rehypeCodeTitles,
+          [
+            rehypeCodeTitles,
+            { titleSeparator: ":title=", customClassName: "custom-code-title" },
+          ],
           [rehypePrismPlus, { showLineNumbers: true }],
           rehypeSlug,
           [
