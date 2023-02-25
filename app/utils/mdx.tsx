@@ -4,10 +4,11 @@ import * as myTypo from "~/components/typography";
 import type { GitHubFile, MdxPage, MdxPageAndSlug } from "types";
 import _ from "lodash";
 import {
+  downloadDirGql,
   downloadDirList,
   downloadMdxFileOrDirectory,
 } from "~/utils/github.server";
-import { compileMdx } from "./mdx.server";
+import { compileMdx, queuedCompileMdxGql } from "./mdx.server";
 import { redisCache } from "./redis.server";
 import cachified, { verboseReporter } from "cachified";
 
@@ -196,6 +197,40 @@ async function getMdxBlogList() {
           };
         })
         .filter((v) => v && Boolean(v.path));
+    },
+  });
+}
+
+export async function getMdxBlogListGraphql() {
+  return cachified({
+    key: "blog-list-graphql",
+    cache: redisCache,
+    // forceFresh: true,
+    getFreshValue: async () => {
+      const dirList = await downloadDirGql("content/blog");
+      const pageData =
+        dirList.repository.object.entries?.map((entry) => {
+          return {
+            name: entry?.name,
+            files: entry?.object?.entries,
+          };
+        }) ?? [];
+
+      const pages = await Promise.all(
+        pageData.map((pageData) =>
+          queuedCompileMdxGql(pageData.name, pageData.files)
+        )
+      );
+
+      console.log("pages", pages);
+
+      return pages.map((page, i) => {
+        if (!page) return null;
+        return {
+          ...mapFromMdxPageToMdxListItem(page),
+          path: `blog/${pageData?.[i]?.name ?? ""}`,
+        };
+      });
     },
   });
 }

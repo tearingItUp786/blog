@@ -1,15 +1,9 @@
+import { format } from "date-fns";
+
 export function dateFormat(date: string) {
-  return new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' }).format(
-    new Date(date)
-  )
+  return format(new Date(date), "MMMM dd, yyyy");
 }
 
 export function dotFormattedDate(date: string) {
-  return new Intl.DateTimeFormat('en-CA', {
-    dateStyle: 'short',
-  })
-    .formatToParts(new Date(date))
-    .reduce((acc, part) => {
-      return acc + (part.type !== 'literal' ? part.value : '.')
-    }, '')
+  return format(new Date(date), "d.M.yy");
 }

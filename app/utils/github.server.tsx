@@ -1,8 +1,66 @@
 import nodePath from "path";
-import nodeFs from "fs";
+import { graphql } from "@octokit/graphql";
 import { Octokit as createOctokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
-import type { GitHubFile } from "types";
+import type { GitHubFile, GitHubGraphQlEntry } from "types";
+
+const graphqlWithAuth = graphql.defaults({
+  headers: {
+    authorization: `token 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`,
+    // authorization: `token ${process.env.GRAPHQL_TOKEN}`,
+  },
+});
+
+export async function downloadDirGql(slug: string) {
+  const data = await graphqlWithAuth(
+    `
+      query downloadDir($slug: String!) {
+         repository(owner: "tearingitup786", name: "blog") {
+          object(expression: $slug) {
+            ... on Tree {
+              entries {
+                name
+                object {
+                  ... on Blob {
+                    text
+                  }
+                  ... on Tree {
+                    entries {
+                      name
+                      type
+                      object {
+                        ... on Blob {
+                          text
+                        }
+                        ... on Tree {
+                          entries {
+                            name
+                            object {
+                              ... on Blob {
+                                text
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+`,
+    {
+      slug: `main:${slug}`,
+    }
+  );
+
+  return data as {
+    repository: GitHubGraphQlEntry;
+  };
+}
 
 /**
  * we can use this with graphql to get all the content we need in one request versus trying to do it

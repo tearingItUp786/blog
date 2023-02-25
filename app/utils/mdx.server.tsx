@@ -4,7 +4,11 @@ import oembedTransformer, { Config } from "@remark-embedder/transformer-oembed";
 import calculateReadingTime from "reading-time";
 import type TPQueue from "p-queue";
 import type { TransformerInfo } from "@remark-embedder/core";
-import type { GitHubFile } from "types";
+import type {
+  GitHubFile,
+  GitHubGraphQlEntry,
+  GithubGrapqhlObject,
+} from "types";
 
 function handleEmbedderError({ url }: { url: string }) {
   return `<p>Error embedding <a href="${url}">${url}</a></p>.`;
@@ -175,6 +179,132 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
   }
 }
 
+async function compileMdxForGraphql<
+  FrontmatterType extends Record<string, unknown>
+>(slug: string, githubFiles: Array<GithubGrapqhlObject>) {
+  const { default: remarkAutolinkHeadings } = await import(
+    "remark-autolink-headings"
+  );
+  const { default: gfm } = await import("remark-gfm");
+  const { default: capitalize } = await import("remark-capitalize");
+  const { default: emoji } = await import("remark-emoji");
+  const { default: smartypants } = await import("remark-smartypants");
+  const { default: remarkImages } = await import("remark-images");
+  // rehype plugins
+  const { default: rehypePrismPlus } = await import("rehype-prism-plus");
+  const { default: rehypeSlug } = await import("rehype-slug");
+  const { default: rehypeAutolinkHeadings } = await import(
+    "rehype-autolink-headings"
+  );
+  const { default: rehypeCodeTitles } = await import("rehype-code-titles");
+  const { default: rehypeAddClasses } = await import("rehype-add-classes");
+
+  const mdxFile = githubFiles.find((val) => {
+    return val?.name?.includes("mdx");
+  });
+
+  let files = githubFiles.reduce((acc, val) => {
+    acc[val.name ?? ""] = val.object.text;
+    return {
+      ...acc,
+    };
+  }, {} as Record<string, string>);
+
+  if (!mdxFile) return null;
+
+  console.log("files", files);
+
+  try {
+    const mdxText = mdxFile.object.text;
+    const { frontmatter, code } = await bundleMDX({
+      source: mdxText,
+      files,
+      mdxOptions(options) {
+        options.remarkPlugins = [
+          ...(options.remarkPlugins ?? []),
+          capitalize,
+          emoji,
+          gfm,
+          smartypants,
+          [remarkImages, { maxWidth: 1200 }],
+          [remarkAutolinkHeadings, { behavior: "wrap" }],
+          [
+            remarkEmbedder,
+            {
+              handleError: handleEmbedderError,
+              handleHTML: handleEmbedderHtml,
+              transformers: [
+                [
+                  oembedTransformer,
+                  {
+                    params: {
+                      height: "390",
+                      width: "1280",
+                    } as Config,
+                  },
+                ],
+              ],
+            },
+          ],
+        ];
+        options.rehypePlugins = [
+          ...(options.rehypePlugins ?? []),
+          [
+            rehypeCodeTitles,
+            { titleSeparator: ":title=", customClassName: "custom-code-title" },
+          ],
+          [rehypePrismPlus, { showLineNumbers: true }],
+          rehypeSlug,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: "prepend",
+              properties: {
+                tabIndex: 0,
+              },
+              content: {
+                type: "element",
+                tagName: "svg",
+                properties: {
+                  ariaHidden: true,
+                  focusable: false,
+                  viewBox: "0 0 16 16",
+                  height: 16,
+                  width: 16,
+                },
+                children: [
+                  {
+                    type: "element",
+                    tagName: "path",
+                    properties: {
+                      fillRule: "evenodd",
+                      d: `M4 9h1v1H4c - 1.5 0-3 - 1.69 - 3 - 3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41 - .91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c - .98 0-2 1.22-2 2.5S3 9 4 9zm9 - 3h- 1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c - .98 0 - 2 - 1.22 - 2 - 2.5 0 - .83.42 - 1.64 1 - 2.09V6.25c - 1.09.53 - 2 1.84 - 2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3 - 1.69 3 - 3.5S14.5 6 13 6z`,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+          [rehypeAddClasses, { "h1,h2,h3,h4,h5,h6": "title" }],
+        ];
+        return options;
+      },
+    });
+    const readTime = calculateReadingTime(mdxText);
+
+    return {
+      code,
+      readTime,
+      frontmatter: frontmatter as FrontmatterType,
+    };
+  } catch (error: unknown) {
+    console.error(`Compilation error for slug: `, slug);
+    // @ts-ignore
+    console.error(error.errors[0]);
+    throw error;
+  }
+}
+
 function arrayToObj<ItemType extends Record<string, unknown>>(
   array: Array<ItemType>,
   { keyName, valueName }: { keyName: keyof ItemType; valueName: keyof ItemType }
@@ -211,4 +341,15 @@ async function queuedCompileMdx<
   return result;
 }
 
-export { queuedCompileMdx as compileMdx };
+async function queuedCompileMdxGql<
+  FrontmatterType extends Record<string, unknown>
+>(...args: Parameters<typeof compileMdxForGraphql>) {
+  const queue = await getQueue();
+  const result = await queue.add(() =>
+    compileMdxForGraphql<FrontmatterType>(...args)
+  );
+
+  return result;
+}
+
+export { queuedCompileMdx as compileMdx, queuedCompileMdxGql };
