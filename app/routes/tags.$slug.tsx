@@ -67,7 +67,7 @@ export default function SingleTag() {
               key={blog.frontmatter.title}
               className="mb-20 last-of-type:mb-0 first-of-type:mt-12"
             >
-              <NavLink className="no-underline" to={`/${blog.slug ?? ""}`}>
+              <NavLink className="no-underline" to={`/blog/${blog.slug ?? ""}`}>
                 {/* TODO: figure how a generic component can be used here */}
                 <GenericContentCard
                   key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}

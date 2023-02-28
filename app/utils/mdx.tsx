@@ -193,7 +193,7 @@ async function getMdxIndividualTagGql(userProvidedTag: string) {
   return cachified({
     key: `gql-tag:${userProvidedTag}`,
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
