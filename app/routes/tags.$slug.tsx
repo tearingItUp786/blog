@@ -1,5 +1,5 @@
-import { H1, H2, H3 } from "~/components/typography";
-import { getMdxIndividualTag } from "~/utils/mdx";
+import { H1, H3 } from "~/components/typography";
+import { getMdxIndividualTagGql } from "~/utils/mdx";
 import { json, LoaderArgs } from "@remix-run/node";
 import { NavLink, useLoaderData, useParams } from "@remix-run/react";
 import { ContentCard as GenericContentCard } from "~/components/til/content-card";
@@ -11,7 +11,7 @@ export async function loader({ params }: LoaderArgs) {
     throw new Error("No slug provided");
   }
 
-  const data = await getMdxIndividualTag(params.slug);
+  const data = await getMdxIndividualTagGql(params.slug);
   return json({ ...data });
 }
 

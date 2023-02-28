@@ -1,49 +1,24 @@
 import React from "react";
 import * as mdxBundler from "mdx-bundler/client";
 import * as myTypo from "~/components/typography";
-import type { GitHubFile, MdxPage, MdxPageAndSlug } from "types";
+import type { GithubGrapqhlObject, MdxPage, MdxPageAndSlug } from "types";
 import _ from "lodash";
-import {
-  downloadDirGql,
-  downloadDirList,
-  downloadMdxFileOrDirectory,
-} from "~/utils/github.server";
-import { compileMdx, queuedCompileMdxGql } from "./mdx.server";
+import { downloadDirGql } from "~/utils/github.server";
+import { queuedCompileMdxGql } from "./mdx.server";
 import { redisCache } from "./redis.server";
 import cachified, { verboseReporter } from "cachified";
 
-async function downloadMdxFilesCached(fullPath: string) {
-  const key = `${fullPath}:downloaded`;
-
-  const downloaded = await cachified({
-    cache: redisCache,
-    key,
-    checkValue: (value: unknown) => {
-      if (typeof value !== "object") {
-        return `value is not an object`;
-      }
-      if (value === null) {
-        return `value is null`;
-      }
-
-      const download = value as Record<string, unknown>;
-      if (!Array.isArray(download.files)) {
-        return `value.files is not an array`;
-      }
-      if (typeof download.entry !== "string") {
-        return `value.entry is not a string`;
-      }
-
-      return true;
-    },
-    forceFresh: true,
-    getFreshValue: async () => downloadMdxFileOrDirectory(fullPath),
-  });
-  // if there aren't any files, remove it from the cache
-  if (!downloaded.files.length) {
-    void redisCache.delete(key);
+function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
+  if (entry?.object?.text) {
+    return {
+      name: entry?.name,
+      files: [entry],
+    };
   }
-  return downloaded;
+  return {
+    name: entry?.name,
+    files: entry?.object?.entries ?? [],
+  };
 }
 
 async function getMdxPageGql({
@@ -99,51 +74,15 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent;
 }
 
-async function getMdxDirList(contentDir: string) {
-  const fullContentDirPath = `content/${contentDir}`;
-
+async function getMdxTilListGql() {
   return cachified({
-    key: `getMdxDirList-${fullContentDirPath}`,
-    cache: redisCache,
-    // forceFresh: true,
-    getFreshValue: async () => {
-      const dirList = (await downloadDirList(fullContentDirPath)).map(
-        ({ name, path, ...rest }) => ({
-          name,
-          slug: path.replace("index.mdx", "").replace("content/", ""),
-          ...rest,
-        })
-      );
-
-      // sort by the most recent to the oldest
-      return dirList.sort((a, b) => {
-        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-      });
-    },
-    reporter: verboseReporter(),
-  });
-}
-
-export async function getMdxTilListGql() {
-  return cachified({
-    key: `gql-til-list`,
+    key: `til-list-gql`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
       const dirList = await downloadDirGql(`content/til`);
       const pageData =
-        dirList.repository.object?.entries?.map((entry) => {
-          if (entry?.object?.text) {
-            return {
-              name: entry?.name,
-              files: [entry],
-            };
-          }
-          return {
-            name: entry?.name,
-            files: entry?.object?.entries ?? [],
-          };
-        }) ?? [];
+        dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? [];
 
       const sortedPageData = pageData.sort((a, b) => {
         return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
@@ -166,7 +105,7 @@ export async function getMdxTilListGql() {
 
 async function getMdxBlogListGraphql() {
   return cachified({
-    key: "blog-list-graphql",
+    key: "blog-list-gql",
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
@@ -196,36 +135,36 @@ async function getMdxBlogListGraphql() {
   });
 }
 
-async function getMdxTagList() {
+async function getMdxTagListGql() {
   return cachified({
-    key: "tag-list",
+    key: "tag-list-gql",
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
       const contentDirList = await Promise.all([
-        getMdxDirList("blog"),
-        getMdxDirList("til"),
+        downloadDirGql("content/blog"),
+        downloadDirGql("content/til"),
       ]);
 
-      const contentDirListFlat = contentDirList.flat();
-
-      const contentData = await Promise.all(
-        contentDirListFlat.flatMap(async ({ slug }) => {
-          return {
-            ...(await downloadMdxFilesCached(slug)),
-            slug,
-          };
-        })
+      const contentDirListFlat = contentDirList.flatMap(
+        (dir) => dir.repository.object.entries ?? []
       );
 
-      const tags = contentData.reduce((acc, { files }) => {
-        const firstMdxFile = files.find((file) => file.path.endsWith(".mdx"));
+      const tags = contentDirListFlat.reduce((acc, curr) => {
+        const firstMdxFile = curr?.object?.text
+          ? curr
+          : curr?.object?.entries?.find((any) => any.name.endsWith(".mdx"));
+
         if (!firstMdxFile) return acc;
-        const tag = firstMdxFile.content.match(/tag: (.*)/)?.[1]?.toUpperCase();
+
+        const tag = firstMdxFile?.object?.text
+          ?.match(/tag: (.*)/)?.[1]
+          ?.toLowerCase();
 
         if (!tag) return acc;
+
         if (!acc.get(tag)) {
           acc.set(tag, 0);
         }
@@ -234,76 +173,79 @@ async function getMdxTagList() {
         return acc;
       }, new Map());
 
-      let groupTags: {
-        [key: string]: Array<{ name: string; value: number }>;
-      } = _.groupBy(
+      let groupTags = _.groupBy(
         Array.from(tags, ([name, value]) => ({ name, value })),
         (v: { name: string; value: string }) => {
-          // console.log('group by', v)
-          return v.name[0];
+          return String(v.name[0]?.toUpperCase());
         }
       );
-      return groupTags;
+
+      return groupTags as {
+        [key: string]: Array<{ name: string; value: string }>;
+      };
     },
     reporter: verboseReporter(),
   });
 }
 
 // TODO: clean this up so that it's not so repetitive
-async function getMdxIndividualTag(userProvidedTag: string) {
+async function getMdxIndividualTagGql(userProvidedTag: string) {
   return cachified({
-    key: `tag:${userProvidedTag}`,
+    key: `gql-tag:${userProvidedTag}`,
     cache: redisCache,
-    // forceFresh: true,
+    forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
-      let getBlogKeyObject = async () => ({
-        blog: await getMdxDirList("blog"),
+      const getBlogList = async () => ({
+        blog:
+          (await downloadDirGql("content/blog"))?.repository?.object?.entries ??
+          [],
       });
-      let getTilKeyObject = async () => ({ til: await getMdxDirList("til") });
+      const getTilList = async () => ({
+        til:
+          (await downloadDirGql("content/til"))?.repository?.object?.entries ??
+          [],
+      });
 
-      const contentDirList = await Promise.all([
-        getBlogKeyObject(),
-        getTilKeyObject(),
-      ]);
+      const contentDirList = await Promise.all([getBlogList(), getTilList()]);
 
       let retObject = await Promise.all(
         contentDirList.map(async (v) => {
-          const [key, value] = Object.entries(v)?.[0] ?? [];
+          const [key, list] = Object.entries?.(v)?.[0] ?? [];
           if (!key) throw new Error("no key for content dir list");
-          if (!value) throw new Error("no value for content dir list");
+          if (!list) throw new Error("no value for content dir list");
 
-          let possibleValues = await Promise.all(
-            value.map(async (pageData) => {
-              return {
-                ...(await downloadMdxFilesCached(pageData.slug)),
-                slug: pageData.slug,
-              };
+          const listItemsWithTag = list
+            .sort((a, b) => {
+              return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
             })
-          );
+            .filter((item) => {
+              const firstMdxFile = item?.object?.text
+                ? item
+                : item?.object?.entries?.find((any) =>
+                    any.name.endsWith(".mdx")
+                  );
 
-          let filteredValues = possibleValues.filter(
-            ({ files }: { files: Array<GitHubFile> }) => {
-              const firstMdxFile = files.find((file) =>
-                file.path.endsWith(".mdx")
-              );
               if (!firstMdxFile) return false;
               // break out this regex
-              const tag = firstMdxFile.content
-                .match(/tag: (.*)/)?.[1]
+              const tag = firstMdxFile?.object?.text
+                ?.match(/tag: (.*)/)?.[1]
                 ?.toUpperCase();
 
               return tag === userProvidedTag.toUpperCase();
-            }
-          );
+            });
 
           let retArray = await Promise.all(
-            filteredValues.map(async (pageData) => {
-              let data = await compileMdx(pageData.slug, pageData.files);
+            listItemsWithTag.map(async (listItem) => {
+              const dataToPass = getGithubGqlObjForMdx(listItem);
+              const data = await queuedCompileMdxGql(
+                dataToPass.name,
+                dataToPass?.files
+              );
               return {
                 ...data,
-                slug: pageData.slug,
+                slug: dataToPass.name,
               };
             })
           );
@@ -313,8 +255,8 @@ async function getMdxIndividualTag(userProvidedTag: string) {
       );
 
       return {
-        blogList: retObject?.[0]?.map(mapFromMdxPageToMdxListItem) ?? [],
-        tilList: retObject?.[1] ?? [],
+        blogList: retObject[0] ?? [],
+        tilList: retObject[1] ?? [],
         retObject,
       };
     },
@@ -334,11 +276,11 @@ function useMdxComponent(code: string) {
 
 export {
   getMdxPageGql,
+  getMdxTilListGql,
   getMdxBlogListGraphql,
   useMdxComponent,
   getMdxComponent,
-  getMdxTagList,
+  getMdxTagListGql,
+  getMdxIndividualTagGql,
   mdxComponents,
-  getMdxIndividualTag,
-  downloadMdxFilesCached,
 };
