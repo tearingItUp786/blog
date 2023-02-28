@@ -17,9 +17,7 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async () => {
-  // const blogList = await getMdxBlogList();
   const blogList = await getMdxBlogListGraphql();
-  // const test = [];
 
   const cssClasses = blogList.reduce(
     (acc) => {

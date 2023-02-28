@@ -1,39 +1,46 @@
-import { useCatch, useLoaderData, NavLink } from '@remix-run/react'
-import { json, LoaderFunction } from '@remix-run/node'
-import type { MdxPage } from 'types'
-import { LineSvg } from '~/components/blog/line-svg'
-import { H1, H4 } from '~/components/typography'
-import { getMdxPage, useMdxComponent } from '~/utils/mdx'
-import { dateFormat } from '~/utils/misc'
+import { useCatch, useLoaderData } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import type { MdxPage } from "types";
+import { LineSvg } from "~/components/blog/line-svg";
+import { H1, H4 } from "~/components/typography";
+import { getMdxPageGql, useMdxComponent } from "~/utils/mdx";
+import { dateFormat } from "~/utils/misc";
 
 type LoaderData = {
-  page: MdxPage
-}
+  page: MdxPage;
+};
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.slug) {
-    throw new Error('params.slug is not defined')
+    throw new Error("params.slug is not defined");
   }
-  const page = await getMdxPage({
-    contentDir: 'blog',
+
+  const page = await getMdxPageGql({
+    contentDir: "blog",
     slug: params.slug,
-  }).catch(() => null)
+  });
 
   const headers = {
-    'Cache-Control': 'private, max-age=3600',
-    Vary: 'Cookie',
-  }
+    "Cache-Control": "private, max-age=3600",
+    Vary: "Cookie",
+  };
 
   // console.log('test', page)
   if (!page) {
-    throw json({ error: true }, { status: 404, headers })
+    throw json({ error: true }, { status: 404, headers });
   }
-  const data: LoaderData = { page }
-  return json(data, { status: 200, headers })
-}
+  const data: LoaderData = { page };
+  return json(data, { status: 200, headers });
+};
 
-const FrontmatterSubtitle = ({ date }: { date?: string }) => {
-  if (!date) return null
+const FrontmatterSubtitle = ({
+  date,
+  time,
+}: {
+  date?: string;
+  time?: string;
+}) => {
+  if (!date) return null;
 
   return (
     <div
@@ -54,34 +61,36 @@ const FrontmatterSubtitle = ({ date }: { date?: string }) => {
               dark:after:border-white
             '
     >
-      Taran "tearing it up" Bains • <span>{dateFormat(date)}</span>
+      Taran "tearing it up" Bains • <span>{dateFormat(date)}</span> •{" "}
+      <span>{time}</span>
     </div>
-  )
-}
+  );
+};
 
 export default function MdxScreen() {
-  const data = useLoaderData<LoaderData>()
-  const { code, frontmatter } = data.page
-  const Component = useMdxComponent(String(code))
+  const data = useLoaderData<LoaderData>();
+  console.log("yo", data);
+  const { code, frontmatter, readTime } = data.page;
+  const Component = useMdxComponent(String(code));
 
   return (
-    <div className='relative mx-[10vw] mt-8'>
-      <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
-      <div className='mb-12 mx-auto max-w-4xl text-center'>
-        <div className='col-span-full lg:col-span-8 lg:col-start-3'>
+    <div className="relative mx-[10vw] mt-8">
+      <LineSvg tag={frontmatter.tag ?? ""} date={frontmatter.date ?? ""} />
+      <div className="mb-12 mx-auto max-w-4xl text-center">
+        <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
           {frontmatter.description ? (
-            <H4 variant='secondary' className='mb-1 leading-tight'>
+            <H4 variant="secondary" className="mb-1 leading-tight">
               {frontmatter.description}
             </H4>
           ) : null}
-          <FrontmatterSubtitle date={frontmatter.date} />
+          <FrontmatterSubtitle time={readTime?.text} date={frontmatter.date} />
         </div>
       </div>
 
       <main
         // className='max-w-screen-lg mx-auto prose prose-light dark:prose-dark'
-        className='relative 
+        className="relative 
         grid 
         grid-cols-4 
         gap-x-4 
@@ -90,16 +99,16 @@ export default function MdxScreen() {
         lg:gap-x-6 mx-auto 
         max-w-7xl 
         prose prose-light 
-        mb-24 break-words dark:prose-dark'
+        mb-24 break-words dark:prose-dark"
       >
         <Component />
       </main>
     </div>
-  )
+  );
 }
 
 export function CatchBoundary() {
-  const caught = useCatch()
-  console.error('CatchBoundary', caught)
-  return <div>Fucked up </div>
+  const caught = useCatch();
+  console.error("CatchBoundary", caught);
+  return <div>Fucked up </div>;
 }

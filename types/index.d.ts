@@ -5,13 +5,9 @@ import type calculateReadingTime from "reading-time";
 export type GitHubFile = { path: string; content: string };
 
 export type GithubGrapqhlObject = {
-  name?: string;
+  name: string;
   text?: string;
-  entries?: GraphqlObject[];
-  object: GrapqhqlObject;
-};
-
-export type GitHubGraphQlEntry = {
+  entries?: GithubGrapqhlObject[];
   object: GithubGrapqhlObject;
 };
 
@@ -25,6 +21,13 @@ export type MdxPage = {
     description?: string;
     date?: string;
     tag?: string;
+  };
+
+  readTime: {
+    minutes: number;
+    text: string;
+    time: number;
+    words: number;
   };
 };
 

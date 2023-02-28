@@ -12,10 +12,6 @@ import { compileMdx, queuedCompileMdxGql } from "./mdx.server";
 import { redisCache } from "./redis.server";
 import cachified, { verboseReporter } from "cachified";
 
-const checkCompiledValue = (value: unknown) =>
-  typeof value === "object" &&
-  (value === null || ("code" in value && "frontmatter" in value));
-
 async function downloadMdxFilesCached(fullPath: string) {
   const key = `${fullPath}:downloaded`;
 
@@ -50,23 +46,23 @@ async function downloadMdxFilesCached(fullPath: string) {
   return downloaded;
 }
 
-async function getMdxPage({
+async function getMdxPageGql({
   contentDir,
   slug,
 }: {
   contentDir: string;
   slug: string;
-}): Promise<MdxPage | null> {
+}): Promise<MdxPage | any> {
   return cachified({
     key: `${contentDir}:${slug}`,
     cache: redisCache,
-    forceFresh: true,
+    // forceFresh: true,
     getFreshValue: async () => {
-      const pageFiles = await downloadMdxFilesCached(`${contentDir}/${slug}`);
+      const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`);
 
-      const compiledPage = await compileMdx<MdxPage["frontmatter"]>(
-        slug,
-        pageFiles.files
+      const compiledPage = await queuedCompileMdxGql<MdxPage["frontmatter"]>(
+        `${contentDir}/${slug}`,
+        pageFile.repository.object.entries ?? []
       ).catch((err) => {
         console.error(`Failed to compile mdx:`, {
           contentDir,
@@ -128,80 +124,47 @@ async function getMdxDirList(contentDir: string) {
   });
 }
 
-async function getMdxTilList(page = 1) {
+export async function getMdxTilListGql() {
   return cachified({
-    key: `til-list:${page}`,
+    key: `gql-til-list`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
-      const mdxDirList = await getMdxDirList("til");
-      const itemCount = 20;
-      const dirList: Awaited<ReturnType<typeof getMdxDirList>> = _.chunk(
-        mdxDirList,
-        itemCount
-      )[page - 1];
-
-      if (!dirList) return [];
-
-      const pageDatas = await Promise.all(
-        dirList.map(async ({ slug }) => {
+      const dirList = await downloadDirGql(`content/til`);
+      const pageData =
+        dirList.repository.object?.entries?.map((entry) => {
+          if (entry?.object?.text) {
+            return {
+              name: entry?.name,
+              files: [entry],
+            };
+          }
           return {
-            ...(await downloadMdxFilesCached(slug)),
-            slug,
+            name: entry?.name,
+            files: entry?.object?.entries ?? [],
           };
-        })
-      );
+        }) ?? [];
 
-      const pages = await Promise.all(
-        pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
-      );
-
-      let test = pages.map((page, i) => {
-        return {
-          ...page,
-          path: pageDatas?.[i]?.slug ?? "",
-        } as MdxPageAndSlug;
+      const sortedPageData = pageData.sort((a, b) => {
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
       });
-      return test;
-    },
-  });
-}
-
-async function getMdxBlogList() {
-  return cachified({
-    key: "blog-list",
-    cache: redisCache,
-    // forceFresh: true,
-    getFreshValue: async () => {
-      const dirList = await getMdxDirList("blog");
-
-      const pageDatas = await Promise.all(
-        dirList.map(async ({ slug }) => {
-          return {
-            ...(await downloadMdxFilesCached(slug)),
-            slug,
-          };
-        })
-      );
 
       const pages = await Promise.all(
-        pageDatas.map((pageData) => compileMdx(pageData.slug, pageData.files))
-      );
+        sortedPageData.map((pageData) =>
+          queuedCompileMdxGql(pageData.name, pageData.files)
+        )
+      ).catch((err) => {
+        console.error(`Failed to compile mdx for til list`);
+        return Promise.reject(err);
+      });
 
-      return pages
-        .map((page, i) => {
-          if (!page) return null;
-          return {
-            ...mapFromMdxPageToMdxListItem(page),
-            path: pageDatas?.[i]?.slug ?? "",
-          };
-        })
-        .filter((v) => v && Boolean(v.path));
+      const nonNullPages = pages.filter((page) => page !== null);
+      return nonNullPages as MdxPage[];
     },
   });
 }
 
-export async function getMdxBlogListGraphql() {
+async function getMdxBlogListGraphql() {
   return cachified({
     key: "blog-list-graphql",
     cache: redisCache,
@@ -212,7 +175,7 @@ export async function getMdxBlogListGraphql() {
         dirList.repository.object.entries?.map((entry) => {
           return {
             name: entry?.name,
-            files: entry?.object?.entries,
+            files: entry?.object?.entries ?? [],
           };
         }) ?? [];
 
@@ -221,8 +184,6 @@ export async function getMdxBlogListGraphql() {
           queuedCompileMdxGql(pageData.name, pageData.files)
         )
       );
-
-      console.log("pages", pages);
 
       return pages.map((page, i) => {
         if (!page) return null;
@@ -372,9 +333,8 @@ function useMdxComponent(code: string) {
 }
 
 export {
-  getMdxPage,
-  getMdxBlogList,
-  getMdxTilList,
+  getMdxPageGql,
+  getMdxBlogListGraphql,
   useMdxComponent,
   getMdxComponent,
   getMdxTagList,

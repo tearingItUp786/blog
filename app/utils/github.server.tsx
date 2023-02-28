@@ -2,12 +2,11 @@ import nodePath from "path";
 import { graphql } from "@octokit/graphql";
 import { Octokit as createOctokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
-import type { GitHubFile, GitHubGraphQlEntry } from "types";
+import type { GitHubFile, GithubGrapqhlObject } from "types";
 
 const graphqlWithAuth = graphql.defaults({
   headers: {
-    authorization: `token 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`,
-    // authorization: `token ${process.env.GRAPHQL_TOKEN}`,
+    authorization: `token ${process.env.BOT_GRAPHQL_TOKEN}`,
   },
 });
 
@@ -58,57 +57,9 @@ export async function downloadDirGql(slug: string) {
   );
 
   return data as {
-    repository: GitHubGraphQlEntry;
+    repository: GithubGrapqhlObject;
   };
 }
-
-/**
- * we can use this with graphql to get all the content we need in one request versus trying to do it
- * in a bunch of rest requests 
- * query RepoFiles {
-  repository(owner: "tearingitup786", name: "blog") {
-    object(expression: "HEAD:content") {
-      ... on Tree {
-        entries {
-          name
-          type
-          object {
-            ... on Blob {
-              byteSize
-              text
-            }
-            ... on Tree {
-              entries {
-                name
-                type
-                object {
-                  ... on Blob {
-                    byteSize
-                    text
-                  }
-                            ... on Tree {
-              entries {
-                name
-                type
-                object {
-                  ... on Blob {
-                    byteSize
-                    text
-                  }
-                  
-                }
-              }
-            }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-*/
 
 const Octokit = createOctokit.plugin(throttling);
 

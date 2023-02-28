@@ -212,8 +212,6 @@ async function compileMdxForGraphql<
 
   if (!mdxFile) return null;
 
-  console.log("files", files);
-
   try {
     const mdxText = mdxFile.object.text;
     const { frontmatter, code } = await bundleMDX({
