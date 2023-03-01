@@ -7,7 +7,6 @@ import { tilMapper } from "~/utils/til-list";
 
 export async function loader() {
   const tilList = await getMdxTilListGql();
-
   return json({ tilList });
 }
 

@@ -111,12 +111,16 @@ async function getMdxBlogListGraphql() {
     getFreshValue: async () => {
       const dirList = await downloadDirGql("content/blog");
       const pageData =
-        dirList.repository.object.entries?.map((entry) => {
-          return {
-            name: entry?.name,
-            files: entry?.object?.entries ?? [],
-          };
-        }) ?? [];
+        dirList.repository.object.entries
+          ?.sort((a, b) => {
+            return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
+          })
+          ?.map((entry) => {
+            return {
+              name: entry?.name,
+              files: entry?.object?.entries ?? [],
+            };
+          }) ?? [];
 
       const pages = await Promise.all(
         pageData.map((pageData) =>

@@ -69,7 +69,6 @@ const FrontmatterSubtitle = ({
 
 export default function MdxScreen() {
   const data = useLoaderData<LoaderData>();
-  console.log("yo", data);
   const { code, frontmatter, readTime } = data.page;
   const Component = useMdxComponent(String(code));
 
@@ -99,7 +98,7 @@ export default function MdxScreen() {
         lg:gap-x-6 mx-auto 
         max-w-7xl 
         prose prose-light 
-        mb-24 break-words dark:prose-dark"
+        pb-8 mb-10 break-words dark:prose-dark"
       >
         <Component />
       </main>

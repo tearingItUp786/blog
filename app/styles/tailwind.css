@@ -836,6 +836,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bottom-24 {
   bottom: 6rem;
 }
+.bottom-32 {
+  bottom: 8rem;
+}
 .z-\[2\] {
   z-index: 2;
 }
@@ -915,6 +918,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .ml-4 {
   margin-left: 1rem;
+}
+.mb-16 {
+  margin-bottom: 4rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-9 {
+  margin-bottom: 2.25rem;
+}
+.mb-10 {
+  margin-bottom: 2.5rem;
 }
 .block {
   display: block;
@@ -1182,6 +1197,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pt-\[5px\] {
   padding-top: 5px;
+}
+.pb-24 {
+  padding-bottom: 6rem;
 }
 .text-center {
   text-align: center;
@@ -1704,6 +1722,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }
 @media (min-width: 1024px) {
+  .lg\:bottom-24 {
+    bottom: 6rem;
+  }
   .lg\:col-span-8 {
     grid-column: span 8 / span 8;
   }

@@ -40,7 +40,7 @@ const ThemeToggle = () => {
     <>
       <div
         className={clsx(
-          isFooterVisible && "absolute bottom-24",
+          isFooterVisible && "absolute bottom-32 lg:bottom-24",
           "z-100",
           "fixed bottom-4 right-4 h-10 w-[5.5rem] flex items-center rounded-full p-2 cursor-pointer transition-colors bg-[#00000020] dark:bg-[#ffffff20]"
         )}
