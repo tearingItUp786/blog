@@ -1110,8 +1110,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .fill-white {
   fill: var(--color-white);
 }
+.fill-accent {
+  fill: var(--accent);
+}
 .stroke-gray-300 {
   stroke: var(--color-gray-300);
+}
+.stroke-accent {
+  stroke: var(--accent);
 }
 .p-2 {
   padding: 0.5rem;

@@ -10,7 +10,7 @@ const graphqlWithAuth = graphql.defaults({
   },
 });
 
-export async function downloadDirGql(slug: string) {
+async function downloadDirGql(slug: string) {
   const data = await graphqlWithAuth(
     `
       query downloadDir($slug: String!) {
@@ -237,4 +237,9 @@ async function downloadDirList(path: string) {
   return data;
 }
 
-export { downloadMdxFileOrDirectory, downloadDirList, downloadFile };
+export {
+  downloadMdxFileOrDirectory,
+  downloadDirList,
+  downloadFile,
+  downloadDirGql,
+};
