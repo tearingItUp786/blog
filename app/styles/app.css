@@ -57,6 +57,12 @@ a {
 .dark .linkable-tag {
   opacity: 0.8;
 }
+html {
+  background-color: var(--color-gray-100);
+}
+html.dark {
+  background-color: var(--color-white);
+}
 html,
 body {
   position: relative;

@@ -25,7 +25,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     Vary: "Cookie",
   };
 
-  // console.log('test', page)
   if (!page) {
     throw json({ error: true }, { status: 404, headers });
   }

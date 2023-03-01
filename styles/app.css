@@ -62,6 +62,14 @@ a {
   @apply font-bold text-accent dark:opacity-80 uppercase;
 }
 
+html {
+  background-color: var(--color-gray-100);
+}
+
+html.dark {
+  background-color: var(--color-white);
+}
+
 html,
 body {
   position: relative;
