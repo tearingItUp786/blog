@@ -64,8 +64,7 @@ a {
 
 html,
 body {
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
   color: var(--body-text);
 }
 
@@ -78,5 +77,5 @@ p {
 }
 
 .page-container {
-  @apply mx-auto relative max-w-screen-xl mt-[2rem] pb-[2rem];
+  @apply mx-auto relative max-w-screen-xl mt-[2rem] pb-24;
 }

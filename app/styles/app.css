@@ -59,8 +59,7 @@ a {
 }
 html,
 body {
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
   color: var(--body-text);
 }
 ::-moz-selection {
@@ -80,5 +79,5 @@ p {
   margin-right: auto;
   margin-top: 2rem;
   max-width: 1536px;
-  padding-bottom: 2rem;
+  padding-bottom: 6rem;
 }

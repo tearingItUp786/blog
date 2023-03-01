@@ -37,7 +37,7 @@ const RandomThing = ({
     <div
       className={clsx(
         className,
-        "w-full p-8 border-solid border border-gray-300 dark:border-white "
+        "w-full p-8 border-solid border border-gray-300 dark:border-white mb-8 lg:mb-0"
       )}
     >
       {icon ? (
