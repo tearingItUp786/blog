@@ -64,6 +64,7 @@ a {
 
 html,
 body {
+  position: relative;
   min-height: 100vh;
   color: var(--body-text);
 }

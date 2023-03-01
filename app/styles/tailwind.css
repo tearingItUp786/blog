@@ -824,6 +824,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .top-\[40px\] {
   top: 40px;
 }
+.bottom-0 {
+  bottom: 0px;
+}
+.bottom-8 {
+  bottom: 2rem;
+}
+.bottom-16 {
+  bottom: 4rem;
+}
+.bottom-24 {
+  bottom: 6rem;
+}
 .z-\[2\] {
   z-index: 2;
 }
@@ -856,6 +868,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-2 {
   margin-right: 0.5rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -873,9 +888,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .ml-0 {
   margin-left: 0px;
-}
-.mb-8 {
-  margin-bottom: 2rem;
 }
 .mt-12 {
   margin-top: 3rem;
@@ -903,9 +915,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .ml-4 {
   margin-left: 1rem;
-}
-.mt-\[2rem\] {
-  margin-top: 2rem;
 }
 .block {
   display: block;
@@ -961,12 +970,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[200px\] {
   width: 200px;
 }
-.w-1\/2 {
-  width: 50%;
-}
-.w-1\/12 {
-  width: 8.333333%;
-}
 .min-w-\[150px\] {
   min-width: 150px;
 }
@@ -991,20 +994,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .max-w-7xl {
   max-width: 80rem;
 }
-.max-w-screen-xl {
-  max-width: 1536px;
-}
 .grow {
   flex-grow: 1;
-}
-.basis-5 {
-  flex-basis: 1.25rem;
-}
-.basis-24 {
-  flex-basis: 6rem;
-}
-.basis-1\/6 {
-  flex-basis: 16.666667%;
 }
 .translate-x-0 {
   --tw-translate-x: 0px;
@@ -1104,9 +1095,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-accent {
   border-color: var(--accent);
 }
-.border-t-accent {
-  border-top-color: var(--accent);
-}
 .bg-white {
   background-color: var(--color-white);
 }
@@ -1131,20 +1119,20 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-no-repeat {
   background-repeat: no-repeat;
 }
+.fill-accent {
+  fill: var(--accent);
+}
 .fill-gray-300 {
   fill: var(--color-gray-300);
 }
 .fill-white {
   fill: var(--color-white);
 }
-.fill-accent {
-  fill: var(--accent);
+.stroke-accent {
+  stroke: var(--accent);
 }
 .stroke-gray-300 {
   stroke: var(--color-gray-300);
-}
-.stroke-accent {
-  stroke: var(--accent);
 }
 .p-2 {
   padding: 0.5rem;
@@ -1160,6 +1148,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.px-9 {
+  padding-left: 2.25rem;
+  padding-right: 2.25rem;
+}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1167,30 +1167,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-.px-10 {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-}
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.px-20 {
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-.px-28 {
-  padding-left: 7rem;
-  padding-right: 7rem;
-}
-.px-9 {
-  padding-left: 2.25rem;
-  padding-right: 2.25rem;
-}
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 .pt-6 {
   padding-top: 1.5rem;
@@ -1206,9 +1182,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pt-\[5px\] {
   padding-top: 5px;
-}
-.pb-\[2rem\] {
-  padding-bottom: 2rem;
 }
 .text-center {
   text-align: center;
@@ -1654,10 +1627,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:flex-wrap {
     flex-wrap: wrap;
   }
-  .md\:px-28 {
-    padding-left: 7rem;
-    padding-right: 7rem;
-  }
   .md\:pt-4 {
     padding-top: 1rem;
   }
@@ -1741,14 +1710,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   .lg\:col-start-3 {
     grid-column-start: 3;
   }
+  .lg\:mb-0 {
+    margin-bottom: 0px;
+  }
   .lg\:ml-6 {
     margin-left: 1.5rem;
   }
   .lg\:mt-0 {
     margin-top: 0px;
-  }
-  .lg\:mb-0 {
-    margin-bottom: 0px;
   }
   .lg\:block {
     display: block;
@@ -1764,12 +1733,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
   .lg\:max-w-\[400px\] {
     max-width: 400px;
-  }
-  .lg\:basis-1\/12 {
-    flex-basis: 8.333333%;
-  }
-  .lg\:basis-2\/12 {
-    flex-basis: 16.666667%;
   }
   .lg\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1797,10 +1760,6 @@ Ensure the default browser behavior of the `hidden` attribute.
     padding-left: 7rem;
     padding-right: 7rem;
   }
-  .lg\:px-24 {
-    padding-left: 6rem;
-    padding-right: 6rem;
-  }
   .lg\:px-20 {
     padding-left: 5rem;
     padding-right: 5rem;
@@ -1813,9 +1772,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   .xl\:mx-auto {
     margin-left: auto;
     margin-right: auto;
-  }
-  .xl\:flex {
-    display: flex;
   }
 }
 @font-face {
