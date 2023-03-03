@@ -4,12 +4,11 @@ date: 2020-11-23
 tag: Cool Tech
 ---
 
-
-
 TIL that there is a cache control header for a shared cache. The **s-max-age**
-is similar to the **max-age** in that they both set a timer to invalidate a cache
-for a particular resource. The difference between the two is that the **s-max-age**
-applies to **shared** content and therefore applies to content on a CDN.
+is similar to the **max-age** in that they both set a timer to invalidate a
+cache for a particular resource. The difference between the two is that the
+**s-max-age** applies to **shared** content and therefore applies to content on
+a CDN.
 
-This is better in circumstances where we want to force an invalidation for a particular resource.
-This is not possible with **max-age**.
+This is better in circumstances where we want to force an invalidation for a
+particular resource. This is not possible with **max-age**.

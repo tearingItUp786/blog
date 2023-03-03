@@ -1,9 +1,9 @@
 .blog-container {
-  @apply mx-[10vw] pb-8 relative mt-8 before:hidden md:before:block before:content-[""];
-  @apply before:absolute before:left-[50%] before:bg-gray-300 before:dark:bg-white before:w-[18px] before:h-[18px] before:rounded-full before:-translate-x-1/2 before:top-[40px];
-  @apply after:hidden md:after:block after:content-[""] after:absolute after:top-[50px] after:left-[50%] after:bottom-0 after:w-[2px] after:bg-gray-300 after:dark:bg-white;
+  @apply relative mx-[10vw] mt-8 pb-8 before:hidden before:content-[""] md:before:block;
+  @apply before:absolute before:left-[50%] before:top-[40px] before:h-[18px] before:w-[18px] before:-translate-x-1/2 before:rounded-full before:bg-gray-300 before:dark:bg-white;
+  @apply after:absolute after:top-[50px] after:left-[50%] after:bottom-0 after:hidden after:w-[2px] after:bg-gray-300 after:content-[""] after:dark:bg-white md:after:block;
 }
 
 .welcome-message {
-  @apply text-accent dark:text-pink dark:opacity-80 text-lg font-normal text-center mb-4;
+  @apply mb-4 text-center text-lg font-normal text-accent dark:text-pink dark:opacity-80;
 }

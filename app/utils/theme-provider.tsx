@@ -1,49 +1,49 @@
-import React from "react";
+import React from 'react'
 
 export enum Theme {
-  DARK = "dark",
-  LIGHT = "light",
+  DARK = 'dark',
+  LIGHT = 'light',
 }
 
 type ThemeContextType = [
   Theme | null,
-  React.Dispatch<React.SetStateAction<Theme | null>>
-];
+  React.Dispatch<React.SetStateAction<Theme | null>>,
+]
 const ThemeContext = React.createContext<ThemeContextType | undefined>(
-  undefined
-);
-ThemeContext.displayName = "ThemeContext";
+  undefined,
+)
+ThemeContext.displayName = 'ThemeContext'
 
-const prefersLightMQ = "(prefers-color-scheme: light)";
+const prefersLightMQ = '(prefers-color-scheme: light)'
 
 const getPreferredTheme = () => {
-  const localStorageTheme = window.localStorage.getItem("theme");
-  if (localStorageTheme) return localStorageTheme as Theme;
+  const localStorageTheme = window.localStorage.getItem('theme')
+  if (localStorageTheme) return localStorageTheme as Theme
 
-  return window.matchMedia(prefersLightMQ).matches ? Theme.LIGHT : Theme.DARK;
-};
+  return window.matchMedia(prefersLightMQ).matches ? Theme.LIGHT : Theme.DARK
+}
 
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
     // there's no way for us to know what the theme should be in this context
     // the client will have to figure it out before hydration.
-    if (typeof window !== "object") {
-      return null;
+    if (typeof window !== 'object') {
+      return null
     }
 
-    return getPreferredTheme();
-  });
+    return getPreferredTheme()
+  })
 
   React.useEffect(() => {
-    window.localStorage.setItem("theme", String(theme));
-  }, [theme]);
+    window.localStorage.setItem('theme', String(theme))
+  }, [theme])
 
   return (
     <ThemeContext.Provider value={[theme, setTheme]}>
       {children}
     </ThemeContext.Provider>
-  );
-};
+  )
+}
 
 /**
  * We need to inject this script into the root document so that we can properly
@@ -68,7 +68,7 @@ const clientThemeCode = `
       cl.add(userTheme ?? preferredTheme);
   }
 })();
-`;
+`
 
 export function NonFlashOfWrongThemeEls() {
   return (
@@ -78,17 +78,17 @@ export function NonFlashOfWrongThemeEls() {
         // the script "defer". That doesn't work for us because we need
         // this script to run synchronously before the rest of the document
         // is finished loading.
-        dangerouslySetInnerHTML={{ __html: clientThemeCode }}
+        dangerouslySetInnerHTML={{__html: clientThemeCode}}
       />
     </>
-  );
+  )
 }
 
 export const useTheme = () => {
-  const context = React.useContext(ThemeContext);
+  const context = React.useContext(ThemeContext)
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider')
   }
 
-  return context;
-};
+  return context
+}

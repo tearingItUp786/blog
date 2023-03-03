@@ -1,10 +1,10 @@
-import clsx from "clsx";
-import { NavLink } from "@remix-run/react";
-import type { MdxPage } from "types";
-import { dotFormattedDate } from "~/utils/misc";
-import { H2 } from "../typography";
+import clsx from 'clsx'
+import {NavLink} from '@remix-run/react'
+import type {MdxPage} from 'types'
+import {dotFormattedDate} from '~/utils/misc'
+import {H2} from '../typography'
 
-type Props = MdxPage["frontmatter"] & { slug: string; className?: string };
+type Props = MdxPage['frontmatter'] & {slug: string; className?: string}
 
 export function BlogCard({
   title,
@@ -19,19 +19,19 @@ export function BlogCard({
     <div
       className={clsx(
         `
-        py-6 
         relative 
-        after:content-[""] 
+        py-6 
         after:absolute 
         after:top-[2rem] 
         after:right-0 
+        after:hidden 
         after:h-[2px] 
         after:bg-black 
-        after:dark:bg-white
-        after:hidden 
+        after:content-[""]
+        after:dark:bg-white 
         md:after:block 
         `,
-        className
+        className,
       )}
     >
       <div>
@@ -44,12 +44,12 @@ export function BlogCard({
           </span>
         </span>
         <NavLink to={`/${slug}`}>
-          <H2 className="uppercase my-0">{title}</H2>
+          <H2 className="my-0 uppercase">{title}</H2>
         </NavLink>
       </div>
-      <p className="dark:text-white text-center md:text-left">
+      <p className="text-center dark:text-white md:text-left">
         {description ?? subtitle}
       </p>
     </div>
-  );
+  )
 }

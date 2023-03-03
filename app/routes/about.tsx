@@ -1,24 +1,18 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { scale } from "@cloudinary/url-gen/actions/resize";
+import {json} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
+import {scale} from '@cloudinary/url-gen/actions/resize'
 
-import {
-  BlockQuote,
-  H3,
-  H4,
-  ShortQuote,
-  TextLink,
-} from "~/components/typography";
+import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
-import Hero from "~/components/hero";
-import clsx from "clsx";
+import Hero from '~/components/hero'
+import clsx from 'clsx'
 import {
   LotrIcon,
   BeltIcon,
   BookIcon,
   PaletteIcon,
-} from "~/components/about/icons";
-import { cloudinaryInstance } from "~/utils/cloudinary";
+} from '~/components/about/icons'
+import {cloudinaryInstance} from '~/utils/cloudinary'
 
 const RandomThing = ({
   title,
@@ -27,76 +21,76 @@ const RandomThing = ({
   titleClassName,
   icon,
 }: {
-  title: string;
-  description: React.ReactNode;
-  icon?: React.ReactNode;
-  className?: string;
-  titleClassName?: string;
+  title: string
+  description: React.ReactNode
+  icon?: React.ReactNode
+  className?: string
+  titleClassName?: string
 }) => {
   return (
     <div
       className={clsx(
         className,
-        "w-full p-8 border-solid border border-gray-300 dark:border-white mb-8 lg:mb-0"
+        'mb-8 w-full border border-solid border-gray-300 p-8 dark:border-white lg:mb-0',
       )}
     >
       {icon ? (
         <div
           className="
-        first:fill-gray-300 
-        first:dark:fill-white
-         max-w-[40px] mb-4"
+        mb-4 
+        max-w-[40px]
+         first:fill-gray-300 first:dark:fill-white"
         >
           {icon}
         </div>
       ) : null}
-      <H4 className={clsx(titleClassName, "mb-4")}>{title}</H4>
+      <H4 className={clsx(titleClassName, 'mb-4')}>{title}</H4>
       <p className="max-w-md">{description}</p>
     </div>
-  );
-};
+  )
+}
 
 export async function loader() {
   let desktopImage = cloudinaryInstance
-    .image("blog/hero")
-    .resize(scale().width(800));
+    .image('blog/hero')
+    .resize(scale().width(800))
 
   let mobileImage = cloudinaryInstance
-    .image("blog/hero")
-    .resize(scale().width(500).height(500));
+    .image('blog/hero')
+    .resize(scale().width(500).height(500))
 
   return json({
     desktopImage: desktopImage.toURL(),
     mobileImage: mobileImage.toURL(),
-  });
+  })
 }
 
 // need to fetch all content from the blog directory using github api
 export default function About() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>()
 
   return (
     <div className="page-container">
-      <div className="max-w-full ml-[10vw] mr-[10vw] xl:mx-auto">
+      <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
         <Hero />
-        <BlockQuote className="mt-8 max-w-5xl mx-auto" author="David Goggins">
+        <BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">
           The only way that you’re ever going to get to the other side of this
           journey is by suffering. You have to suffer in order to grow. Some
           people get it, some people don’t.
         </BlockQuote>
         <p
           className="
-          pt-6
+          relative
           mt-6
-          relative 
-          before:content-['']
-          before:h-[1px]
-          before:left-[50%]
-          before:-translate-x-1/2
-          before:w-[200px]
-          before:bg-gray-100
+          pt-6 
           before:absolute
+          before:left-[50%]
           before:top-0
+          before:h-[1px]
+          before:w-[200px]
+          before:-translate-x-1/2
+          before:bg-gray-100
+          before:content-['']
         "
         >
           Hey there, thanks for stopping by. I'm a self-taught software engineer
@@ -104,7 +98,7 @@ export default function About() {
           Canada. I've got a passion for Typescript in both the Frontend and the
           Backend. If you'd like to hear about how I went from being someone
           with a Bachelor's degree in Business Administration to a Softwar
-          Engineer, feel free to reach out to me on{" "}
+          Engineer, feel free to reach out to me on{' '}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
           ; I'd be more than happy to walk you through my journey.
         </p>
@@ -122,21 +116,21 @@ export default function About() {
           thousands of amazing developers, many of whom are much better than I
           at software development. However, I strive to go beyond just software
           development; I want to provide a place to distribute as much knowledge
-          as I can on a myriad of topics. That's why this is the home for{" "}
+          as I can on a myriad of topics. That's why this is the home for{' '}
           <strong>"mostly"</strong> my developer thoughts; I've given myself
           room to take the conversation elsewhere.
         </p>
 
         <div
-          className="md:mx-auto 
+          className="my-8 
         ml-0
-        md:max-w-6xl 
-        md:ml-6 
+        flex 
         max-w-4xl 
-        my-8 flex flex-wrap 
-        lg:flex-nowrap 
-        items-center
-        justify-center
+        flex-wrap 
+        items-center justify-center md:mx-auto 
+        md:ml-6 
+        md:max-w-6xl
+        lg:flex-nowrap
         lg:justify-start
         "
         >
@@ -149,7 +143,7 @@ export default function About() {
           />
           <BlockQuote
             author="Les Brown"
-            className="lg:ml-6 mx-auto mt-6 lg:mt-0 "
+            className="mx-auto mt-6 lg:ml-6 lg:mt-0 "
           >
             If you do what is easy, your life will be hard. If you do what is
             hard, your life will be easy.
@@ -165,7 +159,7 @@ export default function About() {
             were given — this nervous system — and to leverage it toward being
             better, feeling better, and showing up better for other people
           </ShortQuote>
-          <p className="text-accent text-xl">
+          <p className="text-xl text-accent">
             Nothing gets done unless you're putting in the work.
           </p>
         </div>
@@ -206,7 +200,7 @@ export default function About() {
         </div>
         <div className="mt-12">
           <H3>Details about me you'd probably never guess</H3>
-          <div className="mt-8 lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-y-12 gap-x-16">
+          <div className="mt-8 gap-y-12 gap-x-16 lg:grid lg:grid-cols-2 lg:grid-rows-2">
             <RandomThing
               title="I'm a huge fan of Lord of the Rings (LOTR)"
               description="From its deeply intricate lore, to the amazing stories of brotherhood and love, I love it all. 
@@ -233,10 +227,10 @@ export default function About() {
                 <>
                   There was a time where I'd spend my spare moments writing
                   Shakespearean sonnets. I've since moved on to writing awesome
-                  blog posts but if you'd like to read my only published work{" "}
+                  blog posts but if you'd like to read my only published work{' '}
                   <TextLink href="https://res.cloudinary.com/dinypqsgl/image/upload/v1676432698/Poem2015.docx_sb0xkh.pdf">
                     you can find it here
-                  </TextLink>{" "}
+                  </TextLink>{' '}
                   🪶
                 </>
               }
@@ -245,5 +239,5 @@ export default function About() {
         </div>
       </div>
     </div>
-  );
+  )
 }

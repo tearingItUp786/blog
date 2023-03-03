@@ -1,10 +1,10 @@
-import { NavLink } from "@remix-run/react";
+import {NavLink} from '@remix-run/react'
 
 export function Footer() {
   return (
-    <footer className="px-10 border-t-[1px] lg:px-28 py-6 w-full  bg-gray-100 dark:bg-white">
-      <div className="mx-auto text-center lg:text-left w-full block lg:flex justify-between">
-        <span className="mb-4 block lg:mb-0 text-sm text-white dark:text-accent">
+    <footer className="w-full border-t-[1px] bg-gray-100 px-10 py-6  dark:bg-white lg:px-28">
+      <div className="mx-auto block w-full justify-between text-center lg:flex lg:text-left">
+        <span className="mb-4 block text-sm text-white dark:text-accent lg:mb-0">
           Taran "tearing it up" Bains
         </span>
         <div className="block">
@@ -29,5 +29,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

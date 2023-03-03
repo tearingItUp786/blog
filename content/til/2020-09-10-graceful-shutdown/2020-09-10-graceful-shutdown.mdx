@@ -4,10 +4,9 @@ date: 2020-09-10
 tag: JS
 ---
 
-
-
-Basically, avoid having to do any major logic from the _SIGTERM_ signal or any other
-EXIT signals in node because they can often times be fired twice. It's much better to run any
-clean up code that you want in the start of the process versus the end.
+Basically, avoid having to do any major logic from the _SIGTERM_ signal or any
+other EXIT signals in node because they can often times be fired twice. It's
+much better to run any clean up code that you want in the start of the process
+versus the end.
 
 Also check out **death** on npm. It's a handy helper library.

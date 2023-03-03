@@ -4,17 +4,19 @@ date: 2019-11-17
 tag: Cool Tech
 ---
 
+I'll be honest, up until today, I never really cared about character encodings
+and didn't ever bother to learn anything about them... what a huge mistake!
+Character encodings are the unsung heroes that allow us to display languages
+(besides English) reliabely on computer systems.
 
-I'll be honest, up until today, I never really cared about character encodings and
-didn't ever bother to learn anything about them... what a huge mistake! Character encodings are the
-unsung heroes that allow us to display languages (besides English) reliabely on computer systems.
-
-The gist of UTF-8 is that it is an encoding that allows us to take Unicode code and map said codes to
-meaningful linguinstic representations. Codes that are between 0 and 127 occupy 8 bits -- a single byte -- and then
-any codes above this upper bound can use up to 6 bytes. The beauty of this system is that strings encoded
-in UTF-8 look exactly the same as strings encoded in ASCII. Americans
-are chilling and don't need to worry about squat, while the rest of the world has to "jump through hoops" to make sure that
-they're alphhabet will work across computer systems.
+The gist of UTF-8 is that it is an encoding that allows us to take Unicode code
+and map said codes to meaningful linguinstic representations. Codes that are
+between 0 and 127 occupy 8 bits -- a single byte -- and then any codes above
+this upper bound can use up to 6 bytes. The beauty of this system is that
+strings encoded in UTF-8 look exactly the same as strings encoded in ASCII.
+Americans are chilling and don't need to worry about squat, while the rest of
+the world has to "jump through hoops" to make sure that they're alphhabet will
+work across computer systems.
 
 <TextLink href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/">
   Read more here

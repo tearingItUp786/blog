@@ -1,15 +1,15 @@
-import { NavLink } from "@remix-run/react";
-import clsx from "clsx";
-import { dotFormattedDate } from "~/utils/misc";
-import { H1, H2 } from "../typography";
+import {NavLink} from '@remix-run/react'
+import clsx from 'clsx'
+import {dotFormattedDate} from '~/utils/misc'
+import {H1} from '../typography'
 
 type Props = {
-  title?: string;
-  date?: string;
-  tag?: string;
-  children?: React.ReactNode;
-  showBlackLine?: boolean;
-};
+  title?: string
+  date?: string
+  tag?: string
+  children?: React.ReactNode
+  showBlackLine?: boolean
+}
 
 const blackLinkClasses = `
     after:hidden
@@ -35,7 +35,7 @@ const blackLinkClasses = `
     before:dark:bg-white
     before:translate-y-[-50%]
     before:translate-x-[-50%]
-`;
+`
 
 export const ContentCard = ({
   title,
@@ -45,20 +45,20 @@ export const ContentCard = ({
   showBlackLine = true,
 }: Props) => {
   return (
-    <div className={clsx(showBlackLine && blackLinkClasses, "relative")}>
-      <div className="block md:flex items-start">
-        <div className="block md:flex order-0 flex-col text-lg mr-6 text-accent">
+    <div className={clsx(showBlackLine && blackLinkClasses, 'relative')}>
+      <div className="block items-start md:flex">
+        <div className="order-0 mr-6 block flex-col text-lg text-accent md:flex">
           {date ? dotFormattedDate(date) : null}
           <NavLink
-            className="ml-4 md:ml-0 font-bold no-underline text-accent uppercase mr-2"
+            className="ml-4 mr-2 font-bold uppercase text-accent no-underline md:ml-0"
             to={`/tags/${tag}`}
           >
             {tag}
           </NavLink>
         </div>
-        <H1 className="uppercase my-4 md:my-0 leading-[1em]">{title}</H1>
+        <H1 className="my-4 uppercase leading-[1em] md:my-0">{title}</H1>
       </div>
-      <div className="text-lg mt-2 md:text-left">{children}</div>
+      <div className="mt-2 text-lg md:text-left">{children}</div>
     </div>
-  );
-};
+  )
+}

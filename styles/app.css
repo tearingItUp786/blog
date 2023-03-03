@@ -59,7 +59,7 @@ a {
 }
 
 .linkable-tag {
-  @apply font-bold text-accent dark:opacity-80 uppercase;
+  @apply font-bold uppercase text-accent dark:opacity-80;
 }
 
 html {
@@ -82,9 +82,9 @@ body {
 }
 
 p {
-  @apply text-lg mb-6;
+  @apply mb-6 text-lg;
 }
 
 .page-container {
-  @apply mx-auto relative max-w-screen-xl mt-[2rem] pb-24;
+  @apply relative mx-auto mt-[2rem] max-w-screen-xl pb-24;
 }

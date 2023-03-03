@@ -1,5 +1,5 @@
 import * as redis from 'redis'
-import { redisCacheAdapter } from 'cachified'
+import {redisCacheAdapter} from 'cachified'
 
 declare global {
   // This prevents us from making multiple connections to the db when the
@@ -30,4 +30,4 @@ function createRedisClient(): redis.RedisClientType {
 let redisClient = createRedisClient()
 const redisCache = redisCacheAdapter(redisClient)
 
-export { redisClient, redisCache }
+export {redisClient, redisCache}

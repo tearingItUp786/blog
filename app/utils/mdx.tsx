@@ -1,60 +1,60 @@
-import React from "react";
-import * as mdxBundler from "mdx-bundler/client";
-import * as myTypo from "~/components/typography";
-import type { GithubGrapqhlObject, MdxPage, MdxPageAndSlug } from "types";
-import _ from "lodash";
-import { downloadDirGql } from "~/utils/github.server";
-import { queuedCompileMdxGql } from "./mdx.server";
-import { redisCache } from "./redis.server";
-import cachified, { verboseReporter } from "cachified";
+import React from 'react'
+import * as mdxBundler from 'mdx-bundler/client'
+import * as myTypo from '~/components/typography'
+import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
+import _ from 'lodash'
+import {downloadDirGql} from '~/utils/github.server'
+import {queuedCompileMdxGql} from './mdx.server'
+import {redisCache} from './redis.server'
+import cachified, {verboseReporter} from 'cachified'
 
 function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
   if (entry?.object?.text) {
     return {
       name: entry?.name,
       files: [entry],
-    };
+    }
   }
   return {
     name: entry?.name,
     files: entry?.object?.entries ?? [],
-  };
+  }
 }
 
 async function getMdxPageGql({
   contentDir,
   slug,
 }: {
-  contentDir: string;
-  slug: string;
+  contentDir: string
+  slug: string
 }): Promise<MdxPage | any> {
   return cachified({
     key: `${contentDir}:${slug}`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
-      const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`);
+      const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`)
 
-      const compiledPage = await queuedCompileMdxGql<MdxPage["frontmatter"]>(
+      const compiledPage = await queuedCompileMdxGql<MdxPage['frontmatter']>(
         `${contentDir}/${slug}`,
-        pageFile.repository.object.entries ?? []
-      ).catch((err) => {
+        pageFile.repository.object.entries ?? [],
+      ).catch(err => {
         console.error(`Failed to compile mdx:`, {
           contentDir,
           slug,
-        });
-        return Promise.reject(err);
-      });
+        })
+        return Promise.reject(err)
+      })
 
-      return compiledPage;
+      return compiledPage
     },
     reporter: verboseReporter(),
-  });
+  })
 }
 
 const mdxComponents = {
   ...myTypo,
-};
+}
 
 /**
  * This should be rendered within a useMemo
@@ -62,16 +62,16 @@ const mdxComponents = {
  * @returns the component
  */
 function getMdxComponent(code: string) {
-  const Component = mdxBundler.getMDXComponent(code);
+  const Component = mdxBundler.getMDXComponent(code)
   function KCDMdxComponent({
     components,
     ...rest
-  }: Parameters<typeof Component>["0"]) {
+  }: Parameters<typeof Component>['0']) {
     return (
-      <Component components={{ ...mdxComponents, ...components }} {...rest} />
-    );
+      <Component components={{...mdxComponents, ...components}} {...rest} />
+    )
   }
-  return KCDMdxComponent;
+  return KCDMdxComponent
 }
 
 async function getMdxTilListGql() {
@@ -80,116 +80,116 @@ async function getMdxTilListGql() {
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
-      const dirList = await downloadDirGql(`content/til`);
+      const dirList = await downloadDirGql(`content/til`)
       const pageData =
-        dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? [];
+        dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? []
 
       const sortedPageData = pageData.sort((a, b) => {
-        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-      });
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+      })
 
       const pages = await Promise.all(
-        sortedPageData.map((pageData) =>
-          queuedCompileMdxGql(pageData.name, pageData.files)
-        )
-      ).catch((err) => {
-        console.error(`Failed to compile mdx for til list`);
-        return Promise.reject(err);
-      });
+        sortedPageData.map(pageData =>
+          queuedCompileMdxGql(pageData.name, pageData.files),
+        ),
+      ).catch(err => {
+        console.error(`Failed to compile mdx for til list`)
+        return Promise.reject(err)
+      })
 
-      const nonNullPages = pages.filter((page) => page !== null);
-      return nonNullPages as MdxPage[];
+      const nonNullPages = pages.filter(page => page !== null)
+      return nonNullPages as MdxPage[]
     },
-  });
+  })
 }
 
 async function getMdxBlogListGraphql() {
   return cachified({
-    key: "blog-list-gql",
+    key: 'blog-list-gql',
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
-      const dirList = await downloadDirGql("content/blog");
+      const dirList = await downloadDirGql('content/blog')
       const pageData =
         dirList.repository.object.entries
           ?.sort((a, b) => {
-            return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
+            return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
           })
-          ?.map((entry) => {
+          ?.map(entry => {
             return {
               name: entry?.name,
               files: entry?.object?.entries ?? [],
-            };
-          }) ?? [];
+            }
+          }) ?? []
 
       const pages = await Promise.all(
-        pageData.map((pageData) =>
-          queuedCompileMdxGql(pageData.name, pageData.files)
-        )
-      );
+        pageData.map(pageData =>
+          queuedCompileMdxGql(pageData.name, pageData.files),
+        ),
+      )
 
       return pages.map((page, i) => {
-        if (!page) return null;
+        if (!page) return null
         return {
           ...mapFromMdxPageToMdxListItem(page),
-          path: `blog/${pageData?.[i]?.name ?? ""}`,
-        };
-      });
+          path: `blog/${pageData?.[i]?.name ?? ''}`,
+        }
+      })
     },
-  });
+  })
 }
 
 async function getMdxTagListGql() {
   return cachified({
-    key: "tag-list-gql",
+    key: 'tag-list-gql',
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
       const contentDirList = await Promise.all([
-        downloadDirGql("content/blog"),
-        downloadDirGql("content/til"),
-      ]);
+        downloadDirGql('content/blog'),
+        downloadDirGql('content/til'),
+      ])
 
       const contentDirListFlat = contentDirList.flatMap(
-        (dir) => dir.repository.object.entries ?? []
-      );
+        dir => dir.repository.object.entries ?? [],
+      )
 
       const tags = contentDirListFlat.reduce((acc, curr) => {
         const firstMdxFile = curr?.object?.text
           ? curr
-          : curr?.object?.entries?.find((any) => any.name.endsWith(".mdx"));
+          : curr?.object?.entries?.find(any => any.name.endsWith('.mdx'))
 
-        if (!firstMdxFile) return acc;
+        if (!firstMdxFile) return acc
 
         const tag = firstMdxFile?.object?.text
           ?.match(/tag: (.*)/)?.[1]
-          ?.toLowerCase();
+          ?.toLowerCase()
 
-        if (!tag) return acc;
+        if (!tag) return acc
 
         if (!acc.get(tag)) {
-          acc.set(tag, 0);
+          acc.set(tag, 0)
         }
-        let currentCount = acc.get(tag) ?? 0;
-        acc.set(tag, currentCount + 1);
-        return acc;
-      }, new Map());
+        let currentCount = acc.get(tag) ?? 0
+        acc.set(tag, currentCount + 1)
+        return acc
+      }, new Map())
 
       let groupTags = _.groupBy(
-        Array.from(tags, ([name, value]) => ({ name, value })),
-        (v: { name: string; value: string }) => {
-          return String(v.name[0]?.toUpperCase());
-        }
-      );
+        Array.from(tags, ([name, value]) => ({name, value})),
+        (v: {name: string; value: string}) => {
+          return String(v.name[0]?.toUpperCase())
+        },
+      )
 
       return groupTags as {
-        [key: string]: Array<{ name: string; value: string }>;
-      };
+        [key: string]: Array<{name: string; value: string}>
+      }
     },
     reporter: verboseReporter(),
-  });
+  })
 }
 
 // TODO: clean this up so that it's not so repetitive
@@ -203,79 +203,77 @@ async function getMdxIndividualTagGql(userProvidedTag: string) {
       // then go through the content and pluck out the tag field from the frontmatter;
       const getBlogList = async () => ({
         blog:
-          (await downloadDirGql("content/blog"))?.repository?.object?.entries ??
+          (await downloadDirGql('content/blog'))?.repository?.object?.entries ??
           [],
-      });
+      })
       const getTilList = async () => ({
         til:
-          (await downloadDirGql("content/til"))?.repository?.object?.entries ??
+          (await downloadDirGql('content/til'))?.repository?.object?.entries ??
           [],
-      });
+      })
 
-      const contentDirList = await Promise.all([getBlogList(), getTilList()]);
+      const contentDirList = await Promise.all([getBlogList(), getTilList()])
 
       let retObject = await Promise.all(
-        contentDirList.map(async (v) => {
-          const [key, list] = Object.entries?.(v)?.[0] ?? [];
-          if (!key) throw new Error("no key for content dir list");
-          if (!list) throw new Error("no value for content dir list");
+        contentDirList.map(async v => {
+          const [key, list] = Object.entries?.(v)?.[0] ?? []
+          if (!key) throw new Error('no key for content dir list')
+          if (!list) throw new Error('no value for content dir list')
 
           const listItemsWithTag = list
             .sort((a, b) => {
-              return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
+              return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
             })
-            .filter((item) => {
+            .filter(item => {
               const firstMdxFile = item?.object?.text
                 ? item
-                : item?.object?.entries?.find((any) =>
-                    any.name.endsWith(".mdx")
-                  );
+                : item?.object?.entries?.find(any => any.name.endsWith('.mdx'))
 
-              if (!firstMdxFile) return false;
+              if (!firstMdxFile) return false
               // break out this regex
               const tag = firstMdxFile?.object?.text
                 ?.match(/tag: (.*)/)?.[1]
-                ?.toUpperCase();
+                ?.toUpperCase()
 
-              return tag === userProvidedTag.toUpperCase();
-            });
+              return tag === userProvidedTag.toUpperCase()
+            })
 
           let retArray = await Promise.all(
-            listItemsWithTag.map(async (listItem) => {
-              const dataToPass = getGithubGqlObjForMdx(listItem);
+            listItemsWithTag.map(async listItem => {
+              const dataToPass = getGithubGqlObjForMdx(listItem)
               const data = await queuedCompileMdxGql(
                 dataToPass.name,
-                dataToPass?.files
-              );
+                dataToPass?.files,
+              )
               return {
                 ...data,
                 slug: dataToPass.name,
-              };
-            })
-          );
+              }
+            }),
+          )
 
-          return retArray as Array<MdxPageAndSlug>;
-        })
-      );
+          return retArray as Array<MdxPageAndSlug>
+        }),
+      )
 
       return {
         blogList: retObject[0] ?? [],
         tilList: retObject[1] ?? [],
         retObject,
-      };
+      }
     },
-  });
+  })
 }
 
 function mapFromMdxPageToMdxListItem(
-  page: MdxPage
-): Omit<MdxPageAndSlug, "code"> {
-  const { code, ...mdxListItem } = page;
-  return mdxListItem;
+  page: MdxPage,
+): Omit<MdxPageAndSlug, 'code'> {
+  const {code, ...mdxListItem} = page
+  return mdxListItem
 }
 
 function useMdxComponent(code: string) {
-  return React.useMemo(() => getMdxComponent(code), [code]);
+  return React.useMemo(() => getMdxComponent(code), [code])
 }
 
 export {
@@ -287,4 +285,4 @@ export {
   getMdxTagListGql,
   getMdxIndividualTagGql,
   mdxComponents,
-};
+}

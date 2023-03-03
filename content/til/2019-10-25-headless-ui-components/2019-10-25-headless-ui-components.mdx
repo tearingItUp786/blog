@@ -4,18 +4,22 @@ date: 2019-10-25
 tag: React
 ---
 
-import CheckboxExample from "./Example"
+import CheckboxExample from './Example'
 
-A headless UI component is a component that offers up maximum flexibility by providing no interface itself!
-This sounds like a radical idea but for library authors, it's a great pattern to provide their users with all that sweet sweet
-functionality that they're craving without any of the bloat/stylystic decisions that come with interface decisions.
+A headless UI component is a component that offers up maximum flexibility by
+providing no interface itself! This sounds like a radical idea but for library
+authors, it's a great pattern to provide their users with all that sweet sweet
+functionality that they're craving without any of the bloat/stylystic decisions
+that come with interface decisions.
 
-**This pattern works great when the logic of a component is complex and can be decoupled from its visual representation.**
+**This pattern works great when the logic of a component is complex and can be
+decoupled from its visual representation.**
 
-From a `React` perspective, this can be acheived via an HOC, render props, or if you're using `React > 16.8`, hooks.
-Below is an example of two different interface implementation of a very simple toggle -- the state isn't complicated
-but since we created this headless interface, the UI can easily be changed/edited and does not suffer from the opinions
-of the library author
+From a `React` perspective, this can be acheived via an HOC, render props, or if
+you're using `React > 16.8`, hooks. Below is an example of two different
+interface implementation of a very simple toggle -- the state isn't complicated
+but since we created this headless interface, the UI can easily be
+changed/edited and does not suffer from the opinions of the library author
 
 ### The Example
 

@@ -4,9 +4,8 @@ date: 2019-10-22
 tag: Backend
 ---
 
-
-
-In the Rest maturity model, Hypermedia is considered to be the most mature -- the highest level.
+In the Rest maturity model, Hypermedia is considered to be the most mature --
+the highest level.
 
 0. The swamp of Pox (XML)
 1. Resources
@@ -14,10 +13,12 @@ In the Rest maturity model, Hypermedia is considered to be the most mature -- th
 1. Hypermedia
 
 In a nutshell, Hypermedia has REST endpoints expose links to other related data.
-For instance, if there was an endpoint that existed to fetch all the products in a particular catalog,
-each product resource in the payload would have a `_links` property that had attributes that would allow users of the API
-via `self` to navigate to the respected product. Just by visiting products, I'd have a way of getting to a specific product
-without having to store the API endpoint in my source code; the initial API call would prove it to me.
+For instance, if there was an endpoint that existed to fetch all the products in
+a particular catalog, each product resource in the payload would have a `_links`
+property that had attributes that would allow users of the API via `self` to
+navigate to the respected product. Just by visiting products, I'd have a way of
+getting to a specific product without having to store the API endpoint in my
+source code; the initial API call would prove it to me.
 
 ```json
 {

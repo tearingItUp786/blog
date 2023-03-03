@@ -1,81 +1,82 @@
-import { bundleMDX } from "mdx-bundler";
-import remarkEmbedder from "@remark-embedder/core";
-import oembedTransformer, { Config } from "@remark-embedder/transformer-oembed";
-import calculateReadingTime from "reading-time";
-import type TPQueue from "p-queue";
-import type { TransformerInfo } from "@remark-embedder/core";
-import type { GithubGrapqhlObject } from "types";
+import {bundleMDX} from 'mdx-bundler'
+import remarkEmbedder from '@remark-embedder/core'
+import type {Config} from '@remark-embedder/transformer-oembed';
+import oembedTransformer from '@remark-embedder/transformer-oembed'
+import calculateReadingTime from 'reading-time'
+import type TPQueue from 'p-queue'
+import type {TransformerInfo} from '@remark-embedder/core'
+import type {GithubGrapqhlObject} from 'types'
 
-function handleEmbedderError({ url }: { url: string }) {
-  return `<p>Error embedding <a href="${url}">${url}</a></p>.`;
+function handleEmbedderError({url}: {url: string}) {
+  return `<p>Error embedding <a href="${url}">${url}</a></p>.`
 }
 
-type GottenHTML = string | null;
+type GottenHTML = string | null
 
 function handleEmbedderHtml(html: GottenHTML, info: TransformerInfo) {
-  if (!html) return null;
+  if (!html) return null
 
-  const url = new URL(info.url);
+  const url = new URL(info.url)
   // matches youtu.be and youtube.cm
   if (/youtu\.?be/.test(url.hostname)) {
     // this allows us to set youtube embeds to 100% width and the
     // height will be relative to that width with a good aspect ratio
-    return makeEmbed(html, "youtube");
+    return makeEmbed(html, 'youtube')
   }
-  if (url.hostname.includes("codesandbox.io")) {
-    return makeEmbed(html, "codesandbox", "80%");
+  if (url.hostname.includes('codesandbox.io')) {
+    return makeEmbed(html, 'codesandbox', '80%')
   }
-  return html;
+  return html
 }
 
-function makeEmbed(html: string, type: string, heightRatio = "56.25%") {
+function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
   return `
   <div class="embed" data-embed-type="${type}">
     <div style="padding-bottom: ${heightRatio}">
       ${html}
     </div>
   </div>
-`;
+`
 }
 
 async function compileMdxForGraphql<
-  FrontmatterType extends Record<string, unknown>
+  FrontmatterType extends Record<string, unknown>,
 >(slug: string, githubFiles: Array<GithubGrapqhlObject>) {
-  const { default: remarkAutolinkHeadings } = await import(
-    "remark-autolink-headings"
-  );
-  const { default: gfm } = await import("remark-gfm");
-  const { default: capitalize } = await import("remark-capitalize");
-  const { default: emoji } = await import("remark-emoji");
-  const { default: smartypants } = await import("remark-smartypants");
-  const { default: remarkImages } = await import("remark-images");
+  const {default: remarkAutolinkHeadings} = await import(
+    'remark-autolink-headings'
+  )
+  const {default: gfm} = await import('remark-gfm')
+  const {default: capitalize} = await import('remark-capitalize')
+  const {default: emoji} = await import('remark-emoji')
+  const {default: smartypants} = await import('remark-smartypants')
+  const {default: remarkImages} = await import('remark-images')
   // rehype plugins
-  const { default: rehypePrismPlus } = await import("rehype-prism-plus");
-  const { default: rehypeSlug } = await import("rehype-slug");
-  const { default: rehypeAutolinkHeadings } = await import(
-    "rehype-autolink-headings"
-  );
-  const { default: rehypeCodeTitles } = await import("rehype-code-titles");
-  const { default: rehypeAddClasses } = await import("rehype-add-classes");
+  const {default: rehypePrismPlus} = await import('rehype-prism-plus')
+  const {default: rehypeSlug} = await import('rehype-slug')
+  const {default: rehypeAutolinkHeadings} = await import(
+    'rehype-autolink-headings'
+  )
+  const {default: rehypeCodeTitles} = await import('rehype-code-titles')
+  const {default: rehypeAddClasses} = await import('rehype-add-classes')
 
-  const mdxFile = githubFiles.find((val) => {
-    return val?.name?.includes("mdx");
-  });
+  const mdxFile = githubFiles.find(val => {
+    return val?.name?.includes('mdx')
+  })
 
   let files = githubFiles.reduce((acc, val) => {
-    if (!val.object.text) return acc;
+    if (!val.object.text) return acc
 
-    acc[val?.name ?? ""] = val.object.text;
+    acc[val?.name ?? ''] = val.object.text
     return {
       ...acc,
-    };
-  }, {} as Record<string, string>);
+    }
+  }, {} as Record<string, string>)
 
-  if (!mdxFile) return null;
+  if (!mdxFile) return null
 
   try {
-    const mdxText = mdxFile.object?.text ?? "";
-    const { frontmatter, code } = await bundleMDX({
+    const mdxText = mdxFile.object?.text ?? ''
+    const {frontmatter, code} = await bundleMDX({
       source: mdxText,
       files,
       mdxOptions(options) {
@@ -85,8 +86,8 @@ async function compileMdxForGraphql<
           emoji,
           gfm,
           smartypants,
-          [remarkImages, { maxWidth: 1200 }],
-          [remarkAutolinkHeadings, { behavior: "wrap" }],
+          [remarkImages, {maxWidth: 1200}],
+          [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
             remarkEmbedder,
             {
@@ -97,94 +98,94 @@ async function compileMdxForGraphql<
                   oembedTransformer,
                   {
                     params: {
-                      height: "390",
-                      width: "1280",
+                      height: '390',
+                      width: '1280',
                     } as Config,
                   },
                 ],
               ],
             },
           ],
-        ];
+        ]
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),
           [
             rehypeCodeTitles,
-            { titleSeparator: ":title=", customClassName: "custom-code-title" },
+            {titleSeparator: ':title=', customClassName: 'custom-code-title'},
           ],
-          [rehypePrismPlus, { showLineNumbers: true }],
+          [rehypePrismPlus, {showLineNumbers: true}],
           rehypeSlug,
           [
             rehypeAutolinkHeadings,
             {
-              behavior: "prepend",
+              behavior: 'prepend',
               properties: {
                 tabIndex: 0,
               },
               content: {
-                type: "element",
-                tagName: "svg",
+                type: 'element',
+                tagName: 'svg',
                 properties: {
                   ariaHidden: true,
                   focusable: false,
-                  viewBox: "0 0 16 16",
+                  viewBox: '0 0 16 16',
                   height: 16,
                   width: 16,
                 },
                 children: [
                   {
-                    type: "element",
-                    tagName: "path",
+                    type: 'element',
+                    tagName: 'path',
                     properties: {
-                      className: "fill-accent stroke-accent",
-                      fillRule: "evenodd",
-                      d: "M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z",
+                      className: 'fill-accent stroke-accent',
+                      fillRule: 'evenodd',
+                      d: 'M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z',
                     },
                   },
                 ],
               },
             },
           ],
-          [rehypeAddClasses, { "h1,h2,h3,h4,h5,h6": "title" }],
-        ];
-        return options;
+          [rehypeAddClasses, {'h1,h2,h3,h4,h5,h6': 'title'}],
+        ]
+        return options
       },
-    });
-    const readTime = calculateReadingTime(mdxText);
+    })
+    const readTime = calculateReadingTime(mdxText)
 
     return {
       code,
       readTime,
       frontmatter: frontmatter as FrontmatterType,
-    };
+    }
   } catch (error: unknown) {
-    console.error(`Compilation error for slug: `, slug);
+    console.error(`Compilation error for slug: `, slug)
     // @ts-ignore
-    console.error(error.errors[0]);
-    throw error;
+    console.error(error.errors[0])
+    throw error
   }
 }
 
-let _queue: TPQueue | null = null;
+let _queue: TPQueue | null = null
 async function getQueue() {
-  const { default: PQueue } = await import("p-queue");
-  if (_queue) return _queue;
+  const {default: PQueue} = await import('p-queue')
+  if (_queue) return _queue
 
-  _queue = new PQueue({ concurrency: 4 });
-  return _queue;
+  _queue = new PQueue({concurrency: 4})
+  return _queue
 }
 
 // We have to use a queue because we can't run more than one of these at a time
 // or we'll hit an out of memory error because esbuild uses a lot of memory...
 async function queuedCompileMdxGql<
-  FrontmatterType extends Record<string, unknown>
+  FrontmatterType extends Record<string, unknown>,
 >(...args: Parameters<typeof compileMdxForGraphql>) {
-  const queue = await getQueue();
+  const queue = await getQueue()
   const result = await queue.add(() =>
-    compileMdxForGraphql<FrontmatterType>(...args)
-  );
+    compileMdxForGraphql<FrontmatterType>(...args),
+  )
 
-  return result;
+  return result
 }
 
-export { queuedCompileMdxGql };
+export {queuedCompileMdxGql}

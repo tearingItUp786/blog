@@ -5,13 +5,21 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
+    "prepare": "husky install || true",
+    "test": "echo I should write some tests 😅",
+    "prebuild": "npm run clean && echo All clean ✨",
     "build": "npm run build:css:prod && remix build",
     "css:watch": "npm run build:css -- --w",
+    "clean": "rimraf ./node_modules/.cache ./server/dist ./build ./public/build \"./app/styles/**/*.css\"",
     "deploy": "fly deploy --remote-only",
+    "typecheck": "tsc -b .",
     "build:css": "postcss styles/**/*.css --base styles --dir app/styles",
     "build:css:prod": "npm run build:css -- --env production",
     "dev": "concurrently \"npm run css:watch\" \"remix dev\"",
-    "start": "npm run build:css:prod && remix-serve build"
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|mdx|vue)\"",
+    "start": "npm run build:css:prod && remix-serve build",
+    "validate": "./other/validate"
   },
   "dependencies": {
     "@cloudinary/react": "^1.9.1",
@@ -71,6 +79,11 @@
     "@types/react-dom": "^18.0.8",
     "concurrently": "^7.0.0",
     "eslint": "^8.27.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4",
+    "rimraf": "^4.2.0",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.8.4"
   },

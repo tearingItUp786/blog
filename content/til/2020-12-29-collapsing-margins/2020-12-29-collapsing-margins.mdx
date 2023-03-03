@@ -4,16 +4,16 @@ date: 2020-12-29
 tag: CSS
 ---
 
+So today at work I noticed that I was not getting the spacing I expected from
+block level elements. The reason this was occuring was because my team and I
+were relying on margins for spacing out elements, but we should have been
+relying on padding instead.
 
-
-So today at work I noticed that I was not getting the spacing I expected from block level elements.
-The reason this was occuring was because my team and I were relying on margins for spacing out elements,
-but we should have been relying on padding instead. 
-
-Margins collapse in on each other (for siblings). If element A has a margin bottom and 
-element b is its sibling and underneath and has a margin top, we would see the margin bottom of 
-element A "collapse" (not be applied) and only see the margin top of element B. 
+Margins collapse in on each other (for siblings). If element A has a margin
+bottom and element b is its sibling and underneath and has a margin top, we
+would see the margin bottom of element A "collapse" (not be applied) and only
+see the margin top of element B.
 
 <TextLink href="https://stackoverflow.com/questions/9519841/why-does-this-css-margin-top-style-not-work">
-	Read more
+  Read more
 </TextLink>

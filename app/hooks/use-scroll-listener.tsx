@@ -3,7 +3,7 @@ import React from 'react'
 type Args = {
   onScroll: () => void
 }
-export function useScrollListener({ onScroll }: Args) {
+export function useScrollListener({onScroll}: Args) {
   React.useEffect(() => {
     // Avoid running during SSR
     if (typeof window !== 'undefined') {
