@@ -1,9 +1,9 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'localhost:3000'
+const hostname = 'localhost'
 
 // try to keep this dep-free so we don't have to install deps
 function postRefreshCache({
-  http = require('https'),
+  http = require('http'),
   postData,
   options: {headers: headersOverrides, ...optionsOverrides} = {},
 }) {
@@ -13,11 +13,11 @@ function postRefreshCache({
 
       const options = {
         hostname,
-        port: 443,
+        port: 3000,
         path: `/action/refresh-cache`,
         method: 'POST',
         headers: {
-          auth: process.env.REFRESH_CACHE_SECRET,
+          auth: process.env.REFRESH_CACHE_SECRET || 'some_secret',
           'Content-Type': 'application/json',
           'Content-Length': Buffer.byteLength(postDataString),
           ...headersOverrides,
