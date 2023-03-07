@@ -29,7 +29,7 @@ async function getMdxPageGql({
   slug: string
 }): Promise<MdxPage | any> {
   return cachified({
-    key: `${contentDir}:${slug}`,
+    key: `gql:${contentDir}:${slug}`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
@@ -76,7 +76,7 @@ function getMdxComponent(code: string) {
 
 async function getMdxTilListGql() {
   return cachified({
-    key: `til-list-gql`,
+    key: `gql:til:list`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
@@ -105,7 +105,7 @@ async function getMdxTilListGql() {
 
 async function getMdxBlogListGraphql() {
   return cachified({
-    key: 'blog-list-gql',
+    key: 'gql:blog:list',
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
@@ -141,7 +141,7 @@ async function getMdxBlogListGraphql() {
 
 async function getMdxTagListGql() {
   return cachified({
-    key: 'tag-list-gql',
+    key: 'gql:tag:list',
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
@@ -195,7 +195,7 @@ async function getMdxTagListGql() {
 // TODO: clean this up so that it's not so repetitive
 async function getMdxIndividualTagGql(userProvidedTag: string) {
   return cachified({
-    key: `gql-tag:${userProvidedTag}`,
+    key: `gql:tag:${userProvidedTag}`,
     cache: redisCache,
     // forceFresh: true,
     getFreshValue: async () => {
