@@ -107,7 +107,7 @@ async function getMdxBlogListGraphql() {
   return cachified({
     key: 'gql:blog:list',
     cache: redisCache,
-    // forceFresh: true,
+    forceFresh: true,
     getFreshValue: async () => {
       const dirList = await downloadDirGql('content/blog')
       const pageData =
