@@ -1,6 +1,5 @@
 import {useCatch, useLoaderData} from '@remix-run/react'
-import type { LoaderFunction} from '@remix-run/node';
-import {json} from '@remix-run/node'
+import {json, LoaderFunction} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
 import {H1, H4} from '~/components/typography'
@@ -11,7 +10,7 @@ type LoaderData = {
   page: MdxPage
 }
 
-export const loader: LoaderFunction = async ({params, request}) => {
+export const loader: LoaderFunction = async ({params}) => {
   if (!params.slug) {
     throw new Error('params.slug is not defined')
   }
