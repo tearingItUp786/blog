@@ -5,7 +5,7 @@ import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
 import _ from 'lodash'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
-import {redisCache} from './redis.server'
+import {redisCache, redisClient} from './redis.server'
 import cachified, {verboseReporter} from 'cachified'
 
 function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
@@ -19,6 +19,16 @@ function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
     name: entry?.name,
     files: entry?.object?.entries ?? [],
   }
+}
+
+async function delMdxPageGql({
+  contentDir,
+  slug,
+}: {
+  contentDir: string
+  slug: string
+}): Promise<any> {
+  return redisClient.del(`gql:${contentDir}:${slug}`)
 }
 
 async function getMdxPageGql({
@@ -285,4 +295,5 @@ export {
   getMdxTagListGql,
   getMdxIndividualTagGql,
   mdxComponents,
+  delMdxPageGql,
 }

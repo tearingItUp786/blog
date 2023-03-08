@@ -1,5 +1,6 @@
 import {ActionFunction, json, redirect} from '@remix-run/node'
 import {
+  delMdxPageGql,
   getMdxBlogListGraphql,
   getMdxPageGql,
   getMdxTilListGql,
@@ -35,27 +36,36 @@ export const action: ActionFunction = async ({request}) => {
   )
   // if we edited a content file, call the fetcher function for getContent
   if (tilFiles.length) {
+    console.log('👍 refreshing til list')
     await getMdxTilListGql()
   }
 
   // do it for the blog list if we need to as well
   if (bFiles.length) {
+    console.log('👍 refreshing blog list')
     await getMdxBlogListGraphql()
   }
 
   for (const file of bFiles) {
-    if (file.changeType === 'delete') {
-      // TODO: delete the cache for this file
-      continue
-    }
-
     // refresh the cache in this case
-    const justTheSlug = file.filename
+    const slug = file.filename
       .replace('content/blog', '')
       .replace(/\w+\.mdx?$/, '')
       .replace('/', '')
 
-    await getMdxPageGql({contentDir: 'blog', slug: justTheSlug})
+    const args = {
+      contentDir: 'blog',
+      slug,
+    }
+
+    if (file.changeType === 'delete') {
+      console.log('❌ delete', slug, 'from redis')
+      await delMdxPageGql(args)
+      continue
+    }
+
+    console.log('👍 refresh ', slug, 'from redis')
+    await getMdxPageGql(args)
   }
 
   return json({ok: true})
