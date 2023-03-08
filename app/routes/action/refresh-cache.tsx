@@ -13,6 +13,7 @@ export const action: ActionFunction = async ({request}) => {
   if (!contentFiles) {
     return json({ok: false})
   }
+  console.log('wtf' + JSON.stringify(contentFiles, null, 4))
 
   // if we edited a content file, call the fetcher function for getContent
   if (contentFiles.some(file => file.filename.startsWith('content/til/'))) {
@@ -22,4 +23,6 @@ export const action: ActionFunction = async ({request}) => {
   if (contentFiles.some(file => file.filename.startsWith('content/blog/'))) {
     await getMdxBlogListGraphql()
   }
+
+  return json({ok: true})
 }
