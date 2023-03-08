@@ -17,7 +17,7 @@
     "build:css:prod": "npm run build:css -- --env production",
     "dev": "concurrently \"npm run css:watch\" \"remix dev\"",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|mdx|vue)\"",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|vue)\"",
     "start": "npm run build:css:prod && remix-serve build",
     "validate": "./other/validate"
   },
