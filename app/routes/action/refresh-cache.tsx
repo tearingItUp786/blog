@@ -3,6 +3,7 @@ import {
   delMdxPageGql,
   getMdxBlogListGraphql,
   getMdxPageGql,
+  getMdxTagListGql,
   getMdxTilListGql,
 } from '~/utils/mdx'
 
@@ -68,5 +69,9 @@ export const action: ActionFunction = async ({request}) => {
     await getMdxPageGql(args)
   }
 
+  console.log('👍 refresh tag list in redis')
+  await getMdxTagListGql()
+
+  // refresh all the redis tags as well
   return json({ok: true})
 }
