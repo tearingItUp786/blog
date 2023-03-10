@@ -187,15 +187,18 @@ async function getMdxTagListGql() {
         return acc
       }, new Map())
 
-      let groupTags = _.groupBy(
+      let tagList = _.groupBy(
         Array.from(tags, ([name, value]) => ({name, value})),
         (v: {name: string; value: string}) => {
           return String(v.name[0]?.toUpperCase())
         },
-      )
-
-      return groupTags as {
+      ) as {
         [key: string]: Array<{name: string; value: string}>
+      }
+
+      return {
+        tagList,
+        tags: Array.from(tags.keys()),
       }
     },
     reporter: verboseReporter(),

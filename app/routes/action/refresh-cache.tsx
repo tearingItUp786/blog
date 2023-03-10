@@ -2,10 +2,12 @@ import {ActionFunction, json, redirect} from '@remix-run/node'
 import {
   delMdxPageGql,
   getMdxBlogListGraphql,
+  getMdxIndividualTagGql,
   getMdxPageGql,
   getMdxTagListGql,
   getMdxTilListGql,
 } from '~/utils/mdx'
+import {delRedisKey, redisClient} from '~/utils/redis.server'
 
 type File = {
   changeType: string
@@ -38,12 +40,14 @@ export const action: ActionFunction = async ({request}) => {
   // if we edited a content file, call the fetcher function for getContent
   if (tilFiles.length) {
     console.log('👍 refreshing til list')
+    await delRedisKey('gql:til:list')
     await getMdxTilListGql()
   }
 
   // do it for the blog list if we need to as well
   if (bFiles.length) {
     console.log('👍 refreshing blog list')
+    await delRedisKey('gql:blog:list')
     await getMdxBlogListGraphql()
   }
 
@@ -69,9 +73,23 @@ export const action: ActionFunction = async ({request}) => {
     await getMdxPageGql(args)
   }
 
-  console.log('👍 refresh tag list in redis')
-  await getMdxTagListGql()
+  console.log('🗑️ remove taglist form redis')
+  await delRedisKey('gql:tag:list')
 
+  console.log('👍 refresh tag list in redis')
+  const {tags} = await getMdxTagListGql()
+
+  // this needs to be synchronous
+  for (const tag of tags) {
+    await delRedisKey(`gql:tag:${tag}`)
+  }
+
+  console.log('keys in redis are', await redisClient.keys('*'))
+
+  console.log('👍 refresh the individual tags in redis')
+  await Promise.all(tags.map(async tag => await getMdxIndividualTagGql(tag)))
+
+  console.log('👍 refresh all the redis tags as well')
   // refresh all the redis tags as well
   return json({ok: true})
 }

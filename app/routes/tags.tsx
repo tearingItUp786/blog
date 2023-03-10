@@ -4,8 +4,8 @@ import {getMdxTagListGql} from '~/utils/mdx'
 import {json} from '@remix-run/node'
 
 export async function loader() {
-  const tagList = await getMdxTagListGql()
-  return json({tagList})
+  const allData = await getMdxTagListGql()
+  return json({...allData})
 }
 
 export default function TagPage() {

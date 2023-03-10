@@ -6,8 +6,6 @@ const ThemeToggle = () => {
   const [, setTheme] = useTheme()
   const [isFooterVisible, setIsFooterVisible] = useState(false)
 
-  console.log('isFooterVisible', isFooterVisible)
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const cb: IntersectionObserverCallback = entries => {

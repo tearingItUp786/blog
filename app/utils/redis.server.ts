@@ -30,4 +30,9 @@ function createRedisClient(): redis.RedisClientType {
 let redisClient = createRedisClient()
 const redisCache = redisCacheAdapter(redisClient)
 
-export {redisClient, redisCache}
+async function delRedisKey(key: string) {
+  console.log('key to delete is', key)
+  return await redisClient.del(key)
+}
+
+export {redisClient, redisCache, delRedisKey}
