@@ -29,9 +29,19 @@ export type MdxPage = {
     time: number
     words: number
   }
+
+  matter?: {
+    content?: string
+    data?: {
+      title?: string
+      date?: string
+      tag?: string
+    }
+  }
+
+  slug?: string
 }
 
 export type MdxPageAndSlug = MdxPage & {
-  slug?: string
   path?: string
 }

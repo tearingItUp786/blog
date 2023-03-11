@@ -1,6 +1,6 @@
 import {bundleMDX} from 'mdx-bundler'
 import remarkEmbedder from '@remark-embedder/core'
-import type {Config} from '@remark-embedder/transformer-oembed';
+import type {Config} from '@remark-embedder/transformer-oembed'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
@@ -76,7 +76,7 @@ async function compileMdxForGraphql<
 
   try {
     const mdxText = mdxFile.object?.text ?? ''
-    const {frontmatter, code} = await bundleMDX({
+    const {frontmatter, code, matter} = await bundleMDX({
       source: mdxText,
       files,
       mdxOptions(options) {
@@ -157,6 +157,8 @@ async function compileMdxForGraphql<
       code,
       readTime,
       frontmatter: frontmatter as FrontmatterType,
+      matter,
+      slug,
     }
   } catch (error: unknown) {
     console.error(`Compilation error for slug: `, slug)

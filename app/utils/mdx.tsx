@@ -144,7 +144,7 @@ async function getMdxBlogListGraphql() {
           ...mapFromMdxPageToMdxListItem(page),
           path: `blog/${pageData?.[i]?.name ?? ''}`,
         }
-      })
+      }) as Omit<MdxPageAndSlug, 'code'>[]
     },
   })
 }

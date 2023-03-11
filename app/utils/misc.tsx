@@ -5,5 +5,5 @@ export function dateFormat(date: string) {
 }
 
 export function dotFormattedDate(date: string) {
-  return format(new Date(date), 'd.M.yy')
+  return format(new Date(date), 'd.M.yyyy')
 }
