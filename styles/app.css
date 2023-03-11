@@ -87,5 +87,5 @@ p {
 
 .page-container {
   min-height: 100vh;
-  @apply mt-[2rem] max-w-screen-xl pb-24;
+  @apply mx-auto mt-[2rem]  max-w-screen-xl pb-24;
 }

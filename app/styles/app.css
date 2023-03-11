@@ -82,6 +82,8 @@ p {
 }
 .page-container {
   min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 2rem;
   max-width: 1536px;
   padding-bottom: 6rem;
