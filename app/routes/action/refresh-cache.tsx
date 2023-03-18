@@ -101,12 +101,20 @@ export const action: ActionFunction = async ({request}) => {
   await Promise.all(tags.map(async tag => await getMdxIndividualTagGql(tag)))
 
   if (blogList.length || tilList.length) {
-    const objsToSend = [...blogList, ...tilList].map(o => ({
+    const blogObjects = [...blogList].map(o => ({
       ...o.matter,
+      type: 'blog',
       objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
       content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
     }))
-    await index.saveObjects(objsToSend)
+
+    const tilObjects = [...tilList].map(o => ({
+      ...o.matter,
+      type: 'til',
+      objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+      content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
+    }))
+    await index.saveObjects([...blogObjects, ...tilObjects])
   }
   console.log('👍 refreshed algolia index with til list')
   // refresh all the redis tags as well
