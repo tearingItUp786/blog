@@ -9,6 +9,7 @@ type Props = {
   tag?: string
   children?: React.ReactNode
   showBlackLine?: boolean
+  id?: string
 }
 
 const blackLinkClasses = `
@@ -38,6 +39,7 @@ const blackLinkClasses = `
 `
 
 export const ContentCard = ({
+  id,
   title,
   date,
   tag,
@@ -45,7 +47,10 @@ export const ContentCard = ({
   showBlackLine = true,
 }: Props) => {
   return (
-    <div className={clsx(showBlackLine && blackLinkClasses, 'relative')}>
+    <div
+      id={id}
+      className={clsx(showBlackLine && blackLinkClasses, 'relative')}
+    >
       <div className="block items-start md:flex">
         <div className="order-0 mr-6 block flex-col text-lg text-accent md:flex">
           {date ? dotFormattedDate(date) : null}

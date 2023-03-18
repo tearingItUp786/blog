@@ -1,5 +1,6 @@
 import {createElement, Fragment, useEffect, useRef, useState} from 'react'
-import {render} from 'react-dom'
+import {createRoot} from 'react-dom/client'
+
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
 
 import {usePagination, useSearchBox} from 'react-instantsearch-hooks'
@@ -22,6 +23,9 @@ export function Autocomplete({
 }: AutocompleteProps) {
   const autocompleteContainer = useRef<HTMLDivElement>(null)
   const searchRef = useRef<any>(null)
+  const panelRootRef = useRef<any>(null)
+  const rootRef = useRef<any>(null)
+
   const {query, refine: setQuery} = useSearchBox()
   const {refine: setPage} = usePagination()
 
@@ -76,7 +80,17 @@ export function Autocomplete({
       },
       // TODO: fix this
       // @ts-ignore
-      renderer: {createElement, Fragment, render},
+      renderer: {createElement, Fragment, render: () => {}},
+      render({children}, root) {
+        if (!panelRootRef.current || rootRef.current !== root) {
+          rootRef.current = root
+
+          panelRootRef.current?.unmount()
+          panelRootRef.current = createRoot(root)
+        }
+
+        panelRootRef.current.render(children)
+      },
     })
 
     searchRef.current = autocompleteInstance
@@ -117,7 +131,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
     <>
       <button
         onClick={onClick}
-        className="text-white/50 focus:ring-offset-gray-800 rounded-full p-1 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 md:hidden"
+        className="focus:ring-offset-gray-800 rounded-full p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 md:hidden"
       >
         <span className="sr-only">Search</span>
         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
@@ -130,13 +144,13 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         <button onClick={onClick} className="group relative hidden md:block">
           <MagnifyingGlassIcon
             className={clsx(
-              'pointer-events-none absolute top-2.5 left-4 h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
+              'pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
             )}
             aria-hidden="true"
           />
           <span
             className={clsx(
-              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-11 text-white transition-colors dark:text-gray-300',
+              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-white transition-colors dark:text-gray-300',
               'group-hover:text-pink',
             )}
           >
@@ -146,11 +160,11 @@ function SearchButton({onClick, query}: SearchButtonProps) {
       ) : (
         <form className="relative hidden md:block">
           <MagnifyingGlassIcon
-            className="text-white/60 pointer-events-none absolute top-2.5 left-4 h-5 w-5"
+            className="pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white"
             aria-hidden="true"
           />
           <input
-            className="placeholder-white/60 focus:ring-white/60 sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pr-4 pl-11 text-white focus:outline-none focus:ring-2"
+            className="placeholder-white/60 focus:ring-white/60 sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pr-4 text-white focus:outline-none focus:ring-2"
             placeholder="Search..."
             type="text"
             defaultValue={query}

@@ -17,7 +17,7 @@ export function Navbar() {
   }
 
   return (
-    <div className="flex w-full bg-gray-100 px-9 dark:bg-white lg:px-20">
+    <div className="flex w-full bg-gray-100 px-9 dark:bg-white">
       <div className="w-[80px]">
         <NavLink to="/">
           <Logo className="logoNavLink px-4 py-1" />
@@ -35,10 +35,10 @@ export function Navbar() {
         </NavLink>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex w-[80px] items-center">
         <InstantSearch searchClient={algoliaSearchClient} indexName="website">
-          <div className="relative">
-            <div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center pr-2">
+          <div className="relative ">
+            <div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center">
               <Autocomplete
                 openOnFocus
                 placeholder="Search for TIL or blog posts"
@@ -47,6 +47,11 @@ export function Navbar() {
                   return [
                     {
                       sourceId: 'all_results',
+                      getItemUrl({item}) {
+                        return item.type === 'til'
+                          ? `/${item.type}#${item.objectID}`
+                          : `/${item.type}/${item.objectID}`
+                      },
                       getItems() {
                         let results = getAlgoliaResults({
                           searchClient: algoliaSearchClient,
@@ -79,7 +84,11 @@ export function Navbar() {
                             <div className="aria-selected:bg-gray-300 aria-selected:text-white cursor-default select-none rounded-md p-3 text-sm text-white dark:text-gray-300">
                               <a
                                 className="flex items-center justify-between space-x-4"
-                                href={`/search/?q=${query}`}
+                                href={
+                                  item.type === 'til'
+                                    ? `/${item.type}#${item.objectID}`
+                                    : `/${item.type}/${item.objectID}`
+                                }
                               >
                                 <div>
                                   {(item as {data: {title: string}}).data.title}

@@ -865,6 +865,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .top-2 {
   top: 0.5rem;
 }
+.-left-8 {
+  left: -2rem;
+}
 .z-\[2\] {
   z-index: 2;
 }
