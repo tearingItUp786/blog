@@ -98,3 +98,7 @@ p {
   -webkit-appearance: none;
   appearance: none;
 }
+
+mark {
+  background: var(--color-pink-100);
+}

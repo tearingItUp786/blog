@@ -38,9 +38,9 @@ const ThemeToggle = () => {
     <>
       <div
         className={clsx(
-          isFooterVisible && 'absolute bottom-32 lg:bottom-24',
+          isFooterVisible ? 'absolute bottom-32 lg:bottom-24' : 'bottom-4',
           'z-100',
-          'fixed bottom-4 right-4 flex h-10 w-[5.5rem] cursor-pointer items-center rounded-full bg-[#00000020] p-2 transition-colors dark:bg-[#ffffff20]',
+          'fixed right-4 flex h-10 w-[5.5rem] cursor-pointer items-center rounded-full bg-[#00000020] p-2 transition-colors dark:bg-[#ffffff20]',
         )}
         onClick={() => {
           setTheme(prev => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))

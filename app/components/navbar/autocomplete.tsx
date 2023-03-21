@@ -47,7 +47,7 @@ export function Autocomplete({
       classNames: {
         detachedSearchButton: 'hidden',
         detachedOverlay:
-          'md:p-10 lg:p-16 z-30 absolute inset-0 transition-opacity',
+          'p-16 lg:p-16 z-30 absolute inset-0 transition-opacity',
         detachedContainer:
           'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full h-screen max-w-5xl mx-auto overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 md:h-auto md:rounded-xl',
         detachedFormContainer: 'flex relative flex-none',
@@ -63,7 +63,7 @@ export function Autocomplete({
         clearButton:
           'text-white dark:text-gray-100 flex hidden:hidden items-center justify-center absolute top-0 right-0 h-full w-16 group text-gray-500 transition-colors hover:text-pink',
         panel:
-          'flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white dark:divide-gray-300 divide-opacity-20',
+          'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white dark:divide-gray-300 divide-opacity-20',
       },
       container: autocompleteContainer.current,
       initialState: {query, isOpen: false},
@@ -131,7 +131,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
     <>
       <button
         onClick={onClick}
-        className="focus:ring-offset-gray-800 rounded-full p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 md:hidden"
+        className="focus:ring-offset-gray-800 mr-8 rounded-full p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 md:hidden"
       >
         <span className="sr-only">Search</span>
         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
@@ -141,7 +141,10 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         an HTML form so the search is still usable without JavaScript.
       */}
       {isMounted ? (
-        <button onClick={onClick} className="group relative hidden md:block">
+        <button
+          onClick={onClick}
+          className="group relative mr-16 hidden md:block lg:mr-0"
+        >
           <MagnifyingGlassIcon
             className={clsx(
               'pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
@@ -160,11 +163,11 @@ function SearchButton({onClick, query}: SearchButtonProps) {
       ) : (
         <form className="relative hidden md:block">
           <MagnifyingGlassIcon
-            className="pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white"
+            className="pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white dark:text-gray-300"
             aria-hidden="true"
           />
           <input
-            className="placeholder-white/60 focus:ring-white/60 sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pr-4 text-white focus:outline-none focus:ring-2"
+            className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
             placeholder="Search..."
             type="text"
             defaultValue={query}
