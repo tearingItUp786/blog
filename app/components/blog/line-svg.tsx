@@ -92,16 +92,6 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
                 }}
                 transform="matrix(4.91278 0 0 1.03872 723.893 1803.953)"
               />
-              <path
-                d="M0 0h6"
-                className="stroke-gray-300 dark:stroke-white"
-                style={{
-                  fill: 'none',
-                  fillRule: 'nonzero',
-                  strokeWidth: 1,
-                }}
-                transform="matrix(4.91278 0 0 1.03872 -5.264 937.806)"
-              />
             </g>
           </g>
         </svg>
