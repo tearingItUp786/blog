@@ -1006,6 +1006,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-\[20px\] {
   margin-right: 20px;
 }
+.mr-\[15px\] {
+  margin-right: 15px;
+}
 .block {
   display: block;
 }

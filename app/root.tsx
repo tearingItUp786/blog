@@ -27,9 +27,9 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
+    {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: tailwindStyles},
     {rel: 'icon', href: '/favicon.ico'},
-    {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: prismaStyles},
   ]
 }
