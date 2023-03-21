@@ -147,13 +147,13 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         >
           <MagnifyingGlassIcon
             className={clsx(
-              'pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
+              'pointer-events-none absolute top-2.5  h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
             )}
             aria-hidden="true"
           />
           <span
             className={clsx(
-              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-white transition-colors dark:text-gray-300',
+              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-white transition-colors dark:text-gray-300',
               'group-hover:text-pink',
             )}
           >
@@ -163,11 +163,11 @@ function SearchButton({onClick, query}: SearchButtonProps) {
       ) : (
         <form className="relative hidden md:block">
           <MagnifyingGlassIcon
-            className="pointer-events-none absolute top-2.5 -left-8 h-5 w-5 text-white dark:text-gray-300"
+            className="pointer-events-none absolute top-2.5  h-5 w-5 text-white dark:text-gray-300"
             aria-hidden="true"
           />
           <input
-            className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
+            className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pl-8 pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
             placeholder="Search..."
             type="text"
             defaultValue={query}

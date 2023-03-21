@@ -1003,6 +1003,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-8 {
   margin-right: 2rem;
 }
+.mr-\[20px\] {
+  margin-right: 20px;
+}
 .block {
   display: block;
 }
@@ -1445,6 +1448,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pl-\[20px\] {
   padding-left: 20px;
+}
+.pl-8 {
+  padding-left: 2rem;
 }
 .text-center {
   text-align: center;

@@ -46,7 +46,7 @@ export function Navbar() {
 
   return (
     <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
-      <div className="w-[80px]">
+      <div className="mr-[20px] w-[80px]">
         <NavLink to="/">
           <Logo className="logoNavLink px-4 py-1" />
         </NavLink>
@@ -70,7 +70,7 @@ export function Navbar() {
         </NavLink>
       </div>
 
-      <div className="flex w-[80px] flex-grow items-center justify-end pl-[20px] md:pr-0 lg:flex-grow-0">
+      <div className="flex w-[100px] flex-grow items-center justify-end  md:pr-0 lg:flex-grow-0">
         <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />
         <InstantSearch searchClient={algoliaSearchClient} indexName="website">
           <div className="relative ">
