@@ -4,6 +4,7 @@ import React from 'react'
 import {ContentCard} from '~/components/til/content-card'
 import {getMdxTilListGql} from '~/utils/mdx'
 import {tilMapper} from '~/utils/til-list'
+import styles from '~/styles/til.css'
 
 export async function loader() {
   const tilList = await getMdxTilListGql()
@@ -55,4 +56,7 @@ export default function TilPage() {
       </div>
     </div>
   )
+}
+export function links() {
+  return [{rel: 'stylesheet', href: styles}]
 }

@@ -9,6 +9,9 @@
   --color-gray-300: #1e1e1e;
   --color-pink: #f410a1;
   --color-pink-100: #f410a1cf;
+  --sb-size: 10px;
+  --sb-track-color: var(--color-gray-200);
+  --sb-thumb-color: var(--color-white);
 }
 .light {
   --bg-color: var(--color-white);

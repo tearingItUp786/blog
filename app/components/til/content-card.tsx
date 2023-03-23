@@ -61,7 +61,11 @@ export const ContentCard = ({
             {tag}
           </NavLink>
         </div>
-        <H1 className="my-4 uppercase leading-[1em] md:my-0">{title}</H1>
+        <NavLink className="group no-underline" to={`./#${id}`}>
+          <H1 className="my-4 uppercase leading-[1em] transition-all group-hover:underline md:my-0">
+            {title}
+          </H1>
+        </NavLink>
       </div>
       <div className="mt-2 text-lg md:text-left">{children}</div>
     </div>

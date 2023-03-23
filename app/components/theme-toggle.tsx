@@ -40,7 +40,7 @@ const ThemeToggle = () => {
         className={clsx(
           isFooterVisible ? 'absolute bottom-32 lg:bottom-24' : 'bottom-4',
           'z-100',
-          'fixed right-4 flex h-10 w-[5.5rem] cursor-pointer items-center rounded-full bg-[#00000020] p-2 transition-colors dark:bg-[#ffffff20]',
+          'fixed right-4 flex h-8 w-16 cursor-pointer items-center rounded-full bg-[#00000020] p-2 transition-colors dark:bg-[#ffffff20] md:h-10 md:w-[5.5rem]',
         )}
         onClick={() => {
           setTheme(prev => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))
@@ -48,9 +48,9 @@ const ThemeToggle = () => {
       >
         <input
           className={clsx(
-            'transition-color h-7 w-7 cursor-pointer appearance-none rounded-full drop-shadow-toggle transition-transform ease-in-out',
+            'transition-color h-6 w-6  cursor-pointer appearance-none rounded-full drop-shadow-toggle transition-transform ease-in-out md:h-7 md:w-7',
             'translate-x-0 bg-white',
-            'dark:translate-x-[160%] dark:bg-gray-300',
+            'dark:translate-x-[100%] dark:bg-gray-300 md:dark:translate-x-[160%]',
           )}
           type="checkbox"
           role="switch"
