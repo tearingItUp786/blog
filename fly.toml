@@ -1,14 +1,14 @@
-# fly.toml file generated for bitter-frog-4375 on 2023-01-11T18:49:04-08:00
+# fly.toml file generated for testy-tara on 2023-03-23T21:08:26-07:00
 
-app = "taran-test-blog"
+app = "testy-tara"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "ord"
 processes = []
 
 [env]
 
 [experimental]
-  allowed_public_ports = []
   auto_rollback = true
 
 [[services]]

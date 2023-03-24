@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 }

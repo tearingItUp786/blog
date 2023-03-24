@@ -19,7 +19,8 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|vue)\"",
     "start": "npm run build:css:prod && remix-serve build",
-    "validate": "./other/validate"
+    "validate": "./other/validate",
+    "start:local": "npm run build:css:prod && dotenv -e .env remix-serve build"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.8.3",
