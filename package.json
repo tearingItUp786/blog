@@ -41,6 +41,7 @@
     "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.2",
     "algoliasearch": "^4.15.0",
+    "autoprefixer": "^10.4.14",
     "cachified": "^3.0.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.29.3",
@@ -53,7 +54,7 @@
     "p-queue": "^7.2.0",
     "postcss": "^8.4.7",
     "postcss-cli": "^9.1.0",
-    "postcss-import": "^14.0.2",
+    "postcss-import": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-instantsearch-hooks": "^6.41.0",
@@ -74,9 +75,7 @@
     "remark-images": "^3.1.0",
     "remark-slug": "^7.0.1",
     "remark-smartypants": "^2.0.0",
-    "remix": "^1.2.2",
-    "unist": "^8.0.11",
-    "unist-util-visit": "^4.1.2"
+    "remix": "^1.2.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.10.0",
