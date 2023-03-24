@@ -19,7 +19,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -40,38 +40,13 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
       - name: 🔎 Type check
         run: npm run typecheck
-
-  # TODO: add in jest test
-  # jest:
-  #   name: 🃏 Jest
-  #   needs: [changes]
-  #   if: needs.changes.outputs.DEPLOYABLE == 'true'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: 🛑 Cancel Previous Runs
-  #       uses: styfle/cancel-workflow-action@0.11.0
-  #
-  #     - name: ⬇️ Checkout repo
-  #       uses: actions/checkout@v2
-  #
-  #     - name: ⎔ Setup node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #
-  #     - name: 📥 Download deps
-  #       uses: bahmutov/npm-install@v1
-  #
-  #     - name: 🃏 Run jest
-  #       run: npm run test -- --coverage
-  #
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
@@ -112,7 +87,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 16
+          node-version: 18
 
       - name: 🥬 Refresh Content
         run: node ./other/refresh-content.js
