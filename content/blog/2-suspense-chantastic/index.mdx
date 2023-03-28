@@ -119,11 +119,7 @@ This component is meant to display some data in a `div` -- not very inspired but
 that's not the point of this blog post and it wasn't the point of the workshop
 either.
 
-On line 4 we're using the `createResource` function that we imported from
-
-<TextLink href="https://www.npmjs.com/package/react-cache">
-  react-cache
-</TextLink>
+On line 4 we're using the `createResource` function that we imported from <TextLink href="https://www.npmjs.com/package/react-cache">react-cache</TextLink>
 and providing it with a function as an argument. The caveat with the function argument
 is that it needs to return a thenable; luckily, the modern `fetch` implementation
 that ships with browsers or packages such as
