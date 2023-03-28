@@ -18,7 +18,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
       <button
         className={clsx(
           isOpen ? 'fixed' : 'absolute',
-          'border-radius-[-4px] pointer absolute top-[30px] right-[5vw] z-10 translate-y-[-50%] border-none bg-transparent p-4',
+          'border-radius-[-4px] pointer absolute top-[30px] right-[0] z-10 translate-y-[-50%] border-none bg-transparent p-4',
         )}
         onClick={() => setIsOpen((o: boolean) => !o)}
       >

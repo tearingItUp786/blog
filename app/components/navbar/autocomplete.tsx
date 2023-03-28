@@ -131,7 +131,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
     <>
       <button
         onClick={onClick}
-        className="focus:ring-offset-gray-800 mr-8 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden"
+        className="focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden"
       >
         <span className="sr-only">Search</span>
         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
