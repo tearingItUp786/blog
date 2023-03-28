@@ -3,6 +3,7 @@ export const Logo = ({className}: {className?: string}) => {
     'fill-white dark:fill-black transition-[fill] duration-300'
   return (
     <svg
+      style={{maxWidth: '100px'}}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
       id="Layer_1"
