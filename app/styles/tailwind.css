@@ -2154,6 +2154,12 @@ video {
 .dark .dark\:text-white {
   color: var(--color-white);
 }
+.dark .dark\:\!text-black {
+  color: var(--color-black) !important;
+}
+.dark .dark\:\!text-gray-300 {
+  color: var(--color-gray-300) !important;
+}
 .dark .dark\:opacity-80 {
   opacity: 0.8;
 }
@@ -2348,6 +2354,12 @@ video {
   .dark .md\:dark\:translate-x-\[160\%\] {
     --tw-translate-x: 160%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .dark .dark\:md\:bg-gray-100 {
+    background-color: var(--color-gray-100);
+  }
+  .dark .dark\:md\:bg-gray-300 {
+    background-color: var(--color-gray-300);
   }
 }
 @media (min-width: 1024px) {

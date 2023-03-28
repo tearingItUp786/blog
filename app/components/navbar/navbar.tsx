@@ -37,11 +37,11 @@ export function Navbar() {
   }, [isOpen])
 
   const navClassName =
-    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:bg-white lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-xl italic font-light items-center'
+    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-xl italic font-light items-center'
   const activeClassName =
     '!text-pink font-display not-italic font-bold bg-white lg:bg-white dark:lg:bg-gray-100 dark:bg-gray-100'
   const setNavClassName = ({isActive}: {isActive: boolean}) => {
-    return clsx(navClassName, isActive && activeClassName)
+    return clsx(navClassName, isActive ? activeClassName : 'lg:dark:bg-white')
   }
 
   return (
@@ -127,7 +127,7 @@ export function Navbar() {
                                 }
                               >
                                 <div>
-                                  <H3 className="my-2 text-white dark:text-gray-300">
+                                  <H3 className="my-2 text-white dark:!text-gray-300">
                                     {
                                       (item as {data: {title: string}}).data
                                         .title
