@@ -48,7 +48,7 @@ export function Navbar() {
     <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
       <div className="mr-[15px] w-[50px] px-0 md:w-[80px]  md:pr-6">
         <NavLink className="logoNavLink" to="/">
-          <Logo className="py-1" />
+          <Logo className="max-w-[100px] py-1" />
         </NavLink>
       </div>
       <div
