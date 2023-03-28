@@ -46,9 +46,9 @@ export function Navbar() {
 
   return (
     <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
-      <div className="mr-[15px] w-[80px]">
-        <NavLink to="/">
-          <Logo className="logoNavLink px-4 py-1" />
+      <div className="mr-[15px] w-[50px] px-0 md:w-[80px]  md:pr-6">
+        <NavLink className="logoNavLink" to="/">
+          <Logo className="py-1" />
         </NavLink>
       </div>
       <div
@@ -117,7 +117,7 @@ export function Navbar() {
                         },
                         item({item, components}) {
                           return (
-                            <div className="aria-selected:bg-gray-300 aria-selected:text-white cursor-default select-none rounded-md p-3 text-sm text-white dark:text-gray-300">
+                            <div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-gray-300 aria-selected:text-white dark:text-gray-300">
                               <a
                                 className="flex items-center justify-between space-x-4"
                                 href={

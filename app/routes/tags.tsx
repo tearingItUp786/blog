@@ -12,7 +12,7 @@ export default function TagPage() {
   const {tagList} = useLoaderData<typeof loader>()
 
   return (
-    <div className="page-container">
+    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
         <H1>Tags</H1>
         <div className="mt-8">
@@ -34,7 +34,7 @@ export default function TagPage() {
                       md:first-of-type:ml-6"
                       >
                         <NavLink
-                          className="linkable-tag"
+                          className="font-bold  uppercase text-accent dark:opacity-80"
                           to={`/tags/${tag.name}`}
                         >
                           {' '}

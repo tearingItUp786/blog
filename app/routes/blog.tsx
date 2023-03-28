@@ -62,8 +62,16 @@ export default function Blog() {
   const firstElement = blogList[0]
 
   return (
-    <div className="blog-container">
-      <H2 className="welcome-message">WELCOME</H2>
+    <div
+      className={clsx(
+        'relative mx-[10vw] mt-8 pb-8 before:hidden before:content-[""] md:before:block',
+        'before:absolute before:left-[50%] before:top-[40px] before:h-[18px] before:w-[18px] before:-translate-x-1/2 before:rounded-full before:bg-gray-300 before:dark:bg-white',
+        'after:absolute after:top-[50px] after:left-[50%] after:bottom-0 after:hidden after:w-[2px] after:bg-gray-300 after:content-[""] after:dark:bg-white md:after:block',
+      )}
+    >
+      <h2 className="mb-4 text-center text-lg font-normal text-accent dark:text-pink dark:opacity-80">
+        WELCOME
+      </h2>
       <div className="mx-auto grid max-w-5xl grid-cols-2 pt-0 md:pt-4">
         {firstElement ? (
           <div

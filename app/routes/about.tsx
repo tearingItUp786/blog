@@ -70,7 +70,7 @@ export default function About() {
   const data = useLoaderData<typeof loader>()
 
   return (
-    <div className="page-container">
+    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
         <Hero />
         <BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">

@@ -64,10 +64,6 @@ a {
   visibility: visible;
 }
 
-.linkable-tag {
-  @apply font-bold uppercase text-accent dark:opacity-80;
-}
-
 html {
   background-color: var(--color-gray-100);
 }
@@ -88,12 +84,8 @@ body {
 }
 
 p {
-  @apply mb-6 text-lg;
-}
-
-.page-container {
-  min-height: 100vh;
-  @apply mx-auto mt-[2rem]  max-w-screen-xl pb-24;
+  margin-bottom: 1.4rem;
+  font-size: 1.125rem;
 }
 
 [type='search']::-webkit-search-cancel-button,

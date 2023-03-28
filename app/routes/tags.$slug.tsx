@@ -23,7 +23,7 @@ export default function SingleTag() {
   let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
 
   return (
-    <div className="page-container">
+    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
       <div
         className="
         prose 

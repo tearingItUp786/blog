@@ -53,14 +53,6 @@ a {
 .title:hover a svg {
   visibility: visible;
 }
-.linkable-tag {
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.dark .linkable-tag {
-  opacity: 0.8;
-}
 html {
   background-color: var(--color-gray-100);
 }
@@ -80,17 +72,8 @@ body {
   background-color: #f410a1b0;
 }
 p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
   font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-.page-container {
-  min-height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2rem;
-  max-width: 1536px;
-  padding-bottom: 6rem;
 }
 [type='search']::-webkit-search-cancel-button,
 [type='search']::-webkit-search-decoration {
