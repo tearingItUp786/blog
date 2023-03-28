@@ -6,7 +6,7 @@ export const HeroImage = ({
 }: React.ImgHTMLAttributes<HTMLImageElement>) => {
   return (
     <>
-      <img alt={alt} src={src} />
+      <img className="mb-4" alt={alt} src={src} />
       <SmallAsterisk>
         Image by{' '}
         <TextLink
