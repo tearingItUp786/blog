@@ -31,9 +31,7 @@ commonly used practice that helps to ensure that the JavaScript bundles that our
 users receive are as small as possible; this equates to better performance! We
 all know that the fastest code is no code... so less code means faster code
 
-<span role="img" aria-label="winking emoji">
-  😉
-</span>
+<span role="img" aria-label="winking emoji">😉</span>
 
 For example if we have a Single Page Application (SPA), prior to React Suspense,
 a common practice was to use a package like
@@ -41,11 +39,7 @@ a common practice was to use a package like
 <TextLink href="https://github.com/jamiebuilds/react-loadable">React Loadable</TextLink> to handle splitting the various routes for said application\*. It would
 be wasteful to load all the code for every route at initial load time/runtime because
 there could be several routes that a specific user never ends up actually visiting
--- what a waste!
-<span role="img" aria-label="face sccreaming emoji">
-  😱
-</span>
-.
+-- what a waste! <span role="img" aria-label="face sccreaming emoji">😱</span>.
 
 There is one thing that Suspense requires to work though: a cache! Currently,
 there is no stable caching pacakge for React, but don't you worry, the React
