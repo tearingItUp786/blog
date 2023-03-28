@@ -78,7 +78,7 @@ export const BlockQuote = ({
   <blockquote
     style={{fontStyle: 'oblique'}}
     className={clsx(
-      'font-body text-2xl font-light uppercase dark:text-white',
+      'font-body text-2xl font-light uppercase dark:text-white [&>p]:my-0',
       className,
     )}
     {...rest}
@@ -107,7 +107,7 @@ export const ShortQuote = ({
     style={{fontStyle: 'oblique'}}
     className={clsx(
       titleColors['secondary'],
-      'my-4 font-body text-lg font-light uppercase',
+      'my-4 font-body text-lg font-light uppercase [&>p]:my-0',
       containerClassName,
     )}
     {...rest}
