@@ -70,7 +70,7 @@ export function Navbar() {
         </NavLink>
       </div>
 
-      <div className="relative flex w-[100px] flex-grow items-center justify-end md:pr-0 lg:flex-grow-0">
+      <div className="relative flex w-[80px] flex-grow items-center justify-end md:pr-0 lg:flex-grow-0">
         <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />
         <InstantSearch searchClient={algoliaSearchClient} indexName="website">
           <div className="relative ">
