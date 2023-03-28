@@ -9,7 +9,7 @@ import {
 import clsx from 'clsx'
 import appStyles from './styles/app.css'
 
-import tailwindStyles from './styles/tailwind.css'
+import tailwindStyles from '~/tailwind.css'
 import prismaStyles from './styles/prisma-theme.css'
 import {
   NonFlashOfWrongThemeEls,

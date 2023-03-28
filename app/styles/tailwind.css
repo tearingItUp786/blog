@@ -1170,17 +1170,11 @@ video {
 .w-\[5\.5rem\] {
   width: 5.5rem;
 }
-.w-\[80px\] {
-  width: 80px;
-}
-.w-full {
-  width: 100%;
-}
 .w-\[50px\] {
   width: 50px;
 }
-.w-\[70px\] {
-  width: 70px;
+.w-full {
+  width: 100%;
 }
 .min-w-\[150px\] {
   min-width: 150px;
@@ -1208,15 +1202,6 @@ video {
 }
 .max-w-screen-xl {
   max-width: 1536px;
-}
-.max-w-\[50px\] {
-  max-width: 50px;
-}
-.max-w-\[55px\] {
-  max-width: 55px;
-}
-.max-w-\[100px\] {
-  max-width: 100px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1472,6 +1457,10 @@ video {
 .p-8 {
   padding: 2rem;
 }
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -1483,10 +1472,6 @@ video {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-}
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 .px-8 {
   padding-left: 2rem;
@@ -1503,10 +1488,6 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-}
-.px-0 {
-  padding-left: 0px;
-  padding-right: 0px;
 }
 .pb-24 {
   padding-bottom: 6rem;
@@ -2142,6 +2123,9 @@ video {
 .dark .dark\:stroke-white {
   stroke: var(--color-white);
 }
+.dark .dark\:\!text-gray-300 {
+  color: var(--color-gray-300) !important;
+}
 .dark .dark\:text-accent {
   color: var(--accent);
 }
@@ -2156,12 +2140,6 @@ video {
 }
 .dark .dark\:text-white {
   color: var(--color-white);
-}
-.dark .dark\:\!text-black {
-  color: var(--color-black) !important;
-}
-.dark .dark\:\!text-gray-300 {
-  color: var(--color-gray-300) !important;
 }
 .dark .dark\:opacity-80 {
   opacity: 0.8;
@@ -2265,10 +2243,6 @@ video {
   .md\:p-6 {
     padding: 1.5rem;
   }
-  .md\:px-2 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
   .md\:pl-10 {
     padding-left: 2.5rem;
   }
@@ -2301,9 +2275,6 @@ video {
   }
   .md\:pt-6 {
     padding-top: 1.5rem;
-  }
-  .md\:pr-4 {
-    padding-right: 1rem;
   }
   .md\:text-left {
     text-align: left;
@@ -2357,12 +2328,6 @@ video {
   .dark .md\:dark\:translate-x-\[160\%\] {
     --tw-translate-x: 160%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  }
-  .dark .dark\:md\:bg-gray-100 {
-    background-color: var(--color-gray-100);
-  }
-  .dark .dark\:md\:bg-gray-300 {
-    background-color: var(--color-gray-300);
   }
 }
 @media (min-width: 1024px) {
