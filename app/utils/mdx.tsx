@@ -7,6 +7,7 @@ import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import cachified, {verboseReporter} from 'cachified'
+import {HeroImage} from '~/components/hero-image'
 
 function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
   if (entry?.object?.text) {
@@ -64,6 +65,7 @@ async function getMdxPageGql({
 
 const mdxComponents = {
   ...myTypo,
+  HeroImage,
 }
 
 /**
