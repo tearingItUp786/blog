@@ -5,7 +5,7 @@ export const HeroImage = ({
   src,
 }: React.ImgHTMLAttributes<HTMLImageElement>) => {
   return (
-    <>
+    <div className="mb-4">
       <img className="mb-4" alt={alt} src={src} />
       <SmallAsterisk>
         Image by{' '}
@@ -23,6 +23,6 @@ export const HeroImage = ({
           Pixabay
         </TextLink>
       </SmallAsterisk>
-    </>
+    </div>
   )
 }
