@@ -6,8 +6,33 @@ on:
   pull_request: {}
 
 jobs:
+  changes:
+    name: 🔎 Determine deployable changes
+    runs-on: ubuntu-latest
+    outputs:
+      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '50'
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: 🔎 Determine deployable changes
+        id: changes
+        run: >-
+          echo ::set-output name=DEPLOYABLE::$(node ./other/is-deployable.js)
+      - name: ❓ Deployable
+        run: >-
+          echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
   lint:
     name: ⬣ ESLint
+    needs: [changes]
+    if: needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -28,7 +53,9 @@ jobs:
         run: npm run lint
 
   typecheck:
-    name: ʦ TypeScript
+    name: ʦ :TypeScript
+    needs: [changes]
+    if: needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -50,7 +77,9 @@ jobs:
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
-    needs: [lint, typecheck]
+    needs: [changes,lint, typecheck]
+    needs: [changes]
+    if: needs.changes.outputs.DEPLOYABLE == 'true'
     # only build/deploy main branch on pushes
     if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' }}
 
@@ -78,7 +107,6 @@ jobs:
   refresh:
     name: 🥬 Refresh Content
     runs-on: ubuntu-latest
-    needs: [deploy]
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v2

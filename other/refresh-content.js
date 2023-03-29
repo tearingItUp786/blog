@@ -1,9 +1,45 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'localhost'
+const hostname = 'taran-test'
+const http = require('http')
+
+function checkAlive() {
+  return new Promise((resolve, reject) => {
+    try {
+      const options = {
+        hostname,
+        port: 8080,
+        path: `/`,
+        method: 'GET',
+      }
+
+      // make http request to localhost:8080
+      const req = http
+        .request(options, res => {
+          let data = ''
+          res.on('data', d => {
+            data += d
+          })
+
+          res.on('end', () => {
+            try {
+              resolve(JSON.parse(data))
+            } catch (error) {
+              reject(data)
+            }
+          })
+        })
+        .on('error', reject)
+      req.write('done')
+      req.end()
+    } catch (error) {
+      console.log('oh no', error)
+      reject(error)
+    }
+  })
+}
 
 // try to keep this dep-free so we don't have to install deps
 function postRefreshCache({
-  http = require('http'),
   postData,
   options: {headers: headersOverrides, ...optionsOverrides} = {},
 }) {
@@ -13,7 +49,7 @@ function postRefreshCache({
 
       const options = {
         hostname,
-        port: 3000,
+        port: 8080,
         path: `/action/refresh-cache`,
         method: 'POST',
         headers: {
@@ -51,6 +87,9 @@ function postRefreshCache({
 }
 
 async function go() {
+  // we need to make sure the server is alive before we even try to invalidate the cache
+  await checkAlive()
+
   const changes = await getChangedFiles('HEAD^', 'HEAD')
   // with the changes, we can determine if we need to refresh the cache
   // if there's nothing in the cache from content, we don't need to refresh the cache
