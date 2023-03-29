@@ -6,6 +6,24 @@ import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
 import type {TransformerInfo} from '@remark-embedder/core'
 import type {GithubGrapqhlObject} from 'types'
+import path from 'path'
+
+if (process.platform === 'win32') {
+  process.env.ESBUILD_BINARY_PATH = path.join(
+    process.cwd(),
+    'node_modules',
+    'esbuild',
+    'esbuild.exe',
+  )
+} else {
+  process.env.ESBUILD_BINARY_PATH = path.join(
+    process.cwd(),
+    'node_modules',
+    'esbuild',
+    'bin',
+    'esbuild',
+  )
+}
 
 function handleEmbedderError({url}: {url: string}) {
   return `<p>Error embedding <a href="${url}">${url}</a></p>.`

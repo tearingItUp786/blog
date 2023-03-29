@@ -1,9 +1,9 @@
-# fly.toml file generated for testy-tara on 2023-03-23T21:08:26-07:00
+# fly.toml file generated for taran-test on 2023-03-29T07:36:06-07:00
 
-app = "testy-tara"
+app = "taran-test"
 kill_signal = "SIGINT"
 kill_timeout = 5
-primary_region = "ord"
+primary_region = "lax"
 processes = []
 
 [env]
