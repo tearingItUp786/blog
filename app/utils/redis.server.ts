@@ -15,6 +15,7 @@ function createRedisClient(): redis.RedisClientType {
     // eslint-disable-next-line no-multi-assign
     client = global.primaryClient = redis.createClient({
       url: process.env.REDIS_URL || 'redis://localhost:6379',
+      pingInterval: 4 * 60 * 1000,
     })
 
     client.on('error', (error: string) => {

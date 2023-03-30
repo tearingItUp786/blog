@@ -1,4 +1,4 @@
-import {useCatch, useLoaderData} from '@remix-run/react'
+import {CatchBoundaryComponent, useCatch, useLoaderData} from '@remix-run/react'
 import {json, LoaderFunction, MetaFunction} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
@@ -11,6 +11,33 @@ type LoaderData = {
 }
 export const meta: MetaFunction = ({params}) => {
   return {title: `Taran "tearing it up" Bains | Blog | ${params.slug}`}
+}
+
+export const CatchBoundary = () => {
+  const catchBoundary = useCatch()
+  return (
+    <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
+      <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
+        <H3>Not found: {catchBoundary?.status}</H3>
+        <iframe
+          src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
+          width="480"
+          height="361"
+          className="giphy-embed"
+          allowFullScreen
+        />
+
+        <p className="text-pink">
+          <a
+            className="text-pink"
+            href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
+          >
+            via GIPHY
+          </a>
+        </p>
+      </div>
+    </div>
+  )
 }
 
 export const loader: LoaderFunction = async ({params}) => {
