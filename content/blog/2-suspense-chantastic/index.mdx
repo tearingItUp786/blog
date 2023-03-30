@@ -29,9 +29,7 @@ to "split" our JavaScript bundles into mutliple chunks -- was something that was
 not possible. However, thanks to the aforementioned tools, code-splitting is a
 commonly used practice that helps to ensure that the JavaScript bundles that our
 users receive are as small as possible; this equates to better performance! We
-all know that the fastest code is no code... so less code means faster code
-
-<span role="img" aria-label="winking emoji">😉</span>
+all know that the fastest code is no code... so less code means faster code 😉.
 
 For example if we have a Single Page Application (SPA), prior to React Suspense,
 a common practice was to use a package like
@@ -39,7 +37,7 @@ a common practice was to use a package like
 <TextLink href="https://github.com/jamiebuilds/react-loadable">React Loadable</TextLink> to handle splitting the various routes for said application\*. It would
 be wasteful to load all the code for every route at initial load time/runtime because
 there could be several routes that a specific user never ends up actually visiting
--- what a waste! <span role="img" aria-label="face sccreaming emoji">😱</span>.
+-- what a waste 😱!
 
 There is one thing that Suspense requires to work though: a cache! Currently,
 there is no stable caching pacakge for React, but don't you worry, the React
@@ -58,11 +56,7 @@ potentially make the same API request for the same data and while browsers have
 implemented caches for network requests, that doesn't really help with our
 components rendering! But with react cache, if the said data had been requested
 earlier the data will be available in the in memory cache and there will be no
-need to fetch the data from the network request.
-
-<span role="img" aria-label="thumbs up emoji">
-  👍
-</span>
+need to fetch the data from the network request 👍.
 
 Once Suspsene and react-cache have stabilized, we will no longer need to worry
 about the logic regarding async resource loading!
@@ -74,8 +68,7 @@ about the logic regarding async resource loading!
 
 ## React Suspense -- the meat of the workshop
 
-I'm just going to show the code and explain it
-below<span role="img" aria-label="smile emoji">😁</span>.
+I'm just going to show the code and explain it below 😁.
 
 ```jsx:title=pokemon.js
 import React from "react"
