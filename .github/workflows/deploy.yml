@@ -26,7 +26,8 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: >-
-          echo ::set-output name=DEPLOYABLE::$(node ./other/is-deployable.js)
+          echo "{DEPLOYABLE}={$(node ./other/is-deployable.js)}" >>
+          $GITHUB_OUTPUT
       - name: ❓ Deployable
         run: >-
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
