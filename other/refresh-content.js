@@ -1,5 +1,5 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'taran-test'
+const hostname = 'https://staging-taran.fly.dev'
 const http = require('http')
 
 function checkAlive() {

@@ -1,6 +1,6 @@
-# fly.toml file generated for little-breeze-5436 on 2023-03-29T15:41:27-07:00
+# fly.toml file generated for staging-taran on 2023-03-30T10:51:44-07:00
 
-app = "little-breeze-5436"
+app = "staging-taran"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "lax"
