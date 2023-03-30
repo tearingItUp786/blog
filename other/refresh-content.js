@@ -1,20 +1,13 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'https://staging-taran.fly.dev'
-const http = require('http')
+const hostname = 'https://staging-taran.fly.dev/'
+const https = require('https')
 
 function checkAlive() {
   return new Promise((resolve, reject) => {
     try {
-      const options = {
-        hostname,
-        port: 8080,
-        path: `/`,
-        method: 'GET',
-      }
-
       // make http request to localhost:8080
-      const req = http
-        .request(options, res => {
+      const req = https
+        .request(hostname, res => {
           let data = ''
           res.on('data', d => {
             data += d
@@ -22,7 +15,7 @@ function checkAlive() {
 
           res.on('end', () => {
             try {
-              resolve(JSON.parse(data))
+              resolve('done')
             } catch (error) {
               reject(data)
             }
@@ -61,7 +54,7 @@ function postRefreshCache({
         ...optionsOverrides,
       }
 
-      const req = http
+      const req = https
         .request(options, res => {
           let data = ''
           res.on('data', d => {
@@ -90,6 +83,7 @@ async function go() {
   // we need to make sure the server is alive before we even try to invalidate the cache
   await checkAlive()
 
+  console.log('🏥 checking for life')
   const changes = await getChangedFiles('HEAD^', 'HEAD')
   // with the changes, we can determine if we need to refresh the cache
   // if there's nothing in the cache from content, we don't need to refresh the cache
