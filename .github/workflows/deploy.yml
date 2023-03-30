@@ -80,7 +80,7 @@ jobs:
     needs: [changes, lint, typecheck]
     # only build/deploy main branch on pushes
     if:
-      ${{ *needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
+      ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
       'refs/heads/main') && github.event_name == 'push' }}
 
     steps:
