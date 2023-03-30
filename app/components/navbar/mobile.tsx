@@ -16,6 +16,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
       )}
     >
       <button
+        aria-label="Hamburger menu"
         className={clsx(
           isOpen ? 'fixed' : 'absolute',
           'border-radius-[-4px] pointer absolute top-[30px] right-[0] z-10 translate-y-[-50%] border-none bg-transparent p-4',

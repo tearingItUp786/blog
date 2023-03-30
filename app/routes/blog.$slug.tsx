@@ -1,5 +1,5 @@
 import {useCatch, useLoaderData} from '@remix-run/react'
-import {json, LoaderFunction} from '@remix-run/node'
+import {json, LoaderFunction, MetaFunction} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
 import {H1, H4} from '~/components/typography'
@@ -8,6 +8,9 @@ import {dateFormat} from '~/utils/misc'
 
 type LoaderData = {
   page: MdxPage
+}
+export const meta: MetaFunction = ({params}) => {
+  return {title: `Taran "tearing it up" Bains | Blog | ${params.slug}`}
 }
 
 export const loader: LoaderFunction = async ({params}) => {

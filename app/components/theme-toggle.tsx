@@ -47,6 +47,7 @@ const ThemeToggle = () => {
         }}
       >
         <input
+          aria-label="Toggle theme mode"
           className={clsx(
             'transition-color h-6 w-6  cursor-pointer appearance-none rounded-full drop-shadow-toggle transition-transform ease-in-out md:h-7 md:w-7',
             'translate-x-0 bg-white',

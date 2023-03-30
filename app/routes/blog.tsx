@@ -9,8 +9,12 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderFunction} from '@remix-run/node'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
+
+export const meta: MetaFunction = () => {
+  return {title: `Taran "tearing it up" Bains | Blog`}
+}
 
 export const loader: LoaderFunction = async () => {
   const blogList = await getMdxBlogListGraphql()

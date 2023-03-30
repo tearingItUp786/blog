@@ -19,13 +19,9 @@ export default function Index() {
   return (
     <div>
       <div
-        style={{
-          // backgroundImage: `url(${String(hero)})`,
-          // boxShadow: "inset 0 0 0 2000px rgb(0 0 0 / 61%)",
-          height: `calc(100vh - 63.5px)`,
-        }}
         className={`
       relative 
+      h-[calc(95vh_-_63.5px)] 
       overflow-hidden
       bg-contain
       bg-fixed
