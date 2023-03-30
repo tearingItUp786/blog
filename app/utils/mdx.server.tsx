@@ -101,7 +101,7 @@ async function compileMdxForGraphql<
         options.remarkPlugins = [
           ...(options.remarkPlugins ?? []),
           capitalize,
-          emoji,
+          [emoji, {accessible: true}],
           gfm,
           smartypants,
           [remarkImages, {maxWidth: 1200}],
