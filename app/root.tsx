@@ -106,7 +106,6 @@ const ErrorComponent = () => {
       </head>
       <body>
         <Navbar />
-        {/* Your Error UI comes here */}
         <div className="w-100">
           <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
             <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
