@@ -77,8 +77,9 @@ const CatchComponent = () => {
             </p>
           </div>
         </div>
-        <Footer />
         <Scripts />
+        <Toggle />
+        <Footer />
       </body>
     </html>
   )
@@ -127,8 +128,9 @@ const ErrorComponent = () => {
             </div>
           </div>
         </div>
-        <Footer />
         <Scripts />
+        <Toggle />
+        <Footer />
       </body>
     </html>
   )
