@@ -1,5 +1,5 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'https://staging-taran.fly.dev/'
+const hostname = 'staging-taran.fly.dev'
 const https = require('https')
 
 function checkAlive() {
@@ -7,7 +7,7 @@ function checkAlive() {
     try {
       // make http request to localhost:8080
       const req = https
-        .request(hostname, res => {
+        .request(`https://${hostname}`, res => {
           let data = ''
           res.on('data', d => {
             data += d
@@ -21,7 +21,10 @@ function checkAlive() {
             }
           })
         })
-        .on('error', reject)
+        .on('error', wtf => {
+          console.log('wtf', wtf)
+          reject(wtf)
+        })
       req.write('done')
       req.end()
     } catch (error) {
@@ -42,7 +45,7 @@ function postRefreshCache({
 
       const options = {
         hostname,
-        port: 8080,
+        port: 443,
         path: `/action/refresh-cache`,
         method: 'POST',
         headers: {
@@ -69,7 +72,10 @@ function postRefreshCache({
             }
           })
         })
-        .on('error', reject)
+        .on('error', wtf => {
+          console.log('wtf', wtf)
+          reject(wtf)
+        })
       req.write(postDataString)
       req.end()
     } catch (error) {
@@ -81,29 +87,34 @@ function postRefreshCache({
 
 async function go() {
   // we need to make sure the server is alive before we even try to invalidate the cache
-  await checkAlive()
+  try {
+    console.log('🏥 checking for life')
+    await checkAlive()
 
-  console.log('🏥 checking for life')
-  const changes = await getChangedFiles('HEAD^', 'HEAD')
-  // with the changes, we can determine if we need to refresh the cache
-  // if there's nothing in the cache from content, we don't need to refresh the cache
-  // or update algolia
+    const changes = await getChangedFiles('HEAD^', 'HEAD')
+    // with the changes, we can determine if we need to refresh the cache
+    // if there's nothing in the cache from content, we don't need to refresh the cache
+    // or update algolia
 
-  console.log('👀 checking for content changes')
-  let contentFiles = changes.filter(o => o.filename.indexOf('content') === 0)
-  if (!contentFiles.length) {
-    console.log('🤷 no content changes, exiting')
-    return
+    console.log('👀 checking for content changes')
+    let contentFiles = changes.filter(o => o.filename.indexOf('content') === 0)
+    if (!contentFiles.length) {
+      console.log('🤷 no content changes, exiting')
+      return
+    }
+
+    console.log('👍 content changes, refreshing cache and updating algolia')
+    // call the refresh cache function with the content files
+    await postRefreshCache({
+      postData: {
+        contentFiles,
+      },
+    })
+    return changes
+  } catch (error) {
+    console.log(error)
+    console.log('🤯 error')
   }
-
-  console.log('👍 content changes, refreshing cache and updating algolia')
-  // call the refresh cache function with the content files
-  await postRefreshCache({
-    postData: {
-      contentFiles,
-    },
-  })
-  return changes
 }
 
 go()
