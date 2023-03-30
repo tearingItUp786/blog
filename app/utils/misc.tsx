@@ -15,11 +15,11 @@ export function dateFormat(dateString: string) {
 }
 
 export function dotFormattedDate(dateString: string) {
-  return dateFns.format(parseDate(dateString), 'd.MM.yyyy')
+  return dateFns.format(parseDate(dateString), 'dd.MM.yyyy')
 }
 
 function parseDate(dateString: string) {
   return dateFns.add(dateFns.parseISO(dateString), {
-    minutes: new Date().getTimezoneOffset(),
+    minutes: new Date(dateString).getTimezoneOffset(),
   })
 }

@@ -53,7 +53,7 @@ export const ContentCard = ({
     >
       <div className="block items-start md:flex">
         <div className="order-0 mr-6 block flex-col text-lg text-accent md:flex">
-          {date ? dotFormattedDate(date) : null}
+          {dotFormattedDate(date ?? '')}
           <NavLink
             className="ml-4 mr-2 font-bold uppercase text-accent no-underline md:ml-0"
             to={`/tags/${tag}`}
