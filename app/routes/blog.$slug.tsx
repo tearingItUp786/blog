@@ -2,7 +2,7 @@ import {useCatch, useLoaderData} from '@remix-run/react'
 import {json, LoaderFunction, MetaFunction} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
-import {H1, H4} from '~/components/typography'
+import {H1, H3, H4} from '~/components/typography'
 import {getMdxPageGql, useMdxComponent} from '~/utils/mdx'
 import {dateFormat} from '~/utils/misc'
 
@@ -18,21 +18,22 @@ export const loader: LoaderFunction = async ({params}) => {
     throw new Error('params.slug is not defined')
   }
 
-  const page = await getMdxPageGql({
-    contentDir: 'blog',
-    slug: params.slug,
-  })
+  try {
+    const page = await getMdxPageGql({
+      contentDir: 'blog',
+      slug: params.slug,
+    })
 
-  const headers = {
-    'Cache-Control': 'private, max-age=3600',
-    Vary: 'Cookie',
-  }
+    const headers = {
+      'Cache-Control': 'private, max-age=3600',
+      Vary: 'Cookie',
+    }
 
-  if (!page) {
-    throw json({error: true}, {status: 404, headers})
+    const data: LoaderData = {page}
+    return json(data, {status: 200, headers})
+  } catch (err) {
+    throw json({error: params.slug}, {status: 404})
   }
-  const data: LoaderData = {page}
-  return json(data, {status: 200, headers})
 }
 
 const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
@@ -100,10 +101,4 @@ export default function MdxScreen() {
       </main>
     </div>
   )
-}
-
-export function CatchBoundary() {
-  const caught = useCatch()
-  console.error('CatchBoundary', caught)
-  return <div>Fucked up </div>
 }
