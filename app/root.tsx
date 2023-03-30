@@ -57,7 +57,7 @@ const CatchComponent = () => {
         <Navbar />
         {/* Your Error UI comes here */}
         <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-300">
-          <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center">
+          <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
             <H3>Not found: {catchBoundary.status}</H3>
             <iframe
               src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
@@ -109,7 +109,7 @@ const ErrorComponent = () => {
         {/* Your Error UI comes here */}
         <div className="w-100">
           <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-300">
-            <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center">
+            <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
               <H3>Something went wrong with the server</H3>
               <div className="relative h-0 w-[100%] pb-[56%]">
                 <iframe
