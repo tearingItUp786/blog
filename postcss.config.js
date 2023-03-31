@@ -3,5 +3,6 @@ module.exports = {
     require('tailwindcss'),
     require('autoprefixer'),
     require('postcss-import'),
+    process.env.NODE_ENV === 'production' ? require('cssnano') : null,
   ],
 }
