@@ -28,7 +28,10 @@ import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
 
 export const meta: MetaFunction = () => {
-  return {title: `Taran "tearing it up" Bains`}
+  return {
+    title: `Taran "tearing it up" Bains`,
+    description: 'A home for the mostly developer thoughts of Taran Bains',
+  }
 }
 
 export const links: LinksFunction = () => {

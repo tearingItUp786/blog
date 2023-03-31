@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import {useLoaderData} from '@remix-run/react'
 import {BlogCard} from '~/components/blog/blog-card'
-import {H2} from '~/components/typography'
 import {getMdxBlogListGraphql} from '~/utils/mdx'
 import styles from '~/styles/blog.css'
 import {
@@ -9,12 +8,8 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import type {LoaderFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-
-export const meta: MetaFunction = () => {
-  return {title: `Taran "tearing it up" Bains | Blog`}
-}
 
 export const loader: LoaderFunction = async () => {
   const blogList = await getMdxBlogListGraphql()
