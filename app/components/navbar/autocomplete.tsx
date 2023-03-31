@@ -4,7 +4,8 @@ import {createRoot} from 'react-dom/client'
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
 
 import {usePagination, useSearchBox} from 'react-instantsearch-hooks'
-import {autocomplete, AutocompleteOptions} from '@algolia/autocomplete-js'
+import type { AutocompleteOptions} from '@algolia/autocomplete-js';
+import {autocomplete} from '@algolia/autocomplete-js'
 import type {BaseItem} from '@algolia/autocomplete-core'
 import clsx from 'clsx'
 
