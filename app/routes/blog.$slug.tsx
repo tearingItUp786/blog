@@ -1,5 +1,6 @@
 import {CatchBoundaryComponent, useCatch, useLoaderData} from '@remix-run/react'
-import {json, LoaderFunction, MetaFunction} from '@remix-run/node'
+import type { LoaderFunction, MetaFunction} from '@remix-run/node';
+import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
 import {H1, H3, H4} from '~/components/typography'
