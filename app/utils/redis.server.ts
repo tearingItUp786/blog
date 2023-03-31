@@ -16,6 +16,9 @@ function createRedisClient(): redis.RedisClientType {
     client = global.primaryClient = redis.createClient({
       url: process.env.REDIS_URL || 'redis://localhost:6379',
       pingInterval: 4 * 60 * 1000,
+      socket: {
+        family: 6,
+      },
     })
 
     client.on('error', (error: string) => {
