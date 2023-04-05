@@ -1,5 +1,5 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'staging-taran-v2.fly.dev'
+const hostname = 'taranveerbains.ca'
 const https = require('https')
 
 function checkAlive() {
@@ -45,7 +45,6 @@ function postRefreshCache({
 
       const options = {
         hostname,
-        port: 443,
         path: `/action/refresh-cache`,
         method: 'POST',
         headers: {
@@ -66,8 +65,10 @@ function postRefreshCache({
 
           res.on('end', () => {
             try {
+              console.log('data', data)
               resolve(JSON.parse(data))
             } catch (error) {
+              console.log('wtf', data)
               reject(data)
             }
           })
