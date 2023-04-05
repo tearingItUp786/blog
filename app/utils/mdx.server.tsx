@@ -41,7 +41,7 @@ function handleEmbedderHtml(html: GottenHTML, info: TransformerInfo) {
     // height will be relative to that width with a good aspect ratio
 
     return makeEmbed(
-      html.slice(0, 8) + 'loading="lazy"' + html.slice(8),
+      html.slice(0, 8) + 'loading="lazy" class="lazy"' + html.slice(8),
       'youtube',
     )
   }

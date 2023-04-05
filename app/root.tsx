@@ -26,6 +26,7 @@ import type {
 } from '@remix-run/node'
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
+import { IframeLazy } from './utils/iframe-lazy'
 
 export const meta: MetaFunction = () => {
   return {
@@ -55,6 +56,7 @@ const CatchComponent = () => {
         <Meta />
         <Links />
         <NonFlashOfWrongThemeEls />
+        <IframeLazy />
       </head>
       <body>
         <Navbar />
@@ -106,6 +108,7 @@ const ErrorComponent = () => {
         <Meta />
         <Links />
         <NonFlashOfWrongThemeEls />
+        <IframeLazy />
       </head>
       <body>
         <Navbar />
@@ -156,6 +159,7 @@ const App = () => {
         <Meta />
         <Links />
         <NonFlashOfWrongThemeEls />
+        <IframeLazy />
       </head>
       <body className="bg-white dark:bg-gray-100">
         <Navbar />

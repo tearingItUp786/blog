@@ -96,7 +96,7 @@ function Hero() {
 
     let media = window.matchMedia('(min-width: 640px)')
     media.matches && startTimeline()
-    media.addEventListener('change', onMatch)
+    media.addEventListener('change', onMatch, { passive: true })
 
     return () => {
       media.removeEventListener('change', onMatch)
