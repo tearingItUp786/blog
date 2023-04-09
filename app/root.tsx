@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useCatch,
 } from '@remix-run/react'
+import {MetronomeLinks} from '@metronome-sh/react'
 import clsx from 'clsx'
 import appStyles from './styles/app.css'
 
@@ -26,7 +27,7 @@ import type {
 } from '@remix-run/node'
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
-import { IframeLazy } from './utils/iframe-lazy'
+import {IframeLazy} from './utils/iframe-lazy'
 
 export const meta: MetaFunction = () => {
   return {
@@ -55,6 +56,7 @@ const CatchComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
         <IframeLazy />
       </head>
@@ -107,6 +109,7 @@ const ErrorComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
         <IframeLazy />
       </head>
@@ -158,6 +161,7 @@ const App = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
         <IframeLazy />
       </head>
