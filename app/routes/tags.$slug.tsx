@@ -6,6 +6,11 @@ import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
 import {useMemo} from 'react'
+import styles from '~/styles/tag.css'
+
+export function links() {
+  return [{rel: 'stylesheet', href: styles}]
+}
 
 export async function loader({params}: LoaderArgs) {
   if (!params.slug) {
