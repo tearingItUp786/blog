@@ -128,6 +128,6 @@ jobs:
           node-version: 18
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.js --NODE_ENV=production
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
