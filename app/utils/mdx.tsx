@@ -2,7 +2,7 @@ import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
 import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
-import _ from 'lodash'
+import _, {sortBy} from 'lodash'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
@@ -198,8 +198,12 @@ async function getMdxTagListGql() {
         [key: string]: Array<{name: string; value: string}>
       }
 
+      const sortedList = Object.fromEntries(
+        Object.entries(tagList).sort((a, b) => a[0].localeCompare(b[0])),
+      )
+
       return {
-        tagList,
+        tagList: sortedList,
         tags: Array.from(tags.keys()),
       }
     },
