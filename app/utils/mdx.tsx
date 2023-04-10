@@ -2,12 +2,16 @@ import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
 import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
-import _, {sortBy} from 'lodash'
+import _ from 'lodash'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
-import cachified, {verboseReporter} from 'cachified'
+import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
 import {HeroImage} from '~/components/hero-image'
+
+type CommonGetProps = {
+  cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
+}
 
 function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
   if (entry?.object?.text) {
@@ -35,14 +39,14 @@ async function delMdxPageGql({
 async function getMdxPageGql({
   contentDir,
   slug,
-}: {
+  cachifiedOptions,
+}: CommonGetProps & {
   contentDir: string
   slug: string
 }): Promise<MdxPage | any> {
   return cachified({
     key: `gql:${contentDir}:${slug}`,
     cache: redisCache,
-    // forceFresh: true,
     getFreshValue: async () => {
       const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`)
 
@@ -60,6 +64,7 @@ async function getMdxPageGql({
       return compiledPage
     },
     reporter: verboseReporter(),
+    ...cachifiedOptions,
   })
 }
 
@@ -86,11 +91,10 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
-async function getMdxTilListGql() {
+async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: `gql:til:list`,
     cache: redisCache,
-    // forceFresh: true,
     getFreshValue: async () => {
       const dirList = await downloadDirGql(`content/til`)
       const pageData =
@@ -112,14 +116,15 @@ async function getMdxTilListGql() {
       const nonNullPages = pages.filter(page => page !== null)
       return nonNullPages as MdxPage[]
     },
+    reporter: verboseReporter(),
+    ...cachifiedOptions,
   })
 }
 
-async function getMdxBlogListGraphql() {
+async function getMdxBlogListGraphql({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: 'gql:blog:list',
     cache: redisCache,
-    // forceFresh: true,
     getFreshValue: async () => {
       const dirList = await downloadDirGql('content/blog')
       const pageData =
@@ -148,14 +153,15 @@ async function getMdxBlogListGraphql() {
         }
       }) as Omit<MdxPageAndSlug, 'code'>[]
     },
+    reporter: verboseReporter(),
+    ...cachifiedOptions,
   })
 }
 
-async function getMdxTagListGql() {
+async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: 'gql:tag:list',
     cache: redisCache,
-    // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
@@ -208,15 +214,18 @@ async function getMdxTagListGql() {
       }
     },
     reporter: verboseReporter(),
+    ...cachifiedOptions,
   })
 }
 
 // TODO: clean this up so that it's not so repetitive
-async function getMdxIndividualTagGql(userProvidedTag: string) {
+async function getMdxIndividualTagGql({
+  userProvidedTag,
+  cachifiedOptions,
+}: CommonGetProps & {userProvidedTag: string}) {
   return cachified({
     key: `gql:tag:${userProvidedTag}`,
     cache: redisCache,
-    // forceFresh: true,
     getFreshValue: async () => {
       // fetch all the content for til and blog from github
       // then go through the content and pluck out the tag field from the frontmatter;
@@ -281,6 +290,8 @@ async function getMdxIndividualTagGql(userProvidedTag: string) {
         retObject,
       }
     },
+    reporter: verboseReporter(),
+    ...cachifiedOptions,
   })
 }
 

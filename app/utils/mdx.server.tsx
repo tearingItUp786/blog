@@ -174,6 +174,7 @@ async function compileMdxForGraphql<
       },
     })
     const readTime = calculateReadingTime(mdxText)
+    if (frontmatter.tag) frontmatter.tag = frontmatter.tag?.toLowerCase()
 
     return {
       code,

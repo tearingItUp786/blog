@@ -1,5 +1,5 @@
-import type {ActionFunction} from '@remix-run/node';
-import { json, redirect} from '@remix-run/node'
+import type {ActionFunction} from '@remix-run/node'
+import {json, redirect} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {
   delMdxPageGql,
@@ -9,7 +9,7 @@ import {
   getMdxTagListGql,
   getMdxTilListGql,
 } from '~/utils/mdx'
-import {delRedisKey, redisClient} from '~/utils/redis.server'
+import {redisClient} from '~/utils/redis.server'
 import {algoliaClient} from '~/utils/algolia.server'
 
 type File = {
@@ -17,6 +17,10 @@ type File = {
   filename: string
 }
 type Body = {contentFiles: Array<File>}
+
+const cachifiedOptions = {
+  cachifiedOptions: {forceFresh: true},
+}
 
 const getFileArray = (acc: [File[], File[]], file: File) => {
   if (file.filename.startsWith('content/blog')) {
@@ -46,15 +50,13 @@ export const action: ActionFunction = async ({request}) => {
   // if we edited a content file, call the fetcher function for getContent
   if (tilFiles.length) {
     console.log('👍 refreshing til list')
-    await delRedisKey('gql:til:list')
-    tilList = await getMdxTilListGql()
+    tilList = await getMdxTilListGql({...cachifiedOptions})
   }
 
   // do it for the blog list if we need to as well
   if (bFiles.length) {
     console.log('👍 refreshing blog list')
-    await delRedisKey('gql:blog:list')
-    blogList = await getMdxBlogListGraphql()
+    blogList = await getMdxBlogListGraphql({...cachifiedOptions})
   }
 
   for (const file of bFiles) {
@@ -67,6 +69,7 @@ export const action: ActionFunction = async ({request}) => {
     const args = {
       contentDir: 'blog',
       slug,
+      ...cachifiedOptions,
     }
 
     if (file.changeType === 'delete') {
@@ -85,21 +88,21 @@ export const action: ActionFunction = async ({request}) => {
     await getMdxPageGql(args)
   }
 
-  console.log('🗑️ remove taglist form redis')
-  await delRedisKey('gql:tag:list')
-
   console.log('👍 refresh tag list in redis')
-  const {tags} = await getMdxTagListGql()
-
-  // this needs to be synchronous
-  for (const tag of tags) {
-    await delRedisKey(`gql:tag:${tag}`)
-  }
+  const {tags} = await getMdxTagListGql({...cachifiedOptions})
 
   console.log('keys in redis are', await redisClient.keys('*'))
 
   console.log('👍 refresh the individual tags in redis')
-  await Promise.all(tags.map(async tag => await getMdxIndividualTagGql(tag)))
+  await Promise.all(
+    tags.map(
+      async tag =>
+        await getMdxIndividualTagGql({
+          userProvidedTag: tag,
+          ...cachifiedOptions,
+        }),
+    ),
+  )
 
   if (blogList.length || tilList.length) {
     const blogObjects = [...blogList].map(o => ({

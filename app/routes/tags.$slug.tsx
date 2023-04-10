@@ -17,7 +17,7 @@ export async function loader({params}: LoaderArgs) {
     throw new Error('No slug provided')
   }
 
-  const data = await getMdxIndividualTagGql(params.slug)
+  const data = await getMdxIndividualTagGql({userProvidedTag: params.slug})
   return json({...data})
 }
 

@@ -1,13 +1,14 @@
 const {getChangedFiles} = require('./get-changed-files')
-const hostname = 'taranveerbains.ca'
-const https = require('https')
+const isProd = process.env.NODE_ENV === 'production'
+const hostname = isProd ? 'taranveerbains.ca' : 'localhost'
+const httpModule = isProd ? require('https') : require('http')
 
 function checkAlive() {
   return new Promise((resolve, reject) => {
     try {
       // make http request to localhost:8080
-      const req = https
-        .request(`https://${hostname}`, res => {
+      const req = httpModule
+        .request(`${isProd ? 'https' : 'http'}://${hostname}`, res => {
           let data = ''
           res.on('data', d => {
             data += d
@@ -47,8 +48,9 @@ function postRefreshCache({
         hostname,
         path: `/action/refresh-cache`,
         method: 'POST',
+        port: isProd ? 443 : 8080,
         headers: {
-          auth: process.env.REFRESH_CACHE_SECRET || 'some_secret',
+          auth: process.env.REFRESH_CACHE_SECRET || 'babafatehshah786!',
           'Content-Type': 'application/json',
           'Content-Length': Buffer.byteLength(postDataString),
           ...headersOverrides,
@@ -56,7 +58,7 @@ function postRefreshCache({
         ...optionsOverrides,
       }
 
-      const req = https
+      const req = httpModule
         .request(options, res => {
           let data = ''
           res.on('data', d => {
@@ -90,7 +92,7 @@ async function go() {
   // we need to make sure the server is alive before we even try to invalidate the cache
   try {
     console.log('🏥 checking for life')
-    await checkAlive()
+    isProd && (await checkAlive())
 
     const changes = await getChangedFiles('HEAD^', 'HEAD')
     // with the changes, we can determine if we need to refresh the cache
