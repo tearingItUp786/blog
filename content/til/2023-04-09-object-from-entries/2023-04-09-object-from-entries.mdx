@@ -10,11 +10,17 @@ counterpart of `entries` method that exists on the `Object`.
 Here's an example for you: 
 
 ```js
-const entries = Object.entries({ foo: "bar", baz: 42 });
+let obj = { foo: "bar", baz: 42 }; 
+const entries = Object.entries(obj);
 console.log(entries);
 // Expected output: [["foo", "bar"], ["baz", 42]]
 
-const obj = Object.fromEntries(entries);
+obj = {}
+console.log(obj)
+// Expected output: {}
+
+
+obj = Object.fromEntries(entries);
 console.log(obj);
 // Expected output: Object { foo: "bar", baz: 42 }
 ````
