@@ -65,6 +65,7 @@ export default function SingleTag() {
               className="mb-20 first-of-type:mt-12 last-of-type:mb-0"
             >
               <GenericContentCard
+                id={til?.slug}
                 key={`${til.frontmatter.title}-${til.frontmatter.date}`}
                 title={til.frontmatter.title}
                 date={til.frontmatter.date}
@@ -83,23 +84,22 @@ export default function SingleTag() {
               key={blog.frontmatter.title}
               className="mb-20 first-of-type:mt-12 last-of-type:mb-0"
             >
-              <NavLink className="no-underline" to={`/blog/${blog.slug ?? ''}`}>
-                {/* TODO: figure how a generic component can be used here */}
-                <GenericContentCard
-                  key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
-                  title={blog.frontmatter.title}
-                  date={blog.frontmatter.date}
-                  tag={blog.frontmatter.tag}
-                  showBlackLine={false}
-                >
-                  <H3>
-                    Blog post about:{' '}
-                    {blog.frontmatter.subtitle ??
-                      blog.frontmatter.description ??
-                      'This blog entry needs a description'}
-                  </H3>
-                </GenericContentCard>
-              </NavLink>
+              {/* TODO: figure how a generic component can be used here */}
+              <GenericContentCard
+                titleTo={blog.slug ? `/blog/${blog.slug}` : undefined}
+                key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
+                title={blog.frontmatter.title}
+                date={blog.frontmatter.date}
+                tag={blog.frontmatter.tag}
+                showBlackLine={false}
+              >
+                <H3>
+                  Blog post about:{' '}
+                  {blog.frontmatter.subtitle ??
+                    blog.frontmatter.description ??
+                    'This blog entry needs a description'}
+                </H3>
+              </GenericContentCard>
             </div>
           )
         })}

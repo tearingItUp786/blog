@@ -10,6 +10,7 @@ type Props = {
   children?: React.ReactNode
   showBlackLine?: boolean
   id?: string
+  titleTo?: string
 }
 
 const blackLinkClasses = `
@@ -45,6 +46,7 @@ export const ContentCard = ({
   tag,
   children,
   showBlackLine = true,
+  titleTo,
 }: Props) => {
   return (
     <div
@@ -61,7 +63,7 @@ export const ContentCard = ({
             {tag}
           </NavLink>
         </div>
-        <NavLink className="group no-underline" to={`#${id}`}>
+        <NavLink className="group no-underline" to={titleTo ?? `/til#${id}`}>
           <H1 className="my-4 uppercase leading-[1em] transition-all group-hover:underline md:my-0">
             {title}
           </H1>
