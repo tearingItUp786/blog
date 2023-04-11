@@ -68,6 +68,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
                     fontWeight: 700,
                     fontSize: '23.949px',
                     fill: '#ff00a4',
+                    textTransform: 'uppercase',
                   }}
                   transform="matrix(4.91278 0 0 1.03872 0 -128.939)"
                 >
