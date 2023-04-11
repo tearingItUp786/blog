@@ -1,6 +1,6 @@
 import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx'
-import {LoaderArgs, redirect} from '@remix-run/node'
+import type {LoaderArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
@@ -25,7 +25,7 @@ export async function loader({params}: LoaderArgs) {
     await delRedisKey(`gql:tag:${params.slug}`)
     // the better thing to do is to show a 404 component here
     // this redirect is just a yolo
-    return redirect('/404')
+    throw new Response('Not found', {status: 404})
   }
 
   return json({...data})
