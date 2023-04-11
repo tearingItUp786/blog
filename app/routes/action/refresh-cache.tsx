@@ -69,6 +69,7 @@ export const action: ActionFunction = async ({request}) => {
     const args = {
       contentDir: 'blog',
       slug,
+      ...cachifiedOptions,
     }
 
     if (file.changeType === 'delete') {
