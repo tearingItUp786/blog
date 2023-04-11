@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import React from 'react'
 
 const fontSizes = {
   h1: 'font-display font-bold text-3xl md:text-5xl',
@@ -122,11 +123,17 @@ export const ShortQuote = ({
   </div>
 )
 
-export const TextLink = ({children, ...rest}: CommonProps) => (
-  <a target="_blank" className="font-medium text-accent underline" {...rest}>
-    {children}
-  </a>
-)
+export const TextLink = ({children, ...rest}: CommonProps) => {
+  const childrenArray = React.Children.toArray(children)
+  const [first] = childrenArray
+  const isPara = React.isValidElement(first) && first?.type === 'p'
+
+  return (
+    <a target="_blank" className="font-medium text-accent underline" {...rest}>
+      {isPara ? (first as React.ReactElement)?.props.children : children}
+    </a>
+  )
+}
 
 export const SmallAsterisk = ({children, ...rest}: CommonProps) => (
   <div className="font-body text-sm text-accent" {...rest}>
