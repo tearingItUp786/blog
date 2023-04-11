@@ -1,12 +1,13 @@
 import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx'
-import type {LoaderArgs} from '@remix-run/node'
+import {LoaderArgs, redirect} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
 import {useMemo} from 'react'
 import styles from '~/styles/tag.css'
+import {delRedisKey} from '~/utils/redis.server'
 
 export function links() {
   return [{rel: 'stylesheet', href: styles}]
@@ -18,6 +19,15 @@ export async function loader({params}: LoaderArgs) {
   }
 
   const data = await getMdxIndividualTagGql({userProvidedTag: params.slug})
+
+  if (data.tilList.length === 0 && data.blogList.length === 0) {
+    console.log(`👍 no data found for ${params.slug}, redirecting to 404`)
+    await delRedisKey(`gql:tag:${params.slug}`)
+    // the better thing to do is to show a 404 component here
+    // this redirect is just a yolo
+    return redirect('/404')
+  }
+
   return json({...data})
 }
 

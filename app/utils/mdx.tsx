@@ -8,6 +8,7 @@ import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
 import {HeroImage} from '~/components/hero-image'
+import {redirect} from '@remix-run/node'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
@@ -284,9 +285,12 @@ async function getMdxIndividualTagGql({
         }),
       )
 
+      const blogList = retObject[0] ?? []
+      const tilList = retObject[1] ?? []
+
       return {
-        blogList: retObject[0] ?? [],
-        tilList: retObject[1] ?? [],
+        blogList,
+        tilList,
         retObject,
       }
     },
