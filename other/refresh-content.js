@@ -50,7 +50,7 @@ function postRefreshCache({
         method: 'POST',
         port: isProd ? 443 : 8080,
         headers: {
-          auth: process.env.REFRESH_CACHE_SECRET || 'babafatehshah786!',
+          auth: process.env.REFRESH_CACHE_SECRET || 'some_secret',
           'Content-Type': 'application/json',
           'Content-Length': Buffer.byteLength(postDataString),
           ...headersOverrides,
