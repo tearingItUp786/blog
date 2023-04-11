@@ -1,5 +1,5 @@
 import {CatchBoundaryComponent, useCatch, useLoaderData} from '@remix-run/react'
-import type { LoaderFunction, MetaFunction} from '@remix-run/node';
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
@@ -99,7 +99,10 @@ export default function MdxScreen() {
 
   return (
     <div className="relative mx-[10vw] mt-8">
-      <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
+      <LineSvg
+        tag={frontmatter.tag?.toUpperCase() ?? ''}
+        date={frontmatter.date ?? ''}
+      />
       <div className="mx-auto mb-12 max-w-4xl text-center">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
