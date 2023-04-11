@@ -2,7 +2,6 @@ import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
 import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
-import _ from 'lodash'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
@@ -195,14 +194,17 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
         return acc
       }, new Map())
 
-      let tagList = _.groupBy(
-        Array.from(tags, ([name, value]) => ({name, value})),
-        (v: {name: string; value: string}) => {
-          return String(v.name[0]?.toUpperCase())
-        },
-      ) as {
-        [key: string]: Array<{name: string; value: string}>
-      }
+      const tagList = Array.from(tags, ([name, value]) => ({
+        name,
+        value,
+      })).reduce((acc, tag) => {
+        const firstLetter = tag.name.charAt(0).toUpperCase()
+        if (!acc[firstLetter]) {
+          acc[firstLetter] = []
+        }
+        acc?.[firstLetter]?.push(tag)
+        return acc
+      }, {} as {[key: string]: Array<{name: string; value: string}>})
 
       const sortedList = Object.fromEntries(
         Object.entries(tagList).sort((a, b) => a[0].localeCompare(b[0])),
