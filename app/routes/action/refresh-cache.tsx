@@ -64,12 +64,11 @@ export const action: ActionFunction = async ({request}) => {
     const slug = file.filename
       .replace('content/blog', '')
       .replace(/\w+\.mdx?$/, '')
-      .replace('/', '')
+      .replace(/\//g, '')
 
     const args = {
       contentDir: 'blog',
       slug,
-      ...cachifiedOptions,
     }
 
     if (file.changeType === 'delete') {

@@ -8,7 +8,6 @@ import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
 import {HeroImage} from '~/components/hero-image'
-import {redirect} from '@remix-run/node'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
