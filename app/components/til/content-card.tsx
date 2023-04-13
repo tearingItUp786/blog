@@ -39,6 +39,7 @@ const blackLinkClasses = `
     before:translate-x-[-50%]
 `
 
+// used for the TIL and the blog
 export const ContentCard = ({
   id,
   title,
