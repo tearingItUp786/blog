@@ -8,14 +8,14 @@ export const getRandomLineClasses = (orientation: 'left' | 'right') => {
   let rightValues = [
     'md:pl-8 after:w-5',
     'md:pl-10 after:w-7',
-    'md:pl-12 after:w-9',
+    'md:pl-12 after:w-8',
     'md:pl-14 after:w-10',
   ]
 
   let leftValues = [
     'md:pr-8 after:w-5',
     'md:pr-10 after:w-7',
-    'md:pr-12 after:w-9',
+    'md:pr-12 after:w-8',
     'md:pr-14 after:w-10',
   ]
 
