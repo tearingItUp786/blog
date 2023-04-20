@@ -31,4 +31,4 @@ export const getContainerClassName = (isRight = false) =>
     : 'col-span-full text-center md:text-right'
 
 export const getBlogCardClassName = (isRight = false) =>
-  isRight ? `max-w-full after:left-0` : 'max-w-full md:max-w-[50%]'
+  isRight ? `max-w-full after:left-0` : 'max-w-full md:max-w-[50%] md:pr-10'
