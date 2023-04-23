@@ -12,7 +12,8 @@ import type {LoaderFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 
 export const loader: LoaderFunction = async () => {
-  const blogList = await getMdxBlogListGraphql()
+  const allBlogItems = await getMdxBlogListGraphql()
+  const blogList = allBlogItems.filter(el => !el.frontmatter.draft)
 
   const cssClasses = blogList.reduce(
     acc => {

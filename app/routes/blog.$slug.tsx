@@ -52,6 +52,10 @@ export const loader: LoaderFunction = async ({params}) => {
       slug: params.slug,
     })
 
+    if (page.frontmatter.draft) {
+      throw new Error('Page is a draft')
+    }
+
     const headers = {
       'Cache-Control': 'private, max-age=3600',
       Vary: 'Cookie',

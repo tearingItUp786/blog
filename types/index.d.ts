@@ -21,6 +21,7 @@ export type MdxPage = {
     description?: string
     date?: string
     tag?: string
+    draft?: boolean
   }
 
   readTime: {
