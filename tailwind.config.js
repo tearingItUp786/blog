@@ -5,6 +5,9 @@ const fromRoot = p => path.join(__dirname, p)
 module.exports = {
   darkMode: 'class',
   variants: {},
+  corePlugins: {
+    aspectRatio: false,
+  },
   theme: {
     screens: {
       md: '640px',

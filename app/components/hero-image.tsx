@@ -1,28 +1,27 @@
 import {SmallAsterisk, TextLink} from './typography'
 
-export const HeroImage = ({
-  alt,
-  src,
-}: React.ImgHTMLAttributes<HTMLImageElement>) => {
+type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
+  attribution?: string
+  author?: string
+}
+
+export const HeroImage = ({alt, src, attribution, author}: Props) => {
+  const showAttribution = attribution && author
   return (
-    <div className="mb-6">
+    <div className="mb-6 aspect-w-16 aspect-h-9">
       <img className="mb-4 mt-0" alt={alt} src={src} />
-      <SmallAsterisk>
-        Image by{' '}
-        <TextLink
-          small
-          href="https://pixabay.com/users/comfreak-51581/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=356024"
-        >
-          Comfreak
-        </TextLink>{' '}
-        from{' '}
-        <TextLink
-          small
-          href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=356024"
-        >
-          Pixabay
-        </TextLink>
-      </SmallAsterisk>
+      {showAttribution ? (
+        <SmallAsterisk>
+          Image by{' '}
+          <TextLink small href={attribution}>
+            {author}
+          </TextLink>{' '}
+          from{' '}
+          <TextLink small href={attribution}>
+            Pixabay
+          </TextLink>
+        </SmallAsterisk>
+      ) : null}
     </div>
   )
 }
