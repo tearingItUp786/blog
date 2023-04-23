@@ -146,7 +146,9 @@ export const InlineImage = ({
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
   return (
-    <div className={clsx('aspect-w-120 aspect-h-67', containerClass)}>
+    <div
+      className={clsx('aspect-w-6 aspect-h-2 mb-8 h-2/3 w-2/3', containerClass)}
+    >
       <img src={src} alt={alt} />
       {hasChildren ? <div>{children}</div> : null}
     </div>
