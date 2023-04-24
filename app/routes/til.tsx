@@ -12,7 +12,8 @@ export async function loader() {
 }
 
 export const headers: HeadersFunction = ({}) => ({
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=2678400',
+  'Cache-Control':
+    'public, max-age=60, s-maxage=60, stale-while-revalidate=2678400',
 })
 
 export default function TilPage() {
