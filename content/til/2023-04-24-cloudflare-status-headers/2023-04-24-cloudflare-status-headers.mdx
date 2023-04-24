@@ -1,0 +1,15 @@
+---
+title: cloudflare status headers
+date: 2023-04-24
+tag: Backend
+---
+
+So I've been trying to add in some `cache-control` headers to my remix site and I'm using cloudflare as my CDN.
+
+In order to determine if the cache is being hit, cloudflare adds a `cf-cache-status` header to the response. 
+This is great, but I can't seem to find any documentation on what the possible values are. However, I did
+find a blog post that explains these values.
+
+<TextLink href="https://www.getfishtank.com/blog/cloudflare-cdn-cf-cache-status-headers-explained">Read more</TextLink>
+
+
