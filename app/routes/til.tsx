@@ -8,13 +8,16 @@ import styles from '~/styles/til.css'
 
 export async function loader() {
   const tilList = await getMdxTilListGql()
-  return json({tilList})
+  let headers = {
+    'Cache-Control':
+      'public, max-age=60, s-maxage=60, stale-while-revalidate=2678400',
+  }
+  return json({tilList}, {headers})
 }
 
-export const headers: HeadersFunction = ({}) => ({
-  'Cache-Control':
-    'public, max-age=60, s-maxage=60, stale-while-revalidate=2678400',
-})
+export const headers: HeadersFunction = ({loaderHeaders}) => {
+  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
+}
 
 export default function TilPage() {
   const {tilList} = useLoaderData<typeof loader>()
