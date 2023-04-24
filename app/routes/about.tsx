@@ -1,6 +1,7 @@
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {scale} from '@cloudinary/url-gen/actions/resize'
+import type {HeadersFunction} from '@remix-run/node' // or cloudflare/deno
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
@@ -64,6 +65,10 @@ export async function loader() {
     mobileImage: mobileImage.toURL(),
   })
 }
+
+export const headers: HeadersFunction = ({}) => ({
+  'Cache-Control': 's-maxage=60, stale-while-revalidate=2678400',
+})
 
 // need to fetch all content from the blog directory using github api
 export default function About() {
