@@ -216,7 +216,7 @@ export default function About() {
             <RandomThing
               icon={<PaletteIcon />}
               className="border-accent dark:border-accent"
-              titleClassName="text-accent dark:text-accent"
+              titleClassName="!text-accent !dark:text-accent"
               title="My favourite colour is pink"
               description="I mean, since you're on my site, you've probably already guessed that, yeah, I like pink. The color; not the artist. 😆"
             />
