@@ -100,7 +100,7 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
         dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? []
 
       const sortedPageData = pageData.sort((a, b) => {
-        return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase(), 'en')
       })
 
       const pages = await Promise.all(
@@ -129,7 +129,9 @@ async function getMdxBlogListGraphql({cachifiedOptions}: CommonGetProps = {}) {
       const pageData =
         dirList.repository.object.entries
           ?.sort((a, b) => {
-            return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+            return b.name
+              .toLowerCase()
+              .localeCompare(a.name.toLowerCase(), 'en')
           })
           ?.map(entry => {
             return {
@@ -207,8 +209,10 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
       }, {} as {[key: string]: Array<{name: string; value: string}>})
 
       const sortedList = Object.fromEntries(
-        Object.entries(tagList).sort((a, b) => a[0].localeCompare(b[0])),
+        Object.entries(tagList).sort((a, b) => a[0].localeCompare(b[0], 'en')),
       )
+
+      console.log('wtf', sortedList)
 
       return {
         tagList: sortedList,
@@ -252,7 +256,9 @@ async function getMdxIndividualTagGql({
 
           const listItemsWithTag = list
             .sort((a, b) => {
-              return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+              return b.name
+                .toLowerCase()
+                .localeCompare(a.name.toLowerCase(), 'en')
             })
             .filter(item => {
               const firstMdxFile = item?.object?.text
