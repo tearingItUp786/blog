@@ -9,7 +9,7 @@ on:
       force_fresh:
         description: 'Force refresh redis cache for the blog list and others'
         required: true
-        type: environment
+        type: choice
         options:
           - true
 jobs:
