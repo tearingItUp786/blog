@@ -57,6 +57,7 @@ export const action: ActionFunction = async ({request}) => {
   if (bFiles.length) {
     console.log('👍 refreshing blog list')
     blogList = await getMdxBlogListGraphql({...cachifiedOptions})
+    blogList = blogList.filter(el => !el.frontmatter.draft)
   }
 
   for (const file of bFiles) {
