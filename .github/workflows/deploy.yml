@@ -131,4 +131,5 @@ jobs:
         run: node ./other/refresh-content.js
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
+          FORCE_FRESH: ${{ secrets.FORCE_FRESH }}
           NODE_ENV: production
