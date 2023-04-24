@@ -35,6 +35,7 @@ const index = algoliaClient.initIndex('website')
 
 export const action: ActionFunction = async ({request}) => {
   if (request.headers.get('auth') !== process.env.REFRESH_CACHE_SECRET) {
+    // hahaha
     return redirect('https://youtu.be/VM3uXu1Dq4c')
   }
 
