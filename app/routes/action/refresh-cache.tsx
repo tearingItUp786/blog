@@ -38,6 +38,8 @@ export const action: ActionFunction = async ({request}) => {
     return redirect('https://youtu.be/VM3uXu1Dq4c')
   }
 
+  const forceFresh = request.headers.get('x-force-fresh') === 'true'
+
   const {contentFiles} = (await request.json()) as Body
 
   if (!contentFiles) {
@@ -48,13 +50,13 @@ export const action: ActionFunction = async ({request}) => {
   let blogList: Omit<MdxPage, 'code'>[] = []
   let tilList: MdxPage[] = []
   // if we edited a content file, call the fetcher function for getContent
-  if (tilFiles.length) {
+  if (tilFiles.length || forceFresh) {
     console.log('👍 refreshing til list')
     tilList = await getMdxTilListGql({...cachifiedOptions})
   }
 
   // do it for the blog list if we need to as well
-  if (bFiles.length) {
+  if (bFiles.length || forceFresh) {
     console.log('👍 refreshing blog list')
     blogList = await getMdxBlogListGraphql({...cachifiedOptions})
     blogList = blogList.filter(el => !el.frontmatter.draft)

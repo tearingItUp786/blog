@@ -1,4 +1,4 @@
-import {CatchBoundaryComponent, useCatch, useLoaderData} from '@remix-run/react'
+import {useCatch, useLoaderData} from '@remix-run/react'
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
