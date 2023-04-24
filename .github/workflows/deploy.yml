@@ -4,7 +4,12 @@ on:
     branches:
       - main
   pull_request: {}
-  workflow_dispatch: {}
+  workflow_dispatch:
+  inputs:
+    force_fresh:
+      description: 'Force refresh redis cache for the blog list and others'
+      required: true
+      type: environment
 
 jobs:
   changes:
@@ -132,5 +137,5 @@ jobs:
         run: node ./other/refresh-content.js
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
-          FORCE_FRESH: ${{ secrets.FORCE_FRESH }}
+          FORCE_FRESH: ${{ inputs.force_fresh }}
           NODE_ENV: production
