@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({params}) => {
       slug: params.slug,
     })
 
-    if (page.frontmatter.draft) {
+    if (page.frontmatter.draft && process.env.NODE_ENV === 'production') {
       throw new Error('Page is a draft')
     }
 
