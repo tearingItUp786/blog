@@ -96,10 +96,10 @@ async function go() {
     isProd && (await checkAlive())
     const forceFresh = process.env.FORCE_FRESH
     const changes = await getChangedFiles('HEAD^', 'HEAD')
+
     // with the changes, we can determine if we need to refresh the cache
     // if there's nothing in the cache from content, we don't need to refresh the cache
     // or update algolia
-
     console.log('👀 checking for content changes')
     let contentFiles = changes.filter(o => o.filename.indexOf('content') === 0)
     if (!contentFiles.length || !forceFresh) {
