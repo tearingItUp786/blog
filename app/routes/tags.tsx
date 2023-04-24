@@ -16,7 +16,7 @@ export default function TagPage() {
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
         <H1>Tags</H1>
         <div className="mt-8">
-          {Object.entries(tagList).map(([firstLetter, tags]) => {
+          {tagList.map(([firstLetter, tags]) => {
             return (
               <div key={firstLetter} className="mb-20 last-of-type:mb-0">
                 <H2>{firstLetter}</H2>

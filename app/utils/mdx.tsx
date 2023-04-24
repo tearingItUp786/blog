@@ -208,13 +208,9 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
         return acc
       }, {} as {[key: string]: Array<{name: string; value: string}>})
 
-      const sortedList = Object.fromEntries(
-        Object.entries(tagList).sort((a, b) =>
-          new Intl.Collator().compare(a[0], b[0]),
-        ),
+      const sortedList = Object.entries(tagList).sort((a, b) =>
+        new Intl.Collator().compare(a[0], b[0]),
       )
-
-      console.log('wtf', sortedList)
 
       return {
         tagList: sortedList,
