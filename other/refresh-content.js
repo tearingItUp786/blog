@@ -100,9 +100,10 @@ async function go() {
     // with the changes, we can determine if we need to refresh the cache
     // if there's nothing in the cache from content, we don't need to refresh the cache
     // or update algolia
-    console.log('👀 checking for content changes', forceFresh)
+    console.log('👀 checking for content changes')
     let contentFiles = changes.filter(o => o.filename.indexOf('content') === 0)
-    if (!contentFiles.length || !forceFresh) {
+
+    if (!contentFiles.length && !forceFresh) {
       console.log('🤷 no content changes, exiting')
       return
     }
