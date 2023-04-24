@@ -67,8 +67,7 @@ export async function loader() {
 }
 
 export const headers: HeadersFunction = ({}) => ({
-  'Cache-Control':
-    'public, max-age=60, s-maxage=60, stale-while-revalidate=2678400',
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=2678400',
 })
 
 // need to fetch all content from the blog directory using github api
