@@ -105,7 +105,7 @@ export default function About() {
           with a Bachelor's degree in Business Administration to a Softwar
           Engineer, feel free to reach out to me on{' '}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
-          ; I'd be more than happy to walk you through my journey.
+          ; I'd be more than happy to walk you through my journey!
         </p>
         <H3>Start with why</H3>
         <p>
