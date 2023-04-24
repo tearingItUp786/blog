@@ -10,7 +10,8 @@ on:
         description: 'Force refresh redis cache for the blog list and others'
         required: true
         type: environment
-
+        options:
+          - true
 jobs:
   changes:
     name: 🔎 Determine deployable changes
