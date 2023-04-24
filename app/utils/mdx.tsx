@@ -87,6 +87,7 @@ function getMdxComponent(code: string) {
       <Component components={{...mdxComponents, ...components}} {...rest} />
     )
   }
+  // thanks kent
   return KCDMdxComponent
 }
 
