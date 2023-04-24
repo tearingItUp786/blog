@@ -1,4 +1,4 @@
-import {json} from '@remix-run/node'
+import {HeadersFunction, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import React from 'react'
 import {ContentCard} from '~/components/til/content-card'
@@ -10,6 +10,10 @@ export async function loader() {
   const tilList = await getMdxTilListGql()
   return json({tilList})
 }
+
+export const headers: HeadersFunction = ({}) => ({
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=2678400',
+})
 
 export default function TilPage() {
   const {tilList} = useLoaderData<typeof loader>()
