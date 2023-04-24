@@ -94,7 +94,7 @@ async function go() {
   try {
     console.log('🏥 checking for life')
     isProd && (await checkAlive())
-
+    const forceFresh = process.env.FORCE_FRESH
     const changes = await getChangedFiles('HEAD^', 'HEAD')
     // with the changes, we can determine if we need to refresh the cache
     // if there's nothing in the cache from content, we don't need to refresh the cache
@@ -102,7 +102,7 @@ async function go() {
 
     console.log('👀 checking for content changes')
     let contentFiles = changes.filter(o => o.filename.indexOf('content') === 0)
-    if (!contentFiles.length) {
+    if (!contentFiles.length || !forceFresh) {
       console.log('🤷 no content changes, exiting')
       return
     }
