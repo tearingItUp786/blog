@@ -25,6 +25,8 @@ import type {
   LinksFunction,
   MetaFunction,
 } from '@remix-run/node'
+import {withSentry} from '@sentry/remix'
+
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
 import {IframeLazy} from './utils/iframe-lazy'
@@ -168,6 +170,7 @@ const App = () => {
       <body className="bg-white dark:bg-gray-100">
         <Navbar />
         <Outlet />
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -178,10 +181,12 @@ const App = () => {
   )
 }
 
-export default function AppWithProviders() {
+function AppWithProviders() {
   return (
     <ThemeProvider>
       <App />
     </ThemeProvider>
   )
 }
+
+export default withSentry(AppWithProviders)
