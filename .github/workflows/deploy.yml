@@ -22,13 +22,10 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
         with:
-          node-version: 18
           fetch-depth: '50'
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
-        with:
-          node-version: 16
 
       - name: 🔎 Determine deployable changes
         id: changes
@@ -48,13 +45,9 @@ jobs:
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-        with:
-          node-version: 18
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
-        with:
-          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -73,13 +66,9 @@ jobs:
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-        with:
-          node-version: 18
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
-        with:
-          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -102,7 +91,6 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
         with:
-          node-version: 18
           fetch-depth: '50'
 
       - name: 👀 Read app name
@@ -144,13 +132,10 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
         with:
-          node-version: 18
           fetch-depth: '50'
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
-        with:
-          node-version: 18
 
       - name: 🥬 Refresh Content
         run: node ./other/refresh-content.js
