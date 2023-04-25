@@ -51,7 +51,7 @@ function postRefreshCache({
         port: isProd ? 443 : 8080,
         headers: {
           auth: process.env.REFRESH_CACHE_SECRET || 'some_secret',
-          'x-force-fresh': process.env.FORCE_FRESH,
+          'x-force-fresh': process.env.FORCE_FRESH || '',
           'Content-Type': 'application/json',
           'Content-Length': Buffer.byteLength(postDataString),
           ...headersOverrides,
