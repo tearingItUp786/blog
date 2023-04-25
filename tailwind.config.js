@@ -118,7 +118,7 @@ module.exports = {
                 },
                 strong: {
                   fontWeight: 500,
-                  color: 'var(--color-accent)',
+                  color: 'var(--accent)',
                 },
                 a: {
                   color: 'var(--accent)',
