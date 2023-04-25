@@ -136,8 +136,8 @@ jobs:
 
   purge:
     name: 💨 Purge Cache
+    if: needs.changes.outputs.DEPLOYABLE != 'true'
     runs-on: ubuntu-latest
-    if: {{needs.changes.outputs.DEPLOYABLE != 'true'}}
     needs: [deploy]
     steps:
       - name: Cloudflare Purge Cache
@@ -150,7 +150,7 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
-    if: {{needs.changes.outputs.DEPLOYABLE != 'true'}}
+    if: needs.changes.outputs.DEPLOYABLE != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
