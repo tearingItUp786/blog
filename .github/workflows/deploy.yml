@@ -119,6 +119,13 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
+      - name: 🥬 Refresh Content
+        run: node ./other/refresh-content.js
+        env:
+          REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
+          FORCE_FRESH: ${{ inputs.force_fresh }}
+          NODE_ENV: production
+
       - name: Cloudflare Purge Cache
         uses: jakejarvis/cloudflare-purge-action@v0.3.0
         env:
@@ -143,6 +150,7 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
+    if: {{needs.changes.outputs.DEPLOYABLE != 'true'}}
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
