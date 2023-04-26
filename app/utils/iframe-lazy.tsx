@@ -3,13 +3,14 @@ const clientcode = `
 // to make LazyLoad self-initialize
 window.lazyLoadOptions = {
     // Your custom settings go here
-    restore_on_error: true
+    restore_on_error: true,
+    use_native: true // <-- there you go
+
 };
 
 // Listen to the initialization event
 // and get the instance of LazyLoad
 window.addEventListener("LazyLoad::Initialized", function (event) {
-    console.log('loaded')
     window.lazyLoadInstance = event.detail.instance;
 }, false);
 `
