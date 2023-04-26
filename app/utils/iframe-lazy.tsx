@@ -18,12 +18,15 @@ window.addEventListener("LazyLoad::Initialized", function (event) {
 export function IframeLazy() {
   return (
     <>
-      <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
       <script
         dangerouslySetInnerHTML={{
           __html: clientcode,
         }}
       />
+      <script
+        async
+        src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"
+      ></script>
     </>
   )
 }
