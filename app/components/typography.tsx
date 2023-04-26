@@ -141,13 +141,16 @@ export const InlineImage = ({
   src,
   alt,
   children,
+  containerClassName,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
+  containerClassName?: string
 }) => {
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
+
   return (
-    <div className="mx-8 my-4 lg:mx-24 lg:my-8">
+    <div className={clsx('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
       <div className={clsx('aspect-h-4  aspect-w-8 w-full ', containerClass)}>
         <img
           className="mx-auto my-0"
