@@ -3,6 +3,7 @@ const clientcode = `
 // to make LazyLoad self-initialize
 window.lazyLoadOptions = {
     // Your custom settings go here
+    restore_on_error: true
 };
 
 // Listen to the initialization event
