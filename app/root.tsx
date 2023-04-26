@@ -58,6 +58,7 @@ const CatchComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
@@ -88,7 +89,6 @@ const CatchComponent = () => {
         <Scripts />
         <Toggle />
         <Footer />
-        <IframeLazy />
       </body>
     </html>
   )
@@ -111,6 +111,7 @@ const ErrorComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
@@ -140,7 +141,6 @@ const ErrorComponent = () => {
         <Scripts />
         <Toggle />
         <Footer />
-        <IframeLazy />
       </body>
     </html>
   )
@@ -163,6 +163,7 @@ const App = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
@@ -175,7 +176,6 @@ const App = () => {
         <LiveReload />
         <Toggle />
         <Footer />
-        <IframeLazy />
       </body>
     </html>
   )
