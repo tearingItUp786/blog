@@ -39,11 +39,8 @@ function handleEmbedderHtml(html: GottenHTML, info: TransformerInfo) {
   if (/youtu\.?be/.test(url.hostname)) {
     // this allows us to set youtube embeds to 100% width and the
     // height will be relative to that width with a good aspect ratio
-
-    return makeEmbed(
-      html.slice(0, 8) + 'loading="lazy" class="lazy"' + html.slice(8),
-      'youtube',
-    )
+    let ret = html.slice(0, 8) + 'loading="lazy" class="lazy"' + html.slice(8)
+    return makeEmbed(ret.replace('src', 'data-src'), 'youtube')
   }
   if (url.hostname.includes('codesandbox.io')) {
     return makeEmbed(html, 'codesandbox', '80%')

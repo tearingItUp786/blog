@@ -60,7 +60,6 @@ const CatchComponent = () => {
         <Links />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
-        <IframeLazy />
       </head>
       <body>
         <Navbar />
@@ -89,6 +88,7 @@ const CatchComponent = () => {
         <Scripts />
         <Toggle />
         <Footer />
+        <IframeLazy />
       </body>
     </html>
   )
@@ -113,7 +113,6 @@ const ErrorComponent = () => {
         <Links />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
-        <IframeLazy />
       </head>
       <body>
         <Navbar />
@@ -141,6 +140,7 @@ const ErrorComponent = () => {
         <Scripts />
         <Toggle />
         <Footer />
+        <IframeLazy />
       </body>
     </html>
   )
@@ -165,7 +165,6 @@ const App = () => {
         <Links />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
-        <IframeLazy />
       </head>
       <body className="bg-white dark:bg-gray-100">
         <Navbar />
@@ -176,6 +175,7 @@ const App = () => {
         <LiveReload />
         <Toggle />
         <Footer />
+        <IframeLazy />
       </body>
     </html>
   )
