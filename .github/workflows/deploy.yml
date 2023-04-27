@@ -15,7 +15,6 @@ on:
 jobs:
   changes:
     name: 🔎 Determine deployable changes
-    if: inputs.force_fresh != 'true'
     runs-on: ubuntu-latest
     outputs:
       DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
@@ -30,6 +29,7 @@ jobs:
 
       - name: 🔎 Determine deployable changes
         id: changes
+        if: inputs.force_fresh != 'true'
         run: >-
           echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
