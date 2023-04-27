@@ -15,7 +15,7 @@ on:
 jobs:
   changes:
     name: 🔎 Determine deployable changes
-    if: inputs.force_fresh != true
+    if: inputs.force_fresh != 'true'
     runs-on: ubuntu-latest
     outputs:
       DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
