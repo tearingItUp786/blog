@@ -127,7 +127,9 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
-    if: needs.changes.outputs.DEPLOYABLE != 'true' ||  inputs.force_fresh
+    if:
+      needs.changes.outputs.DEPLOYABLE != 'true' ||  inputs.force_fresh ==
+      'true'
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
@@ -148,7 +150,8 @@ jobs:
 
   purge:
     name: 💨 Purge Cache
-    if: needs.changes.outputs.DEPLOYABLE != 'true' || inputs.force_fresh
+    if:
+      needs.changes.outputs.DEPLOYABLE != 'true' || inputs.force_fresh == 'true'
     runs-on: ubuntu-latest
     needs: [changes, refresh]
     steps:
