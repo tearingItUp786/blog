@@ -1,3 +1,5 @@
+import {twMerge} from 'tailwind-merge'
+
 import clsx from 'clsx'
 
 const fontSizes = {
@@ -150,8 +152,10 @@ export const InlineImage = ({
   const containerClass = hasChildren ? '' : 'mx-auto'
 
   return (
-    <div className={clsx('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
-      <div className={clsx('aspect-h-4  aspect-w-8 w-full ', containerClass)}>
+    <div className={twMerge('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
+      <div
+        className={twMerge('aspect-h-4  aspect-w-8 w-full ', containerClass)}
+      >
         <img
           className="mx-auto my-0"
           src={src?.replace('/upload/', '/upload/f_auto/')}
