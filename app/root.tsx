@@ -58,7 +58,6 @@ const CatchComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
@@ -111,7 +110,6 @@ const ErrorComponent = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
@@ -163,7 +161,6 @@ const App = () => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <IframeLazy />
         <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
