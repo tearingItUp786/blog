@@ -4,6 +4,8 @@ import React from 'react'
 import {ContentCard} from '~/components/til/content-card'
 import {getMdxTilListGql} from '~/utils/mdx'
 import {tilMapper} from '~/utils/til-list'
+import LazyLoad from 'vanilla-lazyload'
+
 import styles from '~/styles/til.css'
 
 export async function loader() {
@@ -22,6 +24,11 @@ export default function TilPage() {
   const {tilList} = useLoaderData<typeof loader>()
 
   let tilComponents = React.useMemo(() => tilList.map(tilMapper), [tilList])
+
+  React.useEffect(() => {
+    new LazyLoad()
+    console.log('👍')
+  }, [])
 
   return (
     <div
