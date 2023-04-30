@@ -6,7 +6,7 @@ import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
-import {HeroImage} from '~/components/hero-image'
+import {CloudinaryHeroImage} from '~/components/hero-image'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
@@ -69,7 +69,7 @@ async function getMdxPageGql({
 
 const mdxComponents = {
   ...myTypo,
-  HeroImage,
+  CloudinaryHeroImage,
 }
 
 /**

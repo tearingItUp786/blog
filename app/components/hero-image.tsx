@@ -1,8 +1,10 @@
+import {twMerge} from 'tailwind-merge'
 import {SmallAsterisk, TextLink} from './typography'
 
 type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
   attribution?: string
   author?: string
+  containerClassName?: string
 }
 
 const sizesForScreens = [
@@ -11,7 +13,13 @@ const sizesForScreens = [
   {width: 1280},
 ]
 
-export const HeroImage = ({alt, src, attribution, author}: Props) => {
+export const CloudinaryHeroImage = ({
+  alt,
+  src,
+  attribution,
+  author,
+  containerClassName,
+}: Props) => {
   const srcSet = sizesForScreens.map(size => {
     const newValue = `f_auto,w_${size.width},c_scale`
     const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
@@ -35,8 +43,9 @@ export const HeroImage = ({alt, src, attribution, author}: Props) => {
   }, '')
 
   const showAttribution = attribution && author
+
   return (
-    <div className="aspect-h-9 aspect-w-16 mb-6">
+    <div className={twMerge('aspect-h-9 aspect-w-16 mb-6', containerClassName)}>
       <img
         width={`${sizesForScreens[sizesForScreens.length - 1]?.width}`}
         height={500}
