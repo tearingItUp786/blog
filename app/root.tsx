@@ -186,4 +186,6 @@ function AppWithProviders() {
   )
 }
 
-export default withSentry(AppWithProviders)
+export default process.env.NODE_ENV === 'production'
+  ? withSentry(AppWithProviders)
+  : AppWithProviders
