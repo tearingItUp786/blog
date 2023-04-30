@@ -26,7 +26,7 @@ export const HeroImage = ({alt, src, attribution, author}: Props) => {
     const accVal = acc === '' ? '' : `${acc},`
 
     const mediaWidth = curr.maxWidth
-      ? `(max-width: ${curr.maxWidth}) ${curr.width}px`
+      ? `(max-width: ${curr.maxWidth}px) ${curr.width}px`
       : `${curr.width}px`
 
     if (acc === '') return mediaWidth
