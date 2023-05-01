@@ -6,7 +6,7 @@ module.exports = {
   darkMode: 'class',
   variants: {},
   corePlugins: {
-    aspectRatio: false,
+    // aspectRatio: false,
   },
   theme: {
     screens: {
