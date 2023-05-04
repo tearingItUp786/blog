@@ -4,11 +4,18 @@ import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
 import {H1, H3, H4} from '~/components/typography'
-import {getMdxPageGql, useMdxComponent} from '~/utils/mdx'
+import {
+  getMdxBlogListGraphql,
+  getMdxPageGql,
+  useMdxComponent,
+} from '~/utils/mdx'
 import {dateFormat} from '~/utils/misc'
+import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
 
 type LoaderData = {
   page: MdxPage
+  next?: MdxPage
+  prev?: MdxPage
 }
 export const meta: MetaFunction = ({params}) => {
   return {title: `Taran "tearing it up" Bains | Blog | ${params.slug}`}
@@ -61,7 +68,18 @@ export const loader: LoaderFunction = async ({params}) => {
       Vary: 'Cookie',
     }
 
-    const data: LoaderData = {page}
+    const allBlogItems = await getMdxBlogListGraphql()
+    const blogList = allBlogItems.filter(el =>
+      process.env.NODE_ENV === 'production' ? !el.frontmatter.draft : true,
+    )
+
+    const currentIndex = blogList.findIndex(
+      el => el.frontmatter?.title === page?.frontmatter?.title,
+    )
+    const prev = blogList?.[currentIndex - 1]
+    const next = blogList?.[currentIndex + 1]
+
+    const data: LoaderData = {page, prev, next}
     return json(data, {status: 200, headers})
   } catch (err) {
     throw json({error: params.slug}, {status: 404})
@@ -79,8 +97,8 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
               font-medium
               text-pink 
               after:absolute 
-              after:left-[50%] 
               after:bottom-[-10px] 
+              after:left-[50%] 
               after:w-[150px]
               after:translate-x-[-50%] 
               after:border-b-[1px] 
@@ -100,9 +118,16 @@ export default function MdxScreen() {
   const data = useLoaderData<LoaderData>()
   const {code, frontmatter, readTime} = data.page
   const Component = useMdxComponent(String(code))
+  const previous = data.prev
+    ? {to: data.prev.slug, title: data.prev.frontmatter?.title}
+    : null
+  const next = data.next
+    ? {to: data.next.slug, title: data.next.frontmatter?.title}
+    : null
 
   return (
     <div className="relative mx-[10vw] mt-8">
+      <PreviousAndNextLinks previous={previous} next={next} />
       <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
       <div className="mx-auto mb-12 max-w-4xl text-center">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">

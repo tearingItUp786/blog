@@ -21,7 +21,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
 
   return (
     <>
-      <div className="absolute top-[10px] left-[-150px] hidden lg:block">
+      <div className="absolute left-[-150px] top-[40px] hidden lg:block">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -97,7 +97,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
           </g>
         </svg>
       </div>
-      <div className="absolute left-[-69px] top-[40px] hidden h-full w-[2px] bg-black dark:bg-white lg:block"></div>
+      <div className="absolute left-[-69px] top-[70px] hidden h-[calc(100%-30px)] w-[2px] bg-black dark:bg-white lg:block"></div>
     </>
   )
 }

@@ -39,7 +39,7 @@ function Title({
   const Tag = As ?? size
   return (
     <Tag
-      className={clsx(fontSizes[size], titleColors[variant], className)}
+      className={twMerge(fontSizes[size], titleColors[variant], className)}
       {...rest}
     />
   )
