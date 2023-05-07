@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import {useCatch, useLoaderData} from '@remix-run/react'
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
@@ -11,6 +12,7 @@ import {
 } from '~/utils/mdx'
 import {dateFormat} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
+import LazyLoad from 'vanilla-lazyload'
 
 type LoaderData = {
   page: MdxPage
@@ -124,6 +126,10 @@ export default function MdxScreen() {
   const next = data.next
     ? {to: data.next.slug, title: data.next.frontmatter?.title}
     : null
+
+  useEffect(() => {
+    new LazyLoad()
+  }, [])
 
   return (
     <div className="relative mx-[10vw] mt-8">
