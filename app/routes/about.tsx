@@ -102,7 +102,7 @@ export default function About() {
           with over six years of experience and I am based out of Vancouver,
           Canada. I've got a passion for Typescript in both the Frontend and the
           Backend. If you'd like to hear about how I went from being someone
-          with a Bachelor's degree in Business Administration to a Softwar
+          with a Bachelor's degree in Business Administration to a Software
           Engineer, feel free to reach out to me on{' '}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
           ; I'd be more than happy to walk you through my journey.
@@ -186,7 +186,7 @@ export default function About() {
             </p>
           </div>
           <div className="w-full lg:w-[46%]">
-            <H4>Collarborate</H4>
+            <H4>Collaborate</H4>
             <ShortQuote author="Unknown">
               If you want to go fast, go alone. If you want to go far, go
               together.
@@ -205,7 +205,7 @@ export default function About() {
         </div>
         <div className="mt-12">
           <H3>Details about me you'd probably never guess</H3>
-          <div className="mt-8 gap-y-12 gap-x-16 lg:grid lg:grid-cols-2 lg:grid-rows-2">
+          <div className="mt-8 gap-x-16 gap-y-12 lg:grid lg:grid-cols-2 lg:grid-rows-2">
             <RandomThing
               title="I'm a huge fan of Lord of the Rings (LOTR)"
               description="From its deeply intricate lore, to the amazing stories of brotherhood and love, I love it all. 
