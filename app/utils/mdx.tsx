@@ -176,6 +176,7 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
         dir => dir.repository.object.entries ?? [],
       )
 
+      // get a map where the keys are the tag name, and the value is the count it shows up
       const tags = contentDirListFlat.reduce((acc, curr) => {
         const firstMdxFile = curr?.object?.text
           ? curr
@@ -189,25 +190,29 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
 
         if (!tag) return acc
 
-        if (!acc.get(tag)) {
-          acc.set(tag, 0)
+        if (acc[tag] === undefined) {
+          acc[tag] = 0
         }
-        let currentCount = acc.get(tag) ?? 0
-        acc.set(tag, currentCount + 1)
-        return acc
-      }, new Map())
 
-      const tagList = Array.from(tags, ([name, value]) => ({
-        name,
-        value,
-      })).reduce((acc, tag) => {
-        const firstLetter = tag.name.charAt(0).toUpperCase()
+        const currentCount = acc[tag] ?? 0
+        acc[tag] = currentCount + 1
+
+        return acc
+      }, {} as {[key: string]: number})
+
+      // we want to create a map where the first letter
+      // is the key and the value is an array
+      // of objects with the name and value
+      const tagList = Object.entries(tags).reduce((acc, [name, value]) => {
+        const tagObj = {name, value}
+
+        const firstLetter = name.charAt(0).toUpperCase()
         if (!acc[firstLetter]) {
           acc[firstLetter] = []
         }
-        acc?.[firstLetter]?.push(tag)
+        acc?.[firstLetter]?.push(tagObj)
         return acc
-      }, {} as {[key: string]: Array<{name: string; value: string}>})
+      }, {} as {[key: string]: Array<{name: string; value: number}>})
 
       const sortedList = Object.entries(tagList).sort((a, b) =>
         new Intl.Collator().compare(a[0], b[0]),
@@ -215,7 +220,7 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
 
       return {
         tagList: sortedList,
-        tags: Array.from(tags.keys()),
+        tags: Object.keys(tags),
       }
     },
     reporter: verboseReporter(),

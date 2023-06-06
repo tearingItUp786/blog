@@ -1,6 +1,6 @@
 import {Link} from '@remix-run/react'
 import {twMerge} from 'tailwind-merge'
-import {H4, H5} from '../typography'
+import {H4} from '../typography'
 
 type BlogLink = {
   title?: string

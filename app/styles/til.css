@@ -9,6 +9,8 @@ body {
 
 body::-webkit-scrollbar {
   width: var(--sb-size);
+}
+
 body::-webkit-scrollbar-track {
   background: var(--sb-track-color);
 }
