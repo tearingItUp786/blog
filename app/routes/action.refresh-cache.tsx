@@ -13,7 +13,7 @@ import {redisClient} from '~/utils/redis.server'
 import {algoliaClient} from '~/utils/algolia.server'
 
 type File = {
-  changeType: string
+  changeType: 'modified' | 'added' | 'deleted' | 'moved'
   filename: string
 }
 type Body = {contentFiles: Array<File>}
@@ -76,7 +76,7 @@ export const action: ActionFunction = async ({request}) => {
       ...cachifiedOptions,
     }
 
-    if (file.changeType === 'delete') {
+    if (file.changeType === 'deleted') {
       console.log('❌ delete', slug, 'from redis and algolia')
       await delMdxPageGql(args)
 
