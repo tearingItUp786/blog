@@ -211,6 +211,11 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
           acc[firstLetter] = []
         }
         acc?.[firstLetter]?.push(tagObj)
+
+        acc?.[firstLetter]?.sort((a, b) =>
+          new Intl.Collator().compare(a.name, b.name),
+        )
+
         return acc
       }, {} as {[key: string]: Array<{name: string; value: number}>})
 
