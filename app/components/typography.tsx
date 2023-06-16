@@ -144,23 +144,20 @@ export const InlineImage = ({
   alt,
   children,
   containerClassName,
-  className,
+  aspectW = 'aspect-w-8',
+  aspectH = 'aspect-h-4',
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
   containerClassName?: string
+  aspectW?: string
+  aspectH?: string
 }) => {
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
 
   return (
     <div className={twMerge('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
-      <div
-        className={twMerge(
-          'aspect-h-4 aspect-w-8 w-full ',
-          className,
-          containerClass,
-        )}
-      >
+      <div className={twMerge('w-full', aspectW, aspectH, containerClass)}>
         <img
           className="mx-auto my-0"
           src={src?.replace('/upload/', '/upload/f_auto/')}
