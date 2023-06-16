@@ -144,6 +144,7 @@ export const InlineImage = ({
   alt,
   children,
   containerClassName,
+  className,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
   containerClassName?: string
@@ -154,7 +155,11 @@ export const InlineImage = ({
   return (
     <div className={twMerge('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
       <div
-        className={twMerge('aspect-h-4  aspect-w-8 w-full ', containerClass)}
+        className={twMerge(
+          'aspect-h-4 aspect-w-8 w-full ',
+          className,
+          containerClass,
+        )}
       >
         <img
           className="mx-auto my-0"
