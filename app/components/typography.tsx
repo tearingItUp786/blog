@@ -139,6 +139,12 @@ export const SmallAsterisk = ({children, ...rest}: CommonProps) => (
 )
 
 // TODO: need a better way to handle inline images in mdx
+
+const sizesForScreens = [
+  {width: 480, maxWidth: 600},
+  {width: 800, maxWidth: 1080},
+  {width: 1280},
+]
 export const InlineImage = ({
   src,
   alt,
@@ -152,6 +158,27 @@ export const InlineImage = ({
   aspectW?: string
   aspectH?: string
 }) => {
+  const srcSet = sizesForScreens.map(size => {
+    const newValue = `f_auto,w_${size.width},c_scale`
+    const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
+    return {
+      srcSetValue: `${newSrc} ${size.width}w`,
+      width: size,
+      newSrc,
+    }
+  })
+  const sizes = sizesForScreens.reduce((acc, curr) => {
+    const accVal = acc === '' ? '' : `${acc},`
+
+    const mediaWidth = curr.maxWidth
+      ? `(max-width: ${curr.maxWidth}px) ${curr.width}px`
+      : `${curr.width}px`
+
+    if (acc === '') return mediaWidth
+
+    return `${accVal} ${mediaWidth}`
+  }, '')
+
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
 
@@ -160,8 +187,10 @@ export const InlineImage = ({
       <div className={twMerge('w-full', aspectW, aspectH, containerClass)}>
         <img
           className="mx-auto my-0"
-          src={src?.replace('/upload/', '/upload/f_auto/')}
           alt={alt}
+          src={srcSet[srcSet.length - 1]?.newSrc ?? src}
+          sizes={sizes}
+          srcSet={srcSet.map(o => o.srcSetValue).join(',')}
         />
         {hasChildren ? <div>{children}</div> : null}
       </div>
