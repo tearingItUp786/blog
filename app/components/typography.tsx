@@ -183,7 +183,12 @@ export const InlineImage = ({
   const containerClass = hasChildren ? '' : 'mx-auto'
 
   return (
-    <div className={twMerge('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
+    <div
+      className={twMerge(
+        'mx-8 my-4 max-w-7xl lg:mx-24 lg:my-8',
+        containerClassName,
+      )}
+    >
       <div className={twMerge('w-full', aspectW, aspectH, containerClass)}>
         <img
           className="mx-auto my-0"
