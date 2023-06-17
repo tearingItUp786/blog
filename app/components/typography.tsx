@@ -150,13 +150,17 @@ export const InlineImage = ({
   alt,
   children,
   containerClassName,
+  imgDivClassName,
   aspectW = 'aspect-w-8',
   aspectH = 'aspect-h-4',
+  lazyLoadImage = false,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
   containerClassName?: string
   aspectW?: string
   aspectH?: string
+  imgDivClassName?: string
+  lazyLoadImage?: boolean
 }) => {
   const srcSet = sizesForScreens.map(size => {
     const newValue = `f_auto,w_${size.width},c_scale`
@@ -182,6 +186,10 @@ export const InlineImage = ({
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
 
+  const srcProps = {
+    [lazyLoadImage ? 'data-src' : 'src']:
+      srcSet[srcSet.length - 1]?.newSrc ?? src,
+  }
   return (
     <div
       className={twMerge(
@@ -189,16 +197,30 @@ export const InlineImage = ({
         containerClassName,
       )}
     >
-      <div className={twMerge('w-full', aspectW, aspectH, containerClass)}>
+      <div
+        className={twMerge(
+          'w-full',
+          imgDivClassName,
+          !imgDivClassName && aspectW,
+          !imgDivClassName && aspectH,
+          containerClass,
+        )}
+      >
         <img
           className="mx-auto my-0"
           alt={alt}
-          src={srcSet[srcSet.length - 1]?.newSrc ?? src}
           sizes={sizes}
-          srcSet={srcSet.map(o => o.srcSetValue).join(',')}
+          srcSet={srcSet.map(o => o.srcSetValue).join(', ')}
+          {...srcProps}
         />
         {hasChildren ? <div>{children}</div> : null}
       </div>
     </div>
   )
+}
+
+export const TilInlineImage = (
+  props: React.ComponentProps<typeof InlineImage>,
+) => {
+  return <InlineImage lazyLoadImage {...props} />
 }
