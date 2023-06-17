@@ -186,7 +186,7 @@ export const InlineImage = ({
     <div className={twMerge('mx-8 my-4 lg:mx-24 lg:my-8', containerClassName)}>
       <div className={twMerge('w-full', aspectW, aspectH, containerClass)}>
         <img
-          className="mx-auto my-0"
+          className="mx-auto my-0 max-w-7xl"
           alt={alt}
           src={srcSet[srcSet.length - 1]?.newSrc ?? src}
           sizes={sizes}
