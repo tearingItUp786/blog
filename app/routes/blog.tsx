@@ -46,7 +46,8 @@ export default function Blog() {
     i < blogList.length;
     i += 2, shouldHangRight = !shouldHangRight
   ) {
-    ;[blogList[i], blogList[i + 1]].forEach((el, j) => {
+    // prettier-ignore
+    [blogList[i], blogList[i + 1]].forEach((el, j) => {
       let currentIndex = i + j
       let currentContainerClassName = getContainerClassName(shouldHangRight)
       let currentBlogClassName = clsx(

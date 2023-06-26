@@ -29,7 +29,6 @@ import {withSentry} from '@sentry/remix'
 
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
-import {IframeLazy} from './utils/iframe-lazy'
 
 export const meta: MetaFunction = () => {
   return {

@@ -22,7 +22,11 @@ export function PreviousAndNextLinks({previous, next}: Props) {
     >
       {previous ? (
         <div className="max-w-[48%]">
-          <Link className="group" to={`/blog/${String(previous.to)}`}>
+          <Link
+            prefetch="viewport"
+            className="group"
+            to={`/blog/${String(previous.to)}`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -44,7 +48,11 @@ export function PreviousAndNextLinks({previous, next}: Props) {
       ) : null}
       {next ? (
         <div className="max-w-[48%]">
-          <Link className="group" to={`/blog/${String(next.to)}`}>
+          <Link
+            prefetch="viewport"
+            className="group"
+            to={`/blog/${String(next.to)}`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
