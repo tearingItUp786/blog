@@ -11,7 +11,7 @@ import styles from '~/styles/til.css'
 export async function loader() {
   const tilList = await getMdxTilListGql()
   let headers = {
-    'Cache-Control': 'public,  s-maxage=60, stale-while-revalidate=2678400',
+    'Cache-Control': 'public,  s-maxage=3600, stale-while-revalidate=2678400',
   }
   return json({tilList}, {headers})
 }
