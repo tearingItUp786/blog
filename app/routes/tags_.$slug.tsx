@@ -5,9 +5,10 @@ import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
-import {useMemo} from 'react'
+import {useEffect, useMemo} from 'react'
 import styles from '~/styles/tag.css'
 import {delRedisKey} from '~/utils/redis.server'
+import LazyLoad from 'vanilla-lazyload'
 
 export function links() {
   return [{rel: 'stylesheet', href: styles}]
@@ -36,6 +37,10 @@ export default function SingleTag() {
   const params = useParams()
 
   let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
+
+  useEffect(() => {
+    new LazyLoad()
+  }, [])
 
   return (
     <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
