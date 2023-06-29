@@ -19,6 +19,7 @@ export function IframeLazy() {
   return (
     <>
       <script
+        async
         dangerouslySetInnerHTML={{
           __html: clientcode,
         }}
