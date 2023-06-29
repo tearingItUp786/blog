@@ -1,6 +1,6 @@
 import {HeadersFunction, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import React from 'react'
+import {useEffect, useMemo, useRef} from 'react'
 import {ContentCard} from '~/components/til/content-card'
 import {getMdxTilListGql} from '~/utils/mdx'
 import {tilMapper} from '~/utils/til-list'
@@ -22,12 +22,15 @@ export const headers: HeadersFunction = ({loaderHeaders}) => {
 
 export default function TilPage() {
   const {tilList} = useLoaderData<typeof loader>()
+  const mountedRef = useRef(false)
 
-  let tilComponents = React.useMemo(() => tilList.map(tilMapper), [tilList])
+  let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
 
-  React.useEffect(() => {
-    new LazyLoad()
-    console.log('👍')
+  useEffect(() => {
+    if (!mountedRef.current) {
+      new LazyLoad()
+      mountedRef.current = true
+    }
   }, [])
 
   return (

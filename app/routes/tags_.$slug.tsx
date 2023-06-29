@@ -5,7 +5,7 @@ import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
-import {useEffect, useMemo} from 'react'
+import {useEffect, useMemo, useRef} from 'react'
 import styles from '~/styles/tag.css'
 import {delRedisKey} from '~/utils/redis.server'
 import LazyLoad from 'vanilla-lazyload'
@@ -36,10 +36,14 @@ export default function SingleTag() {
   const {blogList, tilList} = useLoaderData<typeof loader>()
   const params = useParams()
 
+  const mountedRef = useRef(false)
   let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
 
   useEffect(() => {
-    new LazyLoad()
+    if (!mountedRef.current) {
+      new LazyLoad()
+      mountedRef.current = true
+    }
   }, [])
 
   return (
