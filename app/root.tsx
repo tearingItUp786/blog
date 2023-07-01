@@ -4,7 +4,6 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
   useCatch,
 } from '@remix-run/react'
 import {MetronomeLinks} from '@metronome-sh/react'
@@ -167,7 +166,6 @@ const App = () => {
         <Navbar />
         <Outlet />
 
-        <ScrollRestoration />
         <Scripts />
         <LiveReload />
         <Toggle />
