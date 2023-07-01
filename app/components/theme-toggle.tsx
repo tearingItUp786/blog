@@ -1,10 +1,16 @@
 import clsx from 'clsx'
 import {useEffect, useState} from 'react'
+import {useHotkeys} from '~/hooks/use-hot-keys'
 import {Theme, useTheme} from '~/utils/theme-provider'
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme()
   const [isFooterVisible, setIsFooterVisible] = useState(false)
+
+  useHotkeys('cmd+d, ctrl+d', (event: any) => {
+    event.preventDefault()
+    setTheme(prev => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))
+  })
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
