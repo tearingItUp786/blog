@@ -167,7 +167,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
               'group-hover:text-pink',
             )}
           >
-            {'⌘k'}
+            {'⌘K'}
           </span>
         </button>
       ) : (
