@@ -167,7 +167,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
               'group-hover:text-pink',
             )}
           >
-            {'Search...'}
+            {'⌘k'}
           </span>
         </button>
       ) : (
@@ -178,7 +178,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
           />
           <input
             className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pl-8 pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
-            placeholder="⌘k"
+            placeholder="Search..."
             type="text"
             defaultValue={query}
           />
