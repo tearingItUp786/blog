@@ -5,6 +5,8 @@ import {usePagination, useSearchBox} from 'react-instantsearch-hooks'
 import type {AutocompleteOptions} from '@algolia/autocomplete-js'
 import {autocomplete} from '@algolia/autocomplete-js'
 import type {BaseItem} from '@algolia/autocomplete-core'
+import {useHotkeys} from '~/hooks/use-hot-keys'
+
 import clsx from 'clsx'
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
@@ -35,6 +37,15 @@ export function Autocomplete({
     setQuery(instantSearchUiState.query)
     setPage(0)
   }, [instantSearchUiState])
+
+  useHotkeys(
+    'cmd+k, ctrl+k',
+    (event: any) => {
+      event.preventDefault()
+      searchRef.current?.setIsOpen(!instantSearchUiState.isOpen)
+    },
+    [instantSearchUiState.isOpen],
+  )
 
   useEffect(() => {
     if (!autocompleteContainer.current) {
@@ -73,7 +84,7 @@ export function Autocomplete({
         ) {
           setInstantSearchUiState({
             query: state.query,
-            isOpen: true,
+            isOpen: state.isOpen,
           })
         }
       },
@@ -167,7 +178,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
           />
           <input
             className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pl-8 pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
-            placeholder="Search..."
+            placeholder="⌘k"
             type="text"
             defaultValue={query}
           />

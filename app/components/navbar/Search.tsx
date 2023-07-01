@@ -38,9 +38,6 @@ export function Search() {
 
                     return results
                   },
-                  onSelect() {
-                    console.log('fuck')
-                  },
                   templates: {
                     noResults() {
                       return (
