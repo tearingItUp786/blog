@@ -47,6 +47,7 @@ const ThemeToggle = () => {
         }}
       >
         <input
+          id="website-theme-toggle"
           aria-label="Toggle theme mode"
           className={clsx(
             'transition-color h-6 w-6  cursor-pointer appearance-none rounded-full drop-shadow-toggle transition-transform ease-in-out md:h-7 md:w-7',
@@ -55,7 +56,6 @@ const ThemeToggle = () => {
           )}
           type="checkbox"
           role="switch"
-          id="flexSwitchCheckDefault"
         />
       </div>
     </>
