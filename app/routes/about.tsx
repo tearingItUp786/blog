@@ -52,6 +52,10 @@ const RandomThing = ({
 }
 
 export async function loader() {
+  let headers = {
+    'Cache-Control':
+      'public, max-age=86400, s-maxage=86400, stale-while-revalidate=2678400',
+  }
   let desktopImage = cloudinaryInstance
     .image('blog/hero')
     .resize(scale().width(800))
@@ -60,16 +64,18 @@ export async function loader() {
     .image('blog/hero')
     .resize(scale().width(500).height(500))
 
-  return json({
-    desktopImage: desktopImage.toURL(),
-    mobileImage: mobileImage.toURL(),
-  })
+  return json(
+    {
+      desktopImage: desktopImage.toURL(),
+      mobileImage: mobileImage.toURL(),
+    },
+    {headers},
+  )
 }
 
-export const headers: HeadersFunction = ({}) => ({
-  'Cache-Control':
-    'public, max-age=86400, s-maxage=86400, stale-while-revalidate=2678400',
-})
+export const headers: HeadersFunction = ({loaderHeaders}) => {
+  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
+}
 
 // need to fetch all content from the blog directory using github api
 export default function About() {
