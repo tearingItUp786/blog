@@ -53,8 +53,7 @@ const RandomThing = ({
 
 export async function loader() {
   let headers = {
-    'Cache-Control':
-      'public, max-age=86400, s-maxage=86400, stale-while-revalidate=2678400',
+    'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=2678400',
   }
 
   let desktopImage = cloudinaryInstance
