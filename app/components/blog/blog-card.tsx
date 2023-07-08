@@ -22,8 +22,8 @@ export function BlogCard({
         relative 
         py-6 
         after:absolute 
-        after:top-[2rem] 
         after:right-0 
+        after:top-[2rem] 
         after:hidden 
         after:h-[2px] 
         after:bg-black 

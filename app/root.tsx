@@ -4,6 +4,7 @@ import {
   Meta,
   Outlet,
   Scripts,
+  ScrollRestoration,
   useCatch,
 } from '@remix-run/react'
 import {MetronomeLinks} from '@metronome-sh/react'
@@ -166,6 +167,15 @@ const App = () => {
         <Navbar />
         <Outlet />
 
+        <ScrollRestoration
+          getKey={location => {
+            if (location.pathname === '/til') {
+              return location.pathname + location.hash
+            }
+
+            return location.key
+          }}
+        />
         <Scripts />
         <LiveReload />
         <Toggle />

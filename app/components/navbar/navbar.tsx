@@ -52,7 +52,7 @@ export function Navbar() {
           isOpen
             ? 'scale-100 opacity-100'
             : 'lg:h-100vh h-auto scale-0 opacity-0 lg:visible lg:scale-100 lg:opacity-100',
-          'fixed top-[63px] left-0 z-20 w-[100vw] flex-grow origin-top-right justify-center transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto',
+          'fixed left-0 top-[63px] z-20 w-[100vw] flex-grow origin-top-right justify-center transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto',
         )}
       >
         <NavLink className={setNavClassName} to="/til">

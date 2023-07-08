@@ -100,7 +100,15 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
       const pageData =
         dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? []
 
-      const sortedPageData = pageData.sort((a, b) => {
+      // have some tils that aren't in directories
+      const sanitizedPageNames = pageData.map(page => {
+        return {
+          ...page,
+          name: page.name.replace(/\.mdx$/, ''),
+        }
+      })
+
+      const sortedPageData = sanitizedPageNames.sort((a, b) => {
         return b.name.toLowerCase().localeCompare(a.name.toLowerCase(), 'en')
       })
 
