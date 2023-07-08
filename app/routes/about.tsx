@@ -56,6 +56,7 @@ export async function loader() {
     'Cache-Control':
       'public, max-age=86400, s-maxage=86400, stale-while-revalidate=2678400',
   }
+
   let desktopImage = cloudinaryInstance
     .image('blog/hero')
     .resize(scale().width(800))
@@ -78,6 +79,7 @@ export const headers: HeadersFunction = ({loaderHeaders}) => {
 }
 
 // need to fetch all content from the blog directory using github api
+// and then you do a thing
 export default function About() {
   const data = useLoaderData<typeof loader>()
 
