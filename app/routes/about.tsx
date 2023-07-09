@@ -1,7 +1,6 @@
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {scale} from '@cloudinary/url-gen/actions/resize'
-import type {HeadersFunction} from '@remix-run/node' // or cloudflare/deno
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
@@ -52,10 +51,6 @@ const RandomThing = ({
 }
 
 export async function loader() {
-  let headers = {
-    'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=2678400',
-  }
-
   let desktopImage = cloudinaryInstance
     .image('blog/hero')
     .resize(scale().width(800))
@@ -64,17 +59,10 @@ export async function loader() {
     .image('blog/hero')
     .resize(scale().width(500).height(500))
 
-  return json(
-    {
-      desktopImage: desktopImage.toURL(),
-      mobileImage: mobileImage.toURL(),
-    },
-    {headers},
-  )
-}
-
-export const headers: HeadersFunction = ({loaderHeaders}) => {
-  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
+  return json({
+    desktopImage: desktopImage.toURL(),
+    mobileImage: mobileImage.toURL(),
+  })
 }
 
 // need to fetch all content from the blog directory using github api
