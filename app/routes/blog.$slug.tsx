@@ -66,6 +66,7 @@ export const loader: LoaderFunction = async ({params}) => {
     }
 
     const headers = {
+      'Cache-Control': 'private, max-age=3600',
       Vary: 'Cookie',
     }
 

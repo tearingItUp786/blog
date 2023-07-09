@@ -1,4 +1,4 @@
-import {json} from '@remix-run/node'
+import {HeadersFunction, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {useEffect, useMemo, useRef} from 'react'
 import {ContentCard} from '~/components/til/content-card'
@@ -10,7 +10,14 @@ import styles from '~/styles/til.css'
 
 export async function loader() {
   const tilList = await getMdxTilListGql()
-  return json({tilList})
+  let headers = {
+    'Cache-Control': 'public,  s-maxage=3600, stale-while-revalidate=2678400',
+  }
+  return json({tilList}, {headers})
+}
+
+export const headers: HeadersFunction = ({loaderHeaders}) => {
+  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
 }
 
 export default function TilPage() {

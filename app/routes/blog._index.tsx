@@ -8,8 +8,12 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderFunction} from '@remix-run/node'
+import type {HeadersFunction, LoaderFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
+
+export const headers: HeadersFunction = ({loaderHeaders}) => {
+  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
+}
 
 export const loader: LoaderFunction = async () => {
   const allBlogItems = await getMdxBlogListGraphql()
@@ -26,7 +30,10 @@ export const loader: LoaderFunction = async () => {
     {left: [], right: []} as Record<'left' | 'right', string[]>,
   )
 
-  return json({blogList, cssClasses})
+  let headers = {
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=2678400',
+  }
+  return json({blogList, cssClasses}, {headers})
 }
 
 export default function Blog() {
