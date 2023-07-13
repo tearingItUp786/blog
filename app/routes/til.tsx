@@ -1,10 +1,9 @@
 import {HeadersFunction, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import {useEffect, useMemo, useRef} from 'react'
-import {ContentCard} from '~/components/til/content-card'
-import {getMdxTilListGql} from '~/utils/mdx'
-import {tilMapper} from '~/utils/til-list'
+import {useEffect, useRef} from 'react'
 import LazyLoad from 'vanilla-lazyload'
+import {getMdxTilListGql} from '~/utils/mdx'
+import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
@@ -26,8 +25,6 @@ export const headers: HeadersFunction = ({loaderHeaders}) => {
 export default function TilPage() {
   const {tilList} = useLoaderData<typeof loader>()
   const mountedRef = useRef(false)
-
-  let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
 
   useEffect(() => {
     if (!mountedRef.current) {
@@ -53,24 +50,12 @@ export default function TilPage() {
     '
     >
       <div className="prose prose-light max-w-full dark:prose-dark">
-        {tilComponents.map((til, i) => {
-          const Component: any = tilComponents?.[i]?.component ?? null
-          if (!til?.frontmatter) return null
-
+        {tilList.map(til => {
           return (
-            <div
+            <TilComponent
               key={`${til.frontmatter.title}-${til.frontmatter.date}`}
-              className="mb-24 first-of-type:mt-16 last-of-type:mb-0"
-            >
-              <ContentCard
-                id={til.slug}
-                title={til.frontmatter.title}
-                date={til.frontmatter.date}
-                tag={til.frontmatter.tag}
-              >
-                {Component ? <Component /> : null}
-              </ContentCard>
-            </div>
+              til={til}
+            />
           )
         })}
       </div>
