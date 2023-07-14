@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(morgan('combined'))
+  app.use(morgan())
 }
 
 app.all(
