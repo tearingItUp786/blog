@@ -49,7 +49,11 @@ app.use(
 )
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
+  app.use(morgan('short'))
+}
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'))
 }
 
 app.all(
