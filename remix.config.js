@@ -7,6 +7,7 @@ module.exports = {
   serverModuleFormat: 'cjs',
   postcss: true,
   tailwind: true,
+  watchPaths: ['./tailwind.config.js'],
   future: {
     v2_dev: true,
     v2_routeConvention: true,
