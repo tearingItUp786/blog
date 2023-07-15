@@ -154,6 +154,7 @@ export const InlineImage = ({
   aspectW = 'aspect-w-8',
   aspectH = 'aspect-h-4',
   lazyLoadImage = false,
+  className,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
   containerClassName?: string
@@ -208,7 +209,7 @@ export const InlineImage = ({
         )}
       >
         <img
-          className="mx-auto my-0"
+          className={twMerge('mx-auto my-0', className)}
           alt={alt}
           sizes={sizes}
           srcSet={srcSet.map(o => o.srcSetValue).join(', ')}
