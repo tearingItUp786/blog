@@ -12,7 +12,7 @@
     "clean": "npx rimraf ./node_modules/.cache ./server/dist ./build ./public/build \"./app/styles/**/*.css\"",
     "deploy": "fly deploy --remote-only",
     "typecheck": "tsc -b .",
-    "dev": "remix dev -c 'node ./server/dev-server.js' --no-restart",
+    "dev": "remix dev -c \"node ./server/dev-server.js\" --no-restart",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|vue)\"",
     "start": "node index.js",

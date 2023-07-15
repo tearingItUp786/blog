@@ -7,6 +7,7 @@ import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
 import {CloudinaryHeroImage} from '~/components/hero-image'
+import {LazyGiphy} from '~/components/lazy-iframe'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
@@ -69,6 +70,7 @@ async function getMdxPageGql({
 
 const mdxComponents = {
   ...myTypo,
+  LazyGiphy,
   CloudinaryHeroImage,
 }
 
