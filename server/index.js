@@ -62,13 +62,13 @@ app.all(
     ? (req, res, next) => {
         return createRequestHandler({
           build: buildWithMetronome,
-          mode: process.env.NODE_ENV,
+          mode: MODE,
           getLoadContext: metronomeGetLoadContext,
         })(req, res, next)
       }
     : createRequestHandler({
         build: buildWithMetronome,
-        mode: process.env.NODE_ENV,
+        mode: MODE,
         getLoadContext: metronomeGetLoadContext,
       }),
 )
