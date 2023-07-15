@@ -156,6 +156,9 @@ module.exports = {
                   border: 'none',
                   borderRadius: '0 !important',
                 },
+                'ol,ul': {
+                  marginTop: 0,
+                },
               },
             ],
           },
