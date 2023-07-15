@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useRef} from 'react'
 import {useCatch, useLoaderData} from '@remix-run/react'
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
@@ -59,6 +59,9 @@ export const loader: LoaderFunction = async ({params}) => {
     const page = await getMdxPageGql({
       contentDir: 'blog',
       slug: params.slug,
+      cachifiedOptions: {
+        forceFresh: true,
+      },
     })
 
     if (page.frontmatter.draft && process.env.NODE_ENV === 'production') {
@@ -120,6 +123,8 @@ export default function MdxScreen() {
   const data = useLoaderData<LoaderData>()
   const {code, frontmatter, readTime} = data.page
   const Component = useMdxComponent(String(code))
+  const mountedRef = useRef(false)
+
   const previous = data.prev
     ? {to: data.prev.slug, title: data.prev.frontmatter?.title}
     : null
@@ -128,7 +133,10 @@ export default function MdxScreen() {
     : null
 
   useEffect(() => {
-    new LazyLoad()
+    if (!mountedRef.current) {
+      new LazyLoad()
+      mountedRef.current = true
+    }
   }, [])
 
   return (
