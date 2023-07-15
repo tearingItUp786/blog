@@ -190,6 +190,7 @@ export const InlineImage = ({
     [lazyLoadImage ? 'data-src' : 'src']:
       srcSet[srcSet.length - 1]?.newSrc ?? src,
   }
+
   return (
     <div
       className={twMerge(

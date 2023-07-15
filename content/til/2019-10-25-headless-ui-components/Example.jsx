@@ -24,6 +24,7 @@ function CheckBox() {
       {({state, handleClick}) => {
         return (
           <input
+            aria-label="a sample checkbox"
             type="checkbox"
             id="scales"
             name="scales"
@@ -62,6 +63,7 @@ function PrettyToggle() {
                 )}
                 type="checkbox"
                 role="switch"
+                aria-label="a pretty toggle input"
                 id="flexSwitchCheckDefault"
               />
             </div>
