@@ -16,10 +16,11 @@ export const headers: HeadersFunction = ({loaderHeaders}) => {
 }
 
 export const loader: LoaderFunction = async () => {
-  const allBlogItems = await getMdxBlogListGraphql()
-  const blogList = allBlogItems.filter(el =>
-    process.env.NODE_ENV === 'production' ? !el.frontmatter.draft : true,
-  )
+  const {publishedPages, draftPages} = await getMdxBlogListGraphql()
+  const blogList =
+    process.env.NODE_ENV === 'production'
+      ? publishedPages
+      : [...publishedPages, ...draftPages]
 
   const cssClasses = blogList.reduce(
     acc => {

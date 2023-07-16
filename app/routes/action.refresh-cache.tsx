@@ -58,9 +58,9 @@ export const action: ActionFunction = async ({request}) => {
 
   // do it for the blog list if we need to as well
   if (bFiles.length || forceFresh) {
-    console.log('👍 refreshing blog list')
-    blogList = await getMdxBlogListGraphql({...cachifiedOptions})
-    blogList = blogList.filter(el => !el.frontmatter.draft)
+    console.log('👍 refreshing published blog list')
+    const {publishedPages} = await getMdxBlogListGraphql({...cachifiedOptions})
+    blogList = publishedPages
   }
 
   for (const file of bFiles) {
