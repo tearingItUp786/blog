@@ -228,7 +228,7 @@ export const InlineImage = ({
           containerClass,
         )}
       >
-        <LinkOrFragment href={openInNewTab ? srcToUse : undefined}>
+        <LinkOrFragment href={openInNewTab ? src : undefined}>
           <img
             className={twMerge('mx-auto my-0', className)}
             alt={alt}
