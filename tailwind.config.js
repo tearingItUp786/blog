@@ -26,6 +26,26 @@ module.exports = {
         300: 'var(--color-gray-300)',
       },
       accent: 'var(--accent)',
+      alert: {
+        100: '#FBE8E8',
+        200: '#F08D8D',
+        300: '#E53E3E',
+      },
+      info: {
+        100: '#E3F2FD',
+        200: '#82B1FF',
+        300: '#1976D2',
+      },
+      warning: {
+        100: '#FFF3E0',
+        200: '#FFB74D',
+        300: '#F57C00',
+      },
+      success: {
+        100: '#E9F5E6',
+        200: '#81C784',
+        300: '#43A047',
+      },
     },
     fontFamily: {
       body: ['Avenir', ...defaultTheme.fontFamily.sans],
