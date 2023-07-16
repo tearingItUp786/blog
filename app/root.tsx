@@ -20,7 +20,6 @@ import {
 } from './utils/theme-provider'
 import Toggle from '~/components/theme-toggle'
 import {Navbar} from './components/navbar'
-import {cssBundleHref} from '@remix-run/css-bundle'
 import type {
   ErrorBoundaryComponent,
   LinksFunction,
@@ -40,7 +39,6 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
     {rel: 'stylesheet', href: tailwindStyles},
     {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: prismaStyles},
