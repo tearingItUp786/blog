@@ -1,1 +1,22 @@
-body,html{overflow-x:hidden;scroll-behavior:smooth}body{scrollbar-color:var(--sb-thumb-color) var(--sb-track-color)}body::-webkit-scrollbar{width:var(--sb-size)}body::-webkit-scrollbar-track{background:var(--sb-track-color)}body::-webkit-scrollbar-thumb{background:var(--sb-thumb-color);border-radius:var(--sb-size)}
+html,
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+body::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: var(--sb-size);
+}

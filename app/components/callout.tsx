@@ -18,7 +18,7 @@ export const Callout = ({type, title, description}: CalloutProps) => {
   return (
     <div
       className={twMerge(
-        `mb-4 flex items-center rounded-lg border p-4 text-sm `,
+        `text-md mb-4 flex items-center rounded-lg border p-4`,
         containerClassName,
       )}
       role="alert"
