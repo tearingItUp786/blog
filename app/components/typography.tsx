@@ -1,6 +1,7 @@
 import {twMerge} from 'tailwind-merge'
 
 import clsx from 'clsx'
+import {Link} from '@remix-run/react'
 
 const fontSizes = {
   h1: 'font-display font-bold text-3xl md:text-5xl',
@@ -138,13 +139,29 @@ export const SmallAsterisk = ({children, ...rest}: CommonProps) => (
   </div>
 )
 
-// TODO: need a better way to handle inline images in mdx
+const LinkOrFragment = ({
+  href,
+  children,
+}: {
+  href?: string
+  children: React.ReactNode
+}) => {
+  if (!href) return <> {children} </>
 
+  return (
+    <Link target="_blank" to={href}>
+      {children}
+    </Link>
+  )
+}
+
+// TODO: need a better way to handle inline images in mdx
 const sizesForScreens = [
   {width: 480, maxWidth: 600},
   {width: 800, maxWidth: 1080},
   {width: 1280},
 ]
+
 export const InlineImage = ({
   src,
   alt,
@@ -155,6 +172,7 @@ export const InlineImage = ({
   aspectH = 'aspect-h-4',
   lazyLoadImage = false,
   className,
+  openInNewTab = false,
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   children?: React.ReactNode
   containerClassName?: string
@@ -162,6 +180,7 @@ export const InlineImage = ({
   aspectH?: string
   imgDivClassName?: string
   lazyLoadImage?: boolean
+  openInNewTab?: boolean
 }) => {
   const srcSet = sizesForScreens.map(size => {
     const newValue = `f_auto,w_${size.width},c_scale`
@@ -187,9 +206,10 @@ export const InlineImage = ({
   const hasChildren = children !== undefined
   const containerClass = hasChildren ? '' : 'mx-auto'
 
+  const srcToUse = srcSet[srcSet.length - 1]?.newSrc ?? src
+
   const srcProps = {
-    [lazyLoadImage ? 'data-src' : 'src']:
-      srcSet[srcSet.length - 1]?.newSrc ?? src,
+    [lazyLoadImage ? 'data-src' : 'src']: srcToUse,
   }
 
   return (
@@ -208,14 +228,16 @@ export const InlineImage = ({
           containerClass,
         )}
       >
-        <img
-          className={twMerge('mx-auto my-0', className)}
-          alt={alt}
-          sizes={sizes}
-          srcSet={srcSet.map(o => o.srcSetValue).join(', ')}
-          {...srcProps}
-        />
-        {hasChildren ? <div>{children}</div> : null}
+        <LinkOrFragment href={openInNewTab ? srcToUse : undefined}>
+          <img
+            className={twMerge('mx-auto my-0', className)}
+            alt={alt}
+            sizes={sizes}
+            srcSet={srcSet.map(o => o.srcSetValue).join(', ')}
+            {...srcProps}
+          />
+          {hasChildren ? <div>{children}</div> : null}
+        </LinkOrFragment>
       </div>
     </div>
   )
