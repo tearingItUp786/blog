@@ -59,9 +59,6 @@ export const loader: LoaderFunction = async ({params}) => {
     const page = await getMdxPageGql({
       contentDir: 'blog',
       slug: params.slug,
-      cachifiedOptions: {
-        forceFresh: true,
-      },
     })
 
     if (page.frontmatter.draft && process.env.NODE_ENV === 'production') {

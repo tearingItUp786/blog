@@ -8,6 +8,7 @@ import {
   useCatch,
 } from '@remix-run/react'
 import {MetronomeLinks} from '@metronome-sh/react'
+import {cssBundleHref} from '@remix-run/css-bundle'
 import clsx from 'clsx'
 import appStyles from './styles/app.css'
 
@@ -42,6 +43,7 @@ export const links: LinksFunction = () => {
     {rel: 'stylesheet', href: tailwindStyles},
     {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: prismaStyles},
+    ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
     {rel: 'icon', href: '/favicon.ico'},
   ]
 }
