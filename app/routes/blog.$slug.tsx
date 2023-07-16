@@ -1,5 +1,5 @@
 import {useEffect, useRef} from 'react'
-import {useCatch, useLoaderData} from '@remix-run/react'
+import {useCatch, useLoaderData, useLocation} from '@remix-run/react'
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
@@ -12,7 +12,7 @@ import {
 } from '~/utils/mdx'
 import {dateFormat} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
-import LazyLoad from 'vanilla-lazyload'
+import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 
 type LoaderData = {
   page: MdxPage
@@ -123,7 +123,16 @@ export default function MdxScreen() {
   const data = useLoaderData<LoaderData>()
   const {code, frontmatter, readTime} = data.page
   const Component = useMdxComponent(String(code))
-  const mountedRef = useRef(false)
+  const loc = useLocation()
+  const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
+
+  useEffect(() => {
+    if (lazyLoadRef.current === null) {
+      lazyLoadRef.current = new LazyLoad()
+    } else {
+      lazyLoadRef.current.update()
+    }
+  }, [loc])
 
   const previous = data.prev
     ? {to: data.prev.slug, title: data.prev.frontmatter?.title}
@@ -131,13 +140,6 @@ export default function MdxScreen() {
   const next = data.next
     ? {to: data.next.slug, title: data.next.frontmatter?.title}
     : null
-
-  useEffect(() => {
-    if (!mountedRef.current) {
-      new LazyLoad()
-      mountedRef.current = true
-    }
-  }, [])
 
   return (
     <div className="relative mx-[10vw] mt-8">

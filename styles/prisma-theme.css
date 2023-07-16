@@ -23,7 +23,6 @@ pre {
  * 1. Make the element just wide enough to fit its content.
  * 2. Always fill the visible space in .code-highlight.
  */
-
 .code-highlight {
   float: left; /* 1 */
   min-width: 100%; /* 2 */
@@ -68,13 +67,14 @@ pre {
 * based on: https://github.com/MoOx/sass-prism-theme-base by Maxime Thirouin ~ MoOx --> http://moox.fr/ , which is Loosely based on Monokai textmate theme by http://www.monokai.nl/
 * license: MIT; http://moox.mit-license.org/
 */
-
 code[class*='language-'],
 pre[class*='language-'] {
   -moz-tab-size: 2;
   -o-tab-size: 2;
   tab-size: 2;
   -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
   hyphens: none;
   white-space: pre;
   white-space: pre-wrap;
@@ -211,7 +211,6 @@ code.language-markup .token.script .token.keyword {
 }
 
 /* Line highlight plugin */
-
 .line-highlight.line-highlight {
   padding: 0;
   background: rgba(255, 255, 255, 0.08);

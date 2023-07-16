@@ -83,8 +83,99 @@ Here's the list of things involved with my rewrite:
 
 <InlineImage
   lazyLoadImage
-  className="hover:scale-[1.25] transition-transform"
+  className="hover:scale-[1.25] transition-duration-500 transition-transform"
   containerClassName="mx-0 lg:mx-0"
   src="https://res.cloudinary.com/dinypqsgl/image/upload/v1689464313/blog/arch_rkhewd.png"
   alt="Archtitecture diagram from excalidraw for taranveerbains.ca"
 />
+
+Each one of the services listed above and diagramed in my architecture exaclidraw are more than worthy of having their own blog post 
+so I'll just focus on the ones that were new to me or ones that made me go "huh, guess I need this".
+
+## Redis
+
+As you may have guessed, I am using Github as my CMS and their API gave me quite a lot of trouble; well, not really the API, 
+but I was was using it gave me trouble. Originally, I copypastad the methods Kent C. Dodds 
+had written in his blog project for querying Github. I didn't understand why Kent was using the `cachified` 
+library for his API requests and so I decided to strip cachified out from my implementation (boy was that a bad idea 😅) 
+because I thought I didn't need it.
+
+Not only were my pages loading slower than I wanted (upwards of 10 seconds for my til page), 
+but I would hit the rate limit for the API within a few minutes of local development 😱. 
+During Kent's office hours, I asked him how I could address this problem and when I showed Kent my implementation, 
+he lol'ed. Turns out, I had stripped out the layer that was needed for performance -- the redis cache!
+
+I brought back cachified and started using redis to as my caching layer for 3rd party requests and boy, I gotta say, 
+that was a real improvement to my page speeds! `cachified` makes it super easy to plug in redis/redis like databases 
+and so I was off to the races within minutes!
+
+## Octokit
+
+The above was the first real problem I experienced when creating my full stack remix app: I had nothing caching 
+the API calls to third parties and because of this, the performance of my site suffered. However, more importatnly 
+I had forgotten one of my core tenants of programming: code we cannot understand is code we cannot trust.
+
+I didn't understand Kent's implementation for interfacing with the Octokit and therefore ditched key elements that 
+I actually needed. I decided to abandon the idea of reusing Kent's code for querying Github and decided to do my own 
+technical discovery. As you could image, my discovery was quite fruiful because it landed me on the Github Graqhql API. 
+The Graphql API made it easy to recurisvely query data from Github with one request (the TIL and blog pages on my site 
+require recursive querying and this was a pain in the butt with the Rest API) and so the liklihood of me hitting the Github 
+API rate limit diminished greatly 🎉!
+
+## Unified + MDX Bundler
+So as I mentioned above, my last iteration for my blog was written in Gatsby. Gatsby was great for a myriad of reasons: 
+it let me write my website in React, it had an awesome developer experience, and there were a whole host of plugins at my disposable.
+
+When I came over to Remix, a lot of the goodies I had in Gatsby RE MDX didn't really exist for me anymore 😅. Some of the plugins 
+I used were written specifically for Gatsby and they didn't have a one to one port over to a platform like Remix -- this also 
+became an opportunity for more self growth though 😏! 
+Morever, while Remix has <TextLink href="https://github.com/kentcdodds/mdx-bundler">built in support for MDX</TextLink> 
+at build time and, don't get me wrong, it's great, I didn't see point of doing a rewrite of my blog with a fullstack 
+framework if I was not going to do anything substantial with my server!
+
+Thankfully, Kent C. Dodds worked on the `mdx-bundler` and so I was able to actually bundle my mdx and run-time 
+(yay, I got to use my server to do some processing!) 😊. While mdx-bundler gets the job done, there were some oddities I noticed. 
+For example, whenever I run `prettier` on my MDX files, my `TextLink` component renders in a separate paragraph. 
+Even though my `TextLink` was supposed to be inside the regular flow, contained in the preceeding paragraph, 
+the combination of prettier and mdx-bundler casued it to be added to its own paragraph tag. 
+Owing to this, I just opted not to run prettier on my MDX files; not great, but oh well 🤷.
+
+Remember when I mentioned like one paragraph ago that I had an opportunity for more self growth when working 
+with MDX and my Remix site? Well, let me elaborate! <TextLink href="https://www.gatsbyjs.com/plugins/gatsby-remark-code-titles/">Gatsby</TextLink> 
+has a plugin that allows developers to associate titles 
+to their remark code blocks and it's great (if you're usin Gatsby) but there is no remark counterpart that exists 😱!
+
+However, there was something that was close to what I needed: <TextLink href="https://github.com/rockchalkwushock/rehype-code-titles">rehype-code-titles</TextLink>.
+This rehype library basically did the same thing as the Gatsby version, but didn't support the ability for a custom separator for the title string. 
+After some encouragement from Kent, I made my first PR and became a contributor to the library 🎉.  
+The issue link describes basically what I did and the reason why I needed to add it to the library. 
+
+**Contributed to open source; I call that growth 😎**
+
+## Cloudflare
+
+The unexpected foot gun 🤣. The short version of this story is that the extra DNS hops and the attempt to use the Cloudflare as my CDN
+actually negatively impacted my page score lol.
+
+## Remix
+
+Remix is my chosen full stack framework for writing web applications and websites, or at least it is at the time of writing this blog post. 
+Now don't get me wrong, there are a plethora of full stack frameworks to choose from and they're all good in their own regard, 
+offering their own respective set of tradeoffs, but I am partial to Remix not only because it offers a seamless and amazing developer 
+experience but also because it remixes the base principles of web development I learned about when I first started my career with 
+the modern developer experience, and frameworks I've come to love.  
+
+I'll be honest, it was a bit of a mental shift to have to start thinking about my web app from the perspective of the server and the client. 
+When I first got started, well if I remembering correctly, I had issues understanding how to properly read from `localStorage`, 
+the `window` object being undefined whenever I tried to access it, and the most annoying thing, I keep running into hydration issues 😅. 
+Now let me be clear, none of these issues are isolated to Remix alone -- it's just the nature of working with React at the server and client level. 
+Owing to my own, inexperience, I ran into these issues and I _eventually_ figured them out. 
+
+Regardless, using Remix has been an absolute joy and I've had so much fun migrating my site to this stellar framework. Lots of learning, lots of 
+late nights, and lots of stress -- but good things all around 😍.
+
+## Closing Thoughts
+
+This migration was tough, but most things in life that are worth doing, tend to be on the difficult side. I can tell I grew a lot from this migration 
+and it's not only helped me become a better developer, but also a better engineer, and overall problem solver.
+
