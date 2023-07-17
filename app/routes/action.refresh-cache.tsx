@@ -50,19 +50,69 @@ export const action: ActionFunction = async ({request}) => {
   const [bFiles, tilFiles] = contentFiles.reduce(getFileArray, [[], []])
   let blogList: Omit<MdxPage, 'code'>[] = []
   let tilList: MdxPage[] = []
+
+  // refresh til list, blog list, all blog articles, tag list, and  tags
+  if (forceFresh) {
+    console.log('⚡️ Manually force fresh invoked!')
+    const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
+
+    tilList = await getMdxTilListGql({...cachifiedOptions})
+    blogList = (await getMdxBlogListGraphql({...cachifiedOptions}))
+      .publishedPages
+
+    const {tags} = await getMdxTagListGql({...cachifiedOptions})
+
+    await Promise.all(
+      tags.map(
+        async tag =>
+          await getMdxIndividualTagGql({
+            userProvidedTag: tag,
+            ...cachifiedOptions,
+          }),
+      ),
+    )
+
+    await Promise.all(
+      individualBlogArticles.map(async article => {
+        const [, contentDir, slug] = article.split(':')
+        if (contentDir && slug) {
+          await getMdxPageGql({
+            contentDir,
+            slug,
+            ...cachifiedOptions,
+          })
+        }
+      }),
+    )
+
+    console.log('👍 refreshing algolia')
+    const blogObjects = [...blogList].map(o => ({
+      ...o.matter,
+      type: 'blog',
+      objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+      content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
+    }))
+
+    const tilObjects = [...tilList].map(o => ({
+      ...o.matter,
+      type: 'til',
+      objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+      content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
+    }))
+    await index.saveObjects([...blogObjects, ...tilObjects])
+    console.log('👍 refreshed algolia index with til list')
+
+    return json({ok: true})
+  }
+
   // if we edited a content file, call the fetcher function for getContent
-  if (tilFiles.length || forceFresh) {
+  if (tilFiles.length) {
     console.log('👍 refreshing til list')
     tilList = await getMdxTilListGql({...cachifiedOptions})
   }
 
-  // do it for the blog list if we need to as well
-  if (bFiles.length || forceFresh) {
-    console.log('👍 refreshing published blog list')
-    const {publishedPages} = await getMdxBlogListGraphql({...cachifiedOptions})
-    blogList = publishedPages
-  }
-
+  // we want to delete and refresh the individual files
+  // before we go and refresh the list
   for (const file of bFiles) {
     // refresh the cache in this case
     const slug = file.filename
@@ -92,10 +142,15 @@ export const action: ActionFunction = async ({request}) => {
     await getMdxPageGql(args)
   }
 
+  // do it for the blog list if we need to as well
+  if (bFiles.length) {
+    console.log('👍 refreshing published blog list')
+    const {publishedPages} = await getMdxBlogListGraphql({...cachifiedOptions})
+    blogList = publishedPages
+  }
+
   console.log('👍 refresh tag list in redis')
   const {tags} = await getMdxTagListGql({...cachifiedOptions})
-
-  console.log('keys in redis are', await redisClient.keys('*'))
 
   console.log('👍 refresh the individual tags in redis')
   await Promise.all(

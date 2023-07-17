@@ -167,7 +167,9 @@ async function getMdxBlogListGraphql({cachifiedOptions}: CommonGetProps = {}) {
         }
       }) as Omit<MdxPageAndSlug, 'code'>[]
 
-      const draftPages = publishedPages.filter(el => el.frontmatter?.draft)
+      const draftPages = publishedPages.filter(
+        el => el.frontmatter?.draft,
+      ) as Omit<MdxPageAndSlug, 'code'>[]
 
       return {
         publishedPages,
