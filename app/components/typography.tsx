@@ -182,6 +182,7 @@ export const InlineImage = ({
   lazyLoadImage?: boolean
   openInNewTab?: boolean
 }) => {
+  // open in new tab and stuff
   const srcSet = sizesForScreens.map(size => {
     const newValue = `f_auto,w_${size.width},c_scale`
     const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
