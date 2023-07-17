@@ -126,9 +126,7 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
-    if:
-      needs.changes.outputs.DEPLOYABLE != 'true' ||  inputs.force_fresh ==
-      'true'
+    if: needs.changes.outputs.DEPLOYABLE != 'true'
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
