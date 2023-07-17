@@ -76,7 +76,7 @@ export const action: ActionFunction = async ({request}) => {
       individualBlogArticles.map(async article => {
         const [, contentDir, slug] = article.split(':')
         if (contentDir && slug) {
-          await getMdxPageGql({
+          return await getMdxPageGql({
             contentDir,
             slug,
             ...cachifiedOptions,
