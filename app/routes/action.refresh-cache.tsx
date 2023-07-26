@@ -126,7 +126,11 @@ export const action: ActionFunction = async ({request}) => {
       ...cachifiedOptions,
     }
 
-    if (file.changeType === 'deleted') {
+    if (
+      file.changeType === 'deleted' ||
+      file.changeType === 'modified' ||
+      file.changeType === 'moved'
+    ) {
       console.log('❌ delete', slug, 'from redis and algolia')
       await delMdxPageGql(args)
 
