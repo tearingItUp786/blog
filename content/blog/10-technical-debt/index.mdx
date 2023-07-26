@@ -27,11 +27,11 @@ the negative aspects of this kind of project work.
 Even when I transitioned to being a product developer at Mastercard, everything
 I worked on was greenfield; I started everything from a clean slate. I was
 fortunate in this regard -- I didn't have to deal with technical debt for a
-large portion of my career 😏! However, when I was finally exposed to technical
-debt in the wild, my oh my, was I shocked at what existed in production in
-several high profile applications and businesses.
+large portion of my career 😏! "However, when I was eventually confronted with 
+technical debt in the real world, I was utterly astonished by the extent of 
+its presence in numerous high-profile applications and businesses.
 
-So let's talk a litlte about how I learned to manage, mitigate, and pay down
+So let's talk a little about how I learned to manage, mitigate, and pay down
 technical debt 🙏🏽!
 
 ## What is technical debt
@@ -44,16 +44,15 @@ technical debt 🙏🏽!
 />
 
 Technical debt, at least in the context of this blog post, refers to decisions
-that engineering teams make in order to expedite the delivery of features. For
-example, at a granular level, continuing to use and expand up class components
-that exist in a React codbase instead of trying to write new components using
-hooks (reusing old outdated patterns) is a decision that adds technical debt. At
-a higher level of abstraction, continuing to work with and utilize a custom
+that engineering teams make in order to expedite the delivery of features. Att a granular level, 
+continuing to use and expand up class components that exist in a React codebase instead of trying 
+to write new components using hooks (reusing old outdated patterns) is a decision that adds 
+technical debt. At a higher level of abstraction, continuing to work with and utilize a custom
 built fullstack framework (that is poorly documented) instead of using a
-prebuilt solution like NextJS or Remix is another form of technical debt. Don't
-get me wrong, the custom built solution works... but it's clunky and hard for
-individuals to reason about and the very same thing can be said about React
-class components.
+prebuilt solution like <TextLink href="https://nextjs.org/">NextJS</TextLink> or 
+<TextLink href="https://remix.run/">Remix</TextLink> is another form of technical debt. 
+Don't get me wrong, the custom built solution works... but it's clunky and hard for
+to reason about and this very same thing can be said about React class components.
 
 <Callout
  type="success"
@@ -67,7 +66,7 @@ off this debt, the more the interest will compound. Now the interest I'm
 referring to isn't monetry in nature (like that of your mortgage 😅) but a more
 intagible interest. This "interest" results in engineers spending more time
 fighting with the codebase instead of actually focusing on delivering value to
-users. As the technical debt accrues, it becomes increasingly more frustrating
+users. As the technical debt accrues interest, it becomes increasingly more frustrating
 and tedious for engineers to work on solving problems; their focus shifts from
 "let me deliever value" to "please lady luck, don't let me break anything during
 my deployment".
@@ -90,7 +89,7 @@ trite response is let's talk about figuring out how to go about paying down this
 debt.
 
 <LazyGiphy
-  containerClassName='w-[50%] pb-[50%]'
+  containerClassName='w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]'
   src="https://giphy.com/embed/p4wQuEvkP27fMt7f6y"
   giphyAttributionSrc="https://giphy.com/gifs/pudgypenguins-riot-torch-pitchfork-p4wQuEvkP27fMt7f6y"
 />
