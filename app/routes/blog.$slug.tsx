@@ -74,7 +74,7 @@ export const loader: LoaderFunction = async ({params}) => {
     const blogList =
       process.env.NODE_ENV === 'production'
         ? publishedPages
-        : [...publishedPages, ...draftPages]
+        : [...draftPages, ...publishedPages]
 
     const currentIndex = blogList.findIndex(
       el => el.frontmatter?.title === page?.frontmatter?.title,

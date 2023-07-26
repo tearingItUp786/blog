@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async () => {
   const blogList =
     process.env.NODE_ENV === 'production'
       ? publishedPages
-      : [...publishedPages, ...draftPages]
+      : [...draftPages, ...publishedPages]
 
   const cssClasses = blogList.reduce(
     acc => {
