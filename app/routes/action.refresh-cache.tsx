@@ -99,7 +99,7 @@ export const action: ActionFunction = async ({request}) => {
       objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
       content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
     }))
-    await index.saveObjects([...blogObjects, ...tilObjects])
+    await index.replaceAllObjects([...blogObjects, ...tilObjects])
     console.log('👍 refreshed algolia index with til list')
 
     return json({ok: true})
