@@ -1,0 +1,19 @@
+---
+title: node require cache
+date: 2023-07-27
+tag: Node
+---
+
+TIL that `commonjs` has a `require` cache. Basically, if you require a module once in the file, it gets cached and
+if you attempt to require the module a second time, EVEN IF THE CONTENT HAS CHANGED, you'll get the cached version.
+
+Usually this isn't a problem but it bit me in the butt when I moved my remix app over to be using express. I had 
+to call this function inside of my server code when remix finished rebundling.
+
+```tsx
+function clearRequireCache() {
+  Object.keys(require.cache).forEach(function (key) {
+    delete require.cache[key]
+  })
+}
+```
