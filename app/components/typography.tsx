@@ -211,6 +211,10 @@ export const InlineImage = ({
 
   const srcProps = {
     [lazyLoadImage ? 'data-src' : 'src']: srcToUse,
+    [lazyLoadImage ? 'data-sizes' : 'sizes']: sizes,
+    [lazyLoadImage ? 'data-srcset' : 'srcset']: srcSet
+      .map(o => o.srcSetValue)
+      .join(', '),
   }
 
   return (
@@ -231,10 +235,12 @@ export const InlineImage = ({
       >
         <LinkOrFragment href={openInNewTab ? src : undefined}>
           <img
-            className={twMerge('mx-auto my-0', className)}
+            className={twMerge(
+              'mx-auto my-0',
+              lazyLoadImage && 'lazy',
+              className,
+            )}
             alt={alt}
-            sizes={sizes}
-            srcSet={srcSet.map(o => o.srcSetValue).join(', ')}
             {...srcProps}
           />
           {hasChildren ? <div>{children}</div> : null}
