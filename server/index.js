@@ -70,7 +70,7 @@ app.all('*', (...args) => {
     build: buildWithMetronome,
     mode: MODE,
     getLoadContext: metronomeGetLoadContext,
-  })
+  })(...args)
 })
 
 let port = process.env.PORT || 3000
