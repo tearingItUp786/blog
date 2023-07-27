@@ -1,4 +1,5 @@
 const express = require('express')
+const closeWithGrace = require('close-with-grace')
 const compression = require('compression')
 const {broadcastDevReady} = require('@remix-run/node')
 const {createRequestHandler} = require('@remix-run/express')
@@ -56,32 +57,50 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'))
 }
 
-app.all(
-  '*',
-  process.env.NODE_ENV === 'development'
-    ? (req, res, next) => {
-        return createRequestHandler({
-          build: buildWithMetronome,
-          mode: MODE,
-          getLoadContext: metronomeGetLoadContext,
-        })(req, res, next)
-      }
-    : createRequestHandler({
-        build: buildWithMetronome,
-        mode: MODE,
-        getLoadContext: metronomeGetLoadContext,
-      }),
-)
+app.all('*', (...args) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('new build inside of app all', devBuild.assets.url)
+    return createRequestHandler({
+      build: devBuild,
+      mode: MODE,
+    })(...args)
+  }
+
+  return createRequestHandler({
+    build: buildWithMetronome,
+    mode: MODE,
+    getLoadContext: metronomeGetLoadContext,
+  })
+})
 
 let port = process.env.PORT || 3000
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Express server started on ${port}`)
+
+  if (process.env.NODE_ENV === 'development') {
+    broadcastDevReady(build)
+  }
 })
 
+closeWithGrace(() => {
+  return Promise.all([
+    new Promise((resolve, reject) => {
+      server.close(e => (e ? reject(e) : resolve('ok')))
+    }),
+  ])
+})
+
+function clearRequireCache() {
+  Object.keys(require.cache).forEach(function (key) {
+    delete require.cache[key]
+  })
+}
+
 if (process.env.NODE_ENV === 'development') {
-  async function reloadBuild() {
-    devBuild = await import(`${BUILD_PATH}?update=${Date.now()}`)
+  function reloadBuild() {
+    clearRequireCache()
+    devBuild = require(`../build/index.js`)
     broadcastDevReady(devBuild)
   }
 
