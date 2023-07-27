@@ -57,14 +57,14 @@ to reason about and this very same thing can be said about React class component
 <Callout
  type="success"
  title="It's not all bad!"
- description="tech debt just a trade off between speed of delievery and code quality."
+ description="tech debt is a trade off between speed of delivery and code quality."
 />
 
-Now why do we call technial debt "technical debt"? Well, similar to debt in the
+Now, why do we call technical debt "technical debt"? Well, similar to debt in the
 real world, technical debt accrues interest and the longer that we wait to pay
 off this debt, the more the interest will compound. Now the interest I'm
-referring to isn't monetry in nature (like that of your mortgage 😅) but a more
-intagible interest. This "interest" results in engineers spending more time
+referring to isn't monetary in nature (like that of your mortgage 😅) but a more
+intangible interest. This "interest" results in engineers spending more time
 fighting with the codebase instead of actually focusing on delivering value to
 users. As the technical debt accrues interest, it becomes increasingly more frustrating
 and tedious for engineers to work on solving problems; their focus shifts from
@@ -95,8 +95,8 @@ debt.
 />
 
 Last year I was exposed to a method in which a team can pay down technical debt
-whilst stil continuing to deliver value to their users. Oftentimes, our initial
-visceral reactionto projects with severe technical debt--and this used to be my
+whilst still continuing to deliver value to their users. Oftentimes, our initial
+visceral reaction to projects with severe technical debt--and this used to be my
 reaction too by the way-- is to treat them like Frankenstein's monster... our
 prescribed remedy is cleansing by fire 😆. While it would be great to be able to
 start a project from scratch and rebuild an existing application from the
@@ -165,6 +165,35 @@ reach a state of minimal tech debt. Regardless, engineers will end up being
 happier since they are getting to write shiny good clean code and the business
 will stay happy because we didn't have to throw everything that was written a
 few years ago into the trash.
+
+### How did NX help with my tech debt at work
+
+The code for my works primary project exists in an `src` folder. There are a ton of 
+components, business logic, and state management files spread across this one
+directory. Not only that, but the project itself was also configured to use 
+`tslint` and `enzyme`; both libraries that have been deprecated and should no 
+longer be used.
+
+The way in which NX enabled me to start writing brand new features using 
+modern tech while not having to migrate every component at once was via the usage 
+of nx libs. NX is a suite of monorepo tools that provides users with a CLI 
+to generate new libraries, in addition to having a cache that stores the result 
+of various output commands (like your test and lint commands). 
+
+Once my colleagues and I had agreed to break our project into domains and subdomains,
+we created separate NX libs for each subdomain. For example, we have a `product-presentation` 
+domain, a `search` domain, and... sigh, an `ads` domain; each domain was assigned
+a corresponding lib. 
+
+The command to generate a react lib is: `npx nx g @nx/react:library`. 
+
+Another thing that NX helped us to do was enforce module boundaries. In the legacy 
+`src` folder, presentational components are coupled with data access components and utility
+functions are scattered all over the place. By embracing NX's prescribed best practices
+and <TextLink href="https://nx.dev/core-features/enforce-project-boundaries">Project Boundaries</TextLink> 
+my team and I were able to enforce best practices by making engineers embrace the creation
+of cohesive units. The enforcement happens at the linting level (`eslint` will yell if you 
+don't follow proper module scoping) and at the PR level; a combination of man and machine 😆.
 
 ## How do I manage tech debt
 
