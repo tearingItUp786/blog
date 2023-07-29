@@ -28,7 +28,7 @@ export default function Index() {
       bg-no-repeat
      `}
       >
-        <article className="absolute top-[50%] left-[50%] z-[2] translate-x-[-50%] translate-y-[-55%]">
+        <article className="absolute left-[50%] top-[50%] z-[2] translate-x-[-50%] translate-y-[-60%]">
           <H1 className="text-body whitespace-nowrap text-[2.6rem] leading-[1.1] md:text-[5.2rem]">
             Taran Bains
           </H1>
