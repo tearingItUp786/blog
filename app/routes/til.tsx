@@ -47,6 +47,8 @@ export default function TilPage() {
     after:dark:bg-white
     md:ml-[18vw]
     after:md:block
+    xl:mx-auto
+    xl:max-w-min
     '
     >
       <div className="prose prose-light max-w-full dark:prose-dark">
