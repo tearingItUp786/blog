@@ -69,7 +69,7 @@ function Hero() {
             },
             '-=.5',
           )
-          .to('#Left-Echo', 0.7, {
+          .to('#Left-Echo', 3.5, {
             repeat: -1,
             scale: 0.95,
             yoyo: true,
@@ -78,7 +78,7 @@ function Hero() {
           })
           .to(
             '#Right-Echo',
-            0.7,
+            3.5,
             {
               repeat: -1,
               scale: 0.95,
@@ -86,7 +86,7 @@ function Hero() {
               transformOrigin: '50%, 50%',
               ease: ExpoScaleEase.config(1, 0.9),
             },
-            '-=.7',
+            '-=3.5',
           )
       }
     }
@@ -96,7 +96,7 @@ function Hero() {
 
     let media = window.matchMedia('(min-width: 640px)')
     media.matches && startTimeline()
-    media.addEventListener('change', onMatch, { passive: true })
+    media.addEventListener('change', onMatch, {passive: true})
 
     return () => {
       media.removeEventListener('change', onMatch)
