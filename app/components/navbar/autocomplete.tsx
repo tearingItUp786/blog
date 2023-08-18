@@ -144,7 +144,6 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         className="focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden"
       >
         <span className="sr-only">Search</span>
-        <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
       </button>
       {/*
         If the page takes a while to hydrate (e.g., slow connections) we display
@@ -153,17 +152,11 @@ function SearchButton({onClick, query}: SearchButtonProps) {
       {isMounted ? (
         <button
           onClick={onClick}
-          className="group relative mr-16 hidden md:block lg:mr-0"
+          className="group relative mr-12 block lg:mr-0"
         >
-          <MagnifyingGlassIcon
-            className={clsx(
-              'pointer-events-none absolute top-2.5  h-5 w-5 text-white transition-colors group-hover:text-pink dark:text-gray-300',
-            )}
-            aria-hidden="true"
-          />
           <span
             className={clsx(
-              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-white transition-colors dark:text-gray-300',
+              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-lg text-white transition-colors dark:text-gray-300',
               'group-hover:text-pink',
             )}
           >
