@@ -1,4 +1,4 @@
-import {HeadersFunction, json} from '@remix-run/node'
+import {json, LoaderArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import LazyLoad from 'vanilla-lazyload'
@@ -7,19 +7,15 @@ import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
-export async function loader() {
-  const tilList = await getMdxTilListGql()
+export async function loader({request}: LoaderArgs) {
+  const fresh = new URL(request.url).searchParams.get('fresh')
 
-  let headers = {
-    'Cache-Control':
-      'public, max-age=86400, stale-while-revalidate=604800, s-maxage=86400',
+  const cachifiedOptions = {
+    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
   }
+  const tilList = await getMdxTilListGql({cachifiedOptions})
 
-  return json({tilList}, {headers})
-}
-
-export const headers: HeadersFunction = ({loaderHeaders}) => {
-  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
+  return json({tilList})
 }
 
 export default function TilPage() {

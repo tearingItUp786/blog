@@ -8,15 +8,19 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {HeadersFunction, LoaderFunction} from '@remix-run/node'
+import type {LoaderArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 
-export const headers: HeadersFunction = ({loaderHeaders}) => {
-  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
-}
+export const loader = async ({request}: LoaderArgs) => {
+  const fresh = new URL(request.url).searchParams.get('fresh')
 
-export const loader: LoaderFunction = async () => {
-  const {publishedPages, draftPages} = await getMdxBlogListGraphql()
+  const cachifiedOptions = {
+    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
+  }
+
+  const {publishedPages, draftPages} = await getMdxBlogListGraphql({
+    cachifiedOptions,
+  })
   const blogList =
     process.env.NODE_ENV === 'production'
       ? publishedPages
@@ -31,10 +35,7 @@ export const loader: LoaderFunction = async () => {
     {left: [], right: []} as Record<'left' | 'right', string[]>,
   )
 
-  let headers = {
-    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=2678400',
-  }
-  return json({blogList, cssClasses}, {headers})
+  return json({blogList, cssClasses})
 }
 
 export default function Blog() {
@@ -56,7 +57,7 @@ export default function Blog() {
         cssClasses[shouldHangRight ? 'right' : 'left'][currentIndex],
       )
 
-      if (el) {
+      if (el && el.path) {
         blogElements.push(
           <div key={el.path} className={currentContainerClassName}>
             <BlogCard
@@ -84,7 +85,7 @@ export default function Blog() {
         WELCOME
       </h2>
       <div className="mx-auto grid max-w-5xl grid-cols-2 pt-0 md:pt-4">
-        {firstElement ? (
+        {firstElement && firstElement.path ? (
           <div
             key={firstElement.frontmatter.title}
             className={getContainerClassName()}

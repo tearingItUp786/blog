@@ -14,12 +14,21 @@ export function links() {
   return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params}: LoaderArgs) {
+export async function loader({params, request}: LoaderArgs) {
   if (!params.slug) {
     throw new Error('No slug provided')
   }
 
-  const data = await getMdxIndividualTagGql({userProvidedTag: params.slug})
+  const fresh = new URL(request.url).searchParams.get('fresh')
+
+  const cachifiedOptions = {
+    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
+  }
+
+  const data = await getMdxIndividualTagGql({
+    userProvidedTag: params.slug,
+    cachifiedOptions,
+  })
 
   if (data.tilList.length === 0 && data.blogList.length === 0) {
     console.log(`👍 no data found for ${params.slug}, redirecting to 404`)
