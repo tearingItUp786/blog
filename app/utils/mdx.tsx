@@ -159,7 +159,7 @@ async function getMdxBlogListGraphql({cachifiedOptions}: CommonGetProps = {}) {
         ),
       )
 
-      const publishedPages = pages.map((page, i) => {
+      const allPages = pages.map((page, i) => {
         if (!page) return null
         return {
           ...mapFromMdxPageToMdxListItem(page),
@@ -167,8 +167,13 @@ async function getMdxBlogListGraphql({cachifiedOptions}: CommonGetProps = {}) {
         }
       }) as Omit<MdxPageAndSlug, 'code'>[]
 
-      const draftPages = publishedPages.filter(
-        el => el.frontmatter?.draft,
+      const draftPages = allPages.filter(el => el.frontmatter?.draft) as Omit<
+        MdxPageAndSlug,
+        'code'
+      >[]
+
+      const publishedPages = allPages.filter(
+        el => el.frontmatter?.draft !== true,
       ) as Omit<MdxPageAndSlug, 'code'>[]
 
       return {
