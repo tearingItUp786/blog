@@ -212,7 +212,7 @@ export const InlineImage = ({
   const srcProps = {
     [lazyLoadImage ? 'data-src' : 'src']: srcToUse,
     [lazyLoadImage ? 'data-sizes' : 'sizes']: sizes,
-    [lazyLoadImage ? 'data-srcset' : 'srcset']: srcSet
+    [lazyLoadImage ? 'data-srcset' : 'srcSet']: srcSet
       .map(o => o.srcSetValue)
       .join(', '),
   }
