@@ -164,7 +164,7 @@ export default function About() {
         </div>
         <H3>Some of my core values</H3>
         <p>The following are some of my guiding principles</p>
-        <div className="mb-8">
+        <div className="my-12">
           <H4>Effort</H4>
           <ShortQuote author="Andrew D. Huberman">
             And my definition of greatness is anyone that’s making that effort,
