@@ -11,7 +11,6 @@ import {MetronomeLinks} from '@metronome-sh/react'
 import {cssBundleHref} from '@remix-run/css-bundle'
 import clsx from 'clsx'
 import appStyles from './styles/app.css'
-
 import tailwindStyles from '~/tailwind.css'
 import prismaStyles from './styles/prisma-theme.css'
 import {
@@ -30,6 +29,7 @@ import {withSentry} from '@sentry/remix'
 
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
+import {ScrollProgress} from './components/scroll-progress'
 
 export const meta: MetaFunction = () => {
   return {
@@ -155,6 +155,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({}) => {
 
 const App = () => {
   const [theme] = useTheme()
+
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
@@ -167,6 +168,7 @@ const App = () => {
       </head>
       <body className="bg-white dark:bg-gray-100">
         <Navbar />
+        <ScrollProgress />
         <Outlet />
 
         <ScrollRestoration
