@@ -1,6 +1,5 @@
 import {createElement, Fragment, useEffect, useRef, useState} from 'react'
 import {createRoot} from 'react-dom/client'
-import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
 import {usePagination, useSearchBox} from 'react-instantsearch-hooks'
 import type {AutocompleteOptions} from '@algolia/autocomplete-js'
 import {autocomplete} from '@algolia/autocomplete-js'
@@ -149,34 +148,22 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         If the page takes a while to hydrate (e.g., slow connections) we display
         an HTML form so the search is still usable without JavaScript.
       */}
-      {isMounted ? (
+      
         <button
+          disabled={!isMounted}
           onClick={onClick}
-          className="group relative mr-12 block lg:mr-0"
+          className={clsx("group relative mr-12 block lg:mr-0", !isMounted && 'cursor-not-allowed	')}
         >
           <span
             className={clsx(
               'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-lg text-white transition-colors dark:text-gray-300',
-              'group-hover:text-pink',
+              isMounted && 'group-hover:text-pink',
+              'disabled:pointer-events-none'
             )}
           >
             {'⌘K'}
-          </span>
+        </span>
         </button>
-      ) : (
-        <form className="relative hidden md:block">
-          <MagnifyingGlassIcon
-            className="pointer-events-none absolute top-2.5  h-5 w-5 text-white dark:text-gray-300"
-            aria-hidden="true"
-          />
-          <input
-            className="sm:text-sm h-10 w-full rounded-sm border-0 bg-transparent pl-8 pr-4 text-white placeholder-white focus:outline-none focus:ring-2"
-            placeholder="Search..."
-            type="text"
-            defaultValue={query}
-          />
-        </form>
-      )}
     </>
   )
 }
