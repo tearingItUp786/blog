@@ -134,12 +134,17 @@ export const action: ActionFunction = async ({request}) => {
       console.log('❌ delete', slug, 'from redis and algolia')
       await delMdxPageGql(args)
 
-      const recordToDelete = await index.getObject(`${slug}`)
+      try {
+        const recordToDelete = await index.getObject(`${slug}`)
 
-      if (recordToDelete) {
-        await index.deleteObject(slug)
+        if (recordToDelete) {
+          await index.deleteObject(slug)
+        }
+      } catch (err) {
+        console.log('😕 does not exist in algolia', slug)
+      } finally {
+        continue
       }
-      continue
     }
 
     console.log('👍 refresh ', slug, 'from redis')
