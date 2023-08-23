@@ -23,6 +23,7 @@ import {Navbar} from './components/navbar'
 import type {
   ErrorBoundaryComponent,
   LinksFunction,
+  LoaderFunction,
   MetaFunction,
 } from '@remix-run/node'
 import {withSentry} from '@sentry/remix'
@@ -30,6 +31,7 @@ import {withSentry} from '@sentry/remix'
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
 import {ScrollProgress} from './components/scroll-progress'
+import {redisClient} from './utils/redis.server'
 
 export const meta: MetaFunction = () => {
   return {
@@ -151,6 +153,16 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({}) => {
       <ErrorComponent />
     </ThemeProvider>
   )
+}
+
+export const loader: LoaderFunction = async ({request}) => {
+  const isFresh = new URL(request.url).searchParams.has('fresh')
+  const isDev = process.env.NODE_ENV === 'development'
+
+  if (isFresh && isDev) {
+    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
+    redisClient.flushAll()
+  }
 }
 
 const App = () => {

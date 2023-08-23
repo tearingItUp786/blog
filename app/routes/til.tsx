@@ -7,13 +7,8 @@ import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
-export async function loader({request}: LoaderArgs) {
-  const fresh = new URL(request.url).searchParams.get('fresh')
-
-  const cachifiedOptions = {
-    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
-  }
-  const tilList = await getMdxTilListGql({cachifiedOptions})
+export async function loader({}: LoaderArgs) {
+  const tilList = await getMdxTilListGql()
 
   return json({tilList})
 }

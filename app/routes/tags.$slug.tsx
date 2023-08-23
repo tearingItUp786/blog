@@ -14,20 +14,13 @@ export function links() {
   return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderArgs) {
+export async function loader({params}: LoaderArgs) {
   if (!params.slug) {
     throw new Error('No slug provided')
   }
 
-  const fresh = new URL(request.url).searchParams.get('fresh')
-
-  const cachifiedOptions = {
-    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
-  }
-
   const data = await getMdxIndividualTagGql({
     userProvidedTag: params.slug,
-    cachifiedOptions,
   })
 
   if (data.tilList.length === 0 && data.blogList.length === 0) {

@@ -11,16 +11,8 @@ import {
 import type {LoaderArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 
-export const loader = async ({request}: LoaderArgs) => {
-  const fresh = new URL(request.url).searchParams.get('fresh')
-
-  const cachifiedOptions = {
-    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
-  }
-
-  const {publishedPages, draftPages} = await getMdxBlogListGraphql({
-    cachifiedOptions,
-  })
+export const loader = async ({}: LoaderArgs) => {
+  const {publishedPages, draftPages} = await getMdxBlogListGraphql()
   const blogList =
     process.env.NODE_ENV === 'production'
       ? publishedPages

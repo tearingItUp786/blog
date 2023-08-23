@@ -17,6 +17,9 @@ closeWithGrace(async ({err}) => {
 
 async function run() {
   await import('./server/index.js')
+  if (process.env.MOCK_API) {
+    await import('./mocks/index.ts')
+  }
 }
 
 run()

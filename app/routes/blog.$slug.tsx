@@ -57,11 +57,7 @@ export const ErrourBoundary = () => {
   )
 }
 
-export const loader: LoaderFunction = async ({params, request}) => {
-  const fresh = new URL(request.url).searchParams.get('fresh')
-  const cachifiedOptions = {
-    forceFresh: fresh === 'true' && process.env.NODE_ENV !== 'production',
-  }
+export const loader: LoaderFunction = async ({params}) => {
   if (!params.slug) {
     throw new Error('params.slug is not defined')
   }
@@ -70,7 +66,6 @@ export const loader: LoaderFunction = async ({params, request}) => {
     const page = await getMdxPageGql({
       contentDir: 'blog',
       slug: params.slug,
-      cachifiedOptions,
     })
 
     if (page.frontmatter.draft && process.env.NODE_ENV === 'production') {
