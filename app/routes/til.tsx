@@ -1,4 +1,4 @@
-import {json, LoaderArgs} from '@remix-run/node'
+import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import LazyLoad from 'vanilla-lazyload'
@@ -7,7 +7,7 @@ import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
-export async function loader({}: LoaderArgs) {
+export async function loader() {
   const tilList = await getMdxTilListGql()
 
   return json({tilList})

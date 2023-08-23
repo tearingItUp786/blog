@@ -71,6 +71,7 @@ const CatchComponent = () => {
           <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
             <H3>Not found: {catchBoundary.status}</H3>
             <iframe
+              title="Not Found"
               src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
               width="480"
               height="361"
@@ -124,6 +125,7 @@ const ErrorComponent = () => {
               <H3>Something went wrong with the server</H3>
               <div className="relative h-0 w-[100%] pb-[56%]">
                 <iframe
+                  title="Not sure what happened"
                   src="https://giphy.com/embed/7wUn5bkB2fUBY8Jo1D"
                   width="100%"
                   height="100%"
@@ -147,7 +149,7 @@ const ErrorComponent = () => {
   )
 }
 
-export const ErrorBoundary: ErrorBoundaryComponent = ({}) => {
+export const ErrorBoundary: ErrorBoundaryComponent = () => {
   return (
     <ThemeProvider>
       <ErrorComponent />

@@ -18,10 +18,10 @@ export const LazyGiphy = ({
     <>
       <div className={twMerge('relative h-0', containerClassName)}>
         <iframe
+          title="a giphy iframe"
           data-src={src}
           width="100%"
           height="100%"
-          frameBorder="0"
           style={{position: 'absolute'}}
           className="lazy giphy-embed"
           allowFullScreen

@@ -5,7 +5,7 @@ import oembedTransformer from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
 import type {TransformerInfo} from '@remark-embedder/core'
-import type {GithubGrapqhlObject} from 'types'
+import type {GithubGraphqlObject} from 'types'
 import path from 'path'
 
 if (process.platform === 'win32') {
@@ -60,7 +60,7 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
 
 async function compileMdxForGraphql<
   FrontmatterType extends Record<string, unknown>,
->(slug: string, githubFiles: Array<GithubGrapqhlObject>) {
+>(slug: string, githubFiles: Array<GithubGraphqlObject>) {
   const {default: remarkAutolinkHeadings} = await import(
     'remark-autolink-headings'
   )

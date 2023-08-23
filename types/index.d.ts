@@ -4,11 +4,12 @@ import type calculateReadingTime from 'reading-time'
 
 export type GitHubFile = {path: string; content: string}
 
-export type GithubGrapqhlObject = {
+export type GithubGraphqlObject = {
   name: string
+  type?: 'blob' | string
   text?: string
-  entries?: GithubGrapqhlObject[]
-  object: GithubGrapqhlObject
+  entries?: GithubGraphqlObject[]
+  object: GithubGraphqlObject
 }
 
 export type MdxPage = {

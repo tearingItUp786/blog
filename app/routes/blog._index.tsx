@@ -8,10 +8,9 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 
-export const loader = async ({}: LoaderArgs) => {
+export const loader = async () => {
   const {publishedPages, draftPages} = await getMdxBlogListGraphql()
   const blogList =
     process.env.NODE_ENV === 'production'

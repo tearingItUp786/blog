@@ -1,7 +1,7 @@
 import {graphql} from '@octokit/graphql'
 import {Octokit as createOctokit} from '@octokit/rest'
 import {throttling} from '@octokit/plugin-throttling'
-import type {GithubGrapqhlObject} from 'types'
+import type {GithubGraphqlObject} from 'types'
 
 const graphqlWithAuth = graphql.defaults({
   headers: {
@@ -56,7 +56,7 @@ async function downloadDirGql(slug: string) {
   )
 
   return data as {
-    repository: GithubGrapqhlObject
+    repository: GithubGraphqlObject
   }
 }
 

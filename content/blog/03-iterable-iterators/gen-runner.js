@@ -1,5 +1,4 @@
 const https = require('https')
-const {parse} = require('path')
 
 // gen runner that accepts a generator function as the first parameter.
 // keeps trying to call .next on the generator until it's finished processing (we get back done: true)

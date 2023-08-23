@@ -17,7 +17,8 @@ import {
 } from '~/utils/mdx'
 import {dateFormat} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
-import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
+import type {ILazyLoadInstance} from 'vanilla-lazyload'
+import LazyLoad from 'vanilla-lazyload'
 
 type LoaderData = {
   page: MdxPage
@@ -36,6 +37,7 @@ export const ErrourBoundary = () => {
         <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
           <H3>Not found: {error?.status}</H3>
           <iframe
+            title="404"
             src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
             width="480"
             height="361"

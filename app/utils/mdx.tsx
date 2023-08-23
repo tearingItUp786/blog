@@ -1,11 +1,12 @@
 import React from 'react'
 import * as mdxBundler from 'mdx-bundler/client'
 import * as myTypo from '~/components/typography'
-import type {GithubGrapqhlObject, MdxPage, MdxPageAndSlug} from 'types'
+import type {GithubGraphqlObject, MdxPage, MdxPageAndSlug} from 'types'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
-import cachified, {CachifiedOptions, verboseReporter} from 'cachified'
+import type {CachifiedOptions} from 'cachified';
+import cachified, { verboseReporter} from 'cachified'
 import {CloudinaryHeroImage} from '~/components/hero-image'
 import {LazyGiphy} from '~/components/lazy-iframe'
 import {Callout} from '~/components/callout'
@@ -14,7 +15,7 @@ type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
 }
 
-function getGithubGqlObjForMdx(entry: GithubGrapqhlObject) {
+function getGithubGqlObjForMdx(entry: GithubGraphqlObject) {
   if (entry?.object?.text) {
     return {
       name: entry?.name,
