@@ -32,6 +32,7 @@ import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
 import {ScrollProgress} from './components/scroll-progress'
 import {redisClient} from './utils/redis.server'
+import {LoadingRoute} from './components/loading-route'
 
 export const meta: MetaFunction = () => {
   return {
@@ -184,6 +185,7 @@ const App = () => {
         <Navbar />
         <ScrollProgress />
         <Outlet />
+        <LoadingRoute />
 
         <ScrollRestoration
           getKey={location => {
