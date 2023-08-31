@@ -1,6 +1,6 @@
 import type {ActionFunction} from '@remix-run/node'
 import {json, redirect} from '@remix-run/node'
-import type {MdxPage} from 'types'
+import type {MdxPage, TilMdxPage} from 'types'
 import {
   delMdxPageGql,
   getMdxBlogListGraphql,
@@ -49,7 +49,7 @@ export const action: ActionFunction = async ({request}) => {
 
   const [bFiles, tilFiles] = contentFiles.reduce(getFileArray, [[], []])
   let blogList: Omit<MdxPage, 'code'>[] = []
-  let tilList: MdxPage[][] = []
+  let tilList: TilMdxPage[][] = []
 
   // refresh til list, blog list, all blog articles, tag list, and  tags
   if (forceFresh) {
@@ -98,7 +98,7 @@ export const action: ActionFunction = async ({request}) => {
         return {
           ...o.matter,
           type: 'til',
-          offset: index + 1,
+          offset: o.offset,
           objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
           content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
         }
@@ -190,7 +190,7 @@ export const action: ActionFunction = async ({request}) => {
         return {
           ...o.matter,
           type: 'til',
-          offset: index + 1,
+          offset: o.offset,
           objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
           content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
         }

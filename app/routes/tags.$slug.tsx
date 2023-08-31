@@ -77,6 +77,7 @@ export default function SingleTag() {
             >
               <GenericContentCard
                 id={til?.slug}
+                titleTo={`#${til?.slug}`}
                 key={`${til.frontmatter.title}-${til.frontmatter.date}`}
                 title={til.frontmatter.title}
                 date={til.frontmatter.date}
@@ -97,7 +98,7 @@ export default function SingleTag() {
             >
               {/* TODO: figure how a generic component can be used here */}
               <GenericContentCard
-                titleTo={blog.slug ? `/blog/${blog.slug}` : undefined}
+                titleTo={`/blog/${blog.slug}`}
                 key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
                 title={blog.frontmatter.title}
                 date={blog.frontmatter.date}

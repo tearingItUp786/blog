@@ -47,3 +47,5 @@ export type MdxPage = {
 export type MdxPageAndSlug = MdxPage & {
   path?: string
 }
+
+export type TilMdxPage = MdxPageAndSlug & { offset: number}

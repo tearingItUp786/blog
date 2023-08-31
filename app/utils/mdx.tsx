@@ -96,6 +96,7 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
+type TilMdxPage = MdxPageAndSlug& { offset: number}
 async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: `gql:til:list`,
@@ -130,8 +131,9 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
 
       // create array of arrays of 20 from the tilList;
       const chunkedList = []
-      for (let i = 0; i < nonNullPages.length; i += 20) {
-        chunkedList.push(nonNullPages.slice(i, i + 20))
+      for (let i = 0,j = 1; i < nonNullPages.length; i += 20, j+=1) {
+        const itemsToPush = nonNullPages.slice(i, i + 20)?.map(o => ({...o, offset: j}))
+        chunkedList.push(itemsToPush as TilMdxPage[]) 
       }
 
       return {
