@@ -44,7 +44,7 @@ export default function TilPage() {
       }
       const observer = new IntersectionObserver(cb, {
         root: null,
-        rootMargin: '80px',
+        rootMargin: '160px',
         threshold: 0.1,
       })
 

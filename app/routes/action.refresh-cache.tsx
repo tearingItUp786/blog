@@ -107,7 +107,7 @@ export const action: ActionFunction = async ({request}) => {
     await index.replaceAllObjects([...blogObjects, ...tilObjects])
     console.log('👍 refreshed algolia index with til list')
 
-    return json({ok: true, yolo: true})
+    return json({ok: true})
   }
 
   // if we edited a content file, call the fetcher function for getContent
@@ -201,5 +201,5 @@ export const action: ActionFunction = async ({request}) => {
 
   console.log('👍 refreshed algolia index with til list')
   // refresh all the redis tags as well
-  return json({ok: true, yolo: 'fuck'})
+  return json({ok: true})
 }
