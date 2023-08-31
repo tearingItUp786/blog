@@ -1,8 +1,9 @@
 import {json, LoaderArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState, useCallback} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 import {getMdxTilListGql} from '~/utils/mdx'
+import {useFooterObserver} from '~/hooks/use-footer-observer'
 import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
@@ -34,32 +35,12 @@ export default function TilPage() {
     ?.slice(0, currentEndIndex)
     ?.flatMap(til => til)
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const cb: IntersectionObserverCallback = entries => {
-        if (entries?.[0]?.isIntersecting) {
-          if (currentEndIndex === chunkedList.length) return
-          setCurrentEndIndex(prev => prev + 1)
-        }
-      }
-      const observer = new IntersectionObserver(cb, {
-        root: null,
-        rootMargin: '160px',
-        threshold: 0.1,
-      })
-
-      let footer = document.getElementsByTagName('footer')[0]
-      if (footer) {
-        observer.observe(footer)
-      }
-
-      return () => {
-        if (footer) {
-          observer.unobserve(footer)
-        }
-      }
-    }
-  }, [])
+  useFooterObserver({
+    onIntersect: useCallback(() => {
+      if (currentEndIndex === chunkedList.length) return
+      setCurrentEndIndex(prev => prev + 1)
+    }, []),
+  })
 
   useEffect(() => {
     if (lazyLoadRef.current === null) {

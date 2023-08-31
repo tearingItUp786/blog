@@ -148,22 +148,25 @@ function SearchButton({onClick, query}: SearchButtonProps) {
         If the page takes a while to hydrate (e.g., slow connections) we display
         an HTML form so the search is still usable without JavaScript.
       */}
-      
-        <button
-          disabled={!isMounted}
-          onClick={onClick}
-          className={clsx("group relative mr-12 block lg:mr-0", !isMounted && 'cursor-not-allowed	')}
+
+      <button
+        disabled={!isMounted}
+        onClick={onClick}
+        className={clsx(
+          'group relative mr-12 block lg:mr-0',
+          !isMounted && 'cursor-not-allowed	',
+        )}
+      >
+        <span
+          className={clsx(
+            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-lg text-white transition-colors dark:text-gray-300',
+            isMounted && 'group-hover:text-pink',
+            'disabled:pointer-events-none',
+          )}
         >
-          <span
-            className={clsx(
-              'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent pl-8 text-lg text-white transition-colors dark:text-gray-300',
-              isMounted && 'group-hover:text-pink',
-              'disabled:pointer-events-none'
-            )}
-          >
-            {'⌘K'}
+          {'⌘K'}
         </span>
-        </button>
+      </button>
     </>
   )
 }

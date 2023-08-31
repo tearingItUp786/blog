@@ -1,7 +1,8 @@
 import clsx from 'clsx'
-import {useEffect, useState} from 'react'
+import {useCallback, useState} from 'react'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 import {Theme, useTheme} from '~/utils/theme-provider'
+import {useFooterObserver} from '~/hooks/use-footer-observer'
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme()
@@ -12,33 +13,17 @@ const ThemeToggle = () => {
     setTheme(prev => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))
   })
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const cb: IntersectionObserverCallback = entries => {
-        if (entries?.[0]?.isIntersecting) {
-          setIsFooterVisible(true)
-        } else {
-          setIsFooterVisible(false)
-        }
-      }
-      const observer = new IntersectionObserver(cb, {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      })
-
-      let footer = document.getElementsByTagName('footer')[0]
-      if (footer) {
-        observer.observe(footer)
-      }
-
-      return () => {
-        if (footer) {
-          observer.unobserve(footer)
-        }
-      }
-    }
-  }, [])
+  useFooterObserver({
+    onIntersect: useCallback(() => {
+      setIsFooterVisible(true)
+    }, []),
+    onExit: useCallback(() => {
+      setIsFooterVisible(false)
+    }, []),
+    observerOptions: {
+      rootMargin: '0px',
+    },
+  })
 
   return (
     <>
