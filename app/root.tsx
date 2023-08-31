@@ -216,10 +216,10 @@ const App = () => {
 
         <ScrollRestoration
           getKey={location => {
-            if (location.pathname === '/til') {
-              return location.pathname + location.hash
-            }
-
+            // if (location.pathname === '/til') {
+            //   return location.pathname + location.hash
+            // }
+            //
             return location.key
           }}
         />
