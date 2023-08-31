@@ -1,28 +1,73 @@
-import {json} from '@remix-run/node'
+import {json, LoaderArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import {useEffect, useRef} from 'react'
-import LazyLoad from 'vanilla-lazyload'
+import {useEffect, useRef, useState} from 'react'
+import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 import {getMdxTilListGql} from '~/utils/mdx'
 import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
-export async function loader() {
-  const tilList = await getMdxTilListGql()
+export async function loader({request}: LoaderArgs) {
+  const {chunkedList} = await getMdxTilListGql()
 
-  return json({tilList})
+  let endOffset = Number(
+    new URLSearchParams(request.url.split('?')[1]).get('offset'),
+  )
+  // create array of arrays of 20 from the tilList;
+
+  if (!endOffset) endOffset = 1
+  if (Number(endOffset) > chunkedList.length) endOffset = chunkedList.length
+
+  return json({
+    chunkedList,
+    endIndex: endOffset,
+  })
 }
 
 export default function TilPage() {
-  const {tilList} = useLoaderData<typeof loader>()
-  const mountedRef = useRef(false)
+  const {chunkedList, endIndex} = useLoaderData<typeof loader>()
+  const [currentEndIndex, setCurrentEndIndex] = useState(endIndex)
+  const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
+
+  // flatten chunked list into one array
+  const flattenedList = chunkedList
+    ?.slice(0, currentEndIndex)
+    ?.flatMap(til => til)
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      new LazyLoad()
-      mountedRef.current = true
+    if (typeof window !== 'undefined') {
+      const cb: IntersectionObserverCallback = entries => {
+        if (entries?.[0]?.isIntersecting) {
+          if (currentEndIndex === chunkedList.length) return
+          setCurrentEndIndex(prev => prev + 1)
+        }
+      }
+      const observer = new IntersectionObserver(cb, {
+        root: null,
+        rootMargin: '80px',
+        threshold: 0.1,
+      })
+
+      let footer = document.getElementsByTagName('footer')[0]
+      if (footer) {
+        observer.observe(footer)
+      }
+
+      return () => {
+        if (footer) {
+          observer.unobserve(footer)
+        }
+      }
     }
   }, [])
+
+  useEffect(() => {
+    if (lazyLoadRef.current === null) {
+      lazyLoadRef.current = new LazyLoad()
+    } else {
+      lazyLoadRef.current.update()
+    }
+  }, [currentEndIndex])
 
   return (
     <div
@@ -43,7 +88,7 @@ export default function TilPage() {
     '
     >
       <div className="prose prose-light max-w-full dark:prose-dark">
-        {tilList.map(til => {
+        {flattenedList?.map(til => {
           return (
             <TilComponent
               key={`${til.frontmatter.title}-${til.frontmatter.date}`}

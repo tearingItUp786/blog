@@ -5,8 +5,8 @@ import type {GithubGraphqlObject, MdxPage, MdxPageAndSlug} from 'types'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
-import type {CachifiedOptions} from 'cachified';
-import cachified, { verboseReporter} from 'cachified'
+import type {CachifiedOptions} from 'cachified'
+import cachified, {verboseReporter} from 'cachified'
 import {CloudinaryHeroImage} from '~/components/hero-image'
 import {LazyGiphy} from '~/components/lazy-iframe'
 import {Callout} from '~/components/callout'
@@ -126,8 +126,18 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
         return Promise.reject(err)
       })
 
-      const nonNullPages = pages.filter(page => page !== null)
-      return nonNullPages as MdxPage[]
+      const nonNullPages = pages.filter(page => page !== null) as MdxPage[]
+
+      // create array of arrays of 20 from the tilList;
+      const chunkedList = []
+      for (let i = 0; i < nonNullPages.length; i += 20) {
+        chunkedList.push(nonNullPages.slice(i, i + 20))
+      }
+
+      return {
+        fullList: nonNullPages as MdxPage[],
+        chunkedList,
+      }
     },
     reporter: verboseReporter(),
     ...cachifiedOptions,

@@ -59,7 +59,7 @@ export function Search() {
                               className="flex items-center justify-between space-x-4"
                               href={
                                 item.type === 'til'
-                                  ? `/${item.type}#${item.objectID}`
+                                  ? `/${item.type}?offset=${item.offset}#${item.objectID}`
                                   : `/${item.type}/${item.objectID}`
                               }
                             >
