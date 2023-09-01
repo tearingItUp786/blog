@@ -28,7 +28,7 @@ export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
     // there's no way for us to know what the theme should be in this context
     // the client will have to figure it out before hydration.
     if (typeof window !== 'object') {
-      return null
+      return Theme.LIGHT
     }
 
     return getPreferredTheme()
