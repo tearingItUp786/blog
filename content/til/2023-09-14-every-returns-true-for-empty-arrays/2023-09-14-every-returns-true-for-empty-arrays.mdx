@@ -6,15 +6,15 @@ tag: JS
 
 `every` on the JavaScript Array object is great since it checks to see if a given
 callback function is true for _every_ value in the array... but there's some caveats to it. Namely,
-every will return true for the empty array, and it does not take into consideration empty slots during its processing.
+`every` will return true for the empty array, and it does not take into consideration empty slots during its processing.
 
 Refer to the following code to get an understanding of the caveats:
 
 ```js
 const isNumber = (v) => typeof v === 'number'
 
-[].every(isNumber) //true
-[1, ,2].every(isNumber) //true
+[].every(isNumber) // true
+[1, ,2].every(isNumber) // true
 [1, null, 2].every(isNumber) // false
 
 ````
