@@ -1,0 +1,16 @@
+---
+title: CSS Variables and fallbacks
+date: 2023-09-21
+tag: CSS
+---
+
+TIL that css `var` can accept a fallback! If we're setting the variable with some JS 
+and this JS code for some reason or another fails to run, we can set a sensible fallback 
+and present our users with at least _something_ adjacent to what we wanted😊!
+
+```css
+  color: var(--someVariable, #888888);
+```
+
+<TextLink href="https://defensivecss.dev/tip/css-variable-fallback/">Read more</TextLink>
+
