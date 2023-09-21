@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import {useCallback, useState} from 'react'
+import {useState} from 'react'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 import {Theme, useTheme} from '~/utils/theme-provider'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
@@ -14,12 +14,12 @@ const ThemeToggle = () => {
   })
 
   useFooterObserver({
-    onIntersect: useCallback(() => {
+    onIntersect: () => {
       setIsFooterVisible(true)
-    }, []),
-    onExit: useCallback(() => {
+    },
+    onExit: () => {
       setIsFooterVisible(false)
-    }, []),
+    },
     observerOptions: {
       rootMargin: '0px',
     },

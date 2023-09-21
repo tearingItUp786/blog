@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useLayoutEffect, useRef} from 'react'
 
 type Args = {
   onIntersect: () => void
@@ -14,13 +14,22 @@ export function useFooterObserver({
   onExit,
   observerOptions,
 }: Args) {
+  // refer to: https://epicreact.dev/the-latest-ref-pattern-in-react/
+  const onIntersectRef = useRef(onIntersect)
+  const onExitRef = useRef(onExit)
+
+  useLayoutEffect(() => {
+    onIntersectRef.current = onIntersect
+    onExitRef.current = onExit
+  })
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const cb: IntersectionObserverCallback = entries => {
         if (entries?.[0]?.isIntersecting) {
-          onIntersect()
+          onIntersectRef.current()
         } else {
-          onExit?.()
+          onExitRef.current?.()
         }
       }
       const observer = new IntersectionObserver(cb, {
@@ -41,5 +50,5 @@ export function useFooterObserver({
         }
       }
     }
-  }, [onIntersect, onExit])
+  }, [])
 }

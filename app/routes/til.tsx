@@ -1,6 +1,6 @@
 import {json, LoaderArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import {useEffect, useRef, useState, useCallback} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 import {getMdxTilListGql} from '~/utils/mdx'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
@@ -36,10 +36,10 @@ export default function TilPage() {
     ?.flatMap(til => til)
 
   useFooterObserver({
-    onIntersect: useCallback(() => {
+    onIntersect: () => {
       if (currentEndIndex === chunkedList.length) return
       setCurrentEndIndex(prev => prev + 1)
-    }, []),
+    },
   })
 
   useEffect(() => {
