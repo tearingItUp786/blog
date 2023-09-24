@@ -214,15 +214,7 @@ const App = () => {
         <Outlet />
         <LoadingRoute />
 
-        <ScrollRestoration
-          getKey={location => {
-            // if (location.pathname === '/til') {
-            //   return location.pathname + location.hash
-            // }
-            //
-            return location.key
-          }}
-        />
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
         <Toggle />
