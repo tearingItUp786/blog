@@ -65,6 +65,7 @@ export default function TilPage() {
     md:ml-[18vw]
     after:md:block
     xl:mx-auto
+    xl:min-w-[1200px]
     xl:max-w-min
     '
     >
