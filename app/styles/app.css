@@ -14,6 +14,11 @@
   --sb-size: 10px;
   --sb-track-color: var(--color-gray-200);
   --sb-thumb-color: var(--color-white);
+  --bg-color: var(--color-white);
+  --subheading-color: var(--color-gray-100);
+  --blog-title-color: var(--color-gray-200);
+  --body-text: var(--color-gray-300);
+  --accent: var(--color-pink);
 }
 
 .light {

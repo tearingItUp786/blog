@@ -18,7 +18,7 @@ export function useFooterObserver({
   const onIntersectRef = useRef(onIntersect)
   const onExitRef = useRef(onExit)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onIntersectRef.current = onIntersect
     onExitRef.current = onExit
   })
