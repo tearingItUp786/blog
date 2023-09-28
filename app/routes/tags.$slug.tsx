@@ -60,7 +60,7 @@ export default function SingleTag() {
       >
         <H1 className="mt-16 w-full border-b-2 dark:border-b-white">
           Today I learned about... <br />
-          <span className="mt-2 block text-5xl  text-accent md:text-7xl">
+          <span className="mt-2 block text-4xl text-accent md:text-6xl">
             {params.slug}
           </span>
         </H1>
