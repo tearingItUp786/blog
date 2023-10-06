@@ -7,7 +7,7 @@ import {renderToPipeableStream} from 'react-dom/server'
 import * as Sentry from '@sentry/remix'
 
 Sentry.init({
-  dsn: 'https://0357fa175ecd410aae09556246e163bc:4720935bcf404dffb8d516134afa125e@o4505072257138688.ingest.sentry.io/4505072258056192',
+  dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
   integrations: [],
   // Performance Monitoring
   tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
