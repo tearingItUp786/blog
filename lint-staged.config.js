@@ -4,6 +4,5 @@ module.exports = {
     () => `npm run lint --silent`,
     () => `npm run typecheck --silent`,
     () => `npm run build --silent`,
-    `npm run clean --silent`,
   ],
 }
