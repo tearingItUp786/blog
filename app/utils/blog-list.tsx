@@ -5,23 +5,24 @@
  * tailwind classes that will be used to style the lines
  */
 export const getRandomLineClasses = (orientation: 'left' | 'right') => {
-  let rightValues = [
-    'md:pl-8 after:w-5',
-    'md:pl-10 after:w-7',
-    'md:pl-12 after:w-8',
-    'md:pl-14 after:w-10',
-  ]
+  const values = {
+    left: [
+      'md:pr-8 after:w-5',
+      'md:pr-10 after:w-7',
+      'md:pr-12 after:w-8',
+      'md:pr-14 after:w-10',
+    ],
+    right: [
+      'md:pl-8 after:w-5',
+      'md:pl-10 after:w-7',
+      'md:pl-12 after:w-8',
+      'md:pl-14 after:w-10',
+    ],
+  }
 
-  let leftValues = [
-    'md:pr-8 after:w-5',
-    'md:pr-10 after:w-7',
-    'md:pr-12 after:w-8',
-    'md:pr-14 after:w-10',
-  ]
-
-  let values = orientation === 'right' ? rightValues : leftValues
-
-  return values[Math.floor(Math.random() * values.length)] as string
+  return values[orientation][
+    Math.floor(Math.random() * values[orientation].length)
+  ] as string
 }
 
 // the classes applied to the div column container
