@@ -1,5 +1,5 @@
 import {Link} from '@remix-run/react'
-import {twMerge} from 'tailwind-merge'
+import clsx from 'clsx'
 import {H4} from '../typography'
 
 type BlogLink = {
@@ -15,9 +15,9 @@ type Props = {
 export function PreviousAndNextLinks({previous, next}: Props) {
   return (
     <div
-      className={twMerge(
-        'mb-6 mt-8 flex justify-between',
-        next && !previous && 'justify-end',
+      className={clsx(
+        'mb-6 mt-8 flex ',
+        next && !previous ? 'justify-end' : 'justify-between',
       )}
     >
       {previous ? (
