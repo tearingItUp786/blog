@@ -47,7 +47,7 @@ export function BlogCard({
             {date ? dotFormattedDate(date) : null}
           </span>
         </span>
-        <NavLink to={`/${slug}`}>
+        <NavLink prefetch="intent" to={`/${slug}`}>
           <H2 className="my-0 uppercase">{title}</H2>
         </NavLink>
       </div>
