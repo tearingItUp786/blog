@@ -23,7 +23,7 @@ export function PreviousAndNextLinks({previous, next}: Props) {
       {previous ? (
         <div className="max-w-[48%]">
           <Link
-            prefetch="viewport"
+            prefetch="intent"
             className="group"
             to={`/blog/${String(previous.to)}`}
           >
@@ -49,7 +49,7 @@ export function PreviousAndNextLinks({previous, next}: Props) {
       {next ? (
         <div className="max-w-[48%]">
           <Link
-            prefetch="viewport"
+            prefetch="intent"
             className="group"
             to={`/blog/${String(next.to)}`}
           >
