@@ -37,6 +37,7 @@ export function BlogCard({
       <div>
         <span className="text-lg">
           <NavLink
+            prefetch="intent"
             className="mr-2 font-bold uppercase text-accent dark:opacity-80"
             to={`/tags/${tag}`}
           >

@@ -64,7 +64,7 @@ export default function SingleTag() {
             {params.slug}
           </span>
         </H1>
-        <NavLink to="/tags" className="group no-underline">
+        <NavLink prefetch="intent" to="/tags" className="group no-underline">
           <H3 className="inline group-hover:text-accent">Back to all tags</H3>
         </NavLink>
         {tilComponents.map((til, i) => {

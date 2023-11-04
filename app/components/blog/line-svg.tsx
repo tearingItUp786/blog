@@ -59,7 +59,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
               >
                 {formattedDate}
               </text>
-              <NavLink to={`/tags/${tag}`}>
+              <NavLink prefetch="intent" to={`/tags/${tag}`}>
                 <text
                   x={169.294}
                   y={199.466}

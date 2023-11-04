@@ -9,18 +9,21 @@ export function Footer() {
         </span>
         <div className="block">
           <NavLink
+            prefetch="intent"
             className="px-8 text-sm text-white underline dark:text-gray-300"
             to="/til"
           >
             TIL
           </NavLink>
           <NavLink
+            prefetch="intent"
             className="px-8 text-sm text-white underline dark:text-gray-300"
             to="/about"
           >
             ABOUT
           </NavLink>
           <NavLink
+            prefetch="intent"
             className="px-8 text-sm text-white underline dark:text-gray-300"
             to="/blog"
           >

@@ -34,6 +34,7 @@ export default function TagPage() {
                       md:first-of-type:ml-6"
                       >
                         <NavLink
+                          prefetch="intent"
                           className="font-bold  uppercase text-accent dark:opacity-80"
                           to={`/tags/${tag.name}`}
                         >
