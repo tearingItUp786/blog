@@ -25,8 +25,11 @@ type LoaderData = {
   next?: MdxPage
   prev?: MdxPage
 }
-export const meta: MetaFunction = ({params}) => {
-  return {title: `Taran "tearing it up" Bains | Blog | ${params.slug}`}
+export const meta: MetaFunction<typeof loader> = ({data}) => {
+  const loaderData = data as LoaderData
+  const blogPostTitle =
+    loaderData.page.frontmatter?.title ?? 'A single blost post'
+  return {title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`}
 }
 
 export const ErrourBoundary = () => {
