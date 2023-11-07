@@ -34,7 +34,7 @@ export function useFooterObserver({
       }
       const observer = new IntersectionObserver(cb, {
         root: null,
-        rootMargin: '160px',
+        rootMargin: '320px',
         threshold: 0.1,
         ...observerOptions,
       })
