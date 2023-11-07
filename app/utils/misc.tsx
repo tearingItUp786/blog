@@ -1,14 +1,20 @@
 import * as dateFns from 'date-fns'
 
-// export function dateFormat(date: string) {
-//   return date
-//   // return format(parseISO(date), 'MMMM dd, yyyy')
-// }
-//
-// export function dotFormattedDate(date: string) {
-//   return date
-//   // return format(parseISO(date), 'd.MM.yyyy')
-// }
+export function invariantResponse(
+  condition: any,
+  message?: string | (() => string),
+  responseInit?: ResponseInit,
+): asserts condition {
+  if (!condition) {
+    throw new Response(
+      typeof message === 'function'
+        ? message()
+        : message ||
+          'An invariant failed, please provide a message to explain why.',
+      {status: 400, ...responseInit},
+    )
+  }
+}
 
 export function dateFormat(dateString: string) {
   return dateFns.format(parseDate(dateString), 'MMMM dd, yyyy')

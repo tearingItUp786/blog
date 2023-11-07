@@ -1,21 +1,16 @@
 import {useEffect, useRef} from 'react'
-import {
-  isRouteErrorResponse,
-  useRouteError,
-  useLoaderData,
-  useLocation,
-} from '@remix-run/react'
+import {useLoaderData, useLocation} from '@remix-run/react'
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
-import {H1, H3, H4} from '~/components/typography'
+import {H1, H4} from '~/components/typography'
 import {
   getMdxBlogListGraphql,
   getMdxPageGql,
   useMdxComponent,
 } from '~/utils/mdx'
-import {dateFormat} from '~/utils/misc'
+import {dateFormat, invariantResponse} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
@@ -32,40 +27,8 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   return {title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`}
 }
 
-export const ErrourBoundary = () => {
-  const error = useRouteError()
-  return (
-    isRouteErrorResponse(error) && (
-      <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
-        <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
-          <H3>Not found: {error?.status}</H3>
-          <iframe
-            title="404"
-            src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
-            width="480"
-            height="361"
-            className="giphy-embed"
-            allowFullScreen
-          />
-
-          <p className="text-pink">
-            <a
-              className="text-pink"
-              href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
-            >
-              via GIPHY
-            </a>
-          </p>
-        </div>
-      </div>
-    )
-  )
-}
-
 export const loader: LoaderFunction = async ({params}) => {
-  if (!params.slug) {
-    throw new Error('params.slug is not defined')
-  }
+  invariantResponse(params?.slug, 'No slug provided')
 
   try {
     const page = await getMdxPageGql({
@@ -168,7 +131,6 @@ export default function MdxScreen() {
       </div>
 
       <main
-        // className='max-w-screen-lg mx-auto prose prose-light dark:prose-dark'
         className="prose 
         prose-light 
         relative 

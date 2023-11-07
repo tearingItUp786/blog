@@ -1,11 +1,12 @@
 import {
+  isRouteErrorResponse,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
+  useRouteError,
 } from '@remix-run/react'
 import {MetronomeLinks} from '@metronome-sh/react'
 import {cssBundleHref} from '@remix-run/css-bundle'
@@ -20,12 +21,7 @@ import {
 } from './utils/theme-provider'
 import Toggle from '~/components/theme-toggle'
 import {Navbar} from './components/navbar'
-import type {
-  ErrorBoundaryComponent,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from '@remix-run/node'
+import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
 import {withSentry} from '@sentry/remix'
 
 import {Footer} from './components/footer/footer'
@@ -80,126 +76,8 @@ export const links: LinksFunction = () => {
   ]
 }
 
-const CatchComponent = () => {
-  const catchBoundary = useCatch()
+const Document = ({children}: {children: React.ReactNode}) => {
   const [theme] = useTheme()
-
-  return (
-    <html lang="en" className={clsx(theme)}>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-        <MetronomeLinks />
-        <NonFlashOfWrongThemeEls />
-      </head>
-      <body>
-        <Navbar />
-        {/* Your Error UI comes here */}
-        <div className="flex h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
-          <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
-            <H3>Not found: {catchBoundary.status}</H3>
-            <iframe
-              title="Not Found"
-              src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
-              width="480"
-              height="361"
-              className="giphy-embed"
-              allowFullScreen
-            />
-
-            <p className="text-pink">
-              <a
-                className="text-pink"
-                href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
-              >
-                via GIPHY
-              </a>
-            </p>
-          </div>
-        </div>
-        <Scripts />
-        <Toggle />
-        <Footer />
-      </body>
-    </html>
-  )
-}
-
-export function CatchBoundary() {
-  return (
-    <ThemeProvider>
-      <CatchComponent />
-    </ThemeProvider>
-  )
-}
-
-const ErrorComponent = () => {
-  const [theme] = useTheme()
-  return (
-    <html lang="en" className={clsx(theme)}>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-        <MetronomeLinks />
-        <NonFlashOfWrongThemeEls />
-      </head>
-      <body>
-        <Navbar />
-        <div className="w-100">
-          <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
-            <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
-              <H3>Something went wrong with the server</H3>
-              <div className="relative h-0 w-[100%] pb-[56%]">
-                <iframe
-                  title="Not sure what happened"
-                  src="https://giphy.com/embed/7wUn5bkB2fUBY8Jo1D"
-                  width="100%"
-                  height="100%"
-                  className="giphy-embed absolute"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <p>
-                <a href="https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7wUn5bkB2fUBY8Jo1D">
-                  via GIPHY
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <Scripts />
-        <Toggle />
-        <Footer />
-      </body>
-    </html>
-  )
-}
-
-export const ErrorBoundary: ErrorBoundaryComponent = () => {
-  return (
-    <ThemeProvider>
-      <ErrorComponent />
-    </ThemeProvider>
-  )
-}
-
-export const loader: LoaderFunction = async ({request}) => {
-  const isFresh = new URL(request.url).searchParams.has('fresh')
-  const isDev = process.env.NODE_ENV === 'development'
-
-  if (isFresh && isDev) {
-    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
-    redisClient.flushAll()
-  }
-}
-
-const App = () => {
-  const [theme] = useTheme()
-
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
@@ -215,8 +93,7 @@ const App = () => {
       <body className="bg-white dark:bg-gray-100">
         <Navbar />
         <ScrollProgress />
-        <Outlet />
-        <LoadingRoute />
+        {children}
 
         <ScrollRestoration />
         <Scripts />
@@ -228,14 +105,83 @@ const App = () => {
   )
 }
 
-function AppWithProviders() {
+export const ErrorBoundary = () => {
+  const error = useRouteError()
+  const elementToRender = isRouteErrorResponse(error) ? (
+    <>
+      <H3>Not found: {error.status}</H3>
+      <iframe
+        title="Not Found"
+        src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
+        width="480"
+        height="361"
+        className="giphy-embed"
+        allowFullScreen
+      />
+
+      <p className="text-pink">
+        <a
+          className="text-pink"
+          href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
+        >
+          via GIPHY
+        </a>
+      </p>
+    </>
+  ) : (
+    <>
+      <H3>Something went wrong with the server</H3>
+      <div className="relative h-0 w-[100%] pb-[56%]">
+        <iframe
+          title="Not sure what happened"
+          src="https://giphy.com/embed/7wUn5bkB2fUBY8Jo1D"
+          width="100%"
+          height="100%"
+          className="giphy-embed absolute"
+          allowFullScreen
+        ></iframe>
+      </div>
+      <p>
+        <a href="https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7wUn5bkB2fUBY8Jo1D">
+          via GIPHY
+        </a>
+      </p>
+    </>
+  )
   return (
     <ThemeProvider>
-      <App />
+      <Document>
+        <div className="w-100">
+          <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
+            <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
+              {elementToRender}
+            </div>
+          </div>
+        </div>
+      </Document>
     </ThemeProvider>
   )
 }
 
-export default process.env.NODE_ENV === 'production'
-  ? withSentry(AppWithProviders)
-  : AppWithProviders
+export const loader: LoaderFunction = async ({request}) => {
+  const isFresh = new URL(request.url).searchParams.has('fresh')
+  const isDev = process.env.NODE_ENV === 'development'
+
+  if (isFresh && isDev) {
+    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
+    redisClient.flushAll()
+  }
+}
+
+const App = () => {
+  return (
+    <ThemeProvider>
+      <Document>
+        <Outlet />
+        <LoadingRoute />
+      </Document>
+    </ThemeProvider>
+  )
+}
+
+export default process.env.NODE_ENV === 'production' ? withSentry(App) : App
