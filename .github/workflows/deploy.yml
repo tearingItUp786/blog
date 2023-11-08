@@ -174,5 +174,5 @@ jobs:
         uses: NiNiyas/ntfy-action@v1.0.1
         with:
           url: https://ntfy.sh
-          topic: tearingitup786
+          topic: ${{ secrets.NOTIFY_TOPIC }}
           deatils: Finished deploying github action
