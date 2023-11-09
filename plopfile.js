@@ -40,6 +40,7 @@ module.exports = plop => {
           'Best Practices',
           'Cool Tech',
           'Scala',
+          'Stoicism',
           'Other',
         ],
       },
