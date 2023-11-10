@@ -1,9 +1,6 @@
 import {algoliaSearchClient} from '~/utils/algolia'
 
-import {
-  InstantSearch,
-  InstantSearchSSRProvider,
-} from 'react-instantsearch-hooks-web'
+import {InstantSearch, InstantSearchSSRProvider} from 'react-instantsearch-core'
 import {Autocomplete} from './autocomplete'
 import {getAlgoliaResults} from '@algolia/autocomplete-js'
 import {H3} from '../typography'
@@ -12,7 +9,11 @@ export function Search() {
   // handle initial search provider results (just so we can render the icon properly)
   return (
     <InstantSearchSSRProvider initialResults={{}}>
-      <InstantSearch searchClient={algoliaSearchClient} indexName="website">
+      <InstantSearch
+        searchClient={algoliaSearchClient}
+        indexName="website"
+        future={{preserveSharedStateOnUnmount: false}}
+      >
         <div className="relative ">
           <div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center">
             <Autocomplete

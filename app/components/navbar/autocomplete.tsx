@@ -1,6 +1,6 @@
 import {createElement, Fragment, useEffect, useRef, useState} from 'react'
 import {createRoot} from 'react-dom/client'
-import {usePagination, useSearchBox} from 'react-instantsearch-hooks'
+import {usePagination, useSearchBox} from 'react-instantsearch-core'
 import type {AutocompleteOptions} from '@algolia/autocomplete-js'
 import {autocomplete} from '@algolia/autocomplete-js'
 import type {BaseItem} from '@algolia/autocomplete-core'
