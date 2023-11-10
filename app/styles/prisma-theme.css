@@ -164,7 +164,7 @@ pre[class*='language-'] code {
 
 .token.placeholder,
 .token.variable {
-  color: #fff;
+  color: #f3f3f7;
 }
 
 .token.important,
