@@ -1,8 +1,14 @@
 name: 🥬 Refresh Content
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      force_fresh:
+        description: 'Refresh cache?'
+        required: true
+        type: choice
+        options:
+          - true
+          - false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
