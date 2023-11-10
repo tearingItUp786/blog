@@ -5,7 +5,7 @@ module.exports = {
     require('postcss-import'),
     process.env.NODE_ENV === 'production'
       ? require('cssnano')({
-          preset: 'default',
+          preset: ['default', {cssDeclarationSorter: false}],
         })
       : null,
   ].filter(Boolean),
