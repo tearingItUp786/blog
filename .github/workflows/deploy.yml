@@ -106,16 +106,14 @@ jobs:
           file: 'fly.toml'
           field: 'app'
 
-      - name: 🚀 Deploy Production
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: 🎈 Setup Fly
         uses: superfly/flyctl-actions/setup-flyctl@v1.4
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - run: flyctl deploy --remote-only
+      - name: 🚀 Deploy Production
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run:
+          flyctl deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}
+          --app ${{ steps.app_name.outputs.value }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
