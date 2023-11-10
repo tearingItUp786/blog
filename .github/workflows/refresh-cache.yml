@@ -1,0 +1,30 @@
+name: 🥬 Refresh Content
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '50'
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 🥬 Refresh Content
+        run: node ./other/refresh-content.js
+        env:
+          REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
+          FORCE_FRESH: ${{ inputs.force_fresh }}
+          NODE_ENV: production
