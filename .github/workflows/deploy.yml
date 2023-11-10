@@ -107,6 +107,7 @@ jobs:
           field: 'app'
 
       - name: 🚀 Deploy Production
+        run: flyctl deploy --remote-only
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions/setup-flyctl@v1.4
         with:
