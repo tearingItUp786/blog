@@ -4,7 +4,7 @@
 /* @import '@algolia/autocomplete-theme-classic'; */
 
 :root {
-  --color-white: #f3f3f7
+  --color-white: #f3f3f7;
   --color-black: #000;
   --color-gray-100: #353535;
   --color-gray-200: #1c1b19;
