@@ -6,12 +6,13 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      force_fresh:
+      skip_checks:
         description: 'Force refresh redis cache for the blog list and others'
         required: true
         type: choice
         options:
           - true
+
 jobs:
   changes:
     name: 🔎 Determine deployable changes
@@ -31,7 +32,6 @@ jobs:
 
       - name: 🔎 Determine deployable changes
         id: changes
-        if: inputs.force_fresh != 'true'
         run: >-
           echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
@@ -40,7 +40,8 @@ jobs:
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if:
+      needs.changes.outputs.DEPLOYABLE == 'true' && inputs.skip_checks != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -65,7 +66,8 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if:
+      needs.changes.outputs.DEPLOYABLE == 'true' && inputs.skip_checks != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -126,7 +128,6 @@ jobs:
         run: node ./other/refresh-content.js
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
-          FORCE_FRESH: ${{ inputs.force_fresh }}
           NODE_ENV: production
 
       - name: Cloudflare Purge Cache
@@ -158,13 +159,11 @@ jobs:
         run: node ./other/refresh-content.js
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
-          FORCE_FRESH: ${{ inputs.force_fresh }}
           NODE_ENV: production
 
   purge:
     name: 💨 Purge Cache
-    if:
-      needs.changes.outputs.DEPLOYABLE != 'true' || inputs.force_fresh == 'true'
+    if: needs.changes.outputs.DEPLOYABLE != 'true'
     runs-on: ubuntu-latest
     needs: [changes, refresh]
     steps:
