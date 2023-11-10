@@ -71,7 +71,6 @@ a {
 
 html {
   background-color: var(--color-gray-100);
-	scroll-timeline: --page-scroll block;
 }
 
 html.dark {
@@ -95,7 +94,7 @@ html.dark {
 
 	transform-origin: 0 50%;
 	animation: grow-progress auto linear;
-	animation-timeline: --page-scroll;
+	animation-timeline: scroll(root);
 }
 
 html,
