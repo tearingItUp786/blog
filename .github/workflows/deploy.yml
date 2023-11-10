@@ -25,6 +25,8 @@ jobs:
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: 🔎 Determine deployable changes
         id: changes
@@ -48,6 +50,8 @@ jobs:
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -69,6 +73,8 @@ jobs:
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -137,6 +143,8 @@ jobs:
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: 🥬 Refresh Content
         run: node ./other/refresh-content.js
