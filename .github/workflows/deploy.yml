@@ -108,9 +108,8 @@ jobs:
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: superfly/flyctl-actions@1.4
+        uses: superfly/flyctl-actions/setup-flyctl@v1.4
         with:
-          node-version: 18
           version: 0.0.540
           args: 'deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}'
         env:
