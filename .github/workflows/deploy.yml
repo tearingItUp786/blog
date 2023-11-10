@@ -6,8 +6,8 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      skip_checks:
-        description: 'Force refresh redis cache for the blog list and others'
+      manual_run:
+        description: 'This will skip the type checking and linting'
         required: true
         type: choice
         options:
@@ -40,8 +40,7 @@ jobs:
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if:
-      needs.changes.outputs.DEPLOYABLE == 'true' && inputs.skip_checks != 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -66,8 +65,7 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if:
-      needs.changes.outputs.DEPLOYABLE == 'true' && inputs.skip_checks != 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
