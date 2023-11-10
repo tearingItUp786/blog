@@ -1,4 +1,4 @@
-import {json, LoaderArgs} from '@remix-run/node'
+import {json, LoaderFunctionArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {useEffect, useRef, useState} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
@@ -8,7 +8,7 @@ import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
 
-export async function loader({request}: LoaderArgs) {
+export async function loader({request}: LoaderFunctionArgs) {
   const {chunkedList} = await getMdxTilListGql()
 
   let endOffset = Number(

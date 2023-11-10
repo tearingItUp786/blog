@@ -7,10 +7,5 @@ module.exports = {
   serverModuleFormat: 'cjs',
   tailwind: true,
   watchPaths: ['./tailwind.config.js'],
-  future: {
-    v2_errorBoundary: true,
-    v2_dev: true,
-    v2_routeConvention: true,
-  },
   serverDependenciesToBundle: [/^gsap.*/, /@algolia.*/],
 }

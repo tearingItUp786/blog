@@ -1,6 +1,6 @@
 import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx'
-import type {LoaderArgs} from '@remix-run/node'
+import type {LoaderFunctionArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
@@ -14,7 +14,7 @@ export function links() {
   return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params}: LoaderArgs) {
+export async function loader({params}: LoaderFunctionArgs) {
   if (!params.slug) {
     throw new Error('No slug provided')
   }

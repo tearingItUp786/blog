@@ -60,10 +60,12 @@ const FAVICON = [
 ]
 
 export const meta: MetaFunction = () => {
-  return {
-    title: `Taran "tearing it up" Bains`,
-    description: 'A home for the mostly developer thoughts of Taran Bains',
-  }
+  return [
+    {
+      title: `Taran "tearing it up" Bains`,
+      description: 'A home for the mostly developer thoughts of Taran Bains',
+    },
+  ]
 }
 
 export const links: LinksFunction = () => {
@@ -96,8 +98,8 @@ const Document = ({children}: {children: React.ReactNode}) => {
         {children}
 
         <ScrollRestoration />
-        <Scripts />
         <LiveReload />
+        <Scripts />
         <Toggle />
         <Footer />
       </body>
