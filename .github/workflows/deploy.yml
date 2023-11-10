@@ -52,6 +52,8 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
+          cache: npm
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 📥 Download deps
@@ -75,6 +77,8 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
+          cache: npm
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 📥 Download deps
@@ -130,7 +134,6 @@ jobs:
         env:
           # Zone is required by both authentication methods
           CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
-
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
 
   refresh:
@@ -147,6 +150,8 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
+          cache: npm
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 🥬 Refresh Content
