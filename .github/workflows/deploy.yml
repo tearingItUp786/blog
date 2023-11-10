@@ -107,11 +107,11 @@ jobs:
           field: 'app'
 
       - name: 🚀 Deploy Production
-        run: flyctl deploy --remote-only
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions/setup-flyctl@v1.4
         with:
           version: 0.0.540
+          args: 'deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}'
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
