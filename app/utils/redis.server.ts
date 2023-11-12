@@ -1,5 +1,5 @@
 import * as redis from 'redis'
-import type {CacheMetadata} from 'cachified'
+import type {Cache, CacheMetadata} from 'cachified'
 
 declare global {
   // This prevents us from making multiple connections to the db when the
@@ -45,7 +45,7 @@ function totalTtl(metadata?: CacheMetadata): number {
   return (metadata.ttl || 0) + (staleWhileRevalidate(metadata) || 0)
 }
 
-const myRedisAdapter: (args: redis.RedisClientType) => any = rc => {
+const myRedisAdapter: (args: redis.RedisClientType) => Cache = rc => {
   return {
     name: 'myRedisAdapter',
     delete(key: string) {
@@ -57,7 +57,7 @@ const myRedisAdapter: (args: redis.RedisClientType) => any = rc => {
         return null
       }
 
-      return val
+      return val as any
     },
     async set(key: string, value: Record<string, any>) {
       const ttl = totalTtl(value?.metadata)
