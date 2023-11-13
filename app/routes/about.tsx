@@ -156,7 +156,7 @@ export default function About() {
           />
           <BlockQuote
             author="Les Brown"
-            className="mx-auto mt-6 lg:ml-6 lg:mt-0 "
+            className="mx-auto mt-6 max-w-[500px] lg:ml-6 lg:mt-0"
           >
             If you do what is easy, your life will be hard. If you do what is
             hard, your life will be easy.
