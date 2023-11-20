@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       manual_run:
-        description: 'This will skip the type checking and linting'
+        description: 'Manually run'
         required: true
         type: choice
         options:
@@ -33,7 +33,8 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: >-
-          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
+          echo "DEPLOYABLE=$(node ./other/is-deployable.js) ||
+          ${{inputs.manual_run}}" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
         run: >-
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
