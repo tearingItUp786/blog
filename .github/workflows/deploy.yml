@@ -34,7 +34,7 @@ jobs:
         id: changes
 
         run: |
-          echo "DEPLOYABLE=$(node ./other/is-deployable.js || ${{inputs.manual_run}})" >> $GITHUB_OUTPUT
+          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
         run: >-
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
@@ -94,7 +94,8 @@ jobs:
     # only build/deploy main branch on pushes
     if:
       ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
-      'refs/heads/main') && github.event_name == 'push' }}
+      'refs/heads/main') && github.event_name == 'push' }} || inputs.manual_run
+      == 'true'
 
     steps:
       - name: 🛑 Cancel Previous Runs
