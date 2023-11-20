@@ -54,7 +54,7 @@ export default function TilPage() {
     <div
       className='
     relative ml-[10vw] mr-[10vw] mt-8 pb-8 after:absolute
-    after:left-[-13vw]
+    after:left-[-11vw]
     after:top-[10px]
     after:hidden
     after:h-full
