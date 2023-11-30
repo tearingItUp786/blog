@@ -5,8 +5,8 @@ import type {GithubGraphqlObject, MdxPage, MdxPageAndSlug} from 'types'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
-import type {CachifiedOptions} from 'cachified'
-import cachified, {verboseReporter} from 'cachified'
+import type {CachifiedOptions} from '@epic-web/cachified'
+import cachified, {verboseReporter} from '@epic-web/cachified'
 import {CloudinaryHeroImage} from '~/components/hero-image'
 import {LazyGiphy} from '~/components/lazy-iframe'
 import {Callout} from '~/components/callout'
@@ -96,7 +96,8 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
-type TilMdxPage = MdxPageAndSlug& { offset: number}
+type TilMdxPage = MdxPageAndSlug & {offset: number}
+
 async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: `gql:til:list`,
@@ -131,9 +132,11 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
 
       // create array of arrays of 20 from the tilList;
       const chunkedList = []
-      for (let i = 0,j = 1; i < nonNullPages.length; i += 20, j+=1) {
-        const itemsToPush = nonNullPages.slice(i, i + 20)?.map(o => ({...o, offset: j}))
-        chunkedList.push(itemsToPush as TilMdxPage[]) 
+      for (let i = 0, j = 1; i < nonNullPages.length; i += 20, j += 1) {
+        const itemsToPush = nonNullPages
+          .slice(i, i + 20)
+          ?.map(o => ({...o, offset: j}))
+        chunkedList.push(itemsToPush as TilMdxPage[])
       }
 
       return {
