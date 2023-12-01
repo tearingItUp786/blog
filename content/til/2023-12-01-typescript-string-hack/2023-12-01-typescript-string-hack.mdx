@@ -1,0 +1,21 @@
+---
+title: typescript string hack
+date: 2023-12-01
+tag: typescript
+---
+
+Want to have some type hinting for a union but allow any string value? 
+
+Use this hack bruh: 
+
+```ts
+type color = 'red' | 'blue' | 'green' | (string & {})
+
+function getColor(color: color) {
+  console.log(color)
+}
+
+getColor('red') // editor will code complete this for you
+getColor('yolo') // this works!
+
+```
