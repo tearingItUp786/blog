@@ -11,8 +11,8 @@ Use this hack bruh:
 ```ts
 type color = 'red' | 'blue' | 'green' | (string & {})
 
-function getColor(color: color) {
-  console.log(color)
+function getColor(c: color) {
+  console.log(c)
 }
 
 getColor('red') // editor will code complete this for you
