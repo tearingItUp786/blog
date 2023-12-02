@@ -96,6 +96,7 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
+// TODO: give this a better name
 async function getMaxNumberOfTil({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
     key: `gql:til:max-offset`,
@@ -142,7 +143,7 @@ async function getMdxTilListGql(
   // because we don't want the user to be able to throw in random keys
 
   const {sortedPageData, maxOffset, chunkSize} = await getMaxNumberOfTil({
-    ...cachifiedOptions,
+    cachifiedOptions,
   })
   let endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
   let startOffset = endOffsetToUse - 1
