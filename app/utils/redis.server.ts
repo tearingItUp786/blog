@@ -32,6 +32,7 @@ function createRedisClient(): redis.RedisClientType {
 }
 
 let redisClient = createRedisClient()
+
 const redisCache = redisJsonCacheAdapter(redisClient)
 
 async function delRedisKey(key: string) {

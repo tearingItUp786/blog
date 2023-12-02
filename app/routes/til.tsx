@@ -1,5 +1,5 @@
 import {json, LoaderFunctionArgs} from '@remix-run/node'
-import {useLoaderData} from '@remix-run/react'
+import {useFetcher, useLoaderData} from '@remix-run/react'
 import {useEffect, useRef, useState} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 import {getMdxTilListGql} from '~/utils/mdx'
@@ -7,38 +7,73 @@ import {useFooterObserver} from '~/hooks/use-footer-observer'
 import {TilComponent} from '~/components/til/til-component'
 
 import styles from '~/styles/til.css'
+import {TilMdxPage} from 'types'
 
 export async function loader({request}: LoaderFunctionArgs) {
-  const {chunkedList} = await getMdxTilListGql()
+  const params = new URLSearchParams(request.url.split('?')[1])
 
-  let endOffset = Number(
-    new URLSearchParams(request.url.split('?')[1]).get('offset'),
-  )
+  let endOffset = Number(params.get('offset'))
+  let fromFetcher = params.get('fromFetcher')
+
+  console.log('from fetcher', fromFetcher)
+
   // create array of arrays of 20 from the tilList;
 
   if (!endOffset) endOffset = 1
-  if (Number(endOffset) > chunkedList.length) endOffset = chunkedList.length
+  // need to call this loader until we reach the end offset
+  // because the end offset dicates how many calls we need to make
+  const data = await getMdxTilListGql({endOffset})
+
+  let maxOffset = data.maxOffset
+  endOffset = endOffset > maxOffset ? maxOffset : endOffset
+
+  // we only want the one call
+  // if we are calling from the fetcher
+  if (fromFetcher) {
+    return json({
+      fullList: data.fullList,
+      serverEndOffset: endOffset,
+      maxOffset,
+    })
+  }
+
+  // create a list of chunked pages
+  // that we want to send server side to render the correct
+  // output for the til page
+  let fullList: TilMdxPage[] = []
+  let promises: ReturnType<typeof getMdxTilListGql>[] = []
+
+  for (let i = 1; i <= endOffset; i++) {
+    promises.push(getMdxTilListGql({endOffset: i}))
+  }
+
+  await Promise.all(promises).then(values => {
+    values.forEach(value => {
+      fullList = [...fullList, ...value.fullList]
+      maxOffset = value.maxOffset
+    })
+  })
 
   return json({
-    chunkedList,
-    endIndex: endOffset,
+    fullList,
+    serverEndOffset: endOffset,
+    maxOffset,
   })
 }
 
 export default function TilPage() {
-  const {chunkedList, endIndex} = useLoaderData<typeof loader>()
-  const [currentEndIndex, setCurrentEndIndex] = useState(endIndex)
+  const {fullList, maxOffset, serverEndOffset} = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof loader>()
   const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 
-  // flatten chunked list into one array
-  const flattenedList = chunkedList
-    ?.slice(0, currentEndIndex)
-    ?.flatMap(til => til)
+  const [items, setItems] = useState<TilMdxPage[]>(fullList)
+  const [offset, setOffset] = useState<number>(serverEndOffset)
 
   useFooterObserver({
     onIntersect: () => {
-      if (currentEndIndex === chunkedList.length) return
-      setCurrentEndIndex(prev => prev + 1)
+      if (offset === maxOffset) return
+      fetcher.load(`/til?fromFetcher=true&offset=${offset + 1}`)
+      setOffset(p => p + 1)
     },
   })
 
@@ -48,7 +83,20 @@ export default function TilPage() {
     } else {
       lazyLoadRef.current.update()
     }
-  }, [currentEndIndex])
+  }, [offset])
+
+  useEffect(() => {
+    if (!fetcher.data || fetcher.state === 'loading') {
+      return
+    }
+
+    if (fetcher.data) {
+      setItems(prevAssets => [
+        ...prevAssets,
+        ...(fetcher?.data?.fullList ?? []),
+      ])
+    }
+  }, [fetcher.data])
 
   return (
     <div
@@ -70,7 +118,7 @@ export default function TilPage() {
     '
     >
       <div className="prose prose-light max-w-full dark:prose-dark">
-        {flattenedList?.map(til => {
+        {items?.map(til => {
           return (
             <TilComponent
               key={`${til.frontmatter.title}-${til.frontmatter.date}`}

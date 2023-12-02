@@ -98,9 +98,13 @@ function getMdxComponent(code: string) {
 
 type TilMdxPage = MdxPageAndSlug & {offset: number}
 
-async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
+async function getMdxTilListGql(
+  {cachifiedOptions, endOffset = 1}: CommonGetProps & {endOffset: number} = {
+    endOffset: 1,
+  },
+) {
   return cachified({
-    key: `gql:til:list`,
+    key: `gql:til:list:${endOffset}`,
     cache: redisCache,
     getFreshValue: async () => {
       const dirList = await downloadDirGql(`content/til`)
@@ -119,29 +123,30 @@ async function getMdxTilListGql({cachifiedOptions}: CommonGetProps = {}) {
         return b.name.toLowerCase().localeCompare(a.name.toLowerCase(), 'en')
       })
 
+      let chunkSize = 20
+      let maxOffset = Math.ceil(pageData.length / chunkSize)
+      let endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
+      let startOffset = endOffsetToUse - 1
+
       const pages = await Promise.all(
-        sortedPageData.map(pageData =>
-          queuedCompileMdxGql(pageData.name, pageData.files),
-        ),
+        sortedPageData
+          .slice(startOffset * chunkSize, endOffsetToUse * 20)
+          .map(pageData => queuedCompileMdxGql(pageData.name, pageData.files)),
       ).catch(err => {
         console.error(`Failed to compile mdx for til list`)
         return Promise.reject(err)
       })
 
-      const nonNullPages = pages.filter(page => page !== null) as MdxPage[]
-
-      // create array of arrays of 20 from the tilList;
-      const chunkedList = []
-      for (let i = 0, j = 1; i < nonNullPages.length; i += 20, j += 1) {
-        const itemsToPush = nonNullPages
-          .slice(i, i + 20)
-          ?.map(o => ({...o, offset: j}))
-        chunkedList.push(itemsToPush as TilMdxPage[])
-      }
+      const nonNullPages = pages
+        .filter(page => page !== null)
+        .map(o => ({
+          ...o,
+          offset: endOffsetToUse,
+        }))
 
       return {
-        fullList: nonNullPages as MdxPage[],
-        chunkedList,
+        fullList: nonNullPages as TilMdxPage[],
+        maxOffset,
       }
     },
     reporter: verboseReporter(),
