@@ -96,15 +96,9 @@ function getMdxComponent(code: string) {
   return KCDMdxComponent
 }
 
-type TilMdxPage = MdxPageAndSlug & {offset: number}
-
-async function getMdxTilListGql(
-  {cachifiedOptions, endOffset = 1}: CommonGetProps & {endOffset: number} = {
-    endOffset: 1,
-  },
-) {
+async function getMaxNumberOfTil({cachifiedOptions}: CommonGetProps = {}) {
   return cachified({
-    key: `gql:til:list:${endOffset}`,
+    key: `gql:til:max-offset`,
     cache: redisCache,
     getFreshValue: async () => {
       const dirList = await downloadDirGql(`content/til`)
@@ -125,9 +119,38 @@ async function getMdxTilListGql(
 
       let chunkSize = 20
       let maxOffset = Math.ceil(pageData.length / chunkSize)
-      let endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
-      let startOffset = endOffsetToUse - 1
+      return {
+        sortedPageData,
+        maxOffset,
+        chunkSize,
+      }
+    },
+    reporter: verboseReporter(),
+    ...cachifiedOptions,
+  })
+}
 
+type TilMdxPage = MdxPageAndSlug & {offset: number}
+
+async function getMdxTilListGql(
+  {cachifiedOptions, endOffset = 1}: CommonGetProps & {endOffset: number} = {
+    endOffset: 1,
+  },
+) {
+  // I need to figure out the end offset is some preposterous number
+  // that we don't have
+  // because we don't want the user to be able to throw in random keys
+
+  const {sortedPageData, maxOffset, chunkSize} = await getMaxNumberOfTil({
+    ...cachifiedOptions,
+  })
+  let endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
+  let startOffset = endOffsetToUse - 1
+
+  return cachified({
+    key: `gql:til:list:${endOffsetToUse}`,
+    cache: redisCache,
+    getFreshValue: async () => {
       const pages = await Promise.all(
         sortedPageData
           .slice(startOffset * chunkSize, endOffsetToUse * 20)
