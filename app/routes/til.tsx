@@ -83,7 +83,7 @@ export default function TilPage() {
     } else {
       lazyLoadRef.current.update()
     }
-  }, [offset])
+  }, [items])
 
   useEffect(() => {
     if (!fetcher.data || fetcher.state === 'loading') {
