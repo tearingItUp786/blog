@@ -5,15 +5,12 @@ import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
 import {H1, H4} from '~/components/typography'
-import {
-  getMdxBlogListGraphql,
-  getMdxPageGql,
-  useMdxComponent,
-} from '~/utils/mdx'
+import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dateFormat, invariantResponse} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
+import {useMdxComponent} from '~/utils/mdx-utils'
 
 type LoaderData = {
   page: MdxPage
