@@ -1,6 +1,6 @@
 import {H1, H2} from '~/components/typography'
 import {NavLink, useLoaderData} from '@remix-run/react'
-import {getMdxTagListGql} from '~/utils/mdx'
+import {getMdxTagListGql} from '~/utils/mdx-utils.server'
 import {json} from '@remix-run/node'
 
 export async function loader() {

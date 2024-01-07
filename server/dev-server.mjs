@@ -1,10 +1,10 @@
 async function run() {
   if (process.env.NODE_ENV === 'production') {
-    await import('../index.js')
+    await import('../index.mjs')
   } else {
     const {execa} = await import('execa')
     const command =
-      'tsx watch --clear-screen=false --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.js'
+      'tsx watch --clear-screen=false --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.mjs'
     execa(command, {
       stdio: ['ignore', 'inherit', 'inherit'],
       shell: true,

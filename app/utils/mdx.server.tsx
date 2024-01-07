@@ -1,7 +1,24 @@
 import {bundleMDX} from 'mdx-bundler'
+import PQueue from 'p-queue'
+// remark plugins
 import remarkEmbedder from '@remark-embedder/core'
-import type {Config} from '@remark-embedder/transformer-oembed'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
+import gfm from 'remark-gfm'
+import capitalize from 'remark-capitalize'
+import emoji from 'remark-emoji'
+import smartypants from 'remark-smartypants'
+import remarkImages from 'remark-images'
+import remarkToc from 'remark-toc'
+import remarkAutolinkHeadings from 'remark-autolink-headings'
+
+// rehype plugins
+import rehypePrismPlus from 'rehype-prism-plus'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeCodeTitles from 'rehype-code-titles'
+import rehypeAddClasses from 'rehype-add-classes'
+
+import type {Config} from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
 import type {TransformerInfo} from '@remark-embedder/core'
@@ -61,25 +78,6 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
 async function compileMdxForGraphql<
   FrontmatterType extends Record<string, unknown>,
 >(slug: string, githubFiles: Array<GithubGraphqlObject>) {
-  const {default: remarkAutolinkHeadings} = await import(
-    'remark-autolink-headings'
-  )
-  const {default: gfm} = await import('remark-gfm')
-  const {default: capitalize} = await import('remark-capitalize')
-  const {default: emoji} = await import('remark-emoji')
-  const {default: smartypants} = await import('remark-smartypants')
-  const {default: remarkImages} = await import('remark-images')
-  const {default: remarkToc} = await import('remark-toc')
-
-  // rehype plugins
-  const {default: rehypePrismPlus} = await import('rehype-prism-plus')
-  const {default: rehypeSlug} = await import('rehype-slug')
-  const {default: rehypeAutolinkHeadings} = await import(
-    'rehype-autolink-headings'
-  )
-  const {default: rehypeCodeTitles} = await import('rehype-code-titles')
-  const {default: rehypeAddClasses} = await import('rehype-add-classes')
-
   const mdxFile = githubFiles.find(val => {
     return val?.name?.includes('mdx')
   })
@@ -111,12 +109,16 @@ async function compileMdxForGraphql<
           [remarkImages, {maxWidth: 1200}],
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
+            // TODO: why do I need to do this?
+            // @ts-ignore
             remarkEmbedder,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
               transformers: [
                 [
+                  // TODO: why do I need to do this?
+                  // @ts-ignore
                   oembedTransformer,
                   {
                     params: {
@@ -193,7 +195,6 @@ async function compileMdxForGraphql<
 
 let _queue: TPQueue | null = null
 async function getQueue() {
-  const {default: PQueue} = await import('p-queue')
   if (_queue) return _queue
 
   _queue = new PQueue({concurrency: 4})

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   '*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx|vue)': [
     () => `npm run clean --silent`,
     `npm run test --silent -- --watch=false`,
