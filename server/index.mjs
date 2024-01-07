@@ -3,14 +3,29 @@ import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import {createRequestHandler} from '@remix-run/express'
 import {installGlobals} from '@remix-run/node'
+import {renameSync} from 'fs'
 import path from 'path'
 import morgan from 'morgan'
 import {fileURLToPath} from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const here = (...d) => path.join(__dirname, ...d)
 
 installGlobals()
 
 let viteDevServer
 if (process.env.NODE_ENV === 'production') {
+  // so the weird thing with the new vite build is that if we try to do
+  // node start with the server file with our custom server, node
+  // complains about our package not having a type module. However,
+  // if we chane it to type module, the dev server stops working
+  // because it can't find the server file. So, we're going to
+  // rename the file to .mjs and then import it.
+  renameSync(
+    here('../build/server/index.js'),
+    here('../build/server/index.mjs'),
+  )
   viteDevServer = undefined
 } else {
   viteDevServer = await import('vite').then(vite =>
@@ -23,10 +38,6 @@ if (process.env.NODE_ENV === 'production') {
 let app = express()
 app.disable('x-powered-by')
 app.use(compression())
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const here = (...d) => path.join(__dirname, ...d)
 
 const publicAbsolutePath = here('../build/client')
 
@@ -63,7 +74,7 @@ app.all(
   createRequestHandler({
     build: viteDevServer
       ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-      : await import('../build/server/index.js'),
+      : await import('../build/server/index.mjs'),
   }),
 )
 

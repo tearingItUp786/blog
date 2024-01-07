@@ -13,7 +13,7 @@ export default defineConfig({
   },
   plugins: [
     remix({
-      serverModuleFormat: 'cjs',
+      // serverModuleFormat: 'cjs',
     }),
     tsconfigPaths(),
   ],

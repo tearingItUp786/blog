@@ -3,10 +3,8 @@ async function run() {
     await import('../index.mjs')
   } else {
     const {execa} = await import('execa')
-    // const command =
-    //   'tsx watch --clear-screen=false --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.mjs'
     const command =
-      'tsx watch --clear-screen=false  --inspect ./server/index.mjs'
+      'tsx watch --clear-screen=false --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.mjs'
     execa(command, {
       stdio: ['ignore', 'inherit', 'inherit'],
       shell: true,

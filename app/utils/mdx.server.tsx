@@ -112,14 +112,14 @@ async function compileMdxForGraphql<
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
             // @ts-ignore
-            remarkEmbedder,
+            remarkEmbedder.default,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
               transformers: [
                 [
                   // @ts-ignore
-                  oembedTransformer,
+                  oembedTransformer.default,
                   {
                     params: {
                       height: '390',
