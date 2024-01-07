@@ -1,5 +1,5 @@
 import type {MdxPageAndSlug} from 'types'
-import {getMdxComponent} from './mdx-utils'
+import {getMdxComponent} from './mdx'
 
 export function tilMapper(til: MdxPageAndSlug) {
   let component = getMdxComponent(String(til.code))

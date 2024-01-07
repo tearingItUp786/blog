@@ -8,7 +8,7 @@ import {
   getMdxPageGql,
   getMdxTagListGql,
   getMdxTilListGql,
-} from '~/utils/mdx-utils.server'
+} from '~/utils/mdx'
 import {redisClient} from '~/utils/redis.server'
 import {algoliaClient} from '~/utils/algolia.server'
 
@@ -30,6 +30,8 @@ const getFileArray = (acc: [File[], File[]], file: File) => {
   }
   return acc
 }
+
+const index = algoliaClient.initIndex('website')
 
 const refreshTilList = async () => {
   let tilList: TilMdxPage[] = []
@@ -56,7 +58,6 @@ const refreshTilList = async () => {
 }
 
 export const action: ActionFunction = async ({request}) => {
-  const index = algoliaClient?.initIndex('website')
   if (request.headers.get('auth') !== process.env.REFRESH_CACHE_SECRET) {
     // hahaha
     return redirect('https://youtu.be/VM3uXu1Dq4c')

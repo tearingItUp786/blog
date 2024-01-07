@@ -2,13 +2,12 @@ import {json, LoaderFunctionArgs} from '@remix-run/node'
 import {useFetcher, useLoaderData} from '@remix-run/react'
 import {useEffect, useRef, useState} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
-import {getMdxTilListGql} from '~/utils/mdx-utils.server'
+import {getMdxTilListGql} from '~/utils/mdx'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
 import {TilComponent} from '~/components/til/til-component'
-import {TilMdxPage} from 'types'
 
-// css
-import '~/styles/til.css'
+import styles from '~/styles/til.css'
+import {TilMdxPage} from 'types'
 
 export async function loader({request}: LoaderFunctionArgs) {
   const params = new URLSearchParams(request.url.split('?')[1])
@@ -130,4 +129,7 @@ export default function TilPage() {
       </div>
     </div>
   )
+}
+export function links() {
+  return [{rel: 'stylesheet', href: styles}]
 }

@@ -1,16 +1,18 @@
 import {H1, H3} from '~/components/typography'
-import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
+import {getMdxIndividualTagGql} from '~/utils/mdx'
 import type {LoaderFunctionArgs} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
 import {useEffect, useMemo, useRef} from 'react'
+import styles from '~/styles/tag.css'
 import {delRedisKey} from '~/utils/redis.server'
 import LazyLoad from 'vanilla-lazyload'
 
-// css imports
-import '~/styles/tag.css'
+export function links() {
+  return [{rel: 'stylesheet', href: styles}]
+}
 
 export async function loader({params}: LoaderFunctionArgs) {
   if (!params.slug) {

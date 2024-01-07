@@ -1,6 +1,6 @@
-import 'dotenv/config'
-import {installGlobals} from '@remix-run/node'
-import closeWithGrace from 'close-with-grace'
+require('dotenv/config')
+const {installGlobals} = require('@remix-run/node')
+const closeWithGrace = require('close-with-grace')
 
 // make sure globals are installed before we do anything else
 // that way everything's referencing the same globals
@@ -16,8 +16,7 @@ closeWithGrace(async ({err}) => {
 })
 
 async function run() {
-  await import('./server/index.mjs')
-  console.log('wtf', process.env.MOCK_API)
+  await import('./server/index.js')
   if (process.env.MOCK_API === 'true') {
     await import('./mocks/index.ts')
   }

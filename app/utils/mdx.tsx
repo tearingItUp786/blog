@@ -1,9 +1,15 @@
+import React from 'react'
+import * as mdxBundler from 'mdx-bundler/client'
+import * as myTypo from '~/components/typography'
 import type {GithubGraphqlObject, MdxPage, MdxPageAndSlug} from 'types'
 import {downloadDirGql} from '~/utils/github.server'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
 import type {CachifiedOptions} from '@epic-web/cachified'
 import cachified, {verboseReporter} from '@epic-web/cachified'
+import {CloudinaryHeroImage} from '~/components/hero-image'
+import {LazyGiphy} from '~/components/lazy-iframe'
+import {Callout} from '~/components/callout'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
@@ -62,6 +68,32 @@ async function getMdxPageGql({
     reporter: verboseReporter(),
     ...cachifiedOptions,
   })
+}
+
+const mdxComponents = {
+  ...myTypo,
+  Callout,
+  LazyGiphy,
+  CloudinaryHeroImage,
+}
+
+/**
+ * This should be rendered within a useMemo
+ * @param code the code to get the component from
+ * @returns the component
+ */
+function getMdxComponent(code: string) {
+  const Component = mdxBundler.getMDXComponent(code)
+  function KCDMdxComponent({
+    components,
+    ...rest
+  }: Parameters<typeof Component>['0']) {
+    return (
+      <Component components={{...mdxComponents, ...components}} {...rest} />
+    )
+  }
+  // thanks kent
+  return KCDMdxComponent
 }
 
 // TODO: give this a better name
@@ -361,11 +393,18 @@ function mapFromMdxPageToMdxListItem(
   return mdxListItem
 }
 
+function useMdxComponent(code: string) {
+  return React.useMemo(() => getMdxComponent(code), [code])
+}
+
 export {
   getMdxPageGql,
   getMdxTilListGql,
   getMdxBlogListGraphql,
+  useMdxComponent,
+  getMdxComponent,
   getMdxTagListGql,
   getMdxIndividualTagGql,
+  mdxComponents,
   delMdxPageGql,
 }

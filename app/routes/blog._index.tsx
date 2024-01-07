@@ -1,16 +1,14 @@
 import clsx from 'clsx'
 import {useLoaderData} from '@remix-run/react'
 import {BlogCard} from '~/components/blog/blog-card'
-import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
+import {getMdxBlogListGraphql} from '~/utils/mdx'
+import styles from '~/styles/blog.css'
 import {
   getBlogCardClassName,
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
 import {json} from '@remix-run/node'
-
-// css
-import '~/styles/blog.css'
 
 export const loader = async () => {
   const {publishedPages, draftPages} = await getMdxBlogListGraphql()
@@ -97,4 +95,8 @@ export default function Blog() {
       </div>
     </div>
   )
+}
+
+export function links() {
+  return [{rel: 'stylesheet', href: styles}]
 }

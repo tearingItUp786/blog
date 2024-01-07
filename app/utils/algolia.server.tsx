@@ -11,14 +11,14 @@ function createAgoliaClient(): ReturnType<typeof algoliasearch> {
     )
   }
 
-  if (!global.algoliaClient) {
-    global.algoliaClient = algoliasearch(
+  if (!algoliaClient) {
+    algoliaClient = algoliasearch(
       process.env.ALGOLIA_APP_ID,
       process.env.ALGOLIA_ADMIN_KEY,
     )
   }
 
-  return global.algoliaClient
+  return algoliaClient
 }
 
 let algoliaClient = createAgoliaClient()

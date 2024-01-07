@@ -1,6 +1,6 @@
 import type {TilMdxPage} from 'types'
+import {useMdxComponent} from '~/utils/mdx'
 import {ContentCard} from './content-card'
-import {useMdxComponent} from '~/utils/mdx-utils'
 
 export function TilComponent({til}: {til: TilMdxPage}) {
   const Component = useMdxComponent(String(til.code))
