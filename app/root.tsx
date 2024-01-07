@@ -8,12 +8,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from '@remix-run/react'
-import {MetronomeLinks} from '@metronome-sh/react'
-import {cssBundleHref} from '@remix-run/css-bundle'
 import clsx from 'clsx'
-import appStyles from './styles/app.css'
-import tailwindStyles from '~/tailwind.css'
-import prismaStyles from './styles/prisma-theme.css'
 import {
   NonFlashOfWrongThemeEls,
   ThemeProvider,
@@ -29,6 +24,10 @@ import {H3} from './components/typography'
 import {ScrollProgress} from './components/scroll-progress'
 import {redisClient} from './utils/redis.server'
 import {LoadingRoute} from './components/loading-route'
+
+import '~/tailwind.css'
+import './styles/app.css'
+import './styles/prisma-theme.css'
 
 const FAVICON = [
   {
@@ -69,13 +68,7 @@ export const meta: MetaFunction = () => {
 }
 
 export const links: LinksFunction = () => {
-  return [
-    ...FAVICON,
-    {rel: 'stylesheet', href: tailwindStyles},
-    {rel: 'stylesheet', href: appStyles},
-    {rel: 'stylesheet', href: prismaStyles},
-    ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
-  ]
+  return [...FAVICON]
 }
 
 const Document = ({children}: {children: React.ReactNode}) => {
@@ -89,7 +82,6 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <meta name="theme-color" content="#ffffff" />
         <Meta />
         <Links />
-        <MetronomeLinks />
         <NonFlashOfWrongThemeEls />
       </head>
       <body className="bg-white dark:bg-gray-100">
