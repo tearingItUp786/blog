@@ -173,6 +173,7 @@ export const loader: LoaderFunction = async ({request}) => {
     console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
     redisClient.flushAll()
   }
+  return null
 }
 
 const App = () => {
