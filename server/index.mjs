@@ -3,7 +3,7 @@ import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import {createRequestHandler} from '@remix-run/express'
 import {installGlobals} from '@remix-run/node'
-import {renameSync} from 'fs'
+import {existsSync, renameSync} from 'fs'
 import path from 'path'
 import morgan from 'morgan'
 import {fileURLToPath} from 'url'
@@ -22,10 +22,12 @@ if (process.env.NODE_ENV === 'production') {
   // if we chane it to type module, the dev server stops working
   // because it can't find the server file. So, we're going to
   // rename the file to .mjs and then import it.
-  renameSync(
-    here('../build/server/index.js'),
-    here('../build/server/index.mjs'),
-  )
+  if (existsSync(here('../build/server/index.js'))) {
+    renameSync(
+      here('../build/server/index.js'),
+      here('../build/server/index.mjs'),
+    )
+  }
   viteDevServer = undefined
 } else {
   viteDevServer = await import('vite').then(vite =>
