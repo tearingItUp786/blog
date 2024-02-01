@@ -1,5 +1,5 @@
 import {json, LoaderFunctionArgs} from '@remix-run/node'
-import {useFetcher, useLoaderData} from '@remix-run/react'
+import {MetaFunction, useFetcher, useLoaderData} from '@remix-run/react'
 import {useEffect, useRef, useState} from 'react'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
 import {getMdxTilListGql} from '~/utils/mdx-utils.server'
@@ -9,6 +9,10 @@ import {TilMdxPage} from 'types'
 
 // css
 import '~/styles/til.css'
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | Today I Learned`}]
+}
 
 export async function loader({request}: LoaderFunctionArgs) {
   const params = new URLSearchParams(request.url.split('?')[1])
