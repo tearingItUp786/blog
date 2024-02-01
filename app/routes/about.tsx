@@ -1,7 +1,7 @@
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {scale} from '@cloudinary/url-gen/actions/resize'
-import type {HeadersFunction} from '@remix-run/node' // or cloudflare/deno
+import type {HeadersFunction, MetaFunction} from '@remix-run/node' // or cloudflare/deno
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
@@ -49,6 +49,10 @@ const RandomThing = ({
       <p className="max-w-md">{description}</p>
     </div>
   )
+}
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | tags`}]
 }
 
 export async function loader() {

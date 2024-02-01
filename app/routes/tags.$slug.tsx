@@ -1,6 +1,6 @@
 import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
-import type {LoaderFunctionArgs} from '@remix-run/node'
+import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {NavLink, useLoaderData, useParams} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
@@ -11,6 +11,10 @@ import LazyLoad from 'vanilla-lazyload'
 
 // css imports
 import '~/styles/tag.css'
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | About me`}]
+}
 
 export async function loader({params}: LoaderFunctionArgs) {
   if (!params.slug) {
