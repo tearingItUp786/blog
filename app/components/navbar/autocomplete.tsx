@@ -163,7 +163,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
             'disabled:pointer-events-none',
           )}
         >
-          {'⌘K'}
+          {'⌘ + K'}
         </span>
       </button>
     </>
