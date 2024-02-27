@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import {useLoaderData} from '@remix-run/react'
+import {json} from '@remix-run/node'
 import {BlogCard} from '~/components/blog/blog-card'
 import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
 import {
@@ -7,15 +8,17 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import {json} from '@remix-run/node'
+import type {LoaderFunction} from '@remix-run/node'
 
 // css
 import '~/styles/blog.css'
 
-export const loader = async () => {
+export const loader: LoaderFunction = async ({request}) => {
+  const showDrafts = new URL(request.url).searchParams.has('showDrafts')
   const {publishedPages, draftPages} = await getMdxBlogListGraphql()
+
   const blogList =
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'production' && !showDrafts
       ? publishedPages
       : [...draftPages, ...publishedPages]
 

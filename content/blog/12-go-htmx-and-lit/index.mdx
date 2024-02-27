@@ -1,0 +1,308 @@
+---
+title: Go, HTMX, and Lit... it's pretty lit y'all
+subtitle: The way in which you fight is a reflection of how you live your life.
+date: 2024-02-27
+tag: Go
+draft: true
+---
+
+<InlineImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-1 aspect-h-1"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709070065/blog/11-go-and-htmx/simple-dalle_yg4iyd.webp"
+  alt="An AI generated image of a person meditating and looking over a landscape"
+/>
+
+I heard this in a video interview with arguably the greatest Brazilian Jiu-Jitsu
+fighter of all time, Roger Gracie. Roger was speaking from the perspective of a
+Brazilian Jiu Jitsu fighter, but if we take this philosophy further and apply it
+to software engineering, it's no surprise why writing a todo app in Go, HTMX,
+and web components felt "right" to me. I value simplicity and the fundamentals
+-- in all things.
+
+## The standard disclaimer
+
+It's a well known fact -- or at least it should be after reading this sentence
+--that I love React and the modern frontend landscape. We've got a bunch of
+great solutions for developing web applications these days, all with their own
+amazing communities and authors! Whether your a Svleter, a SolidJs homie, a
+Remixer, a NextJser, an Astro Head, or a Qwickster (sorry if I forgot any of
+y'all other framework peoples) there's a place for you! For me, being able to
+utilize component driven architecture, creating amazing user experiences, and
+delivering value to customers with React (hopefully Remix one day too) has been
+a blessing! We've got great folks like Dan Abramov, Sophie Bits, Ryan Florence,
+Kent C. Dodds, Michael Chan, to name a few, in the React community and they help
+make this place on the internet the bustling, super fun environment that it is.
+With all that being said, there's an adage that we all need to remember when
+we're developing solutions, and say it with me now: **choose the right tool for
+the job**.
+
+<BlockQuote>
+  Computer science is all about tradeoffs. There are no solutions, only trade
+  offs in this life. So when I'm saying choose "right", right constitutes
+  different things to different people. The "right" tool depends on the problem
+  at hand, the team involved and the project requirements. It's inherently
+  subjective.
+</BlockQuote>
+
+Now, let's be honest, people are going to flock to whatever technology that they
+are the most comfortable with -- and that's fine. If someone asked me to create
+a website today, I'd unashamedly reach for Remix, someone else, maybe one of my
+PHP bros from back in the day might reach for Laravel...to quote Kent C. Dodds
+on this, what you're using is probably fine. What we need to remember is that
+we're here to deliver value through our solutions; our customers aren't really
+gonna care what tech stack we chose to deliver said value.
+
+## What I made
+
+You can check out the finished version of the application at
+https://taran-todo.fly.dev/signin; now complete with google oauth 😏. If you're
+not comfortable signing in with your google account (which is fine), you can
+sign up with a local user account. I didn't implement a forgot password flow
+though -- that's probably something I should add to do my todo list 🤭.
+
+The application allows you to do the standard CRUD operations with a todo list.
+You can add, edit, delete, mark as done a todo item. I also added a "Delete all"
+modal button and a "bulk upload" feature.
+
+## Why Go, HTMX, and Lit
+
+TLDR; exposing myself to different ways of thinking is important for growth and
+I wanted to evaluate HTMX as a solution for adding interactivity and a SPA like
+feel to MPAs.
+
+Now you might be wondering, "Taran, you've just blabbered on about how much you
+love modern frontend web development and how you'd reach for Remix when creating
+a new fullstack application... so why the heck did you write a todo app with Go,
+HTMX, and Lit?". My response: because I can. Cheekiness aside, the biggest
+reason for my decision is that I think it is important to expose oneself to
+different methods of problem solving and approaches to solutions. It's important
+to draw wisdom from many different places. When wisdom comes from only one
+place, it becomes rigid and stale. If you know, you know.
+
+Gaining experience is the reason why I migrated my site from Gatsby to Remix.
+Gaining experience is also the reason why I entertained switching from PHP to
+JavasScript early on in my career. I fell so in love with JS that I bet my
+livelihood on it and dedicated myself to becoming a UI developer, moving away
+from the backend and focusing solely on modern frontend.
+
+I've been a web developer for about 7ish years now and about 4-5 of those years
+have been spent solely working with React. It's been great! I've worked on many
+interesting applications and even contributed to a few open source projects
+(minor contributions, but I'm still proud of them)! Most of them being in the FE
+area of web development. However, and this point has been discussed by Rich
+Harris and a few others, I do remember when I first started with PHP and jQuery
+-- making stuff for the web felt simpler than it is today. JavaScript fatigue
+wasn't a thing. Back then, it didn't feel like you needed a module bundler, a
+state management solution, and sometimes, even endpoints that returned JSON. I'm
+of course hearkening back to the days when a basic multipage application was the
+way in which we created solutions. User hits a URL and the server responds with
+some HTML. Basic. Simple. It gets the job done. I wrote my view templates using
+something like Blade (which was essentially HTML with some handy template
+functions), I had data injected into my template via the server, and if I needed
+some interactivity, I would utilize jQuery. In fact, my first ever gig didn't
+even use a framework -- the thing was written from scratch! No fancy ORMs,
+templating languages, or whatever -- just straight up PHP.
+
+I didn't appreciate how complicated things had gotten for us frontend developers
+until I had to give a presentation to one of the backend teams at my current
+place of employment (Bestbuy Canada). The backend team works primarily in Java
+and they wanted to know how they could boostrap a frontend application for an
+upcoming initiative. I was more than happy to give a presentation on what I
+considered to be the bare minimum knowledge required to create a solution with
+React. When I completed my slide deck, I ended up with this meme --
+
+<InlineImage
+  lazyLoadImage
+  containerClassName="w-3/4 mx-auto lg:mt-0"
+  imgDivClassName="aspect-w-1 aspect-h-1"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709069714/blog/11-go-and-htmx/old-presentation-image_hn844o.jpg"
+  alt="A meme of anakin and Padme from Star Wars with the caption listing all the things FE engineers need to know now a days"
+/>
+
+Obviously, innovations like Vite and NextJS make it a bit easier to get started,
+but unfortunately, we aren't able to utilize any of these solutions at work (or
+at least that's my understanding of the situation right now). So now, not only
+did my backend colleagues need to learn how to use React, but they also had to
+get familiar with the surrounding ecosytem. They had to set up a webpack
+configuration (which is not fun, even for the best of us), CSS modules, Redux,
+and, like I said earlier, in addition to learning React, they had to learn about
+additional tooling like prettier and eslint. It was at this point of creating
+the presentation, I said to myself, "they're going to need to hire a FE engineer
+to help them with this". Ultimately, the advice we gave the team was to create a
+basic multipage application -- there was no need to make the thing a SPA. It was
+an internal tool that just needed to work and it needed to get shipped out
+yesterday 😅. **What's right is what works**.
+
+However, it was shortly after this presentation that I saw the primagen post a
+reaction video to an <TextLink href="https://htmx.org/">HTMX</TextLink> blog
+post. I think I had already seen a fireship video prior to this as well; those
+60 second overviews are the freaking best! It was at this point, after watching
+Prime react, I thought, "Hey, I wonder if HTMX would be a viable technology for
+my backend colleagues to adopt. If they are ever wanting to add interactivity
+and a SPA like feel to their applications without having to learn about
+typescript, module bundlers, vdoms, and a plethora of other technologies that
+are invovled with modern FE development, could HTMX be the way?". I wanted to
+answer this for myself, so I did. The answer: HTMX is pretty damn great and I
+think it's a great solution for teams wanting to limit the surface area of their
+solutions.
+
+## My thoughts on Go
+
+I've been wanting to pick up an additional low-level language for years -- I
+work in TypeScript for my day job and it does the job well, but I've always
+wanted to use something with pointers 😆. Go seemed like a great choice for me
+because it was built with the web in mind, Go isn't Java (that's a plus for me
+because I don't wnat to be forced back into OOP), and I've always wanted to try
+procedural style coding and Go lends itself really nicely to this programming
+paradigm! Go is a relatively small and simple language; it has only about 25
+keywords, you can do pretty much anything with the standard library, it has many
+different compilation targets, and the documentation is stellar; it feels like a
+more modern C! I won't be diving into the history of Go or anything like that --
+while the topic is interesting, it has no bearings on why I like the language!
+
+First things first, before I could build out my todo app, I had to grok the
+language. The language is relatively simple, and that's by design. There's no
+while loops, everything is a for. There's no extending classes in Go -- we have
+struct embeds and methods you can attach on objects.
+
+When I first started working on this todo app, my first and most obvious
+question, after rushing through a course by Jon Calhoun (great course by the
+way) was "what's the best framework to write Go web apps?". The last time I did
+a traditional multi page app was when I was writing views in a Ruby on Rails
+app. For Ruby, the defacto framework to use is Rails and for Python, it's most
+likely Django. I expected there to be an equivalent in Go. I checked Google,
+reddit, asked ChatGPT and after all the research, the answer that I came up with
+was: "Use the standard library whenever you can and embrace packages that are
+compatible with it" 😅. Usually, when you're writing Go, the standard library is
+enough and you should pick and choose libraries as you need them. Need something
+to write migrations? Check out goose. The built in mux/router not good enough
+for you? Maybe try Chi. Need an orm, try out gORM. There are frameworks that
+exist like Gin, Echo, fiber and they all seem great, but there's no defacto
+winner in this conversation. Plus, I was interested in learning Go... not a
+framework. If the standard library is enough, then why not use it? That being
+said, I did end up using Chi for my routing since it just took away some of the
+boilerplate that I'd have to write myself.
+
+That's not to say Go doesn't have its problems; it does. For instance, I sort of
+miss ternaries and the lack of enums is a bit annoying, the error handling is
+verbose which can irk some people (no try catches), interfaces are tough to wrap
+your head around because they are implicitly implemented (we don't explicilty
+declare we're implementing an interface).
+
+```go:title=main.go
+type IsWalkable interface {
+  Walk() string
+}
+
+type Person struct {
+  Name string
+}
+
+func (p *Person) Walk() {
+  return fmt.Println("%s is walking", p.Name)
+}
+
+func main() {
+  taran := Person{
+      Name: "Taran"
+   }
+
+   // Taran can walk (gratefully so)
+   // but the Person struct never directly said it was
+   // implementing IsWalkable
+   taran.Walk()
+}
+```
+
+Regardless though, of its "shortcomings", Go is a great language. It's
+practical. It's simple. It's boring. These are all things that are important to
+businesses and me as well when I'm developing solutions and applications 😄! I
+don't want to have to be "fighting" with my programming languages! In fact, I
+like Go so much, I'm spending all of 2024 developing side projects with it; I'm
+currenlty working on a ChatGPT terminal ui (TUI) and it's been a damn blast!
+I'll launch it to homebrew soon and y'all can run it in the future.
+
+## HTMX
+
+Alright, anyone who is anyone in the tech twitter space, well at least the
+people I follow, have mentioned or tangentially mentioned HTMX. HTMX is a
+library allows one the ability to build modern user interfaces with Hypermedia
+as the engine of application state (HATEOAS)... but what does that mean for us
+noobs 😅? In essence, HTMX enhances the built in HTML elements with custom
+attributes so that not only `<a>` and `<form>` elements can make HTTP requests,
+it removes the limitation of only having access to GET and POST methods, and
+most importantly, it simplifies the mental model when building web apps! If you
+want your button to make a GET request, just add an hx-get attribute to the
+element, and boom, like magic, your button will make a GET 😀!
+
+For most modern web apps that were built in the post React era, the general
+model for single page applications has been: Request a page from the server,
+load a blank index.html page, react renders on the page with some default
+content (or a loading spinner), we fetch some JSON data from a server somewhere,
+we then convert that JSON data into some sort of react components, and then
+finally, react-dom creates those HTML elements and adds them to the Document. At
+this point, react rehydrates the page and attaches all the click handlers that
+the elements on the page require. Upon user interaction, React will most likely
+need to update some state, update the virtual dom, diff the virtual dom with the
+actual dom, and then merge the diffed components into the actual dom. I've
+purposely glossed over the rendering process here because each one of these
+topics warrants larger discussion and have had plenty of blog posts written
+about them by much more qualified engineers.
+
+[create diagram here]
+
+With HTMX, this process is simplified. We fetch a page from the server, the
+server responds with HTML (which may or may not include HTMX attributes within
+HTML tags) and the browser renders it. There may be some JS that runs client
+side based on the code return from the server but for simplicity sake, let's
+just say it is vanilla HTML with HTMX attributes. When a user interacts with a
+page, we make an AJAX call to the server and the server responds with, you
+guessed it, HTML. Based on the returned HTML and the HTMX attributed present on
+the elements, HTMX will use a predetermined strategy to swap or replace content
+on the page with the server generated markup.
+
+Notice something with the HTMX version? Look real hard. We didn't need to
+transform JSON into our HTML; we skipped a step! We took the HTML and just
+plopped it in where it needed to be based on our defined strategy; this is
+incredibly simple and simplicity, like I said above, is great 😄. HTMX puts the
+power back into the hands of our backend engineers; it doesn't care what backend
+framework your using, what language you chose to right your app in, what the
+latest flavour of the month is -- it's HTML, through and through. Give it HTML
+and it'll know what to do.
+
+But Taran, I like my modern tooling and the ability to create
+composablecomponents; hell, that's what made React and all those other
+frameworks great. Bud, I do too! However, it's possible to have components for
+our backend view templates as well; sure, they aren't as nifty as our FE
+versions, but if what your looking for is components, with type safety in Go,
+check out templ. I haven't used it myself but based on what I've read online and
+seen in videos, it seems like a great way to get type safe components with easy
+composability and great DX!
+
+[create diagram here]
+
+But wait... if HTMX is such a great library, why the heck did you have to reach
+for something like <TextLink href="https://lit.dev/">lit</TextLink>. While HTML
+and HTMX is great, there are certain UI interactions that aren't supported all
+that well with vanilla HTML elements. The canonical example is a modal (although
+we do have a `<dialog>`) but anything more comple would warrant some sort of UI
+framework. I opted for lit, a library for generating web components, because web
+components seemed like a great fit for an HTML based application. Web components
+are natively supported by browsers, they can be used in any HTML environment,
+and they can be used with any framework or none at all. You can see in the below
+image of me using my own web component in my todo app!
+
+## Closing thoughts
+
+In reflecting on this journey, the blend of Go, HTMX, and Lit not only aligned
+with my ethos of simplicity and efficiency but also broadened my perspective on
+solving web development challenges. This simple todo app was a reminder that
+growth often lies in the intersection of different paths and that what's "right"
+is what works for you. I'm curious to hear about your 'right' tools and invite
+you to explore these technologies. Perhaps, like me, you'll find your next
+project not just successful, but pretty lit.
+
+What are your thoughts on this tech stack? Think this article sucked? Let me
+know why! Hit me up on <TextLink href="https://twitter.com/tearingItUp786">x
+(formerly Twiter)</TextLink> with your thoughts!

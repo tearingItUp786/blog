@@ -24,8 +24,10 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`}]
 }
 
-export const loader: LoaderFunction = async ({params}) => {
+export const loader: LoaderFunction = async ({params, request}) => {
   invariantResponse(params?.slug, 'No slug provided')
+
+  const showDrafts = new URL(request.url).searchParams.has('showDrafts')
 
   try {
     const page = await getMdxPageGql({
@@ -33,7 +35,11 @@ export const loader: LoaderFunction = async ({params}) => {
       slug: params.slug,
     })
 
-    if (page.frontmatter.draft && process.env.NODE_ENV === 'production') {
+    if (
+      page.frontmatter.draft &&
+      process.env.NODE_ENV === 'production' &&
+      !showDrafts
+    ) {
       throw new Error('Page is a draft')
     }
 
@@ -44,7 +50,7 @@ export const loader: LoaderFunction = async ({params}) => {
 
     const {publishedPages, draftPages} = await getMdxBlogListGraphql()
     const blogList =
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === 'production' && !showDrafts
         ? publishedPages
         : [...draftPages, ...publishedPages]
 
