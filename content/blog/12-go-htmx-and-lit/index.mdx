@@ -1,5 +1,6 @@
 ---
-title: Go, HTMX, and Lit... it's pretty lit y'all
+title: Go, HTMX, and Lit
+description: It's pretty lit y'all
 subtitle: The way in which you fight is a reflection of how you live your life.
 date: 2024-02-27
 tag: Go
@@ -26,18 +27,17 @@ and web components felt "right" to me. I value simplicity and the fundamentals
 It's a well known fact -- or at least it should be after reading this sentence
 --that I love React and the modern frontend landscape. We've got a bunch of
 great solutions for developing web applications these days, all with their own
-amazing communities and authors! Whether you're a
-
-<TextLink href="https://kit.svelte.dev/">Svelter</TextLink>, a <TextLink href="https://start.solidjs.com/getting-started/what-is-solidstart">
-  SolidJs homie
-</TextLink>, a <TextLink href="https://remix.run/">Remixer</TextLink>, a
-<TextLink href="https://nextjs.org/">NextJser</TextLink>, an <TextLink href="https://astro.build/">
-  Astro Head
-</TextLink>, or a <TextLink href="https://qwik.dev/">Qwickster</TextLink>(sorry
-if I forgot any of y'all other framework peoples) there's a place for you! For
-me, being able to utilize component driven architecture, creating amazing user
+amazing communities and authors! Whether you're
+a&nbsp;<TextLink href="https://kit.svelte.dev/">Svelter</TextLink>,
+a&nbsp;<TextLink href="https://start.solidjs.com/getting-started/what-is-solidstart">SolidJs
+homie</TextLink>, a&nbsp;<TextLink href="https://remix.run/">Remixer</TextLink>,
+a&nbsp;<TextLink href="https://nextjs.org/">NextJser</TextLink>,
+an&nbsp;<TextLink href="https://astro.build/">Astro Head</TextLink>, or a
+&nbsp;<TextLink href="https://qwik.dev/">Qwickster</TextLink> (sorry if I forgot
+any of y'all other framework peoples) there's a place for you! For me, being
+able to utilize component driven architecture, creating amazing user
 experiences, and delivering value to customers with React (hopefully Remix one
-day too) has been a blessing! We've got great folks like Dan Abramov, Sophie
+day too) has been a blessing 🙏🏽! We've got great folks like Dan Abramov, Sophie
 Bits, Ryan Florence, Kent C. Dodds, Michael Chan, to name a few, in the React
 community and they help make this place on the internet the bustling, super fun
 environment that it is. With all that being said, there's an adage that we all
@@ -62,8 +62,8 @@ going to care what tech stack we chose to use to deliver said value.
 
 ## What I made
 
-You can check out the _finished_ version of the application at
-&nbsp;<TextLink href="https://taran-todo.fly.dev/signin">your
+You can check out the _finished_ version of the application
+at&nbsp;<TextLink href="https://taran-todo.fly.dev/signin">your
 leisure</TextLink>; now complete with google oauth 😏. If you're not comfortable
 signing in with your google account (which is fine), you can sign up with a
 local user account. I say _finished_ because I didn't implement a forgot
@@ -98,24 +98,25 @@ career. I fell so in love with JS that I bet my livelihood on it and dedicated
 myself to becoming a UI developer, moving away from the backend and focusing
 solely on modern frontend.
 
-
 I've been a web developer for about 7ish years now and about 4-5 of those years
 have been spent solely working with React. It's been great! I've worked on many
 interesting applications and even contributed to a few open source projects
 (minor contributions, but I'm still proud of them)! Most of them being in the FE
-area of web development. However, and this point has been discussed by Rich
-Harris and a few others, I do remember when I first started with PHP and jQuery
--- making stuff for the web felt simpler than it is today. JavaScript fatigue
-wasn't a thing. Back then, it didn't feel like you needed a module bundler, a
-state management solution, and sometimes, even endpoints that returned JSON. I'm
-of course hearkening back to the days when a basic multipage application was the
-way in which we created solutions. User hits a URL and the server responds with
-some HTML. Basic. Simple. It gets the job done. I wrote my view templates using
-something like Blade (which was essentially HTML with some handy template
-functions), I had data injected into my template via the server, and if I needed
-some interactivity, I would utilize jQuery. In fact, my first ever gig didn't
-even use a framework -- the thing was written from scratch! No fancy ORMs,
-templating languages, or whatever -- just straight up PHP.
+area of web development.
+
+However, and this point has been discussed by Rich Harris and a few others, I do
+remember when I first started with PHP and jQuery -- making stuff for the web
+felt simpler than it is today. JavaScript fatigue wasn't a thing. Back then, it
+didn't feel like you needed a module bundler, a state management solution, and
+sometimes, even endpoints that returned JSON. I'm of course hearkening back to
+the days when a basic multipage application was the way in which we created
+solutions. User hits a URL and the server responds with some HTML. Basic.
+Simple. It gets the job done. I wrote my view templates using something like
+Blade (which was essentially HTML with some handy template functions), I had
+data injected into my template via the server, and if I needed some
+interactivity, I would utilize jQuery. In fact, my first ever gig didn't even
+use a framework -- the thing was written from scratch! No fancy ORMs, templating
+languages, or whatever -- just straight up PHP.
 
 I didn't appreciate how complicated things had gotten for us frontend developers
 until I had to give a presentation to one of the backend teams at my current
@@ -147,20 +148,21 @@ basic multipage application -- there was no need to make the thing a SPA. It was
 an internal tool that just needed to work and it needed to get shipped out
 yesterday 😅. **What's right is what works**.
 
-However, it was shortly after this presentation that I saw the primagen post a
-reaction video to an <TextLink href="https://htmx.org/">HTMX</TextLink> blog
-post. I think I had already seen a fireship video prior to this as well; those
-60 second overviews are the freaking best! It was at this point, after watching
-Prime react, I thought, "Hey, I wonder if HTMX would be a viable technology for
-my backend colleagues to adopt. If they are ever wanting to add interactivity
-and a SPA like feel to their applications without having to learn about
-typescript, module bundlers, vdoms, and a plethora of other technologies that
-are invovled with modern FE development, could HTMX be the way?". I wanted to
-answer this for myself, so I did. The answer: HTMX is pretty damn great and I
-think it's a great solution for teams wanting to limit the surface area of their
-solutions.
+However, it was shortly after this presentation that I saw
+[theprimagen](https://www.youtube.com/watch?v=zjHHIqI9lUY) post a reaction video
+to <TextLink href="https://htmx.org/">HTMX</TextLink>. I think I had already
+seen a <TextLink href="https://www.youtube.com/watch?v=r-GSGH2RxJs">fireship
+video</TextLink> prior to this as well; those 100 second overviews are the
+freaking best! It was at this point, after watching Prime react, I thought,
+"Hey, I wonder if HTMX would be a viable technology for my backend colleagues to
+adopt. If they are ever wanting to add interactivity and a SPA like feel to
+their applications without having to learn about typescript, module bundlers,
+vdoms, and a plethora of other technologies that are invovled with modern FE
+development, could HTMX be the way?". I wanted to answer this for myself, so I
+did. The answer: HTMX is **pretty damn great** and I think it's a great solution
+for teams wanting to limit the surface area of their solutions.
 
-## My thoughts on Go
+## How does Go fit into this 😕?
 
 I've been wanting to pick up an additional low-level language for years -- I
 work in TypeScript for my day job and it does the job well, but I've always
@@ -228,26 +230,26 @@ func main() {
 }
 ```
 
-Regardless though of its "shortcomings", Go is a great language. It's
-practical. It's simple. It's boring. These are all things that are important to
-businesses and me as well when I'm developing solutions and applications 😄! I
-don't want to have to be "fighting" with my programming languages! In fact, I
-like Go so much, I'm spending all of 2024 developing side projects with it; I'm
-currenlty working on a ChatGPT terminal ui (TUI) and it's been a damn blast!
-I'll launch it to homebrew soon and y'all can run it in the future.
+Regardless though of its "shortcomings", Go is a great language. It's practical.
+It's simple. It's boring. These are all things that are important to businesses
+and me as well when I'm developing solutions and applications 😄! I don't want
+to have to be "fighting" with my programming languages! In fact, I like Go so
+much, I'm spending all of 2024 developing side projects with it; I'm currenlty
+working on a ChatGPT terminal ui (TUI) and it's been a damn blast! I'll launch
+it to homebrew soon and y'all can run it in the future.
 
 ## HTMX
 
 Alright, anyone who is anyone in the tech twitter space, well at least the
 people I follow, have mentioned or tangentially mentioned HTMX. HTMX is a
-library that allows one the ability to build modern user interfaces with Hypermedia
-as the engine of application state (HATEOAS)... but what does that mean for us
-noobs 😅? In essence, HTMX enhances the built in HTML elements with custom
-attributes so that not only `<a>` and `<form>` elements can make HTTP requests,
-it removes the limitation of only having access to GET and POST methods, and
-most importantly, it simplifies the mental model when building web apps! If you
-want your button to make a GET request, just add an hx-get attribute to the
-element, and boom, like magic, your button will make a GET 😀!
+library that allows one the ability to build modern user interfaces with
+Hypermedia as the engine of application state (HATEOAS)... but what does that
+mean for us noobs 😅? In essence, HTMX enhances the built in HTML elements with
+custom attributes so that not only `<a>` and `<form>` elements can make HTTP
+requests, it removes the limitation of only having access to GET and POST
+methods, and most importantly, it simplifies the mental model when building web
+apps! If you want your button to make a GET request, just add an hx-get
+attribute to the element, and boom, like magic, your button will make a GET 😀!
 
 For most modern web apps that were built in the post React era, the general
 model for single page applications has been: Request a page from the server,
@@ -284,14 +286,14 @@ framework your using, what language you chose to right your app in, what the
 latest flavour of the month is -- it's HTML, through and through. Give it HTML
 and it'll know what to do.
 
-But Taran, I like my modern tooling and the ability to create
-composable components; hell, that's what made React and all those other
-frameworks great. Bud, I do too! However, it's possible to have components for
-our backend view templates as well; sure, they aren't as nifty as our FE
-versions, but if what your looking for is components, with type safety in Go,
-check out templ. I haven't used it myself but based on what I've read online and
-seen in videos, it seems like a great way to get type safe components with easy
-composability and great DX!
+But Taran, I like my modern tooling and the ability to create composable
+components; hell, that's what made React and all those other frameworks great.
+Bud, I do too! However, it's possible to have components for our backend view
+templates as well; sure, they aren't as nifty as our FE versions, but if what
+your looking for is components, with type safety in Go, check out templ. I
+haven't used it myself but based on what I've read online and seen in videos, it
+seems like a great way to get type safe components with easy composability and
+great DX!
 
 [create diagram here]
 

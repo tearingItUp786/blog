@@ -1,10 +1,14 @@
-import clsx from 'clsx'
 import {NavLink} from '@remix-run/react'
 import type {MdxPage} from 'types'
 import {dotFormattedDate} from '~/utils/misc'
 import {H2} from '../typography'
+import {twMerge} from 'tailwind-merge'
 
-type Props = MdxPage['frontmatter'] & {slug: string; className?: string}
+type Props = MdxPage['frontmatter'] & {
+  slug: string
+  className?: string
+  descriptionClassName?: string
+}
 
 export function BlogCard({
   title,
@@ -14,10 +18,11 @@ export function BlogCard({
   description,
   slug,
   className,
+  descriptionClassName,
 }: Props) {
   return (
     <div
-      className={clsx(
+      className={twMerge(
         `
         relative 
         py-6 
@@ -51,7 +56,12 @@ export function BlogCard({
           <H2 className="my-0 uppercase">{title}</H2>
         </NavLink>
       </div>
-      <p className="text-center dark:text-white md:text-left">
+      <p
+        className={twMerge(
+          'text-center dark:text-white md:text-left',
+          descriptionClassName,
+        )}
+      >
         {description ?? subtitle}
       </p>
     </div>

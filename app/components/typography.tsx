@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import {Link} from '@remix-run/react'
 
 const fontSizes = {
-  h1: 'font-display font-bold text-3xl md:text-5xl',
+  h1: 'font-display font-bold text-3xl md:text-4xl',
   h2: 'font-body font-bold text-2xl md:text-3xl',
   h3: 'font-body font-medium text-xl md:text-2xl',
   h4: 'font-body font-medium text-lg md:text-xl uppercase',

@@ -12,6 +12,7 @@ import type {LoaderFunction} from '@remix-run/node'
 
 // css
 import '~/styles/blog.css'
+import {twMerge} from 'tailwind-merge'
 
 export const loader: LoaderFunction = async ({request}) => {
   const showDrafts = new URL(request.url).searchParams.has('showDrafts')
@@ -60,6 +61,7 @@ export default function Blog() {
               {...el.frontmatter}
               className={currentBlogClassName}
               slug={el.path}
+              descriptionClassName={!shouldHangRight ? 'md:text-right' : ''}
             />
           </div>,
         )
@@ -88,10 +90,11 @@ export default function Blog() {
           >
             <BlogCard
               {...firstElement.frontmatter}
-              className={clsx(
+              className={twMerge(
                 getBlogCardClassName(),
                 'pt-2 after:w-[1.5rem] md:pt-6',
               )}
+              descriptionClassName="md:text-right"
               slug={firstElement.path}
             />
           </div>

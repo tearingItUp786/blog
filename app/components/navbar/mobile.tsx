@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import {twMerge} from 'tailwind-merge'
 
 type Props = {
   isOpen: boolean
@@ -24,7 +25,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
         onClick={() => setIsOpen((o: boolean) => !o)}
       >
         <div
-          className={clsx(
+          className={twMerge(
             'absolute left-[3px] top-[10px] h-[2px] w-[24px] transition-all duration-300 ease-in-out',
             'before:absolute before:left-0 before:h-[2px] before:w-[24px] before:transition-all before:duration-300 before:ease-in-out before:content-[""]',
             'after:absolute after:left-0 after:top-[16px] after:h-[2px] after:w-[24px] after:transition-all  after:duration-300 after:ease-in-out after:content-[""]',
