@@ -124,9 +124,9 @@ export default function MdxScreen() {
       <div className="mx-auto mb-12 max-w-4xl text-center">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
-          {frontmatter.description ? (
+          {frontmatter.subtitle ? (
             <H4 variant="secondary" className="mb-1 leading-tight">
-              {frontmatter.description}
+              {frontmatter.subtitle}
             </H4>
           ) : null}
           <FrontmatterSubtitle time={readTime?.text} date={frontmatter.date} />
