@@ -1,7 +1,8 @@
 ---
 title: Go, HTMX, and Lit
 subtitle: It's pretty lit y'all
-description: The way in which you fight is a reflection of how you live your life.
+description:
+  The way in which you fight is a reflection of how you live your life.
 date: 2024-02-27
 tag: Go
 draft: true
@@ -265,7 +266,13 @@ purposely glossed over the rendering process here because each one of these
 topics warrants larger discussion and have had plenty of blog posts written
 about them by much more qualified engineers.
 
-[create diagram here]
+<InlineImage
+  lazyLoadImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-[1280] aspect-h-[1111]"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709176917/blog/11-go-and-htmx/traditional-react-spa_gsl0ct.png"
+  alt="Excalidraw diagram of a traditional react SPA"
+/>
 
 With HTMX, this process is simplified. We fetch a page from the server, the
 server responds with HTML (which may or may not include HTMX attributes within
@@ -295,7 +302,13 @@ haven't used it myself but based on what I've read online and seen in videos, it
 seems like a great way to get type safe components with easy composability and
 great DX!
 
-[create diagram here]
+<InlineImage
+  lazyLoadImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-[1280] aspect-h-[1189]"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709177399/blog/11-go-and-htmx/htmx-setup_owzl2t.png"
+  alt="Excalidraw diagram of a simple HTMX setup"
+/>
 
 But wait... if HTMX is such a great library, why the heck did you have to reach
 for something like <TextLink href="https://lit.dev/">lit</TextLink>. While HTML
