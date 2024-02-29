@@ -3,9 +3,8 @@ title: Go, HTMX, and Lit
 subtitle: It's pretty lit y'all
 description:
   The way in which you fight is a reflection of how you live your life.
-date: 2024-02-27
+date: 2024-02-29
 tag: Go
-draft: true
 ---
 
 <InlineImage
@@ -55,11 +54,11 @@ need to remember when we're developing solutions, and say it with me now:
 
 Now let's be honest, people are going to flock to whatever technology that they
 are the most comfortable with -- and that's fine. If someone asked me to create
-a website today, I'd unashamedly reach for Remix, someone else, maybe one of my
-PHP bros from back in the day, might reach for Laravel...to quote Kent C. Dodds
+a website today, I'd unashamedly reach for Remix. Someone else, maybe one of my
+PHP bros from back in the day, might reach for Laravel; to quote Kent C. Dodds
 on this, what you're using is probably fine. What we need to remember is that
-we're here to deliver value through our solutions; our customers aren't really
-going to care what tech stack we chose to use to deliver said value.
+we're here to deliver value through our solutions; our customers aren't going to
+care what tech stack we chose to use to deliver said value.
 
 ## What I made
 
@@ -91,10 +90,10 @@ Now you might be wondering, "Taran, you've just blabbered on about how much you
 love modern frontend web development and how you'd reach for Remix when creating
 a new fullstack application... so why the heck did you write a todo app with Go,
 HTMX, and Lit?". My response: **because I can**. Cheekiness aside, the biggest
-reason for my decision is that I think it is important to expose oneself to
-different methods of problem solving and approaches to solutions. It's important
-to draw wisdom from many different places. When wisdom comes from only one
-place, it becomes rigid and stale. If you know, you know.
+reason for my decision is that I think that it's important to expose oneself to
+different methods and approaches to of problem solving and solution design. It's
+important to draw wisdom from many different places. When wisdom comes from only
+one place, it becomes rigid and stale. If you know, you know.
 
 Gaining experience is the reason why I migrated my site from
 [Gatsby to Remix](/blog/09-my-remix-rewrite). Gaining experience is also the
@@ -189,7 +188,7 @@ struct embeds and methods you can attach on objects.
 When I first started working on this todo app, my first and most obvious
 question, after rushing through a course by Jon Calhoun (great course by the
 way) was "what's the best framework to write Go web apps?". The last time I did
-a traditional multi page app was when I was writing views in a Ruby on Rails
+a traditional multi page app was when I was writing UI code in a Ruby on Rails
 app. For Ruby, the defacto framework to use is Rails and for Python, it's most
 likely Django. I expected there to be an equivalent in Go. I checked Google,
 reddit, asked ChatGPT and after all the research, the answer that I came up with
@@ -205,10 +204,10 @@ said, I did end up using Chi for my routing since it just took away some of the
 boilerplate that I'd have to write myself.
 
 That's not to say Go doesn't have its problems; it does. For instance, I sort of
-miss ternaries and the lack of enums is a bit annoying, the error handling is
-verbose which can irk some people (no try catches), interfaces are tough to wrap
-your head around because they are implicitly implemented (we don't explicilty
-declare we're implementing an interface).
+miss `ternaries` and the lack of `enums` is a bit annoying, the error handling
+is verbose which can irk some people (no `try catches`), `interfaces` are tough
+to wrap your head around because they are implicitly implemented (we don't
+explicilty declare we're implementing an interface).
 
 ```go:title=main.go
 type IsWalkable interface {
@@ -235,13 +234,13 @@ func main() {
 }
 ```
 
-Regardless though of its "shortcomings", Go is a great language. It's practical.
-It's simple. It's boring. These are all things that are important to businesses
-and me as well when I'm developing solutions and applications 😄! I don't want
-to have to be "fighting" with my programming languages! In fact, I like Go so
-much, I'm spending all of 2024 developing side projects with it; I'm currenlty
-working on a ChatGPT terminal ui (TUI) and it's been a damn blast! I'll launch
-it to homebrew soon and y'all can run it in the future.
+Regardless of its "shortcomings", Go is a great language. It's practical. It's
+simple. It's boring. These are all things that are important to businesses (and
+me) when I'm developing solutions and applications 😄! I don't want to have to
+be "fighting" with my programming languages! In fact, I like Go so much, I'm
+spending all of 2024 developing side projects with it; I'm currenlty working on
+a ChatGPT terminal ui (TUI) and it's been a damn blast! I'll launch it to
+homebrew soon and y'all can run it in the future.
 
 ## HTMX
 
@@ -288,6 +287,14 @@ guessed it, HTML. Based on the returned HTML and the HTMX attribute present on
 the elements, HTMX will use a predetermined strategy to swap or replace content
 on the page with the server generated markup.
 
+<InlineImage
+  lazyLoadImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-[1280] aspect-h-[1189]"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709177399/blog/11-go-and-htmx/htmx-setup_owzl2t.png"
+  alt="Excalidraw diagram of a simple HTMX setup"
+/>
+
 Notice something with the HTMX version? Look real hard. We didn't need to
 transform JSON into our HTML; we skipped a step! We took the HTML and just
 plopped it in where it needed to be based on our defined strategy; this is
@@ -306,14 +313,6 @@ haven't used it myself but based on what I've read online and seen in videos, it
 seems like a great way to get type safe components with easy composability and
 great DX!
 
-<InlineImage
-  lazyLoadImage
-  containerClassName="mx-0 lg:mx-0"
-  imgDivClassName="aspect-w-[1280] aspect-h-[1189]"
-  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709177399/blog/11-go-and-htmx/htmx-setup_owzl2t.png"
-  alt="Excalidraw diagram of a simple HTMX setup"
-/>
-
 But wait... if HTMX is such a great library, why the heck did you have to reach
 for something like <TextLink href="https://lit.dev/">lit</TextLink>. While HTML
 and HTMX is great, there are certain UI interactions that aren't supported all
@@ -324,6 +323,14 @@ components seemed like a great fit for an HTML based application. Web components
 are natively supported by browsers, they can be used in any HTML environment,
 and they can be used with any framework or none at all. You can see in the below
 image of me using my own web component in my todo app!
+
+<InlineImage
+  lazyLoadImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-[256] aspect-h-[159]"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1709069720/blog/11-go-and-htmx/htmx-and-lit_w8nurw.png"
+  alt="Some code of me using a web component in my todo app"
+/>
 
 ## Closing thoughts
 
@@ -336,5 +343,5 @@ you to explore these technologies. Perhaps, like me, you'll find your next
 project not just successful, but pretty lit.
 
 What are your thoughts on this tech stack? Think this article sucked? Let me
-know why! Hit me up on <TextLink href="https://twitter.com/tearingItUp786">x
+know why! Hit me up on <TextLink href="https://twitter.com/tearingItUp786">X
 (formerly Twiter)</TextLink> with your thoughts!
