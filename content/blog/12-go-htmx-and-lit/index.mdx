@@ -25,7 +25,7 @@ and web components felt "right" to me. I value simplicity and the fundamentals
 ## The standard disclaimer
 
 It's a well known fact -- or at least it should be after reading this sentence
---that I love React and the modern frontend landscape. We've got a bunch of
+-- that I love React and the modern frontend landscape. We've got a bunch of
 great solutions for developing web applications these days, all with their own
 amazing communities and authors! Whether you're
 a&nbsp;<TextLink href="https://kit.svelte.dev/">Svelter</TextLink>,
@@ -71,7 +71,7 @@ password flow though -- that's probably something I should add to my todo list
 🤭.
 
 The application allows you to do the standard CRUD operations with a todo list.
-You can add, edit, delete, mark as done a todo item. I also added a "Delete all"
+You can add, edit, delete, and mark as done a todo item. I also added a "Delete all"
 modal button and a "bulk upload" feature.
 
 <img
@@ -90,14 +90,14 @@ Now you might be wondering, "Taran, you've just blabbered on about how much you
 love modern frontend web development and how you'd reach for Remix when creating
 a new fullstack application... so why the heck did you write a todo app with Go,
 HTMX, and Lit?". My response: **because I can**. Cheekiness aside, the biggest
-reason for my decision is that I think that it's important to expose oneself to
-different methods and approaches to of problem solving and solution design. It's
+reason for my decision is that I think it's important to expose oneself to
+different methods and approaches to problem solving and solution design. It's
 important to draw wisdom from many different places. When wisdom comes from only
 one place, it becomes rigid and stale. If you know, you know.
 
 Gaining experience is the reason why I migrated my site from
 [Gatsby to Remix](/blog/09-my-remix-rewrite). Gaining experience is also the
-reason why I entertained switching from PHP to JavasScript early on in my
+reason why I entertained switching from PHP to JavaScript early on in my
 career. I fell so in love with JS that I bet my livelihood on it and dedicated
 myself to becoming a UI developer, moving away from the backend and focusing
 solely on modern frontend.
@@ -114,7 +114,7 @@ felt simpler than it is today. JavaScript fatigue wasn't a thing. Back then, it
 didn't feel like you needed a module bundler, a state management solution, and
 sometimes, even endpoints that returned JSON. I'm of course hearkening back to
 the days when a basic multipage application was the way in which we created
-solutions. User hits a URL and the server responds with some HTML. Basic.
+solutions. User hits an URL and the server responds with some HTML. Basic.
 Simple. It gets the job done. I wrote my view templates using something like
 Blade (which was essentially HTML with some handy template functions), I had
 data injected into my template via the server, and if I needed some
@@ -152,8 +152,7 @@ basic multipage application -- there was no need to make the thing a SPA. It was
 an internal tool that just needed to work and it needed to get shipped out
 yesterday 😅. **What's right is what works**.
 
-However, it was shortly after this presentation that I saw
-[theprimagen](https://www.youtube.com/watch?v=zjHHIqI9lUY) post a reaction video
+However, it was shortly after this presentation that I saw <TextLink href="https://www.youtube.com/watch?v=zjHHIqI9lUY">theprimagen</TextLink> post a reaction video
 to <TextLink href="https://htmx.org/">HTMX</TextLink>. I think I had already
 seen a <TextLink href="https://www.youtube.com/watch?v=r-GSGH2RxJs">fireship
 video</TextLink> prior to this as well; those 100 second overviews are the
@@ -187,7 +186,7 @@ struct embeds and methods you can attach on objects.
 
 When I first started working on this todo app, my first and most obvious
 question, after rushing through a course by Jon Calhoun (great course by the
-way) was "what's the best framework to write Go web apps?". The last time I did
+way), was "what's the best framework to write Go web apps?". The last time I did
 a traditional multi page app was when I was writing UI code in a Ruby on Rails
 app. For Ruby, the defacto framework to use is Rails and for Python, it's most
 likely Django. I expected there to be an equivalent in Go. I checked Google,
@@ -280,7 +279,7 @@ about them by much more qualified engineers.
 With HTMX, this process is simplified. We fetch a page from the server, the
 server responds with HTML (which may or may not include HTMX attributes within
 HTML tags) and the browser renders it. There may be some JS that runs client
-side based on the code return from the server but for simplicity sake, let's
+side based on the code returned from the server but for simplicity sake, let's
 just say it is vanilla HTML with HTMX attributes. When a user interacts with a
 page, we make an AJAX call to the server and the server responds with, you
 guessed it, HTML. Based on the returned HTML and the HTMX attribute present on
@@ -300,7 +299,7 @@ transform JSON into our HTML; we skipped a step! We took the HTML and just
 plopped it in where it needed to be based on our defined strategy; this is
 incredibly simple and simplicity, like I said above, is great 😄. HTMX puts the
 power back into the hands of our backend engineers; it doesn't care what backend
-framework your using, what language you chose to right your app in, what the
+framework you're using, what language you choose to right your app in, or what the
 latest flavour of the month is -- it's HTML, through and through. Give it HTML
 and it'll know what to do.
 
@@ -308,7 +307,7 @@ But Taran, I like my modern tooling and the ability to create composable
 components; hell, that's what made React and all those other frameworks great.
 Bud, I do too! However, it's possible to have components for our backend view
 templates as well; sure, they aren't as nifty as our FE versions, but if what
-your looking for is components, with type safety in Go, check out templ. I
+you're looking for is components, with type safety in Go, check out templ. I
 haven't used it myself but based on what I've read online and seen in videos, it
 seems like a great way to get type safe components with easy composability and
 great DX!
