@@ -6,9 +6,9 @@ import {Link} from '@remix-run/react'
 const fontSizes = {
   h1: 'font-display font-bold text-3xl md:text-4xl',
   h2: 'font-body font-bold text-2xl md:text-3xl',
-  h3: 'font-body font-medium text-xl md:text-2xl',
-  h4: 'font-body font-medium text-lg md:text-xl uppercase',
-  h5: 'font-body font-medium text-lg',
+  h3: 'font-body font-bold text-xl md:text-2xl',
+  h4: 'font-body font-normal text-lg md:text-xl uppercase',
+  h5: 'font-body font-normal text-lg',
 }
 
 const titleColors = {
@@ -79,9 +79,8 @@ export const BlockQuote = ({
   ...rest
 }: CommonProps) => (
   <blockquote
-    style={{fontStyle: 'oblique'}}
     className={clsx(
-      'font-body text-2xl font-light uppercase dark:text-white [&>p]:my-0',
+      'font-body text-2xl font-normal italic dark:text-white [&>p]:my-0',
       className,
     )}
     {...rest}
@@ -107,10 +106,9 @@ export const ShortQuote = ({
   ...rest
 }: CommonProps) => (
   <div
-    style={{fontStyle: 'oblique'}}
     className={clsx(
       titleColors['secondary'],
-      'my-4 font-body text-lg font-light uppercase [&>p]:my-0',
+      'my-4 font-body text-lg font-normal italic [&>p]:my-0',
       containerClassName,
     )}
     {...rest}
@@ -127,7 +125,7 @@ export const ShortQuote = ({
 
 export const TextLink = ({children, ...rest}: CommonProps) => {
   return (
-    <a target="_blank" className="font-medium text-accent underline" {...rest}>
+    <a target="_blank" className="font-bold text-accent underline" {...rest}>
       {children}
     </a>
   )

@@ -5,6 +5,7 @@ import {Logo} from './logo'
 import {MobileNav} from './mobile'
 import {useEffect, useState} from 'react'
 import {Search} from './Search'
+import {twJoin} from 'tailwind-merge'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,11 +34,11 @@ export function Navbar() {
   }, [isOpen])
 
   const navClassName =
-    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-xl italic font-light items-center'
+    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-xl italic items-center'
   const activeClassName =
-    '!text-pink font-display not-italic font-bold bg-white lg:bg-white dark:lg:bg-gray-100 dark:bg-gray-100'
+    '!text-pink not-italic font-display font-normal bg-white lg:bg-white dark:lg:bg-gray-100 dark:bg-gray-100'
   const setNavClassName = ({isActive}: {isActive: boolean}) => {
-    return clsx(navClassName, isActive ? activeClassName : 'lg:dark:bg-white')
+    return twJoin(navClassName, isActive ? activeClassName : 'lg:dark:bg-white')
   }
 
   return (

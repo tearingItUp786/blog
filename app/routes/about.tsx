@@ -160,7 +160,7 @@ export default function About() {
           />
           <BlockQuote
             author="Les Brown"
-            className="mx-auto mt-6 max-w-[500px] lg:ml-6 lg:mt-0"
+            className="mx-auto mt-6 max-w-[500px] lg:ml-10 lg:mt-0"
           >
             If you do what is easy, your life will be hard. If you do what is
             hard, your life will be easy.
@@ -169,7 +169,9 @@ export default function About() {
         <H3>Some of my core values</H3>
         <p>The following are some of my guiding principles</p>
         <div className="my-12">
-          <H4>Effort</H4>
+          <H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+            Effort
+          </H4>
           <ShortQuote author="Andrew D. Huberman">
             And my definition of greatness is anyone that’s making that effort,
             even in a tiny way, just to take this incredible machinery that we
@@ -182,7 +184,9 @@ export default function About() {
         </div>
         <div className="block lg:flex lg:justify-between">
           <div className="w-full lg:w-[46%]">
-            <H4>Accountability</H4>
+            <H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+              Accountability
+            </H4>
             <ShortQuote author="Paramjit Singh Bains (My Father)">
               You lift the first foot and God will lift the second. Remember
               though, that you have to lift the first foot, then and only then
@@ -198,7 +202,9 @@ export default function About() {
             </p>
           </div>
           <div className="w-full lg:w-[46%]">
-            <H4>Collaborate</H4>
+            <H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+              Collaborate
+            </H4>
             <ShortQuote author="Unknown">
               If you want to go fast, go alone. If you want to go far, go
               together.

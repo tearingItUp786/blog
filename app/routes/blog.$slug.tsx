@@ -75,7 +75,7 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
       className='
               relative
               text-lg 
-              font-medium
+              font-bold
               text-pink 
               after:absolute 
               after:bottom-[-10px] 
@@ -125,7 +125,7 @@ export default function MdxScreen() {
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
           {frontmatter.subtitle ? (
-            <H4 variant="secondary" className="mb-1 leading-tight">
+            <H4 variant="secondary" className="mb-4 leading-tight">
               {frontmatter.subtitle}
             </H4>
           ) : null}

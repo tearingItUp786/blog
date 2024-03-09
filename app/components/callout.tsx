@@ -18,7 +18,7 @@ export const Callout = ({type, title, description}: CalloutProps) => {
   return (
     <div
       className={twMerge(
-        `text-md mb-4 flex items-center rounded-lg border p-4`,
+        `text-md mb-6 flex items-center rounded-lg border p-4`,
         containerClassName,
       )}
       role="alert"
@@ -34,7 +34,7 @@ export const Callout = ({type, title, description}: CalloutProps) => {
       </svg>
       <span className="sr-only">Info</span>
       <div>
-        <span className="font-medium">{title}</span> {description}
+        <span className="font-bold">{title}</span> {description}
       </div>
     </div>
   )

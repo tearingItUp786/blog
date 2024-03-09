@@ -48,8 +48,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      body: ['Avenir', ...defaultTheme.fontFamily.sans],
-      display: ['Lemon', ...defaultTheme.fontFamily.sans],
+      body: ['CommitMono', ...defaultTheme.fontFamily.sans],
+      display: ['CommitMon', ...defaultTheme.fontFamily.sans],
     },
     extend: {
       fontSize: {
@@ -65,7 +65,7 @@ module.exports = {
         'max-content': 'max-content',
       },
       fontFamily: {
-        sans: ['Avenir', ...defaultTheme.fontFamily.sans],
+        sans: ['CommitMono', ...defaultTheme.fontFamily.sans],
       },
       dropShadow: {
         toggle: '6px 4px 8px var(--color-gray-300)',

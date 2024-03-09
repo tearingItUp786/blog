@@ -53,7 +53,7 @@ export function BlogCard({
           </span>
         </span>
         <NavLink prefetch="intent" to={`/${slug}`}>
-          <H2 className="my-0 uppercase">{title}</H2>
+          <H2 className="my-0">{title}</H2>
         </NavLink>
       </div>
       <p
