@@ -8,11 +8,15 @@ import {
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderFunction} from '@remix-run/node'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 
 // css
 import '~/styles/blog.css'
 import {twMerge} from 'tailwind-merge'
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | Blog | Blog timeline`}]
+}
 
 export const loader: LoaderFunction = async ({request}) => {
   const showDrafts = new URL(request.url).searchParams.has('showDrafts')
