@@ -5,7 +5,6 @@ import oembedTransformer from '@remark-embedder/transformer-oembed'
 import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
 import type {TransformerInfo} from '@remark-embedder/core'
-import mdxMermaid from 'mdx-mermaid'
 
 import type {GithubGraphqlObject} from 'types'
 import path from 'path'
@@ -72,6 +71,7 @@ async function compileMdxForGraphql<
   const {default: smartypants} = await import('remark-smartypants')
   const {default: remarkImages} = await import('remark-images')
   const {default: remarkToc} = await import('remark-toc')
+  const {default: mdxMermaid} = await import('mdx-mermaid')
 
   // rehype plugins
   const {default: rehypePrismPlus} = await import('rehype-prism-plus')
