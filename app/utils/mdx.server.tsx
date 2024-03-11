@@ -71,7 +71,8 @@ async function compileMdxForGraphql<
   const {default: smartypants} = await import('remark-smartypants')
   const {default: remarkImages} = await import('remark-images')
   const {default: remarkToc} = await import('remark-toc')
-  const {default: mdxMermaid} = await import('mdx-mermaid')
+
+  const {default: remarkMermaid} = await import('remark-mermaidjs')
 
   // rehype plugins
   const {default: rehypePrismPlus} = await import('rehype-prism-plus')
@@ -105,6 +106,7 @@ async function compileMdxForGraphql<
       mdxOptions(options) {
         options.remarkPlugins = [
           ...(options.remarkPlugins ?? []),
+          remarkMermaid,
           [remarkToc, {tight: true}],
           capitalize,
           [emoji, {accessible: true}],
@@ -130,17 +132,6 @@ async function compileMdxForGraphql<
                   },
                 ],
               ],
-            },
-          ],
-          [
-            mdxMermaid,
-            {
-              output: 'svg',
-              theme: {
-                light: 'green',
-
-                dark: 'dark',
-              },
             },
           ],
         ]
