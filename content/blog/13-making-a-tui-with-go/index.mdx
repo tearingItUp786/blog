@@ -1,0 +1,151 @@
+---
+title: My experience making a TUI with Go
+subtitle: A reflection on my experience making a TUI with Go
+description: TODO description
+date: 2024-03-10
+tag: Go
+draft: true
+---
+
+<InlineImage
+  containerClassName="mx-0 lg:mx-0"
+  imgDivClassName="aspect-w-12 aspect-h-8"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710111485/blog/13-chatgpt-tui/chatgpt-tui_ffsglh.webp"
+  alt="A bubbletea sitting on top of a laptop"
+/>
+
+You know the drill; start with why! If you don't know of Simon Sinek's TED talk,
+I highly recommend it. It's a great talk that has helped me in many aspects of
+my life. So, let's start with why I decided to make a terminal user interface
+(TUI) with Go.
+
+The primary reason I made this TUI was because it aligned with my goals for the
+year. If you read [my previous blog post](./12-go-htmx-and-lit/), you know that
+I'm devoting 2024 to learning Go and trying my best to channel my inner Gopher.
+Moreover, I wanted to create a project that would be not only helpful to me but
+also to my colleagues. Since I'm an avid `neovim` user, I'm fortunate to be able
+to use &nbsp;<TextLink href="https://github.com/jackMort/ChatGPT.nvim">
+ChatGPT.nvim</TextLink> while I'm working on features. However, my colleagues
+who use `VSCode` don't have the same luxury (yeah yeah, I know they have
+copilot, but the neovim plugin just hits different). Beyond those reasons, the
+final (some would say superficial) reason is that I wanted to make a TUI because
+I thought it would be fun. because AI is the latest buzzword and I wanted to be
+part of the hype train 🚄.
+
+## What did I make?
+
+I made a TUI that allows you to interact with OpenAI's ChatGPT model. The TUI is
+written in Go and is therefore `blazingly fast` (cringed as I typed that 😅).
+The TUI is a simple interface (because, it's Go, we gotta embrace simplicity)
+that allows you to interact with the your chosen model (it defaults to
+`chatgpt-3.5-turbo`).
+
+<InlineImage
+  lazyLoadImage
+  openInNewTab
+  containerClassName="mx-0 lg:mx-0"
+  className="transition-duration-500 transition-transform hover:scale-[1.15]"
+  imgDivClassName="aspect-w-12 aspect-h-7"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710113600/blog/13-chatgpt-tui/tui-shot_pt9uab.png"
+  alt="A demo shot of the tui in action"
+/>
+
+If you want to try it out yourself, you can find the source code on
+[GitHub](https://github.com/tearingItUp786/chatgpt-tui)! Now, if you're
+wondering what did I use to make this work of art (awh shucks, thanks friend),
+fret not friend, I'll tell you (I mean, you can just check out the repo, but
+I'll tell you here as well 😆).
+
+- [bubbletea](https://github.com/charmbracelet/bubbletea): A Go framework for
+  terminal user interfaces. It's a great framework that makes it easy to create
+  TUIs in Go.
+- [openai](https://platform.openai.com/docs/api-reference): OpenAI's REST Api
+- [sqlite](https://www.sqlite.org/): A C library that provides a lightweight
+  disk-based database that doesn't require a separate server process (perfect
+  for terminal apps, in my opinion).
+- [lipgloss](https://github.com/charmbracelet/lipgloss): Style definitions for
+  nice terminal layouts!
+- [bubbles](https://github.com/charmbracelet/bubbles): Some general use
+  components for Bubble Tea apps!
+
+## The fun parts
+
+Before I jump into the things that I struggled with (and ultimately learned a
+lot about) while developing this application, I want to cover the things that
+got me going as I was chugging along with this tui.
+
+First and foremost, I was thrilled to learn more
+about&nbsp;<TextLink href="https://guide.elm-lang.org/architecture/">The Elm
+Architecture</TextLink>. For those of you who aren't familiar, Elm is a
+functional programming language that compiles to JavaScript -- wild right. The
+Elm Architecture is a pattern that is used to build web applications in Elm
+(duh). In short, there are three parts to the Elm Architecture: `Model`, `View`,
+and `Update`. The `Model` is the state of the application, the `View` is the way
+to turn your state into the UI, and the `Update` is way to update your state
+based on messages. You can check out this simple example using the Elm
+Architecture in Go
+on&nbsp;<TextLink href="https://github.com/tearingItUp786/chatgpt-tui/blob/main/cmd/main.go">Github</TextLink>
+;it writes what the user just typed into a `debug.log` file.
+
+Coming from `React`, it was tough to wrap my head around this architecture at
+first, but as I worked my way through this project, I started to see the beauty.
+Simple, yet elegant. Huge shout out to the one homie on youtube that made a
+video on the Elm Architecture in Go; you can watch it below.
+
+https://www.youtube.com/watch?v=ERaZi0YvBRs
+
+<p className="mt-4">
+  It wasn't enough to consume the video that I watched above; I had to try and
+  reason about what was going on in the code. So, before I even wrote any code,
+  I started to create the below mermaid diagram to help me understand how
+  exactly I would go about creating the TUI. Now, I want to be clear, I iterated
+  on the below diagram quite a bit and it's the _basic_ understanding that I
+  arrived at after watching the video and playing around with some bubbletea
+  examples. Don't `@` me if it's not perfect 😅.
+</p>
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+			'fontSize": '12px',
+			'primaryColor': '#c955ac',
+			'primaryTextColor': '#FADCE6',
+			'primaryBorderColor': '#D3BCC0',
+			'lineColor': '#3bbbc0',
+			'secondaryColor': '#507DBC',
+			'tertiaryColor': '#F4F4F2'
+    }
+  }
+}%%
+
+graph TD
+    A(package main)
+    B(Bubble Tea Program)
+    C0(Bubble Tea Init)
+    C1(Bubble Tea Model)
+    C(Bubble Tea Update)
+    D(Bubble Tea View)
+    E(Msg)
+    F(Cmd)
+    G(Side Effect -- keyboard stuff)
+
+    A --> B
+    B --> C0
+
+    subgraph Bubble Tea
+    C0 --> C1
+    C --> F
+    F --> E
+
+    subgraph Event Loop
+        C --> C1
+        C1 --> D
+        E --> C
+        D --> G
+        G --> C
+        end
+  end
+
+```
