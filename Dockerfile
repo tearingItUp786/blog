@@ -12,8 +12,6 @@ WORKDIR /app
 
 ADD package.json package-lock.json ./
 RUN npm install --production=false
-RUN npx playwright install --with-deps chromium
-RUN chmod +x ~/.cache/ms-playwright/chromium-1105/chrome-linux/chrome
 
 # Setup production node_modules
 FROM base as production-deps
@@ -57,7 +55,6 @@ COPY --from=production-deps /app/node_modules /app/node_modules
 
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
-COPY --from=deps /root/.cache /root/.cache
 ADD . .
 
 CMD ["npm", "run", "start"]

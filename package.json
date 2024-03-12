@@ -60,6 +60,8 @@
     "hotkeys-js": "^3.10.3",
     "isbot": "^3.6.5",
     "mdx-bundler": "^10.0.1",
+    "mdx-mermaid": "^2.0.0",
+    "mermaid": "^10.9.0",
     "morgan": "^1.10.0",
     "p-queue": "^7.2.0",
     "postcss": "^8.4.7",
