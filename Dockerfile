@@ -43,7 +43,14 @@ RUN npm run build
 # Finally, build the production image with minimal footprint
 FROM base
 
+# Install packages needed for deployment
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y chromium chromium-sandbox && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 ENV NODE_ENV=production
+ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
+
 
 RUN mkdir /app
 WORKDIR /app
