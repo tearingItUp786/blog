@@ -109,7 +109,7 @@ module.exports = {
                 },
                 h3: {
                   fontFamily: theme('fontFamily.body').join(', '),
-                  fontWeight: theme('fontWeight.medium'),
+                  fontWeight: theme('fontWeight.bold'),
                   fontSize: fontSize('2xl'),
                   marginTop: theme('spacing.8'),
                   marginBottom: theme('spacing.2'),
@@ -117,23 +117,23 @@ module.exports = {
                 h4: {
                   fontFamily: theme('fontFamily.body').join(', '),
                   fontSize: fontSize('xl'),
-                  fontWeight: theme('fontWeight.medium'),
+                  fontWeight: theme('fontWeight.normal'),
                   marginTop: theme('spacing.10'),
                   marginBottom: theme('spacing.1'),
                 },
                 h5: {
                   fontFamily: theme('fontFamily.body').join(', '),
                   fontSize: fontSize('lg'),
-                  fontWeight: theme('fontWeight.medium'),
+                  fontWeight: theme('fontWeight.normal'),
                   marginTop: theme('spacing.16'),
                   marginBottom: theme('spacing.10'),
                 },
                 p: {
-                  marginTop: 0,
-                  marginBottom: theme('spacing.6'),
+                  marginTop: theme('spacing.4'),
+                  marginBottom: theme('spacing.4'),
                   color: 'var(--body-text)',
                   fontWeight: 500,
-                  fontSize: fontSize('lg'),
+                  fontSize: fontSize('md'),
                   lineHeight: theme('lineHeight.relaxed'),
                 },
                 strong: {
@@ -151,9 +151,10 @@ module.exports = {
                   padding: 0,
                   fontStyle: 'oblique',
                   fontWeight: 200,
-                  fontSize: fontSize('2xl'),
+                  fontSize: fontSize('3xl'),
                   textTransform: 'uppercase',
-                  marginTop: theme('spacing.4'),
+                  marginTop: theme('spacing.6'),
+                  marginBottom: theme('spacing.6')
                 },
                 '.embed': {
                   position: 'relative',
@@ -186,13 +187,13 @@ module.exports = {
             css: [
               {
                 'h1,h2': {
-                  color: 'var(--color-gray-100)',
+                  color: 'var(--color-gray-200)',
                 },
                 'h3,h4,h5,h6': {
-                  color: 'var(--color-gray-300)',
+                  color: 'var(--color-gray-100)',
                 },
                 'ul,ol': {
-                  color: 'var(--color-gray-300)',
+                  color: 'var(--color-gray-100)',
                 },
                 code: {
                   color: 'var(--color-body)',

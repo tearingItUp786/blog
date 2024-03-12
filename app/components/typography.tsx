@@ -12,8 +12,8 @@ const fontSizes = {
 }
 
 const titleColors = {
-  primary: 'text-gray-100 dark:text-white',
-  secondary: 'text-gray-300 dark:text-white',
+  primary: 'text-gray-200 dark:text-white',
+  secondary: 'text-gray-100 dark:text-white',
 }
 
 type TitleProps = {
@@ -80,7 +80,7 @@ export const BlockQuote = ({
 }: CommonProps) => (
   <blockquote
     className={clsx(
-      'font-body text-2xl font-normal italic dark:text-white [&>p]:my-0',
+      'font-body text-3xl font-normal italic dark:text-white [&>p]:my-0',
       className,
     )}
     {...rest}
