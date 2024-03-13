@@ -4,7 +4,7 @@ import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {MdxPage} from 'types'
 import {LineSvg} from '~/components/blog/line-svg'
-import {H1, H4} from '~/components/typography'
+import {H1, H4, TextLink} from '~/components/typography'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dateFormat, invariantResponse} from '~/utils/misc'
 import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
@@ -14,6 +14,7 @@ import {useMdxComponent} from '~/utils/mdx-utils'
 
 type LoaderData = {
   page: MdxPage
+  reqUrl: string
   next?: MdxPage
   prev?: MdxPage
 }
@@ -27,7 +28,8 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 export const loader: LoaderFunction = async ({params, request}) => {
   invariantResponse(params?.slug, 'No slug provided')
 
-  const showDrafts = new URL(request.url).searchParams.has('showDrafts')
+  const urlReq = new URL(request.url)
+  const showDrafts = urlReq.searchParams.has('showDrafts')
 
   try {
     const page = await getMdxPageGql({
@@ -63,7 +65,12 @@ export const loader: LoaderFunction = async ({params, request}) => {
     const prev = blogList?.[currentIndex - 1]
     const next = blogList?.[currentIndex + 1]
 
-    const data: LoaderData = {page, prev, next}
+    const data: LoaderData = {
+      page,
+      prev,
+      next,
+      reqUrl: urlReq.origin + urlReq.pathname,
+    }
     return json(data, {status: 200, headers})
   } catch (err) {
     throw json({error: params.slug}, {status: 404})
@@ -105,6 +112,9 @@ export default function MdxScreen() {
   const loc = useLocation()
   const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 
+  const tweetMessage = `I just read "${frontmatter!.title}" by @tearingItUp786  
+ \n\n`
+
   useEffect(() => {
     if (lazyLoadRef.current === null) {
       lazyLoadRef.current = new LazyLoad()
@@ -145,10 +155,31 @@ export default function MdxScreen() {
         grid 
         max-w-7xl grid-cols-4 
         gap-x-4 
-        break-words pb-8 
+        break-words
         dark:prose-dark md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6"
       >
         <Component />
+        <div className="border-sold mt-8 block border-t-[1px] pb-4 pt-8 md:flex md:justify-between">
+          <TextLink
+            className="block"
+            href={`https://twitter.com/intent/tweet?${new URLSearchParams({
+              url: data.reqUrl,
+              text: tweetMessage,
+            })}`}
+          >
+            Post about this
+          </TextLink>
+          <TextLink
+            className="block"
+            href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
+              {
+                url: data.reqUrl,
+              },
+            )}`}
+          >
+            Share on LinkedIn
+          </TextLink>
+        </div>
       </main>
     </div>
   )
