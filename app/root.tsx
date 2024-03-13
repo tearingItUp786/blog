@@ -27,7 +27,7 @@ import {LoadingRoute} from './components/loading-route'
 
 import '~/tailwind.css'
 import './styles/app.css'
-import './styles/prisma-theme.css'
+import './styles/new-prisma-theme.css'
 
 const FAVICON = [
   {
