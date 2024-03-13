@@ -112,8 +112,9 @@ export default function MdxScreen() {
   const loc = useLocation()
   const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 
-  const tweetMessage = `I just read "${frontmatter!.title}" by @tearingItUp786  
- \n\n`
+  const tweetMessage = `I just read "${
+    frontmatter!.title
+  }" by @tearingItUp786 \n\n`
 
   useEffect(() => {
     if (lazyLoadRef.current === null) {
