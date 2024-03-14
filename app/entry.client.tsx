@@ -4,7 +4,9 @@ import * as Sentry from '@sentry/remix'
 import * as amplitude from '@amplitude/analytics-browser'
 import {useLocation, useMatches, RemixBrowser} from '@remix-run/react'
 
-amplitude.init('12e15cca4c978dad4bb7dc430e747471')
+if (process.env.NODE_ENV === 'production') {
+  amplitude.init('12e15cca4c978dad4bb7dc430e747471')
+}
 
 Sentry.init({
   dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
