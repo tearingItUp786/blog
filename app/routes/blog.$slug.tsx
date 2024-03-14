@@ -162,7 +162,7 @@ export default function MdxScreen() {
         <Component />
         <div className="border-sold mt-8 block border-t-[1px] pb-4 pt-8 md:flex md:justify-between">
           <TextLink
-            className="block"
+            className="mb-2 block md:mb-0"
             href={`https://twitter.com/intent/tweet?${new URLSearchParams({
               url: data.reqUrl,
               text: tweetMessage,
