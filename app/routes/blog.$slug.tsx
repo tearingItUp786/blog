@@ -11,6 +11,7 @@ import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
 import {useMdxComponent} from '~/utils/mdx-utils'
+import * as amplitude from '@amplitude/analytics-browser'
 
 type LoaderData = {
   page: MdxPage
@@ -117,6 +118,7 @@ export default function MdxScreen() {
   }" by @tearingItUp786 \n\n`
 
   useEffect(() => {
+    amplitude.track('Page View')
     if (lazyLoadRef.current === null) {
       lazyLoadRef.current = new LazyLoad()
     } else {
