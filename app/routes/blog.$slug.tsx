@@ -118,7 +118,10 @@ export default function MdxScreen() {
   }" by @tearingItUp786 \n\n`
 
   useEffect(() => {
-    amplitude.track('Page View')
+    amplitude.track('Page View', {
+      page: data.reqUrl,
+      title: frontmatter.title,
+    })
     if (lazyLoadRef.current === null) {
       lazyLoadRef.current = new LazyLoad()
     } else {
