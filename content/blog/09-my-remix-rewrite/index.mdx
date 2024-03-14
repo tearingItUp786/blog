@@ -7,16 +7,16 @@ tag: React
 ---
 
 I've been working on websites for the past 7 years, and throughout those years,
-some things has stayed consistent: I've always had a blog and there's always been
-something new to learn. Whether or not I've consistenly written content on my blog, 
-though, is another story (I haven't); but I've always had one!
+some things has stayed consistent: I've always had a blog and there's always
+been something new to learn. Whether or not I've consistenly written content on
+my blog, though, is another story (I haven't); but I've always had one!
 
 Let me walk you through the evolution of my blog, starting from 2015 and how we
 ended up here!
 
 <InlineImage
   openInNewTab
-  className="hover:scale-[1.15] transition-duration-500 transition-transform"
+  className="transition-duration-500 transition-transform hover:scale-[1.15]"
   containerClassName="mx-0 lg:mx-0"
   src="https://res.cloudinary.com/dinypqsgl/image/upload/v1682531788/blog/old-blog_gfjyll.png"
   alt="some thingy"
@@ -25,43 +25,55 @@ ended up here!
 ## The Why
 
 First and foremost, let's establish why I rewrote my blog (again) in 2023. My
-previous iteration was written in <TextLink href="https://www.gatsbyjs.com/">Gatsby</TextLink>, and I was pretty
+previous iteration was written in
+<TextLink href="https://www.gatsbyjs.com/">Gatsby</TextLink>, and I was pretty
 happy with it. It was fast, it was easy to write, and it did everything I needed
 a basic blog to do.
 
 However, I was starting to get a bit bored of it, Gatsby had fallen out of
 favor, I wanted to try something new, and thanks to the massive lay-offs in big
-tech, I had some time on my hands 😅. Moreover, I'm noticing a shift in the 
-FE landscape where the lines between the backend and the frontend are starting to 
-get a little bit blurry  so it kinda made sense to pick up a project that would get me 
-some exposure 💨 -- <TextLink href="https://www.patterns.dev/posts/react-server-components">Enter react server components</TextLink>.
+tech, I had some time on my hands 😅. Moreover, I'm noticing a shift in the FE
+landscape where the lines between the backend and the frontend are starting to
+get a little bit blurry so it kinda made sense to pick up a project that would
+get me some exposure 💨 --
+<TextLink href="https://www.patterns.dev/posts/react-server-components">Enter
+react server components</TextLink>.
 
 ## The Evolution
 
-When I first started getting into web development, my first project, like many others who are starting out today was a blog! 
-However, back then (circa 2014), I didn't know JavaScript all that well and the JavaScript that I did know was all jQuery. 
-Creating a fancy, slick looking site was beyond my abilities and I didn't have all the modern day niceities that we have today 
-(tailwind was not a thing, webpack wasn't even on my radar, and don't even get me started on the state of React).
+When I first started getting into web development, my first project, like many
+others who are starting out today was a blog! However, back then (circa 2014), I
+didn't know JavaScript all that well and the JavaScript that I did know was all
+jQuery. Creating a fancy, slick looking site was beyond my abilities and I
+didn't have all the modern day niceities that we have today (tailwind was not a
+thing, webpack wasn't even on my radar, and don't even get me started on the
+state of React).
 
-So I did what I could. I started before I was ready and with the tools that I had at my disposable: HTML and CSS. 
-My old site is still available and hosted for free at my <TextLink href="https://www.sfu.ca/~tbains/old_site/html/home.html">alma-mater</TextLink>.
+So I did what I could. I started before I was ready and with the tools that I
+had at my disposable: HTML and CSS. My old site is still available and hosted
+for free at my
+<TextLink href="https://www.sfu.ca/~tbains/old_site/html/home.html">alma-mater</TextLink>.
 
 <LazyGiphy
-  containerClassName='w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]'
+  containerClassName="w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]"
   src="https://giphy.com/embed/qlKs0m0GxHN6ycbDmV"
   giphyAttributionSrc="https://giphy.com/gifs/pudgypenguins-aintmuch-aintmuchmoons-honnestworkmoon-qlKs0m0GxHN6ycbDmV"
 />
 
-It's not much to look at and it's not mobile friendly, but it is one thing for damn sure, besides cringey: performant. 
-You can't get much faster than vanilla HTML and css, and it's one of the primary benefits of the <TextLink href="https://jamstack.org/why-jamstack/">Jamstack</TextLink>.
-Unlike my second iteration of my blog (which is no longer up), there's also minimal security concerns with these HTML files. 
-My old server got hacked and became a zombie sending people spam emails 😅 because I failed to keep it updated.
+It's not much to look at and it's not mobile friendly, but it is one thing for
+damn sure, besides cringey: performant. You can't get much faster than vanilla
+HTML and css, and it's one of the primary benefits of the
+<TextLink href="https://jamstack.org/why-jamstack/">Jamstack</TextLink>. Unlike
+my second iteration of my blog (which is no longer up), there's also minimal
+security concerns with these HTML files. My old server got hacked and became a
+zombie sending people spam emails 😅 because I failed to keep it updated.
 
 ## 2023 rewrite
 
 Here's the list of things involved with my rewrite:
 
 #### Written with:
+
 - TypeScript: a typed superset of JavaScript
 - React: my go to ui library
 - Remix: my full stack framework of choice
@@ -73,123 +85,162 @@ Here's the list of things involved with my rewrite:
 - MDX Bundler: a bundler for MDX (Markdown + JSX) files
 
 #### Serviced used:
-- Fly.io: a platform for running full stack apps and databases close to your users.
+
+- Fly.io: a platform for running full stack apps and databases close to your
+  users.
 - Github actions: a workflow automation tool for GitHub repositories
 - Algolia: a search as a service platform
 - Cloudinary: a cloud-based media management platform
 - Metronome: analytics data of your Remix projects from top to bottom
 - Cloudflare: a content delivery network (CDN) that provides caching services
 
-
 <InlineImage
   lazyLoadImage
   openInNewTab
-  className="hover:scale-[1.15] transition-duration-500 transition-transform"
+  className="transition-duration-500 transition-transform hover:scale-[1.15]"
   containerClassName="mx-0 lg:mx-0"
   src="https://res.cloudinary.com/dinypqsgl/image/upload/v1689464313/blog/arch_rkhewd.png"
   alt="Archtitecture diagram from excalidraw for taranveerbains.ca"
 />
 
-Each one of the services listed above and diagramed in my architecture exaclidraw are more than worthy of having their own blog post 
-so I'll just focus on the ones that were new to me or ones that made me go "huh, guess I need this".
+Each one of the services listed above and diagramed in my architecture
+exaclidraw are more than worthy of having their own blog post so I'll just focus
+on the ones that were new to me or ones that made me go "huh, guess I need
+this".
 
 ## Redis
 
-As you may have guessed, I am using Github as my CMS and their API gave me quite a lot of trouble; well, not really the API, 
-but I was was using it gave me trouble. Originally, I copypastad the methods Kent C. Dodds 
-had written in his blog project for querying Github. I didn't understand why Kent was using the `cachified` 
-library for his API requests and so I decided to strip cachified out from my implementation (boy was that a bad idea 😅) 
-because I thought I didn't need it.
+As you may have guessed, I am using Github as my CMS and their API gave me quite
+a lot of trouble; well, not really the API, but I was was using it gave me
+trouble. Originally, I copypastad the methods Kent C. Dodds had written in his
+blog project for querying Github. I didn't understand why Kent was using the
+`cachified` library for his API requests and so I decided to strip cachified out
+from my implementation (boy was that a bad idea 😅) because I thought I didn't
+need it.
 
-Not only were my pages loading slower than I wanted (upwards of 10 seconds for my til page), 
-but I would hit the rate limit for the API within a few minutes of local development 😱. 
-During Kent's office hours, I asked him how I could address this problem and when I showed Kent my implementation, 
-he lol'ed. Turns out, I had stripped out the layer that was needed for performance -- the redis cache!
+Not only were my pages loading slower than I wanted (upwards of 10 seconds for
+my til page), but I would hit the rate limit for the API within a few minutes of
+local development 😱. During Kent's office hours, I asked him how I could
+address this problem and when I showed Kent my implementation, he lol'ed. Turns
+out, I had stripped out the layer that was needed for performance -- the redis
+cache!
 
-I brought back cachified and started using redis to as my caching layer for 3rd party requests and boy, I gotta say, 
-that was a real improvement to my page speeds! `cachified` makes it super easy to plug in redis/redis like databases 
+I brought back cachified and started using redis to as my caching layer for 3rd
+party requests and boy, I gotta say, that was a real improvement to my page
+speeds! `cachified` makes it super easy to plug in redis/redis like databases
 and so I was off to the races within minutes!
 
 ## Octokit
 
-The above was the first real problem I experienced when creating my full stack remix app: I had nothing caching 
-the API calls to third parties and because of this, the performance of my site suffered. However, more importatnly 
-I had forgotten one of my core tenants of programming: code we cannot understand is code we cannot trust.
+The above was the first real problem I experienced when creating my full stack
+remix app: I had nothing caching the API calls to third parties and because of
+this, the performance of my site suffered. However, more importatnly I had
+forgotten one of my core tenants of programming: code we cannot understand is
+code we cannot trust.
 
-I didn't understand Kent's implementation for interfacing with the Octokit and therefore ditched key elements that 
-I actually needed. I decided to abandon the idea of reusing Kent's code for querying Github and decided to do my own 
-technical discovery. As you could image, my discovery was quite fruiful because it landed me on the Github Graqhql API. 
-The Graphql API made it easy to recurisvely query data from Github with one request (the TIL and blog pages on my site 
-require recursive querying and this was a pain in the butt with the Rest API) and so the liklihood of me hitting the Github 
-API rate limit diminished greatly 🎉!
+I didn't understand Kent's implementation for interfacing with the Octokit and
+therefore ditched key elements that I actually needed. I decided to abandon the
+idea of reusing Kent's code for querying Github and decided to do my own
+technical discovery. As you could image, my discovery was quite fruiful because
+it landed me on the Github Graqhql API. The Graphql API made it easy to
+recurisvely query data from Github with one request (the TIL and blog pages on
+my site require recursive querying and this was a pain in the butt with the Rest
+API) and so the liklihood of me hitting the Github API rate limit diminished
+greatly 🎉!
 
 ## Unified + MDX Bundler
-So as I mentioned above, my last iteration for my blog was written in Gatsby. Gatsby was great for a myriad of reasons: 
-it let me write my website in React, it had an awesome developer experience, and there were a whole host of plugins at my disposable.
 
-When I came over to Remix, a lot of the goodies I had in Gatsby RE MDX didn't really exist for me anymore 😅. Some of the plugins 
-I used were written specifically for Gatsby and they didn't have a one to one port over to a platform like Remix -- this also 
-became an opportunity for more self growth though 😏! 
-Morever, while Remix has <TextLink href="https://github.com/kentcdodds/mdx-bundler">built in support for MDX</TextLink> 
-at build time and, don't get me wrong, it's great, I didn't see point of doing a rewrite of my blog with a fullstack 
-framework if I was not going to do anything substantial with my server!
+So as I mentioned above, my last iteration for my blog was written in Gatsby.
+Gatsby was great for a myriad of reasons: it let me write my website in React,
+it had an awesome developer experience, and there were a whole host of plugins
+at my disposable.
 
-Thankfully, Kent C. Dodds worked on the `mdx-bundler` and so I was able to actually bundle my mdx and run-time 
-(yay, I got to use my server to do some processing!) 😊. While mdx-bundler gets the job done, there were some oddities I noticed. 
-For example, whenever I run `prettier` on my MDX files, my `TextLink` component renders in a separate paragraph. 
-Even though my `TextLink` was supposed to be inside the regular flow, contained in the preceeding paragraph, 
-the combination of prettier and mdx-bundler casued it to be added to its own paragraph tag. 
-Owing to this, I just opted not to run prettier on my MDX files; not great, but oh well 🤷.
+When I came over to Remix, a lot of the goodies I had in Gatsby RE MDX didn't
+really exist for me anymore 😅. Some of the plugins I used were written
+specifically for Gatsby and they didn't have a one to one port over to a
+platform like Remix -- this also became an opportunity for more self growth
+though 😏! Morever, while Remix has
+<TextLink href="https://github.com/kentcdodds/mdx-bundler">built in support for
+MDX</TextLink> at build time and, don't get me wrong, it's great, I didn't see
+point of doing a rewrite of my blog with a fullstack framework if I was not
+going to do anything substantial with my server!
 
-Remember when I mentioned like one paragraph ago that I had an opportunity for more self growth when working 
-with MDX and my Remix site? Well, let me elaborate! <TextLink href="https://www.gatsbyjs.com/plugins/gatsby-remark-code-titles/">Gatsby has a plugin</TextLink> 
- that allows developers to associate titles 
-to their remark code blocks and it's great (if you're usin Gatsby) but there is no remark counterpart that exists 😱!
+Thankfully, Kent C. Dodds worked on the `mdx-bundler` and so I was able to
+actually bundle my mdx and run-time (yay, I got to use my server to do some
+processing!) 😊. While mdx-bundler gets the job done, there were some oddities I
+noticed. For example, whenever I run `prettier` on my MDX files, my `TextLink`
+component renders in a separate paragraph. Even though my `TextLink` was
+supposed to be inside the regular flow, contained in the preceeding paragraph,
+the combination of prettier and mdx-bundler casued it to be added to its own
+paragraph tag. Owing to this, I just opted not to run prettier on my MDX files;
+not great, but oh well 🤷.
 
-However, there was something that was close to what I needed: <TextLink href="https://github.com/rockchalkwushock/rehype-code-titles">rehype-code-titles</TextLink>.
-This rehype library basically did the same thing as the Gatsby version, but didn't support the ability for a custom separator for the title string. 
-After some encouragement from Kent, I made my first PR and became a contributor to the library 🎉. 
-The <TextLink href="https://github.com/rockchalkwushock/rehype-code-titles#contributors-">issue link</TextLink> describes basically what I did and the reason why I needed to add it to the library. 
+Remember when I mentioned like one paragraph ago that I had an opportunity for
+more self growth when working with MDX and my Remix site? Well, let me
+elaborate!
+<TextLink href="https://www.gatsbyjs.com/plugins/gatsby-remark-code-titles/">Gatsby
+has a plugin</TextLink> that allows developers to associate titles to their
+remark code blocks and it's great (if you're usin Gatsby) but there is no remark
+counterpart that exists 😱!
+
+However, there was something that was close to what I needed:
+<TextLink href="https://github.com/rockchalkwushock/rehype-code-titles">rehype-code-titles</TextLink>.
+This rehype library basically did the same thing as the Gatsby version, but
+didn't support the ability for a custom separator for the title string. After
+some encouragement from Kent, I made my first PR and became a contributor to the
+library 🎉. The
+<TextLink href="https://github.com/rockchalkwushock/rehype-code-titles#contributors-">issue
+link</TextLink> describes basically what I did and the reason why I needed to
+add it to the library.
 
 **Contributed to open source; I call that growth 😎**
 
 ## Cloudflare
 
 <Callout
- type="warning"
- title="I'm dumb!"
- description="Cloudflare is great; I just don't know what I'm doing with it"
+  type="warning"
+  title="I'm dumb!"
+  description="Cloudflare is great; I just don't know what I'm doing with it"
 />
 
-
-The unexpected foot gun 🤣. The short version of this story is that the extra DNS hops and the attempt to use the Cloudflare as my CDN
-actually negatively impacted my page score lol.
+The unexpected foot gun 🤣. The short version of this story is that the extra
+DNS hops and the attempt to use the Cloudflare as my CDN actually negatively
+impacted my page score lol.
 
 ## Remix
 
-Remix is my chosen full stack framework for writing web applications and websites, or at least it is at the time of writing this blog post. 
-Now don't get me wrong, there are a plethora of full stack frameworks to choose from and they're all good in their own regard, 
-offering their own respective set of tradeoffs, but I am partial to Remix not only because it offers a seamless and amazing developer 
-experience but also because it remixes the base principles of web development I learned about when I first started my career with 
-the modern developer experience, and frameworks I've come to love.  
+Remix is my chosen full stack framework for writing web applications and
+websites, or at least it is at the time of writing this blog post. Now don't get
+me wrong, there are a plethora of full stack frameworks to choose from and
+they're all good in their own regard, offering their own respective set of
+tradeoffs, but I am partial to Remix not only because it offers a seamless and
+amazing developer experience but also because it remixes the base principles of
+web development I learned about when I first started my career with the modern
+developer experience, and frameworks I've come to love.
 
-I'll be honest, it was a bit of a mental shift to have to start thinking about my web app from the perspective of the server and the client. 
-When I first got started, well if I remembering correctly, I had issues understanding how to properly read from `localStorage`, 
-the `window` object being undefined whenever I tried to access it, and the most annoying thing, I keep running into hydration issues 😅. 
-Now let me be clear, none of these issues are isolated to Remix alone -- it's just the nature of working with React at the server and client level. 
-Owing to my own, inexperience, I ran into these issues and I _eventually_ figured them out. 
+I'll be honest, it was a bit of a mental shift to have to start thinking about
+my web app from the perspective of the server and the client. When I first got
+started, well if I remembering correctly, I had issues understanding how to
+properly read from `localStorage`, the `window` object being undefined whenever
+I tried to access it, and the most annoying thing, I keep running into hydration
+issues 😅. Now let me be clear, none of these issues are isolated to Remix alone
+-- it's just the nature of working with React at the server and client level.
+Owing to my own, inexperience, I ran into these issues and I _eventually_
+figured them out.
 
-Regardless, using Remix has been an absolute joy and I've had so much fun migrating my site to this stellar framework. Lots of learning, lots of 
-late nights, and lots of stress -- but good things all around 😍.
+Regardless, using Remix has been an absolute joy and I've had so much fun
+migrating my site to this stellar framework. Lots of learning, lots of late
+nights, and lots of stress -- but good things all around 😍.
 
 ## Closing Thoughts
 
-This migration was tough, but most things in life that are worth doing, tend to be on the difficult side. I can tell I grew a lot from this migration 
-and it's not only helped me become a better developer, but also a better engineer, and overall problem solver.
+This migration was tough, but most things in life that are worth doing, tend to
+be on the difficult side. I can tell I grew a lot from this migration and it's
+not only helped me become a better developer, but also a better engineer, and
+overall problem solver.
 
 <BlockQuote>
-Life's true beauty lies in the relentless pursuit of growth and 
-the courage to embrace change, for it is in those moments that we 
-discover the depths of our potential.
+  Life's true beauty lies in the relentless pursuit of growth and the courage to
+  embrace change, for it is in those moments that we discover the depths of our
+  potential.
 </BlockQuote>
-

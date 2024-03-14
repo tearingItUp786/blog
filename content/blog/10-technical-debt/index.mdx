@@ -26,9 +26,9 @@ the negative aspects of this kind of project work.
 Even when I transitioned to being a product developer at Mastercard, everything
 I worked on was greenfield; I started everything from a clean slate. I was
 fortunate in this regard -- I didn't have to deal with technical debt for a
-large portion of my career 😏! "However, when I was eventually confronted with 
-technical debt in the real world, I was utterly astonished by the extent of 
-its presence in numerous high-profile applications and businesses.
+large portion of my career 😏! "However, when I was eventually confronted with
+technical debt in the real world, I was utterly astonished by the extent of its
+presence in numerous high-profile applications and businesses.
 
 So let's talk a little about how I learned to manage, mitigate, and pay down
 technical debt 🙏🏽!
@@ -43,32 +43,34 @@ technical debt 🙏🏽!
 />
 
 Technical debt, at least in the context of this blog post, refers to decisions
-that engineering teams make in order to expedite the delivery of features. At a granular level, 
-continuing to use and expand up class components that exist in a React codebase instead of trying 
-to write new components using hooks (reusing old outdated patterns) is a decision that adds 
-technical debt. At a higher level of abstraction, continuing to work with and utilize a custom
-built fullstack framework (that is poorly documented) instead of using a
-prebuilt solution like <TextLink href="https://nextjs.org/">NextJS</TextLink> or 
-<TextLink href="https://remix.run/">Remix</TextLink> is another form of technical debt. 
-Don't get me wrong, the custom built solution works... but it's clunky and hard for
-to reason about and this very same thing can be said about React class components.
+that engineering teams make in order to expedite the delivery of features. At a
+granular level, continuing to use and expand up class components that exist in a
+React codebase instead of trying to write new components using hooks (reusing
+old outdated patterns) is a decision that adds technical debt. At a higher level
+of abstraction, continuing to work with and utilize a custom built fullstack
+framework (that is poorly documented) instead of using a prebuilt solution like
+<TextLink href="https://nextjs.org/">NextJS</TextLink> or
+
+<TextLink href="https://remix.run/">Remix</TextLink> is another form of technical
+debt. Don't get me wrong, the custom built solution works... but it's clunky and
+hard for to reason about and this very same thing can be said about React class components.
 
 <Callout
- type="success"
- title="It's not all bad!"
- description="tech debt is a trade off between speed of delivery and code quality."
+  type="success"
+  title="It's not all bad!"
+  description="tech debt is a trade off between speed of delivery and code quality."
 />
 
-Now, why do we call technical debt "technical debt"? Well, similar to debt in the
-real world, technical debt accrues interest and the longer that we wait to pay
-off this debt, the more the interest will compound. Now the interest I'm
+Now, why do we call technical debt "technical debt"? Well, similar to debt in
+the real world, technical debt accrues interest and the longer that we wait to
+pay off this debt, the more the interest will compound. Now the interest I'm
 referring to isn't monetary in nature (like that of your mortgage 😅) but a more
 intangible interest. This "interest" results in engineers spending more time
 fighting with the codebase instead of actually focusing on delivering value to
-users. As the technical debt accrues interest, it becomes increasingly more frustrating
-and tedious for engineers to work on solving problems; their focus shifts from
-"let me deliever value" to "please lady luck, don't let me break anything during
-my deployment".
+users. As the technical debt accrues interest, it becomes increasingly more
+frustrating and tedious for engineers to work on solving problems; their focus
+shifts from "let me deliever value" to "please lady luck, don't let me break
+anything during my deployment".
 
 Please keep in mind, I'll be talking about technical debt and how I've seen it
 manifest inside frontend codebases. I'm sure the discussion I'm having below
@@ -77,10 +79,7 @@ developer (at least for right now), I'll be focusing on the frontend.
 
 ## Paying down the debt
 
-<Callout
-  type="alert"
-  title="Fire is not always the answer!"
-/>
+<Callout type="alert" title="Fire is not always the answer!" />
 
 By this point, we should all be on the same page about what technical debt is
 (at least at a high level), and the next obvious question is, "now what"? My
@@ -88,7 +87,7 @@ trite response is let's talk about figuring out how to go about paying down this
 debt.
 
 <LazyGiphy
-  containerClassName='w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]'
+  containerClassName="w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]"
   src="https://giphy.com/embed/p4wQuEvkP27fMt7f6y"
   giphyAttributionSrc="https://giphy.com/gifs/pudgypenguins-riot-torch-pitchfork-p4wQuEvkP27fMt7f6y"
 />
@@ -114,11 +113,8 @@ command -- your manager might just stop you before you even try to convince
 anyone else that it's a good idea. Don't forget, the time we spend working on
 one thing is time we're spending not working on another thing.
 
-
-<BlockQuote
-  author="April Ludgate"
->
-Time is money, money is power, power is pizza, pizza is knowledge, let's go.
+<BlockQuote author="April Ludgate">
+  Time is money, money is power, power is pizza, pizza is knowledge, let's go.
 </BlockQuote>
 
 So what is an engineer to do? How do we deal with this technical debt,
@@ -167,36 +163,37 @@ few years ago into the trash.
 
 ### How did NX help with my tech debt at work
 
-The code for my works primary project exists in an `src` folder. There are a ton of 
-components, business logic, and state management files spread across this one
-directory. Not only that, but the project itself was also configured to use 
-`tslint` and `enzyme`; both libraries that have been deprecated and should no 
+The code for my works primary project exists in an `src` folder. There are a ton
+of components, business logic, and state management files spread across this one
+directory. Not only that, but the project itself was also configured to use
+`tslint` and `enzyme`; both libraries that have been deprecated and should no
 longer be used.
 
-The way in which NX enabled me to start writing brand new features using 
-modern tech while not having to migrate every component at once was via the usage 
-of nx libs. NX is a suite of monorepo tools that provides users with a CLI 
-to generate new libraries, in addition to having a cache that stores the result 
-of various output commands (like your test and lint commands). 
+The way in which NX enabled me to start writing brand new features using modern
+tech while not having to migrate every component at once was via the usage of nx
+libs. NX is a suite of monorepo tools that provides users with a CLI to generate
+new libraries, in addition to having a cache that stores the result of various
+output commands (like your test and lint commands).
 
-Once my colleagues and I had agreed to break our project into domains and subdomains,
-we created separate NX libs for each subdomain. For example, we have a `product-presentation` 
-domain, a `search` domain, and... sigh, an `ads` domain; each domain was assigned
-a corresponding lib. 
+Once my colleagues and I had agreed to break our project into domains and
+subdomains, we created separate NX libs for each subdomain. For example, we have
+a `product-presentation` domain, a `search` domain, and... sigh, an `ads`
+domain; each domain was assigned a corresponding lib.
 
-The command to generate a react lib is: `npx nx g @nx/react:library`. 
+The command to generate a react lib is: `npx nx g @nx/react:library`.
 
-Another thing that NX helped us to do was enforce module boundaries. In the legacy 
-`src` folder, presentational components are coupled with data access components and utility
-functions are scattered all over the place. By embracing NX's prescribed best practices
-and <TextLink href="https://nx.dev/core-features/enforce-project-boundaries">Project Boundaries</TextLink> 
-my team and I were able to enforce best practices by making engineers embrace the creation
-of cohesive units. The enforcement happens at the linting level (`eslint` will yell if you 
-don't follow proper module scoping) and at the PR level; a combination of man and machine 😆.
+Another thing that NX helped us to do was enforce module boundaries. In the
+legacy `src` folder, presentational components are coupled with data access
+components and utility functions are scattered all over the place. By embracing
+NX's prescribed best practices and
+<TextLink href="https://nx.dev/core-features/enforce-project-boundaries">Project
+Boundaries</TextLink> my team and I were able to enforce best practices by
+making engineers embrace the creation of cohesive units. The enforcement happens
+at the linting level (`eslint` will yell if you don't follow proper module
+scoping) and at the PR level; a combination of man and machine 😆.
 
-
-NX is deserving of its own blog post and I can't do it justice in this single entry alone. Please 
-standby for me to give a meetup presentation and record it.
+NX is deserving of its own blog post and I can't do it justice in this single
+entry alone. Please standby for me to give a meetup presentation and record it.
 
 ## How do I manage tech debt
 
@@ -209,8 +206,10 @@ if teams do not have a sense of ownership over their destiny. Truly, autonomy
 and responsibility are two factors that can help contribute to keeping tech debt
 at pay.
 
-<BlockQuote>I slept and dreamt that life was joy. I awoke and saw that life was service. I
-acted and behold, service was joy.</BlockQuote>
+<BlockQuote>
+  I slept and dreamt that life was joy. I awoke and saw that life was service. I
+  acted and behold, service was joy.
+</BlockQuote>
 
 It really comes down to process, not discipline. I repeat, do not rely on
 discipline to maintain code standards and to keep tech debt at bay. Discipline
@@ -221,7 +220,7 @@ codeowner files) that enables us to embrace a coherent approach to software
 development. In fact, these things are not new concepts; codeowners have been a
 thing on github since 2017!
 
-## Closing thoughts
+## Closing Thoughts
 
 Hopefully you found this post helpful! I'm a novice at handling technical debt
 but I'm grateful for having had the opportunity to share my experience with you.

@@ -8,7 +8,10 @@ description:
 tag: Best Practices
 ---
 
-<CloudinaryHeroImage alt="Canvas" src="https://res.cloudinary.com/dinypqsgl/image/upload/v1680036093/blog/canvas_rbgvpe.jpg" />
+<CloudinaryHeroImage
+  alt="Canvas"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1680036093/blog/canvas_rbgvpe.jpg"
+/>
 
 When talking about programming paradigms, there are two words that often get
 thrown around: **imperative** and **declarative**.
@@ -88,13 +91,15 @@ the Array prototype applies a transformation function (the argument to `.map`)
 and returns a new array with the newly transformed values, you would agree that
 the second example is the more readable piece of code.
 
-Functional programming brings the mathematically proven theories of <TextLink href="https://en.wikipedia.org/wiki/Category_theory">Category Theory</TextLink>{' '} to our code. 
-This is code that by definition is backed by hundreds of
-years of mathematical research and discoveries. I admittedly don't know much Category
-Theory but the idea of my code being mathematically provable to work correctly sure
-as hell beats the alternative of "well, I'm pretty sure this works because my tests
-pass". That about covers the what but beyond FP being declarative, there are other
-reasons why I think it leads to more maintainable and ultimately better code:
+Functional programming brings the mathematically proven theories of
+<TextLink href="https://en.wikipedia.org/wiki/Category_theory">Category
+Theory</TextLink>{' '} to our code. This is code that by definition is backed by
+hundreds of years of mathematical research and discoveries. I admittedly don't
+know much Category Theory but the idea of my code being mathematically provable
+to work correctly sure as hell beats the alternative of "well, I'm pretty sure
+this works because my tests pass". That about covers the what but beyond FP
+being declarative, there are other reasons why I think it leads to more
+maintainable and ultimately better code:
 
 1. FP function signatures are more meaningful (they tell you all their
    dependencies upfront)

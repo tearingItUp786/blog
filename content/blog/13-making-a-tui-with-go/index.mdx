@@ -4,7 +4,6 @@ subtitle: A reflection on my experience making a TUI with Go
 description: TODO description
 date: 2024-03-10
 tag: Go
-draft: true
 ---
 
 <InlineImage
@@ -109,9 +108,9 @@ not perfect 😅.
   init: {
     'theme': 'base',
     'themeVariables': {
-			'fontSize": '14px',
-			'primaryColor': '#c955ac',
-			'primaryTextColor': '#FADCE6',
+			'fontSize": '16px',
+			'primaryColor': '#b01d8b',
+			'primaryTextColor': '#f3f3f7',
 			'primaryBorderColor': '#D3BCC0',
 			'lineColor': '#3bbbc0',
 			'secondaryColor': '#507DBC',
@@ -139,7 +138,7 @@ graph TD
     C --> F
     F --> E
 
-    subgraph Event Loop
+    subgraph Event Loop______
         C --> C1
         C1 --> D
         E --> C
@@ -250,22 +249,7 @@ quite nice. It's a bit verbose, but it's clear and it's easy to reason about.
 
 If you don't wanna have a bad time, handle your errors 😅.
 
-### Publishing
-
-Okay, I did mention above that I was super excited to publish my TUI to
-`homebrew`, but that doesn't mean it wasn't a struggle! I learned during my
-publishing attempts via github actions that my usage of `sqlite` relied on `CGO`
-(which is using C in your Go code). For those of you who don't know, `sqlite` is
-a database engine writte in C... so I had to figure out how to get `CGO` to work
-with `gorelaser` (the tool I used to publish my TUI to `homebrew`).
-
-I eventually figured out that I needed to use
-&nbsp;<TextLink href="https://github.com/goreleaser/goreleaser-cross">
-goreleaser-cross</TextLink> and set the `CGO_ENABLED` environment variable to
-`1` in my `.goreleaser.yml` file. I also eliminated the binaries for `linux` and
-`windows` because, well, I didn't want to have to support them 😅.
-
-### Concurrency and the lack of content
+### Concurrency andV the lack of content
 
 Alright, so I mentioned above that I had to figure out how to handle the stream
 of responses from OpenAI's API and update the state of my application
@@ -277,7 +261,37 @@ in `Go`, it was kinda tough to find content. I had to rely on the `bubbletea`
 examples, the `bubbletea` documentation, and trial and error to figure out how
 properly author my program.
 
+### Publishing
+
+Okay, I did mention above that I was super excited to publish my TUI to
+`homebrew`, but that doesn't mean it wasn't a struggle! I learned during my
+publishing attempts via github actions that my usage of `sqlite` relied on `CGO`
+(which is using C in your Go code). For those of you who don't know, `sqlite` is
+a database engine writte in C... so I had to figure out how to get `CGO` to work
+with `gorelaser` (the tool I used to publish my TUI to `homebrew`).
+
+I eventually figured out that I needed to
+use&nbsp;<TextLink href="https://github.com/goreleaser/goreleaser-cross">goreleaser-cross</TextLink>
+and set the `CGO_ENABLED` environment variable to `1` in my `.goreleaser.yml`
+file. I also eliminated the binaries for `linux` and `windows` because, well, I
+didn't want to have to support them 😅.
+
+I don't have a fully grasp on what is going on in my `Makefile` yet, but I've
+got enough of a grasp to know how to publish releases and how to create release
+candidates.
+
 ### Testing
 
 I'm not going to lie, I didn't write a single test for this project. It's on my
 list of things to learn.
+
+## Closing Thoughts
+
+I had a lot of fun making this TUI and I learned a lot about Go, `bubbletea`,
+and OpenAI's API. I learned a lot from the struggle (like anything in life) and
+the end result, while not perfect, is good enough. After all, what's right is
+what works. Am I right? 😆
+
+I'm excited to continue to learn Go and I'm excited to make more applications in
+the future! Was what I wrote helpful? Did you learn something interesting? If
+you did, drop me a line; I'd love to hear from you!

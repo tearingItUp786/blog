@@ -122,3 +122,8 @@ p {
 mark {
   background: var(--color-pink-100);
 }
+
+/* for the mermaid diagram */
+.label {
+  line-height: 1;
+}
