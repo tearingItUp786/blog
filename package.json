@@ -59,7 +59,7 @@
     "hast": "^1.0.0",
     "hast-util-select": "^5.0.2",
     "hotkeys-js": "^3.10.3",
-    "isbot": "^3.6.5",
+    "isbot": "^5.1.2",
     "mdx-bundler": "^10.0.1",
     "mdx-mermaid": "^2.0.0",
     "mermaid": "^10.9.0",
