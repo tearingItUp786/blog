@@ -215,7 +215,17 @@ export const action: ActionFunction = async ({request}) => {
         type: 'til',
         offset: o.offset,
         objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
-        content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
+        content: o?.matter?.content
+          ?.replace(/(<([^>]+)>)/gi, '') // Remove HTML tags
+          .replace(/\!\[.*?\]\(.*?\)/g, '') // Remove images ![alt text](URL)
+          .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Convert links [text](URL) to 'text'
+          .replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2') // Bold **text** or __text__
+          .replace(/(\*|_)(.*?)(\*|_)/g, '$2') // Italic *text* or _text_
+          .replace(/(\~\~)(.*?)(\~\~)/g, '$2') // Strikethrough ~~text~~
+          .replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '') // Blockquotes >
+          .replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2') // Headers #
+          .replace(/(\r\n|\r|\n)\s*(\*|\-|\+|[0-9]+\.)\s/g, '') // Lists - or * or + or 1.
+          .replace(/(\*\*|__|\*|_|\~\~)/g, ''), // Cleanup leftover Markdown symbols
       }
     })
 
