@@ -12,8 +12,8 @@ import LazyLoad from 'vanilla-lazyload'
 // css imports
 import '~/styles/tag.css'
 
-export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | About me`}]
+export const meta: MetaFunction<typeof loader> = ({params}) => {
+  return [{title: `Taran "tearing it up" Bains | ${params.slug}`}]
 }
 
 export async function loader({params}: LoaderFunctionArgs) {

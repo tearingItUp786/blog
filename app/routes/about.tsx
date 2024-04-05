@@ -52,7 +52,7 @@ const RandomThing = ({
 }
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | tags`}]
+  return [{title: `Taran "tearing it up" Bains | learn about me!`}]
 }
 
 export async function loader() {

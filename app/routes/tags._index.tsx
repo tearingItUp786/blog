@@ -1,7 +1,11 @@
 import {H1, H2} from '~/components/typography'
 import {NavLink, useLoaderData} from '@remix-run/react'
 import {getMdxTagListGql} from '~/utils/mdx-utils.server'
-import {json} from '@remix-run/node'
+import {MetaFunction, json} from '@remix-run/node'
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | tags`}]
+}
 
 export async function loader() {
   const allData = await getMdxTagListGql()
