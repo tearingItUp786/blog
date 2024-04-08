@@ -4,7 +4,7 @@ import {Logo} from './logo'
 
 import {MobileNav} from './mobile'
 import {useEffect, useState} from 'react'
-import {Search} from './search'
+import {Search} from './algolia-search'
 import {twJoin} from 'tailwind-merge'
 
 export function Navbar() {
