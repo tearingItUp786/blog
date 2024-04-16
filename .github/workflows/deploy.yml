@@ -148,7 +148,7 @@ jobs:
           fetch-depth: '50'
 
       - name: ⎔ Setup node
-        uses: uctions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           cache: npm
           cache-dependency-path: ./package.json
