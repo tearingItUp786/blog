@@ -11,7 +11,7 @@ on:
         required: true
         type: choice
         options:
-          - true
+          - "true"
 
 jobs:
   changes:
@@ -40,7 +40,7 @@ jobs:
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == true
+    if: needs.changes.outputs.DEPLOYABLE == "true"
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -92,9 +92,9 @@ jobs:
     needs: [changes, lint, typecheck]
     # only build/deploy main branch on pushes
     if:
-      ${{ (needs.changes.outputs.DEPLOYABLE == true) && (github.ref ==
+      ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
       'refs/heads/main') && github.event_name == 'push' }} || inputs.manual_run
-      == true
+      == 'true'
 
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -138,7 +138,7 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
-    if: needs.changes.outputs.DEPLOYABLE != true
+    if: needs.changes.outputs.DEPLOYABLE != 'true'
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
