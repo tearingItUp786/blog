@@ -18,7 +18,7 @@ jobs:
     name: 🔎 Determine deployable changes
     runs-on: ubuntu-latest
     outputs:
-      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
+      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}} || inputs.manual_run
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
