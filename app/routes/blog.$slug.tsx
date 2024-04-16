@@ -12,6 +12,7 @@ import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import * as amplitude from '@amplitude/analytics-browser'
+import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 
 type LoaderData = {
   page: MdxPage
@@ -24,6 +25,16 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   const blogPostTitle =
     loaderData.page.frontmatter?.title ?? 'A single blost post'
   return [{title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`}]
+}
+
+// should only be doing this if the page has twitter embeds
+export let handle: ExternalScriptsHandle = {
+  scripts: [
+    {
+      src: 'https://platform.twitter.com/widgets.js',
+      async: true,
+    },
+  ],
 }
 
 export const loader: LoaderFunction = async ({params, request}) => {

@@ -91,6 +91,7 @@
     "remark-smartypants": "^2.0.0",
     "remark-toc": "^8.0.1",
     "remix": "2.4.1",
+    "remix-utils": "^7.6.0",
     "tailwind-merge": "^1.12.0",
     "vanilla-lazyload": "^17.8.3"
   },

@@ -127,6 +127,9 @@ async function compileMdxForGraphql<
                     params: {
                       height: '390',
                       width: '1280',
+                      theme: 'dark',
+                      dnt: true,
+                      omit_script: true,
                     } as Config,
                   },
                 ],

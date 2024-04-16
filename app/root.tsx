@@ -18,6 +18,7 @@ import Toggle from '~/components/theme-toggle'
 import {Navbar} from './components/navbar'
 import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
 import {withSentry} from '@sentry/remix'
+import {ExternalScripts} from 'remix-utils/external-scripts'
 
 import {Footer} from './components/footer/footer'
 import {H3} from './components/typography'
@@ -90,6 +91,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
         {children}
 
         <ScrollRestoration />
+        <ExternalScripts />
         <LiveReload />
         <Scripts />
         <Toggle />
