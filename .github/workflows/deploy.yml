@@ -33,19 +33,14 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: |
-          if [[ "${{ inputs.manual_run }}" == "true" ]]; then
-            echo "DEPLOYABLE=true" >> $GITHUB_ENV
-          else
-            DEPLOYABLE=$(node ./other/is-deployable.js)
-            echo "DEPLOYABLE=$DEPLOYABLE" >> $GITHUB_ENV
-          fi
+          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
         run: >-
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -70,7 +65,7 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -97,9 +92,9 @@ jobs:
     needs: [changes, lint, typecheck]
     # only build/deploy main branch on pushes
     if:
-      ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
+      ${{ (needs.changes.outputs.DEPLOYABLE == true) && (github.ref ==
       'refs/heads/main') && github.event_name == 'push' }} || inputs.manual_run
-      == 'true'
+      == true
 
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -143,7 +138,7 @@ jobs:
 
   refresh:
     name: 🥬 Refresh Content
-    if: needs.changes.outputs.DEPLOYABLE != 'true'
+    if: needs.changes.outputs.DEPLOYABLE != true
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
@@ -153,7 +148,7 @@ jobs:
           fetch-depth: '50'
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: uctions/setup-node@v4
         with:
           cache: npm
           cache-dependency-path: ./package.json
@@ -167,7 +162,7 @@ jobs:
 
   purge:
     name: 💨 Purge Cache
-    if: needs.changes.outputs.DEPLOYABLE != 'true'
+    if: needs.changes.outputs.DEPLOYABLE != true
     runs-on: ubuntu-latest
     needs: [changes, refresh]
     steps:
