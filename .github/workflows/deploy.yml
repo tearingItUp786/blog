@@ -18,8 +18,7 @@ jobs:
     name: 🔎 Determine deployable changes
     runs-on: ubuntu-latest
     outputs:
-      DEPLOYABLE:
-        ${{steps.changes.outputs.DEPLOYABLE}} || '${{inputs.manual_run}}'
+      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}'
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -33,9 +32,13 @@ jobs:
 
       - name: 🔎 Determine deployable changes
         id: changes
-
         run: |
-          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
+          if [[ "${{ inputs.manual_run }}" == "true" ]]; then
+            echo "DEPLOYABLE=true" >> $GITHUB_ENV
+          else
+            DEPLOYABLE=$(node ./other/is-deployable.js)
+            echo "DEPLOYABLE=$DEPLOYABLE" >> $GITHUB_ENV
+          fi
       - name: ❓ Deployable
         run: >-
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
