@@ -33,6 +33,7 @@ export type MdxPage = {
   }
 
   matter?: {
+    // the content of the markdown file before processing
     content?: string
     data?: {
       title?: string
@@ -48,4 +49,4 @@ export type MdxPageAndSlug = MdxPage & {
   path?: string
 }
 
-export type TilMdxPage = MdxPageAndSlug & { offset: number}
+export type TilMdxPage = MdxPageAndSlug & {offset: number}

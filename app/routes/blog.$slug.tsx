@@ -27,14 +27,25 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`}]
 }
 
-// should only be doing this if the page has twitter embeds
-export let handle: ExternalScriptsHandle = {
-  scripts: [
-    {
-      src: 'https://platform.twitter.com/widgets.js',
-      async: true,
-    },
-  ],
+export let handle: ExternalScriptsHandle<LoaderData> = {
+  scripts({data}) {
+    let scripts = []
+
+    // If the content of the page contains a twitter status link, load the twitter widget script
+    const twitterStatusRegex = new RegExp(
+      'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
+      'i',
+    )
+
+    if (twitterStatusRegex.test(String(data?.page?.matter?.content))) {
+      scripts.push({
+        src: 'https://platform.twitter.com/widgets.js',
+        async: true,
+      })
+    }
+
+    return scripts
+  },
 }
 
 export const loader: LoaderFunction = async ({params, request}) => {
