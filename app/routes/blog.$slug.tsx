@@ -166,7 +166,7 @@ export default function MdxScreen() {
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
           {frontmatter.subtitle ? (
-            <H4 variant="secondary" className="mb-4 leading-tight">
+            <H4 As="h2" variant="secondary" className="mb-4 leading-tight">
               {frontmatter.subtitle}
             </H4>
           ) : null}
