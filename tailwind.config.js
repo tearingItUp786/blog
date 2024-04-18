@@ -49,7 +49,7 @@ module.exports = {
     },
     fontFamily: {
       body: ['CommitMono', ...defaultTheme.fontFamily.sans],
-      display: ['CommitMon', ...defaultTheme.fontFamily.sans],
+      display: ['CommitMono', ...defaultTheme.fontFamily.sans],
     },
     extend: {
       fontSize: {
@@ -101,14 +101,14 @@ module.exports = {
                   },
                 },
                 h2: {
-                  fontFamily: theme('fontFamily.body').join(', '),
+                  fontFamily: theme('fontFamily.display').join(', '),
                   fontWeight: theme('fontWeight.bold'),
                   fontSize: fontSize('3xl'),
                   marginTop: theme('spacing.10'),
                   marginBottom: theme('spacing.5'),
                 },
                 h3: {
-                  fontFamily: theme('fontFamily.body').join(', '),
+                  fontFamily: theme('fontFamily.display').join(', '),
                   fontWeight: theme('fontWeight.bold'),
                   fontSize: fontSize('2xl'),
                   marginTop: theme('spacing.8'),
