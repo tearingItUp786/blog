@@ -9,9 +9,9 @@ used Context in React, you're aware of there being a `Provider` and a `Consumer`
 and those two are namespaced to a specific Context. Keep in mind, this is
 assuming you're using React < 16.8.0.
 
-For example:
+I'm still trying to figure out when this _should_ be used.
 
-```jsx
+```jsx:title=namespace-pattern.js
 const SomeContext = React.createContext()
 
 const SomeContextProvider = ({children}) => {
@@ -35,5 +35,3 @@ const SomeContextConsumer = ({children}) => {
   )
 }
 ```
-
-I'm still trying to figure out when this _should_ be used.
