@@ -28,8 +28,10 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 }
 
 export let handle: ExternalScriptsHandle<LoaderData> = {
-  scripts({data}) {
-    let scripts = []
+  scripts({data, params, matches, location}) {
+    let externalScripts = []
+
+    console.log('data', data?.page?.matter?.content)
 
     // If the content of the page contains a twitter status link, load the twitter widget script
     const twitterStatusRegex = new RegExp(
@@ -38,13 +40,13 @@ export let handle: ExternalScriptsHandle<LoaderData> = {
     )
 
     if (twitterStatusRegex.test(String(data?.page?.matter?.content))) {
-      scripts.push({
+      externalScripts.push({
         src: 'https://platform.twitter.com/widgets.js',
         async: true,
       })
     }
 
-    return scripts
+    return externalScripts
   },
 }
 
