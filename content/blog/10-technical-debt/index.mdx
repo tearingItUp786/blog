@@ -49,11 +49,11 @@ React codebase instead of trying to write new components using hooks (reusing
 old outdated patterns) is a decision that adds technical debt. At a higher level
 of abstraction, continuing to work with and utilize a custom built fullstack
 framework (that is poorly documented) instead of using a prebuilt solution like
-<TextLink href="https://nextjs.org/">NextJS</TextLink> or
+[NextJS](https://nextjs.org/) or
 
-<TextLink href="https://remix.run/">Remix</TextLink> is another form of technical
-debt. Don't get me wrong, the custom built solution works... but it's clunky and
-hard for to reason about and this very same thing can be said about React class components.
+[Remix](https://remix.run/) is another form of technical debt. Don't get me
+wrong, the custom built solution works... but it's clunky and hard for to reason
+about and this very same thing can be said about React class components.
 
 <Callout
   type="success"
@@ -186,11 +186,12 @@ Another thing that NX helped us to do was enforce module boundaries. In the
 legacy `src` folder, presentational components are coupled with data access
 components and utility functions are scattered all over the place. By embracing
 NX's prescribed best practices and
-<TextLink href="https://nx.dev/core-features/enforce-project-boundaries">Project
-Boundaries</TextLink> my team and I were able to enforce best practices by
-making engineers embrace the creation of cohesive units. The enforcement happens
-at the linting level (`eslint` will yell if you don't follow proper module
-scoping) and at the PR level; a combination of man and machine 😆.
+
+[Project Boundaries](https://nx.dev/core-features/enforce-project-boundaries) my
+team and I were able to enforce best practices by making engineers embrace the
+creation of cohesive units. The enforcement happens at the linting level
+(`eslint` will yell if you don't follow proper module scoping) and at the PR
+level; a combination of man and machine 😆.
 
 NX is deserving of its own blog post and I can't do it justice in this single
 entry alone. Please standby for me to give a meetup presentation and record it.

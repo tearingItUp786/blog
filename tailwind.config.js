@@ -141,6 +141,7 @@ module.exports = {
                   color: 'var(--accent)',
                 },
                 a: {
+                  fontWeight: theme('fontWeight.bold'),
                   color: 'var(--accent)',
                   '> *, p': {
                     color: 'inherit',
@@ -154,7 +155,7 @@ module.exports = {
                   fontSize: fontSize('3xl'),
                   textTransform: 'uppercase',
                   marginTop: theme('spacing.6'),
-                  marginBottom: theme('spacing.6')
+                  marginBottom: theme('spacing.6'),
                 },
                 '.embed': {
                   position: 'relative',

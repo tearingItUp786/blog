@@ -6,6 +6,10 @@ import {LazyGiphy} from '~/components/lazy-iframe'
 import {Callout} from '~/components/callout'
 import {useMemo} from 'react'
 
+/**
+ * These get passed to the MDX components
+ * So we can reference them as we write content
+ */
 const mdxComponents = {
   ...myTypo,
   Callout,

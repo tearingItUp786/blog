@@ -24,13 +24,12 @@ year. If you read [my previous blog post](./12-go-htmx-and-lit/), you know that
 I'm devoting 2024 to learning Go and trying my best to channel my inner Gopher.
 Moreover, I wanted to create a project that would be not only helpful to me but
 also to my colleagues. Since I'm an avid `neovim` user, I'm fortunate to be able
-to use &nbsp;<TextLink href="https://github.com/jackMort/ChatGPT.nvim">
-ChatGPT.nvim</TextLink> while I'm working on features. However, my colleagues
-who use `VSCode` don't have the same luxury (yeah yeah, I know they have
-copilot, but the neovim plugin just hits different). Beyond those reasons, the
-final (some would say superficial) reason is that I wanted to make a TUI because
-I thought it would be fun. because AI is the latest buzzword and I wanted to be
-part of the hype train 🚄.
+to use [ChatGPT.nvim](https://github.com/jackMort/ChatGPT.nvim) while I'm
+working on features. However, my colleagues who use `VSCode` don't have the same
+luxury (yeah yeah, I know they have copilot, but the neovim plugin just hits
+different). Beyond those reasons, the final (some would say superficial) reason
+is that I wanted to make a TUI because I thought it would be fun. because AI is
+the latest buzzword and I wanted to be part of the hype train 🚄.
 
 ## What did I make?
 
@@ -76,17 +75,16 @@ got me going as I was chugging along with this tui.
 
 ### The Elm Architecture
 
-First and foremost, I was thrilled to learn more
-about&nbsp;<TextLink href="https://guide.elm-lang.org/architecture/">The Elm
-Architecture</TextLink>. For those of you who aren't familiar, Elm is a
-functional programming language that compiles to JavaScript -- wild right. The
-Elm Architecture is a pattern that is used to build web applications in Elm
-(duh). In short, there are three parts to the Elm Architecture: `Model`, `View`,
-and `Update`. The `Model` is the state of the application, the `View` is the way
-to turn your state into the UI, and the `Update` is way to update your state
-based on messages. You can check out this simple example using the Elm
-Architecture in Go
-on&nbsp;<TextLink href="https://github.com/tearingItUp786/chatgpt-tui/blob/main/cmd/main.go">Github</TextLink>
+First and foremost, I was thrilled to learn more about
+[The Elm Architecture](https://guide.elm-lang.org/architecture/). For those of
+you who aren't familiar, Elm is a functional programming language that compiles
+to JavaScript -- wild right. The Elm Architecture is a pattern that is used to
+build web applications in Elm (duh). In short, there are three parts to the Elm
+Architecture: `Model`, `View`, and `Update`. The `Model` is the state of the
+application, the `View` is the way to turn your state into the UI, and the
+`Update` is way to update your state based on messages. You can check out this
+simple example using the Elm Architecture in Go
+on&nbsp;[Github](https://github.com/tearingItUp786/chatgpt-tui/blob/main/cmd/main.go)
 ;it writes what the user just typed into a `debug.log` file.
 
 Coming from `React`, it was tough to wrap my head around this architecture at
@@ -169,9 +167,8 @@ memory, Go encourages you to use channels to communicate between goroutines. In
 fact, `bubbletea` uses its own scheduler to handle goroutines that are
 dispatched by `Commands`; it's kind of an anti-pattern to use go routines in a
 `bubbletea` program. If you want to learn the basic rules of thumbs when it
-comes to `Commands` in BubbleTea, check out
-this&nbsp;<TextLink href="https://charm.sh/blog/commands-in-bubbletea/">blog
-post</TextLink>.
+comes to `Commands` in BubbleTea, check out this
+[blog post](https://charm.sh/blog/commands-in-bubbletea/)
 
 So yeah, I didn't _directly_ write any goroutines in my program, but I did have
 to reason about how to handle concurrency in my program, specifically when I was
@@ -272,10 +269,10 @@ a database engine writte in C... so I had to figure out how to get `CGO` to work
 with `gorelaser` (the tool I used to publish my TUI to `homebrew`).
 
 I eventually figured out that I needed to
-use&nbsp;<TextLink href="https://github.com/goreleaser/goreleaser-cross">goreleaser-cross</TextLink>
-and set the `CGO_ENABLED` environment variable to `1` in my `.goreleaser.yml`
-file. I also eliminated the binaries for `linux` and `windows` because, well, I
-didn't want to have to support them 😅.
+use&nbsp;[goreleaser-cross](https://github.com/goreleaser/goreleaser-cross) and
+set the `CGO_ENABLED` environment variable to `1` in my `.goreleaser.yml` file.
+I also eliminated the binaries for `linux` and `windows` because, well, I didn't
+want to have to support them 😅.
 
 I don't have a fully grasp on what is going on in my `Makefile` yet, but I've
 got enough of a grasp to know how to publish releases and how to create release

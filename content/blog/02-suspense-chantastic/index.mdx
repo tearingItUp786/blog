@@ -8,8 +8,8 @@ tag: Workshop
 ---
 
 Hey y'all (most likely just me) but here's a high level overview of the things I
-learned from the remote <TextLink href="https://egghead.io">egghead</TextLink>
-worskhop I attended today. <TextLink href="https://github.com/chantastic/react-suspense-course">Here's a link to the repo</TextLink>
+learned from the remote [egghead](https://egghead.io) worskhop I attended today.
+[Here's a link to the repo](https://github.com/chantastic/react-suspense-course)
 
 TLDR;
 
@@ -30,10 +30,11 @@ all know that the fastest code is no code... so less code means faster code 😉
 For example if we have a Single Page Application (SPA), prior to React Suspense,
 a common practice was to use a package like
 
-<TextLink href="https://github.com/jamiebuilds/react-loadable">React Loadable</TextLink> to handle splitting the various routes for said application\*. It would
-be wasteful to load all the code for every route at initial load time/runtime because
-there could be several routes that a specific user never ends up actually visiting
--- what a waste 😱!
+[React Loadable](https://github.com/jamiebuilds/react-loadable) to handle
+splitting the various routes for said application\*. It would be wasteful to
+load all the code for every route at initial load time/runtime because there
+could be several routes that a specific user never ends up actually visiting --
+what a waste 😱!
 
 There is one thing that Suspense requires to work though: a cache! Currently,
 there is no stable caching pacakge for React, but don't you worry, the React
@@ -108,12 +109,12 @@ This component is meant to display some data in a `div` -- not very inspired but
 that's not the point of this blog post and it wasn't the point of the workshop
 either.
 
-On line 4 we're using the `createResource` function that we imported from <TextLink href="https://www.npmjs.com/package/react-cache">react-cache</TextLink>
-and providing it with a function as an argument. The caveat with the function argument
-is that it needs to return a thenable; luckily, the modern `fetch` implementation
-that ships with browsers or packages such as
-<TextLink href="https://www.npmjs.com/package/axios">axios</TextLink> provide us
-with thenable implementations.
+On line 4 we're using the `createResource` function that we imported from
+[react-cache](https://www.npmjs.com/package/react-cache) and providing it with a
+function as an argument. The caveat with the function argument is that it needs
+to return a thenable; luckily, the modern `fetch` implementation that ships with
+browsers or packages such as [axios](https://www.npmjs.com/package/axios)
+provide us with thenable implementations.
 
 Remember what I said above, we need to provide Suspense with a component that
 will throw a thenable! Thanks to our `createResource` call, if we attempt to
@@ -242,12 +243,12 @@ functions) that start general but allow for specificity.
 
 ## Little nuggets from the workshop
 
-At the end of the workshop, <TextLink>Chantastic</TextLink> invited us all to
-ask some questions and like most question and answer segements, this one was
-ripe with golden nuggets. The following are 4 libraries that Micahel Chan
-(Chantastic) recommends to teams he works with:
+At the end of the workshop, Chantastic invited us all to ask some questions and
+like most question and answer segements, this one was ripe with golden nuggets.
+The following are 4 libraries that Micahel Chan (Chantastic) recommends to teams
+he works with:
 
-1. <TextLink href="https://ui.reach.tech/">ReachUI</TextLink>
-2. <TextLink>React Router</TextLink>
-3. <TextLink href="https://egghead.io/courses/immutable-javascript-data-structures-with-immer">Immer</TextLink>
-4. <TextLink href="https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd">react-beautiful-dnd</TextLink>
+1. [ReachUI](https://ui.reach.tech/)
+2. [React Router](https://reactrouter.com/en/main)
+3. [Immer](https://egghead.io/courses/immutable-javascript-data-structures-with-immer)
+4. [react-beautiful-dnd](https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd)

@@ -11,7 +11,7 @@ on:
         required: true
         type: choice
         options:
-          - "true"
+          - 'true'
 
 jobs:
   changes:

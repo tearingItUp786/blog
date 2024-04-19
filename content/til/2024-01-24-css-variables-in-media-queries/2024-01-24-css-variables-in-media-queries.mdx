@@ -4,9 +4,10 @@ date: 2024-01-24
 tag: CSS
 ---
 
-We tried to use some CSS variables we defined inside of the `:root` with our tailwind config and even though 
-tailwind let's you do that, the outputted CSS isn't actually valid 🤯! The media query declarations
-are processed while our CSS is being parsed!
+We tried to use some CSS variables we defined inside of the `:root` with our
+tailwind config and even though tailwind let's you do that, the outputted CSS
+isn't actually valid 🤯! The media query declarations are processed while our
+CSS is being parsed!
 
 ```css:title=wont-work.css
 :root {
@@ -17,7 +18,7 @@ are processed while our CSS is being parsed!
 /* This gets processed before the CSS is parsed */
 /* So the media query is invalid */
 @media(max-width: var(--mobile-breakpoint)) {
-	.showMeGoing { 
+	.showMeGoing {
     visibility: visible;
   }
 }

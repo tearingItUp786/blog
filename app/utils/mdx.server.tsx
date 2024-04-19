@@ -81,6 +81,7 @@ async function compileMdxForGraphql<
   )
   const {default: rehypeCodeTitles} = await import('rehype-code-titles')
   const {default: rehypeAddClasses} = await import('rehype-add-classes')
+  const {default: rehypeExternalLinks} = await import('rehype-external-links')
 
   const mdxFile = githubFiles.find(val => {
     return val?.name?.includes('mdx')
@@ -177,6 +178,7 @@ async function compileMdxForGraphql<
             },
           ],
           [rehypeAddClasses, {'h1,h2,h3,h4,h5,h6': 'title'}],
+          [rehypeExternalLinks, {target: '_blank', rel: ['noopener']}],
         ]
         return options
       },

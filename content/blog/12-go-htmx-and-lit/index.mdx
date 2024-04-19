@@ -27,15 +27,13 @@ and web components felt "right" to me. I value simplicity and the fundamentals
 It's a well known fact -- or at least it should be after reading this sentence
 -- that I love React and the modern frontend landscape. We've got a bunch of
 great solutions for developing web applications these days, all with their own
-amazing communities and authors! Whether you're
-a&nbsp;<TextLink href="https://kit.svelte.dev/">Svelter</TextLink>,
-a&nbsp;<TextLink href="https://start.solidjs.com/getting-started/what-is-solidstart">SolidJs
-homie</TextLink>, a&nbsp;<TextLink href="https://remix.run/">Remixer</TextLink>,
-a&nbsp;<TextLink href="https://nextjs.org/">NextJser</TextLink>,
-an&nbsp;<TextLink href="https://astro.build/">Astro Head</TextLink>, or a
-&nbsp;<TextLink href="https://qwik.dev/">Qwickster</TextLink> (sorry if I forgot
-any of y'all other framework peoples) there's a place for you! For me, being
-able to utilize component driven architecture, creating amazing user
+amazing communities and authors! Whether you're a
+[Svelter](https://kit.svelte.dev/), a
+[SolidJs homie](https://start.solidjs.com/getting-started/what-is-solidstart),
+a; [Remixer](https://remix.run/), a [NextJser](https://nextjs.org/), an
+[Astro Head](https://astro.build/), or a [Qwickster](https://qwik.dev/) (sorry
+if I forgot any of y'all other framework peoples) there's a place for you! For
+me, being able to utilize component driven architecture, creating amazing user
 experiences, and delivering value to customers with React (hopefully Remix one
 day too) has been a blessing 🙏🏽! We've got great folks like Dan Abramov, Sophie
 Bits, Ryan Florence, Kent C. Dodds, Michael Chan, to name a few, in the React
@@ -62,13 +60,12 @@ care what tech stack we chose to use to deliver said value.
 
 ## What I made
 
-You can check out the _finished_ version of the application
-at&nbsp;<TextLink href="https://taran-todo.fly.dev/signin">your
-leisure</TextLink>; now complete with google oauth 😏. If you're not comfortable
-signing in with your google account (which is fine), you can sign up with a
-local user account. I say _finished_ because I didn't implement a forgot
-password flow though -- that's probably something I should add to my todo list
-🤭.
+You can check out the _finished_ version of the application at
+[your leisure](https://taran-todo.fly.dev/signin) now complete with google oauth
+😏. If you're not comfortable signing in with your google account (which is
+fine), you can sign up with a local user account. I say _finished_ because I
+didn't implement a forgot password flow though -- that's probably something I
+should add to my todo list 🤭.
 
 The application allows you to do the standard CRUD operations with a todo list.
 You can add, edit, delete, and mark as done a todo item. I also added a "Delete
@@ -153,19 +150,19 @@ an internal tool that just needed to work and it needed to get shipped out
 yesterday 😅. **What's right is what works**.
 
 However, it was shortly after this presentation that I saw
-&nbsp;<TextLink href="https://www.youtube.com/watch?v=zjHHIqI9lUY">theprimagen</TextLink>
-post a reaction video to <TextLink href="https://htmx.org/">HTMX</TextLink>. I
-think I had already seen a
-<TextLink href="https://www.youtube.com/watch?v=r-GSGH2RxJs">fireship
-video</TextLink> prior to this as well; those 100 second overviews are the
-freaking best! It was at this point, after watching Prime react, I thought,
-"Hey, I wonder if HTMX would be a viable technology for my backend colleagues to
-adopt. If they are ever wanting to add interactivity and a SPA like feel to
-their applications without having to learn about typescript, module bundlers,
-vdoms, and a plethora of other technologies that are invovled with modern FE
-development, could HTMX be the way?". I wanted to answer this for myself, so I
-did. The answer: HTMX is **pretty damn great** and I think it's a great solution
-for teams wanting to limit the surface area of their solutions.
+[theprimagen](https://www.youtube.com/watch?v=zjHHIqI9lUY) post a reaction video
+to [HTMX](https://htmx.org/). I think I had already seen a
+
+[fireship video](https://www.youtube.com/watch?v=r-GSGH2RxJs) prior to this as
+well; those 100 second overviews are the freaking best! It was at this point,
+after watching Prime react, I thought, "Hey, I wonder if HTMX would be a viable
+technology for my backend colleagues to adopt. If they are ever wanting to add
+interactivity and a SPA like feel to their applications without having to learn
+about typescript, module bundlers, vdoms, and a plethora of other technologies
+that are invovled with modern FE development, could HTMX be the way?". I wanted
+to answer this for myself, so I did. The answer: HTMX is **pretty damn great**
+and I think it's a great solution for teams wanting to limit the surface area of
+their solutions.
 
 ## How does Go fit into this 😕?
 
@@ -315,14 +312,14 @@ seems like a great way to get type safe components with easy composability and
 great DX!
 
 But wait... if HTMX is such a great library, why the heck did you have to reach
-for something like <TextLink href="https://lit.dev/">lit</TextLink>. While HTML
-and HTMX is great, there are certain UI interactions that aren't supported all
-that well with vanilla HTML elements. The canonical example is a modal (although
-we do have a `<dialog>`) but anything more complex would warrant some sort of UI
-framework. I opted for lit, a library for generating web components, because web
-components seemed like a great fit for an HTML based application. Web components
-are natively supported by browsers, they can be used in any HTML environment,
-and they can be used with any framework or none at all. You can see in the below
+for something like [lit](https://lit.dev/). While HTML and HTMX is great, there
+are certain UI interactions that aren't supported all that well with vanilla
+HTML elements. The canonical example is a modal (although we do have a
+`<dialog>`) but anything more complex would warrant some sort of UI framework. I
+opted for lit, a library for generating web components, because web components
+seemed like a great fit for an HTML based application. Web components are
+natively supported by browsers, they can be used in any HTML environment, and
+they can be used with any framework or none at all. You can see in the below
 image of me using my own web component in my todo app!
 
 <InlineImage
@@ -344,5 +341,5 @@ you to explore these technologies. Perhaps, like me, you'll find your next
 project not just successful, but pretty lit.
 
 What are your thoughts on this tech stack? Think this article sucked? Let me
-know why! Hit me up on <TextLink href="https://twitter.com/tearingItUp786">X
-(formerly Twitter)</TextLink> with your thoughts!
+know why! Hit me up on
+[X (formerly Twitter)](https://twitter.com/tearingItUp786)with your thoughts!

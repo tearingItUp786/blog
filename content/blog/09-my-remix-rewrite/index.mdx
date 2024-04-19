@@ -25,10 +25,9 @@ ended up here!
 ## The Why
 
 First and foremost, let's establish why I rewrote my blog (again) in 2023. My
-previous iteration was written in
-<TextLink href="https://www.gatsbyjs.com/">Gatsby</TextLink>, and I was pretty
-happy with it. It was fast, it was easy to write, and it did everything I needed
-a basic blog to do.
+previous iteration was written in [Gatsby](https://www.gatsbyjs.com/), and I was
+pretty happy with it. It was fast, it was easy to write, and it did everything I
+needed a basic blog to do.
 
 However, I was starting to get a bit bored of it, Gatsby had fallen out of
 favor, I wanted to try something new, and thanks to the massive lay-offs in big
@@ -36,8 +35,9 @@ tech, I had some time on my hands 😅. Moreover, I'm noticing a shift in the FE
 landscape where the lines between the backend and the frontend are starting to
 get a little bit blurry so it kinda made sense to pick up a project that would
 get me some exposure 💨 --
-<TextLink href="https://www.patterns.dev/posts/react-server-components">Enter
-react server components</TextLink>.
+
+[ Enter react server components ](https://www.patterns.dev/posts/react-server-components)
+.
 
 ## The Evolution
 
@@ -51,8 +51,7 @@ state of React).
 
 So I did what I could. I started before I was ready and with the tools that I
 had at my disposable: HTML and CSS. My old site is still available and hosted
-for free at my
-<TextLink href="https://www.sfu.ca/~tbains/old_site/html/home.html">alma-mater</TextLink>.
+for free at my [alma-mater](https://www.sfu.ca/~tbains/old_site/html/home.html).
 
 <LazyGiphy
   containerClassName="w-[100%] pb-[100%] md:w-[50%] md:pb-[50%]"
@@ -63,10 +62,10 @@ for free at my
 It's not much to look at and it's not mobile friendly, but it is one thing for
 damn sure, besides cringey: performant. You can't get much faster than vanilla
 HTML and css, and it's one of the primary benefits of the
-<TextLink href="https://jamstack.org/why-jamstack/">Jamstack</TextLink>. Unlike
-my second iteration of my blog (which is no longer up), there's also minimal
-security concerns with these HTML files. My old server got hacked and became a
-zombie sending people spam emails 😅 because I failed to keep it updated.
+[Jamstack](https://jamstack.org/why-jamstack/). Unlike my second iteration of my
+blog (which is no longer up), there's also minimal security concerns with these
+HTML files. My old server got hacked and became a zombie sending people spam
+emails 😅 because I failed to keep it updated.
 
 ## 2023 rewrite
 
@@ -160,10 +159,10 @@ really exist for me anymore 😅. Some of the plugins I used were written
 specifically for Gatsby and they didn't have a one to one port over to a
 platform like Remix -- this also became an opportunity for more self growth
 though 😏! Morever, while Remix has
-<TextLink href="https://github.com/kentcdodds/mdx-bundler">built in support for
-MDX</TextLink> at build time and, don't get me wrong, it's great, I didn't see
-point of doing a rewrite of my blog with a fullstack framework if I was not
-going to do anything substantial with my server!
+[built in support for MDX](https://github.com/kentcdodds/mdx-bundler) at build
+time and, don't get me wrong, it's great, I didn't see point of doing a rewrite
+of my blog with a fullstack framework if I was not going to do anything
+substantial with my server!
 
 Thankfully, Kent C. Dodds worked on the `mdx-bundler` and so I was able to
 actually bundle my mdx and run-time (yay, I got to use my server to do some
@@ -178,20 +177,19 @@ not great, but oh well 🤷.
 Remember when I mentioned like one paragraph ago that I had an opportunity for
 more self growth when working with MDX and my Remix site? Well, let me
 elaborate!
-<TextLink href="https://www.gatsbyjs.com/plugins/gatsby-remark-code-titles/">Gatsby
-has a plugin</TextLink> that allows developers to associate titles to their
-remark code blocks and it's great (if you're usin Gatsby) but there is no remark
-counterpart that exists 😱!
+[Gatsby has a plugin](https://www.gatsbyjs.com/plugins/gatsby-remark-code-titles/)
+that allows developers to associate titles to their remark code blocks and it's
+great (if you're usin Gatsby) but there is no remark counterpart that exists 😱!
 
 However, there was something that was close to what I needed:
-<TextLink href="https://github.com/rockchalkwushock/rehype-code-titles">rehype-code-titles</TextLink>.
+[rehype-code-titles](https://github.com/rockchalkwushock/rehype-code-titles).
 This rehype library basically did the same thing as the Gatsby version, but
 didn't support the ability for a custom separator for the title string. After
 some encouragement from Kent, I made my first PR and became a contributor to the
 library 🎉. The
-<TextLink href="https://github.com/rockchalkwushock/rehype-code-titles#contributors-">issue
-link</TextLink> describes basically what I did and the reason why I needed to
-add it to the library.
+[issue link](https://github.com/rockchalkwushock/rehype-code-titles#contributors-)
+describes basically what I did and the reason why I needed to add it to the
+library.
 
 **Contributed to open source; I call that growth 😎**
 
