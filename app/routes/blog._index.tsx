@@ -15,7 +15,12 @@ import '~/styles/blog.css'
 import {twMerge} from 'tailwind-merge'
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | Blog | Blog timeline`}]
+  return [
+    {
+      title: `Taran "tearing it up" Bains | Blog | Blog timeline`,
+      description: 'The blog timeline for Taran Bains',
+    },
+  ]
 }
 
 export const loader: LoaderFunction = async ({request}) => {

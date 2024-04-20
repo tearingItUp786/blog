@@ -4,7 +4,12 @@ import {getMdxTagListGql} from '~/utils/mdx-utils.server'
 import {MetaFunction, json} from '@remix-run/node'
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | tags`}]
+  return [
+    {
+      title: `Taran "tearing it up" Bains | tags`,
+      description: 'A list of tags used on this blog',
+    },
+  ]
 }
 
 export async function loader() {

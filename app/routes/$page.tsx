@@ -7,7 +7,12 @@ import {getMdxPageGql} from '~/utils/mdx-utils.server'
 import {invariantResponse} from '~/utils/misc'
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | What I use`}]
+  return [
+    {
+      title: `Taran "tearing it up" Bains | What I use`,
+      description: `A list of tools and services I use in my day-to-day life`,
+    },
+  ]
 }
 
 export const loader: LoaderFunction = async ({params}) => {
