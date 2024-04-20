@@ -237,6 +237,7 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
           const tag = firstMdxFile?.object?.text
             ?.match(/tag: (.*)/)?.[1]
             ?.toLowerCase()
+            ?.trim()
 
           if (!tag) return acc
 
@@ -273,6 +274,7 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
           new Intl.Collator().compare(a[0], b[0]),
         )
 
+        console.log('wtf', tags)
         return {
           tagList: sortedList,
           tags: Object.keys(tags),
