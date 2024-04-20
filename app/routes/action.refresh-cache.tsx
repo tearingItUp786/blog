@@ -36,11 +36,13 @@ function replaceContent(str = '') {
     .replace(/(\*\*|__|\*|_|\~\~)/g, '') // Cleanup leftover Markdown symbols
 }
 
-const getFileArray = (acc: [File[], File[]], file: File) => {
+const getFileArray = (acc: [File[], File[], File[]], file: File) => {
   if (file.filename.startsWith('content/blog')) {
     acc[0].push(file)
   } else if (file.filename.startsWith('content/til')) {
     acc[1].push(file)
+  } else if (file.filename.startsWith('content/pages')) {
+    acc[2].push(file)
   }
   return acc
 }
@@ -84,7 +86,12 @@ export const action: ActionFunction = async ({request}) => {
     return json({ok: false})
   }
 
-  const [bFiles, tilFiles] = contentFiles.reduce(getFileArray, [[], []])
+  const [bFiles, tilFiles, pagesFiles] = contentFiles.reduce(getFileArray, [
+    [],
+    [],
+    [],
+  ])
+
   let blogList: Omit<MdxPage, 'code'>[] = []
   let tilList: TilMdxPage[] = []
 
@@ -92,6 +99,7 @@ export const action: ActionFunction = async ({request}) => {
   if (forceFresh) {
     console.log('⚡️ Manually force fresh invoked!')
     const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
+    const individualPages = await redisClient.keys('gql:pages:*')
 
     console.log('👍 refreshing til list')
     tilList = await refreshTilList()
@@ -113,7 +121,7 @@ export const action: ActionFunction = async ({request}) => {
     )
 
     await Promise.all(
-      individualBlogArticles.map(async article => {
+      [...individualBlogArticles, ...individualPages].map(async article => {
         const [, contentDir, slug] = article.split(':')
         if (contentDir && slug) {
           return await getMdxPageGql({
@@ -204,6 +212,24 @@ export const action: ActionFunction = async ({request}) => {
   console.log('👍 refresh tag list in redis')
   const {tags} = await getMdxTagListGql({...cachifiedOptions})
 
+  console.log('👍 refresh pages in redis')
+  for (const file of pagesFiles) {
+    // refresh the cache in this case
+    const slug = file.filename
+      .replace('content/pages', '')
+      .replace(/\w+\.mdx?$/, '')
+      .replace(/\//g, '')
+
+    const args = {
+      contentDir: 'pages',
+      slug,
+      ...cachifiedOptions,
+    }
+
+    console.log('👍 refresh ', slug, 'from redis')
+    await getMdxPageGql(args)
+  }
+
   console.log('👍 refresh the individual tags in redis')
   await Promise.all(
     tags.map(
@@ -220,7 +246,7 @@ export const action: ActionFunction = async ({request}) => {
       ...o.matter,
       type: 'blog',
       objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
-      content: o?.matter?.content?.replace(/(<([^>]+)>)/gi, ''), // strip out the html tags from the content -- this could be better but it fits my needs
+      content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
     }))
 
     const tilObjects = [...tilList].map(o => {
