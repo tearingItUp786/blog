@@ -16,7 +16,7 @@ export default function TagPage() {
   const {tagList} = useLoaderData<typeof loader>()
 
   return (
-    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
+    <div className="mx-auto mt-16 min-h-[100vh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
         <H1>Tags</H1>
         <div className="mt-8">
