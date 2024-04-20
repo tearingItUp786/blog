@@ -14,7 +14,7 @@
     "typecheck": "tsc -b .",
     "dev": "node ./server/dev-server.mjs",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|vue)\"",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx|gql|graphql|vue)\"",
     "start": "node index.mjs",
     "validate": "./other/validate"
   },

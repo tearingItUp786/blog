@@ -34,7 +34,7 @@ export default function Page() {
   let Component = useMdxComponent(String(code))
 
   return (
-    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
+    <div className="mx-auto mt-16 min-h-[100vh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] mt-4 max-w-full xl:mx-[4vw]">
         <main
           className="prose 

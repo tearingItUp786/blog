@@ -43,7 +43,7 @@ export function Navbar() {
 
   return (
     <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
-      <div className="mr-[15px] w-[50px] px-0 md:w-[72px]  md:pr-6">
+      <div className="mr-[15px] w-[50px] px-0 md:w-[65px]  md:pr-6">
         <NavLink prefetch="intent" className="logoNavLink" to="/">
           <Logo className="py-1" />
         </NavLink>
@@ -64,6 +64,9 @@ export function Navbar() {
         </NavLink>
         <NavLink prefetch="intent" className={setNavClassName} to="/about">
           ABOUT
+        </NavLink>
+        <NavLink prefetch="intent" className={setNavClassName} to="/uses">
+          USES
         </NavLink>
       </div>
 

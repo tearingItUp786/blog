@@ -29,6 +29,13 @@ export function Footer() {
           >
             BLOG
           </NavLink>
+          <NavLink
+            prefetch="intent"
+            className="px-8 text-sm text-white underline dark:text-gray-300"
+            to="/uses"
+          >
+            USES
+          </NavLink>
         </div>
       </div>
     </footer>
