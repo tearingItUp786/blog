@@ -26,6 +26,7 @@ export default function Index() {
       bg-contain
       bg-fixed
       bg-no-repeat
+      text-center
      `}
       >
         <article className="absolute left-[50%] top-[50%] z-[2] translate-x-[-50%] translate-y-[-60%]">
