@@ -27,7 +27,10 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [
     {
       title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`,
-      description:
+    },
+    {
+      name: 'description',
+      content:
         loaderData.page.frontmatter?.description ??
         'A blog post by Taran Bains',
     },

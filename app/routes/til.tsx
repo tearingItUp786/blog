@@ -11,7 +11,13 @@ import {TilMdxPage} from 'types'
 import '~/styles/til.css'
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{title: `Taran "tearing it up" Bains | Today I Learned`}]
+  return [
+    {title: `Taran "tearing it up" Bains | Today I Learned`},
+    {
+      name: 'description',
+      content: 'A list of things I have learned today',
+    },
+  ]
 }
 
 export async function loader({request}: LoaderFunctionArgs) {

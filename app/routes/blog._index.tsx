@@ -18,7 +18,10 @@ export const meta: MetaFunction<typeof loader> = () => {
   return [
     {
       title: `Taran "tearing it up" Bains | Blog | Blog timeline`,
-      description: 'The blog timeline for Taran Bains',
+    },
+    {
+      name: 'description',
+      content: 'The blog timeline for Taran Bains',
     },
   ]
 }

@@ -7,7 +7,11 @@ export const meta: MetaFunction<typeof loader> = () => {
   return [
     {
       title: `Taran "tearing it up" Bains | tags`,
-      description: 'A list of tags used on this blog',
+      description: '',
+    },
+    {
+      name: 'description',
+      content: 'A list of tags used on this blog',
     },
   ]
 }

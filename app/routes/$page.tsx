@@ -10,7 +10,10 @@ export const meta: MetaFunction<typeof loader> = () => {
   return [
     {
       title: `Taran "tearing it up" Bains | What I use`,
-      description: `A list of tools and services I use in my day-to-day life`,
+    },
+    {
+      name: 'description',
+      content: `A list of tools and services I use in my day-to-day life`,
     },
   ]
 }

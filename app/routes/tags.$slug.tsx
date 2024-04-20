@@ -13,7 +13,13 @@ import LazyLoad from 'vanilla-lazyload'
 import '~/styles/tag.css'
 
 export const meta: MetaFunction<typeof loader> = ({params}) => {
-  return [{title: `Taran "tearing it up" Bains | ${params.slug}`}]
+  return [
+    {title: `Taran "tearing it up" Bains | ${params.slug}`},
+    {
+      name: 'description',
+      content: `The articles and blog posts about ${params.slug}`,
+    },
+  ]
 }
 
 export async function loader({params}: LoaderFunctionArgs) {

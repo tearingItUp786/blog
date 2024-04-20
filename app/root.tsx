@@ -63,7 +63,10 @@ export const meta: MetaFunction = () => {
   return [
     {
       title: `Taran "tearing it up" Bains`,
-      description: 'A home for the mostly developer thoughts of Taran Bains',
+    },
+    {
+      name: 'description',
+      content: 'A home for the mostly developer thoughts of Taran Bains',
     },
   ]
 }
