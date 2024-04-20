@@ -41,6 +41,8 @@ module.exports = plop => {
           'Cool Tech',
           'Scala',
           'Stoicism',
+          'Finance',
+          'Philosophy',
           'Other',
         ],
       },
