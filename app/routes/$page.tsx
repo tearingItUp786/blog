@@ -6,8 +6,8 @@ import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxPageGql} from '~/utils/mdx-utils.server'
 import {invariantResponse} from '~/utils/misc'
 
-export const meta: MetaFunction = () => {
-  return [{name: 'description', content: 'Hello from $page.tsx'}]
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{title: `Taran "tearing it up" Bains | What I use`}]
 }
 
 export const loader: LoaderFunction = async ({params}) => {
