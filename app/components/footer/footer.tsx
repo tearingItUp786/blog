@@ -7,31 +7,31 @@ export function Footer() {
         <span className="mb-4 block text-sm text-white dark:text-accent lg:mb-0">
           Taran "tearing it up" Bains
         </span>
-        <div className="block">
+        <div className="flex flex-wrap md:block">
           <NavLink
             prefetch="intent"
-            className="px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
             to="/til"
           >
             TIL
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
             to="/about"
           >
             ABOUT
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
             to="/blog"
           >
             BLOG
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
             to="/uses"
           >
             USES
