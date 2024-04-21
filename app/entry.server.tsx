@@ -1,12 +1,12 @@
-import {PassThrough} from 'stream'
 import {
   createReadableStreamFromReadable,
   type EntryContext,
 } from '@remix-run/node'
 import {RemixServer} from '@remix-run/react'
+import * as Sentry from '@sentry/remix'
 import {isbot} from 'isbot'
 import {renderToPipeableStream} from 'react-dom/server'
-import * as Sentry from '@sentry/remix'
+import {PassThrough} from 'stream'
 
 Sentry.init({
   dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
