@@ -1,30 +1,30 @@
+import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
 import {
-  isRouteErrorResponse,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useRouteError,
 } from '@remix-run/react'
+import {withSentry} from '@sentry/remix'
 import clsx from 'clsx'
+import {ExternalScripts} from 'remix-utils/external-scripts'
+import Toggle from '~/components/theme-toggle'
+import {Navbar} from './components/navbar'
 import {
   NonFlashOfWrongThemeEls,
   ThemeProvider,
   useTheme,
 } from './utils/theme-provider'
-import Toggle from '~/components/theme-toggle'
-import {Navbar} from './components/navbar'
-import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
-import {withSentry} from '@sentry/remix'
-import {ExternalScripts} from 'remix-utils/external-scripts'
 
 import {Footer} from './components/footer/footer'
-import {H3} from './components/typography'
-import {ScrollProgress} from './components/scroll-progress'
-import {redisClient} from './utils/redis.server'
 import {LoadingRoute} from './components/loading-route'
+import {ScrollProgress} from './components/scroll-progress'
+import {H3} from './components/typography'
+import {redisClient} from './utils/redis.server'
 
 import '~/tailwind.css'
 import './styles/app.css'
