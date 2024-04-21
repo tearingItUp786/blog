@@ -1,17 +1,11 @@
 import clsx from 'clsx'
 import {useState} from 'react'
-import {useHotkeys} from '~/hooks/use-hot-keys'
-import {Theme, useTheme} from '~/utils/theme-provider'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
+import {Theme, useTheme} from '~/utils/theme-provider'
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme()
   const [isFooterVisible, setIsFooterVisible] = useState(false)
-
-  useHotkeys('cmd+d, ctrl+d', (event: any) => {
-    event.preventDefault()
-    setTheme(prev => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))
-  })
 
   useFooterObserver({
     onIntersect: () => {
