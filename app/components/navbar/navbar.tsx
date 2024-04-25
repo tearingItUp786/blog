@@ -1,4 +1,4 @@
-import {NavLink, useLocation} from '@remix-run/react'
+import {NavLink, useLocation, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 import {Logo} from './logo'
 
@@ -8,6 +8,8 @@ import {Search} from './algolia-search'
 import {twJoin} from 'tailwind-merge'
 
 export function Navbar() {
+  const [searchParams] = useSearchParams()
+
   const [isOpen, setIsOpen] = useState(false)
   const loc = useLocation()
 
@@ -44,7 +46,11 @@ export function Navbar() {
   return (
     <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
       <div className="mr-[15px] w-[50px] px-0 md:w-[65px]  md:pr-6">
-        <NavLink prefetch="intent" className="logoNavLink" to="/">
+        <NavLink
+          prefetch="intent"
+          className="logoNavLink"
+          to={'/?' + searchParams.toString()}
+        >
           <Logo className="py-1" />
         </NavLink>
       </div>
@@ -56,16 +62,32 @@ export function Navbar() {
           'fixed left-0 top-[63px] z-20 w-[100vw] flex-grow origin-top-right justify-center transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto',
         )}
       >
-        <NavLink prefetch="intent" className={setNavClassName} to="/til">
+        <NavLink
+          prefetch="intent"
+          className={setNavClassName}
+          to={'/til?' + searchParams}
+        >
           TIL
         </NavLink>
-        <NavLink prefetch="intent" className={setNavClassName} to="/blog">
+        <NavLink
+          prefetch="intent"
+          className={setNavClassName}
+          to={'/blog?' + searchParams}
+        >
           BLOG
         </NavLink>
-        <NavLink prefetch="intent" className={setNavClassName} to="/about">
+        <NavLink
+          prefetch="intent"
+          className={setNavClassName}
+          to={'/about?' + searchParams}
+        >
           ABOUT
         </NavLink>
-        <NavLink prefetch="intent" className={setNavClassName} to="/uses">
+        <NavLink
+          prefetch="intent"
+          className={setNavClassName}
+          to={'/uses?' + searchParams}
+        >
           USES
         </NavLink>
       </div>

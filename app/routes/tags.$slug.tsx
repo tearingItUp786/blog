@@ -2,7 +2,12 @@ import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {NavLink, useLoaderData, useParams} from '@remix-run/react'
+import {
+  NavLink,
+  useLoaderData,
+  useParams,
+  useSearchParams,
+} from '@remix-run/react'
 import {ContentCard as GenericContentCard} from '~/components/til/content-card'
 import {tilMapper} from '~/utils/til-list'
 import {useEffect, useMemo, useRef} from 'react'
@@ -44,6 +49,7 @@ export async function loader({params}: LoaderFunctionArgs) {
 
 export default function SingleTag() {
   const {blogList, tilList} = useLoaderData<typeof loader>()
+  const [searchParams] = useSearchParams()
   const params = useParams()
 
   const mountedRef = useRef(false)
@@ -72,7 +78,11 @@ export default function SingleTag() {
             {params.slug}
           </span>
         </H1>
-        <NavLink prefetch="intent" to="/tags" className="group no-underline">
+        <NavLink
+          prefetch="intent"
+          to={'/tags?' + searchParams.toString()}
+          className="group no-underline"
+        >
           <H3 className="inline group-hover:text-accent">Back to all tags</H3>
         </NavLink>
         {tilComponents.map((til, i) => {
@@ -85,7 +95,7 @@ export default function SingleTag() {
             >
               <GenericContentCard
                 id={til?.slug}
-                titleTo={`#${til?.slug}`}
+                titleTo={`#${til?.slug}?${searchParams.toString()}`}
                 key={`${til.frontmatter.title}-${til.frontmatter.date}`}
                 title={til.frontmatter.title}
                 date={til.frontmatter.date}
@@ -106,7 +116,7 @@ export default function SingleTag() {
             >
               {/* TODO: figure how a generic component can be used here */}
               <GenericContentCard
-                titleTo={`/blog/${blog.slug}`}
+                titleTo={`/blog/${blog.slug}?${searchParams.toString()}`}
                 key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
                 title={blog.frontmatter.title}
                 date={blog.frontmatter.date}

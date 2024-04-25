@@ -1,4 +1,4 @@
-import {NavLink} from '@remix-run/react'
+import {NavLink, useSearchParams} from '@remix-run/react'
 import type {MdxPage} from 'types'
 import {dotFormattedDate} from '~/utils/misc'
 import {H2} from '../typography'
@@ -20,6 +20,7 @@ export function BlogCard({
   className,
   descriptionClassName,
 }: Props) {
+  const [searchParams] = useSearchParams()
   return (
     <div
       className={twMerge(
@@ -44,7 +45,7 @@ export function BlogCard({
           <NavLink
             prefetch="intent"
             className="mr-2 font-bold uppercase text-accent dark:opacity-80"
-            to={`/tags/${tag}`}
+            to={`/tags/${tag}?${searchParams.toString()}`}
           >
             {tag}
           </NavLink>
@@ -52,7 +53,7 @@ export function BlogCard({
             {date ? dotFormattedDate(date) : null}
           </span>
         </span>
-        <NavLink prefetch="intent" to={`/${slug}`}>
+        <NavLink prefetch="intent" to={`/${slug}?${searchParams.toString()}`}>
           <H2 className="my-0">{title}</H2>
         </NavLink>
       </div>

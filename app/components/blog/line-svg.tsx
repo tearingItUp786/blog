@@ -1,4 +1,4 @@
-import {NavLink} from '@remix-run/react'
+import {NavLink, useSearchParams} from '@remix-run/react'
 import React from 'react'
 import {dotFormattedDate} from '~/utils/misc'
 
@@ -10,6 +10,7 @@ type Props = {
 
 export const LineSvg = ({date, tag, ...rest}: Props) => {
   const [clientHeight, setClientHeight] = React.useState(0)
+  const [searchParams] = useSearchParams()
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -62,7 +63,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
               <NavLink
                 className="-translate-x-2"
                 prefetch="intent"
-                to={`/tags/${tag}`}
+                to={`/tags/${tag}?${searchParams.toString()}`}
               >
                 <text
                   x={169.294}

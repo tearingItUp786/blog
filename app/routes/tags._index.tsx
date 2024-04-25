@@ -1,5 +1,5 @@
 import {H1, H2} from '~/components/typography'
-import {NavLink, useLoaderData} from '@remix-run/react'
+import {NavLink, useLoaderData, useSearchParams} from '@remix-run/react'
 import {getMdxTagListGql} from '~/utils/mdx-utils.server'
 import {MetaFunction, json} from '@remix-run/node'
 
@@ -23,6 +23,7 @@ export async function loader() {
 
 export default function TagPage() {
   const {tagList} = useLoaderData<typeof loader>()
+  const [searchParams] = useSearchParams()
 
   return (
     <div className="mx-auto mt-16 min-h-[100vh] max-w-screen-xl pb-24">
@@ -49,7 +50,7 @@ export default function TagPage() {
                         <NavLink
                           prefetch="intent"
                           className="font-bold  uppercase text-accent dark:opacity-80"
-                          to={`/tags/${tag.name}`}
+                          to={`/tags/${tag.name}?${searchParams.toString()}`}
                         >
                           {' '}
                           {`${tag.name} [${tag.value}]`}

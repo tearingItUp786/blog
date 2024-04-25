@@ -7,6 +7,7 @@ import type {BaseItem} from '@algolia/autocomplete-core'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 
 import clsx from 'clsx'
+import {useSearchParams} from '@remix-run/react'
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   className?: string
@@ -21,20 +22,34 @@ export function Autocomplete({
   className,
   ...autocompleteProps
 }: AutocompleteProps) {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialQuery = searchParams.get('q') ?? ''
+
   const autocompleteContainer = useRef<HTMLDivElement>(null)
   const searchRef = useRef<any>(null)
   const panelRootRef = useRef<any>(null)
   const rootRef = useRef<any>(null)
-
   const {query, refine: setQuery} = useSearchBox()
   const {refine: setPage} = usePagination()
 
   const [instantSearchUiState, setInstantSearchUiState] =
-    useState<SetInstantSearchUiStateOptions>({query, isOpen: false})
+    useState<SetInstantSearchUiStateOptions>({
+      query: initialQuery,
+      isOpen: false,
+    })
 
   useEffect(() => {
     setQuery(instantSearchUiState.query)
     setPage(0)
+    setSearchParams(prev => {
+      if (instantSearchUiState.isOpen) {
+        prev.set('q', instantSearchUiState.query)
+        if (instantSearchUiState.query === '') {
+          prev.delete('q')
+        }
+      }
+      return prev
+    })
   }, [instantSearchUiState])
 
   useHotkeys(
@@ -74,7 +89,7 @@ export function Autocomplete({
           'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white dark:divide-gray-300 divide-opacity-20',
       },
       container: autocompleteContainer.current,
-      initialState: {query, isOpen: false},
+      initialState: {query: initialQuery, isOpen: false},
       onStateChange({prevState, state}) {
         if (
           prevState.query !== state.query ||

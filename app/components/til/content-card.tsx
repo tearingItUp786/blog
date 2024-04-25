@@ -1,4 +1,4 @@
-import {NavLink} from '@remix-run/react'
+import {NavLink, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
 import {H1} from '../typography'
@@ -49,6 +49,7 @@ export const ContentCard = ({
   showBlackLine = true,
   titleTo,
 }: Props) => {
+  const [searchParams] = useSearchParams()
   return (
     <div
       id={id}
@@ -59,7 +60,7 @@ export const ContentCard = ({
           {dotFormattedDate(date ?? '')}
           <NavLink
             className="ml-4 mr-2 font-bold uppercase text-accent no-underline md:ml-0"
-            to={`/tags/${tag}`}
+            to={`/tags/${tag}?${searchParams.toString()}`}
           >
             {tag}
           </NavLink>
