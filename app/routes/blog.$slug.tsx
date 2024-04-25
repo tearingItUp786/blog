@@ -1,18 +1,18 @@
-import {useEffect, useRef} from 'react'
-import {useLoaderData, useLocation} from '@remix-run/react'
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import * as amplitude from '@amplitude/analytics-browser'
+import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
+import {useLoaderData, useLocation} from '@remix-run/react'
+import {useEffect, useRef} from 'react'
+import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
-import {LineSvg} from '~/components/blog/line-svg'
-import {H1, H4, TextLink} from '~/components/typography'
-import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
-import {dateFormat, invariantResponse} from '~/utils/misc'
-import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
+import {LineSvg} from '~/components/blog/line-svg'
+import {PreviousAndNextLinks} from '~/components/blog/previous-and-next-links'
+import {H1, H4, TextLink} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
-import * as amplitude from '@amplitude/analytics-browser'
-import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
+import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
+import {dateFormat, invariantResponse} from '~/utils/misc'
 
 type LoaderData = {
   page: MdxPage
@@ -20,6 +20,7 @@ type LoaderData = {
   next?: MdxPage
   prev?: MdxPage
 }
+
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   const loaderData = data as LoaderData
   const blogPostTitle =
@@ -58,7 +59,7 @@ export let handle: ExternalScriptsHandle<LoaderData> = {
   },
 }
 
-export const loader: LoaderFunction = async ({params, request}) => {
+export const loader = async ({params, request}: LoaderFunctionArgs) => {
   invariantResponse(params?.slug, 'No slug provided')
 
   const urlReq = new URL(request.url)
@@ -106,7 +107,7 @@ export const loader: LoaderFunction = async ({params, request}) => {
     }
     return json(data, {status: 200, headers})
   } catch (err) {
-    throw json({error: params.slug}, {status: 404})
+    throw json({error: params.slug, data: {page: null}}, {status: 404})
   }
 }
 
@@ -139,7 +140,7 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
 }
 
 export default function MdxScreen() {
-  const data = useLoaderData<LoaderData>()
+  const data = useLoaderData<typeof loader>()
   const {code, frontmatter, readTime} = data.page
   const Component = useMdxComponent(String(code))
   const loc = useLocation()

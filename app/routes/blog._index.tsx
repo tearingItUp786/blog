@@ -1,18 +1,18 @@
-import clsx from 'clsx'
-import {useLoaderData} from '@remix-run/react'
+import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
+import clsx from 'clsx'
 import {BlogCard} from '~/components/blog/blog-card'
-import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
 import {
   getBlogCardClassName,
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
 
 // css
-import '~/styles/blog.css'
 import {twMerge} from 'tailwind-merge'
+import '~/styles/blog.css'
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [
@@ -26,7 +26,7 @@ export const meta: MetaFunction<typeof loader> = () => {
   ]
 }
 
-export const loader: LoaderFunction = async ({request}) => {
+export const loader = async ({request}: LoaderFunctionArgs) => {
   const showDrafts = new URL(request.url).searchParams.has('showDrafts')
   const {publishedPages, draftPages} = await getMdxBlogListGraphql()
 

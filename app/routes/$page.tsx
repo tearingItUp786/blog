@@ -1,4 +1,4 @@
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {H1, H4} from '~/components/typography'
@@ -18,7 +18,7 @@ export const meta: MetaFunction<typeof loader> = () => {
   ]
 }
 
-export const loader: LoaderFunction = async ({params}) => {
+export const loader = async ({params}: LoaderFunctionArgs) => {
   invariantResponse(params?.page, 'No slug provided')
 
   try {
