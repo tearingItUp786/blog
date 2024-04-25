@@ -1,8 +1,9 @@
-import {useNavigation} from '@remix-run/react'
+import {useLocation, useNavigation} from '@remix-run/react'
 import {useEffect, useState} from 'react'
 
 export const LoadingRoute = () => {
   const navigation = useNavigation()
+  const loc = useLocation()
   const [showLoadingComponent, setShowLoadingComponent] = useState(true)
   const {pathname} = navigation.location ?? {}
 
@@ -10,13 +11,16 @@ export const LoadingRoute = () => {
   // after 500 ms if the route has failed to change client side
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null
-    if (navigation.state === 'loading') {
+    if (navigation.state === 'loading' && pathname !== loc.pathname) {
       timeout = setTimeout(() => {
         setShowLoadingComponent(true)
       }, 500)
     }
 
     if (navigation.state === 'idle') {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
       setShowLoadingComponent(false)
     }
 
@@ -25,7 +29,7 @@ export const LoadingRoute = () => {
         clearTimeout(timeout)
       }
     }
-  }, [navigation.location, navigation.state])
+  }, [pathname])
 
   if (!showLoadingComponent || !pathname) return null
 

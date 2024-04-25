@@ -1,9 +1,9 @@
 import {algoliaSearchClient} from '~/utils/algolia'
 
-import {InstantSearch, InstantSearchSSRProvider} from 'react-instantsearch-core'
-import {Autocomplete} from './autocomplete'
 import {getAlgoliaResults} from '@algolia/autocomplete-js'
+import {InstantSearch, InstantSearchSSRProvider} from 'react-instantsearch-core'
 import {H3} from '../typography'
+import {Autocomplete} from './autocomplete'
 
 export function Search() {
   // handle initial search provider results (just so we can render the icon properly)
@@ -26,8 +26,8 @@ export function Search() {
                     sourceId: 'all_results',
                     getItemUrl({item}) {
                       return item.type === 'til'
-                        ? `/${item.type}#${item.objectID}`
-                        : `/${item.type}/${item.objectID}`
+                        ? `/${item.type}#${item.objectID}?offset=${item.offset}&q=${query}`
+                        : `/${item.type}/${item.objectID}?q=${query}`
                     },
                     getItems() {
                       let results = getAlgoliaResults({
@@ -53,15 +53,15 @@ export function Search() {
                           </div>
                         )
                       },
-                      item({item, components}) {
+                      item({item, components, state}) {
                         return (
                           <div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-gray-300 aria-selected:text-white dark:text-gray-300">
                             <a
                               className="flex items-center justify-between space-x-4"
                               href={
                                 item.type === 'til'
-                                  ? `/${item.type}?offset=${item.offset}#${item.objectID}`
-                                  : `/${item.type}/${item.objectID}`
+                                  ? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`
+                                  : `/${item.type}/${item.objectID}?q=${state.query}`
                               }
                             >
                               <div>

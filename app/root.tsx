@@ -1,7 +1,6 @@
 import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -95,7 +94,6 @@ const Document = ({children}: {children: React.ReactNode}) => {
 
         <ScrollRestoration />
         <ExternalScripts />
-        <LiveReload />
         <Scripts />
         <Toggle />
         <Footer />

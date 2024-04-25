@@ -41,15 +41,21 @@ export function Autocomplete({
   useEffect(() => {
     setQuery(instantSearchUiState.query)
     setPage(0)
-    setSearchParams(prev => {
-      if (instantSearchUiState.isOpen) {
-        prev.set('q', instantSearchUiState.query)
-        if (instantSearchUiState.query === '') {
-          prev.delete('q')
-        }
-      }
-      return prev
-    })
+    if (instantSearchUiState.isOpen) {
+      setSearchParams(
+        prev => {
+          prev.set('q', instantSearchUiState.query)
+          if (instantSearchUiState.query === '') {
+            prev.delete('q')
+          }
+          return prev
+        },
+        {
+          replace: true,
+          preventScrollReset: true,
+        },
+      )
+    }
   }, [instantSearchUiState])
 
   useHotkeys(
