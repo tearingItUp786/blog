@@ -1,18 +1,18 @@
+import {scale} from '@cloudinary/url-gen/actions/resize'
+import type {MetaFunction} from '@remix-run/node' // or cloudflare/deno
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
-import {scale} from '@cloudinary/url-gen/actions/resize'
-import type {HeadersFunction, MetaFunction} from '@remix-run/node' // or cloudflare/deno
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
-import Hero from '~/components/hero'
 import clsx from 'clsx'
 import {
-  LotrIcon,
   BeltIcon,
   BookIcon,
+  LotrIcon,
   PaletteIcon,
 } from '~/components/about/icons'
+import Hero from '~/components/hero'
 import {cloudinaryInstance} from '~/utils/cloudinary'
 
 const RandomThing = ({
@@ -83,10 +83,6 @@ export async function loader() {
     },
     {headers},
   )
-}
-
-export const headers: HeadersFunction = ({loaderHeaders}) => {
-  return {'Cache-Control': String(loaderHeaders.get('Cache-Control'))}
 }
 
 // need to fetch all content from the blog directory using github api
