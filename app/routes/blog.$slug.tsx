@@ -168,7 +168,7 @@ export default function MdxScreen() {
     : null
 
   return (
-    <div className="relative mx-[5vw] mt-8 md:mx-[10vw]">
+    <div className="relative mx-[10vw] mt-8">
       <PreviousAndNextLinks previous={previous} next={next} />
       <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
       <div className="mx-auto mb-12 max-w-4xl text-center">

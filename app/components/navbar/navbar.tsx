@@ -44,7 +44,7 @@ export function Navbar() {
   }
 
   return (
-    <div className="relative flex w-full bg-gray-100 px-5 dark:bg-white md:px-9">
+    <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
       <div className="mr-[15px] w-[50px] px-0 md:w-[65px]  md:pr-6">
         <NavLink
           prefetch="intent"
