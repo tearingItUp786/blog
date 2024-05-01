@@ -1,7 +1,7 @@
 import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {useLoaderData, useLocation} from '@remix-run/react'
+import {useLoaderData, useLocation, useSearchParams} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
@@ -153,6 +153,7 @@ declare global {
 
 export default function MdxScreen() {
   const data = useLoaderData<typeof loader>()
+  const [searchParams] = useSearchParams()
   const {code, frontmatter, readTime} = data.page
   const Component = useMdxComponent(String(code))
   const loc = useLocation()
@@ -180,10 +181,16 @@ export default function MdxScreen() {
   }, [loc])
 
   const previous = data.prev
-    ? {to: data.prev.slug, title: data.prev.frontmatter?.title}
+    ? {
+        to: data.prev.slug + `?${searchParams.toString()}`,
+        title: data.prev.frontmatter?.title,
+      }
     : null
   const next = data.next
-    ? {to: data.next.slug, title: data.next.frontmatter?.title}
+    ? {
+        to: data.next.slug + `?${searchParams.toString()}`,
+        title: data.next.frontmatter?.title,
+      }
     : null
 
   return (
