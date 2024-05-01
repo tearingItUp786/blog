@@ -1,7 +1,24 @@
 import {H1, H2} from '~/components/typography'
-import {NavLink, useLoaderData, useSearchParams} from '@remix-run/react'
+import {
+  NavLink,
+  ShouldRevalidateFunctionArgs,
+  useLoaderData,
+  useSearchParams,
+} from '@remix-run/react'
 import {getMdxTagListGql} from '~/utils/mdx-utils.server'
 import {MetaFunction, json} from '@remix-run/node'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [

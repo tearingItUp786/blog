@@ -1,7 +1,12 @@
 import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {useLoaderData, useLocation, useSearchParams} from '@remix-run/react'
+import {
+  ShouldRevalidateFunctionArgs,
+  useLoaderData,
+  useLocation,
+  useSearchParams,
+} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
@@ -54,6 +59,18 @@ export let handle: ExternalScriptsHandle<LoaderData> = {
   },
 }
 
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
+
 export const loader = async ({params, request}: LoaderFunctionArgs) => {
   invariantResponse(params?.slug, 'No slug provided')
 
@@ -64,9 +81,6 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     const page = await getMdxPageGql({
       contentDir: 'blog',
       slug: params.slug,
-      cachifiedOptions: {
-        forceFresh: Boolean(process.env.NODE_ENV !== 'production'),
-      },
     })
 
     if (

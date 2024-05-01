@@ -1,10 +1,23 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {useLoaderData} from '@remix-run/react'
+import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
 import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxPageGql} from '~/utils/mdx-utils.server'
 import {invariantResponse} from '~/utils/misc'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  console.log('wtf', currentUrl.pathname, nextUrl.pathname)
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [
@@ -25,9 +38,6 @@ export const loader = async ({params}: LoaderFunctionArgs) => {
     let page = await getMdxPageGql({
       contentDir: 'pages',
       slug: params.page,
-      cachifiedOptions: {
-        forceFresh: Boolean(process.env.NODE_ENV !== 'production'),
-      },
     })
 
     return json({page})

@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  ShouldRevalidateFunctionArgs,
   isRouteErrorResponse,
   useRouteError,
 } from '@remix-run/react'
@@ -72,6 +73,10 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [...FAVICON]
+}
+
+export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
+  return false
 }
 
 const Document = ({children}: {children: React.ReactNode}) => {

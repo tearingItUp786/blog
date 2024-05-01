@@ -1,6 +1,6 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {useLoaderData} from '@remix-run/react'
+import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
 import clsx from 'clsx'
 import {BlogCard} from '~/components/blog/blog-card'
 import {
@@ -45,6 +45,18 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   )
 
   return json({blogList, cssClasses})
+}
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
 }
 
 export default function Blog() {

@@ -4,6 +4,7 @@ import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {
   NavLink,
+  ShouldRevalidateFunctionArgs,
   useLoaderData,
   useParams,
   useSearchParams,
@@ -16,6 +17,18 @@ import LazyLoad from 'vanilla-lazyload'
 
 // css imports
 import '~/styles/tag.css'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 export const meta: MetaFunction<typeof loader> = ({params}) => {
   return [

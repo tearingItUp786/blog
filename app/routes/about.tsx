@@ -1,7 +1,7 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
 import type {MetaFunction} from '@remix-run/node' // or cloudflare/deno
 import {json} from '@remix-run/node'
-import {useLoaderData} from '@remix-run/react'
+import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
@@ -14,6 +14,18 @@ import {
 } from '~/components/about/icons'
 import Hero from '~/components/hero'
 import {cloudinaryInstance} from '~/utils/cloudinary'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 const RandomThing = ({
   title,

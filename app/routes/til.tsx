@@ -1,5 +1,10 @@
 import {json, LoaderFunctionArgs} from '@remix-run/node'
-import {MetaFunction, useFetcher, useLoaderData} from '@remix-run/react'
+import {
+  MetaFunction,
+  ShouldRevalidateFunctionArgs,
+  useFetcher,
+  useLoaderData,
+} from '@remix-run/react'
 import {useEffect, useRef, useState} from 'react'
 import {TilMdxPage} from 'types'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
@@ -9,6 +14,18 @@ import {getMdxTilListGql} from '~/utils/mdx-utils.server'
 
 // css
 import '~/styles/til.css'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [

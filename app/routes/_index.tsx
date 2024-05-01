@@ -1,7 +1,20 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
 import {json} from '@remix-run/node'
+import {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {H1, H2} from '~/components/typography'
 import {cloudinaryInstance} from '~/utils/cloudinary'
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false
+  }
+
+  return defaultShouldRevalidate
+}
 
 export async function loader() {
   let hero = cloudinaryInstance.image('blog/lion')
