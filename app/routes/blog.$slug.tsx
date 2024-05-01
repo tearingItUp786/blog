@@ -19,6 +19,7 @@ type LoaderData = {
   reqUrl: string
   next?: MdxPage
   prev?: MdxPage
+  hasTwitterEmbed: boolean
 }
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
@@ -42,13 +43,7 @@ export let handle: ExternalScriptsHandle<LoaderData> = {
   scripts({data}) {
     let externalScripts = []
 
-    // If the content of the page contains a twitter status link, load the twitter widget script
-    const twitterStatusRegex = new RegExp(
-      'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
-      'i',
-    )
-
-    if (twitterStatusRegex.test(String(data?.page?.matter?.content))) {
+    if (data.hasTwitterEmbed) {
       externalScripts.push({
         src: 'https://platform.twitter.com/widgets.js',
         async: true,
@@ -99,12 +94,19 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     const prev = blogList?.[currentIndex - 1]
     const next = blogList?.[currentIndex + 1]
 
+    // If the content of the page contains a twitter status link, load the twitter widget script
+    const twitterStatusRegex = new RegExp(
+      'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
+      'i',
+    )
     const data: LoaderData = {
       page,
       prev,
       next,
       reqUrl: urlReq.origin + urlReq.pathname,
+      hasTwitterEmbed: twitterStatusRegex.test(String(page?.matter?.content)),
     }
+
     return json(data, {status: 200, headers})
   } catch (err) {
     throw json({error: params.slug, data: {page: null}}, {status: 404})
@@ -139,6 +141,14 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
   )
 }
 
+declare global {
+  var twttr: {
+    widgets: {
+      load: () => void
+    }
+  }
+}
+
 export default function MdxScreen() {
   const data = useLoaderData<typeof loader>()
   const {code, frontmatter, readTime} = data.page
@@ -159,6 +169,11 @@ export default function MdxScreen() {
       lazyLoadRef.current = new LazyLoad()
     } else {
       lazyLoadRef.current.update()
+    }
+
+    if (data.hasTwitterEmbed) {
+      // pulled from: https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-loading-and-initialization
+      window.twttr.widgets.load()
     }
   }, [loc])
 
