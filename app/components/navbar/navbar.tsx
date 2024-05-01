@@ -10,6 +10,10 @@ import {twJoin} from 'tailwind-merge'
 export function Navbar() {
   const [searchParams] = useSearchParams()
 
+  const searchParamsWithoutOffset = new URLSearchParams(searchParams)
+  // we don't need the offset for the navbar
+  searchParamsWithoutOffset.delete('offset')
+
   const [isOpen, setIsOpen] = useState(false)
   const loc = useLocation()
 
@@ -49,7 +53,7 @@ export function Navbar() {
         <NavLink
           prefetch="intent"
           className="logoNavLink"
-          to={'/?' + searchParams.toString()}
+          to={`/?${searchParamsWithoutOffset}`}
         >
           <Logo className="py-1" />
         </NavLink>
@@ -65,28 +69,28 @@ export function Navbar() {
         <NavLink
           prefetch="intent"
           className={setNavClassName}
-          to={'/til?' + searchParams}
+          to={`/til?${searchParamsWithoutOffset}`}
         >
           TIL
         </NavLink>
         <NavLink
           prefetch="intent"
           className={setNavClassName}
-          to={'/blog?' + searchParams}
+          to={`/blog?${searchParamsWithoutOffset}`}
         >
           BLOG
         </NavLink>
         <NavLink
           prefetch="intent"
           className={setNavClassName}
-          to={'/about?' + searchParams}
+          to={`/about?${searchParamsWithoutOffset}`}
         >
           ABOUT
         </NavLink>
         <NavLink
           prefetch="intent"
           className={setNavClassName}
-          to={'/uses?' + searchParams}
+          to={`/uses?${searchParamsWithoutOffset}`}
         >
           USES
         </NavLink>

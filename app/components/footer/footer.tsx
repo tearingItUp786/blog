@@ -2,6 +2,10 @@ import {NavLink, useSearchParams} from '@remix-run/react'
 
 export function Footer() {
   const [searchParams] = useSearchParams()
+  const searchParamsWithoutOffset = new URLSearchParams(searchParams)
+  // we don't need the offset for the navbar
+  searchParamsWithoutOffset.delete('offset')
+
   return (
     <footer className="w-full border-t-[1px] bg-gray-100 px-10 py-6  dark:bg-white lg:px-28">
       <div className="mx-auto block w-full justify-between text-center lg:flex lg:text-left">
@@ -12,28 +16,28 @@ export function Footer() {
           <NavLink
             prefetch="intent"
             className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
-            to={'/til?' + searchParams.toString()}
+            to={`/til?${searchParamsWithoutOffset}`}
           >
             TIL
           </NavLink>
           <NavLink
             prefetch="intent"
             className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
-            to={'/about?' + searchParams.toString()}
+            to={`/about?${searchParamsWithoutOffset}`}
           >
             ABOUT
           </NavLink>
           <NavLink
             prefetch="intent"
             className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
-            to={'/blog?' + searchParams.toString()}
+            to={`/blog?${searchParamsWithoutOffset}`}
           >
             BLOG
           </NavLink>
           <NavLink
             prefetch="intent"
             className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
-            to={'/uses' + searchParams.toString()}
+            to={`/uses?${searchParamsWithoutOffset}`}
           >
             USES
           </NavLink>
