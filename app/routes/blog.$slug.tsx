@@ -171,9 +171,9 @@ export default function MdxScreen() {
       lazyLoadRef.current.update()
     }
 
-    if (data.hasTwitterEmbed && twttr) {
+    if (data.hasTwitterEmbed && window.twttr) {
       // pulled from: https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-loading-and-initialization
-      twttr?.widgets?.load()
+      window.twttr?.widgets?.load()
     }
   }, [loc])
 
