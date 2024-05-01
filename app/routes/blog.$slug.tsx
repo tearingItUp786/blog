@@ -142,9 +142,11 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
 }
 
 declare global {
-  var twttr: {
-    widgets?: {
-      load: () => void
+  interface Window {
+    twttr?: {
+      widgets?: {
+        load?: () => void
+      }
     }
   }
 }
@@ -173,7 +175,7 @@ export default function MdxScreen() {
 
     if (data.hasTwitterEmbed && window.twttr) {
       // pulled from: https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-loading-and-initialization
-      window.twttr?.widgets?.load()
+      window?.twttr?.widgets?.load?.()
     }
   }, [loc])
 
