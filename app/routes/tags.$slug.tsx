@@ -9,7 +9,7 @@ import {
   useParams,
   useSearchParams,
 } from '@remix-run/react'
-import {ContentCard as GenericContentCard} from '~/components/til/content-card'
+import {ContentCard as GenericContentCard} from './til/content-card'
 import {tilMapper} from '~/utils/til-list'
 import {useEffect, useMemo, useRef} from 'react'
 import {delRedisKey} from '~/utils/redis.server'

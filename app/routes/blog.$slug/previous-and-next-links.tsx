@@ -1,6 +1,6 @@
 import {Link} from '@remix-run/react'
 import clsx from 'clsx'
-import {H4} from '../typography'
+import {H4} from '~/components/typography'
 
 type BlogLink = {
   title?: string

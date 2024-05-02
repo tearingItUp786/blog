@@ -8,7 +8,7 @@ import {
 import {useEffect, useRef, useState} from 'react'
 import {TilMdxPage} from 'types'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
-import {TilComponent} from '~/components/til/til-component'
+import {TilComponent} from './til-component'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
 import {getMdxTilListGql} from '~/utils/mdx-utils.server'
 

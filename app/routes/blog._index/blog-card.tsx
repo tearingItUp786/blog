@@ -1,7 +1,7 @@
 import {NavLink, useSearchParams} from '@remix-run/react'
 import type {MdxPage} from 'types'
 import {dotFormattedDate} from '~/utils/misc'
-import {H2} from '../typography'
+import {H2} from '~/components/typography'
 import {twMerge} from 'tailwind-merge'
 
 type Props = MdxPage['frontmatter'] & {

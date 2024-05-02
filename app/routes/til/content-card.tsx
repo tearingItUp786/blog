@@ -1,7 +1,7 @@
 import {NavLink, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
-import {H1} from '../typography'
+import {H1} from '~/components/typography'
 
 type Props = {
   title?: string
