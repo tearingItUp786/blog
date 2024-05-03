@@ -13,6 +13,9 @@ const cssClasses = {
   alert: 'bg-alert-100 text-alert-300 border-alert-300',
 }
 
+/**
+ * TODO: investigate using a radix callout here instead of this one
+ */
 export const Callout = ({type, title, description}: CalloutProps) => {
   const containerClassName = cssClasses[type]
   return (
