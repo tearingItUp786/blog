@@ -61,7 +61,7 @@ const RandomThing = ({
 export const meta: MetaFunction<typeof loader> = () => {
   return [
     {
-      title: `Taran "tearing it up" Bains | learn about me!`,
+      title: `Taran "tearing it up" Bains | Learn about me!`,
     },
     {
       name: 'description',
