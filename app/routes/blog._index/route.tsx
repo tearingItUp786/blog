@@ -2,13 +2,13 @@ import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
 import clsx from 'clsx'
-import {BlogCard} from './blog-card'
 import {
   getBlogCardClassName,
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
 import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
+import {BlogCard} from './blog-card'
 
 // css
 import {twMerge} from 'tailwind-merge'

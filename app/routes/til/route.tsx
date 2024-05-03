@@ -43,8 +43,6 @@ export async function loader({request}: LoaderFunctionArgs) {
   let endOffset = Number(params.get('offset'))
   let fromFetcher = params.get('fromFetcher')
 
-  console.log('from fetcher', fromFetcher)
-
   // create array of arrays of 20 from the tilList;
 
   if (!endOffset) endOffset = 1

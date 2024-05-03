@@ -1,6 +1,7 @@
 import type {ActionFunction} from '@remix-run/node'
 import {json, redirect} from '@remix-run/node'
 import type {MdxPage, TilMdxPage} from 'types'
+import {algoliaClient} from '~/utils/algolia.server'
 import {
   delMdxPageGql,
   getMdxBlogListGraphql,
@@ -10,7 +11,6 @@ import {
   getMdxTilListGql,
 } from '~/utils/mdx-utils.server'
 import {redisClient} from '~/utils/redis.server'
-import {algoliaClient} from '~/utils/algolia.server'
 
 type File = {
   changeType: 'modified' | 'added' | 'deleted' | 'moved'

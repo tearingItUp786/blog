@@ -1,5 +1,3 @@
-import {H1, H3} from '~/components/typography'
-import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {
@@ -9,11 +7,13 @@ import {
   useParams,
   useSearchParams,
 } from '@remix-run/react'
-import {ContentCard as GenericContentCard} from './til/content-card'
-import {tilMapper} from '~/utils/til-list'
 import {useEffect, useMemo, useRef} from 'react'
-import {delRedisKey} from '~/utils/redis.server'
 import LazyLoad from 'vanilla-lazyload'
+import {H1, H3} from '~/components/typography'
+import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
+import {delRedisKey} from '~/utils/redis.server'
+import {tilMapper} from '~/utils/til-list'
+import {ContentCard as GenericContentCard} from './til/content-card'
 
 // css imports
 import '~/styles/tag.css'

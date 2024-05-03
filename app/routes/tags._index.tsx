@@ -1,12 +1,12 @@
-import {H1, H2} from '~/components/typography'
+import {MetaFunction, json} from '@remix-run/node'
 import {
   NavLink,
   ShouldRevalidateFunctionArgs,
   useLoaderData,
   useSearchParams,
 } from '@remix-run/react'
+import {H1, H2} from '~/components/typography'
 import {getMdxTagListGql} from '~/utils/mdx-utils.server'
-import {MetaFunction, json} from '@remix-run/node'
 
 export function shouldRevalidate({
   currentUrl,

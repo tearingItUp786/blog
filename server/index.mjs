@@ -16,18 +16,6 @@ installGlobals()
 
 let viteDevServer
 if (process.env.NODE_ENV === 'production') {
-  // so the weird thing with the new vite build is that if we try to do
-  // node start with the server file with our custom server, node
-  // complains about our package not having a type module. However,
-  // if we chane it to type module, the dev server stops working
-  // because it can't find the server file. So, we're going to
-  // rename the file to .mjs and then import it.
-  if (existsSync(here('../build/server/index.js'))) {
-    renameSync(
-      here('../build/server/index.js'),
-      here('../build/server/index.mjs'),
-    )
-  }
   viteDevServer = undefined
 } else {
   viteDevServer = await import('vite').then(vite =>

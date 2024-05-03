@@ -12,12 +12,12 @@ import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
-import {LineSvg} from './line-svg'
-import {PreviousAndNextLinks} from './previous-and-next-links'
 import {H1, H4, TextLink} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dateFormat, invariantResponse} from '~/utils/misc'
+import {LineSvg} from './line-svg'
+import {PreviousAndNextLinks} from './previous-and-next-links'
 
 type LoaderData = {
   page: MdxPage

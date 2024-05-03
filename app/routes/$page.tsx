@@ -11,7 +11,6 @@ export function shouldRevalidate({
   nextUrl,
   defaultShouldRevalidate,
 }: ShouldRevalidateFunctionArgs) {
-  console.log('wtf', currentUrl.pathname, nextUrl.pathname)
   if (currentUrl.pathname === nextUrl.pathname) {
     return false
   }
