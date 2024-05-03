@@ -80,7 +80,7 @@ export const BlockQuote = ({
 }: CommonProps) => (
   <blockquote
     className={clsx(
-      'font-body text-2xl font-normal italic dark:text-white md:text-3xl [&>p]:my-0',
+      'font-body text-2xl font-normal italic dark:text-white md:text-3xl [&>p]:my-0 [&>p]:text-2xl [&>p]:md:text-3xl',
       className,
     )}
     {...rest}
