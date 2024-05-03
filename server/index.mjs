@@ -1,11 +1,11 @@
-import express from 'express'
-import closeWithGrace from 'close-with-grace'
-import compression from 'compression'
 import {createRequestHandler} from '@remix-run/express'
 import {installGlobals} from '@remix-run/node'
-import {existsSync, renameSync} from 'fs'
-import path from 'path'
+import * as Sentry from '@sentry/remix'
+import closeWithGrace from 'close-with-grace'
+import compression from 'compression'
+import express from 'express'
 import morgan from 'morgan'
+import path from 'path'
 import {fileURLToPath} from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -16,6 +16,12 @@ installGlobals()
 
 let viteDevServer
 if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
+    integrations: [],
+    // Performance Monitoring
+    tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
+  })
   viteDevServer = undefined
 } else {
   viteDevServer = await import('vite').then(vite =>
@@ -58,6 +64,14 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'))
 }
+
+app.use((_req, res, next) => {
+  res.set('X-Fly-Region', process.env.FLY_REGION ?? 'unknown')
+  res.set('X-Fly-App', process.env.FLY_APP_NAME ?? 'unknown')
+
+  res.set('X-Frame-Options', 'SAMEORIGIN')
+  next()
+})
 
 app.all(
   '*',
