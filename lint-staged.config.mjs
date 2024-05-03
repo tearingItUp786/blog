@@ -4,6 +4,6 @@ export default {
     `npm run test --silent -- --watch=false`,
     () => `npm run lint --silent`,
     () => `npm run typecheck --silent`,
-    () => `npm run format --silent`,
+    () => `npm run format`,
   ],
 }
