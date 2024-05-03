@@ -3,6 +3,7 @@ import {twMerge} from 'tailwind-merge'
 import clsx from 'clsx'
 import {Link} from '@remix-run/react'
 
+// This is the typography component
 const fontSizes = {
   h1: 'font-display font-bold text-3xl md:text-4xl',
   h2: 'font-body font-bold text-2xl md:text-3xl',
