@@ -24,7 +24,7 @@ type LoaderData = {
   reqUrl: string
   next?: MdxPage
   prev?: MdxPage
-  hasTwitterEmbed: boolean
+  hasTwitterEmbed?: boolean
 }
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
@@ -48,7 +48,7 @@ export let handle: ExternalScriptsHandle<LoaderData> = {
   scripts({data}) {
     let externalScripts = []
 
-    if (data.hasTwitterEmbed) {
+    if (data?.hasTwitterEmbed) {
       externalScripts.push({
         src: 'https://platform.twitter.com/widgets.js',
         async: true,

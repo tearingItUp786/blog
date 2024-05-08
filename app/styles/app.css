@@ -127,3 +127,7 @@ mark {
 .label {
   line-height: 1;
 }
+
+g.cluster-label {
+  line-height: 1.5rem;
+}
