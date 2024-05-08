@@ -11,6 +11,7 @@ import {
   getMdxTilListGql,
 } from '~/utils/mdx-utils.server'
 import {redisClient} from '~/utils/redis.server'
+import PQueue from 'p-queue'
 
 type File = {
   changeType: 'modified' | 'added' | 'deleted' | 'moved'
@@ -231,15 +232,20 @@ export const action: ActionFunction = async ({request}) => {
   }
 
   console.log('👍 refresh the individual tags in redis')
-  await Promise.all(
-    tags.map(
-      async tag =>
-        await getMdxIndividualTagGql({
-          userProvidedTag: tag,
-          ...cachifiedOptions,
-        }),
-    ),
-  )
+  const queue = new PQueue({concurrency: 4})
+
+  // Map your tags to functions that add tasks to the queue
+  const tasks = tags.map(tag => async () => {
+    return queue.add(() =>
+      getMdxIndividualTagGql({
+        userProvidedTag: tag,
+        ...cachifiedOptions,
+      }),
+    )
+  })
+
+  // Execute all tasks
+  await Promise.all(tasks.map(task => task()))
 
   if (blogList.length || tilList.length) {
     const blogObjects = [...blogList].map(o => ({

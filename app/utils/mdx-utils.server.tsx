@@ -274,7 +274,7 @@ async function getMdxTagListGql({cachifiedOptions}: CommonGetProps = {}) {
           new Intl.Collator().compare(a[0], b[0]),
         )
 
-        console.log('wtf', tags)
+        // console.log('wtf', tags)
         return {
           tagList: sortedList,
           tags: Object.keys(tags),
