@@ -49,6 +49,10 @@ const getFileArray = (acc: [File[], File[], File[]], file: File) => {
   return acc
 }
 
+/**
+ * We don't want to overload our server with all these pending promises
+ * So let's use a queue to queue up what needs to be fetched.
+ */
 const P_QUEUE = new PQueue({concurrency: 4})
 
 const refreshTilList = async () => {
@@ -61,8 +65,15 @@ const refreshTilList = async () => {
 
   let maxOffset = data.maxOffset
   let promises: ReturnType<typeof getMdxTilListGql>[] = []
+
   for (let i = 1; i <= maxOffset; i++) {
-    promises.push(getMdxTilListGql({...cachifiedOptions, endOffset: i}))
+    let promiseFunc = () =>
+      getMdxTilListGql({...cachifiedOptions, endOffset: i})
+
+    let newPromise = P_QUEUE.add(promiseFunc) as ReturnType<
+      typeof getMdxTilListGql
+    >
+    promises.push(newPromise)
   }
 
   await Promise.all(promises).then(values => {
@@ -76,7 +87,7 @@ const refreshTilList = async () => {
 }
 
 const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
-  console.log('⚡️ Manually force fresh invoked!')
+  console.log('🔥 Manually force fresh invoked!')
   const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
   const individualPages = await redisClient.keys('gql:pages:*')
 
@@ -173,6 +184,7 @@ export const action: ActionFunction = async ({request}) => {
 
   let blogList: Omit<MdxPage, 'code'>[] = []
   let tilList: TilMdxPage[] = []
+
   // if we edited a content file, call the fetcher function for getContent
   if (tilFiles.length) {
     console.log('👍 refreshing til list')
