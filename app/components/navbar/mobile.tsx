@@ -20,7 +20,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
         aria-label="Hamburger menu"
         className={clsx(
           isOpen ? 'fixed' : 'absolute',
-          'border-radius-[-4px] pointer absolute right-[0] top-[22px] z-10 translate-y-[-50%] border-none bg-transparent p-4 pt-5',
+          'border-radius-[-4px] pointer absolute right-[0] top-[22px] z-10 translate-y-[-50%] border-none bg-transparent p-4 pt-5 md:top-[17px]',
         )}
         onClick={() => setIsOpen((o: boolean) => !o)}
       >
