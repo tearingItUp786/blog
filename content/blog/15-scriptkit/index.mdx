@@ -1,5 +1,5 @@
 ---
-title: ScriptKit
+title: Script Kit
 subtitle: Scripting isn't so bad y'all
 description: Scripting isn't just for sys admins 😃
 date: 2024-05-05
@@ -14,14 +14,14 @@ tag: cool tech
 />
 
 Hey hey; I'm back again and today I wanna talk about
-[ScriptKit](https://www.scriptkit.com/); I heard about it from Kent (in passing)
-whilst attending [Epic Conf](https://epicweb.dev/conf)! In short, it's primary
-purpose is to help developers automate tedious parts of their workflows with an
-easy to use scripting platform. All the scripts you write are in JS and TS (see
-ya later bash) and by virtue of making JS + TS first class citizens, you can do
-some real nifty things.
+[Script Kit](https://www.scriptkit.com/); I heard about it from Kent (in
+passing) whilst attending [Epic Conf](https://epicweb.dev/conf)! In short, it's
+primary purpose is to help developers automate tedious parts of their workflows
+with an easy to use scripting platform. All the scripts you write are in JS and
+TS (see ya later bash) and by virtue of making JS + TS first class citizens, you
+can do some real nifty things.
 
-There are 4 reasons why I like ScriptKit and I'll be elaborating on each. If
+There are 4 reasons why I like `Script Kit` and I'll be elaborating on each. If
 you're too busy or too lazy to read the rest of the article (both of which are
 fine reasons to not read anything), here's the tldr:
 
@@ -51,8 +51,8 @@ folks, need to wait for our cache to invalidate before I can tell our QA
 Engineers to kick off regression tests. Ideally, there would be some sort of
 webhook that gets fired once the cache has been invalidated in our CI process
 but, like a lot of companies, we've got bigger fish to fry than improving our CI
-process and improving our developer experience. Prior to ScriptKit, I would wait
-around for 10ish minutes and check the version manually because within that
+process and improving our developer experience. Prior to `Script Kit`, I would
+wait around for 10ish minutes and check the version manually because within that
 10ish minutes, there was a pretty good chance (not an absolute chance) that the
 version would update. Essentailly the flow looked like the below:
 
@@ -140,11 +140,12 @@ change, he'd get a notification on his phone (and apple watch) about the status
 of the change. I personally didn't use his script -- not because it wasn't good
 but because it seemed like a hassle to set up another alias on my bash profile
 to execute some random node script. I'm lazy, I know 🙈. However, after
-[Epic Conf](https://epicweb.dev/conf), I decided to give ScriptKit a try and
-tweaked his version checker script for ScriptKit -- which was pretty easy since
-his code was already written in JS. Not only did his script work, but I was also
-able to improve on it by removing some verbosity around fetch calls as ScriptKit
-has nice little helpers like `get` and `open` available in the runtime!
+[Epic Conf](https://epicweb.dev/conf), I decided to give `Script Kit` a try and
+tweaked his version checker script for `Script Kit` -- which was pretty easy
+since his code was already written in JS. Not only did his script work, but I
+was also able to improve on it by removing some verbosity around fetch calls as
+`Script Kit` has nice little helpers like `get` and `open` available in the
+runtime!
 
 I'll be honest, after creating that first script, I got a little trigger happy
 and automated a few more tasks 😳. I automated opening up the URL for my
@@ -158,7 +159,7 @@ while not bad in and of itself, was definitely annoying.
 
 If it isn't abundantly clear to you by now, I absolutely love to learn (I also
 curse like a sailor). So when I say it was fun to learn about scripting and
-ScriptKit, you shouldn't be surprised.
+`Script Kit`, you shouldn't be surprised.
 
 What made it fun, at least for me, was that I had found a _new_ way to improve
 upon my life! I'm constantly chasing progress and improvement -- not because I'm
@@ -205,8 +206,8 @@ having me answer and provide help to my colleagues when my tiny script to ping
 our prod server failed to work for them 😥.
 
 Look how easy and small the script to empty your trash is! After the set up of
-ScriptKit, it's as easy as running `empty-trash` from the terminal to empty my
-Mac's trash (or Windows Recycle Bin)!
+`Script Kit`, it's as easy as running `empty-trash` from the terminal to empty
+my Mac's trash (or Windows Recycle Bin)!
 
 ```js:title=empty-trash.js
 // Name: Empty Trash
@@ -223,7 +224,7 @@ await emptyTrash()
 Alright, y'all know it, I know it, my family even knows it -- I love the
 terminal! I picked up `neovim` 2 years ago and haven't looked back! However,
 that isn't to say that I don't use GUIs -- GUIs definitely have their place in
-my toolbelt. GUIs are great... and that's why it's awesome that `ScriptKit`
+my toolbelt. GUIs are great... and that's why it's awesome that `Script Kit`
 includes a GUI and a CLI for us to use.
 
 <InlineImage
@@ -249,7 +250,7 @@ chance! Isn't that so **cool**; You get the best of both worlds!
 
 ## Closing thoughts
 
-Okay so, automation is great. [ScriptKit](https://www.scriptkit.com/) is great.
+Okay so, automation is great. [Script Kit](https://www.scriptkit.com/) is great.
 However, if you're not careful and don't understand the inherent risks of
 scripting, hold off and ask for help! We don't want to be willy nilly installing
 packages to our machines and executing the code.
