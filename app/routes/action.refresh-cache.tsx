@@ -72,6 +72,8 @@ const refreshTilList = async () => {
   return tilList
 }
 
+const queue = new PQueue({concurrency: 4})
+
 export const action: ActionFunction = async ({request}) => {
   const index = algoliaClient?.initIndex('website')
   if (request.headers.get('auth') !== process.env.REFRESH_CACHE_SECRET) {
@@ -111,28 +113,35 @@ export const action: ActionFunction = async ({request}) => {
 
     const {tags} = await getMdxTagListGql({...cachifiedOptions})
 
-    await Promise.all(
-      tags.map(
-        async tag =>
-          await getMdxIndividualTagGql({
-            userProvidedTag: tag,
-            ...cachifiedOptions,
-          }),
-      ),
-    )
+    // Map your tags to functions that add tasks to the queue
+    const tagsTasks = tags.map(tag => async () => {
+      return queue.add(() =>
+        getMdxIndividualTagGql({
+          userProvidedTag: tag,
+          ...cachifiedOptions,
+        }),
+      )
+    })
 
-    await Promise.all(
-      [...individualBlogArticles, ...individualPages].map(async article => {
+    // Execute all tasks
+
+    const pageTasks = [...individualBlogArticles, ...individualPages].map(
+      article => async () => {
         const [, contentDir, slug] = article.split(':')
         if (contentDir && slug) {
-          return await getMdxPageGql({
-            contentDir,
-            slug,
-            ...cachifiedOptions,
-          })
+          return queue.add(() =>
+            getMdxPageGql({
+              contentDir,
+              slug,
+              ...cachifiedOptions,
+            }),
+          )
         }
-      }),
+      },
     )
+
+    await Promise.all(tagsTasks.map(task => task()))
+    await Promise.all(pageTasks.map(task => task()))
 
     console.log('👍 refreshing algolia')
     const blogObjects = [...blogList].map(o => ({
@@ -232,7 +241,6 @@ export const action: ActionFunction = async ({request}) => {
   }
 
   console.log('👍 refresh the individual tags in redis')
-  const queue = new PQueue({concurrency: 4})
 
   // Map your tags to functions that add tasks to the queue
   const tasks = tags.map(tag => async () => {
