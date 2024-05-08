@@ -35,7 +35,7 @@ fine reasons to not read anything), here's the tldr:
 ## Automate all the things
 
 I once heard of a developer that would automate any task that he had to repeat
-more than twice in a given week (or something to that affect). This man wrote a
+more than twice in a given week (or something to that effect). This man wrote a
 script that would send out a text to his wife at 5:00 pm if he has not logged
 off his work computer, giving her some randomized excuse for why he was running
 late. I mean, I'm not saying I would do that but I'm not saying that I wouldn't
@@ -54,7 +54,7 @@ but, like a lot of companies, we've got bigger fish to fry than improving our CI
 process and improving our developer experience. Prior to `Script Kit`, I would
 wait around for 10ish minutes and check the version manually because within that
 10ish minutes, there was a pretty good chance (not an absolute chance) that the
-version would update. Essentailly the flow looked like the below:
+version would update. Essentially the flow looked like the below:
 
 <div className='hidden md:block my-8'>
 ```mermaid
@@ -145,7 +145,69 @@ tweaked his version checker script for `Script Kit` -- which was pretty easy
 since his code was already written in JS. Not only did his script work, but I
 was also able to improve on it by removing some verbosity around fetch calls as
 `Script Kit` has nice little helpers like `get` and `open` available in the
-runtime!
+runtime! You can see the example here:
+
+```js:title=example-version-checker.js
+// Name: Version pinger
+// Author: Taran Bains
+
+import "@johnlindquist/kit";
+
+const url = await arg("Set URL:", []);
+
+// I use ntfy to subscribe to messages
+const topic = await arg("Set ntfy topic:", [""]);
+
+async function sendNotify(msg: string) {
+  try {
+    await $`curl -d "${msg}" ntfy.sh/${topic}`;
+  } catch (error) {
+    console.error("Notification Error:", error.message);
+  }
+}
+
+let firstVersion = (await get(url))?.data?.version;
+let lastVersion = firstVersion;
+
+const startTime = Date.now();
+const timeLimit = 10 * 60 * 1000;
+
+async function checkVersionChange() {
+  try {
+    const response = await get(url);
+    const newVersion = response.data.version;
+    if (newVersion !== lastVersion) {
+      await sendNotify(`Version changed from ${lastVersion} to ${newVersion}`);
+      lastVersion = newVersion;
+      return false; // Stop checking after version change
+    }
+    return true; // Continue checking
+  } catch (error) {
+    console.error("Error fetching version:", error.message);
+  }
+}
+
+async function startPinging() {
+  const interval = setInterval(async () => {
+    if (Date.now() - startTime > timeLimit) {
+      clearInterval(interval);
+      await sendNotify("Timed out checking version");
+    } else {
+      const shouldContinue = await checkVersionChange();
+      // log the date in a human readable way
+      let prettyDate = new Date().toLocaleString();
+      console.log(
+        `${prettyDate} -  Pinging ${url}. Old Version: ${firstVersion}`,
+      );
+      if (!shouldContinue) {
+        clearInterval(interval);
+        notify("Finished running script");
+      }
+    }
+  }, 3000);
+}
+startPinging();
+```
 
 I'll be honest, after creating that first script, I got a little trigger happy
 and automated a few more tasks 😳. I automated opening up the URL for my
