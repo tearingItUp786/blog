@@ -209,7 +209,11 @@ export default function MdxScreen() {
 
   return (
     <div className="relative mx-[10vw] mt-8">
-      <PreviousAndNextLinks previous={previous} next={next} />
+      <PreviousAndNextLinks
+        className="hidden md:flex"
+        previous={previous}
+        next={next}
+      />
       <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
       <div className="mx-auto mb-12 max-w-4xl text-center">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
@@ -228,15 +232,15 @@ export default function MdxScreen() {
         prose-light 
         relative 
         mx-auto 
-        mb-10 
-        grid 
-        max-w-7xl grid-cols-4 
-        gap-x-4 
-        break-words
-        dark:prose-dark md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6"
+        grid
+        max-w-7xl 
+        grid-cols-4 gap-x-4 
+        break-words 
+        dark:prose-dark
+        md:mb-12 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6"
       >
         <Component />
-        <div className="border-sold mt-8 block border-t-[1px] pb-4 pt-8 md:flex md:justify-between">
+        <div className="border-sold mt-8 flex justify-between border-t-[1px] pb-4 pt-8">
           <TextLink
             className="mb-2 block md:mb-0"
             href={`https://twitter.com/intent/tweet?${new URLSearchParams({
@@ -247,7 +251,7 @@ export default function MdxScreen() {
             Post about this
           </TextLink>
           <TextLink
-            className="block"
+            className="block text-right"
             href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
               {
                 url: data.reqUrl,
@@ -258,6 +262,13 @@ export default function MdxScreen() {
           </TextLink>
         </div>
       </main>
+      <div className="relative">
+        <PreviousAndNextLinks
+          className="mb-12 mt-4 flex md:hidden"
+          previous={previous}
+          next={next}
+        />
+      </div>
     </div>
   )
 }
