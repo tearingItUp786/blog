@@ -24,7 +24,7 @@ type LoaderData = {
   reqUrl: string
   next?: MdxPage
   prev?: MdxPage
-  hasTwitterEmbed?: boolean
+  hasTwitterEmbed: boolean
 }
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {

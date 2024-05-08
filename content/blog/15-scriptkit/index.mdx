@@ -56,7 +56,41 @@ around for 10ish minutes and check the version manually because within that
 10ish minutes, there was a pretty good chance (not an absolute chance) that the
 version would update. Essentailly the flow looked like the below:
 
-<div className='my-8'>
+<div className='hidden md:block my-8'>
+```mermaid
+%%{
+  init: {
+    'theme': 'dark',
+    'themeVariables': {
+			'fontSize": '16px',
+			'primaryColor': '#b01d8b',
+			'primaryTextColor': '#f3f3f7',
+			'primaryBorderColor': '#D3BCC0',
+			'lineColor': '#2a8a90',
+			'secondaryColor': '#507DBC',
+			'tertiaryColor': '#F4F4F2'
+    }
+  }
+}%%
+graph LR
+  A(update prod)
+  B(invalidate cache)
+  C{Has prod \n version updated?}
+  D(Notify Qas)
+  D0(Yes)
+  D1(No)
+  E(Wait longer)
+  A --> B
+  B --> C
+  C --> D0
+  D0 --> D
+  C --> D1
+  D1 --> E
+  E --> C
+```
+</div>
+
+<div className='block md:hidden my-8'>
 ```mermaid
 %%{
   init: {
@@ -88,7 +122,6 @@ graph TD
   D1 --> E
   E --> C
 ```
-
 </div>
 
 However, it was equally likely that the version could update within one minute
