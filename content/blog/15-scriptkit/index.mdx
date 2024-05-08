@@ -4,7 +4,6 @@ subtitle: Scripting isn't so bad y'all
 description: Scripting isn't just for sys admins 😃
 date: 2024-05-05
 tag: cool tech
-draft: true
 ---
 
 <InlineImage
@@ -14,12 +13,13 @@ draft: true
   alt="An image of ai generated people using an anvil and blacksmiting scripts for my automation"
 />
 
-Hey hey; I'm back again and today I wanna talk about ScriptKit; I heard about it
-from Kent (in passing) whilst attending [Epic Conf](https://epicweb.dev/conf)!
-In short, it's primary purpose is to help developers automate tedious parts of
-their workflows with an easy to use scripting platform. All the scripts you
-write are in JS and TS (see ya later bash) and by virtue of making JS + TS first
-class citizens, you can do some real nifty things.
+Hey hey; I'm back again and today I wanna talk about
+[ScriptKit](https://www.scriptkit.com/); I heard about it from Kent (in passing)
+whilst attending [Epic Conf](https://epicweb.dev/conf)! In short, it's primary
+purpose is to help developers automate tedious parts of their workflows with an
+easy to use scripting platform. All the scripts you write are in JS and TS (see
+ya later bash) and by virtue of making JS + TS first class citizens, you can do
+some real nifty things.
 
 There are 4 reasons why I like ScriptKit and I'll be elaborating on each. If
 you're too busy or too lazy to read the rest of the article (both of which are
@@ -204,6 +204,55 @@ point of scripting was to help make my life easier -- not make it harder by
 having me answer and provide help to my colleagues when my tiny script to ping
 our prod server failed to work for them 😥.
 
+Look how easy and small the script to empty your trash is! After the set up of
+ScriptKit, it's as easy as running `empty-trash` from the terminal to empty my
+Mac's trash (or Windows Recycle Bin)!
+
+```js:title=empty-trash.js
+// Name: Empty Trash
+// Author: Ricardo Gonçalves Bassete
+
+import "@johnlindquist/kit"
+import emptyTrash from 'empty-trash'
+
+await emptyTrash()
+```
+
 ## A GUI + Terminal interface
 
+Alright, y'all know it, I know it, my family even knows it -- I love the
+terminal! I picked up `neovim` 2 years ago and haven't looked back! However,
+that isn't to say that I don't use GUIs -- GUIs definitely have their place in
+my toolbelt. GUIs are great... and that's why it's awesome that `ScriptKit`
+includes a GUI and a CLI for us to use.
+
+<InlineImage
+  lazyLoadImage
+  imgDivClassName="aspect-w-12 aspect-h-8"
+  containerClassName="mx-0 lg:mx-0"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1715192154/blog/15-scripkit/gui-example.png"
+  alt="A screenshot of my terminal"
+/>
+
+One script I use pretty often is
+[cloudinary upload](https://www.scriptkit.com/kentcdodds/cloudinary-upload). I
+already tried using it from the terminal and it doesn't work 😅 since we don't
+have a drag and drop interface for the terminal (at least not one that I'm aware
+of). That's why it's super great to have the GUI -- if there are certain
+elements that require a GUI, we get that!
+
+However, the
+[chrome-bookmark](https://www.scriptkit.com/tearingItUp786/navigate-chrome-bookmarks-with-folder-support)
+script that I wrote can run in the terminal (it has no dependency on GUI
+elements) so I lovingly use it in the terminal! Check it out when you get a
+chance! Isn't that so **cool**! You get the best of both worlds!
+
 ## Closing thoughts
+
+Okay so, automation is great. [ScriptKit](https://www.scriptkit.com/) is great.
+However, if you're not careful and don't understand the inherent risks of
+scripting, hold off and ask for help! We don't want to be willy nilly installing
+packages to our machines and executing the code!
+
+Check it out and publish your scripts to the community! If you have any cool
+scripts that you've written, send them my way!
