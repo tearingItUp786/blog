@@ -56,7 +56,7 @@ around for 10ish minutes and check the version manually because within that
 10ish minutes, there was a pretty good chance (not an absolute chance) that the
 version would update. Essentailly the flow looked like the below:
 
-<div className="my-8">
+<div className='my-8'>
 ```mermaid
 %%{
   init: {
@@ -72,12 +72,23 @@ version would update. Essentailly the flow looked like the below:
     }
   }
 }%%
-
-graph LR A(update prod) B(invalidate cache) C{Has prod \n version updated?} A
---> B B --> C C --> Yes(Yes) Yes --> D(Notify Qas) C --> No(No) No --> E(Wait
-longer) E --> C
-
+graph LR
+  A(update prod)
+  B(invalidate cache)
+  C{Has prod \n version updated?}
+  D(Notify Qas)
+  D0(Yes)
+  D1(No)
+  E(Wait longer)
+  A --> B
+  B --> C
+  C --> D0
+  D0 --> D
+  C --> D1
+  D1 --> E
+  E --> C
 ```
+
 </div>
 
 However, it was equally likely that the version could update within one minute
@@ -163,4 +174,3 @@ our prod server failed to work for them 😥.
 ## A GUI + Terminal interface
 
 ## Closing thoughts
-```

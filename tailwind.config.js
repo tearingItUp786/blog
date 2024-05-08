@@ -181,6 +181,10 @@ module.exports = {
                 'ol,ul': {
                   marginTop: 0,
                 },
+                'ol, ul > li': {
+                  fontSize: fontSize('lg'),
+                  fontWeight: 500,
+                },
               },
             ],
           },
