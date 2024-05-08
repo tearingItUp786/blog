@@ -88,6 +88,9 @@ const refreshTilList = async () => {
 
 const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
   console.log('🔥 Manually force fresh invoked!')
+
+  // if redis doesn't have keys already, then we're outta luck here
+  // we need redis to have the keys to know what to refresh
   const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
   const individualPages = await redisClient.keys('gql:pages:*')
 
