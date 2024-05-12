@@ -6,10 +6,9 @@ import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";
 import clsx from 'clsx'
-import {BeltIcon, BookIcon, LotrIcon, PaletteIcon} from './icons'
-import Hero from '~/components/hero'
-import {cloudinaryInstance} from '~/utils/cloudinary'
 import {FaceHero} from '~/components/hero/face-motion'
+import {cloudinaryInstance} from '~/utils/cloudinary'
+import {BeltIcon, BookIcon, LotrIcon, PaletteIcon} from './icons'
 
 export function shouldRevalidate({
   currentUrl,

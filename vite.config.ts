@@ -9,7 +9,8 @@ installGlobals()
 export default defineConfig({
   ssr: {
     // things to exclude from the server bundle
-    noExternal: [/^gsap.*/, /@algolia.*/],
+    // noExternal: [/^gsap.*/, /@algolia.*/],
+    noExternal: [/@algolia.*/],
   },
   plugins: [
     remix({
