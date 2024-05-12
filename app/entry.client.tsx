@@ -6,38 +6,37 @@ import {hydrateRoot} from 'react-dom/client'
 
 if (process.env.NODE_ENV === 'production') {
   amplitude.init('12e15cca4c978dad4bb7dc430e747471')
-}
-
-Sentry.init({
-  dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
-  beforeSend(event, hint) {
-    // Check if the error originates from a Chrome extension
-    if (hint.originalException) {
-      let {stack} = hint.originalException as any
-      stack = stack as string
-      if (stack?.includes('chrome-extension://')) {
-        return null // Returning null will prevent the event from being sent to Sentry
+  Sentry.init({
+    dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
+    beforeSend(event, hint) {
+      // Check if the error originates from a Chrome extension
+      if (hint.originalException) {
+        let {stack} = hint.originalException as any
+        stack = stack as string
+        if (stack?.includes('chrome-extension://')) {
+          return null // Returning null will prevent the event from being sent to Sentry
+        }
       }
-    }
 
-    return event // Return the event for normal processing if not from an extension
-  },
-  integrations: [
-    new Sentry.BrowserTracing({
-      routingInstrumentation: Sentry.remixRouterInstrumentation(
-        useEffect,
-        useLocation,
-        useMatches,
-      ),
-    }),
-    new Sentry.Replay(),
-  ],
-  // Performance Monitoring
-  tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
-  // Session Replay
-  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
-  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
-})
+      return event // Return the event for normal processing if not from an extension
+    },
+    integrations: [
+      new Sentry.BrowserTracing({
+        routingInstrumentation: Sentry.remixRouterInstrumentation(
+          useEffect,
+          useLocation,
+          useMatches,
+        ),
+      }),
+      new Sentry.Replay(),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
+    // Session Replay
+    replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+    replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+  })
+}
 
 function hydrate() {
   startTransition(() => {

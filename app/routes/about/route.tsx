@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import {BeltIcon, BookIcon, LotrIcon, PaletteIcon} from './icons'
 import Hero from '~/components/hero'
 import {cloudinaryInstance} from '~/utils/cloudinary'
+import {FaceHero} from '~/components/hero/face-motion'
 
 export function shouldRevalidate({
   currentUrl,
@@ -94,13 +95,14 @@ export async function loader() {
 
 // need to fetch all content from the blog directory using github api
 // and then you do a thing
+
 export default function About() {
   const data = useLoaderData<typeof loader>()
 
   return (
     <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-[4vw]">
-        <Hero />
+        <FaceHero />
         <BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">
           The only way that you’re ever going to get to the other side of this
           journey is by suffering. You have to suffer in order to grow. Some

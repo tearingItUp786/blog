@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const SvgComponent = (props: any) => (
+const FaceHero = (props: any) => (
   <svg
     viewBox="0 0 1118 440"
     xmlns="http://www.w3.org/2000/svg"
@@ -1664,4 +1664,4 @@ const SvgComponent = (props: any) => (
   </svg>
 )
 
-export default SvgComponent
+export default FaceHero
