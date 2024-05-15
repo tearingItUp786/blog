@@ -52,6 +52,21 @@ module.exports = {
       display: ['CommitMono', ...defaultTheme.fontFamily.sans],
     },
     extend: {
+      keyframes: {
+        sparkle: {
+          '0%': {transform: 'scale(0.25)'},
+          '25%': {opacity: 1},
+          '100%': {opacity: 0},
+        },
+        twinkle: {
+          '0%, 100%': {opacity: '1'},
+          '50%': {opacity: '0.5'},
+        },
+      },
+      animation: {
+        twinkle: 'twinkle 3s infinite alternate',
+        sparkle: 'sparkle 3s infinite',
+      },
       fontSize: {
         xl: '1.375rem', // 22px
         '2xl': '1.5625rem', // 25px
