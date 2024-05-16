@@ -18,7 +18,7 @@ const Sparkles = (props: any) => (
       opacity: 1,
     }}
     transition={{
-      duration: 2,
+      duration: 1,
       staggerChildren: 2,
     }}
     viewBox="0 0 999 1080"

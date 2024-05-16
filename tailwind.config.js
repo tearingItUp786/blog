@@ -53,6 +53,10 @@ module.exports = {
     },
     extend: {
       keyframes: {
+        fadeIn: {
+          '0%': {opacity: '0'},
+          '100%': {opacity: '1'},
+        },
         sparkle: {
           '0%': {transform: 'scale(0.25)'},
           '25%': {opacity: 1},
@@ -66,6 +70,7 @@ module.exports = {
       animation: {
         twinkle: 'twinkle 3s infinite alternate',
         sparkle: 'sparkle 3s infinite',
+        fadeIn: 'fadeIn 1s ease-in-out',
       },
       fontSize: {
         xl: '1.375rem', // 22px

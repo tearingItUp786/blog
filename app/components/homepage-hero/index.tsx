@@ -41,13 +41,22 @@ export const HomepageHero = () => {
           <InnerCircle className="mt-[-100%] scale-[.75]" />
         </div>
         <div className="absolute -top-[20%] left-[15%] max-w-[200px]">
-          <img src={middleD} className="" />
+          <img
+            src={middleD}
+            className="animate-[fadeIn_forwards_1s_2s] opacity-0"
+          />
         </div>
         <div className="absolute bottom-0 left-1/4 flex -translate-x-1/2">
-          <img src={leftD} className="max-w-[65%]" />
+          <img
+            src={leftD}
+            className=" max-w-[65%] animate-[fadeIn_forwards_1s_2.5s] opacity-0"
+          />
         </div>
         <div className="absolute -bottom-10 left-2/3 flex">
-          <img src={rightD} className="max-w-full" />
+          <img
+            src={rightD}
+            className="max-w-full animate-[fadeIn_forwards_1s_3s] opacity-0"
+          />
         </div>
       </div>
       <MoonOrSun className="absolute right-[30%] top-[50px] w-[150px] translate-x-[50%]" />
