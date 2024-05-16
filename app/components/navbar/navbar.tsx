@@ -1,11 +1,10 @@
 import {NavLink, useLocation, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
-import {Logo} from './logo'
 
-import {MobileNav} from './mobile'
 import {useEffect, useState} from 'react'
-import {Search} from './algolia-search'
 import {twJoin} from 'tailwind-merge'
+import {Search} from './algolia-search'
+import {MobileNav} from './mobile'
 
 export function Navbar() {
   const [searchParams] = useSearchParams()
@@ -40,7 +39,7 @@ export function Navbar() {
   }, [isOpen])
 
   const navClassName =
-    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-xl italic items-center'
+    'transition-[color] dark:text-white bg-white dark:bg-gray-100 lg:dark:text-gray-300 lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-lg italic items-center'
   const activeClassName =
     '!text-pink not-italic font-display font-normal bg-white lg:bg-white dark:lg:bg-gray-100 dark:bg-gray-100'
   const setNavClassName = ({isActive}: {isActive: boolean}) => {
@@ -48,16 +47,17 @@ export function Navbar() {
   }
 
   return (
-    <div className="relative flex w-full bg-gray-100 px-9 dark:bg-white">
-      <div className="mr-[15px] w-[50px] px-0 md:w-[65px]  md:pr-6">
-        <NavLink
-          prefetch="intent"
-          className="logoNavLink"
-          to={`/?${searchParamsWithoutOffset}`}
-        >
-          <Logo className="py-1" />
-        </NavLink>
-      </div>
+    <div className="relative flex min-h-[55px] w-full bg-gray-100 px-9 dark:bg-white">
+      <NavLink
+        prefetch="intent"
+        className={`
+    'transition-[color] normal text-body flex min-w-[150px] items-center justify-center pt-[5px] text-center text-xl duration-300 hover:!text-pink  focus:!text-pink  dark:text-white lg:bg-transparent lg:text-white lg:dark:text-gray-300
+          `}
+        to={`/?${searchParamsWithoutOffset}`}
+      >
+        {/* <Logo className="py-1" /> */}
+        Taran Bains
+      </NavLink>
       <div
         className={clsx(
           isOpen

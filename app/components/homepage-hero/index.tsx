@@ -29,7 +29,7 @@ export const HomepageHero = () => {
       >
         <Sparkles
           id="sparkles"
-          className="absolute left-[50%] top-[50%]  w-[50%] "
+          className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px] "
         />
       </div>
       <NameGroup className="absolute left-0 top-[45%] hidden w-[200px] -translate-y-1/2 translate-x-1/2 lg:block" />
@@ -59,7 +59,7 @@ export const HomepageHero = () => {
           />
         </div>
       </div>
-      <MoonOrSun className="absolute right-[30%] top-[50px] w-[150px] translate-x-[50%]" />
+      <MoonOrSun className="absolute right-[30%] top-[50px] hidden w-[150px] translate-x-[50%] animate-[fadeIn_forwards_1s_3.75s] opacity-0 lg:block" />
       {/* Star stuff */}
       <BigStar className=" absolute bottom-0 max-w-[100px]  opacity-0 transition-all dark:animate-[sparkle_infinite_4s_2s]" />
       <BigStar className=" absolute bottom-0 right-[10%] max-w-[75px]  opacity-0  transition-all dark:animate-[sparkle_infinite_4s_1.5s]" />
