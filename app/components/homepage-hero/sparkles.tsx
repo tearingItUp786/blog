@@ -19,7 +19,7 @@ const Sparkles = (props: any) => (
     }}
     transition={{
       duration: 2,
-      ease: 'easeInOut',
+      staggerChildren: 2,
     }}
     viewBox="0 0 999 1080"
     fill="none"
@@ -27,9 +27,32 @@ const Sparkles = (props: any) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
-    <rect y={-16} width={999} height={1113} fill="url(#pattern0_127_6)" />
+    <g mask="url(#mask)">
+      <motion.rect
+        initial={{rotate: 0}}
+        animate={{rotate: 360}}
+        transition={{
+          duration: 4_000,
+          repeat: Infinity,
+          repeatType: 'mirror',
+          transformOrigin: 'center',
+        }}
+        y={-16}
+        width={999}
+        height={1113}
+        fill="url(#pattern0_127_6)"
+      />
+    </g>
     <defs>
-      <motion.pattern
+      <radialGradient id="fade">
+        <stop offset="90%" stop-color="white" />
+        <stop offset="100%" stop-color="transparent" />
+      </radialGradient>
+
+      <mask id="mask">
+        <rect x="0" y="0" width={999} height={1113} fill="url(#fade)" />
+      </mask>
+      <pattern
         id="pattern0_127_6"
         patternContentUnits="objectBoundingBox"
         width={1}
@@ -39,7 +62,7 @@ const Sparkles = (props: any) => (
           xlinkHref="#image0_127_6"
           transform="matrix(0.000591366 0 0 0.000530795 0 -0.000274164)"
         />
-      </motion.pattern>
+      </pattern>
       <image
         id="image0_127_6"
         width={1691}
