@@ -102,6 +102,7 @@
   "devDependencies": {
     "@remix-run/dev": "2.9.0",
     "@remix-run/eslint-config": "2.9.0",
+    "@sentry/vite-plugin": "^2.16.1",
     "@types/compression": "^1.7.2",
     "@types/morgan": "^1.9.4",
     "@types/react": "^18.0.25",
