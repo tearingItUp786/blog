@@ -29,14 +29,6 @@ const Sparkles = (props: any) => (
   >
     <g mask="url(#mask)">
       <motion.rect
-        initial={{rotate: 0}}
-        animate={{rotate: 360}}
-        transition={{
-          duration: 4_000,
-          repeat: Infinity,
-          repeatType: 'mirror',
-          transformOrigin: 'center',
-        }}
         y={-16}
         width={999}
         height={1113}
