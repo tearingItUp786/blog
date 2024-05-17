@@ -179,7 +179,7 @@ function SearchButton({onClick, query}: SearchButtonProps) {
       >
         <span
           className={clsx(
-            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent  text-lg text-white transition-colors dark:text-gray-300',
+            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-gray-300',
             isMounted && 'group-hover:text-pink',
             'disabled:pointer-events-none',
           )}

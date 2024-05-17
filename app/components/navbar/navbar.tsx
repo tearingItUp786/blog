@@ -51,7 +51,7 @@ export function Navbar() {
       <NavLink
         prefetch="intent"
         className={`
-    normal text-body flex min-w-[150px] items-center justify-center pt-[5px] text-center text-xl text-white transition-[color] duration-300  hover:!text-pink  focus:!text-pink  dark:text-black lg:bg-transparent lg:text-white lg:dark:text-gray-300
+    normal text-body flex min-w-[150px] items-center justify-center  text-center text-xl text-white transition-[color] duration-300  hover:!text-pink  focus:!text-pink  dark:text-black lg:bg-transparent lg:text-white lg:dark:text-gray-300
           `}
         to={`/?${searchParamsWithoutOffset}`}
       >
