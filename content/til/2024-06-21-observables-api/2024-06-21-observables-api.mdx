@@ -1,0 +1,17 @@
+---
+title: observables api
+date: 2024-06-21
+tag: JS
+---
+
+TIL, from Dom Farolino that he's trying to make `addEventListener` extinct with
+the [observables api](https://github.com/WICG/observable)!
+
+```js
+// Filtering and mapping:
+element
+  .on('click')
+  .filter(e => e.target.matches('.foo'))
+  .map(e => ({x: e.clientX, y: e.clientY}))
+  .subscribe({next: handleClickAtPoint})
+```
