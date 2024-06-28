@@ -247,7 +247,7 @@ module.exports = {
   },
 
   content: [
-    fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md)'),
+    fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md|svg)'),
     fromRoot('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
   ],
   plugins: [
