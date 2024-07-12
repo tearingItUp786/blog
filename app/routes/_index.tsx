@@ -1,4 +1,4 @@
-import {json} from '@remix-run/node'
+import {HeadersFunction} from '@remix-run/node'
 import {type ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {HomepageHero} from '~/components/homepage-hero'
 
@@ -14,18 +14,9 @@ export function shouldRevalidate({
   return defaultShouldRevalidate
 }
 
-export function loader() {
-  return json(
-    {},
-    {
-      status: 200,
-      headers: {
-        // cache for one week
-        'Cache-Control': 'public, max-age=604800, s-maxage=604800',
-      },
-    },
-  )
-}
+export const headers: HeadersFunction = ({}) => ({
+  'Cache-Control': 'public, max-age=2592000',
+})
 
 export default function Index() {
   return (

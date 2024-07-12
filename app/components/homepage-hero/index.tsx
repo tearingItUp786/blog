@@ -5,9 +5,6 @@ import darkLeftD from './leftD/dark-leftD.svg'
 import lightRightD from './rightD/light-rightD.svg'
 import darkRightD from './rightD/dark-rightD.svg'
 
-// import outer from './circle/outer-circle.svg'
-// import inner from './circle/inner-circle.svg'
-
 import {OuterCircle} from './circle/outer-circle'
 import {InnerCircle} from './circle/inner-circle'
 import {BigStar} from './big-star'
@@ -17,8 +14,10 @@ import {MoonOrSun} from './moon-or-sun'
 import {NameGroup} from './name-group'
 import {LastName} from './last-name'
 import {Slogan} from './slogan'
+import {useTheme} from '~/utils/theme-provider'
 
 export const HomepageHero = () => {
+  const [theme] = useTheme()
   return (
     <div className="relative mx-auto min-h-lvh max-w-screen-xl">
       <div className="">
@@ -36,36 +35,48 @@ export const HomepageHero = () => {
           <InnerCircle className="mt-[-100%] scale-[.9] transition-transform dark:scale-[.75]" />
         </div>
         <div className="absolute -top-[20%] left-[15%] max-w-[200px]">
-          <img
-            alt="A lords of the rings style tree"
-            src={lightMiddleD}
-            className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
-          />
-          <img
-            alt="A lords of the rings style tree"
-            src={darkMiddleD}
-            className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
-          />
+          {theme === 'light' ? (
+            <img
+              alt="A lords of the rings style tree"
+              src={lightMiddleD}
+              className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
+            />
+          ) : null}
+          {theme === 'dark' ? (
+            <img
+              alt="A lords of the rings style tree"
+              src={darkMiddleD}
+              className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
+            />
+          ) : null}
         </div>
         <div className="absolute bottom-0 left-1/4 flex -translate-x-1/2">
-          <img
-            src={lightLeftD}
-            className="max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:hidden"
-          />
-          <img
-            src={darkLeftD}
-            className="hidden max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:block"
-          />
+          {theme === 'light' ? (
+            <img
+              src={lightLeftD}
+              className="max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:hidden"
+            />
+          ) : null}
+          {theme === 'dark' ? (
+            <img
+              src={darkLeftD}
+              className="hidden max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:block"
+            />
+          ) : null}
         </div>
         <div className="absolute -bottom-10 left-2/3 flex">
-          <img
-            src={lightRightD}
-            className="max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:hidden"
-          />
-          <img
-            src={darkRightD}
-            className="hidden max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:block"
-          />
+          {theme === 'light' ? (
+            <img
+              src={lightRightD}
+              className="max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:hidden"
+            />
+          ) : null}
+          {theme === 'dark' ? (
+            <img
+              src={darkRightD}
+              className="hidden max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:block"
+            />
+          ) : null}
         </div>
       </div>
       <MoonOrSun
