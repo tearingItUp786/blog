@@ -20,7 +20,7 @@ import {Slogan} from './slogan'
 
 export const HomepageHero = () => {
   return (
-    <div className="relative mx-auto min-h-dvh max-w-screen-xl">
+    <div className="relative mx-auto min-h-lvh max-w-screen-xl">
       <div className="">
         <Sparkles
           id="sparkles"
