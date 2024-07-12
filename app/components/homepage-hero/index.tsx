@@ -37,6 +37,7 @@ export const HomepageHero = () => {
         <div className="absolute -top-[20%] left-[15%] max-w-[200px]">
           {theme === 'light' ? (
             <img
+              fetchPriority="high"
               alt="A lords of the rings style tree"
               src={lightMiddleD}
               className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
@@ -44,6 +45,7 @@ export const HomepageHero = () => {
           ) : null}
           {theme === 'dark' ? (
             <img
+              fetchPriority="high"
               alt="A lords of the rings style tree"
               src={darkMiddleD}
               className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
@@ -53,6 +55,7 @@ export const HomepageHero = () => {
         <div className="absolute bottom-0 left-1/4 flex -translate-x-1/2">
           {theme === 'light' ? (
             <img
+              alt="lord of the rings style left tree"
               src={lightLeftD}
               className="max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:hidden"
             />
@@ -60,6 +63,7 @@ export const HomepageHero = () => {
           {theme === 'dark' ? (
             <img
               src={darkLeftD}
+              alt="lord of the rings style left tree"
               className="hidden max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:block"
             />
           ) : null}
@@ -68,12 +72,14 @@ export const HomepageHero = () => {
           {theme === 'light' ? (
             <img
               src={lightRightD}
+              alt="lord of the rings style right tree"
               className="max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:hidden"
             />
           ) : null}
           {theme === 'dark' ? (
             <img
               src={darkRightD}
+              alt="lord of the rings style right tree"
               className="hidden max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:block"
             />
           ) : null}
