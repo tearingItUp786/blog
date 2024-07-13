@@ -81,8 +81,8 @@ export const NameGroup = (props: any) => (
         y2="159"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#C588CB" />
-        <stop offset="1" stop-color="#7663AA" />
+        <stop stopColor="#C588CB" />
+        <stop offset="1" stopColor="#7663AA" />
       </linearGradient>
     </defs>
   </svg>

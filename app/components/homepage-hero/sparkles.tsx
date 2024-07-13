@@ -46,8 +46,8 @@ const Sparkles = (props: any) => (
     </g>
     <defs>
       <radialGradient id="fade">
-        <stop offset="90%" stop-color="white" />
-        <stop offset="100%" stop-color="transparent" />
+        <stop offset="90%" stopColor="white" />
+        <stop offset="100%" stopColor="transparent" />
       </radialGradient>
 
       <mask id="mask">

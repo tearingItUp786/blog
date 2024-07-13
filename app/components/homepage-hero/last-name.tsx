@@ -78,8 +78,8 @@ export const LastName = (props: any) => (
         y2="-0.160496"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#53366F" />
-        <stop offset="1" stop-color="#8075C5" />
+        <stop stopColor="#53366F" />
+        <stop offset="1" stopColor="#8075C5" />
       </linearGradient>
     </defs>
   </svg>

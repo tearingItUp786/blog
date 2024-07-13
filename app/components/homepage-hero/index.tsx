@@ -17,6 +17,11 @@ import {Slogan} from './slogan'
 import {useTheme} from '~/utils/theme-provider'
 
 export const HomepageHero = () => {
+  /**
+   * Because I'm using the theme hook, which is client based
+   * when I render this on the server side, the imgs don't get included in the initial html
+   * need to look into client hints
+   */
   const [theme] = useTheme()
   return (
     <div className="relative mx-auto min-h-lvh max-w-screen-xl">
@@ -37,7 +42,7 @@ export const HomepageHero = () => {
         <div className="absolute -top-[20%] left-[15%] max-w-[200px]">
           {theme === 'light' ? (
             <img
-              fetchPriority="high"
+              fetchpriority="high"
               alt="A lords of the rings style tree"
               src={lightMiddleD}
               className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
@@ -45,7 +50,7 @@ export const HomepageHero = () => {
           ) : null}
           {theme === 'dark' ? (
             <img
-              fetchPriority="high"
+              fetchpriority="high"
               alt="A lords of the rings style tree"
               src={darkMiddleD}
               className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
