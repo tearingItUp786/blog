@@ -19,15 +19,15 @@ export function shouldRevalidate({
 }
 
 export const loader = ({request}: LoaderFunctionArgs) => {
-  let searchParams = new URLSearchParams(request.url.split('?')[1])
+  // let searchParams = new URLSearchParams(request.url.split('?')[1])
   // new animation param
-  let animation = searchParams.get('animation')
-  return json({animation})
+  // let animation = searchParams.get('animation')
+  return json({animation: true})
 }
 
 export default function Index() {
   const data = useLoaderData<typeof loader>()
-  if (data.animation !== null) {
+  if (data.animation) {
     return (
       <div
         className="

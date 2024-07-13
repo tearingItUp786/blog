@@ -87,7 +87,7 @@ export const OuterCircle = (props: any) => (
       </radialGradient>
     </defs>
     <g
-      className="origin-center scale-100 animate-[fadeIn_forwards_1s_.25s] opacity-0 transition-transform duration-500 dark:scale-0"
+      className="origin-center animate-[fadeIn_forwards_1s_.5s] opacity-0 transition-transform duration-500 dark:scale-0"
       filter="url(#filter0_f_176_10)"
     >
       <ellipse
