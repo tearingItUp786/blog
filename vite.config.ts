@@ -11,7 +11,7 @@ export default defineConfig({
   ssr: {
     // things to exclude from the server bundle
     // noExternal: [/^gsap.*/, /@algolia.*/],
-    // noExternal: [/@algolia.*/],
+    noExternal: [/@algolia.*/],
   },
   plugins: [
     remix({
