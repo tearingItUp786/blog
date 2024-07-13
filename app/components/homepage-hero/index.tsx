@@ -24,7 +24,7 @@ export const HomepageHero = () => {
    */
   const [theme] = useTheme()
   return (
-    <div className="relative mx-auto min-h-lvh max-w-screen-xl">
+    <div className="relative mx-auto min-h-svh max-w-screen-xl">
       <div className="">
         <Sparkles
           id="sparkles"
