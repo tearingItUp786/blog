@@ -1,24 +1,22 @@
-import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  ShouldRevalidateFunctionArgs,
   isRouteErrorResponse,
+  json,
+  useLoaderData,
   useRouteError,
 } from '@remix-run/react'
 import {withSentry} from '@sentry/remix'
-import clsx from 'clsx'
 import {ExternalScripts} from 'remix-utils/external-scripts'
-import Toggle from '~/components/theme-toggle'
 import {Navbar} from './components/navbar'
-import {
-  NonFlashOfWrongThemeEls,
-  ThemeProvider,
-  useTheme,
-} from './utils/theme-provider'
 
 import {Footer} from './components/footer/footer'
 import {LoadingRoute} from './components/loading-route'
@@ -29,6 +27,9 @@ import {redisClient} from './utils/redis.server'
 import '~/tailwind.css'
 import './styles/app.css'
 import './styles/new-prisma-theme.css'
+import {getThemeFromCookie} from './utils/theme.server'
+import {useOptimisticThemeMode} from './routes/action.theme-switcher'
+import {ServerThemeToggle} from './components/theme-toggle'
 
 const FAVICON = [
   {
@@ -75,14 +76,25 @@ export const links: LinksFunction = () => {
   return [...FAVICON]
 }
 
-export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
-  return false
+export const loader = async ({request}: LoaderFunctionArgs) => {
+  const isFresh = new URL(request.url).searchParams.has('fresh')
+  const isDev = process.env.NODE_ENV === 'development'
+  const theme = (await getThemeFromCookie(request)) as string
+
+  if (isFresh && isDev) {
+    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
+    redisClient.flushAll()
+  }
+  return json({requestInfo: {userPreferences: {theme}}})
 }
 
 const Document = ({children}: {children: React.ReactNode}) => {
-  const [theme] = useTheme()
+  const data = useLoaderData<typeof loader>()
+  const optimisticTheme = useOptimisticThemeMode()
+  let themeToUse = optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
+
   return (
-    <html lang="en" className={clsx(theme)}>
+    <html lang="en" className={themeToUse} data-theme={themeToUse}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -90,7 +102,6 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <meta name="theme-color" content="#ffffff" />
         <Meta />
         <Links />
-        <NonFlashOfWrongThemeEls />
       </head>
       <body className="bg-white dark:bg-gray-100">
         <Navbar />
@@ -100,7 +111,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
-        <Toggle />
+        <ServerThemeToggle currentTheme={themeToUse} />
         <Footer />
       </body>
     </html>
@@ -151,39 +162,24 @@ export const ErrorBoundary = () => {
     </>
   )
   return (
-    <ThemeProvider>
-      <Document>
-        <div className="w-100">
-          <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
-            <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
-              {elementToRender}
-            </div>
+    <Document>
+      <div className="w-100">
+        <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
+          <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
+            {elementToRender}
           </div>
         </div>
-      </Document>
-    </ThemeProvider>
+      </div>
+    </Document>
   )
-}
-
-export const loader: LoaderFunction = async ({request}) => {
-  const isFresh = new URL(request.url).searchParams.has('fresh')
-  const isDev = process.env.NODE_ENV === 'development'
-
-  if (isFresh && isDev) {
-    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
-    redisClient.flushAll()
-  }
-  return null
 }
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <Document>
-        <Outlet />
-        <LoadingRoute />
-      </Document>
-    </ThemeProvider>
+    <Document>
+      <Outlet />
+      <LoadingRoute />
+    </Document>
   )
 }
 
