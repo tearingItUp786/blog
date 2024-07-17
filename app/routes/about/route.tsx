@@ -99,9 +99,9 @@ export default function About() {
   const data = useLoaderData<typeof loader>()
 
   return (
-    <div className="mx-auto mt-[2rem] min-h-[100vh] max-w-screen-xl pb-24">
+    <div className="mx-auto mt-[2rem] min-h-[100svh] max-w-screen-xl pb-24">
       <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-[4vw]">
-        <FaceHero className="-mx-[15vw] md:mx-0" />
+        <FaceHero className="-mx-[15svw] md:mx-0" />
         <BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">
           The only way that you’re ever going to get to the other side of this
           journey is by suffering. You have to suffer in order to grow. Some
