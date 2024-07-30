@@ -100,7 +100,7 @@ export default function About() {
 
   return (
     <div className="mx-auto mt-[2rem] min-h-[100svh] max-w-screen-xl pb-24">
-      <div className="ml-[8svw] mr-[8svw] max-w-full xl:mx-[4vw]">
+      <div className="max-w-full xl:mx-[4vw]">
         <FaceHero className="-mx-[15svw] md:mx-0" />
         <BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">
           The only way that you’re ever going to get to the other side of this
