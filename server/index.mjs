@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/remix'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
+import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
 import path from 'path'
 import {fileURLToPath} from 'url'
@@ -64,6 +65,17 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'))
 }
+
+const maxMultiple = process.env.NODE_ENV === 'development' ? 10_000 : 1
+
+app.use(
+  rateLimit({
+    windowMs: 60 * 1000 * 5, // 5 minutes,
+    limit: 1000 * maxMultiple, // limit each ip per window,
+    standardHeaders: true, // standard rate limit headers (none of the X-stuff)
+    legacyHeaders: false,
+  }),
+)
 
 app.use((_req, res, next) => {
   res.set('X-Fly-Region', process.env.FLY_REGION ?? 'unknown')
