@@ -127,7 +127,7 @@ async function getMdxTilListGql(
       getFreshValue: async () => {
         const pages = await Promise.all(
           sortedPageData
-            .slice(startOffset * chunkSize, endOffsetToUse * 20)
+            .slice(startOffset * chunkSize, endOffsetToUse * chunkSize)
             .map(pageData =>
               queuedCompileMdxGql(pageData.name, pageData.files),
             ),
