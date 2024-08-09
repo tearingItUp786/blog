@@ -1,0 +1,42 @@
+---
+title: deepClone... nah, structuredClone
+date: 2024-08-09
+tag: JS
+---
+
+TIL that if we want to make a `deepClone` of an object in JS, there's a built in
+method in most browsers: `structuredClone`!
+
+The old one (which works but doesn't account for things like `Set` and `Map` or
+even `Date`)
+
+```js:title=the-old-and-new-way
+const originalObject = {
+  name: "John",
+  age: 30,
+  date: new Date(),
+  details: {
+    hobbies: ["reading", "gaming"],
+    address: {
+      city: "New York",
+      zip: "10001",
+    },
+  },
+};
+
+const clonedObjectOldWay = JSON.parse(JSON.stringify(originalObject));
+
+// what do you think happened to the date? 😏
+// hint... no longer a string!
+console.log(clonedObjectOldWay);
+
+console.log(originalObject.date instanceof Date); // true
+console.log(clonedObjectOldWay.date instanceof Date); // false (Date is not preserved)
+
+```
+
+Shout out to [Matt Pocock](https://www.totaltypescript.com/) -- the person
+behind Total Typescript -- for the twitter thread that exposed me to this
+function!
+
+[Read More](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone#browser_compatibility)
