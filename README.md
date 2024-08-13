@@ -7,14 +7,15 @@ prerequisites.
 
 - [Docker](https://www.docker.com/) - used for our redis cache
 - Node - the current version is pinned via Volta
+- Docker compose - we run docker-compose up to start the redis server
 
 ## Setup
 
-Create a `.env` file based on the `env.example`.
+We use dotenv to handle our secrets!
 
 ## Commands
 
+- `npx dotenv-vault pull` - pull in our secrets
 - `npm run dev` - get the dev server up and running on port 8080. We chose this
   port over the default because that's the port that fly wants to use! The
-  `predev` command will run clean and try to start up docker!
 - `npm run clean` - removes all the artifacts related to the build
