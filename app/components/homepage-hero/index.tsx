@@ -1,10 +1,3 @@
-import lightMiddleD from './middleD/light-middleD.svg'
-import darkMiddleD from './middleD/dark-middleD.svg'
-import lightLeftD from './leftD/light-leftD.svg'
-import darkLeftD from './leftD/dark-leftD.svg'
-import lightRightD from './rightD/light-rightD.svg'
-import darkRightD from './rightD/dark-rightD.svg'
-
 import {OuterCircle} from './circle/outer-circle'
 import {InnerCircle} from './circle/inner-circle'
 import {BigStar} from './big-star'
@@ -44,7 +37,7 @@ export const HomepageHero = () => {
             <img
               fetchpriority="high"
               alt="A lords of the rings style tree"
-              src={lightMiddleD}
+              src="/images/middleD/light-middleD.svg"
               className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
             />
           ) : null}
@@ -52,7 +45,7 @@ export const HomepageHero = () => {
             <img
               fetchpriority="high"
               alt="A lords of the rings style tree"
-              src={darkMiddleD}
+              src="/images/middleD/dark-middleD.svg"
               className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
             />
           ) : null}
@@ -61,13 +54,13 @@ export const HomepageHero = () => {
           {theme === 'light' ? (
             <img
               alt="lord of the rings style left tree"
-              src={lightLeftD}
+              src="/images/leftD/light-leftD.svg"
               className="max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:hidden"
             />
           ) : null}
           {theme === 'dark' ? (
             <img
-              src={darkLeftD}
+              src="/images/leftD/dark-leftD.svg"
               alt="lord of the rings style left tree"
               className="hidden max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:block"
             />
@@ -76,14 +69,14 @@ export const HomepageHero = () => {
         <div className="absolute -bottom-10 left-2/3 flex">
           {theme === 'light' ? (
             <img
-              src={lightRightD}
+              src="/images/rightD/light-rightD.svg"
               alt="lord of the rings style right tree"
               className="max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:hidden"
             />
           ) : null}
           {theme === 'dark' ? (
             <img
-              src={darkRightD}
+              src="/images/rightD/dark-rightD.svg"
               alt="lord of the rings style right tree"
               className="hidden max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:block"
             />

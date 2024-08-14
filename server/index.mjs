@@ -49,6 +49,7 @@ if (viteDevServer) {
         const relativePath = resourcePath.replace(`${publicAbsolutePath}/`, '')
         if (
           relativePath.startsWith('fonts') ||
+          relativePath.startsWith('images') ||
           relativePath.startsWith('build')
         ) {
           res.setHeader('cache-control', 'public, max-age=31536000, immutable')
