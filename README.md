@@ -8,10 +8,13 @@ prerequisites.
 - [Docker](https://www.docker.com/) - used for our redis cache
 - Node - the current version is pinned via Volta
 - Docker compose - we run docker-compose up to start the redis server
+- Chromium
 
 ## Setup
 
-We use dotenv to handle our secrets!
+We use dotenv to handle our secrets so you'll need to do
+`npx dotenv-vault pull`. You will also need to install chromium! On a Mac,
+that's `brew install --cask chromium`.
 
 ## Commands
 
