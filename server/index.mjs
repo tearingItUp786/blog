@@ -18,7 +18,7 @@ installGlobals()
 let viteDevServer
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
+    dsn: process.env.SENTRY_DSN,
     integrations: [],
     // Performance Monitoring
     tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!

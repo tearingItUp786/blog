@@ -25,6 +25,7 @@
       "~/*": ["./app/*"]
     },
     "noEmit": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true
   }
 }

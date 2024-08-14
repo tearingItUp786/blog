@@ -1,4 +1,8 @@
-import type {LinksFunction, LoaderFunction, MetaFunction} from '@remix-run/node'
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -7,6 +11,7 @@ import {
   ScrollRestoration,
   ShouldRevalidateFunctionArgs,
   isRouteErrorResponse,
+  useLoaderData,
   useRouteError,
 } from '@remix-run/react'
 import {withSentry} from '@sentry/remix'
@@ -29,6 +34,7 @@ import {redisClient} from './utils/redis.server'
 import '~/tailwind.css'
 import './styles/app.css'
 import './styles/new-prisma-theme.css'
+import {getEnv} from './utils/env.server'
 
 const FAVICON = [
   {
@@ -81,6 +87,7 @@ export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
 
 const Document = ({children}: {children: React.ReactNode}) => {
   const [theme] = useTheme()
+  const data = useLoaderData<typeof loader>()
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
@@ -97,6 +104,11 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <ScrollProgress />
         {children}
 
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
@@ -165,7 +177,7 @@ export const ErrorBoundary = () => {
   )
 }
 
-export const loader: LoaderFunction = async ({request}) => {
+export const loader = async ({request}: LoaderFunctionArgs) => {
   const isFresh = new URL(request.url).searchParams.has('fresh')
   const isDev = process.env.NODE_ENV === 'development'
 
@@ -173,7 +185,10 @@ export const loader: LoaderFunction = async ({request}) => {
     console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
     redisClient.flushAll()
   }
-  return null
+
+  return {
+    ENV: getEnv(),
+  }
 }
 
 const App = () => {
