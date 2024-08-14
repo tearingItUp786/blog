@@ -13,7 +13,6 @@ const schema = z.object({
   SENTRY_ORG: z.string(),
   SENTRY_DSN: z.string(),
   SENTRY_PROJECT: z.string(),
-  COOKIE_SECRET: z.string(),
   AMPLITUDE_INIT: z.string(),
 })
 
