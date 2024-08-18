@@ -85,6 +85,9 @@ export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
   return false
 }
 
+/**
+ * This is a loader function that is used to set the ENV variable
+ */
 export const loader = async ({request}: LoaderFunctionArgs) => {
   const isFresh = new URL(request.url).searchParams.has('fresh')
   const isDev = process.env.NODE_ENV === 'development'
@@ -119,6 +122,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <ScrollProgress />
         {children}
 
+        {/* This is a script that is used to set the ENV variable  */}
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
