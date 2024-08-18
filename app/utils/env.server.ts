@@ -14,6 +14,7 @@ const schema = z.object({
   SENTRY_DSN: z.string(),
   SENTRY_PROJECT: z.string(),
   AMPLITUDE_INIT: z.string(),
+  REDIS_URL: z.string().optional(),
 })
 
 declare global {
