@@ -11,8 +11,8 @@ import {
   ScrollRestoration,
   ShouldRevalidateFunctionArgs,
   isRouteErrorResponse,
-  useLoaderData,
   useRouteError,
+  useRouteLoaderData,
 } from '@remix-run/react'
 import {withSentry} from '@sentry/remix'
 import clsx from 'clsx'
@@ -85,9 +85,24 @@ export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
   return false
 }
 
+export const loader = async ({request}: LoaderFunctionArgs) => {
+  const isFresh = new URL(request.url).searchParams.has('fresh')
+  const isDev = process.env.NODE_ENV === 'development'
+
+  if (isFresh && isDev) {
+    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
+    redisClient.flushAll()
+  }
+
+  return {
+    ENV: getEnv(),
+  }
+}
+
 const Document = ({children}: {children: React.ReactNode}) => {
   const [theme] = useTheme()
-  const data = useLoaderData<typeof loader>()
+  const data = useRouteLoaderData<typeof loader>('root')
+
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
@@ -106,7 +121,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
 
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
           }}
         />
         <ScrollRestoration />
@@ -175,20 +190,6 @@ export const ErrorBoundary = () => {
       </Document>
     </ThemeProvider>
   )
-}
-
-export const loader = async ({request}: LoaderFunctionArgs) => {
-  const isFresh = new URL(request.url).searchParams.has('fresh')
-  const isDev = process.env.NODE_ENV === 'development'
-
-  if (isFresh && isDev) {
-    console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
-    redisClient.flushAll()
-  }
-
-  return {
-    ENV: getEnv(),
-  }
 }
 
 const App = () => {
