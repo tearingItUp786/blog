@@ -1,27 +1,21 @@
 import {z} from 'zod'
 
 const schema = z.object({
-  NODE_ENV: z.enum(['production', 'development', 'test'] as const),
-  PORT: z.string().default('8080'),
-  BOT_GITHUB_TOKEN: z.string(),
-  BOT_ALGOLIA_TOKEN: z.string(),
-  REFRESH_CACHE_SECRET: z.string(),
   ALGOLIA_APP_ID: z.string(),
   ALGOLIA_ADMIN_KEY: z.string(),
+  AMPLITUDE_INIT: z.string(),
+  BOT_GITHUB_TOKEN: z.string(),
+  BOT_ALGOLIA_TOKEN: z.string(),
   MOCK_API: z.enum(['true', 'false'] as const).default('false'),
+  NODE_ENV: z.enum(['production', 'development', 'test'] as const),
+  PORT: z.string().default('8080'),
+  REDIS_URL: z.string().default('redis://localhost:6379'),
+  REFRESH_CACHE_SECRET: z.string(),
   SENTRY_AUTH_TOKEN: z.string(),
   SENTRY_ORG: z.string(),
   SENTRY_DSN: z.string(),
   SENTRY_PROJECT: z.string(),
-  AMPLITUDE_INIT: z.string(),
-  REDIS_URL: z.string().optional(),
 })
-
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof schema> {}
-  }
-}
 
 export function init() {
   const parsed = schema.safeParse(process.env)
@@ -56,6 +50,9 @@ export function getEnv() {
 type ENV = ReturnType<typeof getEnv>
 
 declare global {
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof schema> {}
+  }
   var ENV: ENV
   interface Window {
     ENV: ENV
