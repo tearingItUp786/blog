@@ -1,44 +1,24 @@
-# Welcome to Remix!
+# Tarn's personal blog!
 
-- [Remix Docs](https://remix.run/docs)
+## Requirements
 
-## Fly Setup
+In order to get the repository up and running, you'll need the following
+prerequisites.
 
-1. [Install `flyctl`](https://fly.io/docs/getting-started/installing-flyctl/)
+- [Docker](https://www.docker.com/) - used for our redis cache
+- Node - the current version is pinned via Volta
+- Docker compose - we run docker-compose up to start the redis server
+- Chromium
 
-2. Sign up and log in to Fly
+## Setup
 
-```sh
-flyctl auth signup
-```
+We use dotenv to handle our secrets so you'll need to do
+`npx dotenv-vault pull`. You will also need to install chromium! On a Mac,
+that's `brew install --cask chromium`.
 
-3. Setup Fly. It might ask if you want to deploy, say no since you haven't built
-   the app yet.
+## Commands
 
-```sh
-flyctl launch
-```
-
-## Development
-
-From your terminal:
-
-```sh
-npm run dev
-```
-
-This starts your app in development mode, rebuilding assets on file changes.
-
-## Deployment
-
-If you've followed the setup instructions already, all you need to do is run
-this:
-
-```sh
-npm run deploy
-```
-
-You can run `flyctl info` to get the url and ip address of your server.
-
-Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more
-information.
+- `npx dotenv-vault pull` - pull in our secrets
+- `npm run dev` - get the dev server up and running on port 8080. We chose this
+  port over the default because that's the port that fly wants to use! The
+- `npm run clean` - removes all the artifacts related to the build

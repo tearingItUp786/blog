@@ -39,50 +39,44 @@ export const meta: MetaFunction<typeof loader> = () => {
 
 export async function loader({request}: LoaderFunctionArgs) {
   const params = new URLSearchParams(request.url.split('?')[1])
+  const endOffsetParam = params.get('offset')
+  const fromFetcher = params.get('fromFetcher')
 
-  let endOffset = Number(params.get('offset'))
-  let fromFetcher = params.get('fromFetcher')
+  // Use a logical OR to provide a default value for endOffset
+  const endOffset = Number(endOffsetParam) || 1
 
-  // create array of arrays of 20 from the tilList;
+  // Fetch initial data to determine maxOffset
+  const initialData = await getMdxTilListGql({endOffset})
+  let maxOffset = initialData.maxOffset
+  const effectiveEndOffset = Math.min(endOffset, maxOffset)
 
-  if (!endOffset) endOffset = 1
-  // need to call this loader until we reach the end offset
-  // because the end offset dicates how many calls we need to make
-  const data = await getMdxTilListGql({endOffset})
-
-  let maxOffset = data.maxOffset
-  endOffset = endOffset > maxOffset ? maxOffset : endOffset
-
-  // we only want the one call
-  // if we are calling from the fetcher
+  // If fromFetcher is true, return early
   if (fromFetcher) {
     return json({
-      fullList: data.fullList,
-      serverEndOffset: endOffset,
+      fullList: initialData.fullList,
+      serverEndOffset: effectiveEndOffset,
       maxOffset,
     })
   }
 
-  // create a list of chunked pages
-  // that we want to send server side to render the correct
-  // output for the til page
-  let fullList: TilMdxPage[] = []
-  let promises: ReturnType<typeof getMdxTilListGql>[] = []
+  // Create a list of promises for each offset
+  // This will allow us to fetch all the data in parallel
+  const promises = Array.from({length: effectiveEndOffset}, (_, i) =>
+    getMdxTilListGql({endOffset: i + 1}),
+  )
 
-  for (let i = 1; i <= endOffset; i++) {
-    promises.push(getMdxTilListGql({endOffset: i}))
-  }
-
-  await Promise.all(promises).then(values => {
-    values.forEach(value => {
-      fullList = [...fullList, ...value.fullList]
-      maxOffset = value.maxOffset
-    })
-  })
+  // Use Promise.all to wait for all promises and flatMap to combine the results
+  // since we don't want to return an array of array's to our user
+  const fullList: Array<TilMdxPage> = (await Promise.all(promises)).flatMap(
+    value => {
+      maxOffset = value.maxOffset // Update maxOffset if needed
+      return value.fullList
+    },
+  )
 
   return json({
     fullList,
-    serverEndOffset: endOffset,
+    serverEndOffset: effectiveEndOffset,
     maxOffset,
   })
 }

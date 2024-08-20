@@ -1,2 +1,7 @@
 node_modules
 Dockerfile
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

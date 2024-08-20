@@ -10,9 +10,8 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
-  json,
-  useLoaderData,
   useRouteError,
+  useRouteLoaderData,
 } from '@remix-run/react'
 import {withSentry} from '@sentry/remix'
 import {ExternalScripts} from 'remix-utils/external-scripts'
@@ -30,6 +29,7 @@ import './styles/new-prisma-theme.css'
 import {getThemeFromCookie} from './utils/theme.server'
 import {useOptimisticThemeMode} from './routes/action.theme-switcher'
 import {ServerThemeToggle} from './components/theme-toggle'
+import {getEnv} from './utils/env.server'
 
 const FAVICON = [
   {
@@ -85,11 +85,14 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
     redisClient.flushAll()
   }
-  return json({requestInfo: {userPreferences: {theme}}})
+  return {
+    ENV: getEnv(),
+    requestInfo: {userPreferences: {theme}},
+  }
 }
 
 const Document = ({children}: {children: React.ReactNode}) => {
-  const data = useLoaderData<typeof loader>()
+  const data = useRouteLoaderData<typeof loader>('root')
   const optimisticTheme = useOptimisticThemeMode()
   let themeToUse = optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
 
@@ -108,6 +111,12 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <ScrollProgress />
         {children}
 
+        {/* This is a script that is used to set the ENV variable  */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
+          }}
+        />
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />

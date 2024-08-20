@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/remix'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
+import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
 import path from 'path'
 import {fileURLToPath} from 'url'
@@ -17,7 +18,7 @@ installGlobals()
 let viteDevServer
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: 'https://4e34045e065e0a3ef57135ae5020f388@o4506001960468480.ingest.sentry.io/4506001960599552',
+    dsn: process.env.SENTRY_DSN,
     integrations: [],
     // Performance Monitoring
     tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
@@ -48,6 +49,7 @@ if (viteDevServer) {
         const relativePath = resourcePath.replace(`${publicAbsolutePath}/`, '')
         if (
           relativePath.startsWith('fonts') ||
+          relativePath.startsWith('images') ||
           relativePath.startsWith('build')
         ) {
           res.setHeader('cache-control', 'public, max-age=31536000, immutable')
@@ -64,6 +66,17 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'))
 }
+
+const maxMultiple = process.env.NODE_ENV === 'development' ? 10_000 : 1
+
+app.use(
+  rateLimit({
+    windowMs: 60 * 1000 * 5, // 5 minutes,
+    limit: 1000 * maxMultiple, // limit each ip per window,
+    standardHeaders: true, // standard rate limit headers (none of the X-stuff)
+    legacyHeaders: false,
+  }),
+)
 
 app.use((_req, res, next) => {
   res.set('X-Fly-Region', process.env.FLY_REGION ?? 'unknown')
