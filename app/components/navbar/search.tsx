@@ -4,9 +4,7 @@ import clsx from 'clsx'
 import {lazy, Suspense, useEffect, useRef, useState} from 'react'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 
-const LazyAlgoliaSearch = lazy(() =>
-  import('./algolia-search').then(module => ({default: module.AlgoliaSearch})),
-)
+const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
 
 type SearchButtonProps = {
   onClick(): void

@@ -4,6 +4,7 @@
   "description": "",
   "license": "",
   "sideEffects": false,
+  "type": "module",
   "scripts": {
     "prepare": "husky install || true",
     "postinstall": "patch-package",

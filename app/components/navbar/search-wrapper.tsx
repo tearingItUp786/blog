@@ -6,7 +6,7 @@ import {H3} from '../typography'
 import {Autocomplete} from './autocomplete'
 import {BaseItem} from '@algolia/autocomplete-core'
 
-export function AlgoliaSearch({
+export default function AlgoliaSearch({
   searchRef,
 }: {
   searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
