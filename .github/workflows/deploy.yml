@@ -34,10 +34,11 @@ jobs:
         id: changes
         run: |
           echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
-          echo "Manual run: ${{ inputs.manual_run }}"
       - name: ❓ Deployable
-        run: >-
+        run: |
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
+          echo "Manual run: ${{ inputs.manual_run }}"
+
   lint:
     name: ⬣ ESLint
     needs: [changes]
