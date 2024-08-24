@@ -43,7 +43,7 @@ if (viteDevServer) {
 } else {
   app.use(
     express.static(publicAbsolutePath, {
-      maxAge: '1w',
+      maxAge: '1y',
       setHeaders(res, resourcePath) {
         const relativePath = resourcePath.replace(`${publicAbsolutePath}/`, '')
         if (
