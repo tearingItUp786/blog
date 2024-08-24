@@ -1,41 +1,42 @@
 import type {BaseItem} from '@algolia/autocomplete-core'
 import type {AutocompleteOptions} from '@algolia/autocomplete-js'
-import {autocomplete} from '@algolia/autocomplete-js'
+import {autocomplete, AutocompleteApi} from '@algolia/autocomplete-js'
 import {createElement, Fragment, useEffect, useRef, useState} from 'react'
 import {createRoot} from 'react-dom/client'
 import {usePagination, useSearchBox} from 'react-instantsearch-core'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 
 import {useSearchParams} from '@remix-run/react'
-import clsx from 'clsx'
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   className?: string
+  searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
 }
 
 type SetInstantSearchUiStateOptions = {
   query: string
-  isOpen: boolean
+  isOpen?: boolean
 }
 
 export function Autocomplete({
   className,
+  searchRef,
+  initialState,
   ...autocompleteProps
 }: AutocompleteProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   const initialQuery = searchParams.get('q') ?? ''
 
   const autocompleteContainer = useRef<HTMLDivElement>(null)
-  const searchRef = useRef<any>(null)
   const panelRootRef = useRef<any>(null)
   const rootRef = useRef<any>(null)
-  const {query, refine: setQuery} = useSearchBox()
+  const {refine: setQuery} = useSearchBox()
   const {refine: setPage} = usePagination()
 
   const [instantSearchUiState, setInstantSearchUiState] =
     useState<SetInstantSearchUiStateOptions>({
+      ...initialState,
       query: initialQuery,
-      isOpen: false,
     })
 
   useEffect(() => {
@@ -95,7 +96,7 @@ export function Autocomplete({
           'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white dark:divide-gray-300 divide-opacity-20',
       },
       container: autocompleteContainer.current,
-      initialState: {query: initialQuery, isOpen: false},
+      initialState: {...initialState, query: initialQuery},
       onStateChange({prevState, state}) {
         if (
           prevState.query !== state.query ||
@@ -114,7 +115,7 @@ export function Autocomplete({
         if (!panelRootRef.current || rootRef.current !== root) {
           rootRef.current = root
 
-          panelRootRef.current?.unmount()
+          // panelRootRef.current?.unmount()
           panelRootRef.current = createRoot(root)
         }
 
@@ -123,70 +124,25 @@ export function Autocomplete({
     })
 
     searchRef.current = autocompleteInstance
-    return () => searchRef.current?.destroy()
+
+    return () => {
+      searchRef.current = null
+      autocompleteInstance.setIsOpen(false)
+      autocompleteInstance.destroy()
+    }
   }, [])
 
   return (
     <>
-      <SearchButton
-        onClick={() => {
-          searchRef.current?.setIsOpen(true)
-        }}
-        query={query}
-      />
-
       <div className="pointer-events-none fixed inset-0 z-20 overflow-y-auto md:p-6 lg:p-10">
         <div className="sm:block sm:p-0 flex items-end justify-center">
-          <div className={className} ref={autocompleteContainer} />
+          <div
+            data-id="autocomplete"
+            className={className}
+            ref={autocompleteContainer}
+          />
         </div>
       </div>
-    </>
-  )
-}
-
-type SearchButtonProps = {
-  onClick(): void
-  query?: string
-}
-
-function SearchButton({onClick, query}: SearchButtonProps) {
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  return (
-    <>
-      <button
-        onClick={onClick}
-        className="focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden"
-      >
-        <span className="sr-only">Search</span>
-      </button>
-      {/*
-        If the page takes a while to hydrate (e.g., slow connections) we display
-        an HTML form so the search is still usable without JavaScript.
-      */}
-
-      <button
-        disabled={!isMounted}
-        onClick={onClick}
-        className={clsx(
-          'group relative mr-12 block lg:mr-0',
-          !isMounted && 'cursor-not-allowed	',
-        )}
-      >
-        <span
-          className={clsx(
-            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-gray-300',
-            isMounted && 'group-hover:text-pink',
-            'disabled:pointer-events-none',
-          )}
-        >
-          {'⌘+K'}
-        </span>
-      </button>
     </>
   )
 }
