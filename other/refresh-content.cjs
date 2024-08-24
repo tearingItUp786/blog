@@ -1,4 +1,4 @@
-const {getChangedFiles} = require('./get-changed-files')
+const {getChangedFiles} = require('./get-changed-files.cjs')
 const isProd = process.env.NODE_ENV === 'production'
 const hostname = isProd ? 'taranveerbains.ca' : 'localhost'
 const httpModule = isProd ? require('https') : require('http')

@@ -33,14 +33,18 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: |
-          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
+          echo "DEPLOYABLE=$(node ./other/is-deployable.cjs)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
-        run: >-
+        run: |
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
+          echo "Manual run: ${{ inputs.manual_run }}"
+          if [[ "${{inputs.manual_run}}" == "true" ]]; then
+            echo "DEPLOYABLE='true'" >> $GITHUB_OUTPUT
+          fi
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -65,7 +69,7 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -93,8 +97,8 @@ jobs:
     # only build/deploy main branch on pushes
     if:
       ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
-      'refs/heads/main') && github.event_name == 'push' }} || inputs.manual_run
-      == 'true'
+      'refs/heads/main') && (github.event_name == 'push') }} ||
+      (inputs.manual_run == 'true')
 
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -124,7 +128,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
           NODE_ENV: production
@@ -155,7 +159,7 @@ jobs:
           node-version: 18
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
           NODE_ENV: production

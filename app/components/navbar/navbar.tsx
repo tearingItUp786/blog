@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import {useEffect, useState} from 'react'
 import {twJoin} from 'tailwind-merge'
-import {Search} from './algolia-search'
+import {Search} from './search'
 import {MobileNav} from './mobile'
 
 export function Navbar() {

@@ -29,7 +29,7 @@ jobs:
           node-version: 18
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
           FORCE_FRESH: 'true'

@@ -15,7 +15,7 @@ const here = (...d) => path.join(__dirname, ...d)
 
 installGlobals()
 
-let viteDevServer
+let viteDevServer = undefined
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -23,7 +23,6 @@ if (process.env.NODE_ENV === 'production') {
     // Performance Monitoring
     tracesSampleRate: 0.1, // Capture 100% of the transactions, reduce in production!
   })
-  viteDevServer = undefined
 } else {
   viteDevServer = await import('vite').then(vite =>
     vite.createServer({
@@ -39,12 +38,12 @@ app.use(compression())
 const publicAbsolutePath = here('../build/client')
 
 if (viteDevServer) {
-  console.log('new build inside of viteDevServer')
   app.use(viteDevServer.middlewares)
+  app.use(express.static(publicAbsolutePath, {maxAge: '1h'}))
 } else {
   app.use(
     express.static(publicAbsolutePath, {
-      maxAge: '1w',
+      maxAge: '1y',
       setHeaders(res, resourcePath) {
         const relativePath = resourcePath.replace(`${publicAbsolutePath}/`, '')
         if (
@@ -91,7 +90,7 @@ app.all(
   createRequestHandler({
     build: viteDevServer
       ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-      : await import('../build/server/index.mjs'),
+      : await import('../build/server/index.js'),
   }),
 )
 
