@@ -33,7 +33,7 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: |
-          if [[ ${{ inputs.manual_run}} == true ]] then
+          if [ "${{ inputs.manual_run}}" == "true" ] then
             echo "DEPLOYABLE=true" >> $GITHUB_OUTPUT
           else
             echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
