@@ -38,6 +38,9 @@ jobs:
         run: |
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
           echo "Manual run: ${{ inputs.manual_run }}"
+          if [[ "${{inputs.manual_run}}" == "true" ]]; then
+            echo "DEPLOYABLE='true'" >> $GITHUB_OUTPUT
+          fi
   lint:
     name: ⬣ ESLint
     needs: [changes]
