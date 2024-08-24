@@ -1,5 +1,5 @@
 // try to keep this dep-free so we don't have to install deps
-const {getChangedFiles} = require('./get-changed-files')
+const {getChangedFiles} = require('./get-changed-files.cjs')
 
 async function go() {
   const changedFiles = await getChangedFiles('HEAD^', 'HEAD')

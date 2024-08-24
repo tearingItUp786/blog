@@ -124,7 +124,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
           NODE_ENV: production
@@ -155,7 +155,7 @@ jobs:
           node-version: 18
 
       - name: 🥬 Refresh Content
-        run: node ./other/refresh-content.js
+        run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
           NODE_ENV: production
