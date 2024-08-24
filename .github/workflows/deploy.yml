@@ -33,12 +33,7 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: |
-          if [[ ${{ inputs.manual_run }} == "false" ]]; then
-            DEPLOYABLE=$(node ./other/is-deployable.js)
-          else
-            DEPLOYABLE="${{ inputs.manual_run }}"
-          fi
-          echo "DEPLOYABLE=$DEPLOYABLE" >> $GITHUB_ENV
+          echo "DEPLOYABLE=$(node ./other/is-deployable.js)" >> $GITHUB_OUTPUT
       - name: ❓ Deployable
         run: |
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
@@ -46,7 +41,7 @@ jobs:
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -71,7 +66,7 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
