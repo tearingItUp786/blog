@@ -33,16 +33,16 @@ jobs:
       - name: 🔎 Determine deployable changes
         id: changes
         run: |
-          if node ./other/is-deployable.cjs; then
-            echo "DEPLOYABLE='true'" >> $GITHUB_ENV
+          if [[ ${{ inputs.manual_run }} == "false" ]]; then
+            DEPLOYABLE=$(node ./other/is-deployable.js)
           else
-            echo "DEPLOYABLE='${{ inputs.manual_run }}'" >> $GITHUB_ENV
+            DEPLOYABLE="${{ inputs.manual_run }}"
           fi
+          echo "DEPLOYABLE=$DEPLOYABLE" >> $GITHUB_ENV
       - name: ❓ Deployable
         run: |
           echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
           echo "Manual run: ${{ inputs.manual_run }}"
-
   lint:
     name: ⬣ ESLint
     needs: [changes]
