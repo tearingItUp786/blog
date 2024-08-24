@@ -7,7 +7,7 @@ import {MoonOrSun} from './moon-or-sun'
 import {NameGroup} from './name-group'
 import {LastName} from './last-name'
 import {Slogan} from './slogan'
-import {useTheme} from '~/utils/theme-provider'
+import {useTheme} from '~/routes/action.theme-switcher'
 
 export const HomepageHero = () => {
   /**
@@ -15,7 +15,7 @@ export const HomepageHero = () => {
    * when I render this on the server side, the imgs don't get included in the initial html
    * need to look into client hints
    */
-  const [theme] = useTheme()
+  const theme = useTheme()
   return (
     <div className="relative mx-auto min-h-svh max-w-screen-xl">
       <div className="">
