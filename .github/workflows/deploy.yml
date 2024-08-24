@@ -34,9 +34,9 @@ jobs:
         id: changes
         run: |
           if node ./other/is-deployable.cjs; then
-            echo "DEPLOYABLE=true" >> $GITHUB_ENV
+            echo "DEPLOYABLE='true'" >> $GITHUB_ENV
           else
-            echo "DEPLOYABLE=${{ inputs.manual_run }}" >> $GITHUB_ENV
+            echo "DEPLOYABLE='${{ inputs.manual_run }}'" >> $GITHUB_ENV
           fi
       - name: ❓ Deployable
         run: |
