@@ -82,14 +82,14 @@ export function Search() {
     event => {
       event.preventDefault()
       if (!showAlgoliaSearch) {
-        setMountedStatus('mounting')
         setShowAlgoliaSearch(true)
         setInitialSearchState({
           isOpen: true,
         })
+        setMountedStatus('mounting')
       }
     },
-    [],
+    [mountedStatus],
   )
 
   useEffect(() => {
