@@ -13,6 +13,11 @@ import {
 import {redisClient} from '~/utils/redis.server'
 import PQueue from 'p-queue'
 import {SearchIndex} from 'algoliasearch'
+import {
+  initTypesenseCollection,
+  typesenseClient,
+} from '~/utils/typesense/typesense.server'
+import {SearchParams} from 'typesense/lib/Typesense/Documents'
 
 type File = {
   changeType: 'modified' | 'added' | 'deleted' | 'moved'
@@ -150,14 +155,39 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
       content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
     }
   })
-  await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
+
+  // await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
   console.log('👍 refreshed algolia index with til list')
 
+  console.log('🐱 refresh typesense collection')
+  await typesenseClient?.collections('search_items').delete()
+  initTypesenseCollection()
+  await typesenseClient
+    ?.collections('search_items')
+    .documents()
+    .import([...blogObjects, ...tilObjects])
+
+  let searchParameters: SearchParams = {
+    q: 'buddy WoRk',
+    query_by: 'content',
+  }
+
+  console.log(
+    '👍 search typesense collection',
+    (
+      await typesenseClient
+        .collections('search_items')
+        .documents()
+        .search(searchParameters)
+    ).hits?.[0]?.highlights?.[0]?.matched_tokens,
+  )
   return json({ok: true})
 }
 
 export const action: ActionFunction = async ({request}) => {
   // hahaha
+  console.log(request.headers.get('auth'))
+  console.log(process.env.REFRESH_CACHE_SECRET)
   if (request.headers.get('auth') !== process.env.REFRESH_CACHE_SECRET) {
     return redirect('https://youtu.be/VM3uXu1Dq4c')
   }

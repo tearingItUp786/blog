@@ -15,6 +15,7 @@ const schema = z.object({
   SENTRY_ORG: z.string(),
   SENTRY_DSN: z.string(),
   SENTRY_PROJECT: z.string(),
+  TYPESENSE_API_KEY: z.string(),
 })
 
 export function init() {

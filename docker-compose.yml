@@ -1,8 +1,15 @@
-version: '3.8'
-
 services:
   redis:
     image: redis/redis-stack-server:latest
     container_name: redis-stack-server
     ports:
       - '6379:6379'
+
+  typesense:
+    image: typesense/typesense:26.0
+    restart: on-failure
+    ports:
+      - '8108:8108'
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=xyz --enable-cors'

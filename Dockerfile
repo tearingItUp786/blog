@@ -51,8 +51,13 @@ RUN apt-get update -qq && \
 ENV NODE_ENV=production
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
+# Install Typesense
+RUN curl -O https://dl.typesense.org/releases/26.0/typesense-server-26.0-amd64.deb
+RUN apt install ./typesense-server-26.0-amd64.deb
+RUN systemctl start typesense-server.service
 
 RUN mkdir /app
+
 WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
