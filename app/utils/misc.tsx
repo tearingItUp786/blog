@@ -1,7 +1,7 @@
 import * as dateFns from 'date-fns'
 
 export function invariantResponse(
-  condition: unknown,
+  condition: any,
   message?: string | (() => string),
   responseInit?: ResponseInit,
 ): asserts condition {
