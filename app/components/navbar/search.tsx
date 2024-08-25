@@ -8,10 +8,10 @@ import {ToastUI} from '../toast-ui'
 const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
 
 type SearchButtonProps = {
-  onClick: () => void
-  onMouseOver: () => void
-  onTouchStart: () => void
-  onFocus: () => void
+  onClick: React.MouseEventHandler<HTMLButtonElement>
+  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>
+  onTouchStart?: React.TouchEventHandler<HTMLButtonElement>
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>
 }
 
 function SearchButton({
@@ -117,17 +117,15 @@ export function Search() {
     }
   }
 
-  const mobilePhoneLoadHandler = () => {
+  const onClick = () => {
     if (mountedStatus === 'idle') {
-      setMountedStatus('mounting')
       setShowAlgoliaSearch(true)
+      setMountedStatus('mounting')
       setInitialSearchState({
         isOpen: true,
       })
     }
-  }
 
-  const onClick = () => {
     if (mountedStatus === 'mounting') {
       setInitialSearchState({
         isOpen: true,
@@ -137,22 +135,14 @@ export function Search() {
     if (mountedStatus === 'mounted') {
       searchRef.current?.setIsOpen(true)
     }
-
-    if (mountedStatus === 'idle') {
-      setShowAlgoliaSearch(true)
-      setMountedStatus('mounting')
-      setInitialSearchState({
-        isOpen: true,
-      })
-    }
   }
 
   return (
     <>
       <SearchButton
-        onFocus={loadHandler}
-        onMouseOver={loadHandler}
-        onTouchStart={mobilePhoneLoadHandler}
+        onMouseOver={() => {
+          loadHandler()
+        }}
         onClick={onClick}
       />
       {showAlgoliaSearch ? (
