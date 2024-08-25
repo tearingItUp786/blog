@@ -9,10 +9,17 @@ const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
 
 type SearchButtonProps = {
   onClick: () => void
-  loadSearchInstance: () => void
+  onMouseOver: () => void
+  onTouchStart: () => void
+  onFocus: () => void
 }
 
-function SearchButton({onClick, loadSearchInstance}: SearchButtonProps) {
+function SearchButton({
+  onClick,
+  onMouseOver,
+  onTouchStart,
+  onFocus,
+}: SearchButtonProps) {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -22,10 +29,10 @@ function SearchButton({onClick, loadSearchInstance}: SearchButtonProps) {
   return (
     <>
       <button
-        onFocus={loadSearchInstance}
-        onTouchStart={loadSearchInstance}
-        onMouseOver={loadSearchInstance}
         onClick={onClick}
+        onFocus={onFocus}
+        onTouchStart={onTouchStart}
+        onMouseEnter={onMouseOver}
         className={twJoin(
           'focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden',
         )}
@@ -35,9 +42,9 @@ function SearchButton({onClick, loadSearchInstance}: SearchButtonProps) {
 
       <button
         disabled={!isMounted}
-        onFocus={loadSearchInstance}
-        onTouchStart={loadSearchInstance}
-        onMouseOver={loadSearchInstance}
+        onFocus={onFocus}
+        onTouchStart={onTouchStart}
+        onMouseEnter={onMouseOver}
         onClick={onClick}
         className={twJoin(
           'group relative mr-12 block lg:mr-0',
@@ -58,6 +65,10 @@ function SearchButton({onClick, loadSearchInstance}: SearchButtonProps) {
   )
 }
 
+/**
+ * A Search component that uses Algolia's autocomplete feature.
+ * It Lazily loads the AlgoliaSearch component
+ */
 export function Search() {
   const searchRef = useRef<AutocompleteApi<BaseItem> | null>(null)
   const [mountedStatus, setMountedStatus] = useState<
@@ -67,20 +78,23 @@ export function Search() {
   const [showToast, setShowToast] = useState(false)
   const [showAlgoliaSearch, setShowAlgoliaSearch] = useState(false)
   const [initialSearchState, setInitialSearchState] = useState({
-    isOpen: true,
+    isOpen: false,
   })
 
   useHotkeys(
     'cmd+k, ctrl+k',
     event => {
       event.preventDefault()
-      if (!showAlgoliaSearch) {
-        setShowAlgoliaSearch(true)
-        setMountedStatus('mounting')
+      if (showAlgoliaSearch) {
+        searchRef.current?.setIsOpen(false)
         return
       }
 
-      searchRef.current?.setIsOpen(false)
+      setShowAlgoliaSearch(true)
+      setMountedStatus('mounting')
+      setInitialSearchState({
+        isOpen: true,
+      })
     },
     [mountedStatus],
   )
@@ -98,35 +112,48 @@ export function Search() {
 
   const loadHandler = () => {
     if (mountedStatus === 'idle') {
-      setInitialSearchState({
-        isOpen: false,
-      })
       setMountedStatus('mounting')
       setShowAlgoliaSearch(true)
     }
   }
+
+  const mobilePhoneLoadHandler = () => {
+    if (mountedStatus === 'idle') {
+      setMountedStatus('mounting')
+      setShowAlgoliaSearch(true)
+      setInitialSearchState({
+        isOpen: true,
+      })
+    }
+  }
+
+  const onClick = () => {
+    if (mountedStatus === 'mounting') {
+      setInitialSearchState({
+        isOpen: true,
+      })
+    }
+
+    if (mountedStatus === 'mounted') {
+      searchRef.current?.setIsOpen(true)
+    }
+
+    if (mountedStatus === 'idle') {
+      setShowAlgoliaSearch(true)
+      setMountedStatus('mounting')
+      setInitialSearchState({
+        isOpen: true,
+      })
+    }
+  }
+
   return (
     <>
       <SearchButton
-        loadSearchInstance={loadHandler}
-        onClick={() => {
-          if (mountedStatus === 'mounting') {
-            return
-          }
-
-          if (mountedStatus === 'mounted') {
-            searchRef.current?.setIsOpen(true)
-            return
-          }
-
-          if (mountedStatus === 'idle') {
-            setShowAlgoliaSearch(true)
-            setMountedStatus('mounting')
-            setInitialSearchState({
-              isOpen: true,
-            })
-          }
-        }}
+        onFocus={loadHandler}
+        onMouseOver={loadHandler}
+        onTouchStart={mobilePhoneLoadHandler}
+        onClick={onClick}
       />
       {showAlgoliaSearch ? (
         <Suspense>
