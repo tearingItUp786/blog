@@ -79,6 +79,7 @@ export function Search() {
     event => {
       event.preventDefault()
       if (!showAlgoliaSearch) {
+        setMountedStatus('mounting')
         setShowAlgoliaSearch(true)
       }
     },
