@@ -1,6 +1,6 @@
 import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {json} from '@remix-run/node'
+import {json, redirect} from '@remix-run/node'
 import {
   ShouldRevalidateFunctionArgs,
   useLoaderData,
@@ -78,7 +78,16 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
   const showDrafts = urlReq.searchParams.has('showDrafts')
 
   try {
-    const page = await getMdxPageGql({
+    const {publishedPages, draftPages} = await getMdxBlogListGraphql()
+
+    if (params.slug === 'latest') {
+      let [firstPublishedPage] = publishedPages
+      if (firstPublishedPage) {
+        return redirect(`/blog/${firstPublishedPage.slug}`)
+      }
+    }
+
+    let page = await getMdxPageGql({
       contentDir: 'blog',
       slug: params.slug,
     })
@@ -96,7 +105,6 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
       Vary: 'Cookie',
     }
 
-    const {publishedPages, draftPages} = await getMdxBlogListGraphql()
     const blogList =
       process.env.NODE_ENV === 'production' && !showDrafts
         ? publishedPages

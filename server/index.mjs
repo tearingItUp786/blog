@@ -8,6 +8,8 @@ import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
 import path from 'path'
 import {fileURLToPath} from 'url'
+import fs from 'node:fs'
+import {redirectMiddlware} from './redirect-middleware.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -84,6 +86,9 @@ app.use((_req, res, next) => {
   res.set('X-Frame-Options', 'SAMEORIGIN')
   next()
 })
+
+let redirectsString = fs.readFileSync(here('redirects.txt'), 'utf8')
+app.use(redirectMiddlware(redirectsString))
 
 app.all(
   '*',

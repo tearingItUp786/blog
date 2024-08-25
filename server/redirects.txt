@@ -1,0 +1,36 @@
+# Basically, you should be able to use params as documented in path-to-regexp on both the from and to side
+# These apply to ever HTTP method unless you specify a method as the first part of the line (comma-separated and all caps).
+
+## Stupid bots!
+/(.*).php                                                               https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/(.*).env                                                               https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/ads.txt                                                                https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/boaform(.*)                                                            https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/setup.cgi                                                              https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/cgi-bin(.*)                                                            https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/s3cmd.ini                                                              https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/HNAP1(.*)                                                              https://www.youtube.com/watch?v=dQw4w9WgXcQ
+# this is for phpmyadmin and php-my-admin stuff:
+/php(.*)                                                                https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/db(.*)                                                                 https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/sql(.*)                                                                https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/.git(.*)                                                               https://www.youtube.com/watch?v=dQw4w9WgXcQ
+(.*)/wp-includes/(.*)                                                   https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/api(.*)                                                                https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/Autodiscover(.*)                                                       https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/_ignition(.*)                                                          https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/solr(.*)                                                               https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/wp-content(.*)                                                         https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/ReportServer(.*)                                                       https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/currentsetting(.*)                                                     https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/webfig(.*)                                                             https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/config(.*)                                                             https://www.youtube.com/watch?v=dQw4w9WgXcQ
+/console(.*)                                                            https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+# this is my own stuff
+/til\/(\w)                                                              /til/?q=$1
+/blog/go$                                                                /blog/12-go-htmx-and-lit/ 
+/blog/gopher$                                                            /blog/12-go-htmx-and-lit/
+
+# A catch all for everything else
+POST,DELETE,PATCH,PUT  /                                                https://www.youtube.com/watch?v=dQw4w9WgXcQ
