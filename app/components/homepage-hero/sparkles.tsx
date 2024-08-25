@@ -7,13 +7,6 @@ const Sparkles = (props: any) => (
     initial={{
       x: '-50%',
       y: '-50%',
-      rotate: 60,
-      opacity: 0,
-      scale: 5,
-    }}
-    animate={{
-      x: '-50%',
-      y: '-50%',
       rotate: 0,
       scale: 1,
       opacity: 1,
