@@ -110,17 +110,22 @@ export function Search() {
       <SearchButton
         loadSearchInstance={loadHandler}
         onClick={() => {
+          if (mountedStatus === 'mounting') {
+            return
+          }
+
           if (mountedStatus === 'mounted') {
             searchRef.current?.setIsOpen(true)
             return
           }
 
-          setShowToast(true)
-          setShowAlgoliaSearch(true)
-          setMountedStatus('mounting')
-          setInitialSearchState({
-            isOpen: true,
-          })
+          if (mountedStatus === 'idle') {
+            setShowAlgoliaSearch(true)
+            setMountedStatus('mounting')
+            setInitialSearchState({
+              isOpen: true,
+            })
+          }
         }}
       />
       {showAlgoliaSearch ? (

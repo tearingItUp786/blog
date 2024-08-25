@@ -81,7 +81,7 @@ export function Autocomplete({
         detachedSearchButton: 'hidden',
         detachedOverlay: 'px-8 p-16 z-30 absolute inset-0 transition-opacity',
         detachedContainer:
-          'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full h-screen max-w-5xl mx-auto overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 md:h-auto md:rounded-xl',
+          'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full max-h-screen max-w-5xl mx-auto overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 md:h-auto md:rounded-xl',
         detachedFormContainer: 'flex relative flex-none',
         detachedCancelButton: 'hidden',
         form: 'flex-1',
