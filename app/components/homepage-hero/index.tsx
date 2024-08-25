@@ -40,15 +40,14 @@ export const HomepageHero = () => {
               src="/images/middleD/light-middleD.svg"
               className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
             />
-          ) : null}
-          {theme === 'dark' ? (
+          ) : (
             <img
               fetchpriority="high"
               alt="A lords of the rings style tree"
               src="/images/middleD/dark-middleD.svg"
               className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"
             />
-          ) : null}
+          )}
         </div>
         <div className="absolute bottom-0 left-1/4 flex -translate-x-1/2">
           {theme === 'light' ? (
@@ -57,14 +56,13 @@ export const HomepageHero = () => {
               src="/images/leftD/light-leftD.svg"
               className="max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:hidden"
             />
-          ) : null}
-          {theme === 'dark' ? (
+          ) : (
             <img
               src="/images/leftD/dark-leftD.svg"
               alt="lord of the rings style left tree"
               className="hidden max-w-[65%] animate-[fadeIn_forwards_.5s_1s] opacity-0 dark:block"
             />
-          ) : null}
+          )}
         </div>
         <div className="absolute -bottom-10 left-2/3 flex">
           {theme === 'light' ? (
@@ -73,14 +71,13 @@ export const HomepageHero = () => {
               alt="lord of the rings style right tree"
               className="max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:hidden"
             />
-          ) : null}
-          {theme === 'dark' ? (
+          ) : (
             <img
               src="/images/rightD/dark-rightD.svg"
               alt="lord of the rings style right tree"
               className="hidden max-w-full animate-[fadeIn_forwards_.5s_1.5s] opacity-0 dark:block"
             />
-          ) : null}
+          )}
         </div>
       </div>
       <MoonOrSun

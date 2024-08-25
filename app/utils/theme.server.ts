@@ -17,5 +17,5 @@ export const themeCookie = createCookie('theme', {
 
 export async function getThemeFromCookie(req: Request) {
   let theme = await themeCookie.parse(req.headers.get('Cookie'))
-  return theme || 'system'
+  return theme || 'light'
 }
