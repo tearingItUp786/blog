@@ -115,7 +115,7 @@ export function Autocomplete({
         if (!panelRootRef.current || rootRef.current !== root) {
           rootRef.current = root
 
-          panelRootRef.current?.unmount()
+          // panelRootRef.current?.unmount()
           panelRootRef.current = createRoot(root)
         }
 
@@ -126,7 +126,7 @@ export function Autocomplete({
     searchRef.current = autocompleteInstance
 
     return () => {
-      // autocompleteInstance.setIsOpen(false)
+      autocompleteInstance.setIsOpen(false)
       autocompleteInstance.destroy()
     }
   }, [])

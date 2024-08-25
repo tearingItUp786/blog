@@ -1,6 +1,10 @@
 import {algoliaSearchClient} from '~/utils/algolia'
 
-import {AutocompleteApi, getAlgoliaResults} from '@algolia/autocomplete-js'
+import {
+  AutocompleteApi,
+  AutocompleteState,
+  getAlgoliaResults,
+} from '@algolia/autocomplete-js'
 import {InstantSearch} from 'react-instantsearch-core'
 import {H3} from '../typography'
 import {Autocomplete} from './autocomplete'
@@ -10,9 +14,11 @@ import {useEffect} from 'react'
 export default function AlgoliaSearch({
   searchRef,
   setOnMount,
+  initialState,
 }: {
   searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
   setOnMount: () => void
+  initialState: Partial<AutocompleteState<BaseItem>>
 }) {
   useEffect(() => {
     setOnMount()
@@ -27,7 +33,7 @@ export default function AlgoliaSearch({
       <div className="relative ">
         <div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center">
           <Autocomplete
-            initialState={{isOpen: false}}
+            initialState={initialState}
             className="hidden"
             searchRef={searchRef}
             openOnFocus

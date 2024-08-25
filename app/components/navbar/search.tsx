@@ -73,6 +73,9 @@ export function Search() {
 
   const [showToast, setShowToast] = useState(false)
   const [showAlgoliaSearch, setShowAlgoliaSearch] = useState(false)
+  const [initialSearchState, setInitialSearchState] = useState({
+    isOpen: false,
+  })
 
   useHotkeys(
     'cmd+k, ctrl+k',
@@ -81,6 +84,9 @@ export function Search() {
       if (!showAlgoliaSearch) {
         setMountedStatus('mounting')
         setShowAlgoliaSearch(true)
+        setInitialSearchState({
+          isOpen: true,
+        })
       }
     },
     [],
@@ -115,6 +121,7 @@ export function Search() {
         <Suspense>
           <LazyAlgoliaSearch
             setOnMount={() => setMountedStatus('mounted')}
+            initialState={initialSearchState}
             searchRef={searchRef}
           />
         </Suspense>
