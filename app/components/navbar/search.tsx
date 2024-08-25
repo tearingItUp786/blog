@@ -10,14 +10,9 @@ const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
 type SearchButtonProps = {
   onClick: () => void
   loadSearchInstance: () => void
-  isSearchUnmounted?: boolean
 }
 
-function SearchButton({
-  onClick,
-  loadSearchInstance,
-  isSearchUnmounted,
-}: SearchButtonProps) {
+function SearchButton({onClick, loadSearchInstance}: SearchButtonProps) {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -47,7 +42,6 @@ function SearchButton({
         className={twJoin(
           'group relative mr-12 block lg:mr-0',
           !isMounted && 'cursor-not-allowed',
-          isSearchUnmounted && 'cursor-not-allowed',
         )}
       >
         <span
@@ -55,7 +49,6 @@ function SearchButton({
             'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-gray-300',
             isMounted && 'group-hover:text-pink',
             !isMounted && 'cursor-not-allowed',
-            isSearchUnmounted && 'cursor-not-allowed',
           )}
         >
           {'⌘+K'}
@@ -84,7 +77,10 @@ export function Search() {
       if (!showAlgoliaSearch) {
         setShowAlgoliaSearch(true)
         setMountedStatus('mounting')
+        return
       }
+
+      searchRef.current?.setIsOpen(false)
     },
     [mountedStatus],
   )
@@ -112,16 +108,19 @@ export function Search() {
   return (
     <>
       <SearchButton
-        isSearchUnmounted={mountedStatus !== 'mounted'}
         loadSearchInstance={loadHandler}
         onClick={() => {
           if (mountedStatus === 'mounted') {
             searchRef.current?.setIsOpen(true)
-          } else {
-            setShowAlgoliaSearch(true)
-            setMountedStatus('mounting')
-            searchRef.current?.setIsOpen(true)
+            return
           }
+
+          setShowToast(true)
+          setShowAlgoliaSearch(true)
+          setMountedStatus('mounting')
+          setInitialSearchState({
+            isOpen: true,
+          })
         }}
       />
       {showAlgoliaSearch ? (
