@@ -165,6 +165,18 @@ declare global {
   }
 }
 
+const getPrevOrNext = (
+  article: MdxPage | undefined,
+  searchParams: URLSearchParams,
+) => {
+  if (!article) return null
+
+  return {
+    to: article.slug + `?${searchParams.toString()}`,
+    title: article.frontmatter?.title,
+  }
+}
+
 export default function MdxScreen() {
   const data = useLoaderData<typeof loader>()
   const [searchParams] = useSearchParams()
@@ -194,18 +206,8 @@ export default function MdxScreen() {
     }
   }, [loc])
 
-  const previous = data.prev
-    ? {
-        to: data.prev.slug + `?${searchParams.toString()}`,
-        title: data.prev.frontmatter?.title,
-      }
-    : null
-  const next = data.next
-    ? {
-        to: data.next.slug + `?${searchParams.toString()}`,
-        title: data.next.frontmatter?.title,
-      }
-    : null
+  const previous = getPrevOrNext(data.prev, searchParams)
+  const next = getPrevOrNext(data.next, searchParams)
 
   return (
     <div className="relative mx-[10vw] mt-8">
