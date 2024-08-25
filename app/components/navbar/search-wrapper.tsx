@@ -34,7 +34,7 @@ export default function AlgoliaSearch({
             className="hidden"
             searchRef={searchRef}
             openOnFocus
-            placeholder="Search for TIL or blog posts"
+            placeholder="Search TIL/blog posts"
             detachedMediaQuery=""
             getSources={({query}) => {
               return [
