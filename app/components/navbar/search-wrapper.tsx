@@ -9,7 +9,6 @@ import {InstantSearch} from 'react-instantsearch-core'
 import {H3} from '../typography'
 import {Autocomplete} from './autocomplete'
 import {BaseItem} from '@algolia/autocomplete-core'
-import {useEffect} from 'react'
 
 export default function AlgoliaSearch({
   searchRef,
@@ -20,9 +19,6 @@ export default function AlgoliaSearch({
   setOnMount: () => void
   initialState: Partial<AutocompleteState<BaseItem>>
 }) {
-  useEffect(() => {
-    setOnMount()
-  }, [])
   // handle initial search provider results (just so we can render the icon properly)
   return (
     <InstantSearch
@@ -33,6 +29,7 @@ export default function AlgoliaSearch({
       <div className="relative ">
         <div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center">
           <Autocomplete
+            setOnMount={setOnMount}
             initialState={initialState}
             className="hidden"
             searchRef={searchRef}

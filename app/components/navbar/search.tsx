@@ -1,6 +1,5 @@
 import {BaseItem} from '@algolia/autocomplete-core'
 import {AutocompleteApi} from '@algolia/autocomplete-js'
-import clsx from 'clsx'
 import {lazy, Suspense, useEffect, useRef, useState} from 'react'
 import {twJoin} from 'tailwind-merge'
 import {useHotkeys} from '~/hooks/use-hot-keys'
@@ -10,16 +9,14 @@ const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
 
 type SearchButtonProps = {
   onClick: () => void
-  onFocus: () => void
-  onMouseOver: () => void
+  loadSearchInstance: () => void
   isSearchUnmounted?: boolean
 }
 
 function SearchButton({
-  isSearchUnmounted,
   onClick,
-  onFocus,
-  onMouseOver,
+  loadSearchInstance,
+  isSearchUnmounted,
 }: SearchButtonProps) {
   const [isMounted, setIsMounted] = useState(false)
 
@@ -30,9 +27,9 @@ function SearchButton({
   return (
     <>
       <button
-        disabled={isSearchUnmounted}
-        onFocus={onFocus}
-        onMouseOver={onMouseOver}
+        onFocus={loadSearchInstance}
+        onTouchStart={loadSearchInstance}
+        onMouseOver={loadSearchInstance}
         onClick={onClick}
         className={twJoin(
           'focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden',
@@ -42,20 +39,23 @@ function SearchButton({
       </button>
 
       <button
-        disabled={!isMounted || isSearchUnmounted}
-        onFocus={onFocus}
-        onMouseOver={onMouseOver}
+        disabled={!isMounted}
+        onFocus={loadSearchInstance}
+        onTouchStart={loadSearchInstance}
+        onMouseOver={loadSearchInstance}
         onClick={onClick}
-        className={clsx(
+        className={twJoin(
           'group relative mr-12 block lg:mr-0',
           !isMounted && 'cursor-not-allowed',
+          isSearchUnmounted && 'cursor-not-allowed',
         )}
       >
         <span
-          className={clsx(
+          className={twJoin(
             'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-gray-300',
             isMounted && 'group-hover:text-pink',
-            'disabled:pointer-events-none',
+            !isMounted && 'cursor-not-allowed',
+            isSearchUnmounted && 'cursor-not-allowed',
           )}
         >
           {'⌘+K'}
@@ -74,7 +74,7 @@ export function Search() {
   const [showToast, setShowToast] = useState(false)
   const [showAlgoliaSearch, setShowAlgoliaSearch] = useState(false)
   const [initialSearchState, setInitialSearchState] = useState({
-    isOpen: false,
+    isOpen: true,
   })
 
   useHotkeys(
@@ -83,9 +83,6 @@ export function Search() {
       event.preventDefault()
       if (!showAlgoliaSearch) {
         setShowAlgoliaSearch(true)
-        setInitialSearchState({
-          isOpen: true,
-        })
         setMountedStatus('mounting')
       }
     },
@@ -105,6 +102,9 @@ export function Search() {
 
   const loadHandler = () => {
     if (mountedStatus === 'idle') {
+      setInitialSearchState({
+        isOpen: false,
+      })
       setMountedStatus('mounting')
       setShowAlgoliaSearch(true)
     }
@@ -113,9 +113,16 @@ export function Search() {
     <>
       <SearchButton
         isSearchUnmounted={mountedStatus !== 'mounted'}
-        onFocus={loadHandler}
-        onMouseOver={loadHandler}
-        onClick={() => searchRef.current?.setIsOpen(true)}
+        loadSearchInstance={loadHandler}
+        onClick={() => {
+          if (mountedStatus === 'mounted') {
+            searchRef.current?.setIsOpen(true)
+          } else {
+            setShowAlgoliaSearch(true)
+            setMountedStatus('mounting')
+            searchRef.current?.setIsOpen(true)
+          }
+        }}
       />
       {showAlgoliaSearch ? (
         <Suspense>

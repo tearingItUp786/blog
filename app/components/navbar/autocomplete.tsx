@@ -11,6 +11,7 @@ import {useSearchParams} from '@remix-run/react'
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   className?: string
   searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
+  setOnMount: () => void
 }
 
 type SetInstantSearchUiStateOptions = {
@@ -22,6 +23,7 @@ export function Autocomplete({
   className,
   searchRef,
   initialState,
+  setOnMount,
   ...autocompleteProps
 }: AutocompleteProps) {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -124,6 +126,7 @@ export function Autocomplete({
     })
 
     searchRef.current = autocompleteInstance
+    setOnMount()
 
     return () => {
       autocompleteInstance.setIsOpen(false)
