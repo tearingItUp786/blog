@@ -1,0 +1,28 @@
+---
+title: Storybook ArgeTypes
+date: 2024-08-26
+tag: JS
+---
+
+TIL that Storybook has a way to specify the behavior of `args` -- `ArgeTypes`.
+This is a great way to constrain the values that your component can accept and
+provides information about `args` that aren't explicitly set in the story.
+
+```tsx title="preview.ts"
+// Replace your-renderer with the renderer you are using (e.g., react, vue3, angular, etc.)
+import type {Preview} from '@storybook/your-renderer'
+
+const preview: Preview = {
+  argTypes: {
+    // 👇 All stories expect a label arg
+    label: {
+      control: 'text',
+      description: 'Overwritten description',
+    },
+  },
+}
+
+export default preview
+```
+
+[Read More](https://storybook.js.org/docs/api/arg-types)
