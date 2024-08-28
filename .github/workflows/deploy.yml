@@ -189,7 +189,7 @@ jobs:
       && !contains(needs.*.result, 'failure')
     steps:
       - name: ntfy_action
-        uses: NiNiyas/ntfy-action@v1.0.1
+        uses: niniyas/ntfy-action@master
         with:
           url: https://ntfy.sh
           topic: ${{ secrets.NOTIFY_TOPIC }}
