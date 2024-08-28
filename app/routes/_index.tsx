@@ -33,8 +33,7 @@ export default function Index() {
         className="
         dark: 
         relative 
-        h-[100svh]
-        min-h-[100svh] 
+        h-[100%]
         overflow-hidden
         bg-gradient-to-br
         from-[#9E7ABE]
