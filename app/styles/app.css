@@ -100,7 +100,6 @@ html.dark {
 html,
 body {
   position: relative;
-  min-height: 99lvh;
   color: var(--body-text);
 }
 
