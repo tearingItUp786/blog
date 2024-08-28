@@ -34,7 +34,8 @@ export default function Index() {
         dark: 
         relative 
         h-[100svh]
-        overflow-hidden 
+        min-h-[100svh] 
+        overflow-hidden
         bg-gradient-to-br
         from-[#9E7ABE]
         to-[#8278B7]
