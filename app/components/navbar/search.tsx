@@ -15,17 +15,11 @@ const LazyAlgoliaSearch = lazy(loadSearch)
 
 type SearchButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>
-  onTouchStart?: React.TouchEventHandler<HTMLButtonElement>
+  onPointerOver?: React.MouseEventHandler<HTMLButtonElement>
   onFocus?: React.FocusEventHandler<HTMLButtonElement>
 }
 
-function SearchButton({
-  onClick,
-  onMouseOver,
-  onTouchStart,
-  onFocus,
-}: SearchButtonProps) {
+function SearchButton({onClick, onPointerOver, onFocus}: SearchButtonProps) {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -35,23 +29,10 @@ function SearchButton({
   return (
     <>
       <button
-        onClick={onClick}
-        onFocus={onFocus}
-        onTouchStart={onTouchStart}
-        onMouseEnter={onMouseOver}
-        className={twJoin(
-          'focus:ring-offset-gray-800 mr-10 rounded-full p-1 text-white transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 dark:text-gray-300 md:hidden',
-        )}
-      >
-        <span className="sr-only">Search</span>
-      </button>
-
-      <button
         disabled={!isMounted}
         onFocus={onFocus}
-        onTouchStart={onTouchStart}
-        onMouseEnter={onMouseOver}
         onClick={onClick}
+        onPointerOver={onPointerOver}
         className={twJoin(
           'group relative mr-12 block lg:mr-0',
           !isMounted && 'cursor-not-allowed',
@@ -131,7 +112,11 @@ export function Search() {
 
   return (
     <>
-      <SearchButton onMouseOver={loadHandler} onClick={onClick} />
+      <SearchButton
+        onFocus={loadHandler}
+        onPointerOver={loadHandler}
+        onClick={onClick}
+      />
       {showAlgoliaSearch ? (
         <Suspense>
           <LazyAlgoliaSearch
