@@ -17,7 +17,7 @@ export default function AlgoliaSearch({
 }: {
   searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
   setOnMount: () => void
-  initialState: Partial<AutocompleteState<BaseItem>>
+  initialState?: Partial<AutocompleteState<BaseItem>>
 }) {
   // handle initial search provider results (just so we can render the icon properly)
   return (

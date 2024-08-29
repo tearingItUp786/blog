@@ -5,7 +5,13 @@ import {twJoin} from 'tailwind-merge'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 import {ToastUI} from '../toast-ui'
 
-const LazyAlgoliaSearch = lazy(() => import('./search-wrapper'))
+const loadSearch = async (cb?: any) => {
+  let comp = await import('./search-wrapper')
+  cb?.()
+
+  return comp
+}
+const LazyAlgoliaSearch = lazy(loadSearch)
 
 type SearchButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>
@@ -77,9 +83,6 @@ export function Search() {
 
   const [showToast, setShowToast] = useState(false)
   const [showAlgoliaSearch, setShowAlgoliaSearch] = useState(false)
-  const [initialSearchState, setInitialSearchState] = useState({
-    isOpen: false,
-  })
 
   useHotkeys(
     'cmd+k, ctrl+k',
@@ -92,9 +95,6 @@ export function Search() {
 
       setShowAlgoliaSearch(true)
       setMountedStatus('mounting')
-      setInitialSearchState({
-        isOpen: true,
-      })
     },
     [mountedStatus],
   )
@@ -113,7 +113,7 @@ export function Search() {
   const loadHandler = () => {
     if (mountedStatus === 'idle') {
       setMountedStatus('mounting')
-      setShowAlgoliaSearch(true)
+      loadSearch(() => setMountedStatus('mounted'))
     }
   }
 
@@ -121,35 +121,25 @@ export function Search() {
     if (mountedStatus === 'idle') {
       setShowAlgoliaSearch(true)
       setMountedStatus('mounting')
-      setInitialSearchState({
-        isOpen: true,
-      })
-    }
-
-    if (mountedStatus === 'mounting') {
-      setInitialSearchState({
-        isOpen: true,
-      })
     }
 
     if (mountedStatus === 'mounted') {
       searchRef.current?.setIsOpen(true)
+      setShowAlgoliaSearch(true)
     }
   }
 
   return (
     <>
       <SearchButton
-        onMouseOver={() => {
-          loadHandler()
-        }}
+        onFocus={loadHandler}
+        onMouseOver={loadHandler}
         onClick={onClick}
       />
       {showAlgoliaSearch ? (
         <Suspense>
           <LazyAlgoliaSearch
             setOnMount={() => setMountedStatus('mounted')}
-            initialState={initialSearchState}
             searchRef={searchRef}
           />
         </Suspense>

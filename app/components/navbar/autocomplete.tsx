@@ -37,8 +37,9 @@ export function Autocomplete({
 
   const [instantSearchUiState, setInstantSearchUiState] =
     useState<SetInstantSearchUiStateOptions>({
-      ...initialState,
+      isOpen: true,
       query: initialQuery,
+      ...initialState,
     })
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export function Autocomplete({
           'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white dark:divide-gray-300 divide-opacity-20',
       },
       container: autocompleteContainer.current,
-      initialState: {...initialState, query: initialQuery},
+      initialState: {isOpen: true, query: initialQuery, ...initialState},
       onStateChange({prevState, state}) {
         if (
           prevState.query !== state.query ||
