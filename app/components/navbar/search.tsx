@@ -8,9 +8,9 @@ import {ToastUI} from '../toast-ui'
 const loadSearch = async (cb?: any) => {
   let comp = await import('./search-wrapper')
   cb?.()
-
   return comp
 }
+
 const LazyAlgoliaSearch = lazy(loadSearch)
 
 type SearchButtonProps = {
@@ -131,11 +131,7 @@ export function Search() {
 
   return (
     <>
-      <SearchButton
-        onFocus={loadHandler}
-        onMouseOver={loadHandler}
-        onClick={onClick}
-      />
+      <SearchButton onMouseOver={loadHandler} onClick={onClick} />
       {showAlgoliaSearch ? (
         <Suspense>
           <LazyAlgoliaSearch
