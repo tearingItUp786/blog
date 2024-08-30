@@ -32,9 +32,9 @@ export default function Index() {
       <div
         className="
         dark: 
-        min-h-[600px 
-        sm:min-h-svh
+        sm:min-h-svh 
         relative
+        min-h-[600px]
         overflow-hidden
         bg-gradient-to-br
         from-[#9E7ABE]
