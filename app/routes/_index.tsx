@@ -32,9 +32,8 @@ export default function Index() {
       <div
         className="
         dark: 
-        sm:min-h-svh 
         relative
-        min-h-[600px]
+        min-h-[650px]
         overflow-hidden
         bg-gradient-to-br
         from-[#9E7ABE]
@@ -43,7 +42,8 @@ export default function Index() {
         bg-contain
         bg-fixed
         bg-no-repeat
-        text-center dark:from-[#35356B] dark:to-[#2F1A43]
+        text-center
+        dark:from-[#35356B] dark:to-[#2F1A43] md:min-h-svh
       "
       >
         <HomepageHero />
