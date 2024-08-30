@@ -15,7 +15,7 @@ const ThemeToggle = () => {
       setIsFooterVisible(false)
     },
     observerOptions: {
-      rootMargin: '-16px',
+      rootMargin: '0',
     },
   })
 
