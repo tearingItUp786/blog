@@ -101,7 +101,6 @@ html,
 body {
   position: relative;
   color: var(--body-text);
-  height: 100svh;
 }
 
 ::selection {
