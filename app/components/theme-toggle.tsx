@@ -19,15 +19,12 @@ const ThemeToggle = () => {
     },
   })
 
-  const footerClass = isFooterVisible
-    ? 'translate-y-[-8rem] lg:translate-y-[-6rem]'
-    : 'translate-y-[-1rem]'
   return (
     <>
       <div
         className={clsx(
-          footerClass,
-          'z-100 bottom-0',
+          isFooterVisible ? 'bottom-32 lg:bottom-24' : 'bottom-4',
+          'z-100',
           'fixed right-4 flex h-8 w-16 cursor-pointer items-center rounded-full bg-[#00000030] p-2 transition-colors dark:bg-[#ffffff20] md:h-10 md:w-[5.5rem]',
         )}
         onClick={() => {
