@@ -99,6 +99,7 @@ export function Search() {
   }
 
   const onClick = () => {
+    loadHandler()
     if (mountedStatus === 'idle') {
       setShowAlgoliaSearch(true)
       setMountedStatus('mounting')
