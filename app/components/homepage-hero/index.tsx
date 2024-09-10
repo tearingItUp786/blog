@@ -18,12 +18,10 @@ export const HomepageHero = () => {
   const [theme] = useTheme()
   return (
     <div className="relative mx-auto min-h-svh max-w-screen-xl">
-      <div className="min-h-svh">
-        <Sparkles
-          id="sparkles"
-          className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px] "
-        />
-      </div>
+      <Sparkles
+        id="sparkles"
+        className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px] "
+      />
       <NameGroup className="absolute left-0 top-[45%] hidden w-[200px] -translate-y-1/2 translate-x-1/2 lg:block" />
       <LastName className="absolute right-[60%] top-[75%] hidden w-[200px] -translate-x-1/2 lg:block" />
       <Slogan className="absolute right-[20%] top-[45%] hidden w-[150px] lg:block" />
