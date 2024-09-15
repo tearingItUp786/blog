@@ -9,7 +9,7 @@ async function run() {
      * It's a bit of a hack, but it works.
      */
     console.log('👀 Starting dev server')
-    const {execa} = await import('execa')
+    const { execa } = await import('execa')
 
     const compileComand = `esbuild index.ts --outfile=index.cjs --bundle  --platform=node  --format=cjs --target=es2020`
 
@@ -27,7 +27,20 @@ async function run() {
       windowsHide: false,
     })
 
-    await import('../index.mjs')
+    // this command just watches for changes and restarts the server
+    const command =
+      'tsx watch --clear-screen=false --ignore "vite**" --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.mjs'
+    execa(command, {
+      stdio: ['ignore', 'inherit', 'inherit'],
+      shell: true,
+      env: {
+        FORCE_COLOR: true,
+        MOCKS: true,
+        ...process.env,
+      },
+      // https://github.com/sindresorhus/execa/issues/433
+      windowsHide: false,
+    })
   }
 }
 

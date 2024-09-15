@@ -1,12 +1,8 @@
 import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import {
-  ShouldRevalidateFunctionArgs,
-  useLoaderData,
-  useLocation,
-  useSearchParams,
-} from '@remix-run/react'
+import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
+import {useLoaderData, useLocation, useSearchParams} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
@@ -18,6 +14,8 @@ import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dateFormat, invariantResponse} from '~/utils/misc'
 import {LineSvg} from './line-svg'
 import {PreviousAndNextLinks} from './previous-and-next-links'
+
+import '~/styles/blog.css'
 
 type LoaderData = {
   page: MdxPage

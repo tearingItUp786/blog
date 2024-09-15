@@ -1,0 +1,29 @@
+/**
+* NOTE: this is a hack to correct the mermaid styling for my blog posts! 
+*/
+
+html.light .messageText{
+    fill: var(--color-black) !important;
+}
+
+html.light .messageLine0{
+    stroke: #81b1db !important;
+}
+
+html.light .actor-man text > tspan {
+    fill: var(--color-black) !important;
+}
+
+html.light #arrowhead path {
+    fill:  #81b1db !important;
+    stroke:  #81b1db !important;
+}
+
+html.dark .messageText{
+    fill: var(--color-white) !important
+}
+
+html.dark .messageLine0{
+    stroke: var(--color-white) !important
+}
+

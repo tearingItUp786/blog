@@ -10,9 +10,9 @@ const plugins = [
   postcssImport,
   process.env.NODE_ENV === 'production'
     ? cssnano({
-        preset: ['default', {cssDeclarationSorter: false}],
-      })
+      preset: ['default', { cssDeclarationSorter: false }],
+    })
     : null,
 ].filter(Boolean)
 // Export the configuration
-export default {plugins}
+export default { plugins }
