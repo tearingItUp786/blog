@@ -1,14 +1,20 @@
 ---
 title: My HomeLab Set Up
 subtitle: How my 10 year desktop got a new life
-description: Breathing new life into old hardware 😃
+description: Breathing new life into old hardware 🫁
 date: 2024-05-05
 tag: cool tech
-draft: true
 ---
 
-In another life, I used to work as an IT tech support worker/Business Analyst
-(weird right) at the Beedie School of Business. Shout out to
+In this post, I'll walk you through my journey of setting up a homelab using old
+hardware and the amazing Coolify tool. Whether you're new to homelabs or looking
+to breathe new life into old tech, this guide will show you how easy it is to
+get started and what you can achieve!
+
+## Some Taran History
+
+In another life, I used to work at the Beedie School of Business at the
+Technical Support Desk. Shout out to
 [Mike Church](https://www.linkedin.com/in/mikejchurch/) for giving me the
 opportunity to work there and for nurturing my passion for technology, you're a
 real one 🙏🏽.
@@ -23,43 +29,48 @@ external providers like Google or Amazon.
 When I asked my colleagues to explain the benefits of a homelab, I was told that
 it's like having your own personal playground for apps you'd like to try out.
 For example, maybe you're wanting to try out your own media streaming app, like
-[Plex](https://www.plex.tv/)), and paying to host that, simply for
+[Plex](https://www.plex.tv/), and paying to host that, simply for
 experimentation kinda feels like a waste of money, since you don't even know if
 you're gonna end up using it regularly. Moreover, having a homelab enables you
 to own your own data versus hosting stuff on the cloud which is really just
 other people's servers lol 😅. For instance, there's a self-hosted version of
 Google Drive called [NextCloud](https://nextcloud.com/) that you can use to do
-your own file management. There's tons of self-hosted versions of apps out
-there; this
+your own file management and even a self-hosted version of google meet, called
+[jitsi](https://meet.jit.si/). There's tons of other self-hosted versions of
+apps out there -- this
 [awesome list](https://github.com/awesome-selfhosted/awesome-selfhosted) has so
 many!
 
-A few years ago, I actually had a homelab set up for streaming media content
-from Plex, but it fell to the wayside after I moved. After the move, I was never
-really that motivated to boot my server back up since I had nothing I really
-wanted to use it for -- it sat there collecting dust. That all changed after I
-saw this short by Melkey!
+## The Taran Present
+
+So, as you may have guessed, a few years ago, I had a homelab set up for
+streaming media content from Plex, but it fell to the wayside after I moved.
+After the move, I was never really that motivated to boot my server back up
+since I had nothing I really wanted to use it for -- everything I wanted to
+stream was on Netflix or some other streaming provider. My server sat there
+collecting dust for years... but that all changed after I saw this short by
+Melkey!
 
 https://www.youtube.com/shorts/npDPhIoS1Z8
 
 A self-hosted Heroku and Vercel? Yes, please! What's not to love? I've been
 using [fly.io](https://fly.io) for the past year to host my apps, and I
 absolutely love it. However, the ability to deploy one-off apps for tinkering or
-work presentations for free is a dream come true.
+work presentations for free is super dope!
 
 Now don't get me wrong, [Fly](https://fly.io) (and vercel probalby) has an
 incredibly generous free tier, doesn't force you to pay bills that are less that
 $5 for the month, and mostly awesomely, Fly has
 [accident forgiveness](https://fly.io/blog/accident-forgiveness/) for when you
-stupidly rack up a $5000 bill because of a misconfiguration. Fun fact, I racked
-up a $3000 AWS bill when I worked at a real-estate marketing company 😅 but
-luckily AWS forgave us after my boss explained how the intern messed up when
+mistakenly rack up a $5000 bill because of a misconfiguration. Fun fact, I
+racked up a $3000 AWS bill when I worked at a real-estate marketing company 😅.
+Luckily AWS forgave us after my boss explained how the intern messed up when
 playing around with hosting wordpress sites.
 
 ## My goal
 
 Alright, hopefully you're still with me after that little word vomit above --
-which I, unironically, call 'context setting' 😆. Now, let's dive into my goals
+which I unironically call 'context setting' 😆. Now, let's dive into my goals
 for my 2024 homelab.
 
 - Self hosting my media (Plex, etc)
@@ -79,28 +90,95 @@ is quite dated by today's standards, but it's all I got so we gotta make due. My
 machine has 1TB of storage space (two hard drives running RAIDZ1), and the OS is
 running on a 256GB portable SSD.
 
+My current hardware really struggles with media playback and streaming, but it's
+fine for hosting my web apps and other services that I want to run from my
+homelab. If you're wanting something more robust, I'd recommend getting some
+newer hadware!
+
 ### Software
 
-TrueNAS Scale is a great piece of software, and I'm really happy with it.
-However, one thing that's a little bit annoying about Scale is that it's not
-really easy to set up jails as opposed to TrueNAS Core, where it's super easy. A
-jail is a lightweight virtualized envrionemnt that lets you run applications in
-isolation from the main OS. It's similar to Docker but operates at the process
-level rather than at the full system level.
+TrueNAS Scale offers robust features for managing your data, but setting up
+jails can be more complex compared to TrueNAS Core. Jails provide isolated
+environments similar to Docker but with less overhead. For Docker, volumes act
+as persistent storage that remains even if the container is stopped or deleted.
 
-Jails are great because they're pretty simple to setup, easier to maintain, and
-easier to update. Docker needs to be provisioned in a VM which means we need to
+Jails are great because they're pretty simple to setup, easy to maintain, and
+easy to update. Docker needs to be provisioned in a VM which means we need to
 specify a dedicated amount of CPU and RAM to give the machine, hurting the
-overall system if we over provision said VM.
+overall system if we overprovision said VM.
 
-TrueNAS Scale ships with support for K8s and Docker, but I had a rough time
-figuring out how I could utilize those tools to host a coolify instance.
+TrueNAS Scale ships with support for Kubernetes (K8s) and Docker, but I had a
+rough time figuring out how I could utilize those tools to host a Coolify
+instance. There's probably a way to do this with TrueNAS Scale, but after
+digging around Reddit and Google for a few hours, I came up with squat 🥲.
 Thankfully, there's a
 [handy youtube video](https://www.youtube.com/watch?v=S0nTRvAHAP8) that shows
 you how to set up jails with TrueNAS Scale.
 
-After setting up my Coolify jail, I was able to install it on my NAS via the
-install command: `curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash`.
+The video does a _great_ job walking you through the jail setup and so with this
+resource in my backpocket, I moved onto settuing up my jails: Dockge and
+Coolify.
+
+## Setting up my jails
+
+### Dockge
+
+With TrueNAS Scale up and running, the next step was to set up my Docker jail. I
+wanted to set up a docker jail because I wanted a place isolated from Coolify to
+run services like [`uptime kuma`](https://github.com/louislam/uptime-kuma) and
+[`adguard home`](https://github.com/AdguardTeam/AdGuardHome), and obviously
+[`Plex`](https://www.plex.tv/). The video I linked above shows you up to set up
+your docker jail but the general gist of it is that you need to set up your
+datasets with a `docker` and `jailmaker` so that the docker jail can be
+provisioned and have a place to mount volumes from the host to the running
+docker containers. I just threw a whole bunch of words at you so let me explain.
+
+For Docker, you can think of a volume as a special folder that Docker containers
+can use to store data. This folder is separate from the container itself, so if
+you stop or delete the container, the data remains safe and can be used by other
+containers or even reused if you start a new container. The host is the computer
+or server that runs Docker. It provides the resources (CPU, memory, storage)
+that Docker and its containers use to operate. Essentially, the host is the
+physical or virtual machine where Docker lives and does its work.
+
+For TrueNAS, dataset as a special box or folder within TrueNAS where you can
+keep files and folders. It's like a container for your data that can have its
+own settings and permissions. Datasets help you organize your storage and manage
+how data is stored and accessed.
+
+As you can tell, there are a few services I want to run from my docker jail.
+There are options like [portainer](https://www.portainer.io/) available to run
+on our docker and k8s services, but I wanted something suepr simple and
+lightweight -- hence me going with [dockge](https://github.com/louislam/dockge).
+Also, the homie that created the `jailmaker` tool demoed
+[dockge](https://github.com/louislam/dockge) in his
+[youtube video](https://www.youtube.com/watch?v=S0nTRvAHAP8) so I figured I'd
+give it a go.
+
+Once I set up `dockge`, I was able to run my Plex instance in a docker
+container. That was it. Plex was up and running in a few minutes. The hardest
+thing about this process was setting up the data-pools correctly to mount Plex
+data to the correct location on my TrueNAS.
+
+<InlineImage
+  lazyLoadImage
+  imgDivClassName="aspect-w-13 aspect-h-8"
+  containerClassName="mx-0 lg:mx-0"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1726427323/blog/16-self-hosting/dockge.png"
+  alt="a screenshot of my plex docker container"
+/>
+
+Self hosting my media with Plex ✅! Granted, we're not able to connect to the
+server outside of our network... just yet, but let's talk about setting up
+Coolify to host my web apps before we get to that.
+
+### Coolify Jail
+
+Alright, Docker jail was set up... now it was time for Coolify. The jail setup
+process is pretty standard so there was nothing new with the setup step there.
+Once that was done, all I had to do was access the jail from the shell and to
+install Coolfiy it on my NAS via the install command:
+`curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash`.
 
 <InlineImage
   lazyLoadImage
@@ -119,7 +197,8 @@ and running coolify, but I couldn't access it from outside of my network.
 (which is very important to me) 😅.
 
 Moreover, every time I restarted my NAS, my NAS and coolify would be assigned
-new IP addresses 😑.
+new IP addresses 😑. No way I was going to accept this so I put on my networking
+hat and started working on a solution.
 
 ### The internal networking setup
 
@@ -156,34 +235,6 @@ My own home network is set up like this:
   src="https://res.cloudinary.com/dinypqsgl/image/upload/v1726420002/blog/16-self-hosting/static-ips.png"
   alt="My static IP setup for my NAS, docker, and coolify"
 />
-
-## Setting up Plex
-
-With TrueNAS Scale up and running, the next step was to get Plex up and running.
-Plex is crucial for my media streaming needs, so here's how I configured it...
-
-Most things that are self-hosted run on docker or docker compose these days so
-they are easy to port from machine to machine (the OCI spec is great eh) 🤯! If
-you follow through with the video I mentioned above about setting up jails in
-TrueNAS Scale, you'll see that one of the easiest ways to manage your docker
-containers is to use [dockge](https://github.com/louislam/dockge).
-
-Once I set up `dockge`, I was able to run my Plex instance in a docker
-container. That was it. Plex was up and running in a few minutes. The hardest
-thing about this process was setting up the data-pools correctly to mount Plex
-data to the correct location on my TrueNAS.
-
-<InlineImage
-  lazyLoadImage
-  imgDivClassName="aspect-w-13 aspect-h-8"
-  containerClassName="mx-0 lg:mx-0"
-  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1726427323/blog/16-self-hosting/dockge.png"
-  alt="a screenshot of my plex docker container"
-/>
-
-Self hosting my media with Plex ✅! Granted, we're not able to connect to the
-server outside of our network... just yet, but let's talk about setting up
-Coolify to host my web apps before we get to that.
 
 ## Hosting apps on Coolify
 
@@ -230,7 +281,17 @@ to attacks that bypass Cloudflare's network.
 Granted, this is locking me down to Cloudflare's network, but I'm not going to
 worry about that for now since, like I said above, the whole purpose of my
 homelab is to be able to run my own apps and services for the purposes of
-experimentation and learning! So how exactly does this work? I'm glad you asked!
+experimentation and learning! If you're wanting to not get locked down into
+Cloudflare, you can check out
+[awesome-tunneling](https://github.com/anderspitman/awesome-tunneling) and
+explore other tunneling options! I think one of the more popular options is
+[frp](https://github.com/fatedier/frp) but to be frank, it seems way more
+complicated to set up and Coolify provides a guide on how to set up Cloudflare
+Tunnels... so we're gonna stick with that for now.
+
+So, back to Cloudflare Tunnels... how exactly does this work? I'm glad you
+asked! And you can bet dollars to donuts that I made a mermaid diagram to help
+you understand 🧜🏽‍♀️!
 
 ### HTTP Request Flow for yolo.taranveerbains.ca
 
