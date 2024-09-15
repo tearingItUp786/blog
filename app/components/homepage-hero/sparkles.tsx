@@ -1,20 +1,8 @@
-import {motion} from 'framer-motion'
 import lightSparkles from './light-sparkles.png'
 
 //p-translate-x-[50%] -translate-y-[50%]
 const Sparkles = (props: any) => (
-  <motion.svg
-    initial={{
-      x: '-50%',
-      y: '-50%',
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-    }}
-    transition={{
-      duration: 1,
-      staggerChildren: 2,
-    }}
+  <svg
     viewBox="0 0 999 1080"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -22,14 +10,14 @@ const Sparkles = (props: any) => (
     {...props}
   >
     <g mask="url(#mask)">
-      <motion.rect
+      <rect
         y={-16}
         width={999}
         height={1113}
         fill="url(#pattern0_127_6)"
         className="opacity-0 transition-all duration-200 dark:opacity-100"
       />
-      <motion.rect
+      <rect
         y={-16}
         width={999}
         height={1113}
@@ -81,6 +69,6 @@ const Sparkles = (props: any) => (
         xlinkHref={lightSparkles}
       />
     </defs>
-  </motion.svg>
+  </svg>
 )
 export default Sparkles
