@@ -20,7 +20,7 @@ export const HomepageHero = () => {
     <div className="relative mx-auto min-h-svh max-w-screen-xl">
       <Sparkles
         id="sparkles"
-        className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px] -translate-x-[50%] -translate-y-[50%] animate-[fadeIn_forwards_.5s_.5s] opacity-0 "
+        className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px] -translate-x-[50%] -translate-y-[50%]"
       />
       <NameGroup className="absolute left-0 top-[45%] hidden w-[200px] -translate-y-1/2 translate-x-1/2 lg:block" />
       <LastName className="absolute right-[60%] top-[75%] hidden w-[200px] -translate-x-1/2 lg:block" />
