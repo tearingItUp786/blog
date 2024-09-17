@@ -11,7 +11,7 @@ const schema = z.object({
   PORT: z.string().default('8080'),
   REDIS_PASSWORD: z.string(),
   REDIS_HOST: z.string().default('localhost'),
-  REDIS_PORT: z.number().default(6379),
+  REDIS_PORT: z.string().default('6379'),
   REFRESH_CACHE_SECRET: z.string(),
   SENTRY_AUTH_TOKEN: z.string(),
   SENTRY_ORG: z.string(),
