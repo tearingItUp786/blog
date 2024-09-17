@@ -5,6 +5,16 @@ export const OuterCircle = (props: any) => (
     viewBox="0 0 635 634"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    initial={{
+      opacity: 0,
+    }}
+    animate={{
+      opacity: 1,
+    }}
+    transition={{
+      delay: 1,
+      duration: 1,
+    }}
     {...props}
   >
     <g
