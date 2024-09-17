@@ -14,6 +14,7 @@ function createRedisClient(): redis.RedisClientType {
   if (!client) {
     // eslint-disable-next-line no-multi-assign
     client = global.primaryClient = redis.createClient({
+      username: 'default',
       password: process.env.REDIS_PASSWORD,
       socket: {
         host: process.env.REDIS_HOST,
