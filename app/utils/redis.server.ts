@@ -17,7 +17,7 @@ function createRedisClient(): redis.RedisClientType {
     client = global.primaryClient = redis.createClient({
       username: 'default',
       password: process.env.REDIS_PASSWORD,
-      pingInterval: 1000,
+      pingInterval: 4 * 60 * 1000,
       socket: {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT),
