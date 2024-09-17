@@ -19,7 +19,8 @@ function createRedisClient(): redis.RedisClientType {
       socket: {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT),
-        family: 6,
+        family: 4,
+        // family: 6,
       },
     })
 
