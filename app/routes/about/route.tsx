@@ -76,11 +76,11 @@ export async function loader() {
   }
 
   let desktopImage = cloudinaryInstance
-    .image('blog/hero')
+    .image('blog/me')
     .resize(scale().width(800))
 
   let mobileImage = cloudinaryInstance
-    .image('blog/hero')
+    .image('blog/me')
     .resize(scale().width(500).height(500))
 
   return json(

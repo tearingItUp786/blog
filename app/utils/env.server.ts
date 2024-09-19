@@ -9,7 +9,7 @@ const schema = z.object({
   MOCK_API: z.enum(['true', 'false'] as const).default('false'),
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
   PORT: z.string().default('8080'),
-  REDIS_PASSWORD: z.string(),
+  REDIS_PASSWORD: z.string().default(''),
   REDIS_HOST: z.string().default('localhost'),
   REDIS_PORT: z.string().default('6379'),
   REFRESH_CACHE_SECRET: z.string(),

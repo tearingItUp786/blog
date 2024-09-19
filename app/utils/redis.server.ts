@@ -12,7 +12,6 @@ function createRedisClient(): redis.RedisClientType {
   let client = global.primaryClient
 
   if (!client) {
-    console.log('creating redis client', process.env.REDIS_HOST)
     // eslint-disable-next-line no-multi-assign
     client = global.primaryClient = redis.createClient({
       username: 'default',
@@ -20,7 +19,7 @@ function createRedisClient(): redis.RedisClientType {
       pingInterval: 4 * 60 * 1000,
       socket: {
         host: process.env.REDIS_HOST,
-        port: Number(process.env.REDIS_PORT),
+        port: Number(process.env.REDIS_PORT || 6379),
         family: 6,
       },
     })
