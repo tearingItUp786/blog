@@ -1,7 +1,8 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
 import type {MetaFunction} from '@remix-run/node' // or cloudflare/deno
 import {json} from '@remix-run/node'
-import {ShouldRevalidateFunctionArgs, useLoaderData} from '@remix-run/react'
+import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
+import {useLoaderData} from '@remix-run/react'
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";

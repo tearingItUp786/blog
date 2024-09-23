@@ -3,13 +3,13 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node'
+import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  ShouldRevalidateFunctionArgs,
   isRouteErrorResponse,
   useRouteError,
   useRouteLoaderData,

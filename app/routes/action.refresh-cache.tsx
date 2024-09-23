@@ -12,7 +12,7 @@ import {
 } from '~/utils/mdx-utils.server'
 import {redisClient} from '~/utils/redis.server'
 import PQueue from 'p-queue'
-import {SearchIndex} from 'algoliasearch'
+import type {SearchIndex} from 'algoliasearch'
 
 type File = {
   changeType: 'modified' | 'added' | 'deleted' | 'moved'
