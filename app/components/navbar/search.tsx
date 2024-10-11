@@ -94,15 +94,19 @@ export function Search() {
   const loadHandler = () => {
     if (mountedStatus === 'idle') {
       setMountedStatus('mounting')
-      loadSearch(() => setMountedStatus('mounted'))
+      loadSearch(() => {
+        setMountedStatus('mounted')
+      })
     }
   }
 
   const onClick = () => {
-    loadHandler()
     if (mountedStatus === 'idle') {
+      loadHandler()
+    }
+
+    if (mountedStatus === 'mounting') {
       setShowAlgoliaSearch(true)
-      setMountedStatus('mounting')
     }
 
     if (mountedStatus === 'mounted') {
@@ -114,8 +118,8 @@ export function Search() {
   return (
     <>
       <SearchButton
-        onFocus={loadHandler}
-        onPointerOver={loadHandler}
+        onFocus={() => loadHandler()}
+        onPointerOver={() => loadHandler()}
         onClick={onClick}
       />
       {showAlgoliaSearch ? (
