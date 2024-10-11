@@ -1,0 +1,55 @@
+---
+title: Better node objects logging!
+date: 2024-10-11
+tag: Node
+---
+
+Sick of seeing truncated `Objects` in Node? I got you bro (well Matt Pocock has
+got you).
+
+```js
+let deepNesting = {
+  level1: {
+    level2: {
+      level3: {
+        level4: {
+          level5: {
+            name: 'Moderately Nested Object',
+            value: 42,
+            attributes: {
+              created: '2023-10-01',
+              modified: '2023-10-15',
+              tags: ['demo', 'test', 'nested'],
+              metadata: {
+                author: 'Jane Doe',
+                version: '1.0',
+                license: 'MIT',
+              },
+            },
+            items: [
+              {
+                id: 1,
+                description: 'First item',
+                status: 'active',
+              },
+              {
+                id: 2,
+                description: 'Second item',
+                status: 'inactive',
+              },
+            ],
+          },
+        },
+      },
+    },
+  },
+}
+
+// logs: { level1: { level2: { level3: [Object] } } }
+console.log(deepNesting)
+
+// You get the whole object!
+console.dir(deepNesting, {depth: Infinity})
+```
+
+Matt is the man!
