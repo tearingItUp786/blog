@@ -22,7 +22,7 @@ export const loader = ({request}: LoaderFunctionArgs) => {
   // let searchParams = new URLSearchParams(request.url.split('?')[1])
   // new animation param
   // let animation = searchParams.get('animation')
-  return json({animation: true})
+  return json({animation: false})
 }
 
 export default function Index() {
