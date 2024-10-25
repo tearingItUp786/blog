@@ -64,16 +64,16 @@ export default function AlgoliaSearch({
                   templates: {
                     noResults() {
                       return (
-                        <div className="p-6 text-white dark:text-gray-300">
+                        <div className="dark:text-gray-300 p-6 text-white">
                           You ain't got no results 😔.
                         </div>
                       )
                     },
                     item({item, components, state}) {
                       return (
-                        <div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-gray-300 aria-selected:text-white dark:text-gray-300">
+                        <div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-charcoal-gray aria-selected:text-white dark:text-charcoal-gray">
                           <a
-                            className="flex items-center justify-between space-x-4"
+                            className="flex items-center justify-between space-x-4 text-white dark:!text-charcoal-gray"
                             href={
                               item.type === 'til'
                                 ? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`
@@ -81,7 +81,7 @@ export default function AlgoliaSearch({
                             }
                           >
                             <div>
-                              <H3 className="my-2 text-white dark:!text-gray-300">
+                              <H3 className="my-2 text-white dark:!text-charcoal-gray">
                                 {(item as {data: {title: string}}).data.title}
                               </H3>
                               {components.Snippet({

@@ -40,7 +40,7 @@ function SearchButton({onClick, onPointerOver, onFocus}: SearchButtonProps) {
       >
         <span
           className={twJoin(
-            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-gray-300',
+            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-charcoal-gray',
             isMounted && 'group-hover:text-pink',
             !isMounted && 'cursor-not-allowed',
           )}

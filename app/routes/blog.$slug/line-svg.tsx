@@ -90,7 +90,7 @@ export const LineSvg = ({date, tag, ...rest}: Props) => {
               />
               <path
                 d="M0-1698.74h-46.43"
-                className="stroke-gray-300 dark:stroke-white"
+                className="stroke-section-title-color"
                 style={{
                   fill: 'none',
                   fillRule: 'nonzero',

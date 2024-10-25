@@ -12,8 +12,8 @@ const fontSizes = {
 }
 
 const titleColors = {
-  primary: 'text-gray-200 dark:text-white',
-  secondary: 'text-gray-100 dark:text-white',
+  primary: 'text-section-title-color',
+  secondary: 'text-subheading-color',
 }
 
 type TitleProps = {

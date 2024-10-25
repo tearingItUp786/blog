@@ -12,7 +12,7 @@ export default function Popover() {
       <div
         // @ts-ignore
         popover="auto"
-        className="h-3/4 w-3/4 items-center justify-center rounded border border-solid border-black bg-white dark:border-white dark:bg-gray-300"
+        className="h-3/4 w-3/4 items-center justify-center rounded border border-solid border-black bg-white dark:border-white dark:bg-charcoal-gray"
         id="my-popover"
       >
         <div className="flex h-[90%] flex-wrap items-center justify-center">

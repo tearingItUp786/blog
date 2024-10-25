@@ -131,17 +131,17 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
   return (
     <div
       className='
-              relative
-              text-lg 
-              font-bold
+              after:border-gray-300
+              relative 
+              text-lg
+              font-bold 
               text-pink 
               after:absolute 
               after:bottom-[-10px] 
-              after:left-[50%] 
-              after:w-[150px]
+              after:left-[50%]
+              after:w-[150px] 
               after:translate-x-[-50%] 
-              after:border-b-[1px] 
-              after:border-gray-300
+              after:border-b-[1px]
               after:content-[""]
               dark:opacity-80
               dark:after:border-white

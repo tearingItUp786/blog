@@ -3,38 +3,48 @@
 
 /* @import '@algolia/autocomplete-theme-classic'; */
 
+
+/* https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance?node-id=803-2&node-type=canvas&t=DAr6pxwMfP4PtJXy-0 */
 :root {
-  --color-white: #f3f3f7;
-  --color-black: #000;
-  --color-gray-100: #353535;
-  --color-gray-200: #1c1b19;
-  --color-gray-300: #1e1e1e;
-  --color-pink: #f410a1;
-  --color-pink-100: #f410a1cf;
+  /* color set up*/
+  --color-hot-pink: #EB36A1;
+  --color-pure-white: #FFFFFF;
+  --color-off-white: #F3F3F7;
+  --color-light-gray: #E6E6E6;
+  --color-silver-gray: #A8A8A8;
+  --color-medium-gray: #737373;
+  --color-dark-gray-100: #262626;
+  --color-dark-gray-200: #353535;
+  --color-charcoal-gray: #1E1E1E;
+  --color-true-black: #000000;
+  /* end of color set up */
+
   --sb-size: 10px;
-  --sb-track-color: var(--color-gray-200);
-  --sb-thumb-color: var(--color-white);
-  --bg-color: var(--color-white);
-  --subheading-color: var(--color-gray-100);
-  --blog-title-color: var(--color-gray-200);
-  --body-text: var(--color-gray-300);
-  --accent: var(--color-pink);
+  --sb-track-color: var(--color-dark-gray-200);
+  --sb-thumb-color: var(--color-pure-white);
+  --bg-color: var(--color-pure-white);
+  --subheading-color: var(--color-dark-gray-200);
+  --blog-title-color: var(--color-charcoal-gray);
+  --body-text: var(--color-charcoal-gray);
+  --accent: var(--color-hot-pink);
 }
 
 .light {
-  --bg-color: var(--color-white);
-  --subheading-color: var(--color-gray-100);
-  --blog-title-color: var(--color-gray-200);
-  --body-text: var(--color-gray-300);
-  --accent: var(--color-pink);
+  --accent: var(--color-hot-pink);
+  --body-text: var(--color-charcoal-gray);
+  --border-color: var(--color-medium-gray);
+  --bg-color: var(--color-pure-white);
+  --section-title-color: var(--color-charcoal-gray);
+  --subheading-color: var(--color-medium-gray);
 }
 
 .dark {
-  --bg-color: var(--color-gray-100);
-  --subheading-color: var(--color-white);
-  --blog-title-color: var(--color-white);
-  --body-text: var(--color-white);
-  --accent: var(--color-pink-100);
+  --accent: var(--color-hot-pink);
+  --body-text: var(--color-off-white);
+  --border-color: var(--color-silver-gray);
+  --bg-color: var(--color-dark-gray-100);
+  --section-title-color: var(--color-pure-white);
+  --subheading-color: var(--color-off-white);
 }
 
 .logoNavLink:hover path {
@@ -42,7 +52,7 @@
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--accent);
 }
 
 .title {
@@ -62,7 +72,7 @@ a {
 
 .title a svg {
   visibility: hidden;
-  stroke: var(--color-gray-300);
+  stroke: var(--color-charcoal-gray);
 }
 
 .title:hover a svg {
@@ -70,13 +80,12 @@ a {
 }
 
 html {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-dark-gray-200);
 }
 
 html.dark {
-  background-color: var(--color-white);
+  background-color: var(--color-pure-white);
 }
-
 
 @keyframes grow-progress {
 	from { transform: scaleX(0); }
@@ -104,7 +113,7 @@ body {
 }
 
 ::selection {
-  background-color: #f410a1b0;
+  background-color: var(--color-hot-pink-100);
 }
 
 p {
@@ -119,7 +128,7 @@ p {
 }
 
 mark {
-  background: var(--color-pink-100);
+  background: var(--color-hot-pink);
 }
 
 /* for the mermaid diagram */

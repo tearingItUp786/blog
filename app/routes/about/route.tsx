@@ -40,15 +40,15 @@ const RandomThing = ({
     <div
       className={clsx(
         className,
-        'mb-8 w-full border border-solid border-gray-300 p-8 dark:border-white lg:mb-0',
+        'border-gray-300 mb-8 w-full border border-solid p-8 dark:border-white lg:mb-0',
       )}
     >
       {icon ? (
         <div
           className="
-        mb-4 
-        max-w-[40px]
-         first:fill-gray-300 first:dark:fill-white"
+        first:fill-gray-300 
+        mb-4
+         max-w-[40px] first:dark:fill-white"
         >
           {icon}
         </div>

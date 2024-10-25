@@ -17,15 +17,27 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      white: 'var(--color-white)',
-      black: 'var(--color-black)',
-      pink: 'var(--color-pink)',
+      // basic variable color set up
+      pink: 'var(--color-hot-pink)', // Updated to reflect vibrant hot-pink
+      white: 'var(--color-pure-white)', // Updated as per the new off-white definition
+      'off-white': 'var(--color-off-white)',
+      'light-gray': 'var(--color-light-gray)',
+      'silver-gray': 'var(--color-silver-gray)',
+      'medium-gray': 'var(--color-medium-gray)',
       gray: {
-        100: 'var(--color-gray-100)',
-        200: 'var(--color-gray-200)',
-        300: 'var(--color-gray-300)',
+        100: 'var(--color-dark-gray-100)', // Adjusted naming for consistency with dark grays
+        200: 'var(--color-dark-gray-200)', // Reflects the expressive intent of its dark gray hue
       },
+      'charcoal-gray': 'var(--color-charcoal-gray)',
+      black: 'var(--color-true-black)', // Updated for clarity using the new naming convention
+      // theme based colors
       accent: 'var(--accent)',
+      body: 'var(--body-text)',
+      'border-color': 'var(--border-color)',
+      'bg-color': 'var(--bg-color)',
+      'blog-title-color': 'var(--blog-title-color)',
+      'section-title-color': 'var(--section-title-color)',
+      'subheading-color': 'var(--subheading-color)',
       alert: {
         100: '#FBE8E8',
         200: '#F08D8D',
@@ -230,10 +242,10 @@ module.exports = {
             css: [
               {
                 'h1,h2,h3,h4,h5,h6': {
-                  color: 'var(--color-white)',
+                  color: 'var(--color-off-white)',
                 },
                 'ol, ul': {
-                  color: 'var(--color-white)',
+                  color: 'var(--color-off-white)',
                 },
                 code: {
                   color: 'var(--color-accent)',

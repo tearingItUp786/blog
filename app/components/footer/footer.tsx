@@ -15,28 +15,28 @@ export function Footer() {
         <div className="flex flex-wrap md:block">
           <NavLink
             prefetch="intent"
-            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-charcoal-gray"
             to={`/til?${searchParamsWithoutOffset}`}
           >
             TIL
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-charcoal-gray"
             to={`/about?${searchParamsWithoutOffset}`}
           >
             ABOUT
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-charcoal-gray"
             to={`/blog?${searchParamsWithoutOffset}`}
           >
             BLOG
           </NavLink>
           <NavLink
             prefetch="intent"
-            className="basis-6/12 px-8 text-sm text-white underline dark:text-gray-300"
+            className="basis-6/12 px-8 text-sm text-white underline dark:text-charcoal-gray"
             to={`/uses?${searchParamsWithoutOffset}`}
           >
             USES
