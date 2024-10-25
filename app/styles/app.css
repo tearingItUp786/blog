@@ -113,7 +113,7 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-hot-pink-100);
+  background-color: var(--color-hot-pink);
 }
 
 p {
