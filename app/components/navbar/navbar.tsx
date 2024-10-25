@@ -39,9 +39,9 @@ export function Navbar() {
   }, [isOpen])
 
   const navClassName =
-    'transition-[color] dark:text-black bg-white dark:bg-gray-100 lg:dark:charcoal-gray lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-lg italic items-center'
+    'transition-[color] dark:text-black bg-white lg:dark:charcoal-gray lg:text-white lg:bg-transparent duration-300 flex justify-center pt-[5px] hover:!text-pink focus:!text-pink text-body block min-w-[150px] text-center  text-lg italic items-center'
   const activeClassName =
-    '!text-pink not-italic font-display font-normal bg-white lg:bg-white dark:lg:bg-gray-100 dark:bg-gray-100'
+    '!text-pink not-italic font-display font-normal bg-white lg:bg-white dark:lg:bg-gray-100 '
   const setNavClassName = ({isActive}: {isActive: boolean}) => {
     return twJoin(navClassName, isActive ? activeClassName : 'lg:dark:bg-white')
   }
@@ -51,7 +51,7 @@ export function Navbar() {
       <NavLink
         prefetch="intent"
         className={`
-    normal lg:dark:charcoal-gray flex min-w-[150px] items-center justify-center  text-center text-xl text-body  transition-[color]  duration-300  hover:!text-pink  focus:!text-pink dark:text-black lg:bg-transparent lg:text-white
+    normal lg:dark:charcoal-gray flex min-w-[150px] items-center justify-center  text-center text-xl text-white transition-[color] duration-300  hover:!text-pink  focus:!text-pink  dark:text-black  lg:bg-transparent lg:text-white
           `}
         to={`/?${searchParamsWithoutOffset}`}
       >

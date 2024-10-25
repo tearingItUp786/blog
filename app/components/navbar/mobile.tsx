@@ -13,7 +13,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
         isOpen
           ? 'before:scale-100 before:opacity-100'
           : 'before:scale-0 before:opacity-0',
-        'block before:fixed before:left-0 before:top-[-5vh] before:z-10 before:h-[105vh] before:w-[105vw] before:origin-top-right before:rounded-sm before:bg-white before:transition-all before:content-[""] before:dark:bg-gray-100',
+        'block before:fixed before:left-0 before:top-[-5vh] before:z-10 before:h-[105vh] before:w-[105vw] before:origin-top-right before:rounded-sm before:bg-white before:transition-all before:content-[""] before:dark:bg-white',
       )}
     >
       <button
@@ -31,7 +31,7 @@ export function MobileNav({isOpen, setIsOpen}: Props) {
             'after:absolute after:left-0 after:top-[16px] after:h-[2px] after:w-[24px] after:transition-all  after:duration-300 after:ease-in-out after:content-[""]',
             isOpen
               ? 'bg-transparent before:top-[8px] before:rotate-[-45deg] before:bg-accent after:top-[8px] after:rotate-[45deg] after:bg-accent'
-              : 'before:dark:bg-gray-300 after:dark:bg-gray-300 bg-white before:top-[8px] before:rotate-0 before:bg-white after:top-[16px] after:rotate-[0deg] after:bg-white dark:bg-charcoal-gray ',
+              : 'bg-white before:top-[8px] before:rotate-0 before:bg-white after:top-[16px] after:rotate-[0deg] after:bg-white dark:bg-charcoal-gray before:dark:bg-charcoal-gray after:dark:bg-charcoal-gray ',
           )}
         />
       </button>
