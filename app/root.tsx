@@ -117,7 +117,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <Links />
         <NonFlashOfWrongThemeEls />
       </head>
-      <body className="bg-white dark:bg-gray-100">
+      <body className="bg-light-gray dark:bg-gray-100">
         <Navbar />
         <ScrollProgress />
         {children}

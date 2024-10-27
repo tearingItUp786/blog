@@ -34,13 +34,13 @@ function SearchButton({onClick, onPointerOver, onFocus}: SearchButtonProps) {
         onClick={onClick}
         onPointerOver={onPointerOver}
         className={twJoin(
-          'group relative mr-12 block lg:mr-0',
+          'group relative mr-12 block rounded bg-white px-6 py-1 shadow-custom-black dark:bg-gray-200 lg:mr-0',
           !isMounted && 'cursor-not-allowed',
         )}
       >
         <span
           className={twJoin(
-            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-white transition-colors dark:text-charcoal-gray',
+            'sm:text-sm flex h-10 items-center rounded-sm border-0 bg-transparent text-xl text-body transition-colors ',
             isMounted && 'group-hover:text-pink',
             !isMounted && 'cursor-not-allowed',
           )}
