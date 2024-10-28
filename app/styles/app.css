@@ -1,7 +1,9 @@
 /* These are only for usage in tailwind */
 /* dont reference directly */
 
-/* https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance?node-id=803-2&node-type=canvas&t=DAr6pxwMfP4PtJXy-0 */
+/*
+ * https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance
+ */
 :root {
   /* color set up*/
   --color-hot-pink: #EB36A1;

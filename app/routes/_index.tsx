@@ -1,7 +1,11 @@
-import {type ShouldRevalidateFunctionArgs} from '@remix-run/react'
+import {
+  useLoaderData,
+  type ShouldRevalidateFunctionArgs,
+} from '@remix-run/react'
 import {twJoin} from 'tailwind-merge'
 import {Pill, PILL_CLASS_NAME} from '~/components/pill'
-import {H1} from '~/components/typography'
+import {H1, H2} from '~/components/typography'
+import {getQuote} from '~/utils/quote.server'
 
 export function shouldRevalidate({
   currentUrl,
@@ -15,11 +19,22 @@ export function shouldRevalidate({
   return defaultShouldRevalidate
 }
 
+export async function loader() {
+  let count = Math.floor(Math.random() * 5) + 1
+  let quoteData = await getQuote({count})
+  return {
+    quoteData,
+    count,
+  }
+}
+
 export default function Index() {
+  const {quoteData} = useLoaderData<typeof loader>()
+
   return (
-    <div className="mx-auto mt-20 max-w-screen-xl px-4 md:px-20">
+    <div className="mx-auto my-20 max-w-screen-xl px-4 md:px-20">
       <div className="flex justify-between">
-        <article>
+        <article className="basis-1/3">
           <H1 className="mb-6">Taran Bains</H1>
           <div className="space-y-5">
             <Pill>software engineer</Pill>
@@ -51,7 +66,10 @@ export default function Index() {
             </a>
           </div>
         </article>
-        <div>Something</div>
+        <div className="mt-24 basis-2/3 px-24 text-center">
+          <H2 className="font-normal">{quoteData.quote}</H2>
+          <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
+        </div>
       </div>
     </div>
   )
