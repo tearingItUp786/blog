@@ -1,5 +1,7 @@
 import {type ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {H1, H2} from '~/components/typography'
+import {twJoin} from 'tailwind-merge'
+import {Pill, PILL_CLASS_NAME} from '~/components/pill'
+import {H1} from '~/components/typography'
 
 export function shouldRevalidate({
   currentUrl,
@@ -15,25 +17,41 @@ export function shouldRevalidate({
 
 export default function Index() {
   return (
-    <div>
-      <div
-        className={`
-      relative
-      h-[calc(95svh_-_63.5px)]
-      text-center
-     `}
-      >
-        <article className="absolute left-[50%] top-[50%] z-[2] translate-x-[-50%] translate-y-[-60%]">
-          <H1 className="whitespace-nowrap text-[2.6rem] uppercase leading-[1.1] text-body md:text-[5.2rem]">
-            Taran Bains
-          </H1>
-          <H2 className="bg-gray-100 px-2 text-center text-[1.5rem] uppercase leading-tight text-white dark:bg-accent md:text-[3.5rem]">
-            Tearing it up
-          </H2>
-          <H1 className="whitespace-nowrap text-[1.25rem] uppercase leading-[1.5] text-body md:text-[2.5rem]">
-            Like his life depends on it
-          </H1>
+    <div className="mx-auto mt-20 max-w-screen-xl px-4 md:px-20">
+      <div className="flex justify-between">
+        <article>
+          <H1 className="mb-6">Taran Bains</H1>
+          <div className="space-y-5">
+            <Pill>software engineer</Pill>
+            <Pill>vancouver, bc</Pill>
+            <Pill>7+ years experience</Pill>
+            <Pill>self-taught</Pill>
+            <Pill>full-stack developer</Pill>
+            <Pill>typescript</Pill>
+            <Pill>go</Pill>
+            <a
+              href="https://x.com/tearingItUp786"
+              target="_blank"
+              rel="noreferrer"
+              className={twJoin(
+                PILL_CLASS_NAME,
+                'hover:bg-accent hover:text-charcoal-gray group-hover:text-charcoal-gray',
+              )}
+            >
+              follow me on{' '}
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="ml-2 block h-4 w-4 fill-accent group-hover:fill-charcoal-gray"
+              >
+                <g>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </g>
+              </svg>{' '}
+            </a>
+          </div>
         </article>
+        <div>Something</div>
       </div>
     </div>
   )

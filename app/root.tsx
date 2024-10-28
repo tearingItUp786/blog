@@ -17,7 +17,6 @@ import {
 import {withSentry} from '@sentry/remix'
 import clsx from 'clsx'
 import {ExternalScripts} from 'remix-utils/external-scripts'
-import Toggle from '~/components/theme-toggle'
 import {Navbar} from './components/navbar'
 import {
   NonFlashOfWrongThemeEls,
@@ -131,7 +130,6 @@ const Document = ({children}: {children: React.ReactNode}) => {
         <ScrollRestoration />
         <ExternalScripts />
         <Scripts />
-        <Toggle />
         <Footer />
       </body>
     </html>
