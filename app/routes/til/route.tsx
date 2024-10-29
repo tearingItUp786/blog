@@ -14,6 +14,7 @@ import {getMdxTilListGql} from '~/utils/mdx-utils.server'
 
 // css
 import '~/styles/til.css'
+import {H1} from '~/components/typography'
 
 export function shouldRevalidate({
   currentUrl,
@@ -119,33 +120,36 @@ export default function TilPage() {
   }, [fetcher.data])
 
   return (
-    <div
-      className='
-    relative ml-[10vw] mr-[10vw] mt-8 pb-8 after:absolute
-    after:left-[-11vw]
+    <div className="px-2 md:px-20">
+      <H1 className="mb-10 mt-14">Today I Learned</H1>
+      <div
+        className='
+    relative  mt-8 max-w-screen-xl px-4
+    pb-8
+    after:absolute
+    after:left-[0rem]
     after:top-[10px]
     after:hidden
     after:h-full
     after:w-[2px]
+    
     after:bg-gray-100
     after:content-[""]
     after:dark:bg-white
-    md:ml-[18vw]
-    after:md:block
-    xl:mx-auto
-    xl:min-w-[1200px]
-    xl:max-w-min
+    md:pl-[8rem]
+   after:md:block xl:mx-auto xl:min-w-[1200px] xl:max-w-min
     '
-    >
-      <div className="prose prose-light max-w-full dark:prose-dark">
-        {items?.map(til => {
-          return (
-            <TilComponent
-              key={`${til.frontmatter.title}-${til.frontmatter.date}`}
-              til={til}
-            />
-          )
-        })}
+      >
+        <div className="prose prose-light max-w-full dark:prose-dark">
+          {items?.map(til => {
+            return (
+              <TilComponent
+                key={`${til.frontmatter.title}-${til.frontmatter.date}`}
+                til={til}
+              />
+            )
+          })}
+        </div>
       </div>
     </div>
   )
