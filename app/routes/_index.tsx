@@ -33,10 +33,10 @@ export default function Index() {
 
   return (
     <div className="mx-auto my-20 max-w-screen-xl px-4 md:px-20">
-      <div className="flex justify-between">
-        <article className="basis-1/3">
-          <H1 className="mb-6">Taran Bains</H1>
-          <div className="space-y-5">
+      <div className="flex flex-wrap justify-between">
+        <article className="basis-full  lg:basis-1/3 ">
+          <H1 className="mb-6 text-center lg:text-left">Taran Bains</H1>
+          <div className="flex flex-wrap justify-center gap-[100%] space-y-5 lg:block">
             <Pill>software engineer</Pill>
             <Pill>vancouver, bc</Pill>
             <Pill>7+ years experience</Pill>
@@ -66,7 +66,7 @@ export default function Index() {
             </a>
           </div>
         </article>
-        <div className="mt-24 basis-2/3 px-24 text-center">
+        <div className="mt-24 basis-full px-24 text-center lg:basis-2/3">
           <H2 className="font-normal">{quoteData.quote}</H2>
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
         </div>
