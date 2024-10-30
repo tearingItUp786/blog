@@ -68,7 +68,7 @@ export default function Index() {
             </a>
           </div>
         </article>
-        <div className="mt-24 basis-full px-24 text-center lg:basis-2/3">
+        <div className="mt-24 basis-full text-center lg:basis-2/3 lg:px-24">
           <H2 className="font-normal">{quoteData.quote}</H2>
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
         </div>
