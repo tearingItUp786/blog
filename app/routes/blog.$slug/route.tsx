@@ -2,7 +2,12 @@ import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {useLoaderData, useLocation, useSearchParams} from '@remix-run/react'
+import {
+  NavLink,
+  useLoaderData,
+  useLocation,
+  useSearchParams,
+} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
@@ -11,11 +16,13 @@ import LazyLoad from 'vanilla-lazyload'
 import {H1, H4, TextLink} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
-import {dateFormat, invariantResponse} from '~/utils/misc'
+import {dotFormattedDate, invariantResponse} from '~/utils/misc'
 import {LineSvg} from './line-svg'
 import {PreviousAndNextLinks} from './previous-and-next-links'
 
 import '~/styles/blog.css'
+import {twMerge} from 'tailwind-merge'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type LoaderData = {
   page: MdxPage
@@ -125,30 +132,43 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
   }
 }
 
-const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
+const FrontmatterSubtitle = ({
+  date,
+  time,
+  tag,
+}: {
+  date?: string
+  time?: string
+  tag?: string
+}) => {
+  const [searchParams] = useSearchParams()
   if (!date) return null
 
   return (
     <div
-      className='
+      className="
               after:border-gray-300
               relative 
-              text-lg
-              font-bold 
-              text-pink 
-              after:absolute 
-              after:bottom-[-10px] 
-              after:left-[50%]
-              after:w-[150px] 
-              after:translate-x-[-50%] 
-              after:border-b-[1px]
-              after:content-[""]
-              dark:opacity-80
-              dark:after:border-white
-            '
+              mb-4
+              flex 
+              items-center 
+              uppercase
+              text-accent
+              lg:pl-28
+            "
     >
-      Taran "tearing it up" Bains • <span>{dateFormat(date)}</span> •{' '}
-      <span>{time}</span>
+      <NavLink
+        className={twMerge(
+          PILL_CLASS_NAME,
+          PILL_CLASS_NAME_ACTIVE,
+          'mr-4 px-2 py-1',
+        )}
+        to={`/tags/${tag}?${searchParams.toString()}`}
+      >
+        {tag}
+      </NavLink>
+      <span className="mr-4">{dotFormattedDate(date)}</span> •{' '}
+      <span className="ml-4">{time}</span>
     </div>
   )
 }
@@ -206,14 +226,15 @@ export default function MdxScreen() {
     : null
 
   return (
-    <div className="relative mx-[10vw] mt-8">
-      <PreviousAndNextLinks
-        className="hidden md:flex"
-        previous={previous}
-        next={next}
+    <div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
+      <LineSvg />
+      <H1 className="mb-10 mt-14">Blog</H1>
+      <FrontmatterSubtitle
+        tag={frontmatter.tag}
+        time={readTime?.text}
+        date={frontmatter.date}
       />
-      <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
-      <div className="mx-auto mb-12 max-w-4xl text-center">
+      <div className="lg:mb-12 lg:pl-28">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
           {frontmatter.subtitle ? (
@@ -221,7 +242,6 @@ export default function MdxScreen() {
               {frontmatter.subtitle}
             </H4>
           ) : null}
-          <FrontmatterSubtitle time={readTime?.text} date={frontmatter.date} />
         </div>
       </div>
 
@@ -229,13 +249,13 @@ export default function MdxScreen() {
         className="prose 
         prose-light 
         relative 
-        mx-auto 
         grid
-        max-w-7xl 
-        grid-cols-4 gap-x-4 
-        break-words 
-        dark:prose-dark
-        md:mb-12 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6"
+        max-w-full  
+        break-words
+        dark:prose-dark 
+        md:mb-12
+        md:grid-cols-12
+        "
       >
         <Component />
         <div className="border-sold mt-8 flex justify-between border-t-[1px] pb-4 pt-8">

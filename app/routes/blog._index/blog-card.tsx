@@ -3,6 +3,7 @@ import type {MdxPage} from 'types'
 import {dotFormattedDate} from '~/utils/misc'
 import {H2} from '~/components/typography'
 import {twMerge} from 'tailwind-merge'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type Props = MdxPage['frontmatter'] & {
   slug: string
@@ -41,10 +42,14 @@ export function BlogCard({
       )}
     >
       <div>
-        <span className="text-lg">
+        <span>
           <NavLink
             prefetch="intent"
-            className="mr-2 font-bold uppercase text-accent dark:opacity-80"
+            className={twMerge(
+              PILL_CLASS_NAME,
+              PILL_CLASS_NAME_ACTIVE,
+              'mr-4 inline px-2 py-1 uppercase',
+            )}
             to={`/tags/${tag}?${searchParams.toString()}`}
           >
             {tag}
@@ -54,7 +59,7 @@ export function BlogCard({
           </span>
         </span>
         <NavLink prefetch="intent" to={`/${slug}?${searchParams.toString()}`}>
-          <H2 className="my-0">{title}</H2>
+          <H2 className="mb-0 mt-2">{title}</H2>
         </NavLink>
       </div>
       <p

@@ -8,7 +8,7 @@ export function TilComponent({til}: {til: TilMdxPage}) {
   if (!til?.frontmatter) return null
 
   return (
-    <div className="mb-24 first-of-type:mt-16 last-of-type:mb-0">
+    <div className="mb-24 last-of-type:mb-0">
       <ContentCard
         id={til.slug}
         titleTo={`/til?offset=${til.offset}#${til.slug}`}

@@ -80,9 +80,10 @@ export function Autocomplete({
       ...autocompleteProps,
       classNames: {
         detachedSearchButton: 'hidden',
-        detachedOverlay: 'px-8 p-16 z-30 absolute inset-0 transition-opacity',
+        detachedOverlay:
+          'px-4 md:px-20 p-24 z-30 absolute inset-0 transition-opacity max-w-screen-xl mx-auto',
         detachedContainer:
-          'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full max-h-screen max-w-5xl mx-auto overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 md:h-auto md:rounded-xl',
+          'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full max-h-screen  mx-auto overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 md:h-auto rounded-xl',
         detachedFormContainer: 'flex relative flex-none',
         detachedCancelButton: 'hidden',
         form: 'flex-1',

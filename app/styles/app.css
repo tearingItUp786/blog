@@ -1,10 +1,9 @@
 /* These are only for usage in tailwind */
 /* dont reference directly */
 
-/* @import '@algolia/autocomplete-theme-classic'; */
-
-
-/* https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance?node-id=803-2&node-type=canvas&t=DAr6pxwMfP4PtJXy-0 */
+/*
+ * https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance
+ */
 :root {
   /* color set up*/
   --color-hot-pink: #EB36A1;
@@ -30,8 +29,9 @@
 }
 
 .light {
-  --accent: var(--color-hot-pink);
-  --body-text: var(--color-charcoal-gray);
+  --accent: var(--color-hot-pink); /* the main color we use to emphasize the site */
+  --body-text: var(--color-charcoal-gray); 
+  --body-text-inverse: var(--color-off-white);
   --border-color: var(--color-medium-gray);
   --bg-color: var(--color-pure-white);
   --section-title-color: var(--color-charcoal-gray);
@@ -39,8 +39,9 @@
 }
 
 .dark {
-  --accent: var(--color-hot-pink);
+  --accent: var(--color-hot-pink); /* the main color we use to emphasize the site */
   --body-text: var(--color-off-white);
+  --body-text-inverse: var(--color-charcoal-gray);
   --border-color: var(--color-silver-gray);
   --bg-color: var(--color-dark-gray-100);
   --section-title-color: var(--color-pure-white);
@@ -80,11 +81,11 @@ a {
 }
 
 html {
-  background-color: var(--color-dark-gray-200);
+  background-color: var(--color-light-gray);
 }
 
 html.dark {
-  background-color: var(--color-pure-white);
+  background-color: var(--color-dark-gray-100);
 }
 
 @keyframes grow-progress {

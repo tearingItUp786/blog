@@ -33,6 +33,7 @@ module.exports = {
       // theme based colors
       accent: 'var(--accent)',
       body: 'var(--body-text)',
+      'inverse-body': 'var(--body-text-inverse)',
       'border-color': 'var(--border-color)',
       'bg-color': 'var(--bg-color)',
       'blog-title-color': 'var(--blog-title-color)',
@@ -64,6 +65,9 @@ module.exports = {
       display: ['CommitMono', ...defaultTheme.fontFamily.sans],
     },
     extend: {
+      boxShadow: {
+        'custom-black': '0px 0px 30px 0px #00000040',
+      },
       keyframes: {
         fadeIn: {
           '0%': {opacity: '0'},
@@ -116,7 +120,7 @@ module.exports = {
                   gridColumn: '1 / -1',
 
                   [`@media (min-width: ${theme('screens.lg')})`]: {
-                    gridColumn: '3 / span 8',
+                    gridColumn: '2 / span 10',
                   },
                 },
                 'h1,h2,h3,h4,h5,h6': {

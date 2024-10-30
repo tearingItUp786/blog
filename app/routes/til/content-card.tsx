@@ -2,6 +2,8 @@ import {NavLink, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
 import {H1} from '~/components/typography'
+import {twMerge} from 'tailwind-merge'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type Props = {
   title?: string
@@ -17,12 +19,12 @@ const blackLinkClasses = `
     after:hidden
     after:md:block
     after:absolute
-    after:top-[10px]
-    after:left-[-11vw]
+    after:top-[20px]
+    after:left-[-6rem]
     after:bg-gray-100
     after:dark:bg-white
     after:h-[2px]
-    after:w-[9vw]
+    after:w-14
 
     before:hidden
     before:md:block
@@ -31,8 +33,8 @@ const blackLinkClasses = `
     before:rounded-full
     before:h-[18px]
     before:w-[18px]
-    before:top-[12px]
-    before:left-[-2vw]
+    before:top-[20px]
+    before:left-[-2.5rem]
     before:bg-gray-100
     before:dark:bg-white
     before:translate-y-[-50%]
@@ -55,15 +57,21 @@ export const ContentCard = ({
       id={id}
       className={clsx(showBlackLine && blackLinkClasses, 'relative')}
     >
-      <div className="block items-start md:flex">
-        <div className="order-0 mr-6 block flex-col text-lg text-accent md:flex">
-          {dotFormattedDate(date ?? '')}
+      <div className="">
+        <div className="mb-4 flex items-center">
           <NavLink
-            className="ml-4 mr-2 font-bold uppercase text-accent no-underline md:ml-0"
+            className={twMerge(
+              PILL_CLASS_NAME,
+              PILL_CLASS_NAME_ACTIVE,
+              'mr-4 px-2 py-1 uppercase',
+            )}
             to={`/tags/${tag}?${searchParams.toString()}`}
           >
             {tag}
           </NavLink>
+          <span className="text-lg text-accent">
+            {dotFormattedDate(date ?? '')}
+          </span>
         </div>
         <NavLink className="group no-underline" to={titleTo}>
           <H1 className="break-word my-4 leading-[1em] transition-all group-hover:underline md:my-0 md:break-normal">
