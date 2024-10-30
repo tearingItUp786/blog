@@ -43,13 +43,13 @@ export default function TagPage() {
   const [searchParams] = useSearchParams()
 
   return (
-    <div className="mx-auto mt-16 min-h-[100vh] max-w-screen-xl pb-24">
-      <div className="ml-[10vw] mr-[10vw] max-w-full xl:mx-auto">
+    <div className="relative mx-auto mt-16  min-h-[100vh] max-w-screen-xl px-4 pb-24 md:px-20">
+      <div className="">
         <H1>Tags</H1>
         <div className="mt-8">
           {tagList.map(([firstLetter, tags]) => {
             return (
-              <div key={firstLetter} className="mb-20 last-of-type:mb-0">
+              <div key={firstLetter} className="mb-20 ml-4 last-of-type:mb-0">
                 <H2>{firstLetter}</H2>
                 <ul className="md:flex md:flex-wrap">
                   {tags.map(tag => {
