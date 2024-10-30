@@ -120,11 +120,11 @@ export default function TilPage() {
   }, [fetcher.data])
 
   return (
-    <div className="px-2 md:px-20">
+    <div className="mx-auto max-w-screen-xl px-4 md:px-20 ">
       <H1 className="mb-10 mt-14">Today I Learned</H1>
       <div
         className='
-    relative  mt-8 max-w-screen-xl px-4
+    relative  mt-8
     pb-8
     after:absolute
     after:left-[0rem]
@@ -136,8 +136,8 @@ export default function TilPage() {
     after:bg-gray-100
     after:content-[""]
     after:dark:bg-white
-    md:pl-[8rem]
-   after:md:block xl:mx-auto xl:min-w-[1200px] xl:max-w-min
+    md:pl-24
+   after:md:block xl:min-w-[1200px] xl:max-w-min
     '
       >
         <div className="prose prose-light max-w-full dark:prose-dark">

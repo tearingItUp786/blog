@@ -206,14 +206,9 @@ export default function MdxScreen() {
     : null
 
   return (
-    <div className="relative mx-[10vw] mt-8">
-      <PreviousAndNextLinks
-        className="hidden md:flex"
-        previous={previous}
-        next={next}
-      />
-      <LineSvg tag={frontmatter.tag ?? ''} date={frontmatter.date ?? ''} />
-      <div className="mx-auto mb-12 max-w-4xl text-center">
+    <div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
+      <LineSvg />
+      <div className="lg:mb-12 lg:pl-28">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
           {frontmatter.subtitle ? (
@@ -229,13 +224,13 @@ export default function MdxScreen() {
         className="prose 
         prose-light 
         relative 
-        mx-auto 
         grid
-        max-w-7xl 
-        grid-cols-4 gap-x-4 
-        break-words 
-        dark:prose-dark
-        md:mb-12 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6"
+        max-w-full  
+        break-words
+        dark:prose-dark 
+        md:mb-12
+        md:grid-cols-12
+        "
       >
         <Component />
         <div className="border-sold mt-8 flex justify-between border-t-[1px] pb-4 pt-8">

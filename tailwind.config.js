@@ -120,7 +120,7 @@ module.exports = {
                   gridColumn: '1 / -1',
 
                   [`@media (min-width: ${theme('screens.lg')})`]: {
-                    gridColumn: '3 / span 8',
+                    gridColumn: '2 / span 10',
                   },
                 },
                 'h1,h2,h3,h4,h5,h6': {

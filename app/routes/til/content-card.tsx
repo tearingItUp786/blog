@@ -18,11 +18,11 @@ const blackLinkClasses = `
     after:md:block
     after:absolute
     after:top-[10px]
-    after:left-[-8rem]
+    after:left-[-6rem]
     after:bg-gray-100
     after:dark:bg-white
     after:h-[2px]
-    after:w-20
+    after:w-14
 
     before:hidden
     before:md:block
