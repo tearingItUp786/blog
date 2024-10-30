@@ -124,11 +124,11 @@ export default function TilPage() {
       <H1 className="mb-10 mt-14">Today I Learned</H1>
       <div
         className='
-    relative  mt-8
+    relative     
     pb-8
     after:absolute
     after:left-[0rem]
-    after:top-[10px]
+    after:top-[20px]
     after:hidden
     after:h-full
     after:w-[2px]

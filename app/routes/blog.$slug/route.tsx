@@ -130,22 +130,15 @@ const FrontmatterSubtitle = ({date, time}: {date?: string; time?: string}) => {
 
   return (
     <div
-      className='
+      className="
               after:border-gray-300
               relative 
               text-lg
               font-bold 
               text-pink 
-              after:absolute 
-              after:bottom-[-10px] 
-              after:left-[50%]
-              after:w-[150px] 
-              after:translate-x-[-50%] 
-              after:border-b-[1px]
-              after:content-[""]
               dark:opacity-80
               dark:after:border-white
-            '
+            "
     >
       Taran "tearing it up" Bains • <span>{dateFormat(date)}</span> •{' '}
       <span>{time}</span>
@@ -208,6 +201,7 @@ export default function MdxScreen() {
   return (
     <div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
       <LineSvg />
+      <H1 className="mb-10 mt-14">Blog</H1>
       <div className="lg:mb-12 lg:pl-28">
         <div className="col-span-full lg:col-span-8 lg:col-start-3">
           <H1>{frontmatter.title}</H1>
