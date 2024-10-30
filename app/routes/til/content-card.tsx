@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
 import {H1} from '~/components/typography'
 import {twMerge} from 'tailwind-merge'
-import {PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type Props = {
   title?: string
@@ -58,20 +58,12 @@ export const ContentCard = ({
       className={clsx(showBlackLine && blackLinkClasses, 'relative')}
     >
       <div className="">
-        <div className="mb-4 flex items-center gap-4">
+        <div className="mb-4 flex items-center">
           <NavLink
             className={twMerge(
-              `
-        flex w-fit items-center
-        rounded border-[1.5px] 
-        border-solid 
-        border-accent bg-transparent 
-        px-2 py-1 
-        text-lg
-        font-medium 
-        no-underline
-          `,
+              PILL_CLASS_NAME,
               PILL_CLASS_NAME_ACTIVE,
+              'mr-4 px-2 py-1 uppercase',
             )}
             to={`/tags/${tag}?${searchParams.toString()}`}
           >

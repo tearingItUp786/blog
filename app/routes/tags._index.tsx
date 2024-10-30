@@ -5,6 +5,8 @@ import {
   useLoaderData,
   useSearchParams,
 } from '@remix-run/react'
+import {twMerge} from 'tailwind-merge'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getMdxTagListGql} from '~/utils/mdx-utils.server'
 
@@ -57,16 +59,22 @@ export default function TagPage() {
                       <li
                         key={tag.name}
                         className="
-                      mb-4 mr-6 
-                      first-of-type:ml-0 
-                      last-of-type:mr-0 
+                      mb-4 
+                      uppercase 
+                      first-of-type:ml-0
+                      last-of-type:mr-0
                       md:mb-0
                       md:ml-6
-                      md:first-of-type:ml-6"
+                      md:first-of-type:ml-6
+                        "
                       >
                         <NavLink
                           prefetch="intent"
-                          className="font-bold  uppercase text-accent dark:opacity-80"
+                          className={twMerge(
+                            PILL_CLASS_NAME,
+                            PILL_CLASS_NAME_ACTIVE,
+                            'px-2 py-1',
+                          )}
                           to={`/tags/${tag.name}?${searchParams.toString()}`}
                         >
                           {' '}

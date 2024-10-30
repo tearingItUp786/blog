@@ -3,7 +3,7 @@ import {
   type ShouldRevalidateFunctionArgs,
 } from '@remix-run/react'
 import {twJoin} from 'tailwind-merge'
-import {Pill, PILL_CLASS_NAME} from '~/components/pill'
+import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getQuote} from '~/utils/quote.server'
 
@@ -32,7 +32,8 @@ export default function Index() {
   const {quoteData} = useLoaderData<typeof loader>()
 
   return (
-    <div className="mx-auto my-20 max-w-screen-xl px-4 md:px-20">
+    // we can get rid of the svh when we actually have the newsletter
+    <div className="mx-auto my-20 min-h-[71svh] max-w-screen-xl px-4 md:px-20">
       <div className="flex flex-wrap justify-between">
         <article className="basis-full  lg:basis-1/3 ">
           <H1 className="mb-6 text-center lg:text-left">Taran Bains</H1>
@@ -50,7 +51,8 @@ export default function Index() {
               rel="noreferrer"
               className={twJoin(
                 PILL_CLASS_NAME,
-                'hover:bg-accent hover:text-charcoal-gray group-hover:text-charcoal-gray',
+                PILL_CLASS_NAME_ACTIVE,
+                'py-[6px] text-lg leading-6',
               )}
             >
               follow me on{' '}

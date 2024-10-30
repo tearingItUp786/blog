@@ -3,9 +3,10 @@ import {twJoin} from 'tailwind-merge'
 export const PILL_CLASS_NAME = `
   group
   flex w-fit items-center
-  rounded border-[1.5px] border-solid border-accent bg-transparent px-4 py-1 text-lg
+  rounded-md border-[1.5px] border-solid border-accent bg-transparent px-4 py-1 
   font-medium 
-  
+  leading-5
+  no-underline	
 `
 
 export const PILL_CLASS_NAME_ACTIVE =
@@ -22,6 +23,7 @@ const Pill = ({
     <span
       className={twJoin(
         PILL_CLASS_NAME,
+        'py-[6px] text-lg leading-6',
         isActive
           ? 'border-accent text-accent hover:bg-accent'
           : 'border-border-color text-border-color ',
