@@ -2,6 +2,8 @@ import {NavLink, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
 import {H1} from '~/components/typography'
+import {twMerge} from 'tailwind-merge'
+import {PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type Props = {
   title?: string
@@ -55,15 +57,29 @@ export const ContentCard = ({
       id={id}
       className={clsx(showBlackLine && blackLinkClasses, 'relative')}
     >
-      <div className="block items-start md:flex">
-        <div className="order-0 mr-6 block flex-col text-lg text-accent md:flex">
-          {dotFormattedDate(date ?? '')}
+      <div className="">
+        <div className="mb-4 flex items-center gap-4">
           <NavLink
-            className="ml-4 mr-2 font-bold uppercase text-accent no-underline md:ml-0"
+            className={twMerge(
+              `
+        flex w-fit items-center
+        rounded border-[1.5px] 
+        border-solid 
+        border-accent bg-transparent 
+        px-2 py-1 
+        text-lg
+        font-medium 
+        no-underline
+          `,
+              PILL_CLASS_NAME_ACTIVE,
+            )}
             to={`/tags/${tag}?${searchParams.toString()}`}
           >
             {tag}
           </NavLink>
+          <span className="text-lg text-accent">
+            {dotFormattedDate(date ?? '')}
+          </span>
         </div>
         <NavLink className="group no-underline" to={titleTo}>
           <H1 className="break-word my-4 leading-[1em] transition-all group-hover:underline md:my-0 md:break-normal">
