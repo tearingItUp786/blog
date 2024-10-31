@@ -60,7 +60,7 @@ export function Navbar() {
   const navClassName =
     'transition-[color] lg:ml-5 sm:pt-0 pl-2 pr-2 text-inverse-body lg:text-body lg:dark:text-off-white lg:text-charcoal-gray lg:bg-transparent duration-300 flex justify-center  hover:!text-pink focus:!text-pink text-body block  text-center text-xl items-center'
   const activeClassName =
-    '!text-pink not-italic font-display font-normal  dark:lg:bg-gray-100 '
+    '!text-pink not-italic underline font-display font-normal  dark:lg:bg-gray-100 '
   const setNavClassName = ({isActive}: {isActive: boolean}) => {
     return twJoin(navClassName, isActive ? activeClassName : '')
   }
