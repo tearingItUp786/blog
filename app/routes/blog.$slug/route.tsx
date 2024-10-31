@@ -155,7 +155,6 @@ const FrontmatterSubtitle = ({
               uppercase 
               text-accent
               md:flex
-              lg:pl-28
             "
     >
       <NavLink
@@ -232,21 +231,6 @@ export default function MdxScreen() {
       <H1 As="aside" className="mb-4 mt-6 md:mb-10 md:mt-14">
         Blog
       </H1>
-      <FrontmatterSubtitle
-        tag={frontmatter.tag}
-        time={readTime?.text}
-        date={frontmatter.date}
-      />
-      <div className="lg:mb-12 lg:pl-28">
-        <div className="col-span-full lg:col-span-8 lg:col-start-3">
-          <H1>{frontmatter.title}</H1>
-          {frontmatter.subtitle ? (
-            <H4 As="h2" variant="secondary" className="mb-4 leading-tight">
-              {frontmatter.subtitle}
-            </H4>
-          ) : null}
-        </div>
-      </div>
 
       <main
         className="prose 
@@ -261,6 +245,21 @@ export default function MdxScreen() {
         md:grid-cols-12
         "
       >
+        <FrontmatterSubtitle
+          tag={frontmatter.tag}
+          time={readTime?.text}
+          date={frontmatter.date}
+        />
+        <div className="">
+          <div className="col-span-full lg:col-span-8 lg:col-start-3">
+            <H1 className="mb-4">{frontmatter.title}</H1>
+            {frontmatter.subtitle ? (
+              <H4 As="h2" variant="secondary" className="my-0 leading-tight">
+                {frontmatter.subtitle}
+              </H4>
+            ) : null}
+          </div>
+        </div>
         <Component />
         <div className="border-sold mt-8 flex justify-between border-t-[1px] pb-4 pt-8">
           <TextLink

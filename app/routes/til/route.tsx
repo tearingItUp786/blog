@@ -138,7 +138,7 @@ export default function TilPage() {
     after:dark:bg-white
     md:pl-24
     after:md:block
-   lg:px-24 
+   lg:px-[6.5rem]
    xl:min-w-[1200px] xl:max-w-min
     '
       >
