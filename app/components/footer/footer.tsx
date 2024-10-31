@@ -7,7 +7,7 @@ export function Footer() {
   searchParamsWithoutOffset.delete('offset')
 
   return (
-    <footer className="w-full border-t-[1px] bg-gray-100 px-10 py-6  dark:bg-white lg:px-28">
+    <footer className="mx-auto w-full max-w-screen-xl border-t-[1px]  bg-gray-100 px-4  py-6  dark:bg-white md:px-20 ">
       <div className="mx-auto block w-full justify-between text-center lg:flex lg:text-left">
         <span className="mb-4 block text-sm text-white dark:text-accent lg:mb-0">
           Taran "tearing it up" Bains
