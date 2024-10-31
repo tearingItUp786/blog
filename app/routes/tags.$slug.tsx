@@ -76,7 +76,7 @@ export default function SingleTag() {
   }, [])
 
   return (
-    <div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
+    <div className="relative mx-auto mb-4 mt-6 max-w-screen-xl px-4 md:mb-10 md:mt-14 md:px-20">
       <div
         className="
         prose 
@@ -84,6 +84,7 @@ export default function SingleTag() {
         relative 
         grid
         max-w-full  
+        grid-cols-4  
         break-words
         dark:prose-dark 
         md:mb-12
@@ -91,7 +92,7 @@ export default function SingleTag() {
         md:*:col-span-12
         "
       >
-        <H1 className="mt-16 w-full border-b-2 dark:border-b-white">
+        <H1 className="w-full border-b-2 dark:border-b-white">
           Today I learned about... <br />
           <span className="mt-2 block text-4xl uppercase text-accent md:text-6xl">
             {params.slug}

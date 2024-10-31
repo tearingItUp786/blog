@@ -229,7 +229,9 @@ export default function MdxScreen() {
   return (
     <div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
       <LineSvg />
-      <H1 className="mb-10 mt-14">Blog</H1>
+      <H1 As="aside" className="mb-4 mt-6 md:mb-10 md:mt-14">
+        Blog
+      </H1>
       <FrontmatterSubtitle
         tag={frontmatter.tag}
         time={readTime?.text}
@@ -251,7 +253,8 @@ export default function MdxScreen() {
         prose-light 
         relative 
         grid
-        max-w-full  
+        max-w-full
+        grid-cols-4  
         break-words
         dark:prose-dark 
         md:mb-12

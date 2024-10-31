@@ -74,7 +74,10 @@ export const ContentCard = ({
           </span>
         </div>
         <NavLink className="group no-underline" to={titleTo}>
-          <H1 className="break-word my-4 leading-[1em] transition-all group-hover:underline md:my-0 md:break-normal">
+          <H1
+            As="h2"
+            className="break-word my-4 leading-[1em] transition-all group-hover:underline md:my-0 md:break-normal"
+          >
             {title}
           </H1>
         </NavLink>

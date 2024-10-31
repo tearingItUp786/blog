@@ -107,7 +107,7 @@ export default function Blog() {
       <h2 className="mb-4 text-center text-lg font-normal text-accent dark:text-pink dark:opacity-80">
         WELCOME
       </h2>
-      <div className="mx-auto grid max-w-5xl grid-cols-2 pt-0 md:pt-4">
+      <div className="mx-auto grid  max-w-5xl grid-cols-2 pt-0 md:pt-4">
         {firstElement && firstElement.path ? (
           <div
             key={firstElement.frontmatter.title}
