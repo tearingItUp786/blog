@@ -99,7 +99,7 @@ export default function Blog() {
   return (
     <div
       className={twMerge(
-        'relative mx-[10vw] mt-8 pb-8 before:hidden before:content-[""] md:before:block',
+        'relative mt-8 px-4 pb-8 before:hidden before:content-[""] md:px-20 md:before:block',
         'before:absolute before:left-[50%] before:top-[40px] before:h-[18px] before:w-[18px] before:-translate-x-1/2 before:rounded-full before:bg-charcoal-gray before:dark:bg-white',
         'after:absolute after:bottom-0 after:left-[50%] after:top-[50px] after:hidden after:w-[2px] after:bg-charcoal-gray after:content-[""] after:dark:bg-white md:after:block',
       )}

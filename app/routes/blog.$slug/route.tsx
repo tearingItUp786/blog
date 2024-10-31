@@ -150,10 +150,11 @@ const FrontmatterSubtitle = ({
               after:border-gray-300
               relative 
               mb-4
-              flex 
+              block
               items-center 
-              uppercase
+              uppercase 
               text-accent
+              md:flex
               lg:pl-28
             "
     >
@@ -161,7 +162,7 @@ const FrontmatterSubtitle = ({
         className={twMerge(
           PILL_CLASS_NAME,
           PILL_CLASS_NAME_ACTIVE,
-          'mr-4 px-2 py-1',
+          'mb-4 mr-4 px-2 py-1 md:mb-0',
         )}
         to={`/tags/${tag}?${searchParams.toString()}`}
       >
