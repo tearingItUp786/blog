@@ -6,7 +6,7 @@
     'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
     monospace;
 
-  background-color: var(--color-gray-300);
+  background-color: var(--color-dark-gray-200);
   color: white;
   z-index: 0;
 
