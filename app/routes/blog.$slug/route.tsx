@@ -1,4 +1,3 @@
-import * as amplitude from '@amplitude/analytics-browser'
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
@@ -196,10 +195,6 @@ export default function MdxScreen() {
   }" by @tearingItUp786 \n\n`
 
   useEffect(() => {
-    amplitude.track('Page View', {
-      page: data.reqUrl,
-      title: frontmatter.title,
-    })
     if (lazyLoadRef.current === null) {
       lazyLoadRef.current = new LazyLoad()
     } else {
