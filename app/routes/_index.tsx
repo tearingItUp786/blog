@@ -1,23 +1,9 @@
-import {
-  useLoaderData,
-  type ShouldRevalidateFunctionArgs,
-} from '@remix-run/react'
+import {useLoaderData} from '@remix-run/react'
 import {twJoin} from 'tailwind-merge'
+import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getQuote} from '~/utils/quote.server'
-
-export function shouldRevalidate({
-  currentUrl,
-  nextUrl,
-  defaultShouldRevalidate,
-}: ShouldRevalidateFunctionArgs) {
-  if (currentUrl.pathname === nextUrl.pathname) {
-    return false
-  }
-
-  return defaultShouldRevalidate
-}
 
 export async function loader() {
   let count = Math.floor(Math.random() * 5) + 1
@@ -73,6 +59,7 @@ export default function Index() {
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
         </div>
       </div>
+      <Newsletter />
     </div>
   )
 }

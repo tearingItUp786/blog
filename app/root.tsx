@@ -3,7 +3,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
+import {scale} from '@cloudinary/url-gen/actions/resize'
 import {
   Links,
   Meta,
@@ -34,6 +34,8 @@ import '~/tailwind.css'
 import './styles/app.css'
 import './styles/new-prisma-theme.css'
 import {getEnv} from './utils/env.server'
+import {cloudinaryInstance} from './utils/cloudinary'
+import {max} from '@cloudinary/url-gen/actions/roundCorners'
 
 const FAVICON = [
   {
@@ -80,16 +82,19 @@ export const links: LinksFunction = () => {
   return [...FAVICON]
 }
 
-export function shouldRevalidate({}: ShouldRevalidateFunctionArgs) {
-  return false
-}
-
 /**
  * This is a loader function that is used to set the ENV variable
  */
 export const loader = async ({request}: LoaderFunctionArgs) => {
   const isFresh = new URL(request.url).searchParams.has('fresh')
   const isDev = process.env.NODE_ENV === 'development'
+
+  let mobileImage = cloudinaryInstance
+    .image('blog/me')
+    .format('webp')
+    .resize(scale().width(500).height(500))
+    .backgroundColor('transparent')
+    .roundCorners(max())
 
   if (isFresh && isDev) {
     console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
@@ -98,6 +103,8 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
   return {
     ENV: getEnv(),
+    requestInfo: {},
+    newsletterImage: mobileImage.toURL(),
   }
 }
 

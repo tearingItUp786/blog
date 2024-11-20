@@ -6,26 +6,26 @@
     "node_modules/@remix-run/react/future/single-fetch.d.ts"
   ],
   "compilerOptions": {
-    "lib": ["ES2021", "DOM", "DOM.Iterable"],
-    "incremental": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "ES2022",
     "moduleResolution": "Bundler",
-    "target": "es2020",
-    "strict": true,
-    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "noUncheckedIndexedAccess": true,
-    "typeRoots": ["../types", "../node_modules/@types"],
+    "target": "ES2022",
+    "strict": true,
+    "allowImportingTsExtensions": false,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]
     },
-    "noEmit": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+
+    // Remix takes care of building everything in `remix build`.
+    "noEmit": true
   }
 }
