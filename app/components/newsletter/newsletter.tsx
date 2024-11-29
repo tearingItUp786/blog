@@ -9,7 +9,8 @@ import {twMerge} from 'tailwind-merge'
 export const Newsletter = () => {
   const desktopImage = useNewsletterImage()
   const fetcher = useFetcher<ReturnType<typeof action>>({key: 'newsletter'})
-  const lastResult = fetcher.data
+  const lastResult: any = fetcher.data
+
   const [form, fields] = useForm({
     id: 'form-newsletter',
     lastResult,
@@ -37,56 +38,93 @@ export const Newsletter = () => {
         </div>
       </div>
       <div className="basis-1/2 ">
-        <fetcher.Form
-          method="post"
-          className="w-full flex-nowrap items-end justify-between gap-4 md:flex"
-          action="/action/newsletter"
-          {...getFormProps(form)}
-        >
-          <div className={'flex flex-wrap self-start'}>
-            <label className="w-full" htmlFor={fields.name.id}>
-              Name
-            </label>
-            <input
-              {...getInputProps(fields.name, {
-                type: 'text',
-              })}
-              placeholder="Preferred Name"
-              className={twMerge(
-                'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
-              )}
-            />
-            <div className="" id={fields.name.errorId}>
-              {fields.name.errors}
-            </div>
+        {form?.errors?.length ? (
+          <div className="flex flex-wrap gap-2 ">
+            {form.errors.map((error, index) => (
+              <p className="mb-2 text-sm text-alert-300" key={index}>
+                {error}
+              </p>
+            ))}
           </div>
-          <div className={'mt-6 basis-2/3 self-start md:mt-0'}>
-            <label className="w-full" htmlFor={fields.email.id}>
-              Email
-            </label>
-            <input
+        ) : null}
+        {lastResult?.status === 'success' && (
+          <h4
+            className="bg-sucess-200 mb-8 flex items-start text-success-300"
+            role="alert"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-auto w-10"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            <span className="ml-1">
+              Success: Go check your inbox for the confirmation email 😎. Well,
+              what are you waiting for?
+              <strong className="text-xl"> Get to it!</strong>
+            </span>{' '}
+          </h4>
+        )}
+        {lastResult?.status !== 'success' && (
+          <fetcher.Form
+            method="post"
+            className="w-full flex-nowrap items-end justify-between gap-4 md:flex"
+            action="/action/newsletter"
+            {...getFormProps(form)}
+          >
+            <div className={'flex flex-wrap self-start'}>
+              <label className="w-full" htmlFor={fields.name.id}>
+                Name
+              </label>
+              <input
+                {...getInputProps(fields.name, {
+                  type: 'text',
+                })}
+                placeholder="Preferred Name"
+                className={twMerge(
+                  'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
+                )}
+              />
+              <div className="text-sm text-alert-300" id={fields.name.errorId}>
+                {fields.name.errors}
+              </div>
+            </div>
+            <div className={'mt-6 basis-2/3 self-start md:mt-0'}>
+              <label className="w-full" htmlFor={fields.email.id}>
+                Email
+              </label>
+              <input
+                className={twMerge(
+                  'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
+                  (fields.name.errors || fields.email.errors) && 'self-center',
+                )}
+                placeholder="Email Address"
+                {...getInputProps(fields.email, {
+                  type: 'email',
+                })}
+              />
+              <div className="text-sm text-alert-300" id={fields.email.errorId}>
+                {fields.email.errors}
+              </div>
+            </div>
+            <button
               className={twMerge(
-                'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
+                'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white dark:bg-white dark:text-black md:mt-0',
                 (fields.name.errors || fields.email.errors) && 'self-center',
               )}
-              placeholder="Email Address"
-              {...getInputProps(fields.email, {
-                type: 'email',
-              })}
-            />
-            <div className="" id={fields.email.errorId}>
-              {fields.email.errors}
-            </div>
-          </div>
-          <button
-            className={twMerge(
-              'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white dark:bg-white dark:text-black md:mt-0',
-              (fields.name.errors || fields.email.errors) && 'self-center',
-            )}
-          >
-            Subscribe
-          </button>
-        </fetcher.Form>
+            >
+              Subscribe
+            </button>
+          </fetcher.Form>
+        )}
       </div>
     </div>
   )

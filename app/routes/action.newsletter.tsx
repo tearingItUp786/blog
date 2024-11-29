@@ -8,10 +8,11 @@ export const schema = z.object({
     .email('Email is invalid'),
   name: z
     .string({required_error: 'Name is required'})
-    .max(2, 'Name is too long'),
+    .max(250, 'Name is too long'),
 })
 
 export const action = async ({request}: ActionFunctionArgs) => {
+  // return new Response('Error', {status: 500})
   const formData = await request.formData()
 
   // Replace `Object.fromEntries()` with the parseWithZod helper
@@ -19,9 +20,32 @@ export const action = async ({request}: ActionFunctionArgs) => {
 
   // Report the submission to client if it is not successful
   if (submission.status !== 'success') {
-    const x = submission.reply()
-    console.log('sumbission reply', x)
-    return x
+    return submission.reply()
+  }
+
+  // submit a request to convertkit
+  let params = {
+    api_key: process.env.CONVERT_KIT_API_KEY,
+  }
+  let queryString = new URLSearchParams(params).toString()
+  let response = await fetch(
+    `${process.env.CONVERT_KIT_API}/forms/${process.env.CONVERT_KIT_FORM_ID}/subscribe?${queryString}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: submission.value.email,
+        name: submission.value.name,
+      }),
+    },
+  )
+
+  if (response.status !== 200) {
+    return submission.reply({
+      formErrors: ['Failed to subscribe. Please try again later.'],
+    })
   }
 
   return submission

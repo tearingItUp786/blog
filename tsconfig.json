@@ -16,7 +16,6 @@
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
-    "allowImportingTsExtensions": false,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
