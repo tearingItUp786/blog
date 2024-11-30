@@ -49,6 +49,7 @@ export function getEnv() {
     MODE: process.env.NODE_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     AMPLITUDE_INIT: process.env.AMPLITUDE_INIT,
+    CONVERT_KIT_FORM_ID: process.env.CONVERT_KIT_FORM_ID,
   }
 }
 

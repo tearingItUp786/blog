@@ -1,13 +1,14 @@
 import {getFormProps, getInputProps, useForm} from '@conform-to/react'
-import {useNewsletterImage} from '~/utils/request-info'
+import {useNewsLetterData} from '~/utils/request-info'
 import {H3} from '../typography'
 import {useFetcher} from '@remix-run/react'
 import {schema, type action} from '~/routes/action.newsletter'
 import {getZodConstraint, parseWithZod} from '@conform-to/zod'
 import {twMerge} from 'tailwind-merge'
+import {HoneypotInputs} from 'remix-utils/honeypot/react'
 
 export const Newsletter = () => {
-  const desktopImage = useNewsletterImage()
+  const {newsletterImage, showNewsLetter} = useNewsLetterData()
   const fetcher = useFetcher<ReturnType<typeof action>>({key: 'newsletter'})
   const lastResult: any = fetcher.data
 
@@ -20,13 +21,17 @@ export const Newsletter = () => {
     },
   })
 
+  if (!showNewsLetter) {
+    return null
+  }
+
   return (
     <div className="my-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-12 py-10 lg:flex">
       <div className="flex basis-1/2 items-center">
         <img
           alt="Me looking very handsome"
           className="max-w-[100px] dark:grayscale lg:max-w-[150px]"
-          src={desktopImage}
+          src={newsletterImage}
         />
         <div className="flex flex-wrap pl-7">
           <H3 className="mb-2">Tear it up with Taran!</H3>
@@ -80,6 +85,12 @@ export const Newsletter = () => {
             action="/action/newsletter"
             {...getFormProps(form)}
           >
+            <HoneypotInputs label="Please leave this field blank" />
+            <input
+              type="hidden"
+              name="convertKitFormId"
+              value={ENV.CONVERT_KIT_FORM_ID}
+            />
             <div className={'flex flex-wrap self-start'}>
               <label className="w-full" htmlFor={fields.name.id}>
                 Name

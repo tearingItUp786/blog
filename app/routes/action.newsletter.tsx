@@ -1,8 +1,11 @@
 import {parseWithZod} from '@conform-to/zod'
-import {type ActionFunctionArgs} from '@remix-run/node'
+import {redirect, type ActionFunctionArgs} from '@remix-run/node'
 import {z} from 'zod'
+import {SpamError} from 'remix-utils/honeypot/server'
+import {honeypot} from '~/utils/honeypot.server'
 
 export const schema = z.object({
+  convertKitFormId: z.string({required_error: 'Form ID is required'}),
   email: z
     .string({required_error: 'Email is required'})
     .email('Email is invalid'),
@@ -14,6 +17,17 @@ export const schema = z.object({
 export const action = async ({request}: ActionFunctionArgs) => {
   // return new Response('Error', {status: 500})
   const formData = await request.formData()
+
+  try {
+    honeypot.check(formData)
+  } catch (error) {
+    if (error instanceof SpamError) {
+      // handle spam requests here
+      console.log('🤖 tried to spam', error)
+      return redirect('https://youtu.be/VM3uXu1Dq4c')
+    }
+    throw error
+  }
 
   // Replace `Object.fromEntries()` with the parseWithZod helper
   const submission = parseWithZod(formData, {schema})
@@ -29,7 +43,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
   }
   let queryString = new URLSearchParams(params).toString()
   let response = await fetch(
-    `${process.env.CONVERT_KIT_API}/forms/${process.env.CONVERT_KIT_FORM_ID}/subscribe?${queryString}`,
+    `${process.env.CONVERT_KIT_API}/forms/${submission.value.convertKitFormId}/subscribe?${queryString}`,
     {
       method: 'POST',
       headers: {

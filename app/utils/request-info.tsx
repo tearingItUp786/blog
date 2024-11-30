@@ -9,12 +9,12 @@ export function useRequestInfo() {
   return data.requestInfo
 }
 
-export function useNewsletterImage() {
+export function useNewsLetterData() {
   const data = useRouteLoaderData<typeof rootLoader>('root')
   invariantResponse(
-    data?.newsletterImage,
+    data?.newsLetterData?.newsletterImage,
     'No newsletterImage found in root loader',
   )
 
-  return data.newsletterImage
+  return data?.newsLetterData
 }

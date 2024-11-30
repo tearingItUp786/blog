@@ -36,6 +36,8 @@ import './styles/new-prisma-theme.css'
 import {getEnv} from './utils/env.server'
 import {cloudinaryInstance} from './utils/cloudinary'
 import {max} from '@cloudinary/url-gen/actions/roundCorners'
+import {HoneypotProvider} from 'remix-utils/honeypot/react'
+import {honeypot} from './utils/honeypot.server'
 
 const FAVICON = [
   {
@@ -87,6 +89,7 @@ export const links: LinksFunction = () => {
  */
 export const loader = async ({request}: LoaderFunctionArgs) => {
   const isFresh = new URL(request.url).searchParams.has('fresh')
+  const showNewsLetter = new URL(request.url).searchParams.has('newsletter')
   const isDev = process.env.NODE_ENV === 'development'
 
   let mobileImage = cloudinaryInstance
@@ -104,7 +107,11 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   return {
     ENV: getEnv(),
     requestInfo: {},
-    newsletterImage: mobileImage.toURL(),
+    newsLetterData: {
+      newsletterImage: mobileImage.toURL(),
+      showNewsLetter,
+    },
+    honeypotInputProps: honeypot.getInputProps(),
   }
 }
 
@@ -113,33 +120,35 @@ const Document = ({children}: {children: React.ReactNode}) => {
   const data = useRouteLoaderData<typeof loader>('root')
 
   return (
-    <html lang="en" className={clsx(theme)}>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
-        <Meta />
-        <Links />
-        <NonFlashOfWrongThemeEls />
-      </head>
-      <body className="bg-light-gray dark:bg-gray-100">
-        <Navbar />
-        <ScrollProgress />
-        {children}
+    <HoneypotProvider {...data?.honeypotInputProps}>
+      <html lang="en" className={clsx(theme)}>
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+          <meta name="msapplication-TileColor" content="#da532c" />
+          <meta name="theme-color" content="#ffffff" />
+          <Meta />
+          <Links />
+          <NonFlashOfWrongThemeEls />
+        </head>
+        <body className="bg-light-gray dark:bg-gray-100">
+          <Navbar />
+          <ScrollProgress />
+          {children}
 
-        {/* This is a script that is used to set the ENV variable  */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
-          }}
-        />
-        <ScrollRestoration />
-        <ExternalScripts />
-        <Scripts />
-        <Footer />
-      </body>
-    </html>
+          {/* This is a script that is used to set the ENV variable  */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
+            }}
+          />
+          <ScrollRestoration />
+          <ExternalScripts />
+          <Scripts />
+          <Footer />
+        </body>
+      </html>
+    </HoneypotProvider>
   )
 }
 
