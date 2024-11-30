@@ -6,6 +6,9 @@ const schema = z.object({
   AMPLITUDE_INIT: z.string(),
   BOT_GITHUB_TOKEN: z.string(),
   BOT_ALGOLIA_TOKEN: z.string(),
+  CONVERT_KIT_API: z.string(),
+  CONVERT_KIT_API_KEY: z.string(),
+  CONVERT_KIT_FORM_ID: z.string(),
   MOCK_API: z.enum(['true', 'false'] as const).default('false'),
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
   PORT: z.string().default('8080'),
@@ -46,6 +49,7 @@ export function getEnv() {
     MODE: process.env.NODE_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     AMPLITUDE_INIT: process.env.AMPLITUDE_INIT,
+    CONVERT_KIT_FORM_ID: process.env.CONVERT_KIT_FORM_ID,
   }
 }
 
