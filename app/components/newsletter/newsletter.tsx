@@ -26,16 +26,19 @@ export const Newsletter = () => {
   }
 
   return (
-    <div className="my-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-12 py-10 lg:flex">
-      <div className="flex basis-1/2 items-center">
+    <div className="my-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
+      <div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
         <img
           alt="Me looking very handsome"
           className="max-w-[100px] dark:grayscale lg:max-w-[150px]"
           src={newsletterImage}
         />
-        <div className="flex flex-wrap pl-7">
-          <H3 className="mb-2">Tear it up with Taran!</H3>
-          <p className="text-[15px] leading-[20px]">
+        <H3 className="mb-2 block w-full text-center md:hidden">
+          Tear it up with Taran!
+        </H3>
+        <div className="flex flex-wrap md:pl-7">
+          <H3 className="mb-2 hidden md:block">Tear it up with Taran!</H3>
+          <p className="text-center text-[15px] leading-[20px] md:text-left">
             If you’re down with my vibe, subscribe to my newsletter for
             inspirational quotes, new things I’ve learned, and my code snippet
             of the month 🔥
