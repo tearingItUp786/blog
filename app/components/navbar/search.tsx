@@ -1,5 +1,5 @@
-import {BaseItem} from '@algolia/autocomplete-core'
-import {AutocompleteApi} from '@algolia/autocomplete-js'
+import {type BaseItem} from '@algolia/autocomplete-core'
+import {type AutocompleteApi} from '@algolia/autocomplete-js'
 import {lazy, Suspense, useEffect, useRef, useState} from 'react'
 import {twJoin} from 'tailwind-merge'
 import {useHotkeys} from '~/hooks/use-hot-keys'
