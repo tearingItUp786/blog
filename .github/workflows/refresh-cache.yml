@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: blacksmith-4vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
           fetch-depth: '50'
 
       - name: ⎔ Setup node
-        uses: useblacksmith/setup-node@v5
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
