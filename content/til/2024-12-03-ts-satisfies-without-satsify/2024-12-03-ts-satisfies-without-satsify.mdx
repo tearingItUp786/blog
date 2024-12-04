@@ -6,4 +6,18 @@ tag: typescript
 
 TIL about how one can use `satisfies` in typescript, without `satisfy` at all!
 
+```typescript
+// taken right from Kent's blog
+type OperationFn = (left: number, right: number) => number
+
+// this is a restriction on the operations object
+// but with satisfies, I leave myself room to add more operations and don't need to manage another type
+const operations = {
+  '+': (left, right) => left + right,
+  '-': (left, right) => left - right,
+  '*': (left, right) => left * right,
+  '/': (left, right) => left / right,
+} satisfies Record<string, OperationFn>
+```
+
 [Check it out here](https://kentcdodds.com/blog/how-to-write-a-constrained-identity-function-in-typescript)
