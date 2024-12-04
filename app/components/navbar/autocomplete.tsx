@@ -46,6 +46,10 @@ export function Autocomplete({
     setQuery(instantSearchUiState.query)
     setPage(0)
     if (instantSearchUiState.isOpen) {
+      // we need td do some type coercion here via the doubal equals because query can be undefined and q can be null
+      if (searchParams.get('q') == instantSearchUiState.query) {
+        return
+      }
       setSearchParams(
         prev => {
           prev.set('q', instantSearchUiState.query)
