@@ -5,6 +5,10 @@ import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getQuote} from '~/utils/quote.server'
 
+export function shouldRevalidate() {
+  return false
+}
+
 export async function loader() {
   let count = Math.floor(Math.random() * 5) + 1
   let quoteData = await getQuote({count})
