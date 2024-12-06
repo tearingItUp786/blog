@@ -182,7 +182,17 @@ export const InlineImage = ({
 }) => {
   // open in new tab and stuff
   const srcSet = sizesForScreens.map(size => {
-    const newValue = `f_auto,w_${size.width},c_scale`
+    let gifRegex = /\.gif$/i
+
+    // I want to support gifs and I'll probably want to create a new
+    // component to handle the inclusion of images in the future
+    // but for now, this gets the job done. Maybe using regular markdown images
+    // might be a better idea in the future but for now, this works
+    let optimization = gifRegex.test(src ?? '')
+      ? 'c_scale'
+      : `f_auto,c_scale,w_${size.width}`
+    const newValue = `${optimization}`
+
     const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
     return {
       srcSetValue: `${newSrc} ${size.width}w`,
@@ -218,7 +228,7 @@ export const InlineImage = ({
   return (
     <div
       className={twMerge(
-        'mx-8 my-4 max-w-7xl lg:mx-24 lg:my-8',
+        'mx-0 my-4 mr-16 max-w-7xl lg:mx-0 lg:my-8 lg:mr-32',
         containerClassName,
       )}
     >

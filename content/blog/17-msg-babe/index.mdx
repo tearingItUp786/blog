@@ -1,0 +1,138 @@
+---
+title: How automation saved my relationship (🪤)
+description: Okay yeah, this is clickbait, but it's still worth reading
+subtitle:
+  Oh, we're not done with Script Kit yet. There's still stuff we can automate!
+date: 2024-12-05
+tag: cool tech
+draft: true
+---
+
+## Context
+
+I pride myself on being a caring and attentive partner to my girlfriend. I set
+little reminders to check in with my girl to see how she's doing, we have a
+monthly check-in that we do where we report on the status of the relationship
+and how we're feeling about things (🔥 right), and I always do my utmost to try
+and deescalate any discussions if I ever feel that they're getting a little too
+heated or when the conversation starts to get unproductive.
+
+However, I am _far_ from perfect. One of the things I struggle with the most,
+and I'm sure a lot of people reading this blog post also do, is pulling myself
+away from the computer when I've entered the flow state. If you add in that
+inability to rip me away from flow state and an emergency 🚨 in production, I'll
+almost always forget to message my girl that I'll be working late or will not be
+responding to any messages she sends my way. It's happened enough times that I
+decided something needed to be done to address the problem.
+
+For me, an ideal solution required the ability to interrupt me during my flow
+state, be executable from the terminal for ease of access, and be a maintainable
+and shareable form of automation. Oh right, let's not forget, it also needed to
+_not_ break the bank 💰 -- I couldn't justify spending more money on dev toys...
+at least for this fiscal year.
+
+### A demo
+
+<InlineImage
+  lazyLoadImage
+  imgDivClassName="aspect-w-16 aspect-h-9"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1733458995/blog/17-msg-babe/msg-gf_obckeq.gif"
+/>
+
+## The code (since I know that's what you want)
+
+Before I show you the code, first and foremost, you'll need to set up a Twilio
+account. If you're planning to use this script verbatim, you'll also want to set
+up a WhatsApp number (which is also possible through Twilio) but be forewarned,
+which means you'll need to open up a Facebook business account. There's not much
+to worry about when it comes to having a Facebook business account -- I created
+one to message my girlfriend, and I haven't had any flags come my way from Meta
+🤞
+
+```javascript
+// Name: Whatsapp Babe A Late Message
+// Description: Send your babe a whatsapp templated mesage to let em know you're running late!
+// Author:  Taran "tearing it up" Bains
+// GitHub: @tearingitup786
+// Schedule: 0 14 * * *
+
+import '@johnlindquist/kit' // ScriptKit imports
+
+// Import Twilio SDK
+const twilio = await npm('twilio')
+
+const phoneNumbers = await env(
+  'TWILIO_PHONE_NUMBERS',
+  'comma separated list of numbers: 131-131-1313,787-787-7878',
+)
+
+try {
+  const numbersToText = phoneNumbers.split(',')
+
+  // Your Twilio Account SID
+  const accountSid = await env('TWILIO_ACCOUNT_SID')
+
+  // Your Twilio Auth Token
+  const authToken = await env('TWILIO_AUTH_TOKEN')
+
+  // Your Twilio phone number
+  /**
+   * You'll have to set up a whatsapp/facebook business account
+   * Twilio makes it pretty easy to do this so don't fret, it's pretty straightforward.
+   *
+   * @docs https://www.twilio.com/docs/whatsapp/getting-started
+   */
+  const fromNumber = await env('TWILIO_PHONE_NUMBER')
+
+  /**
+   * We opt for a message template so that the numbers we are messaging
+   * don't need to have this particular number saved as a contact
+   * We're able to start conversations with whatsapp users with message template
+   * doing it via adhoc messaging doesn't really work!
+   * @docs https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates
+   */
+  const contentSid = await env('TWILIO_CONTENT_SID')
+
+  const workingLate = await arg('Are you working late', ['yes', 'no'])
+
+  if (workingLate === 'no') {
+    console.log("Okay, won't text babe!")
+    process.exit()
+  }
+
+  // Initialize Twilio client
+  const client = twilio(accountSid, authToken)
+
+  // Function to send a message
+  const phoneNumber = await arg(
+    "Enter the recipient's phone number (e.g., +1234567890):",
+    numbersToText,
+  )
+
+  const messageBody = await arg(
+    "Enter when you'll be free... He'll be free around <your message>",
+  )
+
+  console.log('Last time given', messageBody)
+
+  client.messages
+    .create({
+      // body: messageBedy,
+      contentVariables: JSON.stringify({1: `${messageBody}`}),
+      from: `whatsapp:${fromNumber}`,
+      contentSid,
+      to: `whatsapp:+1${phoneNumber}`,
+    })
+    .then(message => {
+      notify(`Message sent to ${phoneNumber}! Message SID: ${message.sid}`)
+      console.log(`Message SID: ${message.sid}`)
+    })
+    .catch(error => {
+      notify(`Error sending message: ${error.message}`)
+      console.error('Error:', error)
+    })
+} catch (err) {
+  console.error('There was an error running the twilio script')
+  console.error('Error', err)
+}
+```
