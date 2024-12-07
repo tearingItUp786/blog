@@ -15,14 +15,9 @@ import {
   useRouteLoaderData,
 } from '@remix-run/react'
 import {withSentry} from '@sentry/remix'
-import clsx from 'clsx'
 import {ExternalScripts} from 'remix-utils/external-scripts'
 import {Navbar} from './components/navbar'
-import {
-  NonFlashOfWrongThemeEls,
-  ThemeProvider,
-  useTheme,
-} from './utils/theme-provider'
+import {NonFlashOfWrongThemeEls, ThemeProvider} from './utils/theme-provider'
 
 import {Footer} from './components/footer/footer'
 import {LoadingRoute} from './components/loading-route'
@@ -38,6 +33,8 @@ import {cloudinaryInstance} from './utils/cloudinary'
 import {max} from '@cloudinary/url-gen/actions/roundCorners'
 import {HoneypotProvider} from 'remix-utils/honeypot/react'
 import {honeypot} from './utils/honeypot.server'
+import {useOptimisticThemeMode} from './routes/action.theme-switcher'
+import {getThemeFromCookie} from './utils/theme.server'
 
 const FAVICON = [
   {
@@ -92,6 +89,10 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   const showNewsLetter = new URL(request.url).searchParams.has('newsletter')
   const isDev = process.env.NODE_ENV === 'development'
 
+  const theme = (await getThemeFromCookie(request)) as string
+
+  console.log('🔥 loader theme', theme)
+
   let mobileImage = cloudinaryInstance
     .image('blog/me')
     .format('webp')
@@ -106,7 +107,9 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
   return {
     ENV: getEnv(),
-    requestInfo: {},
+    requestInfo: {
+      userPreferences: {theme},
+    },
     newsLetterData: {
       newsletterImage: mobileImage.toURL(),
       showNewsLetter,
@@ -116,12 +119,18 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 }
 
 const Document = ({children}: {children: React.ReactNode}) => {
-  const [theme] = useTheme()
   const data = useRouteLoaderData<typeof loader>('root')
+  const optimisticTheme = useOptimisticThemeMode()
+  let themeToUse = optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
+  console.log(
+    '👀 themeToUse',
+    optimisticTheme,
+    data?.requestInfo?.userPreferences,
+  )
 
   return (
     <HoneypotProvider {...data?.honeypotInputProps}>
-      <html lang="en" className={clsx(theme)}>
+      <html lang="en" className={themeToUse} data-theme={themeToUse}>
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />

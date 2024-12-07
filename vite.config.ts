@@ -7,6 +7,12 @@ import {defineConfig} from 'vite'
 
 installGlobals()
 
+declare module '@remix-run/node' {
+  interface Future {
+    v3_singleFetch: true
+  }
+}
+
 export default defineConfig({
   ssr: {
     // things to exclude from the server bundle
@@ -17,6 +23,12 @@ export default defineConfig({
     remix({
       serverBuildFile: 'index.js',
       serverModuleFormat: 'esm',
+      future: {
+        v3_fetcherPersist: true,
+        v3_relativeSplatPath: true,
+        v3_singleFetch: true,
+        v3_lazyRouteDiscovery: true,
+      },
     }),
     sentryVitePlugin({
       org: process.env.SENTRY_ORG,
