@@ -1,0 +1,22 @@
+---
+title: Array.prototype.with
+date: 2024-12-08
+tag: JS
+---
+
+Today I learned about the `with` method on the `Array.prototype` object. This
+method is used to create a shallow copy of an array but with one element
+replaced at a given index.
+
+```js
+const arr = [1, 2, 3]
+const newArr = arr.with(0, 5)
+
+console.log(arr) // [1, 2, 3]
+console.log(newArr) // [5, 2, 3]
+```
+
+This is useful when you want to replace elements in an array without mutating
+the original array.
+
+[Check it out](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/with)
