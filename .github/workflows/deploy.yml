@@ -42,6 +42,8 @@ jobs:
           if [ "${{ github.event.inputs.manual_run }}" == "true" ]; then
             echo "running from inside if"
             echo "DEPLOYABLE='true'" >> $GITHUB_OUTPUT
+            echo "done running from if"
+            echo $GITHUB_OUTPUT
           fi
   lint:
     name: ⬣ ESLint
