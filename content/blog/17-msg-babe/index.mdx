@@ -60,6 +60,11 @@ on dev toys... at least for this fiscal year.
 
 ## The code (since I know that's what you want)
 
+<Callout
+  type="info"
+  description="Besides Script Kit, you also need to set up Twilio for this automation"
+/>
+
 Before I show you the code, first and foremost, you'll need to set up a Twilio
 account. If you're planning to use this script verbatim, you'll also want to set
 up a WhatsApp number (which is also possible through Twilio) but be forewarned,
@@ -155,3 +160,125 @@ try {
   console.error('Error', err)
 }
 ```
+
+## The Setup
+
+So before we jump into [Twilio](https://www.twilio.com/en-us), I think you
+should go read my blog post about [Script Kit](./15-scriptkit/)! I'll wait.
+Okay, you probably didn't read it so I'll give you the TLDR. The TLDR; is that
+it's a scripting platform intended to help developers automate tedious parts of
+their workflow. BTW, if you're reading this babe, nothing about you is tedious
+😰. I swear, if this blog post gets brought up in a future fight, even as a
+joke, this is going to be me:
+
+<LazyGiphy
+  containerClassName="w-[70%] pb-[70%] md:w-[20%] md:pb-[20%]"
+  src="https://giphy.com/embed/3MwLGbvFjwhHvXJNVM"
+  giphyAttributionSrc="https://giphy.com/gifs/moodman-3MwLGbvFjwhHvXJNVM"
+/>
+
+### Twilio
+
+So this isn't a blog about [Twilio](https://www.twilio.com/en-us/company) but if
+you haven't heard about it before, it's a cloud communications platform that
+allows you to send not only emails and SMS messages programmatically, but also,
+and this is relevant to my blog post, `WhatsApp` messages 👏! I went with Twilio
+over another provider because I've got experience with their platform and they
+had the coveted `WhatsApp` integration which was a deal-breaker for me.
+
+Once you've finished signing up for Twilio, you'll need to get yourself a phone
+number. From what I recall, it's a
+$1.15 USD charge for this (acceptable for
+me). After that, what you'll probably want to do is add funds so that you can
+deliver texts without worrying about going over your allowed free usage. There's
+probably a subscription model that exists, but I prefer the "adding funds when
+needed" approach for this sorta thing, since, I don't expect to be sending my
+girl messages daily. If you're interested, I spent about $.125 sending 5 which equates to 
+$.025
+per WhatsApp message! I believe text messages are even cheaper 😆
+
+The things you'll need to run the script from Twilio can be found in the
+dashboard. They are the following:
+
+- Account SID
+- Auth Token
+- Phone number
+
+<InlineImage
+  className=""
+  imgDivClassName="aspect-w-8 aspect-h-5"
+  containerClassName="mx-0 lg:mx-0"
+  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1733374134/blog/17-msg-babe/twilio-dashboard_rbghfo.png"
+  alt="A screenshot of the twilio dashboard with my info blurred out"
+/>
+
+If all you're wanting to do is send SMS messages, you're all set. You'll just
+need to tweak the script and remove any references to `whatsapp` in the `from`
+and `to` fields in the `create` method (line `70` and `72` respectively)! If
+you're running the full gambit, you'll also have to create a `WhatsApp Sender`
+inside of Twilio.
+
+From what I recall, the only _difficult_ part, and I use the word _difficult_
+liberally here since nothing is really all that hard when it comes to this
+automation, is creating your Facebook business profile. I called my business
+Taranveer Bains Business -- that's it, just my name, followed by business 😆.
+Assuming everything goes well with creating Facebook business and your
+`WhatsApp Sender`, the next thing you'll most likely _want_ to do, is create a
+whatsapp template. The primary benefit I've seen with using the template versus
+a traditional message is that by using a template, your recipient will not have
+to save your phone number in order to receive messages. For example, when I
+tried to message my own phone number with my automation, I wasn't able to
+actually _receive_ the messages until I had saved the number in my contacts.
+This wasn't great because I didn't want to create unnecessary work for my girl.
+There were a few other issues I ran into but I'll cover them later. Check out
+the video below to see how easy it is to create a message template!
+
+<video
+  className="lazy w-full"
+  controls
+  width="800"
+  data-src="https://res.cloudinary.com/dinypqsgl/video/upload/v1733374131/blog/17-msg-babe/whatsapp-template-creation_hn7ny8.mp4"
+/>
+
+## The issues I ran into
+
+Okay so this one is on me for not knowing the limitations of the platform, and
+this makes perfect logical sense: Twilio stop sending my messages to my gf. This
+happened, not because I voided their terms of service or anything like that, but
+because, my gf didn't respond to any of my messages. This most likely flagged my
+messages as "spammy" because I was broadcasting one way and not getting any
+engagement.
+
+`The fix to my messages not being delivered was to ask my gf to respond every time she got a message`
+
+That isn't the ideal fix but it'll do for now.
+
+### Next steps
+
+Like I said, it's kinda lame that my gf has to respond to my Twilio number to
+stop the number from being flagged. It's also lame that she sends a message to
+the number and that's the end of it -- it just goes straight into the void ⚫.
+It would be super cool if I had a way of receiving said messages so that I know
+it was delivered and that she's actually cool with me working late. From what I
+gather, it actually isn't all that hard to set up a service to do this. From my
+cursory research, it seems like I need to associate a webhook with my number in
+the Twilio dashboard and have a server sitting somewhere listening for messages
+and then performing some action when a message comes through. Now... if only I
+had a server running somewhere where I could do this 🤔. Oh wait! I have my
+remix site (the one you're reading this post on), so maybe I can just create a
+resource endpoint here and be about my business.
+
+I haven't done it yet, but that's the plan. I'll come and update this blog post
+once I've done that part!
+
+## Closing thoughts
+
+Scripting isn't just about automating tasks or writing clever code—it's about
+reclaiming time and mental bandwidth to focus on what truly matters. Whether
+it's sending messages to your girl one or streamlining repetitive workflows
+(like checking if your enterprise company's website version has updated),
+automation is a tool that empowers us to be more present, thoughtful, and
+efficient.
+
+Shout out to my girl for being the love of my life and inspiring this automation
+❤️.
