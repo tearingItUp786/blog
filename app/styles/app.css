@@ -114,7 +114,7 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-hot-pink);
+  background-color: #EB36A199;
 }
 
 p {

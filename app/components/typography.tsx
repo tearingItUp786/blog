@@ -1,4 +1,4 @@
-import {twMerge} from 'tailwind-merge'
+import {twJoin, twMerge} from 'tailwind-merge'
 
 import {Link} from '@remix-run/react'
 import clsx from 'clsx'
@@ -79,7 +79,7 @@ export const BlockQuote = ({
   ...rest
 }: CommonProps) => (
   <blockquote
-    className={clsx(
+    className={twJoin(
       'font-body text-xl font-normal italic dark:text-white md:text-2xl [&>p]:my-0 [&>p]:text-xl [&>p]:md:text-2xl',
       className,
     )}
@@ -88,7 +88,7 @@ export const BlockQuote = ({
     {children}
     {author ? (
       <span
-        className={clsx(
+        className={twJoin(
           'block text-right text-lg text-accent',
           authorClassName,
         )}

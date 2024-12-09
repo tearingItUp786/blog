@@ -12,7 +12,7 @@ import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'
 import type {ILazyLoadInstance} from 'vanilla-lazyload'
 import LazyLoad from 'vanilla-lazyload'
-import {H1, H4, TextLink} from '~/components/typography'
+import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dotFormattedDate, invariantResponse} from '~/utils/misc'
@@ -20,7 +20,7 @@ import {LineSvg} from './line-svg'
 import {PreviousAndNextLinks} from './previous-and-next-links'
 
 import '~/styles/blog.css'
-import {twMerge} from 'tailwind-merge'
+import {twJoin, twMerge} from 'tailwind-merge'
 import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type LoaderData = {
@@ -256,18 +256,31 @@ export default function MdxScreen() {
           </div>
         </div>
         <Component />
-        <div className="border-sold mt-8 flex justify-between border-t-[1px] pb-4 pt-8">
-          <TextLink
-            className="mb-2 block md:mb-0"
+        <div className="pb-4 pt-8 md:flex">
+          <a
             href={`https://twitter.com/intent/tweet?${new URLSearchParams({
               url: data.reqUrl,
               text: tweetMessage,
             })}`}
+            target="_blank"
+            rel="noreferrer"
+            className={twJoin(
+              PILL_CLASS_NAME,
+              PILL_CLASS_NAME_ACTIVE,
+              'mb-4 mr-7 py-[6px] text-lg leading-6 md:mb-0',
+            )}
           >
-            Post about this
-          </TextLink>
-          <TextLink
-            className="block text-right"
+            Share on 𝕏
+          </a>
+
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className={twJoin(
+              PILL_CLASS_NAME,
+              PILL_CLASS_NAME_ACTIVE,
+              'py-[6px] text-lg leading-6',
+            )}
             href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
               {
                 url: data.reqUrl,
@@ -275,12 +288,12 @@ export default function MdxScreen() {
             )}`}
           >
             Share on LinkedIn
-          </TextLink>
+          </a>
         </div>
       </main>
       <div className="relative">
         <PreviousAndNextLinks
-          className="mb-12 mt-4 flex px-6 md:px-24"
+          className="mb-12 mt-4 flex px-0 md:px-24"
           previous={previous}
           next={next}
         />
