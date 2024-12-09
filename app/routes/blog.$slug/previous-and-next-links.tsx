@@ -35,7 +35,7 @@ export function PreviousAndNextLinks({previous, next, className}: Props) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="order-0 mt-1 h-5 w-5 text-body transition-transform group-hover:translate-x-[-5px] md:mt-0 lg:block"
+              className="order-0 mt-1 h-5 w-5 min-w-5 text-body transition-transform group-hover:translate-x-[-5px] md:mt-0 lg:block"
             >
               <path
                 strokeLinecap="round"
@@ -61,7 +61,7 @@ export function PreviousAndNextLinks({previous, next, className}: Props) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="order-1 mt-1 h-5 w-5 text-body transition-transform group-hover:translate-x-[4px] md:mt-0 lg:block"
+              className="order-1 mt-1 h-5 w-5 min-w-5 text-body transition-transform group-hover:translate-x-[4px] md:mt-0 lg:block"
             >
               <path
                 strokeLinecap="round"
