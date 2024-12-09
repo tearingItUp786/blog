@@ -2,8 +2,6 @@
 const { getChangedFiles } = require('./get-changed-files.cjs')
 
 async function go() {
-  console.log(false)
-  return;
   const changedFiles = await getChangedFiles('HEAD^', 'HEAD')
   console.error('Determining whether the changed files are deployable', {
     changedFiles,
