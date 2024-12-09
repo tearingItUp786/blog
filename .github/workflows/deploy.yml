@@ -39,7 +39,10 @@ jobs:
       - name: ❓ Deployable
         run: |
           echo "DEPLOYABLE: ${{ steps.changes.outputs.DEPLOYABLE }}"
+          echo "${{ github.event.inputs.manual_run}}"
+          echo "${{ github.event.inputs.manual_run}}" == "true"
           if [ "${{ github.event.inputs.manual_run }}" == "true" ]; then
+            echo "running from inside if"
             echo "DEPLOYABLE=true" >> $GITHUB_OUTPUT
           fi
   lint:
