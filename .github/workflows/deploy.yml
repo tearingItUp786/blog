@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
+      DEPLOYABLE_MANUAL: ${{ inputs.manual_run }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -39,16 +40,12 @@ jobs:
       - name: ❓ Deployable
         run: |
           echo "DEPLOYABLE: ${{ steps.changes.outputs.DEPLOYABLE }}"
-          if [ "${{ github.event.inputs.manual_run }}" == "true" ]; then
-            echo "running from inside if"
-            echo "DEPLOYABLE='true'" >> $GITHUB_OUTPUT
-            echo "done running from if"
-            echo $GITHUB_OUTPUT
-          fi
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if:
+      needs.changes.outputs.DEPLOYABLE == 'true' ||
+      needs.changes.outputs.DEPLOYABLE_MANUAL == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -73,7 +70,9 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    if:
+      needs.changes.outputs.DEPLOYABLE == 'true' ||
+      needs.changes.outputs.DEPLOYABLE_MANUAL == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -102,7 +101,7 @@ jobs:
     if:
       ${{ (needs.changes.outputs.DEPLOYABLE == 'true') && (github.ref ==
       'refs/heads/main') && (github.event_name == 'push') }} ||
-      (inputs.manual_run == 'true')
+      (needs.changes.outputs.DEPLOYABLE_MANUAL == 'true')
 
     steps:
       - name: 🛑 Cancel Previous Runs
