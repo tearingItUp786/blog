@@ -1,7 +1,9 @@
 // try to keep this dep-free so we don't have to install deps
-const {getChangedFiles} = require('./get-changed-files.cjs')
+const { getChangedFiles } = require('./get-changed-files.cjs')
 
 async function go() {
+  console.log(false)
+  return;
   const changedFiles = await getChangedFiles('HEAD^', 'HEAD')
   console.error('Determining whether the changed files are deployable', {
     changedFiles,
@@ -13,13 +15,13 @@ async function go() {
   const isDeployable =
     changedFiles === null ||
     changedFiles.length === 0 ||
-    changedFiles.some(({filename}) => !filename.startsWith('content'))
+    changedFiles.some(({ filename }) => !filename.startsWith('content'))
 
   console.error(
     isDeployable
       ? '🟢 There are deployable changes'
       : '🔴 No deployable changes',
-    {isDeployable},
+    { isDeployable },
   )
   console.log(isDeployable)
 }
