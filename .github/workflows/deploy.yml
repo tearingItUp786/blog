@@ -10,8 +10,10 @@ on:
         description: 'Manually run'
         required: true
         type: choice
+        default: 'true'
         options:
           - 'true'
+          - 'false'
 
 jobs:
   changes:
@@ -44,7 +46,7 @@ jobs:
   lint:
     name: ⬣ ESLint
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
+    if: inputs.manual_run == true || needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -69,7 +71,7 @@ jobs:
   typecheck:
     name: ʦ :TypeScript
     needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true' || inputs.manual_run == true
+    if: inputs.manual_run == true || needs.changes.outputs.DEPLOYABLE == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
