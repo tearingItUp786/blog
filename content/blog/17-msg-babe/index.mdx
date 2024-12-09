@@ -29,26 +29,24 @@ I'll be working late. In fact, I probably will not be responding to any messages
 she sends my way either so her "just checking in on how your day is going"
 messages go totally ignored.
 
-Again, I just said, I pride msyself in being a caring and attentive partner.
+Again, I just said, I pride myself in being a caring and attentive partner.
 However, whilst flow state is a great thing, it's not the most important thing
 in my life and human relationships matter **way** more to me than any issue in
 production. Ignoring your partner is not a good thing (obviously) and in fact
 and don't quote me on this but I swear I heard it from someone, but... being
 ignored and feeling ignored is as bad for as you as smoking a cigarette! Again,
-don'te quote me on this and when I Googled it, I couldn't find squat, but we're
+don't quote me on this and when I Googled it, I couldn't find squat, but we're
 gonna run with it because even if it's not true, it **really really** sucks
 being ignored.
 
-Alright, so me leaving my girl hanging is a no go and it has happened enough
-times that I decided something needed to be done to address the problem... and
-since I'm a developer, you can guess what I tried to do. That's _exactly right_,
-I tried to use code to help me remain a `polite and caring` boyfriend ❤️.
+Alright, so leaving my girl hanging wasn't an option anymore. I needed a
+solution that could pull me out of the flow state gently but effectively and
+ensure I stayed the caring and attentive partner I aspire to be.
 
-Getting into some nitty gritty, for me, an ideal solution required the ability
-to interrupt me during my flow state, be executable from the terminal, and be a
-maintainable and shareable form of automation. Oh right, let's not forget, it
-also needed to _not_ break the bank 💰 -- I couldn't justify spending more money
-on dev toys... at least for this fiscal year.
+As a developer, the obvious choice was to code my way out of this problem. After
+all, if tech can solve production emergencies, why not relationship ones too?
+Enter Script Kit and a little help from Twilio. Here's how I hacked my way out
+of the dog house and into "legendary" boyfriend status.
 
 ### A demo
 
@@ -177,7 +175,13 @@ joke, this is going to be me:
   giphyAttributionSrc="https://giphy.com/gifs/moodman-3MwLGbvFjwhHvXJNVM"
 />
 
-### Twilio
+### Why Twilio?
+
+Now, I needed a reliable way to send a perfectly-timed text to my girlfriend.
+Sure, I could've stuck with reminders, but where's the fun in that? Twilio came
+to the rescue with its robust API, making it effortless to send SMS messages
+programmatically. It fit seamlessly into my Script Kit workflow, bridging the
+gap between code and communication.
 
 So this isn't a blog about [Twilio](https://www.twilio.com/en-us/company) but if
 you haven't heard about it before, it's a cloud communications platform that
@@ -186,16 +190,11 @@ and this is relevant to my blog post, `WhatsApp` messages 👏! I went with Twil
 over another provider because I've got experience with their platform and they
 had the coveted `WhatsApp` integration which was a deal-breaker for me.
 
-Once you've finished signing up for Twilio, you'll need to get yourself a phone
-number. From what I recall, it's a
-$1.15 USD charge for this (acceptable for
-me). After that, what you'll probably want to do is add funds so that you can
-deliver texts without worrying about going over your allowed free usage. There's
-probably a subscription model that exists, but I prefer the "adding funds when
-needed" approach for this sorta thing, since, I don't expect to be sending my
-girl messages daily. If you're interested, I spent about $.125 sending 5 which equates to 
-$.025
-per WhatsApp message! I believe text messages are even cheaper 😆
+The setup for Twilio is as following:
+
+- Sign up for Twilio.
+- Get a phone number (~$1.15 USD).
+- Add funds for messaging (~$0.025 per WhatsApp message).
 
 The things you'll need to run the script from Twilio can be found in the
 dashboard. They are the following:
