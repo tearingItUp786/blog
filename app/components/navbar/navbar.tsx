@@ -2,7 +2,7 @@ import {NavLink, useLocation, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 
 import {useEffect, useState} from 'react'
-import Toggle from '~/components/theme-toggle'
+import {ServerThemeToggle} from '~/components/theme-toggle'
 import {twJoin} from 'tailwind-merge'
 import {Search} from './search'
 import {MobileNav} from './mobile'
@@ -114,7 +114,7 @@ export function Navbar() {
           blog
         </NavLink>
         <div className="flex w-full items-center justify-center lg:ml-6">
-          <Toggle />
+          <ServerThemeToggle />
         </div>
       </div>
 
