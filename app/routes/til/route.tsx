@@ -1,4 +1,4 @@
-import {json, LoaderFunctionArgs} from '@remix-run/node'
+import {LoaderFunctionArgs} from '@remix-run/node'
 import {
   MetaFunction,
   ShouldRevalidateFunctionArgs,
@@ -53,11 +53,11 @@ export async function loader({request}: LoaderFunctionArgs) {
 
   // If fromFetcher is true, return early
   if (fromFetcher) {
-    return json({
+    return {
       fullList: initialData.fullList,
       serverEndOffset: effectiveEndOffset,
       maxOffset,
-    })
+    }
   }
 
   // Create a list of promises for each offset
@@ -75,11 +75,11 @@ export async function loader({request}: LoaderFunctionArgs) {
     },
   )
 
-  return json({
+  return {
     fullList,
     serverEndOffset: effectiveEndOffset,
     maxOffset,
-  })
+  }
 }
 
 export default function TilPage() {

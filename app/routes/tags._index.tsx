@@ -1,4 +1,4 @@
-import {MetaFunction, json} from '@remix-run/node'
+import {MetaFunction} from '@remix-run/node'
 import {
   NavLink,
   ShouldRevalidateFunctionArgs,
@@ -37,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = () => {
 
 export async function loader() {
   const allData = await getMdxTagListGql()
-  return json({...allData})
+  return {...allData}
 }
 
 export default function TagPage() {

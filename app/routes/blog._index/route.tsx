@@ -1,5 +1,4 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {json} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {useLoaderData} from '@remix-run/react'
 import clsx from 'clsx'
@@ -45,7 +44,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     {left: [], right: []} as Record<'left' | 'right', string[]>,
   )
 
-  return json({blogList, cssClasses})
+  return {blogList, cssClasses}
 }
 
 export function shouldRevalidate({

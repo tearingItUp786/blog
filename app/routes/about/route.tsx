@@ -1,6 +1,6 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
 import type {MetaFunction} from '@remix-run/node' // or cloudflare/deno
-import {json} from '@remix-run/node'
+import {data} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {useLoaderData} from '@remix-run/react'
 
@@ -84,7 +84,7 @@ export async function loader() {
     .image('blog/me')
     .resize(scale().width(500).height(500))
 
-  return json(
+  return data(
     {
       desktopImage: desktopImage.toURL(),
       mobileImage: mobileImage.toURL(),

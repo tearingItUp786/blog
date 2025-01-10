@@ -1,5 +1,5 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {json} from '@remix-run/node'
+import {data} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {
   NavLink,
@@ -117,7 +117,7 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
       'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
       'i',
     )
-    const data: LoaderData = {
+    const dataToSend: LoaderData = {
       page,
       prev,
       next,
@@ -125,9 +125,9 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
       hasTwitterEmbed: twitterStatusRegex.test(String(page?.matter?.content)),
     }
 
-    return json(data, {status: 200, headers})
+    return data(dataToSend, {status: 200, headers})
   } catch (err) {
-    throw json({error: params.slug, data: {page: null}}, {status: 404})
+    throw data({error: params.slug, data: {page: null}}, {status: 404})
   }
 }
 
@@ -142,7 +142,7 @@ const FrontmatterSubtitle = ({
 }) => {
   const [searchParams] = useSearchParams()
   if (!date) return null
-
+  console.log('👀 date', typeof date)
   return (
     <div
       className="

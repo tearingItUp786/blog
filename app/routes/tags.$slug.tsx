@@ -1,8 +1,7 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {json} from '@remix-run/node'
 import {
   NavLink,
-  ShouldRevalidateFunctionArgs,
+  type ShouldRevalidateFunctionArgs,
   useLoaderData,
   useParams,
   useSearchParams,
@@ -59,7 +58,7 @@ export async function loader({params}: LoaderFunctionArgs) {
     throw new Response('Not found', {status: 404})
   }
 
-  return json({...data})
+  return {...data}
 }
 
 export default function SingleTag() {

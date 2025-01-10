@@ -195,7 +195,9 @@ async function compileMdxForGraphql<
     return {
       code,
       readTime,
-      frontmatter: frontmatter as FrontmatterType,
+      // @important: we need to stringify and parse the frontmatter
+      // because the Date can be a string or a Date object
+      frontmatter: JSON.parse(JSON.stringify(frontmatter)) as FrontmatterType,
       matter,
       slug,
     }

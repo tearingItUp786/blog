@@ -122,11 +122,6 @@ const Document = ({children}: {children: React.ReactNode}) => {
   const data = useRouteLoaderData<typeof loader>('root')
   const optimisticTheme = useOptimisticThemeMode()
   let themeToUse = optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
-  console.log(
-    '👀 themeToUse',
-    optimisticTheme,
-    data?.requestInfo?.userPreferences,
-  )
 
   return (
     <HoneypotProvider {...data?.honeypotInputProps}>

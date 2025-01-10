@@ -1,5 +1,5 @@
 import type {ActionFunction} from '@remix-run/node'
-import {json, redirect} from '@remix-run/node'
+import {redirect} from '@remix-run/node'
 import type {MdxPage, TilMdxPage} from 'types'
 import {algoliaClient} from '~/utils/algolia.server'
 import {
@@ -153,7 +153,7 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
   await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
   console.log('👍 refreshed algolia index with til list')
 
-  return json({ok: true})
+  return {ok: true}
 }
 
 export const action: ActionFunction = async ({request}) => {
@@ -167,7 +167,7 @@ export const action: ActionFunction = async ({request}) => {
   const {contentFiles} = (await request.json()) as Body
 
   if (!contentFiles) {
-    return json({ok: false})
+    return {ok: false}
   }
 
   // refresh til list, blog list, all blog articles, tag list, and  tags
@@ -300,5 +300,5 @@ export const action: ActionFunction = async ({request}) => {
 
   console.log('👍 refreshed algolia index with til list')
   // refresh all the redis tags as well
-  return json({ok: true})
+  return {ok: true}
 }

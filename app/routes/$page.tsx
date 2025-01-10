@@ -1,5 +1,5 @@
 import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {json} from '@remix-run/node'
+import {data} from '@remix-run/node'
 import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
 import {useLoaderData} from '@remix-run/react'
 import {H1, H4} from '~/components/typography'
@@ -39,9 +39,9 @@ export const loader = async ({params}: LoaderFunctionArgs) => {
       contentDir: 'pages',
       slug: params.page,
     })
-    return json({page})
+    return {page}
   } catch (err) {
-    throw json({error: params.slug}, {status: 404})
+    throw data({error: params.slug}, {status: 404})
   }
 }
 
