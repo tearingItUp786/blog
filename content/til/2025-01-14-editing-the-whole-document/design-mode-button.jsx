@@ -5,7 +5,7 @@ export let DesignModeToggle = () => {
   const [edit, setEdit] = useState(false)
 
   useEffect(() => {
-    document.designMode = document.designMode === 'on' ? 'off' : 'on'
+    document.designMode = edit ? 'on' : 'off'
   }, [edit])
 
   return (
