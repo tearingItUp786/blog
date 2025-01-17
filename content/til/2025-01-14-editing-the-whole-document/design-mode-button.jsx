@@ -13,7 +13,7 @@ export let DesignModeToggle = () => {
       <p>Toggle document.designMode</p>
       <div
         className={twMerge(
-          'z-100 flex h-8 w-[4.5rem] cursor-pointer items-center rounded-full bg-body p-2  transition-colors',
+          'z-100 flex h-8 w-[4.5rem] cursor-pointer items-center rounded-full bg-black p-2  transition-colors',
           edit && 'bg-accent',
         )}
         onClick={evt => {
