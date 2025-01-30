@@ -1,0 +1,27 @@
+---
+title: zoxide
+date: 2025-01-29
+tag: Cool Tech
+---
+
+Til about `zoxide` which is a faster and more robust `cd` alternative; i lets
+you navigate your filesystem faster and more reliably.
+
+```bash:title=zoxide-examples
+ z ~/Documents/new-blog
+ z ~/Documents/rehype-code-titles
+
+# Go back to the last directory (new-blog)
+z -
+
+# Go to the `new-blog` directory
+z rehype-code-titles
+
+# Go back to your home directory
+z
+
+# open a fzf menu of possible entries that being with `re`
+zi re<SPACE><TAB>
+```
+
+[Check it out](https://github.com/ajeetdsouza/zoxide)
