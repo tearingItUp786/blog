@@ -149,6 +149,11 @@ const Document = ({children}: {children: React.ReactNode}) => {
           <ScrollRestoration />
           <ExternalScripts />
           <Scripts />
+          <script
+            async
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "667612c4eccb40caafe9cac20dbc492c"}'
+          ></script>
           <Footer />
         </body>
       </html>
