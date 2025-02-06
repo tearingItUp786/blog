@@ -1,5 +1,5 @@
 import {parseWithZod} from '@conform-to/zod'
-import {redirect, type ActionFunctionArgs} from '@remix-run/node'
+import { redirect, type ActionFunctionArgs } from 'react-router';
 import {z} from 'zod'
 import {SpamError} from 'remix-utils/honeypot/server'
 import {honeypot} from '~/utils/honeypot.server'

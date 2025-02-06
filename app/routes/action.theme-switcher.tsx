@@ -1,6 +1,6 @@
-import type {ActionFunctionArgs} from '@remix-run/node'
+import type { ActionFunctionArgs } from 'react-router';
 import {themeCookie} from '~/utils/theme.server'
-import {useFetchers} from '@remix-run/react'
+import { useFetchers } from 'react-router';
 import {useRequestInfo} from '~/utils/request-info'
 
 export function useOptimisticThemeMode() {

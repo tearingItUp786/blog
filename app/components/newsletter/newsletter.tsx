@@ -1,7 +1,7 @@
 import {getFormProps, getInputProps, useForm} from '@conform-to/react'
 import {useNewsLetterData} from '~/utils/request-info'
 import {H3} from '../typography'
-import {useFetcher} from '@remix-run/react'
+import { useFetcher } from 'react-router';
 import {schema, type action} from '~/routes/action.newsletter'
 import {getZodConstraint, parseWithZod} from '@conform-to/zod'
 import {twMerge} from 'tailwind-merge'

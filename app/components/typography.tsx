@@ -1,6 +1,6 @@
 import {twJoin, twMerge} from 'tailwind-merge'
 
-import {Link} from '@remix-run/react'
+import { Link } from 'react-router';
 import clsx from 'clsx'
 
 const fontSizes = {

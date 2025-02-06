@@ -1,10 +1,5 @@
-import {LoaderFunctionArgs} from '@remix-run/node'
-import {
-  MetaFunction,
-  ShouldRevalidateFunctionArgs,
-  useFetcher,
-  useLoaderData,
-} from '@remix-run/react'
+import { LoaderFunctionArgs } from 'react-router';
+import { MetaFunction, ShouldRevalidateFunctionArgs, useFetcher, useLoaderData } from 'react-router';
 import {useEffect, useRef, useState} from 'react'
 import {TilMdxPage} from 'types'
 import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'

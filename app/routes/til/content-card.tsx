@@ -1,4 +1,4 @@
-import {NavLink, useSearchParams} from '@remix-run/react'
+import { NavLink, useSearchParams } from 'react-router';
 import clsx from 'clsx'
 import {dotFormattedDate} from '~/utils/misc'
 import {H1} from '~/components/typography'

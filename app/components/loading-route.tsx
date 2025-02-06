@@ -1,4 +1,4 @@
-import {useLocation, useNavigation} from '@remix-run/react'
+import { useLocation, useNavigation } from 'react-router';
 import {useEffect, useState} from 'react'
 import {ToastUI} from './toast-ui'
 

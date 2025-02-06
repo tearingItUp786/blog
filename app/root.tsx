@@ -1,8 +1,4 @@
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@remix-run/node'
+import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from 'react-router';
 import {scale} from '@cloudinary/url-gen/actions/resize'
 import {
   Links,
@@ -13,7 +9,7 @@ import {
   isRouteErrorResponse,
   useRouteError,
   useRouteLoaderData,
-} from '@remix-run/react'
+} from 'react-router';
 import {withSentry} from '@sentry/remix'
 import {ExternalScripts} from 'remix-utils/external-scripts'
 import {Navbar} from './components/navbar'

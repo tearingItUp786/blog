@@ -1,12 +1,7 @@
-import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {data} from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {
-  NavLink,
-  useLoaderData,
-  useLocation,
-  useSearchParams,
-} from '@remix-run/react'
+import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
+import { data } from 'react-router';
+import type { ShouldRevalidateFunctionArgs } from 'react-router';
+import { NavLink, useLoaderData, useLocation, useSearchParams } from 'react-router';
 import {useEffect, useRef} from 'react'
 import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import type {MdxPage} from 'types'

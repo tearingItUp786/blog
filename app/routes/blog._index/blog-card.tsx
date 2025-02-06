@@ -1,4 +1,4 @@
-import {NavLink, useSearchParams} from '@remix-run/react'
+import { NavLink, useSearchParams } from 'react-router';
 import type {MdxPage} from 'types'
 import {dotFormattedDate} from '~/utils/misc'
 import {H2} from '~/components/typography'

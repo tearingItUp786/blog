@@ -1,8 +1,8 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
-import type {MetaFunction} from '@remix-run/node' // or cloudflare/deno
-import {data} from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {useLoaderData} from '@remix-run/react'
+import type { MetaFunction } from 'react-router'; // or cloudflare/deno
+import { data } from 'react-router';
+import type { ShouldRevalidateFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 
 import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
 // import { max } from "@cloudinary/url-gen/actions/roundCorners";

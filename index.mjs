@@ -1,10 +1,5 @@
 import 'dotenv/config'
-import {installGlobals} from '@remix-run/node'
 import closeWithGrace from 'close-with-grace'
-
-// make sure globals are installed before we do anything else
-// that way everything's referencing the same globals
-installGlobals()
 
 closeWithGrace(async ({err}) => {
   const {default: chalk} = await import('chalk')

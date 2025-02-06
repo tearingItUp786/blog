@@ -1,5 +1,5 @@
-import type {ActionFunction} from '@remix-run/node'
-import {redirect} from '@remix-run/node'
+import type { ActionFunction } from 'react-router';
+import { redirect } from 'react-router';
 import type {MdxPage, TilMdxPage} from 'types'
 import {algoliaClient} from '~/utils/algolia.server'
 import {
@@ -35,7 +35,7 @@ function replaceContent(str = '') {
     .replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '') // Blockquotes >
     .replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2') // Headers #
     .replace(/(\r\n|\r|\n)\s*(\*|\-|\+|[0-9]+\.)\s/g, '') // Lists - or * or + or 1.
-    .replace(/(\*\*|__|\*|_|\~\~)/g, '') // Cleanup leftover Markdown symbols
+    .replace(/(\*\*|__|\*|_|\~\~)/g, ''); // Cleanup leftover Markdown symbols
 }
 
 const getFileArray = (acc: [File[], File[], File[]], file: File) => {

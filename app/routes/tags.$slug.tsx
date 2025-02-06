@@ -1,11 +1,11 @@
-import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
+import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
 import {
   NavLink,
   type ShouldRevalidateFunctionArgs,
   useLoaderData,
   useParams,
   useSearchParams,
-} from '@remix-run/react'
+} from 'react-router';
 import {useEffect, useMemo, useRef} from 'react'
 import LazyLoad from 'vanilla-lazyload'
 import {H1, H3} from '~/components/typography'

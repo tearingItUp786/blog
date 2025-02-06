@@ -1,4 +1,4 @@
-import {useFetcher} from '@remix-run/react'
+import { useFetcher } from 'react-router';
 import clsx from 'clsx'
 import {useTheme as useThemeHook} from '~/routes/action.theme-switcher'
 import {Theme, useTheme} from '~/utils/theme-provider'

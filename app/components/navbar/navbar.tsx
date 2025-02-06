@@ -1,4 +1,4 @@
-import {NavLink, useLocation, useSearchParams} from '@remix-run/react'
+import { NavLink, useLocation, useSearchParams } from 'react-router';
 import clsx from 'clsx'
 
 import {useEffect, useState} from 'react'

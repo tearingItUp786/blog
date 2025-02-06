@@ -1,4 +1,4 @@
-import {NavLink, useSearchParams} from '@remix-run/react'
+import { NavLink, useSearchParams } from 'react-router';
 
 export function Footer() {
   const [searchParams] = useSearchParams()

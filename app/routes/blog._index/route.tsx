@@ -1,6 +1,6 @@
-import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {useLoaderData} from '@remix-run/react'
+import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
+import type { ShouldRevalidateFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import clsx from 'clsx'
 import {
   getBlogCardClassName,

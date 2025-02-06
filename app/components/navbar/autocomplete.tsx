@@ -6,7 +6,7 @@ import {createRoot} from 'react-dom/client'
 import {usePagination, useSearchBox} from 'react-instantsearch-core'
 import {useHotkeys} from '~/hooks/use-hot-keys'
 
-import {useSearchParams} from '@remix-run/react'
+import { useSearchParams } from 'react-router';
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   className?: string
