@@ -1,7 +1,9 @@
-import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
-import { data } from 'react-router';
-import type { ShouldRevalidateFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  ShouldRevalidateFunctionArgs,
+} from 'react-router'
+import {useLoaderData, data} from 'react-router'
 import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxPageGql} from '~/utils/mdx-utils.server'

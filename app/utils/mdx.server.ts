@@ -60,7 +60,7 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
 `
 }
 
-async function compileMdxForGraphql<
+export async function compileMdxForGraphql<
   FrontmatterType extends Record<string, unknown>,
 >(slug: string, githubFiles: Array<GithubGraphqlObject>) {
   const {default: remarkAutolinkHeadings} = await import(
@@ -99,52 +99,7 @@ async function compileMdxForGraphql<
   if (!mdxFile) return null
 
   try {
-    // const mdxText = mdxFile.object?.text ?? ''
-    let mdxText = `
----
-title: What I use!
-date: 2024-04-17
-description: A list of things taran uses to get work done!
----
-
-Hey, I'm Taran, and here's a list of things I use to get work done! You may or
-may not care, but whatever, take a look.
-
-## Services
-
-- [SiYuan](https://github.com/siyuan-note/siyuan) - My knowledge base.
-- [Fly.io](https://fly.io) - Where I host my apps and random stuff!
-- [Uptime Kuma](https://github.com/louislam/uptime-kuma) - My self-hosted
-  monitoring tool.
-- [Cloudinary](https://kcd.im/cloudinary) - Where I throw up all my images!
-- [GitHub](https://github.com) - Where I host my code; we don't use bitbucket
-  here 🤣.
-- [Cloudflare](https://cloudflare.com) - For DNS and caching!
-- [ntfy](https://ntfy.sh/) - A service to send push notifications to my phone
-  (used with my github actions).
-
-## Development Environment
-
-- [My Dot Files](https://github.com/tearingItUp786/dotfiles) - My dotfiles
-  repository.
-- [Neovim](https://github.com/neovim/neovim) - I use neovim, by the way 😏.
-- [Visual Studio Code](https://code.visualstudio.com) - I use VsCode for
-  debugging and sometimes for writing code (mostly massive find and replaces
-  lol).
-- [Tmux](https://www.github.com/tmux/tmux) - I use tmux for my terminal
-  multiplexer!
-- [Volta](https://volta.sh) - My node version manager (no more remembering what
-  node version to use)!
-
-## Home Stuff
-
-- [Ring Light](https://www.bestbuy.ca/en-ca/product/razer-12-usb-led-ring-light-for-pc-and-mobile-streaming-black-english/16617148) -
-  My ring light for all my video calls and streaming!
-- [Microphone](https://www.bestbuy.ca/en-ca/product/blue-microphones-yeticaster-usb-mic-broadcast-studio-bundle/13178950) -
-  My microphone for all my calls and streaming!
-- [Streaming Camera](https://www.bestbuy.ca/en-ca/product/13904653) - So folks
-  can see me better
-    `
+    const mdxText = mdxFile.object?.text ?? ''
     const {frontmatter, code, matter} = await bundleMDX({
       source: mdxText,
       files,
@@ -160,15 +115,13 @@ may not care, but whatever, take a look.
           [remarkImages, {maxWidth: 1200}],
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
-            // @ts-ignore
-            remarkEmbedder.default,
+            remarkEmbedder,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
               transformers: [
                 [
-                  // @ts-ignore
-                  oembedTransformer.default,
+                  oembedTransformer,
                   {
                     params: {
                       height: '390',
