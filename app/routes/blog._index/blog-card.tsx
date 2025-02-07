@@ -1,9 +1,9 @@
-import { NavLink, useSearchParams } from 'react-router';
-import type {MdxPage} from 'types'
-import {dotFormattedDate} from '~/utils/misc'
-import {H2} from '~/components/typography'
+import {NavLink, useSearchParams} from 'react-router'
 import {twMerge} from 'tailwind-merge'
+import {type MdxPage} from 'types'
 import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
+import {H2} from '~/components/typography'
+import {dotFormattedDate} from '~/utils/misc'
 
 type Props = MdxPage['frontmatter'] & {
   slug: string

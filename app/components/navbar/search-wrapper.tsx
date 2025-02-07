@@ -1,14 +1,14 @@
-import {algoliaSearchClient} from '~/utils/algolia'
-
+import {type BaseItem} from '@algolia/autocomplete-core'
 import {
-  AutocompleteApi,
-  AutocompleteState,
+  type AutocompleteApi,
+  type AutocompleteState,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js'
+
 import {InstantSearch} from 'react-instantsearch-core'
 import {H3} from '../typography'
 import {Autocomplete} from './autocomplete'
-import {BaseItem} from '@algolia/autocomplete-core'
+import {algoliaSearchClient} from '~/utils/algolia'
 
 export default function AlgoliaSearch({
   searchRef,
@@ -22,7 +22,8 @@ export default function AlgoliaSearch({
   // handle initial search provider results (just so we can render the icon properly)
   return (
     <InstantSearch
-      searchClient={algoliaSearchClient}
+      // TODO: figure out why this is not working
+      searchClient={algoliaSearchClient as any}
       indexName="website"
       future={{preserveSharedStateOnUnmount: true}}
     >
@@ -36,17 +37,18 @@ export default function AlgoliaSearch({
             openOnFocus
             placeholder="Search TIL/blog posts"
             detachedMediaQuery=""
+            // TODO: figure out why this is not working
             getSources={({query}) => {
               return [
                 {
                   sourceId: 'all_results',
-                  getItemUrl({item}) {
+                  getItemUrl({item}: any) {
                     return item.type === 'til'
                       ? `/${item.type}#${item.objectID}?offset=${item.offset}&q=${query}`
                       : `/${item.type}/${item.objectID}?q=${query}`
                   },
                   getItems() {
-                    let results = getAlgoliaResults({
+                    const results = getAlgoliaResults({
                       searchClient: algoliaSearchClient,
                       queries: [
                         {
@@ -69,7 +71,7 @@ export default function AlgoliaSearch({
                         </div>
                       )
                     },
-                    item({item, components, state}) {
+                    item({item, components, state}: any) {
                       return (
                         <div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-charcoal-gray aria-selected:text-white dark:text-charcoal-gray">
                           <a
@@ -95,7 +97,7 @@ export default function AlgoliaSearch({
                     },
                   },
                 },
-              ]
+              ] as any
             }}
           />
         </div>

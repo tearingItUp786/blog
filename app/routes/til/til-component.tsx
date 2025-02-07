@@ -1,4 +1,4 @@
-import type {TilMdxPage} from 'types'
+import {type TilMdxPage} from 'types'
 import {ContentCard} from './content-card'
 import {useMdxComponent} from '~/utils/mdx-utils'
 

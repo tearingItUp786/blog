@@ -1,15 +1,16 @@
 import {scale} from '@cloudinary/url-gen/actions/resize'
-import type { MetaFunction } from 'react-router'; // or cloudflare/deno
-import { data } from 'react-router';
-import type { ShouldRevalidateFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
-
-import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
-// import { max } from "@cloudinary/url-gen/actions/roundCorners";
 import clsx from 'clsx'
-import {FaceHero} from '~/components/hero/face-motion'
-import {cloudinaryInstance} from '~/utils/cloudinary'
+import {
+  type ShouldRevalidateFunctionArgs,
+  type MetaFunction,
+  useLoaderData,
+  data,
+} from 'react-router'
+
 import {BeltIcon, BookIcon, LotrIcon, PaletteIcon} from './icons'
+import {FaceHero} from '~/components/hero/face-motion'
+import {BlockQuote, H3, H4, ShortQuote, TextLink} from '~/components/typography'
+import {cloudinaryInstance} from '~/utils/cloudinary'
 
 export function shouldRevalidate({
   currentUrl,
@@ -72,15 +73,15 @@ export const meta: MetaFunction<typeof loader> = () => {
 }
 
 export async function loader() {
-  let headers = {
+  const headers = {
     'Cache-Control': 'public, max-age=604800',
   }
 
-  let desktopImage = cloudinaryInstance
+  const desktopImage = cloudinaryInstance
     .image('blog/me')
     .resize(scale().width(800))
 
-  let mobileImage = cloudinaryInstance
+  const mobileImage = cloudinaryInstance
     .image('blog/me')
     .resize(scale().width(500).height(500))
 
@@ -124,11 +125,11 @@ export default function About() {
         "
         >
           Hey there, thanks for stopping by. I'm a self-taught software engineer
-          with over six years of experience and I am based out of Vancouver,
-          Canada. I've got a passion for Typescript in both the Frontend and the
-          Backend. If you'd like to hear about how I went from being someone
-          with a Bachelor's degree in Business Administration to a Software
-          Engineer, feel free to reach out to me on{' '}
+          with over seven years of experience and I am based out of Vancouver,
+          Canada. I've got a passion for Typescript (both Frontend and Backend).
+          If you'd like to hear about how I went from being someone with a
+          Bachelor's degree in Business Administration to a Software Engineer,
+          feel free to reach out to me on{' '}
           <TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
           ; I'd be more than happy to walk you through my journey.
         </p>

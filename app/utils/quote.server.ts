@@ -24,8 +24,8 @@ export async function getQuote({count}: {count: number}) {
       getFreshValue: async () => {
         try {
           const res = await fetch('https://stoic.tekloon.net/stoic-quote')
-          let jsonData = await res.json()
-          let parsedJsonData = QuoteSchema.parse(jsonData)
+          const jsonData = await res.json()
+          const parsedJsonData = QuoteSchema.parse(jsonData)
           return {
             ...parsedJsonData.data,
           }

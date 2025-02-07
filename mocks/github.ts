@@ -1,7 +1,7 @@
-import path from 'path'
 import fs from 'fs'
-import type {GithubGraphqlObject} from 'types'
+import path from 'path'
 import {graphql} from 'msw'
+import {type GithubGraphqlObject} from 'types'
 
 const github = graphql.link('https://api.github.com/graphql')
 
@@ -84,7 +84,7 @@ function getObjectForHandler(directory: string, subDirectory?: string) {
 
 const githubHandlers = [
   github.query('downloadDir', (req, res, ctx) => {
-    const {slug} = req.body?.variables
+    const {slug} = req.body?.variables ?? {}
     const [, directory, subDirectory] = slug.split('/')
     const {object} = getObjectForHandler(directory, subDirectory)
 

@@ -1,8 +1,8 @@
-import React from 'react'
-import Face from './face2'
+import clsx from 'clsx'
 import {gsap} from 'gsap'
 import {ExpoScaleEase} from 'gsap/all'
-import clsx from 'clsx'
+import React from 'react'
+import Face from './face2'
 
 gsap.registerPlugin(ExpoScaleEase)
 
@@ -94,7 +94,7 @@ function Hero() {
       if (e.matches) startTimeline()
     }
 
-    let media = window.matchMedia('(min-width: 640px)')
+    const media = window.matchMedia('(min-width: 640px)')
     media.matches && startTimeline()
     media.addEventListener('change', onMatch, {passive: true})
 

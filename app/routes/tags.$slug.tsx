@@ -1,23 +1,25 @@
-import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
+import {useEffect, useMemo, useRef} from 'react'
 import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
   NavLink,
   type ShouldRevalidateFunctionArgs,
   useLoaderData,
   useParams,
   useSearchParams,
-} from 'react-router';
-import {useEffect, useMemo, useRef} from 'react'
+} from 'react-router'
+
+import {twJoin} from 'tailwind-merge'
 import LazyLoad from 'vanilla-lazyload'
+import {ContentCard as GenericContentCard} from './til/content-card'
+import {PILL_CLASS_NAME} from '~/components/pill'
 import {H1, H3} from '~/components/typography'
 import {getMdxIndividualTagGql} from '~/utils/mdx-utils.server'
 import {delRedisKey} from '~/utils/redis.server'
 import {tilMapper} from '~/utils/til-list'
-import {ContentCard as GenericContentCard} from './til/content-card'
 
 // css imports
 import '~/styles/tag.css'
-import {twJoin} from 'tailwind-merge'
-import {PILL_CLASS_NAME} from '~/components/pill'
 
 export function shouldRevalidate({
   currentUrl,
@@ -67,7 +69,7 @@ export default function SingleTag() {
   const params = useParams()
 
   const mountedRef = useRef(false)
-  let tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
+  const tilComponents = useMemo(() => tilList.map(tilMapper), [tilList])
 
   useEffect(() => {
     if (!mountedRef.current) {

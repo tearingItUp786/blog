@@ -22,6 +22,12 @@ const schema = z.object({
   SENTRY_PROJECT: z.string(),
 })
 
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof schema> {}
+  }
+}
+
 export function init() {
   const parsed = schema.safeParse(process.env)
 
@@ -56,9 +62,6 @@ export function getEnv() {
 type ENV = ReturnType<typeof getEnv>
 
 declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof schema> {}
-  }
   var ENV: ENV
   interface Window {
     ENV: ENV

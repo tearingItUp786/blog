@@ -1,4 +1,4 @@
-import { createCookie } from 'react-router';
+import {createCookie} from 'react-router'
 
 export const themeCookie = createCookie('theme', {
   httpOnly: true,
@@ -8,7 +8,6 @@ export const themeCookie = createCookie('theme', {
 })
 
 export async function getThemeFromCookie(req: Request) {
-  let theme = await themeCookie.parse(req.headers.get('Cookie'))
-  console.log('👀 theme', theme)
+  const theme = await themeCookie.parse(req.headers.get('Cookie'))
   return theme || 'light'
 }

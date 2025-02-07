@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router';
+import {useLoaderData} from 'react-router'
 import {twJoin} from 'tailwind-merge'
 import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
@@ -10,8 +10,8 @@ export function shouldRevalidate() {
 }
 
 export async function loader() {
-  let count = Math.floor(Math.random() * 5) + 1
-  let quoteData = await getQuote({count})
+  const count = Math.floor(Math.random() * 5) + 1
+  const quoteData = await getQuote({count})
   return {
     quoteData,
     count,
@@ -23,7 +23,7 @@ export default function Index() {
 
   return (
     // we can get rid of the svh when we actually have the newsletter
-    (<div className="mx-auto my-20 min-h-[81svh] max-w-screen-xl px-4 md:px-20">
+    <div className="mx-auto my-20 min-h-[81svh] max-w-screen-xl px-4 md:px-20">
       <div className="flex flex-wrap justify-between">
         <article className="basis-full  lg:basis-1/3 ">
           <H1 className="mb-6 text-center lg:text-left">Taran Bains</H1>
@@ -55,6 +55,6 @@ export default function Index() {
         </div>
       </div>
       <Newsletter />
-    </div>)
-  );
+    </div>
+  )
 }

@@ -1,7 +1,7 @@
 import {parseWithZod} from '@conform-to/zod'
-import { redirect, type ActionFunctionArgs } from 'react-router';
-import {z} from 'zod'
+import {redirect, type ActionFunctionArgs} from 'react-router'
 import {SpamError} from 'remix-utils/honeypot/server'
+import {z} from 'zod'
 import {honeypot} from '~/utils/honeypot.server'
 
 export const schema = z.object({
@@ -19,7 +19,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
   const formData = await request.formData()
 
   try {
-    honeypot.check(formData)
+    await honeypot.check(formData)
   } catch (error) {
     if (error instanceof SpamError) {
       // handle spam requests here
@@ -38,11 +38,11 @@ export const action = async ({request}: ActionFunctionArgs) => {
   }
 
   // submit a request to convertkit
-  let params = {
-    api_key: process.env.CONVERT_KIT_API_KEY,
+  const params = {
+    api_key: String(process.env.CONVERT_KIT_API_KEY),
   }
-  let queryString = new URLSearchParams(params).toString()
-  let response = await fetch(
+  const queryString = new URLSearchParams(params).toString()
+  const response = await fetch(
     `${process.env.CONVERT_KIT_API}/forms/${submission.value.convertKitFormId}/subscribe?${queryString}`,
     {
       method: 'POST',

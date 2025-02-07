@@ -1,8 +1,8 @@
 import {reactRouter} from '@react-router/dev/vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import {sentryVitePlugin} from '@sentry/vite-plugin'
 
 import {defineConfig} from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 // {
 //       serverBuildFile: 'index.js',
 //       serverModuleFormat: 'esm',

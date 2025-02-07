@@ -1,6 +1,6 @@
-import { useRouteLoaderData } from 'react-router';
-import {type loader as rootLoader} from '~/root'
+import {useRouteLoaderData} from 'react-router'
 import {invariantResponse} from './misc'
+import {type loader as rootLoader} from '~/root'
 
 export function useRequestInfo() {
   const data = useRouteLoaderData<typeof rootLoader>('root')

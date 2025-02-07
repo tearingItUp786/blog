@@ -15,6 +15,6 @@ function createAgoliaClient(): ReturnType<typeof algoliasearch> {
   return global.algoliaClient
 }
 
-let algoliaClient = createAgoliaClient()
+const algoliaClient = createAgoliaClient()
 
 export {algoliaClient}

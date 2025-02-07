@@ -1,17 +1,20 @@
-import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
-import type { ShouldRevalidateFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
 import clsx from 'clsx'
+import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  type ShouldRevalidateFunctionArgs,
+  useLoaderData,
+} from 'react-router'
+import {twMerge} from 'tailwind-merge'
+import {BlogCard} from './blog-card'
 import {
   getBlogCardClassName,
   getContainerClassName,
   getRandomLineClasses,
 } from '~/utils/blog-list'
 import {getMdxBlogListGraphql} from '~/utils/mdx-utils.server'
-import {BlogCard} from './blog-card'
 
 // css
-import {twMerge} from 'tailwind-merge'
 import '~/styles/blog.css'
 
 export const meta: MetaFunction<typeof loader> = () => {
@@ -60,9 +63,11 @@ export function shouldRevalidate({
 }
 
 export default function Blog() {
+  // typescript is complaining that we are possibly calling useLoaderData in a loop... but we're not
+  // eslint-disable-next-line
   const {blogList, cssClasses} = useLoaderData<typeof loader>()
   let shouldHangRight = true
-  let blogElements: Array<React.ReactNode> = []
+  const blogElements: Array<React.ReactNode> = []
 
   for (
     let i = 1;
@@ -71,9 +76,9 @@ export default function Blog() {
   ) {
     // prettier-ignore
     [blogList[i], blogList[i + 1]].forEach((el, j) => {
-      let currentIndex = i + j
-      let currentContainerClassName = getContainerClassName(shouldHangRight)
-      let currentBlogClassName = clsx(
+      const currentIndex = i + j
+      const currentContainerClassName = getContainerClassName(shouldHangRight)
+      const currentBlogClassName = clsx(
         getBlogCardClassName(shouldHangRight),
         cssClasses[shouldHangRight ? 'right' : 'left'][currentIndex],
       )

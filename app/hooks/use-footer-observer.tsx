@@ -39,7 +39,7 @@ export function useFooterObserver({
         ...observerOptions,
       })
 
-      let footer = document.getElementsByTagName('footer')[0]
+      const footer = document.getElementsByTagName('footer')[0]
       if (footer) {
         observer.observe(footer)
       }

@@ -1,9 +1,8 @@
-import { createReadableStreamFromReadable } from '@react-router/node';
-import { type EntryContext } from 'react-router';
-import { ServerRouter } from 'react-router';
+import {PassThrough} from 'stream'
+import {createReadableStreamFromReadable} from '@react-router/node'
 import {isbot} from 'isbot'
 import {renderToPipeableStream} from 'react-dom/server'
-import {PassThrough} from 'stream'
+import {type EntryContext, ServerRouter} from 'react-router'
 import {getEnv, init} from './utils/env.server'
 
 const ABORT_DELAY = 5000
@@ -29,7 +28,7 @@ export default function handleRequest(
         responseStatusCode,
         responseHeaders,
         reactRouterContext,
-      );
+      )
 }
 
 function handleBotRequest(
@@ -71,7 +70,7 @@ function handleBotRequest(
     )
 
     setTimeout(abort, ABORT_DELAY)
-  });
+  })
 }
 
 function handleBrowserRequest(
@@ -113,5 +112,5 @@ function handleBrowserRequest(
     )
 
     setTimeout(abort, ABORT_DELAY)
-  });
+  })
 }

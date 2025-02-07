@@ -1,3 +1,5 @@
+import path from 'path'
+import {fileURLToPath} from 'url'
 import {createRequestHandler} from '@react-router/express'
 import * as Sentry from '@sentry/remix'
 import closeWithGrace from 'close-with-grace'
@@ -5,8 +7,6 @@ import compression from 'compression'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
-import path from 'path'
-import {fileURLToPath} from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

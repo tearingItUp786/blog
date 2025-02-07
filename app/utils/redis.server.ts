@@ -1,10 +1,10 @@
-import * as redis from 'redis'
 import {redisJsonCacheAdapter} from 'cachified-redis-json-adapter'
+import * as redis from 'redis'
 
 declare global {
   // This prevents us from making multiple connections to the db when the
   // require cache is cleared.
-  // eslint-disable-next-line
+
   var primaryClient: redis.RedisClientType | undefined
 }
 
@@ -12,7 +12,6 @@ function createRedisClient(): redis.RedisClientType {
   let client = global.primaryClient
 
   if (!client) {
-    // eslint-disable-next-line no-multi-assign
     client = global.primaryClient = redis.createClient({
       username: 'default',
       password: process.env.REDIS_PASSWORD,
@@ -28,13 +27,21 @@ function createRedisClient(): redis.RedisClientType {
       console.error(`REDIS ERROR:`, error)
     })
 
-    client.connect()
+    client
+      .connect()
+      .then(() => {
+        console.log('🌱 connected to redis')
+      })
+      .catch(err => {
+        console.error('🌱 error connecting to redis', err)
+        throw err
+      })
   }
 
   return client
 }
 
-let redisClient = createRedisClient()
+const redisClient = createRedisClient()
 
 const redisCache = redisJsonCacheAdapter(redisClient)
 

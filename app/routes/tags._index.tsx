@@ -1,5 +1,10 @@
-import { MetaFunction } from 'react-router';
-import { NavLink, ShouldRevalidateFunctionArgs, useLoaderData, useSearchParams } from 'react-router';
+import {
+  type MetaFunction,
+  NavLink,
+  type ShouldRevalidateFunctionArgs,
+  useLoaderData,
+  useSearchParams,
+} from 'react-router'
 import {twMerge} from 'tailwind-merge'
 import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'

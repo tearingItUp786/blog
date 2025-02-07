@@ -1,10 +1,9 @@
 import {getMDXComponent} from 'mdx-bundler/client'
-import * as myTypo from '~/components/typography'
-
+import {useMemo} from 'react'
+import {Callout} from '~/components/callout'
 import {CloudinaryHeroImage} from '~/components/hero-image'
 import {LazyGiphy} from '~/components/lazy-iframe'
-import {Callout} from '~/components/callout'
-import {useMemo} from 'react'
+import * as myTypo from '~/components/typography'
 
 /**
  * These get passed to the MDX components
