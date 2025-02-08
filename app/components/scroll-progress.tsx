@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router';
+import {useLocation} from 'react-router'
 
 export const ScrollProgress = () => {
   const loc = useLocation()
