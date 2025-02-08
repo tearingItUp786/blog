@@ -36,9 +36,12 @@ export function Navbar() {
   const loc = useLocation()
 
   useEffect(() => {
-    if (isOpen) {
-      setIsOpen(false)
-    }
+    setIsOpen(prev => {
+      if (prev) {
+        return false
+      }
+      return prev
+    })
   }, [loc])
 
   useEffect(() => {

@@ -110,7 +110,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     },
     newsLetterData: {
       newsletterImage: mobileImage.toURL(),
-      showNewsLetter: true,
+      showNewsLetter: showNewsLetter,
     },
     honeypotInputProps: honeypot.getInputProps(),
   }
