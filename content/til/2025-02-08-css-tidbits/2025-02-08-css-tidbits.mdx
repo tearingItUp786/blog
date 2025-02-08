@@ -1,0 +1,33 @@
+---
+title: CSS tidbits
+date: 2025-02-08
+tag: CSS
+---
+
+TIL about the following...
+
+```css:title=inset-property.css
+    /* top, left, right, button, are all set to to the same value */
+    .box {
+      inset: 0;
+    }
+```
+
+1. The `inset` property is a shorthand for `top`, `right`, `bottom`, and `left`
+   properties.
+2. Absolute elements can only be contained by other elements using Positioned
+   layout.
+3. Positioned elements will always render on top of non-positioned ones
+4. [Stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context)
+   is the stacking order of elements that are positioned.
+   - We can create a stacking context by combining a non-static position with a
+     z-index. So position `absolute` and `z-index` will create a stacking
+     context.
+   - We can also create one by setting opacity to less than 1.
+   - Check out the link above for more info.
+5. The `isolation` property allows you to create a stacking context. We can add
+   this to a parent element and then we can forget about having to add a
+   `position: relative` and `z-index` to the children. It is the lightest weight
+   way to create a stacking context.
+6. The `z-index` property can be used in a flexbox the same way as it can be
+   used with a positioned element.
