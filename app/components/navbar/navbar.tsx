@@ -1,11 +1,11 @@
-import {NavLink, useLocation, useSearchParams} from '@remix-run/react'
 import clsx from 'clsx'
 
 import {useEffect, useState} from 'react'
-import {ServerThemeToggle} from '~/components/theme-toggle'
+import {NavLink, useLocation, useSearchParams} from 'react-router'
 import {twJoin} from 'tailwind-merge'
-import {Search} from './search'
 import {MobileNav} from './mobile'
+import {Search} from './search'
+import {ServerThemeToggle} from '~/components/theme-toggle'
 
 const HomeIcon = () => {
   return (

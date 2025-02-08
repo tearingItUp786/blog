@@ -1,7 +1,7 @@
 import {graphql} from '@octokit/graphql'
-import {Octokit as createOctokit} from '@octokit/rest'
 import {throttling} from '@octokit/plugin-throttling'
-import type {GithubGraphqlObject} from 'types'
+import {Octokit as createOctokit} from '@octokit/rest'
+import {type GithubGraphqlObject} from 'types'
 
 const graphqlWithAuth = graphql.defaults({
   headers: {

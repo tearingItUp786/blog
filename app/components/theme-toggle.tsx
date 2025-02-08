@@ -1,5 +1,5 @@
-import {useFetcher} from '@remix-run/react'
 import clsx from 'clsx'
+import {useFetcher} from 'react-router'
 import {useTheme as useThemeHook} from '~/routes/action.theme-switcher'
 import {Theme, useTheme} from '~/utils/theme-provider'
 
@@ -19,8 +19,8 @@ export const ServerThemeToggle = () => {
           'z-100',
           'flex h-8 w-[4.5rem] cursor-pointer items-center rounded-full bg-accent p-2  transition-colors',
         )}
-        onClick={evt => {
-          fetcher.submit(evt.currentTarget.closest('form')!)
+        onClick={async evt => {
+          await fetcher.submit(evt.currentTarget.closest('form')!)
         }}
       >
         <input type="hidden" name="theme" value={nextTheme} />

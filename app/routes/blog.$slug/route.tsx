@@ -1,17 +1,20 @@
-import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {data} from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
+import {useEffect, useRef} from 'react'
 import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  type ShouldRevalidateFunctionArgs,
+} from 'react-router'
+import {
+  data,
   NavLink,
   useLoaderData,
   useLocation,
   useSearchParams,
-} from '@remix-run/react'
-import {useEffect, useRef} from 'react'
-import type {ExternalScriptsHandle} from 'remix-utils/external-scripts'
-import type {MdxPage} from 'types'
-import type {ILazyLoadInstance} from 'vanilla-lazyload'
-import LazyLoad from 'vanilla-lazyload'
+} from 'react-router'
+import {type ExternalScriptsHandle} from 'remix-utils/external-scripts'
+import {twJoin, twMerge} from 'tailwind-merge'
+import {type MdxPage} from 'types'
+import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload'
 import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
@@ -20,7 +23,6 @@ import {LineSvg} from './line-svg'
 import {PreviousAndNextLinks} from './previous-and-next-links'
 
 import '~/styles/blog.css'
-import {twJoin, twMerge} from 'tailwind-merge'
 import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type LoaderData = {
@@ -48,9 +50,9 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   ]
 }
 
-export let handle: ExternalScriptsHandle<LoaderData> = {
+export const handle: ExternalScriptsHandle<LoaderData> = {
   scripts({data}) {
-    let externalScripts = []
+    const externalScripts = []
 
     if (data?.hasTwitterEmbed) {
       externalScripts.push({

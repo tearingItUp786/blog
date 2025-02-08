@@ -2,11 +2,11 @@ import {type BaseItem} from '@algolia/autocomplete-core'
 import {type AutocompleteApi} from '@algolia/autocomplete-js'
 import {lazy, Suspense, useEffect, useRef, useState} from 'react'
 import {twJoin} from 'tailwind-merge'
-import {useHotkeys} from '~/hooks/use-hot-keys'
 import {ToastUI} from '../toast-ui'
+import {useHotkeys} from '~/hooks/use-hot-keys'
 
 const loadSearch = async (cb?: any) => {
-  let comp = await import('./search-wrapper')
+  const comp = await import('./search-wrapper')
   cb?.()
   return comp
 }
@@ -91,18 +91,18 @@ export function Search() {
     }
   }, [mountedStatus])
 
-  const loadHandler = () => {
+  const loadHandler = async () => {
     if (mountedStatus === 'idle') {
       setMountedStatus('mounting')
-      loadSearch(() => {
+      await loadSearch(() => {
         setMountedStatus('mounted')
       })
     }
   }
 
-  const onClick = () => {
+  const onClick = async () => {
     if (mountedStatus === 'idle') {
-      loadHandler()
+      await loadHandler()
     }
 
     if (mountedStatus === 'mounting') {

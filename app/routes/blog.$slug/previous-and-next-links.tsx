@@ -1,4 +1,4 @@
-import {Link} from '@remix-run/react'
+import {Link} from 'react-router'
 import {twMerge} from 'tailwind-merge'
 import {H4} from '~/components/typography'
 

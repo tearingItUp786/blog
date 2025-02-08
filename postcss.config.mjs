@@ -1,8 +1,8 @@
 // Import the necessary modules
-import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
-import postcssImport from 'postcss-import'
 import cssnano from 'cssnano'
+import postcssImport from 'postcss-import'
+import tailwindcss from 'tailwindcss'
 // Create the plugins array with conditional inclusion of cssnano
 const plugins = [
   tailwindcss,

@@ -1,5 +1,5 @@
-import {useLocation, useNavigation} from '@remix-run/react'
 import {useEffect, useState} from 'react'
+import {useLocation, useNavigation} from 'react-router'
 import {ToastUI} from './toast-ui'
 
 export const LoadingRoute = () => {

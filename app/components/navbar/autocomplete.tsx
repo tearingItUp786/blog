@@ -1,12 +1,14 @@
-import type {BaseItem} from '@algolia/autocomplete-core'
-import type {AutocompleteOptions} from '@algolia/autocomplete-js'
-import {autocomplete, AutocompleteApi} from '@algolia/autocomplete-js'
+import {type BaseItem} from '@algolia/autocomplete-core'
+import {
+  type AutocompleteOptions,
+  autocomplete,
+  type AutocompleteApi,
+} from '@algolia/autocomplete-js'
 import {createElement, Fragment, useEffect, useRef, useState} from 'react'
 import {createRoot} from 'react-dom/client'
 import {usePagination, useSearchBox} from 'react-instantsearch-core'
+import {useSearchParams} from 'react-router'
 import {useHotkeys} from '~/hooks/use-hot-keys'
-
-import {useSearchParams} from '@remix-run/react'
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   className?: string

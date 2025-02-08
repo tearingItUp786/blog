@@ -1,9 +1,15 @@
-import type {GithubGraphqlObject, MdxPage, MdxPageAndSlug} from 'types'
-import {downloadDirGql} from '~/utils/github.server'
+import cachified, {
+  type CachifiedOptions,
+  verboseReporter,
+} from '@epic-web/cachified'
+import {
+  type GithubGraphqlObject,
+  type MdxPage,
+  type MdxPageAndSlug,
+} from 'types'
 import {queuedCompileMdxGql} from './mdx.server'
 import {redisCache, redisClient} from './redis.server'
-import type {CachifiedOptions} from '@epic-web/cachified'
-import cachified, {verboseReporter} from '@epic-web/cachified'
+import {downloadDirGql} from '~/utils/github.server'
 
 type CommonGetProps = {
   cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
@@ -89,8 +95,8 @@ async function getMaxNumberOfTil({cachifiedOptions}: CommonGetProps = {}) {
           return b.name.toLowerCase().localeCompare(a.name.toLowerCase(), 'en')
         })
 
-        let chunkSize = 20
-        let maxOffset = Math.ceil(pageData.length / chunkSize)
+        const chunkSize = 20
+        const maxOffset = Math.ceil(pageData.length / chunkSize)
         return {
           sortedPageData,
           maxOffset,
@@ -117,8 +123,8 @@ async function getMdxTilListGql(
   const {sortedPageData, maxOffset, chunkSize} = await getMaxNumberOfTil({
     cachifiedOptions,
   })
-  let endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
-  let startOffset = endOffsetToUse - 1
+  const endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
+  const startOffset = endOffsetToUse - 1
 
   return cachified(
     {
@@ -311,7 +317,7 @@ async function getMdxIndividualTagGql({
 
         const contentDirList = await Promise.all([getBlogList(), getTilList()])
 
-        let retObject = await Promise.all(
+        const retObject = await Promise.all(
           contentDirList.map(async v => {
             const [key, list] = Object.entries?.(v)?.[0] ?? []
             if (!key) throw new Error('no key for content dir list')
@@ -339,7 +345,7 @@ async function getMdxIndividualTagGql({
                 return tag === userProvidedTag.toUpperCase()
               })
 
-            let retArray = await Promise.all(
+            const retArray = await Promise.all(
               listItemsWithTag.map(async listItem => {
                 const dataToPass = getGithubGqlObjForMdx(listItem)
                 const data = await queuedCompileMdxGql(

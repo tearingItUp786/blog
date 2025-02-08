@@ -1,14 +1,14 @@
+import path from 'path'
+import remarkEmbedder, {type TransformerInfo} from '@remark-embedder/core'
+import oembedTransformer, {
+  type Config,
+} from '@remark-embedder/transformer-oembed'
 import {bundleMDX} from 'mdx-bundler'
-import remarkEmbedder from '@remark-embedder/core'
-import type {Config} from '@remark-embedder/transformer-oembed'
-import oembedTransformer from '@remark-embedder/transformer-oembed'
-import calculateReadingTime from 'reading-time'
 import type TPQueue from 'p-queue'
-import type {TransformerInfo} from '@remark-embedder/core'
+import calculateReadingTime from 'reading-time'
 import mdxMermaid from 'mdx-mermaid'
 
-import type {GithubGraphqlObject} from 'types'
-import path from 'path'
+import {type GithubGraphqlObject} from 'types'
 
 if (process.platform === 'win32') {
   process.env.ESBUILD_BINARY_PATH = path.join(
@@ -41,7 +41,7 @@ function handleEmbedderHtml(html: GottenHTML, info: TransformerInfo) {
   if (/youtu\.?be/.test(url.hostname)) {
     // this allows us to set youtube embeds to 100% width and the
     // height will be relative to that width with a good aspect ratio
-    let ret = html.slice(0, 8) + 'loading="lazy" class="lazy"' + html.slice(8)
+    const ret = html.slice(0, 8) + 'loading="lazy" class="lazy"' + html.slice(8)
     return makeEmbed(ret.replace('src', 'data-src'), 'youtube')
   }
   if (url.hostname.includes('codesandbox.io')) {
@@ -60,7 +60,7 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
 `
 }
 
-async function compileMdxForGraphql<
+export async function compileMdxForGraphql<
   FrontmatterType extends Record<string, unknown>,
 >(slug: string, githubFiles: Array<GithubGraphqlObject>) {
   const {default: remarkAutolinkHeadings} = await import(
@@ -87,7 +87,7 @@ async function compileMdxForGraphql<
     return val?.name?.includes('mdx')
   })
 
-  let files = githubFiles.reduce((acc, val) => {
+  const files = githubFiles.reduce((acc, val) => {
     if (!val.object.text) return acc
 
     acc[val?.name ?? ''] = val.object.text
@@ -115,15 +115,13 @@ async function compileMdxForGraphql<
           [remarkImages, {maxWidth: 1200}],
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
-            // @ts-ignore
-            remarkEmbedder.default,
+            remarkEmbedder,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
               transformers: [
                 [
-                  // @ts-ignore
-                  oembedTransformer.default,
+                  oembedTransformer,
                   {
                     params: {
                       height: '390',

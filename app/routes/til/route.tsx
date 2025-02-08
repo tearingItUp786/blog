@@ -1,13 +1,13 @@
-import {LoaderFunctionArgs} from '@remix-run/node'
+import {useEffect, useRef, useState} from 'react'
 import {
-  MetaFunction,
-  ShouldRevalidateFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  type ShouldRevalidateFunctionArgs,
   useFetcher,
   useLoaderData,
-} from '@remix-run/react'
-import {useEffect, useRef, useState} from 'react'
-import {TilMdxPage} from 'types'
-import LazyLoad, {ILazyLoadInstance} from 'vanilla-lazyload'
+} from 'react-router'
+import {type TilMdxPage} from 'types'
+import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload'
 import {TilComponent} from './til-component'
 import {useFooterObserver} from '~/hooks/use-footer-observer'
 import {getMdxTilListGql} from '~/utils/mdx-utils.server'
@@ -93,8 +93,14 @@ export default function TilPage() {
   useFooterObserver({
     onIntersect: () => {
       if (offset === maxOffset) return
-      fetcher.load(`/til?fromFetcher=true&offset=${offset + 1}`)
-      setOffset(p => p + 1)
+      fetcher
+        .load(`/til?fromFetcher=true&offset=${offset + 1}`)
+        .then(() => {
+          setOffset(p => p + 1)
+        })
+        .catch(err => {
+          throw err
+        })
     },
   })
 

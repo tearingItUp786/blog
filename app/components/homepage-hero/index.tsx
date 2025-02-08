@@ -1,12 +1,12 @@
-import {OuterCircle} from './circle/outer-circle'
-import {InnerCircle} from './circle/inner-circle'
 import {BigStar} from './big-star'
+import {InnerCircle} from './circle/inner-circle'
+import {OuterCircle} from './circle/outer-circle'
+import {LastName} from './last-name'
 import {LineSvg} from './line'
-import Sparkles from './sparkles'
 import {MoonOrSun} from './moon-or-sun'
 import {NameGroup} from './name-group'
-import {LastName} from './last-name'
 import {Slogan} from './slogan'
+import Sparkles from './sparkles'
 import {useTheme} from '~/utils/theme-provider'
 
 export const HomepageHero = () => {
@@ -33,7 +33,7 @@ export const HomepageHero = () => {
         <div className="absolute -top-[20%] left-[15%] max-w-[200px]">
           {theme === 'light' ? (
             <img
-              fetchpriority="high"
+              fetchPriority="high"
               alt="A lords of the rings style tree"
               src="/images/middleD/light-middleD.svg"
               className="animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:hidden"
@@ -41,7 +41,7 @@ export const HomepageHero = () => {
           ) : null}
           {theme === 'dark' ? (
             <img
-              fetchpriority="high"
+              fetchPriority="high"
               alt="A lords of the rings style tree"
               src="/images/middleD/dark-middleD.svg"
               className="hidden animate-[fadeIn_forwards_.5s_.5s] opacity-0 dark:block"

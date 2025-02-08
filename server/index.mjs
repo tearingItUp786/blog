@@ -1,19 +1,16 @@
-import {createRequestHandler} from '@remix-run/express'
-import {installGlobals} from '@remix-run/node'
+import path from 'path'
+import {fileURLToPath} from 'url'
+import {createRequestHandler} from '@react-router/express'
 import * as Sentry from '@sentry/remix'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
-import path from 'path'
-import {fileURLToPath} from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const here = (...d) => path.join(__dirname, ...d)
-
-installGlobals()
 
 let viteDevServer = undefined
 if (process.env.NODE_ENV === 'production') {
@@ -89,7 +86,7 @@ app.all(
   '*',
   createRequestHandler({
     build: viteDevServer
-      ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+      ? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')
       : await import('../build/server/index.js'),
   }),
 )

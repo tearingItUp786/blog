@@ -1,11 +1,11 @@
 import {getFormProps, getInputProps, useForm} from '@conform-to/react'
-import {useNewsLetterData} from '~/utils/request-info'
-import {H3} from '../typography'
-import {useFetcher} from '@remix-run/react'
-import {schema, type action} from '~/routes/action.newsletter'
 import {getZodConstraint, parseWithZod} from '@conform-to/zod'
-import {twMerge} from 'tailwind-merge'
+import {useFetcher} from 'react-router'
 import {HoneypotInputs} from 'remix-utils/honeypot/react'
+import {twMerge} from 'tailwind-merge'
+import {H3} from '../typography'
+import {schema, type action} from '~/routes/action.newsletter'
+import {useNewsLetterData} from '~/utils/request-info'
 
 export const Newsletter = () => {
   const {newsletterImage, showNewsLetter} = useNewsLetterData()

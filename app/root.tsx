@@ -1,10 +1,9 @@
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@remix-run/node'
 import {scale} from '@cloudinary/url-gen/actions/resize'
+import {withSentry} from '@sentry/remix'
 import {
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
   Links,
   Meta,
   Outlet,
@@ -13,17 +12,16 @@ import {
   isRouteErrorResponse,
   useRouteError,
   useRouteLoaderData,
-} from '@remix-run/react'
-import {withSentry} from '@sentry/remix'
+} from 'react-router'
 import {ExternalScripts} from 'remix-utils/external-scripts'
-import {Navbar} from './components/navbar'
-import {NonFlashOfWrongThemeEls, ThemeProvider} from './utils/theme-provider'
-
+import {HoneypotProvider} from 'remix-utils/honeypot/react'
 import {Footer} from './components/footer/footer'
 import {LoadingRoute} from './components/loading-route'
+import {Navbar} from './components/navbar'
 import {ScrollProgress} from './components/scroll-progress'
 import {H3} from './components/typography'
 import {redisClient} from './utils/redis.server'
+import {NonFlashOfWrongThemeEls, ThemeProvider} from './utils/theme-provider'
 
 import '~/tailwind.css'
 import './styles/app.css'
@@ -31,7 +29,6 @@ import './styles/new-prisma-theme.css'
 import {getEnv} from './utils/env.server'
 import {cloudinaryInstance} from './utils/cloudinary'
 import {max} from '@cloudinary/url-gen/actions/roundCorners'
-import {HoneypotProvider} from 'remix-utils/honeypot/react'
 import {honeypot} from './utils/honeypot.server'
 import {useOptimisticThemeMode} from './routes/action.theme-switcher'
 import {getThemeFromCookie} from './utils/theme.server'
@@ -91,9 +88,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
   const theme = (await getThemeFromCookie(request)) as string
 
-  console.log('🔥 loader theme', theme)
-
-  let mobileImage = cloudinaryInstance
+  const mobileImage = cloudinaryInstance
     .image('blog/me')
     .format('webp')
     .resize(scale().width(500).height(500))
@@ -102,7 +97,10 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
   if (isFresh && isDev) {
     console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
-    redisClient.flushAll()
+    redisClient
+      .flushAll()
+      .then(() => console.log('🌱 flushed redis cache'))
+      .catch(console.error)
   }
 
   return {
@@ -112,7 +110,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     },
     newsLetterData: {
       newsletterImage: mobileImage.toURL(),
-      showNewsLetter,
+      showNewsLetter: true,
     },
     honeypotInputProps: honeypot.getInputProps(),
   }
@@ -121,7 +119,8 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 const Document = ({children}: {children: React.ReactNode}) => {
   const data = useRouteLoaderData<typeof loader>('root')
   const optimisticTheme = useOptimisticThemeMode()
-  let themeToUse = optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
+  const themeToUse =
+    optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
 
   return (
     <HoneypotProvider {...data?.honeypotInputProps}>
@@ -208,7 +207,7 @@ export const ErrorBoundary = () => {
     <ThemeProvider>
       <Document>
         <div className="w-100">
-          <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-white dark:bg-gray-100">
+          <div className="flex  h-[calc(95vh_-_63.5px)] items-center bg-light-gray dark:bg-gray-100">
             <div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
               {elementToRender}
             </div>

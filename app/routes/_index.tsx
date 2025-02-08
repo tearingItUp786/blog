@@ -1,4 +1,4 @@
-import {useLoaderData} from '@remix-run/react'
+import {useLoaderData} from 'react-router'
 import {twJoin} from 'tailwind-merge'
 import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
@@ -10,8 +10,8 @@ export function shouldRevalidate() {
 }
 
 export async function loader() {
-  let count = Math.floor(Math.random() * 5) + 1
-  let quoteData = await getQuote({count})
+  const count = Math.floor(Math.random() * 5) + 1
+  const quoteData = await getQuote({count})
   return {
     quoteData,
     count,

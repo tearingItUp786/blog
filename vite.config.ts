@@ -1,17 +1,12 @@
-import {vitePlugin as remix} from '@remix-run/dev'
-import {installGlobals} from '@remix-run/node'
-import tsconfigPaths from 'vite-tsconfig-paths'
+import {reactRouter} from '@react-router/dev/vite'
 import {sentryVitePlugin} from '@sentry/vite-plugin'
 
 import {defineConfig} from 'vite'
-
-installGlobals()
-
-declare module '@remix-run/node' {
-  interface Future {
-    v3_singleFetch: true
-  }
-}
+import tsconfigPaths from 'vite-tsconfig-paths'
+// {
+//       serverBuildFile: 'index.js',
+//       serverModuleFormat: 'esm',
+//     }
 
 export default defineConfig({
   ssr: {
@@ -20,18 +15,7 @@ export default defineConfig({
     // noExternal: [/@algolia.*/],
   },
   plugins: [
-    remix({
-      serverBuildFile: 'index.js',
-      serverModuleFormat: 'esm',
-      future: {
-        v3_routeConfig: true,
-        v3_throwAbortReason: true,
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_singleFetch: true,
-        v3_lazyRouteDiscovery: true,
-      },
-    }),
+    reactRouter(),
     sentryVitePlugin({
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,

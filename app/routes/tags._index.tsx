@@ -1,10 +1,10 @@
-import {MetaFunction} from '@remix-run/node'
 import {
+  type MetaFunction,
   NavLink,
-  ShouldRevalidateFunctionArgs,
+  type ShouldRevalidateFunctionArgs,
   useLoaderData,
   useSearchParams,
-} from '@remix-run/react'
+} from 'react-router'
 import {twMerge} from 'tailwind-merge'
 import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'

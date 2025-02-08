@@ -1,6 +1,7 @@
-import type {ActionFunction} from '@remix-run/node'
-import {redirect} from '@remix-run/node'
-import type {MdxPage, TilMdxPage} from 'types'
+import {type SearchIndex} from 'algoliasearch'
+import PQueue from 'p-queue'
+import {type ActionFunction, redirect} from 'react-router'
+import {type MdxPage, type TilMdxPage} from 'types'
 import {algoliaClient} from '~/utils/algolia.server'
 import {
   delMdxPageGql,
@@ -11,8 +12,6 @@ import {
   getMdxTilListGql,
 } from '~/utils/mdx-utils.server'
 import {redisClient} from '~/utils/redis.server'
-import PQueue from 'p-queue'
-import type {SearchIndex} from 'algoliasearch'
 
 type File = {
   changeType: 'modified' | 'added' | 'deleted' | 'moved'
@@ -27,15 +26,15 @@ const cachifiedOptions = {
 function replaceContent(str = '') {
   return str
     ?.replace(/(<([^>]+)>)/gi, '') // Remove HTML tags
-    .replace(/\!\[.*?\]\(.*?\)/g, '') // Remove images ![alt text](URL)
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images ![alt text](URL)
     .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Convert links [text](URL) to 'text'
     .replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2') // Bold **text** or __text__
     .replace(/(\*|_)(.*?)(\*|_)/g, '$2') // Italic *text* or _text_
-    .replace(/(\~\~)(.*?)(\~\~)/g, '$2') // Strikethrough ~~text~~
+    .replace(/(~~)(.*?)(~~)/g, '$2') // Strikethrough ~~text~~
     .replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '') // Blockquotes >
     .replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2') // Headers #
-    .replace(/(\r\n|\r|\n)\s*(\*|\-|\+|[0-9]+\.)\s/g, '') // Lists - or * or + or 1.
-    .replace(/(\*\*|__|\*|_|\~\~)/g, '') // Cleanup leftover Markdown symbols
+    .replace(/(\r\n|\r|\n)\s*(\*|-|\+|[0-9]+\.)\s/g, '') // Lists - or * or + or 1.
+    .replace(/(\*\*|__|\*|_|~~)/g, '') // Cleanup leftover Markdown symbols
 }
 
 const getFileArray = (acc: [File[], File[], File[]], file: File) => {
@@ -63,14 +62,14 @@ const refreshTilList = async () => {
     endOffset: Infinity,
   })
 
-  let maxOffset = data.maxOffset
-  let promises: ReturnType<typeof getMdxTilListGql>[] = []
+  const maxOffset = data.maxOffset
+  const promises: ReturnType<typeof getMdxTilListGql>[] = []
 
   for (let i = 1; i <= maxOffset; i++) {
-    let promiseFunc = () =>
+    const promiseFunc = () =>
       getMdxTilListGql({...cachifiedOptions, endOffset: i})
 
-    let newPromise = P_QUEUE.add(promiseFunc) as ReturnType<
+    const newPromise = P_QUEUE.add(promiseFunc) as ReturnType<
       typeof getMdxTilListGql
     >
     promises.push(newPromise)
@@ -95,10 +94,10 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
   const individualPages = await redisClient.keys('gql:pages:*')
 
   console.log('👍 refreshing til list')
-  let tilList = await refreshTilList()
+  const tilList = await refreshTilList()
 
   console.log('👍 refreshing blog list')
-  let blogList: Omit<MdxPage, 'code'>[] = (
+  const blogList: Omit<MdxPage, 'code'>[] = (
     await getMdxBlogListGraphql({...cachifiedOptions})
   ).publishedPages
 
@@ -225,7 +224,6 @@ export const action: ActionFunction = async ({request}) => {
         }
       } catch (err) {
         console.log('😕 does not exist in algolia', slug)
-      } finally {
         continue
       }
     }

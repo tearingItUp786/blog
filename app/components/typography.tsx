@@ -1,7 +1,6 @@
-import {twJoin, twMerge} from 'tailwind-merge'
-
-import {Link} from '@remix-run/react'
 import clsx from 'clsx'
+import {Link} from 'react-router'
+import {twJoin, twMerge} from 'tailwind-merge'
 
 const fontSizes = {
   h1: 'font-display font-bold text-3xl md:text-4xl',
@@ -147,7 +146,7 @@ const LinkOrFragment = ({
   if (!href) return <> {children} </>
 
   return (
-    <Link target="_blank" to={href}>
+    <Link target="_blank" to={href} rel="noreferrer">
       {children}
     </Link>
   )
@@ -182,13 +181,13 @@ export const InlineImage = ({
 }) => {
   // open in new tab and stuff
   const srcSet = sizesForScreens.map(size => {
-    let gifRegex = /\.gif$/i
+    const gifRegex = /\.gif$/i
 
     // I want to support gifs and I'll probably want to create a new
     // component to handle the inclusion of images in the future
     // but for now, this gets the job done. Maybe using regular markdown images
     // might be a better idea in the future but for now, this works
-    let optimization = gifRegex.test(src ?? '')
+    const optimization = gifRegex.test(src ?? '')
       ? 'c_scale'
       : `f_auto,c_scale,w_${size.width}`
     const newValue = `${optimization}`

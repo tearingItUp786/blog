@@ -1,7 +1,10 @@
-import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
-import {data} from '@remix-run/node'
-import type {ShouldRevalidateFunctionArgs} from '@remix-run/react'
-import {useLoaderData} from '@remix-run/react'
+import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  type ShouldRevalidateFunctionArgs,
+  useLoaderData,
+  data,
+} from 'react-router'
 import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxPageGql} from '~/utils/mdx-utils.server'
@@ -35,7 +38,7 @@ export const loader = async ({params}: LoaderFunctionArgs) => {
   invariantResponse(params?.page, 'No slug provided')
 
   try {
-    let page = await getMdxPageGql({
+    const page = await getMdxPageGql({
       contentDir: 'pages',
       slug: params.page,
     })
@@ -46,9 +49,9 @@ export const loader = async ({params}: LoaderFunctionArgs) => {
 }
 
 export default function Page() {
-  let data = useLoaderData<typeof loader>()
-  let {code, frontmatter} = data.page
-  let Component = useMdxComponent(String(code))
+  const data = useLoaderData<typeof loader>()
+  const {code, frontmatter} = data.page
+  const Component = useMdxComponent(String(code))
 
   return (
     <div className="mx-auto mb-4 mt-6 min-h-[100vh] max-w-screen-xl px-4 pb-24 md:mb-10 md:mt-14 md:px-20">
