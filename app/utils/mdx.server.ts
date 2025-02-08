@@ -1,12 +1,11 @@
 import path from 'path'
-import remarkEmbedder, {type TransformerInfo} from '@remark-embedder/core'
+import {type TransformerInfo} from '@remark-embedder/core'
 import oembedTransformer, {
   type Config,
 } from '@remark-embedder/transformer-oembed'
 import {bundleMDX} from 'mdx-bundler'
 import type TPQueue from 'p-queue'
 import calculateReadingTime from 'reading-time'
-import mdxMermaid from 'mdx-mermaid'
 
 import {type GithubGraphqlObject} from 'types'
 
@@ -73,6 +72,14 @@ export async function compileMdxForGraphql<
   const {default: remarkImages} = await import('remark-images')
   const {default: remarkToc} = await import('remark-toc')
 
+  // @ts-ignore
+  const {default: remarkEmbedder} = await import('@remark-embedder/core')
+
+  const {default: mdxMermaid} = await import('mdx-mermaid')
+
+  console.log('📩 importing remark embedder', remarkEmbedder)
+  console.log('📩 importing mdx-mermaid', mdxMermaid)
+
   // rehype plugins
   const {default: rehypePrismPlus} = await import('rehype-prism-plus')
   const {default: rehypeSlug} = await import('rehype-slug')
@@ -115,7 +122,9 @@ export async function compileMdxForGraphql<
           [remarkImages, {maxWidth: 1200}],
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
-            remarkEmbedder,
+            // Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
+            // @ts-ignore
+            remarkEmbedder.default ? remarkEmbedder.default : remarkEmbedder,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
