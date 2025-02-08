@@ -77,9 +77,6 @@ export async function compileMdxForGraphql<
 
   const {default: mdxMermaid} = await import('mdx-mermaid')
 
-  console.log('📩 importing remark embedder', remarkEmbedder)
-  console.log('📩 importing mdx-mermaid', mdxMermaid)
-
   // rehype plugins
   const {default: rehypePrismPlus} = await import('rehype-prism-plus')
   const {default: rehypeSlug} = await import('rehype-slug')
@@ -123,8 +120,10 @@ export async function compileMdxForGraphql<
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
           [
             // Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
+            // I think I need to figure out why the msw is causing issues because that's the only cjs
+            // file that I'm using for this project
             // @ts-ignore
-            remarkEmbedder.default ? remarkEmbedder.default : remarkEmbedder,
+            remarkEmbedder.default ?? remarkEmbedder,
             {
               handleError: handleEmbedderError,
               handleHTML: handleEmbedderHtml,
