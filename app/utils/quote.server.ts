@@ -9,6 +9,27 @@ const QuoteSchema = z.object({
   }),
 })
 
+export async function getQuoteForClientSide() {
+  console.log('getQuoteForClientSide')
+  try {
+    const res = await fetch('https://stoic.tekloon.net/stoic-quote', {
+      method: 'GET',
+    })
+    const jsonData = await res.json()
+    const parsedJsonData = QuoteSchema.parse(jsonData)
+
+    return {
+      ...parsedJsonData.data,
+    }
+  } catch (err) {
+    return {
+      author: 'Taran Bains',
+      quote:
+        "Sometimes stuff breaks, and that's okay. Including my quotes API 😅",
+    }
+  }
+}
+
 /**
  * @param count - number
  * This returns a quote from the chosen quote API

@@ -1,5 +1,6 @@
-import {useLoaderData} from 'react-router'
+import {useFetcher, useLoaderData} from 'react-router'
 import {twJoin} from 'tailwind-merge'
+import {ArrowPathIcon} from '@heroicons/react/24/outline'
 import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
@@ -10,6 +11,7 @@ export function shouldRevalidate() {
 }
 
 export async function loader() {
+  // If fromFetcher is true, return early
   const count = Math.floor(Math.random() * 5) + 1
   const quoteData = await getQuote({count})
   return {
@@ -19,7 +21,9 @@ export async function loader() {
 }
 
 export default function Index() {
-  const {quoteData} = useLoaderData<typeof loader>()
+  const loaderData = useLoaderData<typeof loader>()
+  const fetcher = useFetcher({key: 'quote-fetcher'})
+  const quoteData = fetcher.data?.quoteData ?? loaderData.quoteData
 
   return (
     // we can get rid of the svh when we actually have the newsletter
@@ -52,9 +56,25 @@ export default function Index() {
         <div className="mt-24 basis-full text-center lg:basis-2/3 lg:px-24">
           <H2 className="font-normal">{quoteData.quote}</H2>
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
+          <button
+            onClick={() => {
+              fetcher.load('/resource/quote').catch(err => {
+                throw err
+              })
+            }}
+          >
+            <span className="sr-only">Generate a new stoic quote!</span>
+            <ArrowPathIcon
+              role="presentation"
+              className={twJoin(
+                'h-8 w-8',
+                fetcher.state === 'loading' ? 'animate-spin' : '',
+              )}
+            />
+          </button>
         </div>
+        <Newsletter />
       </div>
-      <Newsletter />
     </div>
   )
 }
