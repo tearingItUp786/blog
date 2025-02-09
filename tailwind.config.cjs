@@ -87,6 +87,7 @@ module.exports = {
         twinkle: 'twinkle 3s infinite alternate',
         sparkle: 'sparkle 3s infinite',
         fadeIn: 'fadeIn 1s ease-in-out',
+        'spin-fast': 'spin .5s linear infinite',
       },
       fontSize: {
         xl: '1.375rem', // 22px

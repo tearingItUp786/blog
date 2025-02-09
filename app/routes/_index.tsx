@@ -5,6 +5,7 @@ import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getQuote, getQuoteForClientSide} from '~/utils/quote.server'
+import {useEffect, useState} from 'react'
 
 export function shouldRevalidate() {
   return false
@@ -34,6 +35,17 @@ export default function Index() {
   const loaderData = useLoaderData<typeof loader>()
   const fetcher = useFetcher({key: 'quote-fetcher'})
   const quoteData = fetcher.data?.quoteData ?? loaderData.quoteData
+  const [spin, setSpin] = useState(false)
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setSpin(false)
+    }, 300)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [spin])
 
   return (
     // we can get rid of the svh when we actually have the newsletter
@@ -72,9 +84,12 @@ export default function Index() {
 
               <ArrowPathIcon
                 role="presentation"
+                onClick={() => {
+                  setSpin(true)
+                }}
                 className={twJoin(
                   'h-8 w-8',
-                  fetcher.state !== 'idle' ? 'animate-spin' : '',
+                  spin && 'animate-spin-fast  text-accent',
                 )}
               />
             </button>
