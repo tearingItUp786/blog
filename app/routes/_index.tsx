@@ -74,7 +74,7 @@ export default function Index() {
                 role="presentation"
                 className={twJoin(
                   'h-8 w-8',
-                  fetcher.state === 'loading' ? 'animate-spin' : '',
+                  fetcher.state !== 'idle' ? 'animate-spin' : '',
                 )}
               />
             </button>
