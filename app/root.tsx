@@ -134,7 +134,7 @@ const Document = ({children}: {children: React.ReactNode}) => {
           <Links />
           <NonFlashOfWrongThemeEls />
         </head>
-        <body className="bg-light-gray dark:bg-gray-100">
+        <body className="flex min-h-svh flex-col bg-light-gray dark:bg-gray-100">
           <Navbar />
           <ScrollProgress />
           {children}
