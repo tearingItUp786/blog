@@ -21,6 +21,7 @@ export async function loader({request}: LoaderFunctionArgs) {
       count: 1,
     }
   }
+
   const count = Math.floor(Math.random() * 5) + 1
   const quoteData = await getQuote({count})
   return {
@@ -65,22 +66,19 @@ export default function Index() {
         <div className="mt-24 basis-full text-center lg:basis-2/3 lg:px-24">
           <H2 className="font-normal">{quoteData.quote}</H2>
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
-          <button
-            onClick={() => {
-              fetcher.load('?index&fromFetcher=true').catch(err => {
-                throw err
-              })
-            }}
-          >
-            <span className="sr-only">Generate a new stoic quote!</span>
-            <ArrowPathIcon
-              role="presentation"
-              className={twJoin(
-                'h-8 w-8',
-                fetcher.state === 'loading' ? 'animate-spin' : '',
-              )}
-            />
-          </button>
+          <fetcher.Form>
+            <button type="submit">
+              <span className="sr-only">Generate a new stoic quote!</span>
+
+              <ArrowPathIcon
+                role="presentation"
+                className={twJoin(
+                  'h-8 w-8',
+                  fetcher.state === 'loading' ? 'animate-spin' : '',
+                )}
+              />
+            </button>
+          </fetcher.Form>
         </div>
         <Newsletter />
       </div>
