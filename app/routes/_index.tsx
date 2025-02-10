@@ -79,14 +79,16 @@ export default function Index() {
           <H2 className="font-normal">{quoteData.quote}</H2>
           <p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
           <fetcher.Form>
-            <button type="submit">
+            <button
+              type="submit"
+              onClick={() => {
+                setSpin(true)
+              }}
+            >
               <span className="sr-only">Generate a new stoic quote!</span>
 
               <ArrowPathIcon
                 role="presentation"
-                onClick={() => {
-                  setSpin(true)
-                }}
                 className={twJoin(
                   'h-8 w-8',
                   spin && 'animate-spin-fast  text-accent',
