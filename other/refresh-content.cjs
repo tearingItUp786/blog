@@ -37,7 +37,7 @@ function postRefreshCache({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': postDataString.length,
+        'Content-Length': Buffer.byteLength(postDataString),
         auth: process.env.REFRESH_CACHE_SECRET || 'some_secret',
         'x-force-fresh': process.env.FORCE_FRESH || '',
         ...headersOverrides,
@@ -50,9 +50,17 @@ function postRefreshCache({
       res.on('data', chunk => (data += chunk))
       res.on('end', () => {
         try {
-          resolve(JSON.parse(data))
+          const responseJson = JSON.parse(data)
+          if (responseJson.status === 'okay') {
+            console.log('Server acknowledged cache refresh.')
+            resolve(responseJson)
+          } else {
+            console.error('Unexpected server response:', responseJson)
+            reject(new Error('Server did not acknowledge with "okay".'))
+          }
         } catch (e) {
-          reject(`Error parsing response: ${data}`)
+          console.error(`Error parsing response: ${data}`)
+          reject(new Error('Invalid JSON response from server.'))
         }
       })
     })
@@ -83,8 +91,11 @@ async function go() {
 
     console.log('Content changes detected, refreshing cache.')
     await postRefreshCache({postData: {contentFiles}})
+
+    console.log('Cache refresh confirmed, exiting.')
   } catch (error) {
     console.error('An error occurred:', error)
+    process.exit(1)
   }
 }
 
