@@ -126,7 +126,7 @@ export default function TilPage() {
   }, [fetcher.data])
 
   return (
-    <div className="mx-auto max-w-screen-xl px-4 md:px-20 ">
+    <div className="max-w-screen-xl px-4 md:px-20 ">
       <H1 className="mb-4 mt-6 md:mb-10 md:mt-14">Today I Learned</H1>
       <div
         className='
