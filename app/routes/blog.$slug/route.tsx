@@ -3,8 +3,6 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
   type ShouldRevalidateFunctionArgs,
-} from 'react-router'
-import {
   data,
   NavLink,
   useLoaderData,
@@ -15,15 +13,15 @@ import {type ExternalScriptsHandle} from 'remix-utils/external-scripts'
 import {twJoin, twMerge} from 'tailwind-merge'
 import {type MdxPage} from 'types'
 import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload'
+import {LineSvg} from './line-svg'
+import {PreviousAndNextLinks} from './previous-and-next-links'
+import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H4} from '~/components/typography'
 import {useMdxComponent} from '~/utils/mdx-utils'
 import {getMdxBlogListGraphql, getMdxPageGql} from '~/utils/mdx-utils.server'
 import {dotFormattedDate, invariantResponse} from '~/utils/misc'
-import {LineSvg} from './line-svg'
-import {PreviousAndNextLinks} from './previous-and-next-links'
 
 import '~/styles/blog.css'
-import {PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 
 type LoaderData = {
   page: MdxPage

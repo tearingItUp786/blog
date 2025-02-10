@@ -1,11 +1,11 @@
-import {LoaderFunctionArgs, useFetcher, useLoaderData} from 'react-router'
-import {twJoin} from 'tailwind-merge'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
+import {useEffect, useState} from 'react'
+import {type LoaderFunctionArgs, useFetcher, useLoaderData} from 'react-router'
+import {twJoin} from 'tailwind-merge'
 import {Newsletter} from '~/components/newsletter/newsletter'
 import {Pill, PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE} from '~/components/pill'
 import {H1, H2} from '~/components/typography'
 import {getQuote, getQuoteForClientSide} from '~/utils/quote.server'
-import {useEffect, useState} from 'react'
 
 export function shouldRevalidate() {
   return false
