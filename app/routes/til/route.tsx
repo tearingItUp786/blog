@@ -134,7 +134,7 @@ export default function TilPage() {
     pb-8
     after:absolute
     after:left-[0rem]
-    after:top-[20px] after:hidden after:h-[calc(100%_-_63.5px)]
+    after:top-[20px] after:hidden after:h-[calc(100%_-_20px)]
     after:w-[2px]
     
     after:bg-gray-100
