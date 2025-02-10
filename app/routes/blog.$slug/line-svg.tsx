@@ -47,7 +47,7 @@ export const LineSvg = () => {
           </g>
         </svg>
       </div>
-      <div className="absolute left-20 top-[170px] hidden h-[calc(100%-122px)] w-[2px] bg-black dark:bg-white lg:block"></div>
+      <div className="absolute left-20 top-[122px] hidden h-[calc(100%-122px)] w-[2px] bg-black dark:bg-white lg:block"></div>
     </>
   )
 }
