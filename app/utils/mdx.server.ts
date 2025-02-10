@@ -107,7 +107,7 @@ export async function compileMdxForGraphql<
       mdxOptions(options) {
         options.remarkPlugins = [
           ...(options.remarkPlugins ?? []),
-          // [mdxMermaid, {output: 'svg'}],
+          [mdxMermaid, {output: 'svg'}],
           [remarkToc, {tight: true}],
           capitalize,
           [emoji, {accessible: true}],
@@ -115,31 +115,35 @@ export async function compileMdxForGraphql<
           smartypants,
           [remarkImages, {maxWidth: 1200}],
           [remarkAutolinkHeadings, {behavior: 'wrap'}],
-          // [
-          //   // Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
-          //   // I think I need to figure out why the msw is causing issues because that's the only cjs
-          //   // file that I'm using for this project
-          //   // @ts-ignore
-          //   remarkEmbedder.default ?? remarkEmbedder,
-          //   {
-          //     handleError: handleEmbedderError,
-          //     handleHTML: handleEmbedderHtml,
-          //     transformers: [
-          //       [
-          //         oembedTransformer,
-          //         {
-          //           params: {
-          //             height: '390',
-          //             width: '1280',
-          //             theme: 'dark',
-          //             dnt: true,
-          //             omit_script: true,
-          //           } as Config,
-          //         },
-          //       ],
-          //     ],
-          //   },
-          // ],
+          [
+            // Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
+            // I think I need to figure out why the msw is causing issues because that's the only cjs
+            // file that I'm using for this project
+            // @ts-ignore
+            remarkEmbedder.default ?? remarkEmbedder,
+            {
+              handleError: handleEmbedderError,
+              handleHTML: handleEmbedderHtml,
+              transformers: [
+                [
+                  // Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
+                  // I think I need to figure out why the msw is causing issues because that's the only cjs
+                  // file that I'm using for this project
+                  // @ts-ignore
+                  oembedTransformer.default ?? oembedTransformer,
+                  {
+                    params: {
+                      height: '390',
+                      width: '1280',
+                      theme: 'dark',
+                      dnt: true,
+                      omit_script: true,
+                    } as Config,
+                  },
+                ],
+              ],
+            },
+          ],
         ]
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),

@@ -43,7 +43,7 @@
     "@react-router/node": "^7.0.0",
     "@react-router/serve": "^7.0.0",
     "@remark-embedder/core": "^3.0.2",
-    "@remark-embedder/transformer-oembed": "^3.0.0",
+    "@remark-embedder/transformer-oembed": "^5.0.1",
     "@sentry/remix": "^7.118.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/line-clamp": "^0.3.1",
