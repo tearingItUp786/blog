@@ -1,5 +1,5 @@
 import path from 'path'
-import {type TransformerInfo} from '@remark-embedder/core'
+import remarkEmbedder, {type TransformerInfo} from '@remark-embedder/core'
 import oembedTransformer, {
   type Config,
 } from '@remark-embedder/transformer-oembed'
@@ -71,9 +71,6 @@ export async function compileMdxForGraphql<
   const {default: smartypants} = await import('remark-smartypants')
   const {default: remarkImages} = await import('remark-images')
   const {default: remarkToc} = await import('remark-toc')
-
-  // @ts-ignore
-  const {default: remarkEmbedder} = await import('@remark-embedder/core')
 
   const {default: mdxMermaid} = await import('mdx-mermaid')
 
