@@ -51,7 +51,7 @@ function postRefreshCache({
       res.on('end', () => {
         try {
           const responseJson = JSON.parse(data)
-          if (responseJson.status === 'okay') {
+          if (responseJson.ok) {
             console.log('Server acknowledged cache refresh.')
             resolve(responseJson)
           } else {
