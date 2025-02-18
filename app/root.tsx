@@ -112,7 +112,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
       newsletterImage: mobileImage.toURL(),
       showNewsLetter: showNewsLetter,
     },
-    honeypotInputProps: honeypot.getInputProps(),
+    honeypotInputProps: await honeypot.getInputProps(),
   }
 }
 
