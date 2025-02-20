@@ -1,0 +1,23 @@
+---
+title: Data attribute state management
+date: 2025-02-19
+tag: CSS
+---
+
+This one's pretty sweet and I've been reaching for it a lot lately at work!
+Rather than having multiple `className` conditions, you can use a
+`data-attribute` to manage your state.
+
+This is not only a _great_ way to keep your component clean but also allows you
+to target any state pertinent to your component without JavaScript! Mind you,
+I'm assuming you're using something like `Tailwind` for your styling.
+
+```tsx
+// no reliance on utility functions like `twMerge`
+<div
+  data-state-can-scroll={canScroll}
+  className="data-[state-can-scroll=false]:hidden "
+>
+  Hidden when canScroll is false!
+</div>
+```
