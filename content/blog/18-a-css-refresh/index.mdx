@@ -1,0 +1,92 @@
+---
+title: CSS - getting back to basics
+description:
+  I've been so focused on a11y things at work, I started to feel real rusty (😵‍💫)
+  when I was writing CSS
+subtitle:
+  I knew I had a problem when I found myself frantically tossing Tailwind
+  classes at a carousel, praying for the layout gods to fix it.
+date: 2025-02-28
+tag: css
+draft: true
+---
+
+So before you go any further, I want you to know, dear reader (probably myself
+lol), this blog post is meant to be a reflection piece on how I developed a
+problem, and my chosen path forward for addressing said problem.
+
+f you ever find yourself in my shoes, my dear brother (and sisters, who I also
+consider my brothers), I want you to know that it's completely okay -- we can
+come back from this.
+
+## Context
+
+Man oh man, I never thought that this would happen to me, but I've found that my
+skills -- specifically my skills as they pertain to CSS -- have begun to atrophy
+😔. Now, I'm not saying that I've completely forgotten how to write CSS -- I
+haven't -- but the clarity I once had around my mental models of different
+layout algorithms and the interplay of different properties has definitely
+diminished.
+
+You might be wondering what the tell-tale sign was that indicated that I needed
+a refresher. It was when had I found myself struggling to utilize `flexbox` to
+create a carousel component with `embla`. It is not as if I had no idea what I
+was doing, but I was throwing random properties at the problem, hoping a
+Tailwind class would magically fix it. **If you ever find yourself coding with
+desperation and hoping for the best, it's time to take a serious step back.**
+
+## How did I get here?
+
+Looking back on it, I'm not surprised that I ended up here -- heck, you might
+find yourself in a similar situation if you're not careful! My day to day work
+had shifted from delivering brand new features and flexing my problem solving
+skills to achieving strategic business objectives regarding accessibility
+(a11y).
+
+The government of Ontario is beefing up their web a11y requirements for
+businesses that operate within their province, and while this undeniably is a
+good thing because a more inclusive web is great, my colleagues and I have had
+to bake in a11y features into some pretty old components and you can imagine how
+that's been going... it's been a bit of a mad dash!
+
+While accessibility work is critical, it became my entire focus. I spent more
+time refactoring markup and optimizing screen reader flows than writing fresh
+CSS. Over time, my problem-solving shifted from 'how do I structure this
+layout?' to 'what ARIA attributes should I add'.
+
+The work in and of itself is quite simple (most of the time), and it usually
+revolves around restructuring markup so that it is more accessible to screen
+readers, adding visual indicators for interactive elements, adding appropriate
+keyboard and click handlers to elements, and other _simple_ but nonetheless
+important things. But therein lies the problem... the work wasn't allowing me to
+flex my creative problem solving skills and I found myself writing little to no
+CSS for the better part of a year 🤯.
+
+Even with my personal projects, this website for instance, most of the core
+functionality I desire has already been built out and I'm not really looking to
+add anything more, at least not right now. I've also got a lot less spare time
+than I used to, what with my brothers and I starting a business together (I'll
+write a blog post about this later 😆), and me rededicating myself to health and
+fitness.
+
+Before I knew it, I forgot how `flexbox` worked, like entirely... and you can
+imagine how `grid` and I are doing as a couple (not great). When it came down to
+it, and I'm not ashamed to admit it, I had adopted lazy habits and overall was
+becoming a real lazy (in a bad way) developer. I found myself similar to Randy
+from South Park when he was chasing the purple dragon...
+
+<LazyGiphy
+  containerClassName="w-[100%] pb-[56%] md:w-[50%] md:pb-[28%]"
+  src="https://giphy.com/embed/l0HlPtbGpcnqa0fja"
+  giphyAttributionSrc="https://giphy.com/gifs/pudgypenguins-aintmuch-aintmuchmoons-honnestworkmoon-qlKs0m0GxHN6ycbDmV"
+/>
+
+## Addressing the problem
+
+If you know anything about me, anything at all, I hope it's this: _I believe in
+starting with fundamental principles, as they serve as the foundation for all
+the advanced techniques I aspire to master._ This goes beyond code -- it's
+applicable to every area of my life.
+
+- I was feeling rusty and wanted to address this at the base principles level
+- Enter Josh W. Comeau's course.

@@ -39,26 +39,10 @@ module.exports = {
       'blog-title-color': 'var(--blog-title-color)',
       'section-title-color': 'var(--section-title-color)',
       'subheading-color': 'var(--subheading-color)',
-      alert: {
-        100: '#FBE8E8',
-        200: '#F08D8D',
-        300: '#E53E3E',
-      },
-      info: {
-        100: '#E3F2FD',
-        200: '#82B1FF',
-        300: '#1976D2',
-      },
-      warning: {
-        100: '#FFF3E0',
-        200: '#FFB74D',
-        300: '#F57C00',
-      },
-      success: {
-        100: '#E9F5E6',
-        200: '#81C784',
-        300: '#43A047',
-      },
+      alert: "#8605CC",
+      info: '#014BD5',
+      warning: "#FACE00",
+      success: "#25D75B",
     },
     fontFamily: {
       body: ['CommitMono', ...defaultTheme.fontFamily.sans],
@@ -70,17 +54,17 @@ module.exports = {
       },
       keyframes: {
         fadeIn: {
-          '0%': {opacity: '0'},
-          '100%': {opacity: '1'},
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
         sparkle: {
-          '0%': {transform: 'scale(0.25)'},
-          '25%': {opacity: 1},
-          '100%': {opacity: 0},
+          '0%': { transform: 'scale(0.25)' },
+          '25%': { opacity: 1 },
+          '100%': { opacity: 0 },
         },
         twinkle: {
-          '0%, 100%': {opacity: '1'},
-          '50%': {opacity: '0.5'},
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
         },
       },
       animation: {
