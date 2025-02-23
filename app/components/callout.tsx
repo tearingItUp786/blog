@@ -80,7 +80,7 @@ export const Callout = ({type, title, description}: CalloutProps) => {
       role="alert"
     >
       <svg
-        className="absolute left-0 -translate-x-1/2"
+        className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         height={55}
