@@ -49,7 +49,7 @@ export const Newsletter = () => {
         {form?.errors?.length ? (
           <div className="flex flex-wrap gap-2 ">
             {form.errors.map((error, index) => (
-              <p className="mb-2 text-sm text-alert-300" key={index}>
+              <p className="mb-2 text-sm text-alert" key={index}>
                 {error}
               </p>
             ))}
@@ -57,7 +57,7 @@ export const Newsletter = () => {
         ) : null}
         {lastResult?.status === 'success' && (
           <h4
-            className="bg-sucess-200 mb-8 flex items-start text-success-300"
+            className="mb-8 flex items-start bg-transparent text-alert"
             role="alert"
           >
             <svg
@@ -107,7 +107,7 @@ export const Newsletter = () => {
                   'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
                 )}
               />
-              <div className="text-sm text-alert-300" id={fields.name.errorId}>
+              <div className="text-sm text-alert" id={fields.name.errorId}>
                 {fields.name.errors}
               </div>
             </div>
@@ -125,7 +125,7 @@ export const Newsletter = () => {
                   type: 'email',
                 })}
               />
-              <div className="text-sm text-alert-300" id={fields.email.errorId}>
+              <div className="text-sm text-alert" id={fields.email.errorId}>
                 {fields.email.errors}
               </div>
             </div>
