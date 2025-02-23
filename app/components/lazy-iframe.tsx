@@ -7,12 +7,12 @@ import {TextLink} from './typography'
 type Props = {
   src: string
   containerClassName?: string
-  giphyAtrributionSrc: string
+  giphyAttributionSrc: string
 }
 export const LazyGiphy = ({
   src,
   containerClassName,
-  giphyAtrributionSrc,
+  giphyAttributionSrc,
 }: Props) => {
   return (
     <>
@@ -28,7 +28,7 @@ export const LazyGiphy = ({
         ></iframe>
       </div>
       <p>
-        <TextLink href={giphyAtrributionSrc}>via GIPHY</TextLink>
+        <TextLink href={giphyAttributionSrc}>via GIPHY</TextLink>
       </p>
     </>
   )
