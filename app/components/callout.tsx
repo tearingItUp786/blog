@@ -74,7 +74,7 @@ export const Callout = ({type, title, description}: CalloutProps) => {
   return (
     <div
       className={twMerge(
-        `text-md relative my-6 ml-6 max-w-fit rounded-[20px] py-5 pl-10 pr-4`,
+        `text-md relative my-6  ml-6 max-w-4xl rounded-[20px] py-5  pl-10 pr-4`,
         containerClassName,
       )}
       role="alert"
