@@ -13,10 +13,10 @@ type OperationFn = (left: number, right: number) => number
 // this is a restriction on the operations object
 // but with satisfies, I leave myself room to add more operations and don't need to manage another type
 const operations = {
-  '+': (left, right) => left + right,
-  '-': (left, right) => left - right,
-  '*': (left, right) => left * right,
-  '/': (left, right) => left / right,
+	'+': (left, right) => left + right,
+	'-': (left, right) => left - right,
+	'*': (left, right) => left * right,
+	'/': (left, right) => left / right,
 } satisfies Record<string, OperationFn>
 ```
 

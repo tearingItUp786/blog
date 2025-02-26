@@ -10,16 +10,16 @@ provides information about `args` that aren't explicitly set in the story.
 
 ```tsx title="preview.ts"
 // Replace your-renderer with the renderer you are using (e.g., react, vue3, angular, etc.)
-import type {Preview} from '@storybook/your-renderer'
+import type { Preview } from '@storybook/your-renderer'
 
 const preview: Preview = {
-  argTypes: {
-    // 👇 All stories expect a label arg
-    label: {
-      control: 'text',
-      description: 'Overwritten description',
-    },
-  },
+	argTypes: {
+		// 👇 All stories expect a label arg
+		label: {
+			control: 'text',
+			description: 'Overwritten description',
+		},
+	},
 }
 
 export default preview

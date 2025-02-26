@@ -1,3 +1,3 @@
 export const loader = async () => {
-  return {status: 'ok'}
+	return { status: 'ok' }
 }

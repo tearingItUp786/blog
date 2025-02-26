@@ -12,15 +12,15 @@ type NoInfer<T> = [T][T extends any ? 0 : never]
 
 type QT<T> = 'first' | 'second' | T
 type Yolo<T> = {
-  data: QT<T>
+	data: QT<T>
 }
 
 function doSomething<T = void>(args: Yolo<NoInfer<T>>): null {
-  // do something
-  return null
+	// do something
+	return null
 }
 
-doSomething({data: 'first'}) // okay
-doSomething({data: 'three'}) // not okay
-doSomething<'three'>({data: 'three'}) //okay
+doSomething({ data: 'first' }) // okay
+doSomething({ data: 'three' }) // not okay
+doSomething<'three'>({ data: 'three' }) //okay
 ```

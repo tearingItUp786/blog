@@ -1,17 +1,16 @@
 ---
 title: Making a TUI with Go
 subtitle: A reflection on my experience making a TUI with Go
-description:
-  You thought it was fun making UI's for the web? Wait till you see a TUI!
+description: You thought it was fun making UI's for the web? Wait till you see a TUI!
 date: 2024-03-10
 tag: Go
 ---
 
 <InlineImage
-  containerClassName="mx-0 lg:mx-0"
-  imgDivClassName="aspect-w-12 aspect-h-8"
-  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710111485/blog/13-chatgpt-tui/chatgpt-tui_ffsglh.webp"
-  alt="A bubbletea sitting on top of a laptop"
+	containerClassName="mx-0 lg:mx-0"
+	imgDivClassName="aspect-w-12 aspect-h-8"
+	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710111485/blog/13-chatgpt-tui/chatgpt-tui_ffsglh.webp"
+	alt="A bubbletea sitting on top of a laptop"
 />
 
 You know the drill; start with why! If you don't know of Simon Sinek's TED talk,
@@ -40,13 +39,13 @@ that allows you to interact with the your chosen model (it defaults to
 `chatgpt-3.5-turbo`).
 
 <InlineImage
-  lazyLoadImage
-  openInNewTab
-  containerClassName="mx-0 lg:mx-0"
-  className="transition-duration-500 transition-transform hover:scale-[1.15]"
-  imgDivClassName="aspect-w-12 aspect-h-7"
-  src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710113600/blog/13-chatgpt-tui/tui-shot_pt9uab.png"
-  alt="A demo shot of the tui in action"
+	lazyLoadImage
+	openInNewTab
+	containerClassName="mx-0 lg:mx-0"
+	className="transition-duration-500 transition-transform hover:scale-[1.15]"
+	imgDivClassName="aspect-w-12 aspect-h-7"
+	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1710113600/blog/13-chatgpt-tui/tui-shot_pt9uab.png"
+	alt="A demo shot of the tui in action"
 />
 
 If you want to try it out yourself, you can find the source code on
@@ -159,7 +158,7 @@ ones you might come accross in traditional C programs.
 My understanding of concurrency in Go can be summarized as the following:
 
 <BlockQuote>
-  Don't communicate by sharing memory; share memory by communicating
+	Don't communicate by sharing memory; share memory by communicating
 </BlockQuote>
 
 Rather than trying to use `locks` and `mutexes` to control access to shared
@@ -240,9 +239,9 @@ handling, I found the whole multiple returns thing and returning an error to be
 quite nice. It's a bit verbose, but it's clear and it's easy to reason about.
 
 <LazyGiphy
-  containerClassName="w-[100%] pb-[70%] md:w-[50%] md:pb-[35%]"
-  src="https://giphy.com/embed/l3vR8UKKNSEl4LoqI"
-  giphyAttributionSrc="https://giphy.com/clips/southpark-season-6-episode-3-south-park-iFnPrbYFkY9xak3cFu"
+	containerClassName="w-[100%] pb-[70%] md:w-[50%] md:pb-[35%]"
+	src="https://giphy.com/embed/l3vR8UKKNSEl4LoqI"
+	giphyAttributionSrc="https://giphy.com/clips/southpark-season-6-episode-3-south-park-iFnPrbYFkY9xak3cFu"
 />
 
 If you don't wanna have a bad time, handle your errors 😅.

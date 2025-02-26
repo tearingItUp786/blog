@@ -14,12 +14,12 @@ The truly peculiar thing was that making a call in the following manner worked:
 
 ```js
 axios({
-  method: 'DELETE',
-  url: `url/${id}`,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer SOME_TOKEN',
-  },
+	method: 'DELETE',
+	url: `url/${id}`,
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: 'Bearer SOME_TOKEN',
+	},
 })
 ```
 
@@ -27,10 +27,10 @@ However, this failed:
 
 ```js
 axios.delete(`url/${id}`, {
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer SOME_TOKEN',
-  },
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: 'Bearer SOME_TOKEN',
+	},
 })
 ```
 

@@ -1,7 +1,7 @@
-import {Cloudinary} from '@cloudinary/url-gen'
+import { Cloudinary } from '@cloudinary/url-gen'
 
 export const cloudinaryInstance = new Cloudinary({
-  cloud: {
-    cloudName: 'dinypqsgl',
-  },
+	cloud: {
+		cloudName: 'dinypqsgl',
+	},
 })

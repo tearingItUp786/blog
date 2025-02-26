@@ -1,9 +1,9 @@
-import {setupServer} from 'msw/node'
-import {githubHandlers} from './github'
+import { setupServer } from 'msw/node'
+import { githubHandlers } from './github'
 
 const server = setupServer(...githubHandlers)
 
-server.listen({onUnhandledRequest: 'warn'})
+server.listen({ onUnhandledRequest: 'warn' })
 console.info('🔶 Mock server installed')
 
 process.once('SIGINT', () => server.close())

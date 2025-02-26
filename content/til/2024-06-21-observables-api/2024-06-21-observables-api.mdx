@@ -10,8 +10,8 @@ the [observables api](https://github.com/WICG/observable)!
 ```js
 // Filtering and mapping:
 element
-  .on('click')
-  .filter(e => e.target.matches('.foo'))
-  .map(e => ({x: e.clientX, y: e.clientY}))
-  .subscribe({next: handleClickAtPoint})
+	.on('click')
+	.filter((e) => e.target.matches('.foo'))
+	.map((e) => ({ x: e.clientX, y: e.clientY }))
+	.subscribe({ next: handleClickAtPoint })
 ```

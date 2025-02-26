@@ -1,15 +1,15 @@
 {
-  "words": [
-    "Lotr",
-    "clsx",
-    "cloudinary",
-    "postcss",
-    "cachified",
-    "frontmatter",
-    "Taran",
-    "Bains"
-  ],
-  "flagWords": [],
-  "version": "0.2",
-  "language": "en"
+	"words": [
+		"Lotr",
+		"clsx",
+		"cloudinary",
+		"postcss",
+		"cachified",
+		"frontmatter",
+		"Taran",
+		"Bains"
+	],
+	"flagWords": [],
+	"version": "0.2",
+	"language": "en"
 }

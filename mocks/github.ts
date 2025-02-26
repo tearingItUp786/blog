@@ -1,101 +1,102 @@
 import fs from 'fs'
 import path from 'path'
-import {graphql, HttpResponse} from 'msw'
-import {type GithubGraphqlObject} from 'types'
+import { graphql, HttpResponse } from 'msw'
+import { type GithubGraphqlObject } from 'types'
 
 const github = graphql.link('https://api.github.com/graphql')
 
 type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? RecursivePartial<U>[]
-    : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P]
+	[P in keyof T]?: T[P] extends (infer U)[]
+		? RecursivePartial<U>[]
+		: T[P] extends object | undefined
+			? RecursivePartial<T[P]>
+			: T[P]
 }
 
 type AllOptional = RecursivePartial<GithubGraphqlObject>
 
 function createBlobObject(name: string, filePath: string): AllOptional {
-  return {
-    name,
-    type: 'blob',
-    object: {
-      text: fs.readFileSync(filePath, 'utf8'),
-    },
-  }
+	return {
+		name,
+		type: 'blob',
+		object: {
+			text: fs.readFileSync(filePath, 'utf8'),
+		},
+	}
 }
 
 function createDirectoryObject(
-  contentPath: string,
-  subDirectory: string,
+	contentPath: string,
+	subDirectory: string,
 ): AllOptional {
-  const dir = fs.readdirSync(contentPath, 'utf8')
-  const entries: AllOptional[] = []
+	const dir = fs.readdirSync(contentPath, 'utf8')
+	const entries: AllOptional[] = []
 
-  for (const file of dir) {
-    const filePath = path.resolve(contentPath, file)
-    if (fs.lstatSync(filePath).isDirectory()) {
-      const innerEntries = createDirectoryObject(filePath, file)
-      entries.push({
-        name: file,
-        object: {
-          entries: innerEntries?.object?.entries,
-        },
-      })
-    } else {
-      entries.push(createBlobObject(file, filePath))
-    }
-  }
+	for (const file of dir) {
+		const filePath = path.resolve(contentPath, file)
+		if (fs.lstatSync(filePath).isDirectory()) {
+			const innerEntries = createDirectoryObject(filePath, file)
+			entries.push({
+				name: file,
+				object: {
+					entries: innerEntries?.object?.entries,
+				},
+			})
+		} else {
+			entries.push(createBlobObject(file, filePath))
+		}
+	}
 
-  return {
-    name: subDirectory,
-    object: {
-      name: subDirectory,
-      entries,
-    },
-  }
+	return {
+		name: subDirectory,
+		object: {
+			name: subDirectory,
+			entries,
+		},
+	}
 }
 
 function getObjectForHandler(directory: string, subDirectory?: string) {
-  const contentPath = path.resolve(__dirname, `../content/${directory}/`)
+	const contentPath = path.resolve(__dirname, `../content/${directory}/`)
 
-  if (!fs.existsSync(contentPath)) {
-    return {
-      object: null,
-    }
-  }
+	if (!fs.existsSync(contentPath)) {
+		return {
+			object: null,
+		}
+	}
 
-  // this is the scenario where we have something like content:main/blog/someblog
-  if (subDirectory) {
-    return {
-      object: createDirectoryObject(
-        path.join(contentPath, subDirectory),
-        subDirectory,
-      ).object,
-    }
-  }
+	// this is the scenario where we have something like content:main/blog/someblog
+	if (subDirectory) {
+		return {
+			object: createDirectoryObject(
+				path.join(contentPath, subDirectory),
+				subDirectory,
+			).object,
+		}
+	}
 
-  const {entries} = createDirectoryObject(contentPath, directory)?.object ?? {}
+	const { entries } =
+		createDirectoryObject(contentPath, directory)?.object ?? {}
 
-  return {
-    object: entries ? {entries} : null,
-  }
+	return {
+		object: entries ? { entries } : null,
+	}
 }
 
 const githubHandlers = [
-  github.query('downloadDir', ({variables}) => {
-    const {slug} = variables ?? {}
-    const [, directory, subDirectory] = slug.split('/')
-    const {object} = getObjectForHandler(directory, subDirectory)
+	github.query('downloadDir', ({ variables }) => {
+		const { slug } = variables ?? {}
+		const [, directory, subDirectory] = slug.split('/')
+		const { object } = getObjectForHandler(directory, subDirectory)
 
-    return HttpResponse.json({
-      data: {
-        repository: {
-          object,
-        },
-      },
-    })
-  }),
+		return HttpResponse.json({
+			data: {
+				repository: {
+					object,
+				},
+			},
+		})
+	}),
 ]
 
-export {githubHandlers}
+export { githubHandlers }

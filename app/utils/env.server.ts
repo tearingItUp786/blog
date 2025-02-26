@@ -1,44 +1,44 @@
-import {z} from 'zod'
+import { z } from 'zod'
 
 const schema = z.object({
-  ALGOLIA_APP_ID: z.string(),
-  ALGOLIA_ADMIN_KEY: z.string(),
-  AMPLITUDE_INIT: z.string(),
-  BOT_GITHUB_TOKEN: z.string(),
-  BOT_ALGOLIA_TOKEN: z.string(),
-  CONVERT_KIT_API: z.string(),
-  CONVERT_KIT_API_KEY: z.string(),
-  CONVERT_KIT_FORM_ID: z.string(),
-  MOCK_API: z.enum(['true', 'false'] as const).default('false'),
-  NODE_ENV: z.enum(['production', 'development', 'test'] as const),
-  PORT: z.string().default('8080'),
-  REDIS_PASSWORD: z.string().default(''),
-  REDIS_HOST: z.string().default('localhost'),
-  REDIS_PORT: z.string().default('6379'),
-  REFRESH_CACHE_SECRET: z.string(),
-  SENTRY_AUTH_TOKEN: z.string(),
-  SENTRY_ORG: z.string(),
-  SENTRY_DSN: z.string(),
-  SENTRY_PROJECT: z.string(),
+	ALGOLIA_APP_ID: z.string(),
+	ALGOLIA_ADMIN_KEY: z.string(),
+	AMPLITUDE_INIT: z.string(),
+	BOT_GITHUB_TOKEN: z.string(),
+	BOT_ALGOLIA_TOKEN: z.string(),
+	CONVERT_KIT_API: z.string(),
+	CONVERT_KIT_API_KEY: z.string(),
+	CONVERT_KIT_FORM_ID: z.string(),
+	MOCK_API: z.enum(['true', 'false'] as const).default('false'),
+	NODE_ENV: z.enum(['production', 'development', 'test'] as const),
+	PORT: z.string().default('8080'),
+	REDIS_PASSWORD: z.string().default(''),
+	REDIS_HOST: z.string().default('localhost'),
+	REDIS_PORT: z.string().default('6379'),
+	REFRESH_CACHE_SECRET: z.string(),
+	SENTRY_AUTH_TOKEN: z.string(),
+	SENTRY_ORG: z.string(),
+	SENTRY_DSN: z.string(),
+	SENTRY_PROJECT: z.string(),
 })
 
 declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof schema> {}
-  }
+	namespace NodeJS {
+		interface ProcessEnv extends z.infer<typeof schema> {}
+	}
 }
 
 export function init() {
-  const parsed = schema.safeParse(process.env)
+	const parsed = schema.safeParse(process.env)
 
-  if (parsed.success === false) {
-    console.error(
-      '❌ Invalid environment variables:',
-      parsed.error.flatten().fieldErrors,
-    )
+	if (parsed.success === false) {
+		console.error(
+			'❌ Invalid environment variables:',
+			parsed.error.flatten().fieldErrors,
+		)
 
-    throw new Error('Invalid environment variables')
-  }
+		throw new Error('Invalid environment variables')
+	}
 }
 
 /**
@@ -51,19 +51,19 @@ export function init() {
  * @returns all public ENV variables
  */
 export function getEnv() {
-  return {
-    MODE: process.env.NODE_ENV,
-    SENTRY_DSN: process.env.SENTRY_DSN,
-    AMPLITUDE_INIT: process.env.AMPLITUDE_INIT,
-    CONVERT_KIT_FORM_ID: process.env.CONVERT_KIT_FORM_ID,
-  }
+	return {
+		MODE: process.env.NODE_ENV,
+		SENTRY_DSN: process.env.SENTRY_DSN,
+		AMPLITUDE_INIT: process.env.AMPLITUDE_INIT,
+		CONVERT_KIT_FORM_ID: process.env.CONVERT_KIT_FORM_ID,
+	}
 }
 
 type ENV = ReturnType<typeof getEnv>
 
 declare global {
-  var ENV: ENV
-  interface Window {
-    ENV: ENV
-  }
+	var ENV: ENV
+	interface Window {
+		ENV: ENV
+	}
 }

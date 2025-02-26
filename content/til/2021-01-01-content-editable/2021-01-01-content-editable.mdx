@@ -10,20 +10,20 @@ make (you guessed it), your content editable lol.
 ...go ahead... try it out on the list below... you know you want to. 🤪
 
 <ul
-  contentEditable={true}
-  suppressContentEditableWarning={true}
-  onBlur={e =>
-    window.alert(
-      JSON.stringify(
-        Array.from(e?.target?.children).reduce(
-          (acc, curr) => [...acc, curr?.innerText],
-          [],
-        ),
-      ),
-    )
-  }
+	contentEditable={true}
+	suppressContentEditableWarning={true}
+	onBlur={(e) =>
+		window.alert(
+			JSON.stringify(
+				Array.from(e?.target?.children).reduce(
+					(acc, curr) => [...acc, curr?.innerText],
+					[],
+				),
+			),
+		)
+	}
 >
-  <li>Food</li>
-  <li>Food</li>
-  <li>Food</li>
+	<li>Food</li>
+	<li>Food</li>
+	<li>Food</li>
 </ul>

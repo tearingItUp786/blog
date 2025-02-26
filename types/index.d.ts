@@ -2,51 +2,51 @@
 
 import type calculateReadingTime from 'reading-time'
 
-export type GitHubFile = {path: string; content: string}
+export type GitHubFile = { path: string; content: string }
 
 export type GithubGraphqlObject = {
-  name: string
-  type?: 'blob' | string
-  text?: string
-  entries?: GithubGraphqlObject[]
-  object: GithubGraphqlObject
+	name: string
+	type?: 'blob' | string
+	text?: string
+	entries?: GithubGraphqlObject[]
+	object: GithubGraphqlObject
 }
 
 export type MdxPage = {
-  code?: string
-  readTime?: ReturnType<typeof calculateReadingTime>
+	code?: string
+	readTime?: ReturnType<typeof calculateReadingTime>
 
-  frontmatter: {
-    title?: string
-    subtitle?: string
-    description?: string
-    date?: string
-    tag?: string
-    draft?: boolean
-  }
+	frontmatter: {
+		title?: string
+		subtitle?: string
+		description?: string
+		date?: string
+		tag?: string
+		draft?: boolean
+	}
 
-  readTime: {
-    minutes: number
-    text: string
-    time: number
-    words: number
-  }
+	readTime: {
+		minutes: number
+		text: string
+		time: number
+		words: number
+	}
 
-  matter?: {
-    // the content of the markdown file before processing
-    content?: string
-    data?: {
-      title?: string
-      date?: string
-      tag?: string
-    }
-  }
+	matter?: {
+		// the content of the markdown file before processing
+		content?: string
+		data?: {
+			title?: string
+			date?: string
+			tag?: string
+		}
+	}
 
-  slug?: string
+	slug?: string
 }
 
 export type MdxPageAndSlug = MdxPage & {
-  path?: string
+	path?: string
 }
 
-export type TilMdxPage = MdxPageAndSlug & {offset: number}
+export type TilMdxPage = MdxPageAndSlug & { offset: number }

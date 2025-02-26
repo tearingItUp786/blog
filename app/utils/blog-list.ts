@@ -5,31 +5,31 @@
  * tailwind classes that will be used to style the lines
  */
 export const getRandomLineClasses = (orientation: 'left' | 'right') => {
-  const values = {
-    left: [
-      'md:pr-8 after:w-5',
-      'md:pr-10 after:w-7',
-      'md:pr-12 after:w-8',
-      'md:pr-14 after:w-10',
-    ],
-    right: [
-      'md:pl-8 after:w-5',
-      'md:pl-10 after:w-7',
-      'md:pl-12 after:w-8',
-      'md:pl-14 after:w-10',
-    ],
-  }
+	const values = {
+		left: [
+			'md:pr-8 after:w-5',
+			'md:pr-10 after:w-7',
+			'md:pr-12 after:w-8',
+			'md:pr-14 after:w-10',
+		],
+		right: [
+			'md:pl-8 after:w-5',
+			'md:pl-10 after:w-7',
+			'md:pl-12 after:w-8',
+			'md:pl-14 after:w-10',
+		],
+	}
 
-  return values[orientation][
-    Math.floor(Math.random() * values[orientation].length)
-  ] as string
+	return values[orientation][
+		Math.floor(Math.random() * values[orientation].length)
+	] as string
 }
 
 // the classes applied to the div column container
 export const getContainerClassName = (isRight = false) =>
-  isRight
-    ? 'col-span-full text-center md:text-left md:col-span-2 md:col-start-2'
-    : 'col-span-full text-center md:text-right'
+	isRight
+		? 'col-span-full text-center md:text-left md:col-span-2 md:col-start-2'
+		: 'col-span-full text-center md:text-right'
 
 export const getBlogCardClassName = (isRight = false) =>
-  isRight ? `max-w-full after:left-0` : 'max-w-full md:max-w-[50%] md:pr-10'
+	isRight ? `max-w-full after:left-0` : 'max-w-full md:max-w-[50%] md:pr-10'
