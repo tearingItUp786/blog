@@ -11,7 +11,9 @@ RUN mkdir /app
 WORKDIR /app
 
 ADD package.json package-lock.json ./
-RUN npm install --production=false --optional=true
+# Install optional dependencies is included by default 
+# but we want them for the linux rollup bindings
+RUN npm install --production=false --include=optional
 
 # Setup production node_modules
 FROM base as production-deps
