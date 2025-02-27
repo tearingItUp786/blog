@@ -121,6 +121,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "concurrently": "^7.0.0",
+    "eslint": "^9.16.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "msw": "^2.7.0",

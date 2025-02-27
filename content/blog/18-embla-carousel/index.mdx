@@ -1,0 +1,234 @@
+---
+title: Embla Carousel - a cursory look
+description: We needed to throw up a new carousel component at work and we went with Embla
+subtitle: A nice little carousel library to help you create components that I really wish didn't exist in 2025
+date: 2025-02-27
+tag: js
+draft: true
+---
+
+## Context
+
+Already, I know right? A blog post about implementing an image/media carousel?
+What is this, the early 2000s 😂?! Well it's not and I work for a commerce company so this is one case where
+having a media gallery totally makes sense -- people want to see images of what they're potentially going to buy! While it's true that we already have a media gallery implementation on our PDPs at [Best Buy](https://bestbuy.ca),
+the current implementation is lacking when it comes to accessibility standards -- something that's important to us folks
+working on the `.ca` website and well should be important to anyone developing on the web these days!
+
+Since we had landed on rewriting this component with a brand new design, we as developers also thought it was high time
+that we pick a new underlying library to power the media gallery experience.
+We landed on, and I'm sure you're not surprised, [Embla Carousel](https://www.embla-carousel.com/).
+
+Here are some of the reasons why we opted for `Embla` -- mind you that this list isn't exhaustive:
+
+1. `react-slick` didn't fit our needs anymore.
+2. `shadcn` uses `Embla` under the hood for their carousel
+3. `Embla` is headless and doesn't require you to throw in any of their boilerplate css; it lets you choose your own adventure.
+
+Reason number three is my favorite thing about `Embla` because it means you can choose whatever solution you want for your CSS; we of course leaned
+into `tailwind` for our stuff 😅.
+
+### Things I wish I had brushed up on before doing the work
+
+Really, the only thing I wish I had brushed up on is the `flexbox` layout algorithm. A lot of the the examples in the `embla` docs lean into
+`flexbox` (and why shouldn't they, `flexbox` is great) for their layout algorithm of choice but since it had been a hot minute since
+I'd worked with `flexbox`, I felt a little out of my element. I honestly had a tougher time than necessary because I struggled so much
+with basic CSS; so much such that I'm actually writing a blog post about this problem and how I addressed it so keep your eyes peeled 👀 🍌.
+
+## Embla
+
+So [Embla Carousel](https://www.embla-carousel.com/) is defined as being a lightweight carousel library. Beyond just that,
+the maintainers of the library have done a great job creating extensive documentation with a myriad of examples that I would say cover
+about 80% of the use cases that most people are to encounter in their day to day development.
+
+In their [predefined examples](https://www.embla-carousel.com/examples/predefined/), they cover things such as lazy-loading, adding
+a thumbnail slider, and handling things like autoplay! Thanks to their plugin system, it also makes it possible for you to create your own
+custom plugin to handle a use case that may not exist in the current documentation (pretty slick y'all).
+
+For us over at [bestbuy.ca](https://bestbuy.ca), we needed to handle lazy loading our assets (because we're good people and don't
+want to needlessly make network request for our users), and had our own custom thumbnail slider that kind of differed from what
+existed in the guide.
+
+Beyond what I just said about the great docs, the fact that `embla` is headless, makes it so **easy** to lean naturally into reacts
+composition model. Check out the code below:
+
+```tsx:title=embla-example-media-gallery.tsx
+const MediaGallery = ({ slides }: { slides: Array<Slide> }) => {
+	const [selectedIndex, setSelectedIndex] = React.useState(0)
+	const [slidesInView, setSlidesInView] = React.useState<number[]>([])
+	const [emblaMainRef, emblaMainApi] = useEmblaCarousel({
+		active: slides.length > 0,
+		inViewThreshold: 0.5,
+	})
+
+	const onSelect = React.useCallback(() => {
+		if (!emblaMainApi) return
+		setSelectedIndex(emblaMainApi.selectedScrollSnap())
+	}, [emblaMainApi, setSelectedIndex])
+
+	return (
+		<div className="relative m-auto flex max-w-3xl flex-wrap items-center sm:flex-nowrap">
+			{/* Desktop Thumbnail that lives in another file */}
+			<DesktopThumbnailSlider
+				selectedIndex={selectedIndex}
+				slides={slides}
+				mainMediaSliderApi={emblaMainApi}
+			/>
+			{/* main slider api */}
+			<div
+				className="group relative order-1 overflow-hidden"
+				ref={emblaMainRef}
+			>
+				<div className="flex max-h-[500px] max-w-[500px] touch-pan-x touch-pinch-zoom">
+					{slides.map((obj, index) => (
+						<div className="flex-[0_0_100%] px-4">
+							<ProductMedia
+								inView={slidesInView.indexOf(index) > -1}
+								resolution="medium"
+								key={index}
+								obj={obj}
+								index={index}
+								selectedIndex={selectedIndex}
+							/>
+						</div>
+					))}
+				</div>
+				<DesktopScrollButtons emblaApi={emblaMainApi} />
+			</div>
+
+			{/* mobile slider that shows up underneath and lives in a different file  */}
+			<MobileThumbnailSlider
+				selectedIndex={selectedIndex}
+				totalSlides={slides.length}
+				mainMediaSlidersApi={emblaMainApi}
+			/>
+		</div>
+	)
+}
+```
+
+## Interesting challenges
+
+### SSR and image `onLoad`
+
+So unsurprisingly, or maybe it is surprising -- depends on who is reading this post and what their career experience is -- we've
+sort of hand-rolled our own custom SSR framework! Since we're server side rendering our react output, I ran into one
+interesting issue with the lazy loading of our image assets: `onLoad` was never called!
+
+This is what I was doing before (and what I thought would just work) but it didn't actually work 🤭:
+
+```tsx
+const ImageType = ({
+	inView,
+	isFirstSlide,
+}: {
+	inView: boolean
+	isFirstSlide: boolean
+}) => {
+	const [hasLoaded, setHasLoaded] = React.useState(false)
+	const imgRef = React.useRef<HTMLImageElement>(null)
+
+	const onLoad = React.useCallback(() => {
+		if (inView || isFirstSlide) {
+			setHasLoaded(true)
+		}
+	}, [inView, isFirstSlide])
+
+	return <img onLoad={onLoad} />
+}
+```
+
+After some digging, I found [this `Stack Overflow`](https://stackoverflow.com/questions/59143484/onload-event-of-img-tag-doest-fire-on-initial-page-access) issue -- surprise surprise, AI couldn't help me and I had to go back to the
+OG -- that basically said that the `onLoad` event wasn't called because the image had already loaded! I had to make the following tweak to my above code:
+
+Now this isn't really an `Embla` flaw so please don't hold it against the library!
+
+```tsx
+const ImageType = ({
+	inView,
+	isFirstSlide,
+}: {
+	inView: boolean
+	isFirstSlide: boolean
+}) => {
+	const [hasLoaded, setHasLoaded] = React.useState(false)
+	const imgRef = React.useRef<HTMLImageElement>(null)
+
+	const onLoad = React.useCallback(() => {
+		if (inView || isFirstSlide) {
+			setHasLoaded(true)
+		}
+	}, [inView, isFirstSlide])
+
+	/**
+	 * There was an issue where the `onLoad` event was not firing for our images when they were server side rendered.
+	 * By attaching a ref to the host DOM node, we are able to wait and monitor for once the host node is completed
+	 * and can fire our `onLoad` event.
+	 *
+	 * https://stackoverflow.com/questions/59143484/onload-event-of-img-tag-doest-fire-on-initial-page-access
+	 */
+	React.useEffect(() => {
+		if (imgRef.current?.complete) {
+			onLoad()
+		}
+	}, [onLoad])
+
+	return <img ref={imgRef} {...props} />
+}
+```
+
+### Next and Previous events
+
+So I had a dickens of a time trying to figure out why the `onNext` and `onPrevious` functions that
+`embla` provides weren't behaving consistently. This [github issue](https://github.com/davidjerleke/embla-carousel/issues/995)
+kind of goes into it and has a solution that's usable (and is being used by me) to get a more consistent
+next and previous behavior with my sliders.
+
+There's a disconnect between how the next and previous work out of the box with `embla` and how I wanted it to work
+but the below code (that's reaching into the `internalEngine`) accomplishes what I'm looking for and probably
+what you're looking for too. It does a check to see if there's still room to scroll based on not the available
+screen real estate in the viewport for the slider but based on if there are any slides either before or after the
+current slide.
+
+```tsx:title=can-scroll-handlers
+// gitub issue: https://github.com/davidjerleke/embla-carousel/issues/995
+const canScrollBackward = (emblaApi: EmblaCarouselType) => {
+        const {target, limit} = emblaApi.internalEngine();
+        const targetRounded = parseFloat(target.get().toFixed(2));
+        return targetRounded < limit.max;
+    };
+
+    const canScrollForward = (emblaApi: EmblaCarouselType) => {
+        const {target, limit} = emblaApi.internalEngine();
+        const targetRounded = parseFloat(target.get().toFixed(2));
+        return targetRounded > limit.min;
+    };
+
+```
+
+## Would I Use Embla Again?
+
+After working with Embla, would I use it again? Yes, but with caveats.
+
+What I Liked:
+
+- Headless approach → Total control over styling and structure.
+- Great documentation → Covers most common use cases.
+- Lightweight → Doesn't add unnecessary bloat.
+
+What Frustrated Me:
+
+- SSR quirks → Handling image onLoad events required extra work.
+- Navigation inconsistencies → Needed to dig into internalEngine for better next/previous behavior.
+- Setup time → Not a drop-in solution like react-slick, but that’s by design.
+
+Overall, if you need a flexible, accessible, and performant carousel, `Embla` is a solid choice—but expect to put in some effort upfront.
+
+## Closing thoughts
+
+Building carousels in 2025 feels like a cruel joke, but here we are.
+
+`Embla` worked well for our needs, but it reinforced an important lesson: sometimes the hardest part of a project isn’t the library—it’s the fundamentals. My biggest struggle wasn’t `Embla` itself, but Flexbox, lazy loading quirks, and understanding how SSR affects browser events.
+
+Would I have preferred to avoid this project altogether? Absolutely.
+Did I learn something useful? Also, yes. If you’re implementing a media gallery and want a lightweight, headless solution, `Embla` is worth considering—just be ready to fine-tune it.
