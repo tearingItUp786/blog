@@ -136,6 +136,10 @@
     "vite": "^5.3.1",
     "vite-tsconfig-paths": "^4.2.3"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5",
+    "sass-embedded-linux-x64": "^1.85.1"
+  },
   "engines": {
     "node": ">=20"
   },
