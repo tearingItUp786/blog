@@ -1,5 +1,8 @@
 # base node image
 FROM node:20-bullseye as base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl
@@ -13,7 +16,9 @@ WORKDIR /app
 ADD package.json package-lock.json ./
 # Install optional dependencies is included by default 
 # but we want them for the linux rollup bindings
-RUN npm install --production=false --include=optional
+# RUN npm install --production=false --include=optional
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install  --frozen-lockfile
+
 
 # Setup production node_modules
 FROM base as production-deps
@@ -23,7 +28,7 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
 ADD package.json package-lock.json ./
-RUN npm prune --production
+RUN pnpm prune --production
 
 # Build the app
 FROM base as build
@@ -66,5 +71,5 @@ COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
 ADD . .
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "start"]
 

@@ -57,15 +57,19 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          cache: npm
+          cache: 'pnpm'
           cache-dependency-path: ./package.json
           node-version: 20
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.5.2
+
       - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+        run: pnpm install --frozen-lockfile
 
       - name: 🔬 Lint
-        run: npm run lint
+        run: pnpm run lint
 
   typecheck:
     name: ʦ :TypeScript
@@ -84,15 +88,20 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          cache: npm
+          cache: 'pnpm'
           cache-dependency-path: ./package.json
           node-version: 20
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.5.2
+
       - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+        run: pnpm install --frozen-lockfile
 
       - name: 🔎 Type check
         run: npm run typecheck
+
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
