@@ -7,7 +7,6 @@ import { MoonOrSun } from './moon-or-sun'
 import { NameGroup } from './name-group'
 import { Slogan } from './slogan'
 import Sparkles from './sparkles'
-import { useTheme } from '~/utils/theme-provider'
 
 export const HomepageHero = () => {
 	/**
@@ -15,7 +14,8 @@ export const HomepageHero = () => {
 	 * when I render this on the server side, the imgs don't get included in the initial html
 	 * need to look into client hints
 	 */
-	const [theme] = useTheme()
+	const theme: any = 'light'
+
 	return (
 		<div className="relative mx-auto min-h-svh max-w-screen-xl">
 			<Sparkles

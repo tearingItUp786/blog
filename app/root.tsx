@@ -21,7 +21,6 @@ import { Navbar } from './components/navbar'
 import { ScrollProgress } from './components/scroll-progress'
 import { H3 } from './components/typography'
 import { redisClient } from './utils/redis.server'
-import { NonFlashOfWrongThemeEls, ThemeProvider } from './utils/theme-provider'
 
 import '~/tailwind.css'
 import './styles/app.css'
@@ -132,7 +131,6 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 					<meta name="theme-color" content="#ffffff" />
 					<Meta />
 					<Links />
-					<NonFlashOfWrongThemeEls />
 				</head>
 				<body className="flex min-h-svh flex-col bg-light-gray dark:bg-gray-100">
 					<Navbar />
@@ -204,28 +202,24 @@ export const ErrorBoundary = () => {
 		</>
 	)
 	return (
-		<ThemeProvider>
-			<Document>
-				<div className="w-100">
-					<div className="flex h-[calc(95vh_-_63.5px)] items-center bg-light-gray dark:bg-gray-100">
-						<div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
-							{elementToRender}
-						</div>
+		<Document>
+			<div className="w-100">
+				<div className="flex h-[calc(95vh_-_63.5px)] items-center bg-light-gray dark:bg-gray-100">
+					<div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
+						{elementToRender}
 					</div>
 				</div>
-			</Document>
-		</ThemeProvider>
+			</div>
+		</Document>
 	)
 }
 
 const App = () => {
 	return (
-		<ThemeProvider>
-			<Document>
-				<Outlet />
-				<LoadingRoute />
-			</Document>
-		</ThemeProvider>
+		<Document>
+			<Outlet />
+			<LoadingRoute />
+		</Document>
 	)
 }
 

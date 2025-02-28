@@ -10,6 +10,7 @@
 		"isolatedModules": true,
 		"allowJs": true,
 		"esModuleInterop": true,
+		"erasableSyntaxOnly": true,
 		"jsx": "react-jsx",
 		"module": "ES2022",
 		"moduleResolution": "Bundler",
