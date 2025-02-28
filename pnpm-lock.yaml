@@ -64,6 +64,9 @@ importers:
       '@playwright/test':
         specifier: ^1.42.1
         version: 1.50.1
+      '@react-router/express':
+        specifier: ^7.2.0
+        version: 7.2.0(express@4.21.2)(react-router@7.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.8.2)
       '@react-router/node':
         specifier: ^7.0.0
         version: 7.2.0(react-router@7.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.8.2)

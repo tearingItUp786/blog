@@ -64,7 +64,7 @@ export function shouldRevalidate({
 
 export default function Blog() {
 	// typescript is complaining that we are possibly calling useLoaderData in a loop... but we're not
-	// eslint-disable-next-line
+
 	const { blogList, cssClasses } = useLoaderData<typeof loader>()
 	let shouldHangRight = true
 	const blogElements: Array<React.ReactNode> = []
