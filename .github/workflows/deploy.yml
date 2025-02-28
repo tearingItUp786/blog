@@ -19,6 +19,10 @@ jobs:
   changes:
     name: 🔎 Determine deployable changes
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+
     outputs:
       DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
       DEPLOYABLE_MANUAL: ${{ inputs.manual_run }}
@@ -54,16 +58,16 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-          cache-dependency-path: ./package.json
-          node-version: 20
-
-      - uses: pnpm/action-setup@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 10.5.2
+
+      - name: Install Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: 📥 Download deps
         run: pnpm install --frozen-lockfile
@@ -85,16 +89,16 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-          cache-dependency-path: ./package.json
-          node-version: 20
-
-      - uses: pnpm/action-setup@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 10.5.2
+
+      - name: Install Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: 📥 Download deps
         run: pnpm install --frozen-lockfile
