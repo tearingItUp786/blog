@@ -9,6 +9,7 @@ prerequisites.
 - Node - the current version is pinned via Volta
 - Docker compose - we run docker-compose up to start the redis server
 - Chromium
+- pnpm - we use pnpm for our package manager
 
 ## Setup
 
@@ -19,6 +20,6 @@ that's `brew install --cask chromium`.
 ## Commands
 
 - `npx dotenv-vault pull` - pull in our secrets
-- `npm run dev` - get the dev server up and running on port 8080. We chose this
+- `pnpm  dev` - get the dev server up and running on port 8080. We chose this
   port over the default because that's the port that fly wants to use! The
-- `npm run clean` - removes all the artifacts related to the build
+- `pnpm clean` - removes all the artifacts related to the build
