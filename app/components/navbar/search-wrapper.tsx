@@ -66,7 +66,7 @@ export default function AlgoliaSearch({
 									templates: {
 										noResults() {
 											return (
-												<div className="dark:text-gray-300 p-6 text-white">
+												<div className="p-6 text-white dark:text-charcoal-gray">
 													You ain't got no results 😔.
 												</div>
 											)
