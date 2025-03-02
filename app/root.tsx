@@ -22,9 +22,10 @@ import { ScrollProgress } from './components/scroll-progress'
 import { H3 } from './components/typography'
 import { redisClient } from './utils/redis.server'
 
-import '~/tailwind.css'
 import './styles/app.css'
 import './styles/new-prisma-theme.css'
+import './tailwind.css'
+
 import { getEnv } from './utils/env.server'
 import { cloudinaryInstance } from './utils/cloudinary'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
@@ -132,7 +133,7 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 					<Meta />
 					<Links />
 				</head>
-				<body className="flex min-h-svh flex-col bg-light-gray dark:bg-gray-100">
+				<body className="bg-light-gray flex min-h-svh flex-col dark:bg-gray-100">
 					<Navbar />
 					<ScrollProgress />
 					{children}
@@ -204,7 +205,7 @@ export const ErrorBoundary = () => {
 	return (
 		<Document>
 			<div className="w-100">
-				<div className="flex h-[calc(95vh_-_63.5px)] items-center bg-light-gray dark:bg-gray-100">
+				<div className="bg-light-gray flex h-[calc(95vh_-_63.5px)] items-center dark:bg-gray-100">
 					<div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
 						{elementToRender}
 					</div>

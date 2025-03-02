@@ -17,19 +17,19 @@ type Props = {
 
 const blackLinkClasses = `
     after:hidden
-    after:md:block
+    md:after:block
     after:absolute
     after:top-[20px]
     after:left-[-6rem]
     lg:after:left-[-6.5rem]
     after:bg-gray-100
-    after:dark:bg-white
+    dark:after:bg-white
     after:h-[2px]
     after:w-[3rem]
     lg:after:w-[4.5rem]
 
     before:hidden
-    before:md:block
+    md:before:block
     before:content: ""
     before:absolute
     before:rounded-full
@@ -38,7 +38,7 @@ const blackLinkClasses = `
     before:top-[20px]
     before:left-[-2.5rem]
     before:bg-gray-100
-    before:dark:bg-white
+    dark:before:bg-white
     before:translate-y-[-50%]
     before:translate-x-[-50%]
 `
@@ -71,7 +71,7 @@ export const ContentCard = ({
 					>
 						{tag}
 					</NavLink>
-					<span className="text-lg text-accent">
+					<span className="text-accent text-lg">
 						{dotFormattedDate(date ?? '')}
 					</span>
 				</div>

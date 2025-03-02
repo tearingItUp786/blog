@@ -1,6 +1,4 @@
-const path = require('path')
 const defaultTheme = require('tailwindcss/defaultTheme')
-const fromRoot = p => path.join(__dirname, p)
 
 module.exports = {
   darkMode: 'class',
@@ -9,45 +7,45 @@ module.exports = {
     // aspectRatio: false,
   },
   theme: {
-    screens: {
-      md: '640px',
-      lg: '1024px',
-      xl: '1536px',
-    },
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      // basic variable color set up
-      pink: 'var(--color-hot-pink)', // Updated to reflect vibrant hot-pink
-      white: 'var(--color-pure-white)', // Updated as per the new off-white definition
-      'off-white': 'var(--color-off-white)',
-      'light-gray': 'var(--color-light-gray)',
-      'silver-gray': 'var(--color-silver-gray)',
-      'medium-gray': 'var(--color-medium-gray)',
-      gray: {
-        100: 'var(--color-dark-gray-100)', // Adjusted naming for consistency with dark grays
-        200: 'var(--color-dark-gray-200)', // Reflects the expressive intent of its dark gray hue
-      },
-      'charcoal-gray': 'var(--color-charcoal-gray)',
-      black: 'var(--color-true-black)', // Updated for clarity using the new naming convention
-      // theme based colors
-      accent: 'var(--accent)',
-      body: 'var(--body-text)',
-      'inverse-body': 'var(--body-text-inverse)',
-      'border-color': 'var(--border-color)',
-      'bg-color': 'var(--bg-color)',
-      'blog-title-color': 'var(--blog-title-color)',
-      'section-title-color': 'var(--section-title-color)',
-      'subheading-color': 'var(--subheading-color)',
-      alert: "#8605CC",
-      info: '#014BD5',
-      warning: "#FACE00",
-      success: "#25D75B",
-    },
-    fontFamily: {
-      body: ['CommitMono', ...defaultTheme.fontFamily.sans],
-      display: ['CommitMono', ...defaultTheme.fontFamily.sans],
-    },
+    // screens: {
+    //   md: '640px',
+    //   lg: '1024px',
+    //   xl: '1536px',
+    // },
+    // colors: {
+      // transparent: 'transparent',
+      // current: 'currentColor',
+      // // basic variable color set up
+      // pink: 'var(--color-hot-pink)', // Updated to reflect vibrant hot-pink
+      // white: 'var(--color-pure-white)', // Updated as per the new off-white definition
+      // 'off-white': 'var(--color-off-white)',
+      // 'light-gray': 'var(--color-light-gray)',
+      // 'silver-gray': 'var(--color-silver-gray)',
+      // 'medium-gray': 'var(--color-medium-gray)',
+      // gray: {
+      //   100: 'var(--color-dark-gray-100)', // Adjusted naming for consistency with dark grays
+      //   200: 'var(--color-dark-gray-200)', // Reflects the expressive intent of its dark gray hue
+      // },
+      // 'charcoal-gray': 'var(--color-charcoal-gray)',
+      // black: 'var(--color-true-black)', // Updated for clarity using the new naming convention
+      // // theme based colors
+      // accent: 'var(--accent)',
+      // body: 'var(--body-text)',
+      // 'inverse-body': 'var(--body-text-inverse)',
+      // 'border-color': 'var(--border-color)',
+      // 'bg-color': 'var(--bg-color)',
+      // 'blog-title-color': 'var(--blog-title-color)',
+      // 'section-title-color': 'var(--section-title-color)',
+      // 'subheading-color': 'var(--subheading-color)',
+      // alert: "#8605CC",
+      // info: '#014BD5',
+      // warning: "#FACE00",
+      // success: "#25D75B",
+    // },
+    // fontFamily: {
+    //   body: ['CommitMono', ...defaultTheme.fontFamily.sans],
+    //   display: ['CommitMono', ...defaultTheme.fontFamily.sans],
+    // },
     extend: {
       boxShadow: {
         'custom-black': '0px 0px 30px 0px #00000040',
@@ -57,19 +55,8 @@ module.exports = {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
-        sparkle: {
-          '0%': { transform: 'scale(0.25)' },
-          '25%': { opacity: 1 },
-          '100%': { opacity: 0 },
-        },
-        twinkle: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
-        },
       },
       animation: {
-        twinkle: 'twinkle 3s infinite alternate',
-        sparkle: 'sparkle 3s infinite',
         fadeIn: 'fadeIn 1s ease-in-out',
         'spin-fast': 'spin .5s linear infinite',
       },
@@ -88,9 +75,6 @@ module.exports = {
       fontFamily: {
         sans: ['CommitMono', ...defaultTheme.fontFamily.sans],
       },
-      dropShadow: {
-        toggle: '6px 4px 8px var(--color-gray-300)',
-      },
       typography: theme => {
         const fontSize = size => {
           const result = theme(`fontSize.${size}`)
@@ -104,7 +88,7 @@ module.exports = {
                 '> *': {
                   gridColumn: '1 / -1',
 
-                  [`@media (min-width: ${theme('screens.lg')})`]: {
+                  [`@media (min-width: ${theme('--breakpoint-lg')})`]: {
                     gridColumn: '2 / span 10',
                   },
                 },
@@ -117,33 +101,33 @@ module.exports = {
 
                     '&:hover': {
                       textDecoration: 'underline',
-                      color: 'var(--accent)',
+                      color: 'var(--color-accent)',
                     },
                   },
                 },
                 h2: {
-                  fontFamily: theme('fontFamily.display').join(', '),
+                  fontFamily: theme('fontFamily.display'),
                   fontWeight: theme('fontWeight.bold'),
                   fontSize: fontSize('3xl'),
                   marginTop: theme('spacing.10'),
                   marginBottom: theme('spacing.5'),
                 },
                 h3: {
-                  fontFamily: theme('fontFamily.display').join(', '),
+                  fontFamily: theme('fontFamily.display'),
                   fontWeight: theme('fontWeight.bold'),
                   fontSize: fontSize('2xl'),
                   marginTop: theme('spacing.8'),
                   marginBottom: theme('spacing.2'),
                 },
                 h4: {
-                  fontFamily: theme('fontFamily.body').join(', '),
+                  fontFamily: theme('fontFamily.body'),
                   fontSize: fontSize('xl'),
                   fontWeight: theme('fontWeight.normal'),
                   marginTop: theme('spacing.10'),
                   marginBottom: theme('spacing.1'),
                 },
                 h5: {
-                  fontFamily: theme('fontFamily.body').join(', '),
+                  fontFamily: theme('fontFamily.body'),
                   fontSize: fontSize('lg'),
                   fontWeight: theme('fontWeight.normal'),
                   marginTop: theme('spacing.16'),
@@ -152,18 +136,18 @@ module.exports = {
                 p: {
                   marginTop: theme('spacing.4'),
                   marginBottom: theme('spacing.4'),
-                  color: 'var(--body-text)',
+                  color: 'var(--color-body-text)',
                   fontWeight: 500,
                   fontSize: fontSize('md'),
                   lineHeight: theme('lineHeight.relaxed'),
                 },
                 strong: {
                   fontWeight: 500,
-                  color: 'var(--accent)',
+                  color: 'var(--color-accent)',
                 },
                 a: {
                   fontWeight: theme('fontWeight.bold'),
-                  color: 'var(--accent)',
+                  color: 'var(--color-accent)',
                   '> *, p': {
                     color: 'inherit',
                   },
@@ -222,7 +206,7 @@ module.exports = {
                   color: 'var(--color-gray-100)',
                 },
                 code: {
-                  color: 'var(--color-body)',
+                  color: 'var(--color-body-text)',
                 },
               },
             ],
@@ -248,8 +232,8 @@ module.exports = {
   },
 
   content: [
-    fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md|svg)'),
-    fromRoot('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
+   ('./app/**/*.+(js|jsx||ts|tsx|mdx|md|svg)'),
+   ('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
   ],
   plugins: [
     require('@tailwindcss/typography'),

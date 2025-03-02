@@ -25,7 +25,7 @@ export function BlogCard({
 	return (
 		<div
 			className={twMerge(
-				`relative py-6 after:absolute after:right-0 after:top-[2rem] after:hidden after:h-[2px] after:bg-black after:content-[""] after:dark:bg-white md:after:block`,
+				`relative py-6 after:absolute after:top-[2rem] after:right-0 after:hidden after:h-[2px] after:bg-black after:content-[""] md:after:block dark:after:bg-white`,
 				className,
 			)}
 		>
@@ -47,12 +47,12 @@ export function BlogCard({
 					</span>
 				</span>
 				<NavLink prefetch="intent" to={`/${slug}?${searchParams.toString()}`}>
-					<H2 className="mb-0 mt-2">{title}</H2>
+					<H2 className="mt-2 mb-0">{title}</H2>
 				</NavLink>
 			</div>
 			<p
 				className={twMerge(
-					'text-center dark:text-white md:text-left',
+					'text-center md:text-left dark:text-white',
 					descriptionClassName,
 				)}
 			>

@@ -17,15 +17,15 @@ export const HomepageHero = () => {
 	const theme: any = 'light'
 
 	return (
-		<div className="relative mx-auto min-h-svh max-w-screen-xl">
+		<div className="relative mx-auto min-h-svh max-w-(--breakpoint-xl)">
 			<Sparkles
 				id="sparkles"
-				className="absolute left-[50%] top-[50%] w-[50%] min-w-[500px]"
+				className="absolute top-[50%] left-[50%] w-[50%] min-w-[500px]"
 			/>
-			<NameGroup className="absolute left-0 top-[45%] hidden w-[200px] -translate-y-1/2 translate-x-1/2 lg:block" />
-			<LastName className="absolute right-[60%] top-[75%] hidden w-[200px] -translate-x-1/2 lg:block" />
-			<Slogan className="absolute right-[20%] top-[45%] hidden w-[150px] lg:block" />
-			<div className="absolute left-1/2 top-1/2 h-[350px] w-[350px] -translate-x-1/2 -translate-y-[55%]">
+			<NameGroup className="absolute top-[45%] left-0 hidden w-[200px] translate-x-1/2 -translate-y-1/2 lg:block" />
+			<LastName className="absolute top-[75%] right-[60%] hidden w-[200px] -translate-x-1/2 lg:block" />
+			<Slogan className="absolute top-[45%] right-[20%] hidden w-[150px] lg:block" />
+			<div className="absolute top-1/2 left-1/2 h-[350px] w-[350px] -translate-x-1/2 -translate-y-[55%]">
 				<div className="grid place-items-center">
 					<OuterCircle />
 					<InnerCircle className="mt-[-100%] scale-[.9] transition-transform dark:scale-[.75]" />
@@ -81,24 +81,24 @@ export const HomepageHero = () => {
 					) : null}
 				</div>
 			</div>
-			<MoonOrSun className="absolute right-[30%] top-[50px] hidden w-[150px] translate-x-[50%] animate-[fadeIn_forwards_1s_2.75s] opacity-0 lg:block" />
+			<MoonOrSun className="absolute top-[50px] right-[30%] hidden w-[150px] translate-x-[50%] animate-[fadeIn_forwards_1s_2.75s] opacity-0 lg:block" />
 			{/* Star stuff */}
 			<BigStar className="absolute bottom-0 max-w-[100px] animate-[sparkle_infinite_4s_2s] opacity-0 transition-all" />
-			<BigStar className="absolute bottom-0 right-[10%] max-w-[75px] animate-[sparkle_infinite_4s_1.5s] opacity-0 transition-all" />
-			<BigStar className="absolute right-[5%] top-0 max-w-[75px] animate-[sparkle_infinite_5s_1.5s] opacity-0 transition-all" />
+			<BigStar className="absolute right-[10%] bottom-0 max-w-[75px] animate-[sparkle_infinite_4s_1.5s] opacity-0 transition-all" />
+			<BigStar className="absolute top-0 right-[5%] max-w-[75px] animate-[sparkle_infinite_5s_1.5s] opacity-0 transition-all" />
 
 			{/* Left Side */}
 			<LineSvg id="line" className="absolute left-0 h-32 w-4" />
-			<LineSvg id="line" className="absolute left-4 top-12 h-32 w-4" />
-			<LineSvg id="line" className="absolute left-8 top-4 h-32 w-4" />
+			<LineSvg id="line" className="absolute top-12 left-4 h-32 w-4" />
+			<LineSvg id="line" className="absolute top-4 left-8 h-32 w-4" />
 
-			<BigStar className="absolute left-[5%] top-0 max-w-[75px] animate-[sparkle_infinite_5s_1.5s] opacity-0 transition-all" />
-			<BigStar className="absolute left-[10%] top-[10%] max-w-[40px] animate-[sparkle_infinite_4s_1.5s] opacity-0 transition-all" />
+			<BigStar className="absolute top-0 left-[5%] max-w-[75px] animate-[sparkle_infinite_5s_1.5s] opacity-0 transition-all" />
+			<BigStar className="absolute top-[10%] left-[10%] max-w-[40px] animate-[sparkle_infinite_4s_1.5s] opacity-0 transition-all" />
 
 			{/* Right Side line */}
-			<LineSvg id="line" className="absolute -bottom-16 right-4 h-32 w-4" />
-			<LineSvg id="line" className="absolute bottom-0 right-8 h-32 w-4" />
-			<LineSvg id="line" className="absolute bottom-16 right-12 h-32 w-4" />
+			<LineSvg id="line" className="absolute right-4 -bottom-16 h-32 w-4" />
+			<LineSvg id="line" className="absolute right-8 bottom-0 h-32 w-4" />
+			<LineSvg id="line" className="absolute right-12 bottom-16 h-32 w-4" />
 		</div>
 	)
 }

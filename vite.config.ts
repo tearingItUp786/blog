@@ -3,10 +3,6 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-// {
-//       serverBuildFile: 'index.js',
-//       serverModuleFormat: 'esm',
-//     }
 
 export default defineConfig({
 	ssr: {

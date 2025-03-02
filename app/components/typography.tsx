@@ -79,7 +79,7 @@ export const BlockQuote = ({
 }: CommonProps) => (
 	<blockquote
 		className={twJoin(
-			'font-body text-xl font-normal italic dark:text-white md:text-2xl [&>p]:my-0 [&>p]:text-xl [&>p]:md:text-2xl',
+			'font-body text-xl font-normal italic md:text-2xl dark:text-white [&>p]:my-0 [&>p]:text-xl md:[&>p]:text-2xl',
 			className,
 		)}
 		{...rest}
@@ -88,7 +88,7 @@ export const BlockQuote = ({
 		{author ? (
 			<span
 				className={twJoin(
-					'block text-right text-lg text-accent',
+					'text-accent block text-right text-lg',
 					authorClassName,
 				)}
 			>
@@ -107,7 +107,7 @@ export const ShortQuote = ({
 	<div
 		className={clsx(
 			titleColors['secondary'],
-			'my-4 font-body text-lg font-normal italic [&>p]:my-0',
+			'font-body my-4 text-lg font-normal italic [&>p]:my-0',
 			containerClassName,
 		)}
 		{...rest}
@@ -115,8 +115,8 @@ export const ShortQuote = ({
 		{children}
 		{author ? (
 			<>
-				<span className="ml-2 mr-2">-</span>
-				<span className="text-lg text-accent">{author}</span>
+				<span className="mr-2 ml-2">-</span>
+				<span className="text-accent text-lg">{author}</span>
 			</>
 		) : null}
 	</div>
@@ -124,14 +124,14 @@ export const ShortQuote = ({
 
 export const TextLink = ({ children, ...rest }: CommonProps) => {
 	return (
-		<a target="_blank" className="font-bold text-accent underline" {...rest}>
+		<a target="_blank" className="text-accent font-bold underline" {...rest}>
 			{children}
 		</a>
 	)
 }
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-	<div className="font-body text-sm text-accent" {...rest}>
+	<div className="font-body text-accent text-sm" {...rest}>
 		{children}
 	</div>
 )

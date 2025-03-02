@@ -142,14 +142,16 @@ const FrontmatterSubtitle = ({
 }) => {
 	const [searchParams] = useSearchParams()
 	if (!date) return null
-	console.log('👀 date', typeof date)
+	// TODO: there was a bug here where the date was being parsed as a string or as a Date object
+	// console.log('👀 date', typeof date)
+
 	return (
-		<div className="after:border-gray-300 relative mb-4 block items-center uppercase text-accent md:flex">
+		<div className="text-accent relative mb-4 block items-center uppercase after:border-gray-200 md:flex">
 			<NavLink
 				className={twMerge(
 					PILL_CLASS_NAME,
 					PILL_CLASS_NAME_ACTIVE,
-					'mb-4 mr-4 px-2 py-1 md:mb-0',
+					'mr-4 mb-4 px-2 py-1 md:mb-0',
 				)}
 				to={`/tags/${tag}?${searchParams.toString()}`}
 			>
@@ -210,13 +212,13 @@ export default function MdxScreen() {
 		: null
 
 	return (
-		<div className="relative mx-auto max-w-screen-xl px-4 md:px-20">
+		<div className="relative mx-auto max-w-(--breakpoint-xl) px-4 md:px-20">
 			<LineSvg />
-			<H1 As="aside" className="mb-4 mt-6 md:mb-10 md:mt-14">
+			<H1 As="aside" className="mt-6 mb-4 md:mt-14 md:mb-10">
 				Blog
 			</H1>
 
-			<main className="prose prose-light relative grid max-w-full grid-cols-4 break-words dark:prose-dark md:mb-12 md:grid-cols-12">
+			<main className="prose prose-light dark:prose-dark relative grid max-w-full grid-cols-4 break-words md:mb-12 md:grid-cols-12">
 				<FrontmatterSubtitle
 					tag={frontmatter.tag}
 					time={readTime?.text}
@@ -233,7 +235,7 @@ export default function MdxScreen() {
 					</div>
 				</div>
 				<Component />
-				<div className="pb-4 pt-8 md:flex">
+				<div className="pt-8 pb-4 md:flex">
 					<a
 						href={`https://twitter.com/intent/tweet?${new URLSearchParams({
 							url: data.reqUrl,
@@ -244,7 +246,7 @@ export default function MdxScreen() {
 						className={twJoin(
 							PILL_CLASS_NAME,
 							PILL_CLASS_NAME_ACTIVE,
-							'mb-4 mr-7 py-[6px] text-lg leading-6 md:mb-0',
+							'mr-7 mb-4 py-[6px] text-lg leading-6 md:mb-0',
 						)}
 					>
 						Share on 𝕏
@@ -270,7 +272,7 @@ export default function MdxScreen() {
 			</main>
 			<div className="relative">
 				<PreviousAndNextLinks
-					className="mb-12 mt-4 flex px-0 md:px-24"
+					className="mt-4 mb-12 flex px-0 md:px-24"
 					previous={previous}
 					next={next}
 				/>

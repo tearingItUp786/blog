@@ -49,7 +49,7 @@ export const CloudinaryHeroImage = ({
 			<img
 				width={`${sizesForScreens[sizesForScreens.length - 1]?.width}`}
 				height={500}
-				className="mb-4 mt-0"
+				className="mt-0 mb-4"
 				alt={alt}
 				src={srcSet[srcSet.length - 1]?.newSrc ?? src}
 				sizes={sizes}

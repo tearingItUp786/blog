@@ -79,15 +79,15 @@ export default function SingleTag() {
 	}, [])
 
 	return (
-		<div className="relative mx-auto mb-4 mt-6 max-w-screen-xl px-4 md:mb-10 md:mt-14 md:px-20">
-			<div className="prose prose-light relative grid max-w-full grid-cols-4 break-words dark:prose-dark md:mb-12 md:grid-cols-12 md:*:col-span-12">
+		<div className="relative mx-auto mt-6 mb-4 max-w-(--breakpoint-xl) px-4 md:mt-14 md:mb-10 md:px-20">
+			<div className="prose prose-light dark:prose-dark relative grid max-w-full grid-cols-4 break-words md:mb-12 md:grid-cols-12 md:*:col-span-12">
 				<H1 className="w-full border-b-2 dark:border-b-white">
 					Today I learned about... <br />
 					<span
 						// TODO: figure out why this is not working
 						className={twJoin(
 							PILL_CLASS_NAME,
-							'mb-4 mt-2 block px-4 py-4 text-3xl font-normal uppercase text-body',
+							'text-body mt-2 mb-4 block px-4 py-4 text-3xl font-normal uppercase',
 						)}
 					>
 						{params.slug}
@@ -98,7 +98,7 @@ export default function SingleTag() {
 					to={'/tags?' + searchParams.toString()}
 					className="group no-underline"
 				>
-					<H3 className="inline group-hover:text-accent">Back to all tags</H3>
+					<H3 className="group-hover:text-accent inline">Back to all tags</H3>
 				</NavLink>
 				{tilComponents.map((til, i) => {
 					const Component: any = tilComponents?.[i]?.component ?? null

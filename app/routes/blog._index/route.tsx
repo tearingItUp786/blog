@@ -104,11 +104,11 @@ export default function Blog() {
 		<div
 			className={twMerge(
 				'relative mt-8 px-4 pb-8 before:hidden before:content-[""] md:px-20 md:before:block',
-				'before:absolute before:left-[50%] before:top-[40px] before:h-[18px] before:w-[18px] before:-translate-x-1/2 before:rounded-full before:bg-charcoal-gray before:dark:bg-white',
-				'after:absolute after:bottom-0 after:left-[50%] after:top-[50px] after:hidden after:w-[2px] after:bg-charcoal-gray after:content-[""] after:dark:bg-white md:after:block',
+				'before:bg-charcoal-gray before:absolute before:top-[40px] before:left-[50%] before:h-[18px] before:w-[18px] before:-translate-x-1/2 before:rounded-full dark:before:bg-white',
+				'after:bg-charcoal-gray after:absolute after:top-[50px] after:bottom-0 after:left-[50%] after:hidden after:w-[2px] after:content-[""] md:after:block dark:after:bg-white',
 			)}
 		>
-			<h2 className="mb-4 text-center text-lg font-normal text-accent dark:text-pink dark:opacity-80">
+			<h2 className="text-accent dark:text-pink mb-4 text-center text-lg font-normal dark:opacity-80">
 				WELCOME
 			</h2>
 			<div className="mx-auto grid max-w-5xl grid-cols-2 pt-0 md:pt-4">
