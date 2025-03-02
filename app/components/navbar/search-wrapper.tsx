@@ -27,8 +27,8 @@ export default function AlgoliaSearch({
 			indexName="website"
 			future={{ preserveSharedStateOnUnmount: true }}
 		>
-			<div className="relative">
-				<div className="sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex items-center">
+			<div className="relative w-0">
+				<div className="flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 					<Autocomplete
 						setOnMount={setOnMount}
 						initialState={initialState}
@@ -66,16 +66,16 @@ export default function AlgoliaSearch({
 									templates: {
 										noResults() {
 											return (
-												<div className="p-6 text-white dark:text-charcoal-gray">
+												<div className="dark:text-charcoal-gray p-6 text-white">
 													You ain't got no results 😔.
 												</div>
 											)
 										},
 										item({ item, components, state }: any) {
 											return (
-												<div className="cursor-default select-none rounded-md p-3 text-sm text-white aria-selected:bg-charcoal-gray aria-selected:text-white dark:text-charcoal-gray">
+												<div className="aria-selected:bg-charcoal-gray dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none aria-selected:text-white">
 													<a
-														className="flex items-center justify-between space-x-4 text-white dark:!text-charcoal-gray"
+														className="dark:text-charcoal-gray! flex items-center justify-between space-x-4 text-white"
 														href={
 															item.type === 'til'
 																? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`
@@ -83,7 +83,7 @@ export default function AlgoliaSearch({
 														}
 													>
 														<div>
-															<H3 className="my-2 text-white dark:!text-charcoal-gray">
+															<H3 className="dark:text-charcoal-gray! my-2 text-white">
 																{
 																	(item as { data: { title: string } }).data
 																		.title

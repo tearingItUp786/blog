@@ -26,11 +26,11 @@ export const Newsletter = () => {
 	}
 
 	return (
-		<div className="my-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
+		<div className="border-border-color my-24 items-center gap-8 rounded-md border-[1.5px] border-solid bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
 				<img
 					alt="Me looking very handsome"
-					className="max-w-[100px] dark:grayscale lg:max-w-[150px]"
+					className="max-w-[100px] lg:max-w-[150px] dark:grayscale"
 					src={newsletterImage}
 				/>
 				<H3 className="mb-2 block w-full text-center md:hidden">
@@ -49,7 +49,7 @@ export const Newsletter = () => {
 				{form?.errors?.length ? (
 					<div className="flex flex-wrap gap-2">
 						{form.errors.map((error, index) => (
-							<p className="mb-2 text-sm text-alert" key={index}>
+							<p className="text-alert mb-2 text-sm" key={index}>
 								{error}
 							</p>
 						))}
@@ -57,7 +57,7 @@ export const Newsletter = () => {
 				) : null}
 				{lastResult?.status === 'success' && (
 					<h4
-						className="mb-8 flex items-start bg-transparent text-alert"
+						className="text-alert mb-8 flex items-start bg-transparent"
 						role="alert"
 					>
 						<svg
@@ -107,7 +107,7 @@ export const Newsletter = () => {
 									'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
 								)}
 							/>
-							<div className="text-sm text-alert" id={fields.name.errorId}>
+							<div className="text-alert text-sm" id={fields.name.errorId}>
 								{fields.name.errors}
 							</div>
 						</div>
@@ -125,13 +125,13 @@ export const Newsletter = () => {
 									type: 'email',
 								})}
 							/>
-							<div className="text-sm text-alert" id={fields.email.errorId}>
+							<div className="text-alert text-sm" id={fields.email.errorId}>
 								{fields.email.errors}
 							</div>
 						</div>
 						<button
 							className={twMerge(
-								'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white dark:bg-white dark:text-black md:mt-0',
+								'mt-6 basis-1/4 self-end rounded-sm bg-black px-6 py-2 text-white md:mt-0 dark:bg-white dark:text-black',
 								(fields.name.errors || fields.email.errors) && 'self-center',
 							)}
 						>

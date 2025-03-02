@@ -1,11 +1,136 @@
 /* purgecss start ignore */
-@tailwind base;
+@import 'tailwindcss';
 
-@tailwind components;
+/*
+ * https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance
+ */
+@theme {
+	--breakpoint-md: 640px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1536px;
+
+	--color-hot-pink: #eb36a1;
+	--color-pure-white: #ffffff;
+	--color-off-white: #f3f3f7;
+	--color-pink: var(--color-hot-pink);
+	--color-white: var(--color-pure-white);
+	--color-light-gray: #e6e6e6;
+	--color-silver-gray: #a8a8a8;
+	--color-medium-gray: #737373;
+	--color-gray-100: #262626;
+	--color-gray-200: #353535;
+	--color-charcoal-gray: #1e1e1e;
+	--color-true-black: #000000;
+	--color-black: var(--color-true-black);
+	--color-alert: #8605cc;
+	--color-info: #014bd5;
+	--color-warning: #face00;
+	--color-success: #25d75b;
+	--color-currentColor: currentColor;
+	--color-transparent: transparent;
+	/* end of color set up */
+
+	--sb-size: 10px;
+	--sb-track-color: var(--color-dark-gray-200);
+	--sb-thumb-color: var(--color-pure-white);
+	--bg-color: var(--color-pure-white);
+
+	--color-accent: var(--theme-accent);
+	--color-blog-title-color: var(--theme-blog-title-color);
+	--color-border-color: var(--theme-border-color);
+	--color-bg-color: var(--theme-bg-color);
+	--color-body-text: var(--theme-body-text);
+	--color-body-text-inverse: var(--theme-body-text-inverse);
+	--color-section-title-color: var(--theme-section-title-color);
+	--color-subheading-color: var(--theme-subheading-color);
+	--color-html-bg-color: var(--theme-html-bg-color);
+
+	--font-body:
+		CommitMono, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+		Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	--font-display:
+		CommitMono, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+		Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+}
+
+@config '../tailwind.config.cjs';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
+
+	[data-theme='light'] {
+		--theme-accent: var(
+			--color-hot-pink
+		); /* the main color we use to emphasize the site */
+		--theme-body-text: var(--color-charcoal-gray);
+		--theme-body-text-inverse: var(--color-off-white);
+		--theme-border-color: var(--color-medium-gray);
+		--theme-bg-color: var(--color-pure-white);
+		--theme-section-title-color: var(--color-charcoal-gray);
+		--theme-subheading-color: var(--color-medium-gray);
+		--theme-html-bg-color: var(--color-light-gray);
+	}
+
+	[data-theme='dark'] {
+		--theme-accent: var(
+			--color-hot-pink
+		); /* the main color we use to emphasize the site */
+		--theme-body-text: var(--color-off-white);
+		--theme-body-text-inverse: var(--color-charcoal-gray);
+		--theme-border-color: var(--color-silver-gray);
+		--theme-bg-color: var(--color-dark-gray-100);
+		--theme-section-title-color: var(--color-pure-white);
+		--theme-subheading-color: var(--color-off-white);
+		--theme-html-bg-color: var(--color-dark-gray-100);
+	}
+
+	a {
+		color: var(--color-accent);
+	}
+
+	html,
+	body {
+		position: relative;
+		color: var(--color-body-text);
+	}
+
+	::selection {
+		background-color: #eb36a199;
+	}
+
+	p {
+		margin-bottom: 1.4rem;
+		font-size: 1.125rem;
+	}
+
+	[type='search']::-webkit-search-cancel-button,
+	[type='search']::-webkit-search-decoration {
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	mark {
+		background: var(--color-hot-pink);
+	}
+}
+
 /* purgecss end ignore */
-
-@tailwind utilities;
-@tailwind screens;
+@layer utilities {
+}
 
 @font-face {
 	font-family: 'CommitMono';
