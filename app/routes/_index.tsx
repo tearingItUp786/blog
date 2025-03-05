@@ -24,6 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const fromFetcher = reqSearchParams.get('fromFetcher') === 'true'
 
 	if (fromFetcher) {
+		console.log('wtf from fetcher')
 		const quoteData = await getQuoteForClientSide()
 		return {
 			quoteData,
@@ -99,7 +100,8 @@ export default function Index() {
 								role="presentation"
 								className={twJoin(
 									'h-8 w-8',
-									spin && 'animate-spin-fast text-accent',
+									(spin || fetcher.state === 'loading') &&
+										'animate-spin-fast text-accent',
 								)}
 							/>
 						</button>

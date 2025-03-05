@@ -2,19 +2,28 @@ import cachified, { verboseReporter } from '@epic-web/cachified'
 import { z } from 'zod'
 import { redisCache } from './redis.server'
 
-const QuoteSchema = z.object({
-	data: z.object({
+const QUOTE_API_URL = 'https://stoic-quotes.com/api/quote'
+
+const QuoteSchema = z
+	.object({
 		author: z.string(),
-		quote: z.string(),
-	}),
-})
+		text: z.string(),
+	})
+	.transform((data) => {
+		return {
+			data: {
+				author: data.author,
+				quote: data.text,
+			},
+		}
+	})
 
 export async function getQuoteForClientSide() {
-	console.log('getQuoteForClientSide')
 	try {
-		const res = await fetch('https://stoic.tekloon.net/stoic-quote', {
+		const res = await fetch(QUOTE_API_URL, {
 			method: 'GET',
 		})
+
 		const jsonData = await res.json()
 		const parsedJsonData = QuoteSchema.parse(jsonData)
 
@@ -44,7 +53,7 @@ export async function getQuote({ count }: { count: number }) {
 			ttl: 60 * 60 * 1000, // one hour of ttl
 			getFreshValue: async () => {
 				try {
-					const res = await fetch('https://stoic.tekloon.net/stoic-quote')
+					const res = await fetch(QUOTE_API_URL)
 					const jsonData = await res.json()
 					const parsedJsonData = QuoteSchema.parse(jsonData)
 					return {

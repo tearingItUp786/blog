@@ -26,7 +26,7 @@ export const Newsletter = () => {
 	}
 
 	return (
-		<div className="my-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
+		<div className="mt-24 items-center gap-8 rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
 				<img
 					alt="Me looking very handsome"
