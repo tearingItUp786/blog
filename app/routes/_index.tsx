@@ -24,7 +24,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const fromFetcher = reqSearchParams.get('fromFetcher') === 'true'
 
 	if (fromFetcher) {
-		console.log('wtf from fetcher')
 		const quoteData = await getQuoteForClientSide()
 		return {
 			quoteData,
