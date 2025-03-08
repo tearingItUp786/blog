@@ -4,6 +4,6 @@ export default {
     `pnpm run test --silent -- --watch=false`,
     () => `pnpm run lint`,
     () => `pnpm run typecheck`,
-    () => `pnpm run format`,
+    () => `prettier --write`,
   ],
 }
