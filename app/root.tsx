@@ -82,8 +82,8 @@ export const links: LinksFunction = () => {
  */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const isFresh = new URL(request.url).searchParams.has('fresh')
-	const showNewsLetter =
-		true || new URL(request.url).searchParams.has('newsletter')
+	const showNewsLetter = true
+	// const showNewsLetter = new URL(request.url).searchParams.has('newsletter')
 	const isDev = process.env.NODE_ENV === 'development'
 
 	const theme = (await getThemeFromCookie(request)) as string
