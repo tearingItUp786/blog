@@ -19,18 +19,15 @@ export function shouldRevalidate() {
 	return false
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-	const reqSearchParams = new URLSearchParams(request.url.split('?')[1])
-	const fromFetcher = reqSearchParams.get('fromFetcher') === 'true'
-
-	if (fromFetcher) {
-		const quoteData = await getQuoteForClientSide()
-		return {
-			quoteData,
-			count: 1,
-		}
+export async function action() {
+	const quoteData = await getQuoteForClientSide()
+	return {
+		quoteData,
+		count: 1,
 	}
+}
 
+export async function loader() {
 	const count = Math.floor(Math.random() * 5) + 1
 	const quoteData = await getQuote({ count })
 	return {
@@ -86,7 +83,8 @@ export default function Index() {
 				<div className="mt-24 basis-full text-center lg:basis-2/3 lg:px-24">
 					<H2 className="font-normal">{quoteData.quote}</H2>
 					<p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
-					<fetcher.Form>
+					<fetcher.Form method="POST">
+						<input type="hidden" name="fromFetcher" value="true" />
 						<button
 							type="submit"
 							onClick={() => {
