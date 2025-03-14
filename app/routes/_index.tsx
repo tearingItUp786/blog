@@ -1,10 +1,6 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
-import {
-	type LoaderFunctionArgs,
-	useFetcher,
-	useLoaderData,
-} from 'react-router'
+import { useFetcher, useLoaderData } from 'react-router'
 import { twJoin } from 'tailwind-merge'
 import { Newsletter } from '~/components/newsletter/newsletter'
 import {
