@@ -61,7 +61,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 10.5.2
+          version: 10.6.3
 
       - name: Install Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -91,7 +91,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 10.5.2
+          version: 10.6.3
 
       - name: Install Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
