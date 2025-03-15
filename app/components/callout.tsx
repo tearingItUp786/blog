@@ -92,7 +92,8 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 
 			<span className="sr-only">Info</span>
 			<div className="text-sm">
-				<span className="mb-2 block text-lg">{title}</span> {description}
+				{title ? <span className="mb-2 block text-lg">{title}</span> : null}{' '}
+				{description}
 			</div>
 		</div>
 	)
