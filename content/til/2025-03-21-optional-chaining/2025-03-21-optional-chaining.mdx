@@ -1,0 +1,19 @@
+---
+title: Optional chaining
+date: 2025-03-21
+tag: JS
+---
+
+I learned this hard lesson today. Optional chaining is for uncertain values — not uncertain existence.
+
+```js
+// 👇 this is a valid expression in node
+// we check to see if window exists
+if (typeof window !== 'undefined') {
+	window.localStorage.setItem('key', 'value')
+}
+
+// 👇 this is not a valid expression in node
+// window is undefined (its existence is uncertain)
+window?.localStorage.setItem('key', 'value')
+```
