@@ -6,6 +6,8 @@ tag: JS
 
 I learned this hard lesson today. Optional chaining is for uncertain values — not uncertain existence.
 
+If I'm not sure if a global object exists, I can't rely on optional chaining to access it. I have to check for existence first.
+
 ```js
 // 👇 this is a valid expression in node
 // we check to see if window exists
