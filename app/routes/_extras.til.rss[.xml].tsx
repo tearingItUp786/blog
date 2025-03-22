@@ -1,34 +1,36 @@
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
-import { getMdxBlogListGraphql } from '~/utils/mdx-utils.server'
+import { getMdxTilListGql } from '~/utils/mdx-utils.server'
 
 export const loader: LoaderFunction = async () => {
-	const blogUrl = `https://taranveerbains.ca/blog`
-	const { publishedPages } = await getMdxBlogListGraphql()
+	const blogUrl = `https://taranveerbains.ca/til`
+	const { fullList, maxOffset } = await getMdxTilListGql({
+		endOffset: Infinity,
+	})
 
 	const feed = new Feed({
 		id: blogUrl,
 		title: 'Taran "tearing it up" Bains Blog',
-		description: 'Thoughts about web development and life',
+		description: 'Today Taran learned about...',
 		link: blogUrl,
 		language: 'en',
 		updated:
-			publishedPages.length > 0
-				? new Date(publishedPages[0]?.frontmatter?.date ?? '')
+			fullList.length > 0
+				? new Date(fullList[0]?.frontmatter?.date ?? '')
 				: new Date(),
 		generator: 'https://github.com/jpmonette/feed',
 		copyright: 'Taran "tearing it up" Bains',
 	})
 
-	publishedPages.forEach((post) => {
-		const postLink = `${blogUrl}/${post.slug}`
+	console.log('wtf')
+	fullList.forEach((post) => {
+		const postLink = `${blogUrl}?offset=${maxOffset}#${post.slug}`
 		feed.addItem({
 			id: postLink,
 			title: post.frontmatter.title ?? '',
 			link: postLink,
+			content: post?.matter?.content,
 			date: new Date(post.frontmatter.date ?? ''),
-			description:
-				post.frontmatter.description ?? post.frontmatter.subtitle ?? '',
 		})
 	})
 
