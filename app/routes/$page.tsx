@@ -4,6 +4,7 @@ import {
 	type ShouldRevalidateFunctionArgs,
 	useLoaderData,
 	data,
+	redirect,
 } from 'react-router'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
@@ -37,6 +38,11 @@ export const meta: MetaFunction<typeof loader> = () => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	invariantResponse(params?.page, 'No slug provided')
 
+	// if anyone attempts to acces the rss feed, redirect them to the blog rss feed
+	if (params.page.includes(`.xml`)) {
+		throw redirect(`/blog/rss.xml`)
+	}
+
 	try {
 		const page = await getMdxPageGql({
 			contentDir: 'pages',
@@ -50,7 +56,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 export default function Page() {
 	const data = useLoaderData<typeof loader>()
-	const { code, frontmatter } = data.page
+	const { code, frontmatter } = data.page ?? { code: '', frontmatter: {} }
 	const Component = useMdxComponent(String(code))
 
 	return (

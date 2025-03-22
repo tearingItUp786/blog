@@ -45,7 +45,7 @@ async function getMdxPageGql({
 }: CommonGetProps & {
 	contentDir: string
 	slug: string
-}): Promise<MdxPage | any> {
+}): Promise<MdxPage | null | void> {
 	return cachified(
 		{
 			key: `gql:${contentDir}:${slug}`,

@@ -88,7 +88,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		})
 
 		if (
-			page.frontmatter.draft &&
+			page?.frontmatter.draft &&
 			process.env.NODE_ENV === 'production' &&
 			!showDrafts
 		) {
@@ -117,6 +117,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 			'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
 			'i',
 		)
+		if (!page) {
+			throw new Response('Page not found', { status: 404 })
+		}
+
 		const dataToSend: LoaderData = {
 			page,
 			prev,

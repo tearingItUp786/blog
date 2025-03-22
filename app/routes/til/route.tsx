@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import {
+	Link,
 	type LoaderFunctionArgs,
 	type MetaFunction,
+	NavLink,
 	type ShouldRevalidateFunctionArgs,
 	useFetcher,
 	useLoaderData,
@@ -128,7 +130,32 @@ export default function TilPage() {
 
 	return (
 		<div className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
-			<H1 className="mb-4 mt-6 md:mb-10 md:mt-14">Today I Learned</H1>
+			<div className="mb-4 mt-6 flex items-center md:mb-10 md:mt-14">
+				<H1 className="">Today I Learned</H1>
+				<NavLink
+					target="_blank"
+					prefetch="intent"
+					to="/til/rss.xml"
+					className="group ml-4 no-underline transition-transform duration-200 hover:scale-110"
+				>
+					<span className="sr-only">Get the RSS feed for Today I Learned</span>
+
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth={1.5}
+						stroke="currentColor"
+						className="size-6 md:size-10"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+						/>
+					</svg>
+				</NavLink>
+			</div>
 			<div className='relative pb-8 after:absolute after:left-[0rem] after:top-[20px] after:hidden after:h-[calc(100%_-_20px)] after:w-[2px] after:bg-gray-100 after:content-[""] after:dark:bg-white md:pl-24 after:md:block lg:px-[6.5rem] xl:min-w-[1200px]'>
 				<div className="prose prose-light max-w-full dark:prose-dark">
 					{items?.map((til) => {
