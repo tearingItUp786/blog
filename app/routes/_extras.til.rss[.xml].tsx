@@ -22,7 +22,6 @@ export const loader: LoaderFunction = async () => {
 		copyright: 'Taran "tearing it up" Bains',
 	})
 
-	console.log('wtf')
 	fullList.forEach((post) => {
 		const postLink = `${blogUrl}?offset=${maxOffset}#${post.slug}`
 		feed.addItem({
