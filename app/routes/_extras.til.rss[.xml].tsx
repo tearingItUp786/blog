@@ -10,8 +10,6 @@ export const loader: LoaderFunction = async () => {
 		endOffset: Infinity,
 	})
 
-	console.log('wtf', fullList[0].matter)
-
 	const feed = new Feed({
 		id: blogUrl,
 		title: 'Taran "tearing it up" Bains Blog',
