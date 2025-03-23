@@ -85,7 +85,7 @@ const refreshTilList = async () => {
 	console.log('🔍 Refresh TIL XML ')
 	await getPaginatedTilList({
 		...cachifiedOptions,
-		startOffset: 1,
+		startOffset: 0,
 		endOffset: Infinity,
 	})
 

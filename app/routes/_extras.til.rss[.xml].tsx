@@ -6,9 +6,11 @@ export const loader: LoaderFunction = async () => {
 	const blogUrl = `https://taranveerbains.ca/til`
 
 	const { fullList, maxOffset } = await getPaginatedTilList({
-		startOffset: 1,
+		startOffset: 0,
 		endOffset: Infinity,
 	})
+
+	console.log('wtf', fullList[0].matter)
 
 	const feed = new Feed({
 		id: blogUrl,

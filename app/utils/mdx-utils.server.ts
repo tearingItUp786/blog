@@ -143,7 +143,7 @@ async function getPaginatedTilList({
 			? Math.max(0, endOffsetToUse - 1)
 			: Math.max(0, Math.min(startOffset, endOffsetToUse - 1))
 
-	// Calculate slice indices to avoid multiple calculations
+	// Calculate index ranges based on offsets
 	const startIndex = startOffsetToUse * chunkSize
 	const endIndex = endOffsetToUse * chunkSize
 
