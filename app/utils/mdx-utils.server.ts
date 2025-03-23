@@ -111,50 +111,68 @@ async function getMaxNumberOfTil({ cachifiedOptions }: CommonGetProps = {}) {
 
 type TilMdxPage = MdxPageAndSlug & { offset: number }
 
-async function getMdxTilListGql(
-	{
-		cachifiedOptions,
-		endOffset = 1,
-	}: CommonGetProps & { endOffset: number } = {
-		endOffset: 1,
-	},
-) {
-	// I need to figure out the end offset is some preposterous number
-	// that we don't have
-	// because we don't want the user to be able to throw in random keys
+type PaginationArgs = {
+	endOffset: number
+	startOffset?: number
+} & CommonGetProps
 
+/**
+ * Retrieves a paginated list of TIL (Today I Learned) posts
+ * @param options Pagination configuration
+ * @returns Paginated TIL posts and max offset information
+ */
+async function getPaginatedTilList({
+	cachifiedOptions,
+	endOffset = 1,
+	startOffset,
+}: Partial<PaginationArgs> = {}): Promise<{
+	fullList: TilMdxPage[]
+	maxOffset: number
+}> {
+	// Get the sorted data and limits
 	const { sortedPageData, maxOffset, chunkSize } = await getMaxNumberOfTil({
 		cachifiedOptions,
 	})
-	const endOffsetToUse = endOffset > maxOffset ? maxOffset : endOffset
-	const startOffset = endOffsetToUse - 1
+
+	// Validate and constrain the end offset
+	const endOffsetToUse = Math.min(endOffset, maxOffset)
+
+	// Calculate start offset with validation
+	const startOffsetToUse =
+		startOffset === undefined
+			? Math.max(0, endOffsetToUse - 1)
+			: Math.max(0, Math.min(startOffset, endOffsetToUse - 1))
+
+	// Calculate slice indices to avoid multiple calculations
+	const startIndex = startOffsetToUse * chunkSize
+	const endIndex = endOffsetToUse * chunkSize
 
 	return cachified(
 		{
-			key: `gql:til:list:${endOffsetToUse}`,
+			key: `gql:til:list:${startOffsetToUse}-${endOffsetToUse}`,
 			cache: redisCache,
 			getFreshValue: async () => {
-				const pages = await Promise.all(
-					sortedPageData
-						.slice(startOffset * chunkSize, endOffsetToUse * chunkSize)
-						.map((pageData) =>
+				try {
+					const pagesSlice = sortedPageData.slice(startIndex, endIndex)
+
+					const pages = await Promise.all(
+						pagesSlice.map((pageData) =>
 							queuedCompileMdxGql(pageData.name, pageData.files),
 						),
-				).catch((err) => {
-					console.error(`Failed to compile mdx for til list`)
-					return Promise.reject(err)
-				})
+					)
 
-				const nonNullPages = pages
-					.filter((page) => page !== null)
-					.map((o) => ({
-						...o,
+					const fullList = pages.filter(Boolean).map((page) => ({
+						...page,
 						offset: endOffsetToUse,
-					}))
+					})) as Array<TilMdxPage>
 
-				return {
-					fullList: nonNullPages as TilMdxPage[],
-					maxOffset,
+					return {
+						fullList,
+						maxOffset,
+					}
+				} catch (err) {
+					console.error(`Failed to compile mdx for til list:`, err)
+					throw err // Re-throw to maintain error propagation
 				}
 			},
 			...cachifiedOptions,
@@ -397,7 +415,7 @@ function mapFromMdxPageToMdxListItem(
 
 export {
 	getMdxPageGql,
-	getMdxTilListGql,
+	getPaginatedTilList,
 	getMdxBlogListGraphql,
 	getMdxTagListGql,
 	getMdxIndividualTagGql,

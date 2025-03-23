@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-	Link,
 	type LoaderFunctionArgs,
 	type MetaFunction,
 	NavLink,
@@ -11,12 +10,12 @@ import {
 import { type TilMdxPage } from 'types'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import { TilComponent } from './til-component'
+import { H1 } from '~/components/typography'
 import { useFooterObserver } from '~/hooks/use-footer-observer'
-import { getMdxTilListGql } from '~/utils/mdx-utils.server'
+import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 
 // css
 import '~/styles/til.css'
-import { H1 } from '~/components/typography'
 
 export function shouldRevalidate({
 	currentUrl,
@@ -49,7 +48,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const endOffset = Number(endOffsetParam) || 1
 
 	// Fetch initial data to determine maxOffset
-	const initialData = await getMdxTilListGql({ endOffset })
+	const initialData = await getPaginatedTilList({ endOffset })
 	let maxOffset = initialData.maxOffset
 	const effectiveEndOffset = Math.min(endOffset, maxOffset)
 
@@ -65,7 +64,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	// Create a list of promises for each offset
 	// This will allow us to fetch all the data in parallel
 	const promises = Array.from({ length: effectiveEndOffset }, (_, i) =>
-		getMdxTilListGql({ endOffset: i + 1 }),
+		getPaginatedTilList({ endOffset: i + 1 }),
 	)
 
 	// Use Promise.all to wait for all promises and flatMap to combine the results

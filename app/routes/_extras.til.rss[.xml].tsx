@@ -1,10 +1,12 @@
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
-import { getMdxTilListGql } from '~/utils/mdx-utils.server'
+import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 
 export const loader: LoaderFunction = async () => {
 	const blogUrl = `https://taranveerbains.ca/til`
-	const { fullList, maxOffset } = await getMdxTilListGql({
+
+	const { fullList, maxOffset } = await getPaginatedTilList({
+		startOffset: 1,
 		endOffset: Infinity,
 	})
 
@@ -28,7 +30,7 @@ export const loader: LoaderFunction = async () => {
 			id: postLink,
 			title: post.frontmatter.title ?? '',
 			link: postLink,
-			content: post?.matter?.content,
+			content: String(post?.matter?.content),
 			date: new Date(post.frontmatter.date ?? ''),
 		})
 	})

@@ -9,7 +9,7 @@ import {
 	getMdxIndividualTagGql,
 	getMdxPageGql,
 	getMdxTagListGql,
-	getMdxTilListGql,
+	getPaginatedTilList,
 } from '~/utils/mdx-utils.server'
 import { redisClient } from '~/utils/redis.server'
 
@@ -57,20 +57,20 @@ const P_QUEUE = new PQueue({ concurrency: 4 })
 const refreshTilList = async () => {
 	let tilList: TilMdxPage[] = []
 	console.log('🔍 refreshTilList')
-	const data = await getMdxTilListGql({
+	const data = await getPaginatedTilList({
 		...cachifiedOptions,
 		endOffset: Infinity,
 	})
 
 	const maxOffset = data.maxOffset
-	const promises: ReturnType<typeof getMdxTilListGql>[] = []
+	const promises: ReturnType<typeof getPaginatedTilList>[] = []
 
 	for (let i = 1; i <= maxOffset; i++) {
 		const promiseFunc = () =>
-			getMdxTilListGql({ ...cachifiedOptions, endOffset: i })
+			getPaginatedTilList({ ...cachifiedOptions, endOffset: i })
 
 		const newPromise = P_QUEUE.add(promiseFunc) as ReturnType<
-			typeof getMdxTilListGql
+			typeof getPaginatedTilList
 		>
 		promises.push(newPromise)
 	}
@@ -80,6 +80,13 @@ const refreshTilList = async () => {
 			console.log('👍 refreshing til list', i)
 			tilList = [...tilList, ...value.fullList]
 		})
+	})
+
+	console.log('🔍 Refresh TIL XML ')
+	await getPaginatedTilList({
+		...cachifiedOptions,
+		startOffset: 1,
+		endOffset: Infinity,
 	})
 
 	return tilList
