@@ -153,8 +153,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       hast-util-select:
-        specifier: ^5.0.2
-        version: 5.0.5
+        specifier: ^6.0.4
+        version: 6.0.4
       hotkeys-js:
         specifier: ^3.10.3
         version: 3.13.9
@@ -2692,6 +2692,9 @@ packages:
   css-selector-parser@1.4.1:
     resolution: {integrity: sha512-HYPSb7y/Z7BNDCOrakL4raGO2zltZkbeXyAd6Tg9obzix6QhzxCotdBl6VT0Dv4vZfJGVz3WL/xaEI9Ly3ul0g==}
 
+  css-selector-parser@3.1.1:
+    resolution: {integrity: sha512-Y+DuvJ7JAjpL1f4DeILe5sXCC3kRXMl0DxM4lAWbS8/jEZ29o3V0L5TL6zIifj4Csmj6c+jiF2ENjida2OVOGA==}
+
   css-tree@2.2.1:
     resolution: {integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
@@ -3878,6 +3881,9 @@ packages:
   hast-util-has-property@2.0.1:
     resolution: {integrity: sha512-X2+RwZIMTMKpXUzlotatPzWj8bspCymtXH3cfG3iQKV+wPF53Vgaqxi/eLqGck0wKq1kS9nvoB1wchbCPEL8sg==}
 
+  hast-util-has-property@3.0.0:
+    resolution: {integrity: sha512-MNilsvEKLFpV604hwfhVStK0usFY/QmM5zX16bo7EjnAEGofr5YyI37kzopBlZJkHD4t887i+q/C8/tr5Q94cA==}
+
   hast-util-heading-rank@2.1.1:
     resolution: {integrity: sha512-iAuRp+ESgJoRFJbSyaqsfvJDY6zzmFoEnL1gtz1+U8gKtGGj1p0CVlysuUAUjq95qlZESHINLThwJzNGmgGZxA==}
 
@@ -3908,8 +3914,8 @@ packages:
   hast-util-select@1.0.1:
     resolution: {integrity: sha512-wNFpEC9Or4YTcSzDERXu5n7L+dNTy9tLbqW+LMIkCH69g9NkLEKcGBoXUnJwOVG5KmecLmHxVbrRh3RJmUxtmA==}
 
-  hast-util-select@5.0.5:
-    resolution: {integrity: sha512-QQhWMhgTFRhCaQdgTKzZ5g31GLQ9qRb1hZtDPMqQaOhpLBziWcshUS0uCR5IJ0U1jrK/mxg35fmcq+Dp/Cy2Aw==}
+  hast-util-select@6.0.4:
+    resolution: {integrity: sha512-RqGS1ZgI0MwxLaKLDxjprynNzINEkRHY2i8ln4DDjgv9ZhcYVIHN9rlpiYsqtFwrgpYU361SyWDQcGNIBVu3lw==}
 
   hast-util-to-estree@2.3.3:
     resolution: {integrity: sha512-ihhPIUPxN0v0w6M5+IiAZZrn0LH2uZomeWwhn7uP7avZC6TE7lIiEh2yBMPr5+zi1aUCXq6VoYRgs2Bw9xmycQ==}
@@ -10318,6 +10324,8 @@ snapshots:
 
   css-selector-parser@1.4.1: {}
 
+  css-selector-parser@3.1.1: {}
+
   css-tree@2.2.1:
     dependencies:
       mdn-data: 2.0.28
@@ -11890,6 +11898,10 @@ snapshots:
 
   hast-util-has-property@2.0.1: {}
 
+  hast-util-has-property@3.0.0:
+    dependencies:
+      '@types/hast': 3.0.4
+
   hast-util-heading-rank@2.1.1:
     dependencies:
       '@types/hast': 2.3.10
@@ -11947,22 +11959,22 @@ snapshots:
       space-separated-tokens: 1.1.5
       zwitch: 1.0.5
 
-  hast-util-select@5.0.5:
+  hast-util-select@6.0.4:
     dependencies:
-      '@types/hast': 2.3.10
-      '@types/unist': 2.0.11
+      '@types/hast': 3.0.4
+      '@types/unist': 3.0.3
       bcp-47-match: 2.0.3
       comma-separated-tokens: 2.0.3
-      css-selector-parser: 1.4.1
+      css-selector-parser: 3.1.1
+      devlop: 1.1.0
       direction: 2.0.1
-      hast-util-has-property: 2.0.1
-      hast-util-to-string: 2.0.0
-      hast-util-whitespace: 2.0.1
-      not: 0.1.0
+      hast-util-has-property: 3.0.0
+      hast-util-to-string: 3.0.1
+      hast-util-whitespace: 3.0.0
       nth-check: 2.1.1
-      property-information: 6.5.0
+      property-information: 7.0.0
       space-separated-tokens: 2.0.2
-      unist-util-visit: 4.1.2
+      unist-util-visit: 5.0.0
       zwitch: 2.0.4
 
   hast-util-to-estree@2.3.3:
