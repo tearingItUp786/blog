@@ -51,7 +51,7 @@ export default function Index() {
 	return (
 		// we can get rid of the svh when we actually have the newsletter
 		<div className="mx-auto my-20 flex w-full max-w-screen-xl grow flex-wrap px-4 md:px-20">
-			<div className="flex flex-wrap justify-between">
+			<div className="flex w-full flex-wrap justify-between">
 				<article className="basis-full lg:basis-1/3">
 					<H1 className="mb-6 text-center lg:text-left">Taran Bains</H1>
 					<div className="flex flex-wrap justify-center gap-[100%] space-y-5 lg:block">
