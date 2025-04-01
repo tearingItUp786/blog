@@ -1,5 +1,6 @@
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
+import sanitizeHtml from 'sanitize-html'
 import {
 	broadcastListResponseSchema,
 	getSingleBroadcast,
@@ -73,13 +74,21 @@ export const loader: LoaderFunction = async () => {
 		broadcastsWithContent.forEach((broadcast) => {
 			if (broadcast.public) {
 				const postLink = `${newsletterUrl}/${slugify(broadcast.subject)}`
+				// Sanitize HTML content to remove style tags and attributes
+				const sanitizedContent = sanitizeHtml(broadcast.content, {
+					allowedTags: sanitizeHtml.defaults.allowedTags,
+					allowedAttributes: {
+						...sanitizeHtml.defaults.allowedAttributes,
+					},
+				})
+
 				feed.addItem({
 					id: postLink,
 					title: broadcast.subject,
 					link: postLink,
 					date: new Date(broadcast.published_at || broadcast.created_at),
 					description: broadcast.description ?? '',
-					content: broadcast.content,
+					content: sanitizedContent,
 					image: broadcast.thumbnail_url || undefined,
 				})
 			}

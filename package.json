@@ -110,6 +110,7 @@
     "remark-toc": "^8.0.1",
     "remix": "2.15.2",
     "remix-utils": "^8.1.0",
+    "sanitize-html": "^2.15.0",
     "tailwind-merge": "^1.12.0",
     "vanilla-lazyload": "^17.8.3",
     "zod": "^3.24.1"
@@ -122,6 +123,7 @@
     "@types/morgan": "^1.9.4",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@types/sanitize-html": "^2.15.0",
     "concurrently": "^7.0.0",
     "eslint": "^9.16.0",
     "husky": "^8.0.3",
