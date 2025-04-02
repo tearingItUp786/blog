@@ -2,14 +2,14 @@ import { twMerge } from 'tailwind-merge'
 
 type CalloutProps = {
 	type: 'alert' | 'info' | 'success' | 'warning'
-	title: string
+	title?: string
 	description: string
 }
 
 const cssClasses = {
 	info: 'bg-info text-white',
 	success: 'bg-success text-white',
-	warning: 'bg-warning text-black',
+	warning: 'bg-warning text-white',
 	alert: 'bg-alert text-white',
 } as const
 
@@ -74,7 +74,7 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 	return (
 		<div
 			className={twMerge(
-				`text-md relative my-6 ml-6 max-w-4xl rounded-[20px] py-5 pl-10 pr-4`,
+				`text-md relative my-6 ml-6 max-w-full rounded-[20px] py-4 pl-8 pr-0`,
 				containerClassName,
 			)}
 			role="alert"
@@ -83,8 +83,8 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 				className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
-				height={55}
-				width={55}
+				height={40}
+				width={40}
 				viewBox="0 0 55 55"
 			>
 				{icon}

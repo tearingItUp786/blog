@@ -6,10 +6,11 @@ import {
 	data,
 	redirect,
 } from 'react-router'
+import { Callout } from '~/components/callout'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
 import { getMdxPageGql } from '~/utils/mdx-utils.server'
-import { invariantResponse } from '~/utils/misc'
+import { dateFormat, dotFormattedDate, invariantResponse } from '~/utils/misc'
 
 export function shouldRevalidate({
 	currentUrl,
@@ -64,6 +65,13 @@ export default function Page() {
 			<div className="">
 				<main className="prose prose-light relative max-w-7xl grid-cols-4 break-words dark:prose-dark">
 					<H1>{frontmatter.title}</H1>
+
+					{frontmatter.date ? (
+						<Callout
+							type="success"
+							description={`Last updated at: ${dateFormat(frontmatter.date)}`}
+						/>
+					) : null}
 					{frontmatter.subtitle ? (
 						<H4 As="h2" variant="secondary" className="mb-4 leading-tight">
 							{frontmatter.subtitle}
