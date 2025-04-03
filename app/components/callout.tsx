@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'tailwind-merge'
 
 type CalloutProps = {
 	type: 'alert' | 'info' | 'success' | 'warning'
@@ -92,7 +92,11 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 
 			<span className="sr-only">Info</span>
 			<div className="text-sm">
-				{title ? <span className="mb-2 block text-lg">{title}</span> : null}{' '}
+				{title ? (
+					<span className={twJoin('block text-lg', description && 'mb-2')}>
+						{title}
+					</span>
+				) : null}
 				{description}
 			</div>
 		</div>
