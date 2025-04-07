@@ -1,0 +1,23 @@
+---
+title: easy stacking in css
+date: 2025-04-07
+tag: CSS
+---
+
+import CardStack from './stacking-example.jsx'
+
+TIL, it's pretty easy to stack elements in CSS, without having to use positioning! It's a litle bit more verbose to do it in tailwind, but it's the same idea.
+
+```css
+
+.parent {
+  display: grid;
+}
+
+.child {
+  grid-area 1 / 1
+}
+
+```
+
+<CardStack />
