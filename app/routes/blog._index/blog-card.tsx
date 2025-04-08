@@ -35,7 +35,9 @@ export function BlogCard({
 					prefetch="intent"
 					to={`/${slug}?${searchParams.toString()}`}
 				>
-					<H2 className="mb-2 mt-0 font-normal md:text-2xl">{title}</H2>
+					<H2 className="mb-2 mt-0 text-center font-normal md:text-left md:text-2xl">
+						{title}
+					</H2>
 					<p
 						className={twMerge(
 							'text-center text-body dark:text-white md:text-left',
