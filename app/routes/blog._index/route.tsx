@@ -33,7 +33,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const page = pageParam ? parseInt(pageParam, 10) : 1
 
 	// Get the featured post
-	const featuredPost = await getFeaturedBlogPost()
+	const featuredPost = await getFeaturedBlogPost({
+		includeDrafts: showDrafts,
+	})
 
 	const yolo = await getPaginatedBlogList({
 		page,
