@@ -5,10 +5,12 @@ import { type MdxPage, type TilMdxPage } from 'types'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
+	getFeaturedBlogPost,
 	getMdxBlogListGraphql,
 	getMdxIndividualTagGql,
 	getMdxPageGql,
 	getMdxTagListGql,
+	getPaginatedBlogList,
 	getPaginatedTilList,
 } from '~/utils/mdx-utils.server'
 import { redisClient } from '~/utils/redis.server'
@@ -54,42 +56,121 @@ const getFileArray = (acc: [File[], File[], File[]], file: File) => {
  */
 const P_QUEUE = new PQueue({ concurrency: 4 })
 
-const refreshTilList = async () => {
-	let tilList: TilMdxPage[] = []
-	console.log('🔍 refreshTilList')
-	const data = await getPaginatedTilList({
-		...cachifiedOptions,
-		endOffset: Infinity,
-	})
+/**
+ * The purpose of this function is to refresh the paginated blog list
+ * It also allows us to delete the old keys that might be lingering
+ */
+const refreshPaginatedBlogList = async () => {
+	console.log('🔍 Refreshing paginated blog list')
+	try {
+		// Delete existing paginated blog keys
+		const pattern = 'gql:blog:paginated:[0-9]*'
+		let cursor = 0
 
-	const maxOffset = data.maxOffset
-	const promises: ReturnType<typeof getPaginatedTilList>[] = []
+		do {
+			const reply = await redisClient.scan(cursor, {
+				MATCH: pattern,
+				COUNT: 200,
+			})
 
-	for (let i = 1; i <= maxOffset; i++) {
-		const promiseFunc = () =>
-			getPaginatedTilList({ ...cachifiedOptions, endOffset: i })
+			cursor = Number(reply.cursor)
+			const keys = reply.keys
 
-		const newPromise = P_QUEUE.add(promiseFunc) as ReturnType<
-			typeof getPaginatedTilList
-		>
-		promises.push(newPromise)
-	}
+			if (keys.length > 0) {
+				console.log(`🗑️ Deleting ${keys.length} paginated blog keys`)
+				await redisClient.del(keys)
+			}
+		} while (cursor !== 0)
 
-	await Promise.all(promises).then((values) => {
-		values.forEach((value, i) => {
-			console.log('👍 refreshing til list', i)
-			tilList = [...tilList, ...value.fullList]
+		// Get first page to determine total pages
+		console.log('📄 Fetching first page to determine pagination')
+		const { pagination } = await getPaginatedBlogList({
+			page: 1,
+			excludeFeatured: true,
+			...cachifiedOptions,
 		})
-	})
 
-	console.log('🔍 Refresh TIL XML ')
-	await getPaginatedTilList({
-		...cachifiedOptions,
-		startOffset: 0,
-		endOffset: Infinity,
-	})
+		const { totalPages } = pagination
+		console.log(`📚 Found ${totalPages} total pages to refresh`)
 
-	return tilList
+		// Create an array of promises for pages 2 to totalPages
+		if (totalPages > 1) {
+			const pagePromises = []
+
+			for (let i = 2; i <= totalPages; i++) {
+				const promiseFunc = () =>
+					getPaginatedBlogList({ ...cachifiedOptions, page: i })
+
+				pagePromises.push(
+					P_QUEUE.add(promiseFunc) as ReturnType<typeof getPaginatedBlogList>,
+				)
+			}
+
+			// Wait for all pages to be refreshed in parallel (respecting the queue concurrency)
+			await Promise.all(pagePromises)
+			console.log(`✅ Successfully refreshed all ${totalPages} blog pages`)
+		}
+
+		return { totalPages }
+	} catch (error) {
+		console.error('❌ Error refreshing paginated blog list:', error)
+		throw error
+	}
+}
+
+const refreshTilList = async () => {
+	console.log('🔍 Refreshing TIL list')
+	try {
+		// Get initial data to determine maxOffset
+		const initialData = await getPaginatedTilList({
+			...cachifiedOptions,
+			endOffset: Infinity,
+		})
+
+		const maxOffset = initialData.maxOffset
+		console.log(`📚 Found ${maxOffset} total offsets to refresh`)
+
+		if (maxOffset <= 0) {
+			console.log('⚠️ No TIL entries found to refresh')
+			return []
+		}
+
+		// Create an array of promises for all offsets
+		const promises: ReturnType<typeof getPaginatedTilList>[] = []
+
+		for (let i = 1; i <= maxOffset; i++) {
+			const promiseFunc = () =>
+				getPaginatedTilList({ ...cachifiedOptions, endOffset: i })
+
+			promises.push(
+				P_QUEUE.add(promiseFunc) as ReturnType<typeof getPaginatedTilList>,
+			)
+		}
+
+		// Process all promises and collect results
+		console.log(`⏳ Processing ${promises.length} TIL pagination requests...`)
+		const results = await Promise.all(promises)
+
+		// Efficiently combine all results
+		let tilList: TilMdxPage[] = []
+		results.forEach((result, index) => {
+			console.log(`✅ Processed TIL offset ${index + 1}/${maxOffset}`)
+			tilList = tilList.concat(result.fullList)
+		})
+
+		console.log(`🔄 Refreshing TIL XML sitemap`)
+		await getPaginatedTilList({
+			...cachifiedOptions,
+			startOffset: 0,
+			endOffset: Infinity,
+		})
+
+		console.log(`✅ Successfully refreshed all ${tilList.length} TIL entries`)
+		return tilList
+	} catch (error) {
+		console.error('❌ Error refreshing TIL list:', error)
+		throw error
+	}
 }
 
 const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
@@ -99,6 +180,14 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
 	// we need redis to have the keys to know what to refresh
 	const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
 	const individualPages = await redisClient.keys('gql:pages:*')
+
+	console.log('👍 refreshing featured blog post')
+	await getFeaturedBlogPost({
+		...cachifiedOptions,
+	})
+
+	console.log('👍 refreshing paginated blog list')
+	await refreshPaginatedBlogList()
 
 	console.log('👍 refreshing til list')
 	const tilList = await refreshTilList()

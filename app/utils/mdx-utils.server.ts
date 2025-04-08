@@ -229,6 +229,92 @@ async function getMdxBlogListGraphql({
 				return {
 					publishedPages,
 					draftPages,
+					allPages: [...draftPages, ...publishedPages],
+				}
+			},
+			...cachifiedOptions,
+		},
+		verboseReporter(),
+	)
+}
+
+type BlogPaginationArgs = {
+	page: number
+	perPage?: number
+	includeDrafts?: boolean
+	excludeFeatured?: boolean
+} & CommonGetProps
+
+/**
+ * Retrieves a paginated list of blog posts
+ * @param options Pagination configuration
+ * @returns Paginated blog posts and pagination information
+ */
+async function getPaginatedBlogList({
+	cachifiedOptions,
+	page = 1,
+	perPage = 9,
+	includeDrafts = false,
+	excludeFeatured = false,
+}: Partial<BlogPaginationArgs> = {}): Promise<{
+	posts: Array<Omit<MdxPageAndSlug, 'code'>>
+	pagination: {
+		currentPage: number
+		totalPages: number
+		totalPosts: number
+		hasNextPage: boolean
+		hasPrevPage: boolean
+	}
+}> {
+	// Ensure page is at least 1
+	const pageToUse = Math.max(1, page)
+
+	return cachified(
+		{
+			key: `gql:blog:paginated:${pageToUse}:${perPage}:${excludeFeatured}`,
+			cache: redisCache,
+			getFreshValue: async () => {
+				try {
+					// Get the full blog list
+					const { publishedPages, allPages } = await getMdxBlogListGraphql({
+						cachifiedOptions,
+					})
+
+					let pagesToUse = includeDrafts ? allPages : publishedPages
+
+					// Exclude the featured post if requested
+					if (excludeFeatured && pagesToUse.length > 0) {
+						// The featured post is the first one (most recent)
+						pagesToUse = pagesToUse.slice(1)
+					}
+
+					// Calculate pagination values
+					const totalPosts = pagesToUse.length
+					const totalPages = Math.ceil(totalPosts / perPage)
+
+					// Constrain page number to valid range
+					const validPage = Math.min(pageToUse, totalPages || 1)
+
+					// Calculate slice indices
+					const startIndex = (validPage - 1) * perPage
+					const endIndex = startIndex + perPage
+
+					// Get the posts for the current page
+					const posts = pagesToUse.slice(startIndex, endIndex)
+
+					return {
+						posts,
+						pagination: {
+							currentPage: validPage,
+							totalPages,
+							totalPosts,
+							hasNextPage: validPage < totalPages,
+							hasPrevPage: validPage > 1,
+						},
+					}
+				} catch (err) {
+					console.error(`Failed to compile mdx for paginated blog list:`, err)
+					throw err // Re-throw to maintain error propagation
 				}
 			},
 			...cachifiedOptions,
@@ -413,11 +499,52 @@ function mapFromMdxPageToMdxListItem(
 	return mdxListItem
 }
 
+/**
+ * Retrieves the featured blog post (most recent post)
+ * @param options Caching options
+ * @returns The most recent blog post or null if no posts exist
+ */
+async function getFeaturedBlogPost({
+	cachifiedOptions,
+	includeDrafts = false,
+}: CommonGetProps & { includeDrafts?: boolean } = {}): Promise<Omit<
+	MdxPageAndSlug,
+	'code'
+> | null> {
+	return cachified(
+		{
+			key: `gql:blog:featured`,
+			cache: redisCache,
+			getFreshValue: async () => {
+				try {
+					// Get the blog list
+					const { publishedPages, allPages } = await getMdxBlogListGraphql({
+						cachifiedOptions,
+					})
+
+					// Use published pages or all pages based on includeDrafts flag
+					const pagesToUse = includeDrafts ? allPages : publishedPages
+
+					// Return the first post (most recent) or null if no posts exist
+					return pagesToUse.length > 0 ? pagesToUse[0] : null
+				} catch (err) {
+					console.error(`Failed to get featured blog post:`, err)
+					throw err // Re-throw to maintain error propagation
+				}
+			},
+			...cachifiedOptions,
+		},
+		verboseReporter(),
+	)
+}
+
 export {
 	getMdxPageGql,
 	getPaginatedTilList,
 	getMdxBlogListGraphql,
 	getMdxTagListGql,
 	getMdxIndividualTagGql,
+	getPaginatedBlogList,
+	getFeaturedBlogPost,
 	delMdxPageGql,
 }

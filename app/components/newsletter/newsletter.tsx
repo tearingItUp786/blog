@@ -7,7 +7,7 @@ import { H3 } from '../typography'
 import { schema, type action } from '~/routes/action.newsletter'
 import { useNewsLetterData } from '~/utils/request-info'
 
-export const Newsletter = () => {
+export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 	const { newsletterImage, showNewsLetter } = useNewsLetterData()
 	const fetcher = useFetcher<ReturnType<typeof action>>({ key: 'newsletter' })
 	const lastResult: any = fetcher.data
@@ -28,7 +28,14 @@ export const Newsletter = () => {
 	const isLastResultSuccessful = lastResult?.status === 'success'
 
 	return (
-		<div className="mt-24 items-center gap-8 self-end rounded-md border-[1.5px] border-solid border-border-color bg-transparent px-4 py-4 md:px-12 md:py-10 lg:flex">
+		<div
+			className={twMerge(
+				noBorder
+					? ''
+					: 'border-[1.5px] border-solid border-border-color px-4 md:px-12',
+				'mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
+			)}
+		>
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
 				<img
 					alt="Me looking very handsome"

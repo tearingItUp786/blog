@@ -2,7 +2,7 @@ import { NavLink, useSearchParams } from 'react-router'
 import { twMerge } from 'tailwind-merge'
 import { type MdxPage } from 'types'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
-import { H2 } from '~/components/typography'
+import { H2, InlineImage } from '~/components/typography'
 import { dotFormattedDate } from '~/utils/misc'
 
 type Props = MdxPage['frontmatter'] & {
@@ -19,17 +19,31 @@ export function BlogCard({
 	description,
 	slug,
 	className,
-	descriptionClassName,
+	hero,
 }: Props) {
 	const [searchParams] = useSearchParams()
 	return (
-		<div
-			className={twMerge(
-				`relative py-6 after:absolute after:right-0 after:top-[2rem] after:hidden after:h-[2px] after:bg-black after:content-[""] after:dark:bg-white md:after:block`,
-				className,
-			)}
-		>
-			<div>
+		<div className={twMerge(`relative`, className)}>
+			<InlineImage
+				aspectH="aspect-h-5"
+				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
+				src={hero}
+			/>
+			<div className="basis-full p-8 pt-6 lg:basis-5/12">
+				<NavLink
+					className="text-body hover:underline"
+					prefetch="intent"
+					to={`/${slug}?${searchParams.toString()}`}
+				>
+					<H2 className="mb-2 mt-0 font-normal md:text-2xl">{title}</H2>
+					<p
+						className={twMerge(
+							'text-center text-body dark:text-white md:text-left',
+						)}
+					>
+						{description ?? subtitle}
+					</p>
+				</NavLink>
 				<span>
 					<NavLink
 						prefetch="intent"
@@ -46,18 +60,7 @@ export function BlogCard({
 						{date ? dotFormattedDate(date) : null}
 					</span>
 				</span>
-				<NavLink prefetch="intent" to={`/${slug}?${searchParams.toString()}`}>
-					<H2 className="mb-0 mt-2">{title}</H2>
-				</NavLink>
 			</div>
-			<p
-				className={twMerge(
-					'text-center dark:text-white md:text-left',
-					descriptionClassName,
-				)}
-			>
-				{description ?? subtitle}
-			</p>
 		</div>
 	)
 }
