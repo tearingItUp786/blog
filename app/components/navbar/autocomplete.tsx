@@ -73,6 +73,14 @@ export function Autocomplete({
 		[instantSearchUiState.isOpen],
 	)
 
+	useHotkeys(
+		'escape',
+		() => {
+			searchRef.current?.setIsOpen(false)
+		},
+		[instantSearchUiState.isOpen],
+	)
+
 	useEffect(() => {
 		if (!autocompleteContainer.current) {
 			return
