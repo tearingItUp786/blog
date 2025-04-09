@@ -31,6 +31,7 @@ export function Navbar() {
 	const searchParamsWithoutOffset = new URLSearchParams(searchParams)
 	// we don't need the offset for the navbar
 	searchParamsWithoutOffset.delete('offset')
+	searchParamsWithoutOffset.delete('page')
 
 	const [isOpen, setIsOpen] = useState(false)
 	const loc = useLocation()
