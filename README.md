@@ -1,4 +1,4 @@
-# Tarn's personal blog!
+# Taran's personal blog!
 
 ## Requirements
 
