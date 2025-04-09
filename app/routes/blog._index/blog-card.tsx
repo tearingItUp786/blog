@@ -25,6 +25,7 @@ export function BlogCard({
 	return (
 		<div className={twMerge(`relative`, className)}>
 			<InlineImage
+				lazyLoadImage
 				aspectH="aspect-h-5"
 				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
 				src={hero}

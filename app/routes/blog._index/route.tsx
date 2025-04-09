@@ -13,6 +13,8 @@ import { Pagination } from './pagination'
 import { twMerge } from 'tailwind-merge'
 import { H1 } from '~/components/typography'
 import { Newsletter } from '~/components/newsletter/newsletter'
+import { useEffect, useRef } from 'react'
+import LazyLoad, { ILazyLoadInstance } from 'vanilla-lazyload'
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [
@@ -37,7 +39,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		includeDrafts: showDrafts,
 	})
 
-	const yolo = await getPaginatedBlogList({
+	const paginatedData = await getPaginatedBlogList({
 		page,
 		perPage: 9,
 		includeDrafts: showDrafts,
@@ -46,14 +48,24 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 	return {
 		featuredPost,
-		yolo,
+		paginatedData,
 		currentPage: page,
 	}
 }
 
 export default function Blog() {
-	const { yolo, featuredPost, currentPage } = useLoaderData<typeof loader>()
-	const { pagination } = yolo
+	const { paginatedData, featuredPost, currentPage } =
+		useLoaderData<typeof loader>()
+	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
+	const { pagination } = paginatedData
+
+	useEffect(() => {
+		if (lazyLoadRef.current === null) {
+			lazyLoadRef.current = new LazyLoad()
+		} else {
+			lazyLoadRef.current.update()
+		}
+	}, [pagination])
 
 	return (
 		<div
@@ -71,7 +83,7 @@ export default function Blog() {
 						slug={featuredPost.path ?? ''}
 					/>
 				) : null}
-				{yolo.posts.map((post) => (
+				{paginatedData.posts.map((post) => (
 					<BlogCard
 						{...post.frontmatter}
 						className="col-span-4 overflow-clip rounded-md border border-solid border-medium-gray focus-visible:outline-2 dark:border-white"
