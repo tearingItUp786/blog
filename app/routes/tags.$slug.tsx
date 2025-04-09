@@ -80,7 +80,7 @@ export default function SingleTag() {
 
 	return (
 		<div className="relative mx-auto mb-4 mt-6 w-screen max-w-screen-xl flex-grow px-4 md:mb-10 md:mt-14 md:px-20">
-			<div className="prose prose-light relative grid max-w-full grid-cols-4 break-words dark:prose-dark md:mb-12 md:grid-cols-12 md:*:col-span-12">
+			<main className="prose prose-light relative grid max-w-full grid-cols-4 break-words dark:prose-dark md:mb-12 md:grid-cols-12 md:*:col-span-12">
 				<H1 className="w-full border-b-2 dark:border-b-white">
 					Today I learned about... <br />
 					<span
@@ -148,7 +148,7 @@ export default function SingleTag() {
 						</div>
 					)
 				})}
-			</div>
+			</main>
 		</div>
 	)
 }

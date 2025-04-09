@@ -44,7 +44,7 @@ const RandomThing = ({
 	titleClassName?: string
 }) => {
 	return (
-		<div
+		<main
 			className={clsx(
 				className,
 				'border-gray-300 mb-8 w-full border border-solid p-8 dark:border-white lg:mb-0',
@@ -57,7 +57,7 @@ const RandomThing = ({
 			) : null}
 			<H4 className={clsx(titleClassName, 'mb-4')}>{title}</H4>
 			<p className="max-w-md">{description}</p>
-		</div>
+		</main>
 	)
 }
 

@@ -128,7 +128,7 @@ export default function TilPage() {
 	}, [fetcher.data])
 
 	return (
-		<div className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
+		<main className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
 			<div className="mb-4 mt-6 flex items-center md:mb-10 md:mt-14">
 				<H1 className="">Today I Learned</H1>
 				<NavLink
@@ -167,6 +167,6 @@ export default function TilPage() {
 					})}
 				</div>
 			</div>
-		</div>
+		</main>
 	)
 }

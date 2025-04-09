@@ -74,7 +74,7 @@ export default function Blog() {
 			)}
 		>
 			<H1 className="mb-8">Blog</H1>
-			<div className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
+			<main className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
 				{currentPage === 1 && featuredPost ? (
 					<BlogCard
 						{...featuredPost.frontmatter}
@@ -91,7 +91,7 @@ export default function Blog() {
 						slug={post.path ?? ''}
 					/>
 				))}
-			</div>
+			</main>
 
 			{/* Pagination Controls */}
 			<Pagination
