@@ -40,9 +40,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	const args = new URLSearchParams(request.url.split('?')[1])
-	const endOffsetParam = args.get('offset')
-	const fromFetcher = args.get('fromFetcher')
+	const url = new URL(request.url)
+	const endOffsetParam = url.searchParams.get('offset')
+	const fromFetcher = url.searchParams.has('fromFetcher')
 
 	// Use a logical OR to provide a default value for endOffset
 	const endOffset = Number(endOffsetParam) || 1
