@@ -76,7 +76,7 @@ export default function Index() {
 						</a>
 					</div>
 				</article>
-				<div className="mt-24 basis-full text-center lg:basis-2/3">
+				<div className="mx-auto mt-24 max-w-4xl basis-full text-center lg:basis-2/3">
 					<H2 className="font-normal">{quoteData.quote}</H2>
 					<p className="mt-7 text-xl font-normal italic">{quoteData.author}</p>
 					<fetcher.Form method="POST">
