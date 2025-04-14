@@ -32,7 +32,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const url = new URL(request.url)
 	const showDrafts = url.searchParams.has('showDrafts')
 	const pageParam = url.searchParams.get('page')
-	const page = pageParam ? parseInt(pageParam, 10) : 1
+	let page = pageParam ? parseInt(pageParam, 10) : 1
+
+	if (isNaN(page)) {
+		page = 1
+	}
 
 	// Get the featured post
 	const featuredPost = await getFeaturedBlogPost({
