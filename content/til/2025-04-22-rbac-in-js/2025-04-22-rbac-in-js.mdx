@@ -1,0 +1,31 @@
+---
+title: RBAC in JS
+date: 2025-04-22
+tag: JS
+---
+
+TIL about a role based access control (RBAC) library in JavaScript. [`CASL`](https://casl.js.org/v6/en/guide/intro)
+is a library that allows us to declaratively restrict access to resources based on roles and permissions.
+
+```jsx
+import { createContext } from 'react'
+import { createContextualCan } from '@casl/react'
+
+export const AbilityContext = createContext()
+export const Can = createContextualCan(AbilityContext.Consumer)
+
+export default () => {
+	const createTodo = () => {
+		/* logic to show new todo form */
+	}
+	const ability = useContext(AbilityContext)
+
+	return (
+		<div>
+			{ability.can('create', 'Todo') && (
+				<button onClick={createTodo}>Create Todo</button>
+			)}
+		</div>
+	)
+}
+```
