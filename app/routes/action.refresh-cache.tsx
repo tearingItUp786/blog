@@ -54,7 +54,7 @@ const getFileArray = (acc: [File[], File[], File[]], file: File) => {
  * We don't want to overload our server with all these pending promises
  * So let's use a queue to queue up what needs to be fetched.
  */
-const P_QUEUE = new PQueue({ concurrency: 4 })
+const P_QUEUE = new PQueue({ concurrency: 8 })
 
 /**
  * The purpose of this function is to refresh the paginated blog list
