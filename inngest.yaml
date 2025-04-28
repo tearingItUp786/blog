@@ -1,0 +1,3 @@
+sdk-url:
+  - 'http://localhost:8080/inngest'
+no-discovery: true
