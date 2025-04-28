@@ -71,6 +71,7 @@
     "hast": "^1.0.0",
     "hast-util-select": "^5.0.2",
     "hotkeys-js": "^3.10.3",
+    "inngest": "^3.35.1",
     "intl-parse-accept-language": "^1.0.0",
     "is-ip": "^5.0.1",
     "isbot": "^5.1.2",
