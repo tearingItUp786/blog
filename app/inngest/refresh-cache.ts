@@ -388,27 +388,35 @@ export const handleTagListRefresh = inngest.createFunction(
 		},
 	},
 	{ event: 'blog/handle-tag-list-refresh' },
-	async ({}) => {
+	async ({ step }) => {
 		console.log('👍 refresh tag list in redis')
 		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
 		console.log('👍 refresh the individual tags in redis')
 
-		// Map your tags to functions that add tasks to the queue
-		const tasks = tags.map((tag) => async () => {
-			return P_QUEUE.add(() =>
-				getMdxIndividualTagGql({
-					userProvidedTag: tag,
-					...cachifiedOptions,
-				}),
-			)
-		})
-
-		// Execute all tasks
-		await Promise.all(tasks.map((task) => task()))
+		for (const tag of tags) {
+			await step.sendEvent('refresh-single-tag', {
+				name: 'blog/refresh-single-tag',
+				data: { tag },
+			})
+		}
 		return {
 			ok: true,
 			tags,
 		}
+	},
+)
+
+export const refreshSingleTag = inngest.createFunction(
+	{ id: 'blog/refresh-single-tag' },
+	{ event: 'blog/refresh-single-tag' },
+	async ({ event }) => {
+		const { tag } = event.data
+		await getMdxIndividualTagGql({
+			userProvidedTag: tag,
+			...cachifiedOptions,
+		})
+		console.log(`✅ Refreshed tag: ${tag}`)
+		return { ok: true, tag }
 	},
 )
 
