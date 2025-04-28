@@ -252,7 +252,12 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
 }
 
 export const refreshCache = inngest.createFunction(
-	{ id: 'refresh-cache' },
+	{
+		id: 'refresh-cache',
+		onFailure: async ({ event, step }) => {
+			await sendNtfyNotification('Failure to refresh cache')
+		},
+	},
 	{ event: 'blog/refresh-cache' },
 	async ({ event, step }) => {
 		const index = algoliaClient?.initIndex('website')
@@ -394,7 +399,7 @@ export const refreshCache = inngest.createFunction(
 
 		console.log('👍 refreshed algolia index with til list')
 		// refresh all the redis tags as well
-		await sendNtfyNotification()
+		await sendNtfyNotification('Cache refreshed successfully!')
 
 		return { ok: true }
 	},

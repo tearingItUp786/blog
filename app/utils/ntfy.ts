@@ -1,11 +1,11 @@
-export async function sendNtfyNotification() {
+export async function sendNtfyNotification(msg: string) {
 	const topic = process.env.NOTIFY_TOPIC // Replace with your actual ntfy topic
 	const url = `https://ntfy.sh/${topic}`
 
 	try {
 		const response = await fetch(url, {
 			method: 'POST',
-			body: 'done refreshing cache',
+			body: msg,
 			headers: {
 				'Content-Type': 'text/plain',
 			},
