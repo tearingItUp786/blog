@@ -72,7 +72,7 @@ export async function compileMdxForGraphql<
 	const { default: remarkImages } = await import('remark-images')
 	const { default: remarkToc } = await import('remark-toc')
 
-	const { default: mdxMermaid } = await import('mdx-mermaid')
+	// const { default: mdxMermaid } = await import('mdx-mermaid')
 
 	// rehype plugins
 	const { default: rehypePrismPlus } = await import('rehype-prism-plus')
@@ -83,6 +83,7 @@ export async function compileMdxForGraphql<
 	const { default: rehypeCodeTitles } = await import('rehype-code-titles')
 	const { default: rehypeAddClasses } = await import('rehype-add-classes')
 	const { default: rehypeExternalLinks } = await import('rehype-external-links')
+	const { default: rehypeMermaid } = await import('rehype-mermaid')
 
 	const mdxFile = githubFiles.find((val) => {
 		return val?.name?.includes('mdx')
@@ -102,6 +103,9 @@ export async function compileMdxForGraphql<
 
 	if (!mdxFile) return null
 
+	// @ts-ignore
+	// console.log('wtf', mdxMermaid, mdxMermaid.default)
+
 	try {
 		const mdxText = mdxFile.object?.text ?? ''
 		const { frontmatter, code, matter } = await bundleMDX({
@@ -110,8 +114,8 @@ export async function compileMdxForGraphql<
 			mdxOptions(options) {
 				options.remarkPlugins = [
 					...(options.remarkPlugins ?? []),
-					[mdxMermaid, { output: 'svg' }],
 					[remarkToc, { tight: true }],
+					// [mdxMermaid, { output: 'svg' }],
 					capitalize,
 					[emoji, { accessible: true }],
 					gfm,
@@ -150,6 +154,7 @@ export async function compileMdxForGraphql<
 				]
 				options.rehypePlugins = [
 					...(options.rehypePlugins ?? []),
+					[rehypeMermaid, { strategy: 'img-svg' }],
 					[
 						rehypeCodeTitles,
 						{ titleSeparator: ':title=', customClassName: 'custom-code-title' },
