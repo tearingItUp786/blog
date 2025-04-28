@@ -2,8 +2,7 @@
 
 ## Overview
 
-This is a personal blog project built with modern web technologies, featuring
-server-side rendering, background job processing, and efficient caching.
+It's my blog, yo.
 
 ## Tech Stack
 
