@@ -23,3 +23,4 @@ that's `brew install --cask chromium`.
 - `pnpm  dev` - get the dev server up and running on port 8080. We chose this
   port over the default because that's the port that fly wants to use! The
 - `pnpm clean` - removes all the artifacts related to the build
+- `npx inngest-cli@latest dev` - starts the inngest development server
