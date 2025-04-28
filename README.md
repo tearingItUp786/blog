@@ -32,26 +32,19 @@ Before getting started, ensure you have the following installed:
 
 ## Local Development Setup
 
-1. **Clone the Repository**
-
-   ```bash
-   git clone https://github.com/yourusername/personal-blog.git
-   cd personal-blog
-   ```
-
-2. **Install Dependencies**
+1. **Install Dependencies**
 
    ```bash
    pnpm install
    ```
 
-3. **Set Up Environment Variables**
+2. **Set Up Environment Variables**
 
    ```bash
    npx dotenv-vault pull
    ```
 
-4. **Start Services**
+3. **Start Services**
 
    - Start Redis (via Docker Compose):
      ```bash
@@ -62,7 +55,7 @@ Before getting started, ensure you have the following installed:
      npx inngest-cli@latest dev
      ```
 
-5. **Run Development Server**
+4. **Run Development Server**
 
    ```bash
    pnpm dev
