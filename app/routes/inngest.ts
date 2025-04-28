@@ -1,11 +1,14 @@
-// app/routes/api.inngest.ts
 import { serve } from 'inngest/remix'
 import { inngest } from '~/inngest/client'
-import { refreshCache } from '~/inngest/refresh-cache'
+import {
+	handleTagListRefresh,
+	manualRefreshFunction,
+	refreshCache,
+} from '~/inngest/refresh-cache'
 
 const handler = serve({
 	client: inngest,
-	functions: [refreshCache],
+	functions: [refreshCache, handleTagListRefresh, manualRefreshFunction],
 })
 
 export { handler as action, handler as loader }

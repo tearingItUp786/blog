@@ -173,84 +173,6 @@ const refreshTilList = async () => {
 	}
 }
 
-const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
-	console.log('🔥 Manually force fresh invoked!')
-
-	// if redis doesn't have keys already, then we're outta luck here
-	// we need redis to have the keys to know what to refresh
-	const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
-	const individualPages = await redisClient.keys('gql:pages:*')
-
-	console.log('👍 refreshing featured blog post')
-	await getFeaturedBlogPost({
-		...cachifiedOptions,
-	})
-
-	console.log('👍 refreshing paginated blog list')
-	await refreshPaginatedBlogList()
-
-	console.log('👍 refreshing til list')
-	const tilList = await refreshTilList()
-
-	console.log('👍 refreshing blog list')
-	const blogList: Omit<MdxPage, 'code'>[] = (
-		await getMdxBlogListGraphql({ ...cachifiedOptions })
-	).publishedPages
-
-	const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
-
-	// Map your tags to functions that add tasks to the queue
-	const tagsTasks = tags.map((tag) => async () => {
-		return P_QUEUE.add(() =>
-			getMdxIndividualTagGql({
-				userProvidedTag: tag,
-				...cachifiedOptions,
-			}),
-		)
-	})
-
-	// Execute all tasks
-	const pageTasks = [...individualBlogArticles, ...individualPages].map(
-		(article) => async () => {
-			const [, contentDir, slug] = article.split(':')
-			if (contentDir && slug) {
-				return P_QUEUE.add(() =>
-					getMdxPageGql({
-						contentDir,
-						slug,
-						...cachifiedOptions,
-					}),
-				)
-			}
-		},
-	)
-
-	await Promise.all(tagsTasks.map((task) => task()))
-	await Promise.all(pageTasks.map((task) => task()))
-
-	console.log('👍 refreshing algolia')
-	const blogObjects = [...blogList].map((o) => ({
-		...o.matter,
-		type: 'blog',
-		objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
-		content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
-	}))
-
-	const tilObjects = [...tilList].map((o) => {
-		return {
-			...o.matter,
-			type: 'til',
-			offset: o.offset,
-			objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
-			content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
-		}
-	})
-	await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
-	console.log('👍 refreshed algolia index with til list')
-
-	return { ok: true }
-}
-
 export const refreshCache = inngest.createFunction(
 	{
 		id: 'refresh-cache',
@@ -261,7 +183,7 @@ export const refreshCache = inngest.createFunction(
 		},
 	},
 	{ event: 'blog/refresh-cache' },
-	async ({ event }) => {
+	async ({ event, step }) => {
 		const index = algoliaClient?.initIndex('website')
 
 		const { contentFiles } = event.data
@@ -273,7 +195,12 @@ export const refreshCache = inngest.createFunction(
 		// refresh til list, blog list, all blog articles, tag list, and  tags
 		const { forceFresh } = event.data
 		if (forceFresh) {
-			return handleManualRefresh(index)
+			await step.sendEvent('blog/handle-manual-refresh', {
+				name: 'blog/handle-manual-refresh',
+				data: { forceFresh },
+			})
+
+			return { ok: true, process: 'manual-refresh-triggered' }
 		}
 
 		/**
@@ -342,9 +269,6 @@ export const refreshCache = inngest.createFunction(
 			blogList = publishedPages
 		}
 
-		console.log('👍 refresh tag list in redis')
-		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
-
 		console.log('👍 refresh pages in redis')
 		for (const file of pagesFiles) {
 			// refresh the cache in this case
@@ -363,20 +287,10 @@ export const refreshCache = inngest.createFunction(
 			await getMdxPageGql(args)
 		}
 
-		console.log('👍 refresh the individual tags in redis')
-
-		// Map your tags to functions that add tasks to the queue
-		const tasks = tags.map((tag) => async () => {
-			return P_QUEUE.add(() =>
-				getMdxIndividualTagGql({
-					userProvidedTag: tag,
-					...cachifiedOptions,
-				}),
-			)
+		await step.sendEvent('send-refresh-tag-event', {
+			name: 'blog/handle-tag-list-refresh',
+			data: { userId: event.data.userId },
 		})
-
-		// Execute all tasks
-		await Promise.all(tasks.map((task) => task()))
 
 		if (blogList.length || tilList.length) {
 			const blogObjects = [...blogList].map((o) => ({
@@ -404,5 +318,124 @@ export const refreshCache = inngest.createFunction(
 		await sendNtfyNotification('Cache refreshed successfully!')
 
 		return { ok: true }
+	},
+)
+
+export const manualRefreshFunction = inngest.createFunction(
+	{
+		id: 'blog/handle-manual-refresh',
+		onFailure: async ({ error }) => {
+			await sendNtfyNotification(
+				`Failed to handle manual refresh: ${error.message}`,
+			)
+		},
+	},
+	{
+		event: 'blog/handle-manual-refresh',
+	},
+
+	async ({ event, step }) => {
+		console.log('🔥 Manually force fresh invoked!')
+		const algoliaIndex = algoliaClient?.initIndex('website')
+
+		// if redis doesn't have keys already, then we're outta luck here
+		// we need redis to have the keys to know what to refresh
+		const individualBlogArticles = await redisClient.keys('gql:blog:[0-9]*')
+		const individualPages = await redisClient.keys('gql:pages:*')
+
+		console.log('👍 refreshing featured blog post')
+		await getFeaturedBlogPost({
+			...cachifiedOptions,
+		})
+
+		console.log('👍 refreshing paginated blog list')
+		await refreshPaginatedBlogList()
+
+		console.log('👍 refreshing til list')
+		const tilList = await refreshTilList()
+
+		console.log('👍 refreshing blog list')
+		const blogList: Omit<MdxPage, 'code'>[] = (
+			await getMdxBlogListGraphql({ ...cachifiedOptions })
+		).publishedPages
+
+		await step.sendEvent('send-refresh-tag-event', {
+			name: 'blog/handle-tag-list-refresh',
+			data: { userId: event.data.userId },
+		})
+
+		// Execute all tasks
+		const pageTasks = [...individualBlogArticles, ...individualPages].map(
+			(article) => async () => {
+				const [, contentDir, slug] = article.split(':')
+				if (contentDir && slug) {
+					return P_QUEUE.add(() =>
+						getMdxPageGql({
+							contentDir,
+							slug,
+							...cachifiedOptions,
+						}),
+					)
+				}
+			},
+		)
+
+		await Promise.all(pageTasks.map((task) => task()))
+
+		console.log('👍 refreshing algolia')
+		const blogObjects = [...blogList].map((o) => ({
+			...o.matter,
+			type: 'blog',
+			objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+			content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
+		}))
+
+		const tilObjects = [...tilList].map((o) => {
+			return {
+				...o.matter,
+				type: 'til',
+				offset: o.offset,
+				objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+				content: replaceContent(o?.matter?.content), // strip out the html tags from the content -- this could be better but it fits my needs
+			}
+		})
+		await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
+		console.log('👍 refreshed algolia index with til list')
+
+		return { ok: true }
+	},
+)
+
+export const handleTagListRefresh = inngest.createFunction(
+	{
+		id: 'blog/handle-tag-list-refresh',
+		onFailure: async ({ error }) => {
+			await sendNtfyNotification(
+				`Failed to handle tag list refresh: ${error.message}`,
+			)
+		},
+	},
+	{ event: 'blog/handle-tag-list-refresh' },
+	async ({}) => {
+		console.log('👍 refresh tag list in redis')
+		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
+		console.log('👍 refresh the individual tags in redis')
+
+		// Map your tags to functions that add tasks to the queue
+		const tasks = tags.map((tag) => async () => {
+			return P_QUEUE.add(() =>
+				getMdxIndividualTagGql({
+					userProvidedTag: tag,
+					...cachifiedOptions,
+				}),
+			)
+		})
+
+		// Execute all tasks
+		await Promise.all(tasks.map((task) => task()))
+		return {
+			ok: true,
+			tags,
+		}
 	},
 )
