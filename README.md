@@ -1,26 +1,83 @@
-# Taran's personal blog!
+# Taran's Personal Blog
 
-## Requirements
+## Overview
 
-In order to get the repository up and running, you'll need the following
-prerequisites.
+This is a personal blog project built with modern web technologies, featuring
+server-side rendering, background job processing, and efficient caching.
 
-- [Docker](https://www.docker.com/) - used for our redis cache
-- Node - the current version is pinned via Volta
-- Docker compose - we run docker-compose up to start the redis server
-- Chromium
-- pnpm - we use pnpm for our package manager
+## Tech Stack
 
-## Setup
+- **Frontend**: Remix (React framework)
+- **Package Manager**: pnpm
+- **Background Jobs**: Inngest
+- **Caching**: Redis
+- **Deployment**: Fly.io
 
-We use dotenv to handle our secrets so you'll need to do
-`npx dotenv-vault pull`. You will also need to install chromium! On a Mac,
-that's `brew install --cask chromium`.
+## Prerequisites
 
-## Commands
+Before getting started, ensure you have the following installed:
 
-- `npx dotenv-vault pull` - pull in our secrets
-- `pnpm  dev` - get the dev server up and running on port 8080. We chose this
-  port over the default because that's the port that fly wants to use! The
-- `pnpm clean` - removes all the artifacts related to the build
-- `npx inngest-cli@latest dev` - starts the inngest development server
+### Required Tools
+
+- [Node.js](https://nodejs.org/) (managed by Volta)
+- [pnpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Chromium](https://www.chromium.org/)
+
+### Optional but Recommended
+
+- [Volta](https://volta.sh/) (Node version management)
+- [Dotenv Vault](https://www.dotenv.org/docs/security/vault.html)
+
+## Local Development Setup
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/personal-blog.git
+   cd personal-blog
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set Up Environment Variables**
+
+   ```bash
+   npx dotenv-vault pull
+   ```
+
+4. **Start Services**
+
+   - Start Redis (via Docker Compose):
+     ```bash
+     docker-compose up -d
+     ```
+   - Start Inngest Development Server:
+     ```bash
+     npx inngest-cli@latest dev
+     ```
+
+5. **Run Development Server**
+
+   ```bash
+   pnpm dev
+   ```
+
+   The development server will be available at `http://localhost:8080`
+
+## Available Scripts
+
+- `pnpm dev`: Start the development server
+- `pnpm clean`: Remove build artifacts
+- `npx dotenv-vault pull`: Fetch latest environment secrets
+- `npx inngest-cli@latest dev`: Start Inngest background job server
+
+## Deployment
+
+The application is deployed on Fly.io. The default port is set to 8080 to align
+with Fly.io's preferences.
