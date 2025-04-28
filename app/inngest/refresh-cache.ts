@@ -254,12 +254,14 @@ const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
 export const refreshCache = inngest.createFunction(
 	{
 		id: 'refresh-cache',
-		onFailure: async ({ event, step }) => {
-			await sendNtfyNotification('Failure to refresh cache')
+		onFailure: async ({ event }) => {
+			await sendNtfyNotification(
+				`Failure to refresh cache: ${event.data.event}`,
+			)
 		},
 	},
 	{ event: 'blog/refresh-cache' },
-	async ({ event, step }) => {
+	async ({ event }) => {
 		const index = algoliaClient?.initIndex('website')
 
 		const { contentFiles } = event.data
