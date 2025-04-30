@@ -274,7 +274,7 @@ export default function MdxScreen() {
 			</main>
 			<div className="relative">
 				<PreviousAndNextLinks
-					className="mb-12 mt-4 flex px-0 md:px-24"
+					className="mb-12 mt-4 flex px-0 lg:px-24"
 					previous={previous}
 					next={next}
 				/>

@@ -57,6 +57,7 @@ RUN apt-get update -qq && \
 ENV NODE_ENV=production
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
+RUN npx playwright install --with-deps chromium
 
 RUN mkdir /app
 WORKDIR /app
