@@ -35,8 +35,10 @@ function replaceContent(str = '') {
 		.replace(/(\*\*|__|\*|_|~~)/g, '')
 }
 
-// Inngest Functions
-
+/**
+ * This is the primary event we're listening for and it is
+ * the orchestrator for this entire refresh process.
+ */
 export const refreshCache = inngest.createFunction(
 	{ id: 'refresh-cache', retries: 0 },
 	{ event: 'blog/refresh-cache' },
@@ -85,6 +87,7 @@ export const refreshCache = inngest.createFunction(
 			})
 		}
 
+		// Regardless of whether or not anything was updated, we will update the tag list.
 		await step.sendEvent('blog/handle-tag-list-refresh', {
 			name: 'blog/handle-tag-list-refresh',
 		})
@@ -94,6 +97,12 @@ export const refreshCache = inngest.createFunction(
 	},
 )
 
+/**
+ * There is definitely some redundancy here between the refresh cache function and this handle manual refresh
+ * but I wanted to avoid a hasty abstraction!
+ *
+ * I don't mind having one function just to handle the manual refresh process.
+ */
 export const handleManualRefresh = inngest.createFunction(
 	{ id: 'blog/handle-manual-refresh', retries: 0 },
 	{ event: 'blog/handle-manual-refresh' },
@@ -144,6 +153,7 @@ export const refreshTilList = inngest.createFunction(
 	},
 )
 
+// TODO: give this a better name
 export const refreshBlogFiles = inngest.createFunction(
 	{ id: 'blog/refresh-blog-files' },
 	{ event: 'blog/refresh-blog-files' },
@@ -175,11 +185,14 @@ export const refreshBlogFiles = inngest.createFunction(
 	},
 )
 
+// TODO: give this a better name
 export const handleRedisPagesRefresh = inngest.createFunction(
 	{ id: 'blog/handle-redis-pages-refresh', retries: 0 },
 	{ event: 'blog/handle-redis-pages-refresh' },
 	async () => {
+		// this is individual blog pages that are stored in redis
 		const blogKeys = await redisClient.keys('gql:blog:[0-9]*')
+		// this relates to one off pages like `uses`
 		const pageKeys = await redisClient.keys('gql:pages:*')
 
 		const pageTasks = [...blogKeys, ...pageKeys].map((key) => async () => {

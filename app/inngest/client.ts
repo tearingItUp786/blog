@@ -8,6 +8,13 @@ const fileSchema = z.object({
 
 export type FileSchema = z.infer<typeof fileSchema>
 
+/**
+ * These are the basic types that we're going to be using on our ingest workflow
+ * when we're trying to refresh the cache on a content update.
+ *
+ * Not every event needs a data payload and so the data property is omitted.
+ * I want to make sure that we're having events that are defined and expected.
+ */
 const manualRefreshEventSchema = z.object({
 	name: z.literal('blog/handle-manual-refresh'),
 })
