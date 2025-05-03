@@ -1,4 +1,4 @@
-import { inngest } from './client'
+import { type FileSchema, inngest } from './client'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
@@ -41,36 +41,30 @@ export const refreshCache = inngest.createFunction(
 	{ id: 'refresh-cache', retries: 0 },
 	{ event: 'blog/refresh-cache' },
 	async ({ event, step }) => {
-		const { contentFiles, forceFresh, userId } = event.data
+		const { contentFiles, forceFresh } = event.data
 
 		if (!contentFiles) return { ok: false }
 
 		if (forceFresh) {
 			await step.sendEvent('blog/handle-manual-refresh', {
 				name: 'blog/handle-manual-refresh',
-				data: { userId },
 			})
 			return { ok: true, process: 'manual-refresh-triggered' }
 		}
 
 		const [bFiles, tilFiles, pagesFiles] = contentFiles.reduce(
-			([blog, til, pages]: any, file: any) => {
+			([blog, til, pages], file) => {
 				if (file.filename.startsWith('content/blog')) blog.push(file)
 				else if (file.filename.startsWith('content/til')) til.push(file)
 				else if (file.filename.startsWith('content/pages')) pages.push(file)
 				return [blog, til, pages]
 			},
-			[[], [], []] as [
-				typeof contentFiles,
-				typeof contentFiles,
-				typeof contentFiles,
-			],
+			[[], [], []] as [FileSchema[], FileSchema[], FileSchema[]],
 		)
 
 		if (tilFiles.length) {
 			await step.sendEvent('blog/refresh-til-list', {
 				name: 'blog/refresh-til-list',
-				data: {},
 			})
 		}
 
@@ -79,22 +73,20 @@ export const refreshCache = inngest.createFunction(
 				name: 'blog/refresh-blog-files',
 				data: { bFiles },
 			})
+
 			await step.sendEvent('blog/handle-blog-list-refresh', {
 				name: 'blog/handle-blog-list-refresh',
-				data: {},
 			})
 		}
 
 		if (pagesFiles.length) {
 			await step.sendEvent('blog/handle-redis-pages-refresh', {
 				name: 'blog/handle-redis-pages-refresh',
-				data: {},
 			})
 		}
 
 		await step.sendEvent('blog/handle-tag-list-refresh', {
 			name: 'blog/handle-tag-list-refresh',
-			data: { userId },
 		})
 
 		await sendNtfyNotification('Cache refresh started! 🚀')
@@ -105,20 +97,17 @@ export const refreshCache = inngest.createFunction(
 export const handleManualRefresh = inngest.createFunction(
 	{ id: 'blog/handle-manual-refresh', retries: 0 },
 	{ event: 'blog/handle-manual-refresh' },
-	async ({ event, step }) => {
+	async ({ step }) => {
 		const algoliaIndex = algoliaClient.initIndex('website')
 
 		await step.sendEvent('blog/handle-redis-pages-refresh', {
 			name: 'blog/handle-redis-pages-refresh',
-			data: {},
 		})
 		await step.sendEvent('blog/handle-blog-list-refresh', {
 			name: 'blog/handle-blog-list-refresh',
-			data: {},
 		})
 		await step.sendEvent('blog/handle-tag-list-refresh', {
 			name: 'blog/handle-tag-list-refresh',
-			data: { userId: event.data.userId },
 		})
 
 		const tilList = await refreshTilListInternal()

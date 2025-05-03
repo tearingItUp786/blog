@@ -1,6 +1,7 @@
-type Body = { contentFiles: Array<File> }
 import { type ActionFunction, redirect } from 'react-router'
-import { inngest } from '~/inngest/client'
+import { type FileSchema, inngest } from '~/inngest/client'
+
+type Body = { contentFiles: Array<FileSchema> }
 
 export const action: ActionFunction = async ({ request }) => {
 	// hahaha
