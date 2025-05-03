@@ -224,12 +224,14 @@ export const handleBlogListRefresh = inngest.createFunction(
 export const handleTagListRefresh = inngest.createFunction(
 	{ id: 'blog/handle-tag-list-refresh', retries: 0 },
 	{ event: 'blog/handle-tag-list-refresh' },
-	async ({}) => {
+	async ({ step }) => {
 		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
 		for (const tag of tags) {
-			await getMdxIndividualTagGql({
-				userProvidedTag: tag,
-				...cachifiedOptions,
+			await step.run('blog/refresh-single-tag', async () => {
+				await getMdxIndividualTagGql({
+					userProvidedTag: tag,
+					...cachifiedOptions,
+				})
 			})
 		}
 		return { ok: true }
@@ -237,7 +239,6 @@ export const handleTagListRefresh = inngest.createFunction(
 )
 
 // Internal Helpers
-
 async function refreshTilListInternal() {
 	const initialData = await getPaginatedTilList({
 		...cachifiedOptions,
