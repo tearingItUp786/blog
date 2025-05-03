@@ -7,7 +7,6 @@ import {
 	handleTagListRefresh,
 	refreshBlogFiles,
 	refreshCache,
-	refreshSingleTag,
 	refreshTilList,
 } from '~/inngest/refresh-cache'
 
@@ -21,7 +20,6 @@ const handler = serve({
 		handleTagListRefresh,
 		handleBlogListRefresh,
 		handleRedisPagesRefresh,
-		refreshSingleTag,
 	],
 })
 

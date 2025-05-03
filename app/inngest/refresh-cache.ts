@@ -102,11 +102,6 @@ export const refreshCache = inngest.createFunction(
 	},
 )
 
-/**
- * This job is manually triggered by the user
- * and it will fail in inngest because the server takes too long
- * to responsd to the request (cloudlfare has a timeout of 100 seconds)
- */
 export const handleManualRefresh = inngest.createFunction(
 	{ id: 'blog/handle-manual-refresh', retries: 0 },
 	{ event: 'blog/handle-manual-refresh' },
@@ -229,26 +224,14 @@ export const handleBlogListRefresh = inngest.createFunction(
 export const handleTagListRefresh = inngest.createFunction(
 	{ id: 'blog/handle-tag-list-refresh', retries: 0 },
 	{ event: 'blog/handle-tag-list-refresh' },
-	async ({ step }) => {
+	async ({}) => {
 		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
 		for (const tag of tags) {
-			await step.sendEvent('blog/refresh-single-tag', {
-				name: 'blog/refresh-single-tag',
-				data: { tag },
+			await getMdxIndividualTagGql({
+				userProvidedTag: tag,
+				...cachifiedOptions,
 			})
 		}
-		return { ok: true }
-	},
-)
-
-export const refreshSingleTag = inngest.createFunction(
-	{ id: 'blog/refresh-single-tag' },
-	{ event: 'blog/refresh-single-tag' },
-	async ({ event }) => {
-		await getMdxIndividualTagGql({
-			userProvidedTag: event.data.tag,
-			...cachifiedOptions,
-		})
 		return { ok: true }
 	},
 )
