@@ -1,0 +1,24 @@
+---
+title: ts-reset
+date: 2025-05-05
+tag: TS
+---
+
+TIL about `ts-reset` - it's like CSS resets but for TypeScript! Shout out to Matt Pocock (and the team) for this!
+
+Here's an example of one of the rules:
+
+```tsx
+// AFTER
+import '@total-typescript/ts-reset/array-includes'
+
+const users = ['matt', 'sofia', 'waqas'] as const
+
+// .includes now takes a string as the first parameter
+// BEFORE, it would have complained about the type of the first parameter
+users.includes('bryan')
+```
+
+There are way more rules so I encourage you to give it a read and maybe incorporate it into your project!
+
+[Check it out](https://www.totaltypescript.com/ts-reset)
