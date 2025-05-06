@@ -1,0 +1,34 @@
+---
+title: Show your react router routes
+date: 2025-05-05
+tag: React
+---
+
+TIL that you can utilize `npx react-router routes` to see all the routes in your app!
+
+For my site, here's what I get:
+
+```jsx:title=taranveerbains.ca
+<Routes>
+  <Route file="root.tsx">
+    <Route path="newsletter/rss.xml" file="routes/_extras.newsletter.rss[.xml].tsx" />
+    <Route path="action/old-refresh-cache" file="routes/action.old-refresh-cache.tsx" />
+    <Route path="blog/rss.xml" file="routes/_extras.blog.rss[.xml].tsx" />
+    <Route path="til/rss.xml" file="routes/_extras.til.rss[.xml].tsx" />
+    <Route path="action/theme-switcher" file="routes/action.theme-switcher.tsx" />
+    <Route path="action/refresh-cache" file="routes/action.refresh-cache.tsx" />
+    <Route path="action/newsletter" file="routes/action.newsletter.tsx" />
+    <Route path="blog" index file="routes/blog._index/route.tsx" />
+    <Route path="tags" index file="routes/tags._index.tsx" />
+    <Route path="blog/:slug" file="routes/blog.$slug/route.tsx" />
+    <Route path="tags/:slug" file="routes/tags.$slug.tsx" />
+    <Route path="inngest" file="routes/inngest.ts" />
+    <Route index file="routes/_index.tsx" />
+    <Route path="health" file="routes/health.tsx" />
+    <Route path=":page" file="routes/$page.tsx" />
+    <Route path="about" file="routes/about/route.tsx" />
+    <Route path="til" file="routes/til/route.tsx" />
+    <Route path="*" file="routes/$.tsx" />
+  </Route>
+</Routes>
+```
