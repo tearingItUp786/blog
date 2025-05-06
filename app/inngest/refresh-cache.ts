@@ -124,6 +124,7 @@ export const handleManualRefresh = inngest.createFunction(
 
 		await ALGOLIA_INDEX.replaceAllObjects([...blogObjects, ...tilObjects])
 
+		await sendNtfyNotification('Manual cache refresh finished🚀')
 		return { ok: true, blogObjects, tilObjects }
 	},
 )
