@@ -1,7 +1,7 @@
 import { EventSchemas, Inngest } from 'inngest'
 import { z } from 'zod'
 
-const fileSchema = z.object({
+export const fileSchema = z.object({
 	changeType: z.enum(['modified', 'added', 'deleted', 'moved']),
 	filename: z.string(),
 })
