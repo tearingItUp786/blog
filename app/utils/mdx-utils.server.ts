@@ -38,6 +38,10 @@ async function delMdxPageGql({
 	return redisClient.del(`gql:${contentDir}:${slug}`)
 }
 
+/**
+ * This function is responsible for fetching a single mdx page from the content directory
+ * This can be a blog post or a page like /uses
+ */
 async function getMdxPageGql({
 	contentDir,
 	slug,

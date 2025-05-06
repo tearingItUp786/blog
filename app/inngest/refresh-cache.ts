@@ -3,7 +3,6 @@ import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
 	getFeaturedBlogPost,
-	getMdxBlogListGraphql,
 	getMdxIndividualTagGql,
 	getMdxPageGql,
 	getMdxTagListGql,
@@ -17,22 +16,43 @@ import PQueue from 'p-queue'
 // Utility functions
 const P_QUEUE = new PQueue({ concurrency: 8 })
 
+const ALGOLIA_INDEX = algoliaClient.initIndex('website')
+
 const cachifiedOptions = {
 	cachifiedOptions: { forceFresh: true },
 }
 
 function replaceContent(str = '') {
-	return str
-		?.replace(/(<([^>]+)>)/gi, '')
-		.replace(/!\[.*?\]\(.*?\)/g, '')
-		.replace(/\[(.*?)\]\(.*?\)/g, '$1')
-		.replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2')
-		.replace(/(\*|_)(.*?)(\*|_)/g, '$2')
-		.replace(/(~~)(.*?)(~~)/g, '$2')
-		.replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '')
-		.replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2')
-		.replace(/(\r\n|\r|\n)\s*(\*|-|\+|[0-9]+\.)\s/g, '')
-		.replace(/(\*\*|__|\*|_|~~)/g, '')
+	return (
+		str
+			// Strip MDX-specific content
+			?.replace(/import\s+.*?\s+from\s+['"].*?['"]/g, '') // Remove import statements
+			.replace(/import\s+{\s*.*?\s*}\s+from\s+['"].*?['"]/g, '') // Remove named imports
+			.replace(/export\s+default\s+.*?(?:\r\n|\r|\n|$)/g, '') // Remove export default statements
+			.replace(/export\s+const\s+.*?(?:;|$)/g, '') // Remove export const statements
+			.replace(/<.*?gss.*?>.*?<\/.*?>/g, '') // Remove GSS component tags
+			.replace(/<.*?GSS.*?>.*?<\/.*?>/g, '') // Remove GSS component tags (capitalized)
+			.replace(/<.*?Component.*?>.*?<\/.*?>/g, '') // Remove generic component tags
+			.replace(/{`.*?`}/g, '') // Remove template literals in braces
+			.replace(/{\/\*.*?\*\/}/gs, '') // Remove JSX comments
+			.replace(/{\/\/.*?(?:\r\n|\r|\n|$)}/g, '') // Remove single-line comments in braces
+			.replace(/{.*?}/g, '') // Remove remaining JSX expressions
+
+			// Original markdown stripping logic
+			.replace(/(<([^>]+)>)/gi, '') // Remove HTML tags
+			.replace(/!\[.*?\]\(.*?\)/g, '') // Remove image markdown
+			.replace(/\[(.*?)\]\(.*?\)/g, '$1') // Replace links with just the text
+			.replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2') // Remove bold formatting
+			.replace(/(\*|_)(.*?)(\*|_)/g, '$2') // Remove italic formatting
+			.replace(/(~~)(.*?)(~~)/g, '$2') // Remove strikethrough
+			.replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '') // Remove blockquotes
+			.replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2') // Remove headers
+			.replace(/(\r\n|\r|\n)\s*(\*|-|\+|[0-9]+\.)\s/g, '') // Remove list markers
+			.replace(/(\*\*|__|\*|_|~~)/g, '') // Remove any remaining markdown syntax
+			.replace(/```.*?```/gs, '') // Remove code blocks
+			.replace(/`.*?`/g, '') // Remove inline code
+			.trim()
+	) // Trim whitespace from the result
 }
 
 /**
@@ -67,10 +87,11 @@ export const refreshCache = inngest.createFunction(
 		if (tilFiles.length) {
 			await step.sendEvent('blog/refresh-til-list', {
 				name: 'blog/refresh-til-list',
+				data: { tilFiles },
 			})
 		}
 
-		if (bFiles.length) {
+		if (bFiles.length || true) {
 			await step.sendEvent('blog/refresh-blog-files', {
 				name: 'blog/refresh-blog-files',
 				data: { bFiles },
@@ -107,21 +128,16 @@ export const handleManualRefresh = inngest.createFunction(
 	{ id: 'blog/handle-manual-refresh', retries: 0 },
 	{ event: 'blog/handle-manual-refresh' },
 	async ({ step }) => {
-		const algoliaIndex = algoliaClient.initIndex('website')
-
 		await step.sendEvent('blog/handle-redis-pages-refresh', {
 			name: 'blog/handle-redis-pages-refresh',
 		})
-		await step.sendEvent('blog/handle-blog-list-refresh', {
-			name: 'blog/handle-blog-list-refresh',
-		})
+
 		await step.sendEvent('blog/handle-tag-list-refresh', {
 			name: 'blog/handle-tag-list-refresh',
 		})
 
 		const tilList = await refreshTilListInternal()
-		const blogList = (await getMdxBlogListGraphql({ ...cachifiedOptions }))
-			.publishedPages
+		const blogList = await refreshPaginatedBlogListInternal()
 
 		const blogObjects = blogList.map((o) => ({
 			...o.matter,
@@ -135,12 +151,12 @@ export const handleManualRefresh = inngest.createFunction(
 			type: 'til',
 			offset: o.offset,
 			objectID: o.slug,
-			content: replaceContent(o.matter.content),
+			content: replaceContent(String(o?.matter?.content)),
 		}))
 
-		await algoliaIndex.replaceAllObjects([...blogObjects, ...tilObjects])
+		await ALGOLIA_INDEX.replaceAllObjects([...blogObjects, ...tilObjects])
 
-		return { ok: true }
+		return { ok: true, blogObjects, tilObjects }
 	},
 )
 
@@ -148,8 +164,19 @@ export const refreshTilList = inngest.createFunction(
 	{ id: 'blog/refresh-til-list' },
 	{ event: 'blog/refresh-til-list' },
 	async () => {
-		await refreshTilListInternal()
-		return { ok: true }
+		const tilList = await refreshTilListInternal()
+		const tilObjects = [...tilList].map((o) => {
+			return {
+				...o.matter,
+				type: 'til',
+				offset: o.offset,
+				objectID: o.slug,
+				content: replaceContent(String(o?.matter?.content)),
+			}
+		})
+
+		await ALGOLIA_INDEX.saveObjects([...tilObjects])
+		return { ok: true, tilObjects }
 	},
 )
 
@@ -159,7 +186,6 @@ export const refreshBlogFiles = inngest.createFunction(
 	{ event: 'blog/refresh-blog-files' },
 	async ({ event }) => {
 		const { bFiles } = event.data
-		const index = algoliaClient.initIndex('website')
 
 		for (const file of bFiles) {
 			const slug = file.filename
@@ -174,7 +200,7 @@ export const refreshBlogFiles = inngest.createFunction(
 			) {
 				await delMdxPageGql({ contentDir: 'blog', slug })
 				try {
-					await index.deleteObject(slug)
+					await ALGOLIA_INDEX.deleteObject(slug)
 				} catch {
 					console.log('Slug not found in Algolia, skipping')
 				}
@@ -185,7 +211,10 @@ export const refreshBlogFiles = inngest.createFunction(
 	},
 )
 
-// TODO: give this a better name
+/**
+ * This function refreshes the individual blog pages and other pages in redis
+ * TODO: give this a better name
+ */
 export const handleRedisPagesRefresh = inngest.createFunction(
 	{ id: 'blog/handle-redis-pages-refresh', retries: 0 },
 	{ event: 'blog/handle-redis-pages-refresh' },
@@ -213,13 +242,25 @@ export const handleRedisPagesRefresh = inngest.createFunction(
 	},
 )
 
+/**
+ * This function is responsible for refreshing the blog list
+ * and updated the algolia index
+ */
 export const handleBlogListRefresh = inngest.createFunction(
 	{ id: 'blog/handle-blog-list-refresh', retries: 0 },
 	{ event: 'blog/handle-blog-list-refresh' },
 	async () => {
-		await getFeaturedBlogPost({ ...cachifiedOptions })
-		await refreshPaginatedBlogListInternal()
-		return { ok: true }
+		const blogList = await refreshPaginatedBlogListInternal()
+
+		const blogObjects = blogList.map((o) => ({
+			...o?.matter,
+			type: 'blog',
+			objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
+			content: replaceContent(String(o?.matter?.content)), // strip out the html tags from the content -- this could be better but it fits my needs
+		}))
+		await ALGOLIA_INDEX.saveObjects([...blogObjects])
+
+		return { ok: true, blogObjects }
 	},
 )
 
@@ -240,7 +281,10 @@ export const handleTagListRefresh = inngest.createFunction(
 	},
 )
 
-// Internal Helpers
+/**
+ * Refresh each page of TIL objects in redis
+ * and return the full list of TIL objects
+ */
 async function refreshTilListInternal() {
 	const initialData = await getPaginatedTilList({
 		...cachifiedOptions,
@@ -255,10 +299,21 @@ async function refreshTilListInternal() {
 			),
 		)
 	}
-	const results = await Promise.all(promises)
-	return results.flatMap((res: any) => res.fullList)
+	const promiseResults = await Promise.all(promises)
+	const tilList = promiseResults
+		.flatMap((res) => res?.fullList)
+		.filter((res) => res !== undefined)
+
+	return tilList
 }
 
+/**
+ * This function scans redis for paginated blog keys and delete them
+ * then it refreshes the featured blog post and paginated blog list.
+ * Algolia is also updated with the new list of blog posts.
+ *
+ * @returns blogList: Omit<MdxPageAndSlug, "code">[]
+ */
 async function refreshPaginatedBlogListInternal() {
 	const pattern = 'gql:blog:paginated:[0-9]*'
 	let cursor = 0
@@ -269,12 +324,16 @@ async function refreshPaginatedBlogListInternal() {
 		if (keys.length) await redisClient.del(keys)
 	} while (cursor !== 0)
 
-	const { pagination } = await getPaginatedBlogList({
+	const featuredBlogPost = await getFeaturedBlogPost({ ...cachifiedOptions })
+	const { pagination, posts } = await getPaginatedBlogList({
 		page: 1,
 		excludeFeatured: true,
 		...cachifiedOptions,
 	})
+
 	const { totalPages } = pagination
+	let blogList = featuredBlogPost ? [featuredBlogPost, ...posts] : posts
+
 	if (totalPages > 1) {
 		const promises = []
 		for (let i = 2; i <= totalPages; i++) {
@@ -284,6 +343,13 @@ async function refreshPaginatedBlogListInternal() {
 				),
 			)
 		}
-		await Promise.all(promises)
+		const otherPosts = await Promise.all(promises)
+		const remainingPosts = otherPosts.flatMap((page) => page?.posts)
+
+		blogList = [...blogList, ...remainingPosts].filter(
+			(page) => page !== undefined,
+		)
 	}
+
+	return blogList.filter((page) => page !== undefined)
 }
