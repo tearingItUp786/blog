@@ -58,7 +58,7 @@
     "clsx": "^1.1.1",
     "compression": "^1.7.4",
     "crypto-js": "^4.2.0",
-    "cssnano": "^6.0.0",
+    "cssnano": "^7.0.7",
     "date-fns": "^2.29.3",
     "dotenv": "^16.3.1",
     "esbuild": "^0.25.0",
