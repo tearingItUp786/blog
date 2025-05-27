@@ -23,4 +23,5 @@ const handler = serve({
 	],
 })
 
-export { handler as action, handler as loader }
+export const loader = handler
+export const action = handler

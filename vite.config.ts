@@ -1,6 +1,7 @@
 import { reactRouter } from '@react-router/dev/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 
+import { reactRouterDevTools } from 'react-router-devtools'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 // {
@@ -15,6 +16,7 @@ export default defineConfig({
 		// noExternal: [/@algolia.*/],
 	},
 	plugins: [
+		reactRouterDevTools(),
 		reactRouter(),
 		sentryVitePlugin({
 			org: process.env.SENTRY_ORG,
