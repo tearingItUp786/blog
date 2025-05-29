@@ -245,7 +245,7 @@ export const handleTagListRefresh = inngest.createFunction(
 
 		for (const tag of tags) {
 			await step.run('blog/refresh-single-tag', async () => {
-				await getMdxIndividualTagGql({
+				return await getMdxIndividualTagGql({
 					userProvidedTag: tag,
 					...cachifiedOptions,
 				})
