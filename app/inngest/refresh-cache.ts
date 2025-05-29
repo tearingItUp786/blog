@@ -59,7 +59,7 @@ export const refreshCache = inngest.createFunction(
 			})
 		}
 
-		if (bFiles.length || true) {
+		if (bFiles.length) {
 			await step.sendEvent('blog/refresh-blog-files', {
 				name: 'blog/refresh-blog-files',
 				data: { bFiles },
