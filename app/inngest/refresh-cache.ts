@@ -218,8 +218,10 @@ export const handleRedisPagesRefresh = inngest.createFunction(
 export const handleBlogListRefresh = inngest.createFunction(
 	{ id: 'blog/handle-blog-list-refresh', retries: 0 },
 	{ event: 'blog/handle-blog-list-refresh' },
-	async () => {
-		const blogList = await refreshPaginatedBlogListInternal()
+	async ({ step }) => {
+		const blogList = await step.run('blog/refresh-blog-list', async () => {
+			return await refreshPaginatedBlogListInternal()
+		})
 
 		const blogObjects = blogList.map((o) => ({
 			...o?.matter,
@@ -237,7 +239,10 @@ export const handleTagListRefresh = inngest.createFunction(
 	{ id: 'blog/handle-tag-list-refresh', retries: 0 },
 	{ event: 'blog/handle-tag-list-refresh' },
 	async ({ step }) => {
-		const { tags } = await getMdxTagListGql({ ...cachifiedOptions })
+		const { tags } = await step.run('blog/refresh-tags-list', async () => {
+			return await getMdxTagListGql({ ...cachifiedOptions })
+		})
+
 		for (const tag of tags) {
 			await step.run('blog/refresh-single-tag', async () => {
 				await getMdxIndividualTagGql({
