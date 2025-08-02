@@ -88,12 +88,34 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 	const theme = (await getThemeFromCookie(request)) as string
 
-	const mobileImage = cloudinaryInstance
-		.image('blog/me')
+	// Image name
+	const imageId = 'blog/me'
+
+	// Base size for 1x render
+	const baseWidth = 150
+	const baseHeight = 150
+
+	// 1x image
+	const image1x = cloudinaryInstance
+		.image(imageId)
 		.format('webp')
-		.resize(scale().width(500).height(500))
+		.resize(scale().width(baseWidth).height(baseHeight))
 		.backgroundColor('transparent')
 		.roundCorners(max())
+		.toURL()
+
+	// 2x image
+	const image2x = cloudinaryInstance
+		.image(imageId)
+		.format('webp')
+		.resize(
+			scale()
+				.width(baseWidth * 2)
+				.height(baseHeight * 2),
+		)
+		.backgroundColor('transparent')
+		.roundCorners(max())
+		.toURL()
 
 	if (isFresh && isDev) {
 		console.log('🌱 clearing redis cache in', process.env.NODE_ENV)
@@ -109,7 +131,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 			userPreferences: { theme },
 		},
 		newsLetterData: {
-			newsletterImage: mobileImage.toURL(),
+			newsletterImage: {
+				src: image1x,
+				srcSet: `${image1x} 1x, ${image2x} 2x`,
+				width: 150,
+				height: 150,
+			},
 			showNewsLetter: showNewsLetter,
 		},
 		honeypotInputProps: await honeypot.getInputProps(),
