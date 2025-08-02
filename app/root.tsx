@@ -74,7 +74,30 @@ export const meta: MetaFunction = () => {
 }
 
 export const links: LinksFunction = () => {
-	return [...FAVICON]
+	return [
+		...FAVICON,
+		{
+			rel: 'preload',
+			href: '/fonts/CommitMono-400-Regular.otf',
+			as: 'font',
+			type: 'font/otf',
+			crossOrigin: 'anonymous',
+		},
+		{
+			rel: 'preload',
+			href: '/fonts/CommitMono-700-Italic.otf',
+			as: 'font',
+			type: 'font/otf',
+			crossOrigin: 'anonymous',
+		},
+		{
+			rel: 'preload',
+			href: '/fonts/CommitMono-700-Regular.otf',
+			as: 'font',
+			type: 'font/otf',
+			crossOrigin: 'anonymous',
+		},
+	]
 }
 
 /**
