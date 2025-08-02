@@ -170,6 +170,7 @@ export const InlineImage = ({
 	lazyLoadImage = false,
 	className,
 	openInNewTab = false,
+	...imgProps
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
 	children?: React.ReactNode
 	containerClassName?: string
@@ -214,6 +215,7 @@ export const InlineImage = ({
 		[lazyLoadImage ? 'data-srcset' : 'srcSet']: srcSet
 			.map((s) => s.srcSetValue)
 			.join(', '),
+		...imgProps,
 	}
 
 	return (

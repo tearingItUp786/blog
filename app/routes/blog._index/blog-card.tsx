@@ -9,6 +9,7 @@ type Props = MdxPage['frontmatter'] & {
 	slug: string
 	className?: string
 	descriptionClassName?: string
+	lazyLoadImage?: boolean
 }
 
 export function BlogCard({
@@ -20,12 +21,14 @@ export function BlogCard({
 	slug,
 	className,
 	hero,
+	lazyLoadImage = true,
 }: Props) {
 	const [searchParams] = useSearchParams()
 	return (
 		<div className={twMerge(`relative`, className)}>
 			<InlineImage
-				lazyLoadImage
+				lazyLoadImage={lazyLoadImage}
+				fetchpriority={lazyLoadImage ? 'auto' : 'high'}
 				aspectH="aspect-h-5"
 				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
 				src={hero}

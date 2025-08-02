@@ -82,6 +82,7 @@ export default function Blog() {
 				{currentPage === 1 && featuredPost ? (
 					<BlogCard
 						{...featuredPost.frontmatter}
+						lazyLoadImage={false}
 						className="col-span-full flex flex-wrap items-center overflow-clip rounded-md border border-solid border-medium-gray focus-visible:outline-2 dark:border-white"
 						key={String(featuredPost.slug ?? '')}
 						slug={featuredPost.path ?? ''}
