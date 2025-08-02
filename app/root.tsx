@@ -22,9 +22,10 @@ import { ScrollProgress } from './components/scroll-progress'
 import { H3 } from './components/typography'
 import { redisClient } from './utils/redis.server'
 
-import '~/tailwind.css'
-import './styles/app.css'
-import './styles/new-prisma-theme.css'
+import tailwindCss from '~/tailwind.css?url'
+import appCss from './styles/app.css?url'
+import prismaCss from './styles/new-prisma-theme.css?url'
+
 import { getEnv } from './utils/env.server'
 import { cloudinaryInstance } from './utils/cloudinary'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
@@ -76,6 +77,15 @@ export const meta: MetaFunction = () => {
 export const links: LinksFunction = () => {
 	return [
 		...FAVICON,
+		{ rel: 'stylesheet', href: tailwindCss },
+		{ rel: 'stylesheet', href: appCss },
+		{
+			rel: 'stylesheet',
+			as: 'style',
+			type: 'text/css',
+			href: prismaCss,
+			crossOrigin: 'anonymous',
+		},
 		{
 			rel: 'preload',
 			href: '/fonts/CommitMono-400-Regular.otf',
