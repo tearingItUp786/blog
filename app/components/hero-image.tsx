@@ -20,41 +20,41 @@ export const CloudinaryHeroImage = ({
 	author,
 	containerClassName,
 }: Props) => {
-	const srcSet = sizesForScreens.map((size) => {
+	const sources = sizesForScreens.map((size) => {
 		const newValue = `f_auto,w_${size.width},c_scale`
 		const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
+
 		return {
-			srcSetValue: `${newSrc} ${size.width}w`,
-			width: size,
-			newSrc,
+			src: newSrc,
+			width: size.width,
+			maxWidth: size.maxWidth,
 		}
 	})
 
-	const sizes = sizesForScreens.reduce((acc, curr) => {
-		const accVal = acc === '' ? '' : `${acc},`
-
-		const mediaWidth = curr.maxWidth
-			? `(max-width: ${curr.maxWidth}px) ${curr.width}px`
-			: `${curr.width}px`
-
-		if (acc === '') return mediaWidth
-
-		return `${accVal} ${mediaWidth}`
-	}, '')
-
 	const showAttribution = attribution && author
+	const largestImageSource = sources[sources.length - 1]?.src || src
 
 	return (
 		<div className={twMerge('aspect-h-9 aspect-w-16 mb-6', containerClassName)}>
-			<img
-				width={`${sizesForScreens[sizesForScreens.length - 1]?.width}`}
-				height={500}
-				className="mb-4 mt-0"
-				alt={alt}
-				src={srcSet[srcSet.length - 1]?.newSrc ?? src}
-				sizes={sizes}
-				srcSet={srcSet.map((o) => o.srcSetValue).join(',')}
-			/>
+			<picture>
+				{sources.slice(0, -1).map((source, index) => (
+					<source
+						key={index}
+						srcSet={source.src}
+						media={
+							source.maxWidth ? `(max-width: ${source.maxWidth}px)` : undefined
+						}
+						width={source.width}
+					/>
+				))}
+				<img
+					className="mb-4 mt-0"
+					src={largestImageSource}
+					alt={alt}
+					width={sources[sources.length - 1]?.width || undefined}
+					height={500}
+				/>
+			</picture>
 			{showAttribution ? (
 				<SmallAsterisk>
 					Image by{' '}

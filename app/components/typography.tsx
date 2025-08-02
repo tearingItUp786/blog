@@ -160,7 +160,7 @@ const sizesForScreens = [
 ]
 
 export const InlineImage = ({
-	src,
+	src = '', // Default to empty string to avoid undefined issues
 	alt,
 	children,
 	containerClassName,
@@ -179,48 +179,40 @@ export const InlineImage = ({
 	lazyLoadImage?: boolean
 	openInNewTab?: boolean
 }) => {
-	// open in new tab and stuff
-	const srcSet = sizesForScreens.map((size) => {
-		const gifRegex = /\.gif$/i
+	const isGif = /\.gif$/i.test(src)
 
-		// I want to support gifs and I'll probably want to create a new
-		// component to handle the inclusion of images in the future
-		// but for now, this gets the job done. Maybe using regular markdown images
-		// might be a better idea in the future but for now, this works
-		const optimization = gifRegex.test(src ?? '')
-			? 'c_scale'
-			: `f_auto,c_scale,w_${size.width}`
-		const newValue = `${optimization}`
-
-		const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
+	const srcSet = sizesForScreens.map(({ width, maxWidth }) => {
+		const optimization = isGif ? 'c_scale' : `f_auto,c_scale,w_${width}`
+		const newSrc = src.replace(
+			/(upload\/).*?((\d|\w)+\/)/,
+			`$1${optimization}/$2`,
+		)
 		return {
-			srcSetValue: `${newSrc} ${size.width}w`,
-			width: size,
+			srcSetValue: `${newSrc} ${width}w`,
+			width,
+			maxWidth,
 			newSrc,
 		}
 	})
-	const sizes = sizesForScreens.reduce((acc, curr) => {
-		const accVal = acc === '' ? '' : `${acc},`
 
-		const mediaWidth = curr.maxWidth
-			? `(max-width: ${curr.maxWidth}px) ${curr.width}px`
-			: `${curr.width}px`
+	const sizes = sizesForScreens
+		.map(({ width, maxWidth }) =>
+			maxWidth ? `(max-width: ${maxWidth}px) ${width}px` : `${width}px`,
+		)
+		.join(', ')
 
-		if (acc === '') return mediaWidth
-
-		return `${accVal} ${mediaWidth}`
-	}, '')
-
-	const hasChildren = children !== undefined
+	const hasChildren = Boolean(children)
 	const containerClass = hasChildren ? '' : 'mx-auto'
-
 	const srcToUse = srcSet[srcSet.length - 1]?.newSrc ?? src
 
-	const srcProps = {
+	// Create a single props object with conditional data/standard attributes
+	const imageProps = {
+		className: twMerge('mx-auto my-0', lazyLoadImage && 'lazy', className),
+		alt,
 		[lazyLoadImage ? 'data-src' : 'src']: srcToUse,
 		[lazyLoadImage ? 'data-sizes' : 'sizes']: sizes,
 		[lazyLoadImage ? 'data-srcset' : 'srcSet']: srcSet
-			.map((o) => o.srcSetValue)
+			.map((s) => s.srcSetValue)
 			.join(', '),
 	}
 
@@ -234,23 +226,13 @@ export const InlineImage = ({
 			<div
 				className={twMerge(
 					'w-full',
-					imgDivClassName,
-					!imgDivClassName && aspectW,
-					!imgDivClassName && aspectH,
+					imgDivClassName ?? `${aspectW} ${aspectH}`,
 					containerClass,
 				)}
 			>
 				<LinkOrFragment href={openInNewTab ? src : undefined}>
-					<img
-						className={twMerge(
-							'mx-auto my-0',
-							lazyLoadImage && 'lazy',
-							className,
-						)}
-						alt={alt}
-						{...srcProps}
-					/>
-					{hasChildren ? <div>{children}</div> : null}
+					<img {...imageProps} />
+					{hasChildren && <div>{children}</div>}
 				</LinkOrFragment>
 			</div>
 		</div>
