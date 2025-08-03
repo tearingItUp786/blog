@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { Link } from 'react-router'
 import { twJoin, twMerge } from 'tailwind-merge'
+import { SIZES_FOR_SCREENS } from './constants'
 
 const fontSizes = {
 	h1: 'font-display font-bold text-3xl md:text-4xl',
@@ -152,13 +153,6 @@ const LinkOrFragment = ({
 	)
 }
 
-// TODO: need a better way to handle inline images in mdx
-const sizesForScreens = [
-	{ width: 480, maxWidth: 600 },
-	{ width: 800, maxWidth: 1080 },
-	{ width: 1280 },
-]
-
 export const InlineImage = ({
 	src = '', // Default to empty string to avoid undefined issues
 	alt,
@@ -182,12 +176,18 @@ export const InlineImage = ({
 }) => {
 	const isGif = /\.gif$/i.test(src)
 
-	const srcSet = sizesForScreens.map(({ width, maxWidth }) => {
+	// Generate srcset for different screen sizes
+	const srcSet = SIZES_FOR_SCREENS.map(({ width, maxWidth }) => {
 		const optimization = isGif ? 'c_scale' : `f_auto,c_scale,w_${width}`
+
+		//Example: If `src` is "upload/abc123/image.jpg"
+		//and `optimization` is "q_auto",
+		//it becomes "upload/q_auto/abc123/image.jpg".
 		const newSrc = src.replace(
 			/(upload\/).*?((\d|\w)+\/)/,
 			`$1${optimization}/$2`,
 		)
+
 		return {
 			srcSetValue: `${newSrc} ${width}w`,
 			width,
@@ -196,26 +196,24 @@ export const InlineImage = ({
 		}
 	})
 
-	const sizes = sizesForScreens
-		.map(({ width, maxWidth }) =>
-			maxWidth ? `(max-width: ${maxWidth}px) ${width}px` : `${width}px`,
-		)
-		.join(', ')
-
 	const hasChildren = Boolean(children)
 	const containerClass = hasChildren ? '' : 'mx-auto'
-	const srcToUse = srcSet[srcSet.length - 1]?.newSrc ?? src
+	const fallbackSrc = srcSet[srcSet.length - 1]?.newSrc ?? src
 
-	// Create a single props object with conditional data/standard attributes
-	const imageProps = {
+	// Create image props separately for clean application
+	const imageProps: React.ImgHTMLAttributes<HTMLImageElement> & {
+		'data-src'?: string
+	} = {
 		className: twMerge('mx-auto my-0', lazyLoadImage && 'lazy', className),
 		alt,
-		[lazyLoadImage ? 'data-src' : 'src']: srcToUse,
-		[lazyLoadImage ? 'data-sizes' : 'sizes']: sizes,
-		[lazyLoadImage ? 'data-srcset' : 'srcSet']: srcSet
-			.map((s) => s.srcSetValue)
-			.join(', '),
 		...imgProps,
+	}
+
+	// Add lazy loading attributes to the image if enabled
+	if (lazyLoadImage) {
+		imageProps['data-src'] = fallbackSrc
+	} else {
+		imageProps['src'] = fallbackSrc
 	}
 
 	return (
@@ -225,6 +223,7 @@ export const InlineImage = ({
 				containerClassName,
 			)}
 		>
+			{/* We require this div container so that the picture elment renders correctly in the $blog.index route*/}
 			<div
 				className={twMerge(
 					'w-full',
@@ -233,7 +232,40 @@ export const InlineImage = ({
 				)}
 			>
 				<LinkOrFragment href={openInNewTab ? src : undefined}>
-					<img {...imageProps} />
+					{/* We require the CSS classes here so that the picture renders correctly in the blog slug routes */}
+					<picture
+						className={twMerge(
+							'my-0 w-full',
+							imgDivClassName ?? `${aspectW} ${aspectH}`,
+						)}
+					>
+						{/* Generate source elements for different screen sizes */}
+						{srcSet.slice(0, -1).map((source, index) => (
+							<source
+								key={`source-${index}`}
+								media={
+									source.maxWidth
+										? `(max-width: ${source.maxWidth}px)`
+										: undefined
+								}
+								{...(lazyLoadImage
+									? { 'data-srcset': source.srcSetValue }
+									: { srcSet: source.srcSetValue })}
+								type="image/webp"
+							/>
+						))}
+
+						{/* Fallback source for largest size */}
+						<source
+							{...(lazyLoadImage
+								? { 'data-srcset': srcSet[srcSet.length - 1]?.srcSetValue }
+								: { srcSet: srcSet[srcSet.length - 1]?.srcSetValue })}
+							type="image/webp"
+						/>
+
+						{/* Fallback image */}
+						<img {...imageProps} />
+					</picture>
 					{hasChildren && <div>{children}</div>}
 				</LinkOrFragment>
 			</div>

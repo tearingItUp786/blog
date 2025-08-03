@@ -1,4 +1,5 @@
 import { twMerge } from 'tailwind-merge'
+import { SIZES_FOR_SCREENS } from './constants'
 import { SmallAsterisk, TextLink } from './typography'
 
 type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
@@ -7,12 +8,6 @@ type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
 	containerClassName?: string
 }
 
-const sizesForScreens = [
-	{ width: 480, maxWidth: 600 },
-	{ width: 800, maxWidth: 1080 },
-	{ width: 1280 },
-]
-
 export const CloudinaryHeroImage = ({
 	alt,
 	src,
@@ -20,7 +15,7 @@ export const CloudinaryHeroImage = ({
 	author,
 	containerClassName,
 }: Props) => {
-	const sources = sizesForScreens.map((size) => {
+	const sources = SIZES_FOR_SCREENS.map((size) => {
 		const newValue = `f_auto,w_${size.width},c_scale`
 		const newSrc = src?.replace(/(upload\/).*?((\d|\w)+\/)/, `$1${newValue}/$2`)
 
