@@ -39,6 +39,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
 				<img
 					{...newsletterImage}
+					loading="lazy"
 					alt="Me looking very handsome"
 					className="max-w-[100px] dark:grayscale lg:max-w-[150px]"
 				/>
