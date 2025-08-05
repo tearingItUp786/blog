@@ -1,0 +1,25 @@
+---
+title: es-toolkit
+date: 2025-08-04
+tag: JS
+---
+
+TIL about `es-toolkit`, a modern alterative to `lodash` and `underscore`.
+
+It promises improved performance (potentially 2-3 times faster),
+smaller bundle size (~97% less than lodash), and even offers a comptability layer to ease the transition for
+existing codebases from `lodash` to `es-toolkit`.
+
+```ts
+import { chunk } from 'es-toolkit/array'
+
+// Splits an array of numbers into sub-arrays of length 2
+chunk([1, 2, 3, 4, 5], 2)
+// Returns: [[1, 2], [3, 4], [5]]
+
+// Splits an array of strings into sub-arrays of length 3
+chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 3)
+// Returns: [['a', 'b', 'c'], ['d', 'e', 'f'], ['g']]
+```
+
+[Check it out](https://es-toolkit.dev/intro.html)
