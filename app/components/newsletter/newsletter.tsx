@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge'
 import { H3 } from '../typography'
 import { schema, type action } from '~/routes/action.newsletter'
 import { useNewsLetterData } from '~/utils/request-info'
+import './newsletter.css'
 
 export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 	const { newsletterImage, showNewsLetter } = useNewsLetterData()
@@ -29,12 +30,14 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 
 	return (
 		<div
-			className={twMerge(
-				noBorder
-					? ''
-					: 'border-[1.5px] border-solid border-border-color px-4 md:px-12',
-				'mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
-			)}
+			className={
+				twMerge(
+					'relative mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
+					noBorder
+						? ''
+						: 'border-[1.5px] border-solid border-border-color px-4 md:px-12',
+				) + (noBorder ? '' : ' border-shine')
+			}
 		>
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
 				<img
@@ -49,8 +52,8 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 				<div className="flex flex-wrap md:pl-7">
 					<H3 className="mb-2 hidden md:block">Tear it up with Taran!</H3>
 					<p className="text-center text-[15px] leading-[20px] md:text-left">
-						If you’re down with my vibe, subscribe to my newsletter for
-						inspirational quotes, new things I’ve learned, and my code snippet
+						If you're down with my vibe, subscribe to my newsletter for
+						inspirational quotes, new things I've learned, and my code snippet
 						of the month 🔥
 					</p>
 				</div>
