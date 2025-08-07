@@ -230,7 +230,7 @@ export default function About() {
 						<RandomThing
 							icon={<BeltIcon />}
 							title="I love Brazilian jiu-jitsu"
-							description="While injures have precluded me from actively engaging in the sport, 2023 is my comeback year. It's about time I got my blackbelt... its been long enough — 16 years on and off and still a blue!🥋"
+							description="While injuries have precluded me from actively engaging in the sport, 2023 is my comeback year. It's about time I got my blackbelt... its been long enough — 16 years on and off and still a blue!🥋"
 						/>
 						<RandomThing
 							icon={<BookIcon />}
