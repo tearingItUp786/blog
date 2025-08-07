@@ -9,7 +9,7 @@ export function Footer() {
 	return (
 		<footer className="w-full border-t-[1px] border-body px-4 py-6">
 			<div className="mx-auto block w-full max-w-screen-xl justify-between text-center md:px-16 lg:flex lg:text-left">
-				<span className="mb-4 block text-sm text-body dark:text-accent lg:mb-0">
+				<span className="mb-4 block text-sm text-body lg:mb-0">
 					Taran "tearing it up" Bains
 				</span>
 				<div className="block flex-grow flex-wrap justify-center lg:flex lg:justify-end">
