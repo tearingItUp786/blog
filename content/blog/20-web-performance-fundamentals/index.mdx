@@ -1,0 +1,122 @@
+---
+title: Web Performance Fundamentals
+description: My key takeaways from Todd Gardner's Frontend Master's workshop.
+subtitle: My key takeaways from Todd Gardner's Frontend Master's workshop.
+date: 2025-08-12
+tag: Workshop
+hero: https://res.cloudinary.com/dinypqsgl/image/upload/v1755017483/blog/20-web-performance/web-perf_k21qjz.png
+draft: true
+---
+
+I recently completed a workshop on Frontend Masters,
+and this blog post will serve as a repository for my key takeaways,
+baseline understanding, and overall reference guide to the fundamentals of web performance.
+
+Shoutout to Todd Gartner for that awesome workshop. A lot of the stats, if not all of the ones I mention,
+can be found in his slide deck! [Here are his slides.](https://github.com/toddhgardner/fundametals-of-web-performance#course-slides)
+
+## A Shared Understanding
+
+Before we can even begin talking about performance, we need to align as developers on what
+performance pertains to in the context of the web. For our purposes, we can think of performance as
+**the speed and efficiency with which a web page loads, renders, and responds to interactions
+from visitors**.
+
+Now, the next thing we need to establish is **why** performance matters.
+Performance impacts our user experience (which is important because if our users aren't happy,
+then our revenue will suffer), and it can also affect our search engine rankings, as page speed is a known ranking factor for Google,
+and lastly, it can impact our online advertising -- if our pages are slow to load,
+we may lose potential customers before they even see our ads and each ad therefore becomes more expensive
+for our ad sponsors.
+
+In fact, [WPO Stats](https://wpostats.com/) is a collection of several difference case studies that
+demonstrate the impact of performance on user experience and business metrics. If you don't have time
+to go through any of the case studies, I'll leave you with this statistic... 40% of users
+abandon a site at 3 seconds of loading. So you can see how crucial it is to optimize our web performance,
+since a slow site equates to lost revenue earning potential and shoddy user experience.
+
+But, what does "fast" really mean? Who defines "fast"? I'll give you a hint, it's not you 😆! Fast is
+a subjective measure that can vary greatly depending on the context. But for our purposes, the
+people who define "fast" are our customers, our competitors, and search engines.
+
+### People - we're imperfect
+
+When it comes to our users, there's a fundamental truth you have to realize about folks -- they have
+shoddy memories. If the actual time it takes for something to occur is 10 seconds, they might perceive it
+as 20 seconds, and when they're recounting it to their friends, they'll remember it as 30 seconds. And so,
+we can see that perceived performance and not making our users wait is critical for our success. However,
+people are people and therefore can be understood, at least somehwat, via the lense of psychology.
+
+Not all waiting is the same kind of waiting. For example, and keep this list in mind when you're doing anything,
+but these things factor into how "slow" or "fast" a thing feels to a person.
+
+1. People want to start so if you make them wait to start, it feels slow.
+2. If people are bored, waiting feels slower.
+3. If people are anxious, waiting feels slower.
+4. Unexplained waiting feels slower.
+5. Uncertain waiting feels slow -- tell them how long a thing could take
+6. People will wait longer for high value things -- think about your mortgage application; you'd wait 30 seconds to a minute for that bad boy since it's so damn important.
+
+### Our competitors
+
+When it comes to speed, there's an adage that's apt for when trying to determine if you're "fast enough".
+When a gazelle is running from a lion, it doesn't have to be the fastest gazelle, it just has to be faster than the slowest gazelle.
+A similar parallel can be drawn to our competitors, albeit much less morbid.
+In the context of web performance, you don't have to be the fastest site on the internet, you just have to be faster than your slowest competitor. This means keeping an eye on your competitors' performance and ensuring that you're at least keeping pace, if not surpassing them.
+
+Moreover, we need to keep `Weber's Law` in mind. Weber's Law states that the perceived difference between two stimuli is proportional to the magnitude of the stimuli.
+Basically, we need a 20% difference in performance to make a noticeable impact on user perception. So what's that mean practically?
+If we're Target and our website is loading in at 3 seconds and our competitor is loading in at 2.7 seconds,
+the difference isn't that great, from a percentage point of view, so we're probably fine being at 3 seconds.
+
+<InlineImage
+	lazyLoadImage
+	containerClassName="w-1/2 mx-auto"
+	imgDivClassName="aspect-w-16 aspect-h-16"
+	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755018163/blog/20-web-performance/weber-png_mjiis9.png"
+	alt="screenshot of weber's law"
+/>
+
+As shown in the above image, the magnitude of the change is the same between the two scenarios, we are increasing the
+total count by **10**, however, the percentage difference is quite different. In the first example, we're going from **10** to **20** and in the
+second example we're going from **110** to **120**. The first example is a 100% increase, while the
+second is only a 9.09% increase. Just by looking at these two images, we can tell, that the same absolute change
+has different perceived impacts based on the context 🤯.
+
+## Measuring things
+
+When it comes to improving something, I'm a big believer that you need to be able to measure it! If I want to track
+whether or not I'm getting stronger in the gym, I need to keep track of how much I'm lifting over time -- otherwise,
+how do I know if I'm improving?! When it comes to web performance, the same principle applies. We need to measure our performance metrics to understand where we stand and how we can improve.
+The bread and butter charts used for measuring web performance are waterfall charts and flame charts (which are indeed intimidating).
+
+**IMAGE HERE**
+
+In the pre–single page application (SPA) era, developers relied on load and DOMContentLoaded events to gauge
+performance. With client-side rendering, these became less representative—initial HTML was often minimal, and
+much of the UI was built in-browser. Today, we focus on Core Web Vitals, a set of metrics that measure
+real-world loading, interactivity, and visual stability. They matter for both user experience and Google Search rankings.
+
+At a high level, the core web vitals are:
+
+1. _Largest Contentful Paint (LCP)_: how fast the largest visible element loads in. This tends to be images, videos, css background images, text elements. Basically,
+   **how fast your site visibly loads**.
+2. _Cumulative Layout Shift (CLS)_: how _smoothly_ and _predictably_ do elements load in the page.
+   This is important because unexpected shifts can lead to a poor user experience. Also, this is why
+   you see loading skeletons all over the place, they help prevent layout shifts.
+3. _Interaction to Next Paint (INP)_: how responsive your page is to user interactions (keyboard, clicks, but not scrolling). Basically,
+   how quickly users can interact with the page.
+4. _Other metrics_:
+   - _First Contentful Paint (FCP)_: what's the first time we've shown the user something; how fast our site shows something.
+   - _Time to First Byte (TTFB)_: measures the time it takes for the browser to receive the first byte of data from the server after a user requests a page.
+
+Note: I'm not going to discuss the [Performance API](https://developer.mozilla.org/en-US/docs/Web/API/Performance) in this post, but it's worth noting that the Performance API is a powerful tool for measuring web performance inside
+the browser.
+
+## Testing
+
+### Tools
+
+## Setting Goals
+
+## Conclusion
