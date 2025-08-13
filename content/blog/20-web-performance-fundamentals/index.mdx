@@ -115,7 +115,40 @@ the browser.
 
 ## Testing
 
+When it comes to testing your web performance, it's important to establish _where_ you want to test from.
+The options you have to choose from are the lab (simulated environments) and the field (real user environments).
+Most folks tend to lean on the lab for initial testing due to its controlled conditions, but the field provides invaluable insights into real-world performance.
+
+Testing is also where we start caring about statistics 📊! I know, I know, statistics aren't really linked to
+testing or measuring, but they are needed to help analyze the data we're tracking -- and if you're like me,
+I have a hard time understanding stats 😅.
+
+When measuring user experience, we look at **percentiles**, not **averages**.
+Percentiles show the cutoff where a certain percentage of values fall below;
+averages just add everything up and divide by the count.
+Percentiles reveal the spread, averages show the middle. So when I say p75 in web performance,
+I mean the 75th percentile — 75% of visits are faster than that threshold, 25% are slower.
+
+<InlineImage
+	lazyLoadImage
+	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755097242/blog/20-web-performance/p75-web-vitals_zxurhc.png"
+	containerClassName="w-3/4 mx-auto"
+	imgDivClassName="aspect-w-2 aspect-h-1"
+	alt="screenshot of p75 web vitals"
+/>
+
 ### Tools
+
+For gathering lab data, we can use tools like:
+
+- [PageSpeed Insights](https://pagespeed.web.dev/)
+- [WebPageTest](https://www.webpagetest.org/)
+- [Lighthouse - but locally](https://developer.chrome.com/docs/lighthouse/overview/)
+
+For local testing, as I mentioned, we can use Lighthouse! It's baked into our browser's DevTools,
+assuming you're using a Chromium based browser, making it super convenient to run audits on your web pages.
+_Note_: having your dev tools open impacts the test results. Make sure that you [undock](https://stackoverflow.com/questions/20220090/undock-chrome-developer-tools)
+your dev tools so that your test run isn't impacted.
 
 ## Setting Goals
 
