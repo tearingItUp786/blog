@@ -1,6 +1,7 @@
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
+import { adjustUtcForLA } from '~/utils/misc'
 
 export const loader: LoaderFunction = async () => {
 	const blogUrl = `https://taranveerbains.ca/til`
@@ -18,7 +19,7 @@ export const loader: LoaderFunction = async () => {
 		language: 'en',
 		updated:
 			fullList.length > 0
-				? new Date(fullList[0]?.frontmatter?.date ?? '')
+				? adjustUtcForLA(fullList[0]?.frontmatter?.date ?? '')
 				: new Date(),
 		generator: 'https://github.com/jpmonette/feed',
 		copyright: 'Taran "tearing it up" Bains',
@@ -26,12 +27,14 @@ export const loader: LoaderFunction = async () => {
 
 	fullList.forEach((post) => {
 		const postLink = `${blogUrl}?offset=${maxOffset}#${post.slug}`
+		const postDate = adjustUtcForLA(post.frontmatter.date ?? '')
+
 		feed.addItem({
 			id: postLink,
 			title: post.frontmatter.title ?? '',
 			link: postLink,
 			content: String(post?.matter?.content),
-			date: new Date(post.frontmatter.date ?? ''),
+			date: postDate,
 		})
 	})
 
