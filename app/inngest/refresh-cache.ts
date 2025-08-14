@@ -273,6 +273,18 @@ async function refreshTilListInternal() {
 			),
 		)
 	}
+
+	// cache reset for the til list
+	promises.push(
+		P_QUEUE.add(() =>
+			getPaginatedTilList({
+				...cachifiedOptions,
+				startOffset: 0,
+				endOffset: Infinity,
+			}),
+		),
+	)
+
 	const promiseResults = await Promise.all(promises)
 	const tilList = promiseResults
 		.flatMap((res) => res?.fullList)
