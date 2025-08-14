@@ -3,8 +3,31 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm i -g pnpm@10.5.2
 
-# Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl
+# Install system dependencies for Playwright and Prisma
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    openssl \
+    wget \
+    gnupg \
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libgbm1 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
