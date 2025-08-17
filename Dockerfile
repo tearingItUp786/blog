@@ -36,11 +36,12 @@ RUN mkdir /app
 WORKDIR /app
 
 ADD package.json pnpm-lock.yaml ./
-# Install optional dependencies is included by default 
-# but we want them for the linux rollup bindings
-# RUN npm install --production=false --include=optional
-RUN  pnpm install --frozen-lockfile
+# Install dependencies including Playwright
+RUN pnpm install --frozen-lockfile
 
+# Install Playwright browsers here, in the deps stage
+RUN pnpm exec playwright install chromium
+RUN pnpm exec playwright install-deps chromium
 
 # Setup production node_modules
 FROM base as production-deps
@@ -49,6 +50,10 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
+# Copy the Playwright browsers from deps stage
+COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
+COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
+
 ADD package.json pnpm-lock.yaml  ./
 RUN pnpm prune --production
 
@@ -61,6 +66,9 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
+# Copy Playwright browsers if needed during build
+COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
+COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
 
 # If we're using Prisma, uncomment to cache the prisma schema
 # ADD prisma .
@@ -72,31 +80,27 @@ RUN pnpm run build
 # Finally, build the production image with minimal footprint
 FROM base
 
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y chromium chromium-sandbox && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
 ENV NODE_ENV=production
-ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
-# RUN npx playwright install --with-deps chromium
-# Then install Playwright
-RUN pnpm exec playwright install --with-deps chromium
-
-# Make sure the playwright directory exists before changing permissions
-RUN if [ -d "/ms-playwright" ]; then \
-      chmod -R 777 /ms-playwright; \
-    else \
-      echo "Directory /ms-playwright not found"; \
-      echo "Checking alternate locations..."; \
-      find / -name "ms-playwright" -type d 2>/dev/null || echo "No ms-playwright directory found"; \
-    fi
+# Don't install Chromium via apt, we'll use the one from Playwright
+# ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
 RUN mkdir /app
 WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
+# Copy Playwright browsers to final stage
+COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
+COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
+
+# Set permissions for Playwright directories if they exist
+RUN if [ -d "/ms-playwright" ]; then \
+      chmod -R 777 /ms-playwright; \
+    elif [ -d "/root/.cache/ms-playwright" ]; then \
+      chmod -R 777 /root/.cache/ms-playwright; \
+    else \
+      echo "Playwright browser directories not found"; \
+    fi
 
 # Uncomment if using Prisma
 # COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
@@ -106,4 +110,3 @@ COPY --from=build /app/public /app/public
 ADD . .
 
 CMD ["pnpm", "start"]
-
