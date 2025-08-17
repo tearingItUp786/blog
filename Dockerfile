@@ -81,9 +81,9 @@ ENV NODE_ENV=production
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
 # RUN npx playwright install --with-deps chromium
-RUN pnpm exec playwright install --with-deps chromium
+RUN npx playwright install --with-deps chromium
 RUN mkdir -p /ms-playwright && \
-    pnpm exec playwright install --with-deps && \
+    npx playwright install --with-deps && \
     chmod -R 777 /ms-playwright
 
 RUN mkdir /app
