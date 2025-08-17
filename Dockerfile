@@ -81,8 +81,17 @@ ENV NODE_ENV=production
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
 # RUN npx playwright install --with-deps chromium
+# Then install Playwright
 RUN pnpm exec playwright install --with-deps chromium
-RUN chmod -R 777 /ms-playwright
+
+# Make sure the playwright directory exists before changing permissions
+RUN if [ -d "/ms-playwright" ]; then \
+      chmod -R 777 /ms-playwright; \
+    else \
+      echo "Directory /ms-playwright not found"; \
+      echo "Checking alternate locations..."; \
+      find / -name "ms-playwright" -type d 2>/dev/null || echo "No ms-playwright directory found"; \
+    fi
 
 RUN mkdir /app
 WORKDIR /app
