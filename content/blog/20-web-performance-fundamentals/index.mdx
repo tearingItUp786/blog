@@ -5,7 +5,6 @@ subtitle: My key takeaways from Todd Gardner's Frontend Master's workshop.
 date: 2025-08-12
 tag: Workshop
 hero: https://res.cloudinary.com/dinypqsgl/image/upload/v1755017483/blog/20-web-performance/web-perf_k21qjz.png
-draft: true
 ---
 
 I recently completed a workshop on Frontend Masters,
@@ -45,7 +44,7 @@ When it comes to our users, there's a fundamental truth you have to realize abou
 shoddy memories. If the actual time it takes for something to occur is 10 seconds, they might perceive it
 as 20 seconds, and when they're recounting it to their friends, they'll remember it as 30 seconds. And so,
 we can see that perceived performance and not making our users wait is critical for our success. However,
-people are people and therefore can be understood, at least somehwat, via the lense of psychology.
+people are people and therefore can be understood, at least somewhat, via the lens of psychology.
 
 Not all waiting is the same kind of waiting. For example, and keep this list in mind when you're doing anything,
 but these things factor into how "slow" or "fast" a thing feels to a person.
@@ -195,7 +194,7 @@ like Brotli or gzip. Additionally, using a Content Delivery Network (CDN) -- a h
 of servers that cache and serve content closer to our users. In addition to offloading work from our own internal servers,
 it hopefully reduces latency and speeds up delivery of content to our users!
 
-Another method we can use to improve TTFB is by utilize efficient protocols when delivery our content! Refer to the below table.
+Utilizing efficient protocols when delivery our content will also improve out TTFB! Refer to the below table.
 
 | Feature / Constraint    | HTTP/1.1 🚗                                 | HTTP/2 🚅                                                                   | HTTP/3 ✈️                                                            |
 | ----------------------- | ------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -211,22 +210,24 @@ Another method we can use to improve TTFB is by utilize efficient protocols when
 
 The TLDR of that table, if you didn't go through is the following 😅:
 
-- HTTP/1.1 🚗 = A single-lane road — one car at a time.
-- HTTP/2 🚙 = A multi-lane road — many cars, but if one crashes, traffic slows.
-- HTTP/3 🚀 = A multi-lane road with smart lanes — if one crashes, others keep moving.
+| Protocol    | Analogy               | Description                                   |
+| ----------- | --------------------- | --------------------------------------------- |
+| HTTP/1.1 🚗 | Single-lane road      | One car at a time.                            |
+| HTTP/2 🚙   | Multi-lane road       | Many cars, but if one crashes, traffic slows. |
+| HTTP/3 🚀   | Smart multi-lane road | If one crashes, others keep moving.           |
 
-So, if you're having with TTFB, look at _how_ you're delivering content to your users and talk to your ops engineers -- if you have
+So, if you're having issues with TTFB, look at _how_ you're delivering content to your users and talk to your ops engineers -- if you have
 ops engineers that is 👀!
 
 ### First Contentful Paint
 
 First Contentful Paint (FCP) is how fast our site loads **something** -- anything really. CSS and Fonts are
-**render blocking** by default so when you're including those types of assets, the prevent the page from rendering
+**render blocking** by default so when you're including those types of assets, they prevent the page from rendering
 until they complete. This is why [minification 📰](<https://en.wikipedia.org/wiki/Minification_(programming)>) and [bundling 🎥](https://youtu.be/5IG4UmULyoA) are important for these kinds of assets!
 The faster we enable the browser to parse and interpret the rules, the faster our page will render.
 
 What's important for this particular web vital is starting the download of our `critical path` resources as soon as possible.
-What we want to do here is utilize strategics like preloading resources wherever possible. The following can be preloaded via the
+What we want to do here is utilize strategies like preloading resources wherever possible. The following can be preloaded via the
 [link tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload):
 
 - style
@@ -236,7 +237,7 @@ What we want to do here is utilize strategics like preloading resources wherever
 - fetch (CORS)
 
 We can remove resources from that `critical path` via **lazy loading**. Lazy loading is a strategy that amounts to
-loading in resources only as they are needed, think on user scroll or perhaps after a button press, loading in some
+loading in resources only as they are needed, think a user scrolling or perhaps after a button press, loading in some
 JS code from our server.
 
 By default, JavaScript is parser-blocking: when the browser encounters a script,
@@ -252,8 +253,17 @@ and executed on the main thread. In order to halt this parser blocking behavior,
 - 🎲 **Async** -- Downloads in parallel with HTML parsing, executes immediately when downloaded, pausing parsing.
   Execution order is unpredictable.
 
+  ```html
+  <!-- Example: async script -->
+  <script src="analytics.js" async></script>
+  ```
+
 - ⏳ **Defer** - Downloads in parallel with HTML parsing, executes after parsing is complete, right before DOMContentLoaded.
   Execution order is preserved.
+  ```html
+  <!-- Example: defer script -->
+  <script src="main.js" defer></script>
+  ```
 
 ### Largest Contentful Paint
 
@@ -359,7 +369,7 @@ entirely different images for different scenarios
 
 Another thing I'll touch upon is invoking an effective caching strategy. We want to improve the return experience
 for our users wherever possible. This means considering caching at all layers of the stack, starting with our server,
-CDNS, and our users' browsers themselves. I won't touch upon this too much here because, like much of what I discussed already,
+CDNs, and our users' browsers themselves. I won't touch upon this too much here because, like much of what I discussed already,
 caching is something that can be discussed at length by people far more qualified than I 😅. Here's a great [talk](https://www.epicweb.dev/talks/caching-for-cash)
 by my friend Kent that touches upon the topic.
 
@@ -383,3 +393,10 @@ callback or microtask queues, typically with `setTimeout` or `requestAnimationFr
 At the end of the day, web performance isn't about chasing perfect scores — it's about respecting your users' time.
 Shave off the waste, fix the biggest pain points first, and remember: fast is subjective and you're not really the one
 defining that "fast" means -- it's your users.
+
+So what are you waiting for? Run [PageSpeed Insights](https://pagespeed.web.dev/) on your site and get to work improving
+your worst metric 🤝!
+
+```
+
+```
