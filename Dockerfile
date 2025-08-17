@@ -43,6 +43,14 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm exec playwright install chromium
 RUN pnpm exec playwright install-deps chromium
 
+# Find the Playwright browser directory
+RUN mkdir -p /ms-playwright-location && \
+    if [ -d "/ms-playwright" ]; then \
+      cp -r /ms-playwright /ms-playwright-location/; \
+    elif [ -d "/root/.cache/ms-playwright" ]; then \
+      cp -r /root/.cache/ms-playwright /ms-playwright-location/; \
+    fi
+
 # Setup production node_modules
 FROM base as production-deps
 
@@ -50,9 +58,8 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
-# Copy the Playwright browsers from deps stage
-COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
-COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
+# Copy the Playwright browsers if they exist
+COPY --from=deps /ms-playwright-location /ms-playwright-location
 
 ADD package.json pnpm-lock.yaml  ./
 RUN pnpm prune --production
@@ -67,8 +74,7 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
 # Copy Playwright browsers if needed during build
-COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
-COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
+COPY --from=deps /ms-playwright-location /ms-playwright-location
 
 # If we're using Prisma, uncomment to cache the prisma schema
 # ADD prisma .
@@ -90,13 +96,15 @@ WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
 # Copy Playwright browsers to final stage
-COPY --from=deps /ms-playwright /ms-playwright 2>/dev/null || true
-COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright 2>/dev/null || true
+COPY --from=deps /ms-playwright-location /ms-playwright-location
 
-# Set permissions for Playwright directories if they exist
-RUN if [ -d "/ms-playwright" ]; then \
+# Move browsers to the right location and set permissions
+RUN if [ -d "/ms-playwright-location/ms-playwright" ]; then \
+      cp -r /ms-playwright-location/ms-playwright /ms-playwright && \
       chmod -R 777 /ms-playwright; \
-    elif [ -d "/root/.cache/ms-playwright" ]; then \
+    elif [ -d "/ms-playwright-location/root/.cache/ms-playwright" ]; then \
+      mkdir -p /root/.cache && \
+      cp -r /ms-playwright-location/root/.cache/ms-playwright /root/.cache/ && \
       chmod -R 777 /root/.cache/ms-playwright; \
     else \
       echo "Playwright browser directories not found"; \
