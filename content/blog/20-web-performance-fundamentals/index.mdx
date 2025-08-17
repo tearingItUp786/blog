@@ -90,23 +90,29 @@ whether or not I'm getting stronger in the gym, I need to keep track of how much
 how do I know if I'm improving?! When it comes to web performance, the same principle applies. We need to measure our performance metrics to understand where we stand and how we can improve.
 The bread and butter charts used for measuring web performance are waterfall charts and flame charts (which are indeed intimidating).
 
-**IMAGE HERE**
+<InlineImage
+	lazyLoadImage
+	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755470344/blog/20-web-performance/perf-image-one_mcmimy.png"
+	containerClassName="w-1/2 mx-auto"
+	imgDivClassName="aspect-w-2 aspect-h-2"
+	alt="image of measuring le things"
+/>
 
-In the pre–single page application (SPA) era, developers relied on load and DOMContentLoaded events to gauge
+In the pre-single page application (SPA) era, developers relied on load and DOMContentLoaded events to gauge
 performance. With client-side rendering, these became less representative—initial HTML was often minimal, and
 much of the UI was built in-browser. Today, we focus on Core Web Vitals, a set of metrics that measure
 real-world loading, interactivity, and visual stability. They matter for both user experience and Google Search rankings.
 
 At a high level, the core web vitals are:
 
-1. _Largest Contentful Paint (LCP)_: how fast the largest visible element loads in. This tends to be images, videos, css background images, text elements. Basically,
+1. 🖼️ _Largest Contentful Paint (LCP)_: how fast the largest visible element loads in. This tends to be images, videos, css background images, text elements. Basically,
    **how fast your site visibly loads**.
-2. _Cumulative Layout Shift (CLS)_: how _smoothly_ and _predictably_ do elements load in the page.
+2. 👀 _Cumulative Layout Shift (CLS)_: how _smoothly_ and _predictably_ do elements load in the page.
    This is important because unexpected shifts can lead to a poor user experience. Also, this is why
    you see loading skeletons all over the place, they help prevent layout shifts.
-3. _Interaction to Next Paint (INP)_: how responsive your page is to user interactions (keyboard, clicks, but not scrolling). Basically,
+3. ⌨️ _Interaction to Next Paint (INP)_: how responsive your page is to user interactions (keyboard, clicks, but not scrolling). Basically,
    how quickly users can interact with the page.
-4. _Other metrics_:
+4. 👾 _Other metrics_:
    - _First Contentful Paint (FCP)_: what's the first time we've shown the user something; how fast our site shows something.
    - _Time to First Byte (TTFB)_: measures the time it takes for the browser to receive the first byte of data from the server after a user requests a page.
 
@@ -156,12 +162,224 @@ Alright, so this is going to seem painfully obvious, but I have to state it none
 We can't go around trying to fix everything.
 We do not have an infinite amount of time to improve our web vitals, and to be frank, it might not even be necessary.
 
+<BlockQuote>We need to purposefully set goals</BlockQuote>
+
 As mentioned above, fast is a **subjective** user perception. For different groups, fast means **different** things. And
-with all that being said, I'm trying to hammer home the idea that we need to set goals with **purpose**. For example,
-if we are able to see a correlation with our business metrics, say, our conversion on our e-commerce store dip
-whenever there's a huge increase in CLS, maybe that's worth looking into? I'm not saying that a bad CLS score
+with all that being said, I'm trying to hammer home the idea that we need to **purposefully** set goals. For example,
+if we are able to see a correlation between our business metrics and web vitals, maybe it's worth looking into said web vitals.
+For instance, say the conversion rate on our e-commerce store dips
+whenever there's a huge increase in CLS, maybe that's worth looking into? I'm not necessarily saying that a bad CLS score
 is causing the dip in conversion but it is worth investigating for sure.
 
-In addition to investigating the business impact of our web vitals, don't forget
+In addition to investigating the business impact of our web vitals, don't forget about `Weber's Law`! In order for our customers
+to take notice of a difference in our site's performance, whether they're comparing with our old site or our competitors,
+a minimum of a 20% difference is what is required.
+
+## Improving
+
+Let's jump into the meat 🍖 and potatoes 🥔 of this post! Let's talk about how to make some gains 💪!
+For anyone reading this later (including myself), try to keep the following in mind:
+
+1. 🧘 Focus on the _easiest_ fixes for your _worst_ metrics from real user data, where possible.
+2. 🤔 Don't try to do everything. Sometimes we're fast enough.
+3. ⚡ The most basic rule of performance.... **do fewer things**.
+
+### Time to First Byte (TTFB)
+
+When it comes to improving our web vitals, TTFB is the one metric that isn't necessarily impacted
+with how our code is written but rather how it's delivered to our users -- this is the operations
+side of the performance question 🛣!
+
+One of the most basic things we can do is ensure that we are sending content via a compression algorithm
+like Brotli or gzip. Additionally, using a Content Delivery Network (CDN) -- a hopefully geographically distributed network
+of servers that cache and serve content closer to our users. In addition to offloading work from our own internal servers,
+it hopefully reduces latency and speeds up delivery of content to our users!
+
+Another method we can use to improve TTFB is by utilize efficient protocols when delivery our content! Refer to the below table.
+
+| Feature / Constraint    | HTTP/1.1 🚗                                 | HTTP/2 🚅                                                                   | HTTP/3 ✈️                                                            |
+| ----------------------- | ------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Transport               | TCP                                         | TCP                                                                         | QUIC (UDP)                                                           |
+| Request Handling        | Sequential; multiple TCP connections needed | Multiplexed streams over a single TCP connection                            | Multiplexed streams over QUIC with no TCP “head-of-line” blocking    |
+| Parallel Requests Limit | ~6–10 TCP connections per domain            | Usually 1 connection per domain; streams limited by server (10–100 typical) | 1 QUIC connection per domain; streams limited by server (often >100) |
+| Head-of-Line Blocking   | Yes (per connection)                        | Yes (per TCP connection, affects all streams)                               | No (independent streams over QUIC)                                   |
+| Header Compression      | None (except gzip for body)                 | HPACK                                                                       | QPACK                                                                |
+| Encryption              | Optional (HTTP or HTTPS)                    | Usually HTTPS by default                                                    | Always HTTPS                                                         |
+| Setup Time              | TCP handshake + optional TLS handshake      | Faster TLS (fewer round trips)                                              | Fastest (0-RTT possible)                                             |
+| Fallback                | Works everywhere                            | Falls back to 1.1                                                           | Falls back to 2 or 1.1                                               |
+| Best Use Today          | Legacy systems                              | Widely adopted, works for most modern sites                                 | Growing adoption, best for high-latency or mobile-heavy traffic      |
+
+The TLDR of that table, if you didn't go through is the following 😅:
+
+- HTTP/1.1 🚗 = A single-lane road — one car at a time.
+- HTTP/2 🚙 = A multi-lane road — many cars, but if one crashes, traffic slows.
+- HTTP/3 🚀 = A multi-lane road with smart lanes — if one crashes, others keep moving.
+
+So, if you're having with TTFB, look at _how_ you're delivering content to your users and talk to your ops engineers -- if you have
+ops engineers that is 👀!
+
+### First Contentful Paint
+
+First Contentful Paint (FCP) is how fast our site loads **something** -- anything really. CSS and Fonts are
+**render blocking** by default so when you're including those types of assets, the prevent the page from rendering
+until they complete. This is why [minification 📰](<https://en.wikipedia.org/wiki/Minification_(programming)>) and [bundling 🎥](https://youtu.be/5IG4UmULyoA) are important for these kinds of assets!
+The faster we enable the browser to parse and interpret the rules, the faster our page will render.
+
+What's important for this particular web vital is starting the download of our `critical path` resources as soon as possible.
+What we want to do here is utilize strategics like preloading resources wherever possible. The following can be preloaded via the
+[link tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload):
+
+- style
+- script
+- image
+- font (CORS)
+- fetch (CORS)
+
+We can remove resources from that `critical path` via **lazy loading**. Lazy loading is a strategy that amounts to
+loading in resources only as they are needed, think on user scroll or perhaps after a button press, loading in some
+JS code from our server.
+
+By default, JavaScript is parser-blocking: when the browser encounters a script,
+it halts HTML parsing and delays rendering until that script has been fetched, parsed,
+and executed on the main thread. In order to halt this parser blocking behavior, we can utilize the
+`defer` and `async` attributes on our `<script>` tags.
+
+<Callout
+	type="warning"
+	description={`script type "module" is always deferred`}
+/>
+
+- 🎲 **Async** -- Downloads in parallel with HTML parsing, executes immediately when downloaded, pausing parsing.
+  Execution order is unpredictable.
+
+- ⏳ **Defer** - Downloads in parallel with HTML parsing, executes after parsing is complete, right before DOMContentLoaded.
+  Execution order is preserved.
+
+### Largest Contentful Paint
+
+Largest Contentful Paint (LCP) tends to be an image or video resource. So the question is, how quickly
+can that resource load and render? That's why TTFB and FCP matter -- the faster the browser
+can get and start painting the main content, the better our LCP score will be.
+
+The components of LCP are `resource delay`, `resource duration`, and `render delay`. The tactics we
+can use to improve our LCP score are _even_ more lazy loading, eager loading, and optimizing our images! Did
+you know that `images` and `iframes` accept a [loading attribute](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading#images_and_iframes)? Well, they do ⚡, so we can set this
+equal to lazy and get some performance gains.
+
+For LCP, we can also utilize `eager loading`, the idea of loading critical path resources as soon as possible. This can be
+accomplished by, assuming the resource is an image or something to that affect, by using a `<link>` tag to preload our image asset...
+`<link ref="preload" as="image" href="/assets/someimage.png">` or by setting a [`fetchpriority`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority) on our important
+`img` elements... `<img fetchpriority="high" src="/assets/someimage.png" />`!
+
+Another great tactic is compressing our images and only sending the bytes truly necessary for rendering our resources
+at an acceptable quality level. You might be saying, but bro 🤨, didn't we already talk about compressing via Brotli or gzip,
+so why would I need to compress my images further?
+
+The key difference is that Brotli and gzip are text-based compression algorithms. They're awesome for HTML, CSS, and JavaScript
+because those files are just text, which compresses really well. Images, on the other hand, are already stored in compressed
+formats like JPEG, PNG, or WebP. Running them through gzip won't magically shrink them more — in fact, it usually does nothing 😅.
+
+That's why we need image-specific compression: things like resizing to responsive breakpoints, serving WebP/AVIF, stripping out
+metadata, and dialing in quality settings. These steps cut actual image bytes, which is often the biggest win for
+Largest Contentful Paint (LCP).
+
+| Format  | Compression    | Typical Size 📦       | Quality 🖼️                                      | Browser Support 🌐            | Best Use Case                             |
+| ------- | -------------- | --------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------------------- |
+| JPEG 📸 | Lossy          | Medium–Small          | Good, but can show artifacts                    | Universal ✅                  | Photos, complex images                    |
+| PNG 🖌️  | Lossless       | Large                 | Excellent (no artifacts, supports transparency) | Universal ✅                  | Logos, icons, images needing transparency |
+| WebP 🚀 | Lossy/Lossless | Smaller than JPEG/PNG | High (supports transparency + animation)        | Widely supported (not IE)     | General purpose replacement for JPEG/PNG  |
+| AVIF 🌈 | Lossy/Lossless | Smallest              | Excellent (HDR support)                         | Growing (all modern browsers) | Cutting edge for photos, hi-res graphics  |
+
+We can also utilize responsive images to help improve our LCP.
+It makes no sense to serve a 2800px-wide image to a mobile device with a 600px screen.
+Instead, we can use the `srcset` attribute to define multiple image sources at different sizes.
+The browser will automatically choose the most appropriate file based on the user's screen resolution and viewport size.
+For even more control, we can wrap our images in the `<picture>` element, which allows us to serve
+entirely different images for different scenarios
+(for example, a cropped image on mobile and a wide landscape version on desktop).
+
+```html
+<picture class="aspect-h-8 aspect-w-12 my-0 w-full">
+	<!-- ≤600px screens → 480w (small phones) -->
+	<source
+		media="(max-width: 600px)"
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_avif,c_scale,w_480/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 480w
+		"
+		type="image/avif"
+	/>
+	<source
+		media="(max-width: 600px)"
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_webp,c_scale,w_480/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 480w
+		"
+		type="image/webp"
+	/>
+
+	<!-- 601–1080px screens → 800w (large phones / small tablets) -->
+	<source
+		media="(max-width: 1080px)"
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_avif,c_scale,w_800/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 800w
+		"
+		type="image/avif"
+	/>
+	<source
+		media="(max-width: 1080px)"
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_webp,c_scale,w_800/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 800w
+		"
+		type="image/webp"
+	/>
+
+	<!-- >1080px screens → 1280w (desktops) -->
+	<source
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_avif,c_scale,w_1280/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 1280w
+		"
+		type="image/avif"
+	/>
+	<source
+		srcset="
+			https://res.cloudinary.com/dinypqsgl/image/upload/f_webp,c_scale,w_1280/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png 1280w
+		"
+		type="image/webp"
+	/>
+
+	<!-- Fallback: original PNG (will be used by non-AVIF/WebP browsers) -->
+	<img
+		class="mx-auto my-0"
+		alt="An image of an AI-generated carousel"
+		src="https://res.cloudinary.com/dinypqsgl/image/upload/c_scale,w_1280/v1743637882/blog/18-embla-carousel/embla-carousel_yyma9f.png"
+		fetchpriority="high"
+		decoding="async"
+	/>
+</picture>
+```
+
+Another thing I'll touch upon is invoking an effective caching strategy. We want to improve the return experience
+for our users wherever possible. This means considering caching at all layers of the stack, starting with our server,
+CDNS, and our users' browsers themselves. I won't touch upon this too much here because, like much of what I discussed already,
+caching is something that can be discussed at length by people far more qualified than I 😅. Here's a great [talk](https://www.epicweb.dev/talks/caching-for-cash)
+by my friend Kent that touches upon the topic.
+
+### Cumulative Layout Shift and Interaction To Next Paint
+
+Last but not least, let's cover our other two metrics. We've improved TTFB, FCP, and LCP — but if you've lazy-loaded a bunch
+of resources, you've probably traded off against cumulative layout shift (CLS).
+The fix is simple: give your `<img>` tags proper width and height attributes. These don't need px units;
+the browser just uses them to preserve aspect ratio and avoid jank while images load.
+
+If elements pop in dynamically, prevent layout shifts by absolutely positioning them,
+or by reserving space with placeholder UI (like skeleton loaders).
+
+Finally, Interaction to Next Paint (INP)
+measures how fast users can interact — clicks, taps, typing.
+To improve INP, yield to the main thread. In practice, this means breaking up long tasks by moving work into the
+callback or microtask queues, typically with `setTimeout` or `requestAnimationFrame`.
 
 ## Conclusion
+
+At the end of the day, web performance isn't about chasing perfect scores — it's about respecting your users' time.
+Shave off the waste, fix the biggest pain points first, and remember: fast is subjective and you're not really the one
+defining that "fast" means -- it's your users.

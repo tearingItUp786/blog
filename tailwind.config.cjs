@@ -101,6 +101,39 @@ module.exports = {
 					DEFAULT: {
 						css: [
 							{
+								'--tw-prose-body': 'var(--body-text)',
+								'--tw-prose-headings': 'var(--section-title-color)',
+								'--tw-prose-lead': 'var(--subheading-color)',
+								'--tw-prose-links': 'var(--accent)',
+								'--tw-prose-bold': 'var(--section-title-color)',
+								'--tw-prose-counters': 'var(--accent)',
+								'--tw-prose-bullets': 'var(--accent)',
+								'--tw-prose-hr': 'var(--border-color)',
+								'--tw-prose-quotes': 'var(--section-title-color)',
+								'--tw-prose-quote-borders': 'var(--border-color)',
+								'--tw-prose-captions': 'var(--subheading-color)',
+								'--tw-prose-code': 'var(--section-title-color)',
+								'--tw-prose-pre-code': 'var(--body-text-inverse)',
+								'--tw-prose-pre-bg': 'var(--section-title-color)',
+								'--tw-prose-th-borders': 'var(--border-color)',
+								'--tw-prose-td-borders': 'var(--color-pink-200)', /* keep light tint for contrast */
+
+								'--tw-prose-invert-body': 'var(--body-text-inverse)',
+								'--tw-prose-invert-headings': 'var(--body-text-inverse)',
+								'--tw-prose-invert-lead': 'var(--subheading-color)',
+								'--tw-prose-invert-links': 'var(--accent)',
+								'--tw-prose-invert-bold': 'var(--body-text-inverse)',
+								'--tw-prose-invert-counters': 'var(--accent)',
+								'--tw-prose-invert-bullets': 'var(--accent)',
+								'--tw-prose-invert-hr': 'var(--border-color)',
+								'--tw-prose-invert-quotes': 'var(--body-text-inverse)',
+								'--tw-prose-invert-quote-borders': 'var(--border-color)',
+								'--tw-prose-invert-captions': 'var(--subheading-color)',
+								'--tw-prose-invert-code': 'var(--body-text-inverse)',
+								'--tw-prose-invert-pre-code': 'var(--subheading-color)',
+								'--tw-prose-invert-pre-bg': 'rgb(0 0 0 / 50%)',
+								'--tw-prose-invert-th-borders': 'var(--border-color)',
+								'--tw-prose-invert-td-borders': 'var(--border-color)',
 								'> *': {
 									gridColumn: '1 / -1',
 
