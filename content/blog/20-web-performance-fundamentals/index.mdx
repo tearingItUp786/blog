@@ -277,7 +277,7 @@ you know that `images` and `iframes` accept a [loading attribute](https://develo
 equal to lazy and get some performance gains.
 
 For LCP, we can also utilize `eager loading`, the idea of loading critical path resources as soon as possible. This can be
-accomplished by, assuming the resource is an image or something to that effect, by using a `<link>` tag to preload our image asset...
+accomplished by, assuming the resource is an image or something to that effect, using a `<link>` tag to preload our image asset...
 `<link ref="preload" as="image" href="/assets/someimage.png">` or by setting a [`fetchpriority`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority) on our important
 `img` elements... `<img fetchpriority="high" src="/assets/someimage.png" />`!
 
