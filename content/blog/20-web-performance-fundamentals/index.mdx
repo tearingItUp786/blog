@@ -196,6 +196,8 @@ it hopefully reduces latency and speeds up delivery of content to our users!
 
 Utilizing efficient protocols when delivering our content will also improve our TTFB! Refer to the below table.
 
+<div className="overflow-x-auto">
+
 | Feature / Constraint    | HTTP/1.1 🚗                                 | HTTP/2 🚅                                                                   | HTTP/3 ✈️                                                            |
 | ----------------------- | ------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | Transport               | TCP                                         | TCP                                                                         | QUIC (UDP)                                                           |
@@ -207,6 +209,8 @@ Utilizing efficient protocols when delivering our content will also improve our 
 | Setup Time              | TCP handshake + optional TLS handshake      | Faster TLS (fewer round trips)                                              | Fastest (0-RTT possible)                                             |
 | Fallback                | Works everywhere                            | Falls back to 1.1                                                           | Falls back to 2 or 1.1                                               |
 | Best Use Today          | Legacy systems                              | Widely adopted, works for most modern sites                                 | Growing adoption, best for high-latency or mobile-heavy traffic      |
+
+</div>
 
 The TLDR of that table, if you didn't go through it 😅:
 
