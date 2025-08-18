@@ -28,7 +28,7 @@ and lastly, it can impact our online advertising -- if our pages are slow to loa
 we may lose potential customers before they even see our ads and each ad therefore becomes more expensive
 for our ad sponsors.
 
-In fact, [WPO Stats](https://wpostats.com/) is a collection of several difference case studies that
+In fact, [WPO Stats](https://wpostats.com/) is a collection of several different case studies that
 demonstrate the impact of performance on user experience and business metrics. If you don't have time
 to go through any of the case studies, I'll leave you with this statistic... 40% of users
 abandon a site at 3 seconds of loading. So you can see how crucial it is to optimize our web performance,
@@ -194,7 +194,7 @@ like Brotli or gzip. Additionally, using a Content Delivery Network (CDN) -- a h
 of servers that cache and serve content closer to our users. In addition to offloading work from our own internal servers,
 it hopefully reduces latency and speeds up delivery of content to our users!
 
-Utilizing efficient protocols when delivery our content will also improve out TTFB! Refer to the below table.
+Utilizing efficient protocols when delivering our content will also improve our TTFB! Refer to the below table.
 
 | Feature / Constraint    | HTTP/1.1 🚗                                 | HTTP/2 🚅                                                                   | HTTP/3 ✈️                                                            |
 | ----------------------- | ------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -208,7 +208,7 @@ Utilizing efficient protocols when delivery our content will also improve out TT
 | Fallback                | Works everywhere                            | Falls back to 1.1                                                           | Falls back to 2 or 1.1                                               |
 | Best Use Today          | Legacy systems                              | Widely adopted, works for most modern sites                                 | Growing adoption, best for high-latency or mobile-heavy traffic      |
 
-The TLDR of that table, if you didn't go through is the following 😅:
+The TLDR of that table, if you didn't go through it 😅:
 
 | Protocol    | Analogy               | Description                                   |
 | ----------- | --------------------- | --------------------------------------------- |
@@ -277,7 +277,7 @@ you know that `images` and `iframes` accept a [loading attribute](https://develo
 equal to lazy and get some performance gains.
 
 For LCP, we can also utilize `eager loading`, the idea of loading critical path resources as soon as possible. This can be
-accomplished by, assuming the resource is an image or something to that affect, by using a `<link>` tag to preload our image asset...
+accomplished by, assuming the resource is an image or something to that effect, by using a `<link>` tag to preload our image asset...
 `<link ref="preload" as="image" href="/assets/someimage.png">` or by setting a [`fetchpriority`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority) on our important
 `img` elements... `<img fetchpriority="high" src="/assets/someimage.png" />`!
 
@@ -391,7 +391,7 @@ callback or microtask queues, typically with `setTimeout` or `requestAnimationFr
 ## Conclusion
 
 At the end of the day, web performance isn't about chasing perfect scores — it's about respecting your users' time.
-Shave off the waste, fix the biggest pain points first, and remember: fast is subjective and you're not really the one
+Shave off the waste, fix the biggest pain points first, and remember: fast is subjective and you're not the one
 defining that "fast" means -- it's your users.
 
 So what are you waiting for? Run [PageSpeed Insights](https://pagespeed.web.dev/) on your site and get to work improving
