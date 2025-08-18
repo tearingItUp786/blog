@@ -70,7 +70,7 @@ the difference isn't that great, from a percentage point of view, so we're proba
 
 <InlineImage
 	lazyLoadImage
-	containerClassName="w-1/2 mx-auto"
+	containerClassName="w-full lg:w-1/2"
 	imgDivClassName="aspect-w-16 aspect-h-16"
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755018163/blog/20-web-performance/weber-png_mjiis9.png"
 	alt="screenshot of weber's law"
@@ -92,7 +92,7 @@ The bread and butter charts used for measuring web performance are waterfall cha
 <InlineImage
 	lazyLoadImage
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755470344/blog/20-web-performance/perf-image-one_mcmimy.png"
-	containerClassName="w-1/2 mx-auto"
+	containerClassName="w-full lg:w-1/2"
 	imgDivClassName="aspect-w-2 aspect-h-2"
 	alt="image of measuring le things"
 />
@@ -137,7 +137,7 @@ I mean the 75th percentile — 75% of visits are faster than that threshold, 25%
 <InlineImage
 	lazyLoadImage
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755097242/blog/20-web-performance/p75-web-vitals_zxurhc.png"
-	containerClassName="w-3/4 mx-auto"
+	containerClassName="w-full lg:w-3/4"
 	imgDivClassName="aspect-w-2 aspect-h-1"
 	alt="screenshot of p75 web vitals"
 />
@@ -293,12 +293,20 @@ That's why we need image-specific compression: things like resizing to responsiv
 metadata, and dialing in quality settings. These steps cut actual image bytes, which is often the biggest win for
 Largest Contentful Paint (LCP).
 
-| Format  | Compression    | Typical Size 📦       | Quality 🖼️                                      | Browser Support 🌐            | Best Use Case                             |
-| ------- | -------------- | --------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------------------- |
-| JPEG 📸 | Lossy          | Medium–Small          | Good, but can show artifacts                    | Universal ✅                  | Photos, complex images                    |
-| PNG 🖌️  | Lossless       | Large                 | Excellent (no artifacts, supports transparency) | Universal ✅                  | Logos, icons, images needing transparency |
-| WebP 🚀 | Lossy/Lossless | Smaller than JPEG/PNG | High (supports transparency + animation)        | Widely supported (not IE)     | General purpose replacement for JPEG/PNG  |
-| AVIF 🌈 | Lossy/Lossless | Smallest              | Excellent (HDR support)                         | Growing (all modern browsers) | Cutting edge for photos, hi-res graphics  |
+<div class="overflow-x-auto">
+	| Format | Compression | Typical Size 📦 | Quality 🖼️ | Browser Support 🌐 |
+	Best Use Case | | ------- | -------------- | --------------------- |
+	----------------------------------------------- |
+	----------------------------- | ----------------------------------------- | |
+	JPEG 📸 | Lossy | Medium–Small | Good, but can show artifacts | Universal ✅ |
+	Photos, complex images | | PNG 🖌️ | Lossless | Large | Excellent (no
+	artifacts, supports transparency) | Universal ✅ | Logos, icons, images
+	needing transparency | | WebP 🚀 | Lossy/Lossless | Smaller than JPEG/PNG |
+	High (supports transparency + animation) | Widely supported (not IE) | General
+	purpose replacement for JPEG/PNG | | AVIF 🌈 | Lossy/Lossless | Smallest |
+	Excellent (HDR support) | Growing (all modern browsers) | Cutting edge for
+	photos, hi-res graphics |
+</div>
 
 We can also utilize responsive images to help improve our LCP.
 It makes no sense to serve a 2800px-wide image to a mobile device with a 600px screen.
