@@ -293,19 +293,15 @@ That's why we need image-specific compression: things like resizing to responsiv
 metadata, and dialing in quality settings. These steps cut actual image bytes, which is often the biggest win for
 Largest Contentful Paint (LCP).
 
-<div class="overflow-x-auto">
-	| Format | Compression | Typical Size 📦 | Quality 🖼️ | Browser Support 🌐 |
-	Best Use Case | | ------- | -------------- | --------------------- |
-	----------------------------------------------- |
-	----------------------------- | ----------------------------------------- | |
-	JPEG 📸 | Lossy | Medium–Small | Good, but can show artifacts | Universal ✅ |
-	Photos, complex images | | PNG 🖌️ | Lossless | Large | Excellent (no
-	artifacts, supports transparency) | Universal ✅ | Logos, icons, images
-	needing transparency | | WebP 🚀 | Lossy/Lossless | Smaller than JPEG/PNG |
-	High (supports transparency + animation) | Widely supported (not IE) | General
-	purpose replacement for JPEG/PNG | | AVIF 🌈 | Lossy/Lossless | Smallest |
-	Excellent (HDR support) | Growing (all modern browsers) | Cutting edge for
-	photos, hi-res graphics |
+<div className="overflow-x-auto">
+
+| Format  | Compression    | Typical Size 📦       | Quality 🖼️                                      | Browser Support 🌐            | Best Use Case                             |
+| ------- | -------------- | --------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------------------- |
+| JPEG 📸 | Lossy          | Medium–Small          | Good, but can show artifacts                    | Universal ✅                  | Photos, complex images                    |
+| PNG 🖌️  | Lossless       | Large                 | Excellent (no artifacts, supports transparency) | Universal ✅                  | Logos, icons, images needing transparency |
+| WebP 🚀 | Lossy/Lossless | Smaller than JPEG/PNG | High (supports transparency + animation)        | Widely supported (not IE)     | General purpose replacement for JPEG/PNG  |
+| AVIF 🌈 | Lossy/Lossless | Smallest              | Excellent (HDR support)                         | Growing (all modern browsers) | Cutting edge for photos, hi-res graphics  |
+
 </div>
 
 We can also utilize responsive images to help improve our LCP.
