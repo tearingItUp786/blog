@@ -1,15 +1,14 @@
+# --- Base with OS deps Playwright needs ---
 FROM node:20-slim AS base
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm i -g pnpm@10.5.2
 
-# Install system dependencies for Playwright and Prisma
+# System deps required by Playwright/Chromium
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    openssl \
-    wget \
-    gnupg \
-    ca-certificates \
+    openssl wget gnupg ca-certificates \
     fonts-liberation \
     libasound2 \
     libatk-bridge2.0-0 \
@@ -27,94 +26,48 @@ RUN apt-get update && \
     libxtst6 \
     xdg-utils \
     lsb-release \
-    && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
-# Install all node_modules, including dev dependencies
-FROM base as deps
-
-RUN mkdir /app
+# --- Install full deps for build ---
+FROM base AS build
 WORKDIR /app
-
-ADD package.json pnpm-lock.yaml ./
-# Install dependencies including Playwright
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
-
-# Install Playwright browsers here, in the deps stage
-RUN pnpm exec playwright install chromium
-RUN pnpm exec playwright install-deps chromium
-
-# Find the Playwright browser directory
-RUN mkdir -p /ms-playwright-location && \
-    if [ -d "/ms-playwright" ]; then \
-      cp -r /ms-playwright /ms-playwright-location/; \
-    elif [ -d "/root/.cache/ms-playwright" ]; then \
-      cp -r /root/.cache/ms-playwright /ms-playwright-location/; \
-    fi
-
-# Setup production node_modules
-FROM base as production-deps
-
-RUN mkdir /app
-WORKDIR /app
-
-COPY --from=deps /app/node_modules /app/node_modules
-# Copy the Playwright browsers if they exist
-COPY --from=deps /ms-playwright-location /ms-playwright-location
-
-ADD package.json pnpm-lock.yaml  ./
-RUN pnpm prune --production
-
-# Build the app
-FROM base as build
-
-ENV NODE_ENV=production
-
-RUN mkdir /app
-WORKDIR /app
-
-COPY --from=deps /app/node_modules /app/node_modules
-# Copy Playwright browsers if needed during build
-COPY --from=deps /ms-playwright-location /ms-playwright-location
-
-# If we're using Prisma, uncomment to cache the prisma schema
-# ADD prisma .
+# If you use Prisma and need codegen, uncomment:
+# COPY prisma ./prisma
 # RUN npx prisma generate
-
-ADD . .
+COPY . .
 RUN pnpm run build
 
-# Finally, build the production image with minimal footprint
+# --- Install only prod deps for runtime ---
+FROM base AS prod-deps
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
+
+# --- Final runtime image ---
 FROM base
 
 ENV NODE_ENV=production
+# Where Playwright will look for browsers we install below
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-# Don't install Chromium via apt, we'll use the one from Playwright
-# ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
-
-RUN mkdir /app
 WORKDIR /app
 
-COPY --from=production-deps /app/node_modules /app/node_modules
-# Copy Playwright browsers to final stage
-COPY --from=deps /ms-playwright-location /ms-playwright-location
+# Prod node_modules (must include `playwright` in dependencies)
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=prod-deps /app/package.json /app/package.json
 
-# Move browsers to the right location and set permissions
-RUN if [ -d "/ms-playwright-location/ms-playwright" ]; then \
-      cp -r /ms-playwright-location/ms-playwright /ms-playwright && \
-      chmod -R 777 /ms-playwright; \
-    elif [ -d "/ms-playwright-location/root/.cache/ms-playwright" ]; then \
-      mkdir -p /root/.cache && \
-      cp -r /ms-playwright-location/root/.cache/ms-playwright /root/.cache/ && \
-      chmod -R 777 /root/.cache/ms-playwright; \
-    else \
-      echo "Playwright browser directories not found"; \
-    fi
-
-# Uncomment if using Prisma
-# COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
-
+# Build artifacts / static
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
-ADD . .
+# If you need other runtime files (e.g., server entry), copy them:
+COPY . .
+
+# Install Chromium browsers in the final layer so paths match at runtime
+# (Slimmer than installing all browsers; rehype-mermaid only needs Chromium)
+RUN pnpm exec playwright install chromium
+
+# If you need extra fonts or locales, add them here.
 
 CMD ["pnpm", "start"]
