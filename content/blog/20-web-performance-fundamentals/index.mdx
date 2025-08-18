@@ -388,6 +388,29 @@ measures how fast users can interact — clicks, taps, typing.
 To improve INP, yield to the main thread. In practice, this means breaking up long tasks by moving work into the
 callback or microtask queues, typically with `setTimeout` or `requestAnimationFrame`.
 
+```js
+// Bad: Long-running task
+function processItems(items) {
+	for (let i = 0; i < items.length; i++) {
+		heavyComputation(items[i])
+	}
+}
+
+// Good: Chunked processing
+function processItemsChunked(items, index = 0) {
+	const CHUNK_SIZE = 10
+	const end = Math.min(index + CHUNK_SIZE, items.length)
+
+	for (let i = index; i < end; i++) {
+		heavyComputation(items[i])
+	}
+
+	if (end < items.length) {
+		setTimeout(() => processItemsChunked(items, end), 0)
+	}
+}
+```
+
 ## Conclusion
 
 At the end of the day, web performance isn't about chasing perfect scores — it's about respecting your users' time.
