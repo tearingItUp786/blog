@@ -1,0 +1,19 @@
+---
+title: Beacon API
+date: 2025-08-31
+tag: JS
+---
+
+TIL about the `Beacon` API! It's a way to send asynchronous and non-blocking requests to a web server.
+
+It's useful for sending analytics data to a server before the page is unloaded!
+
+```jsx
+document.addEventListener('visibilitychange', () => {
+	if (document.visibilityState === 'hidden') {
+		navigator.sendBeacon('/log', analyticsData)
+	}
+})
+```
+
+[Check it out](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)
