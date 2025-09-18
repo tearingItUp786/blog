@@ -22,7 +22,9 @@ export const ValidationDemo = () => {
         `}
 			</style>
 
-			<h2 className="mb-4 text-xl font-bold">Input Validation States Demo</h2>
+			<h2 className="mb-4 mt-0 text-xl font-bold">
+				Input Validation States Demo
+			</h2>
 
 			{/* Success after interaction (letters) */}
 			<div className="mb-4">
