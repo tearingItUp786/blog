@@ -32,17 +32,7 @@ export const ValidationDemo = () => {
 					type="text"
 					required
 					className="input input--user"
-					placeholder=":user-valid"
-				/>
-			</div>
-
-			{/* Error after interaction (5-digit) */}
-			<div className="mb-4">
-				<input
-					type="text"
-					required
-					className="input input--user"
-					placeholder=":user-invalid if empty"
+					placeholder=":user-valid and :user-invalid"
 				/>
 			</div>
 
