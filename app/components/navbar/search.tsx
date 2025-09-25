@@ -82,7 +82,7 @@ export function Search() {
 
 	useEffect(() => {
 		if (mountedStatus === 'mounting') {
-			const timeout = setTimeout(() => setShowToast(true), 500)
+			const timeout = setTimeout(() => setShowToast(true), 750)
 			return () => clearTimeout(timeout)
 		}
 

@@ -9,13 +9,13 @@ export const LoadingRoute = () => {
 	const { pathname } = navigation.location ?? {}
 
 	// This is a bit of a hack to get the loading component to show up
-	// after 500 ms if the route has failed to change client side
+	// after 2000 ms if the route has failed to change client side
 	useEffect(() => {
 		let timeout: ReturnType<typeof setTimeout> | null = null
 		if (navigation.state === 'loading' && pathname !== loc.pathname) {
 			timeout = setTimeout(() => {
 				setShowLoadingComponent(true)
-			}, 500)
+			}, 2000)
 		}
 
 		if (navigation.state === 'idle') {
@@ -30,7 +30,7 @@ export const LoadingRoute = () => {
 				clearTimeout(timeout)
 			}
 		}
-	}, [pathname])
+	}, [pathname, navigation.state, loc.pathname])
 
 	if (!showLoadingComponent || !pathname) return null
 
