@@ -57,7 +57,10 @@ export const ContentCard = ({
 	return (
 		<div
 			id={id}
-			className={clsx(showBlackLine && blackLinkClasses, 'relative')}
+			className={clsx(
+				showBlackLine && blackLinkClasses,
+				'relative scroll-mt-[1rem]',
+			)}
 		>
 			<div className="">
 				<div className="mb-4 flex items-center">
