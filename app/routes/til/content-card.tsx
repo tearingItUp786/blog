@@ -70,7 +70,7 @@ export const ContentCard = ({
 							PILL_CLASS_NAME_ACTIVE,
 							'mr-4 px-2 py-1 uppercase',
 						)}
-						to={`/tags/${tag}?${searchParams.toString()}`}
+						to={`/tags/${tag}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
 					>
 						{tag}
 					</NavLink>

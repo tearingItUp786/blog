@@ -110,7 +110,7 @@ export default function SingleTag() {
 						>
 							<GenericContentCard
 								id={til?.slug}
-								titleTo={`#${til?.slug}?${searchParams.toString()}`}
+								titleTo={`?${searchParams.toString()}#${til?.slug}`}
 								key={`${til.frontmatter.title}-${til.frontmatter.date}`}
 								title={til.frontmatter.title}
 								date={til.frontmatter.date}
