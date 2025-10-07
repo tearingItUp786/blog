@@ -10,7 +10,7 @@ import { Callout } from '~/components/callout'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
 import { getMdxPageGql } from '~/utils/mdx-utils.server'
-import { dateFormat, dotFormattedDate, invariantResponse } from '~/utils/misc'
+import { dateFormat, invariantResponse } from '~/utils/misc'
 
 export function shouldRevalidate({
 	currentUrl,
@@ -24,14 +24,16 @@ export function shouldRevalidate({
 	return defaultShouldRevalidate
 }
 
-export const meta: MetaFunction<typeof loader> = () => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+	const { page } = data ?? {}
+	const { frontmatter } = page ?? {}
 	return [
 		{
-			title: `Taran "tearing it up" Bains | What I use`,
+			title: `Taran "tearing it up" Bains | ${frontmatter?.title ?? 'Page'}`,
 		},
 		{
 			name: 'description',
-			content: `A list of tools and services I use in my day-to-day life`,
+			content: `${frontmatter?.description ?? ''}`,
 		},
 	]
 }
@@ -68,7 +70,7 @@ export default function Page() {
 
 					{frontmatter.date ? (
 						<Callout
-							type="success"
+							type={frontmatter?.callOutType ?? 'success'}
 							description={`Last updated at: ${dateFormat(frontmatter.date)}`}
 						/>
 					) : null}

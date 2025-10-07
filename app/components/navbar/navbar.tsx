@@ -104,6 +104,13 @@ export function Navbar() {
 				<NavLink
 					prefetch="intent"
 					className={setNavClassName}
+					to={`/now?${searchParamsWithoutOffset}`}
+				>
+					now
+				</NavLink>
+				<NavLink
+					prefetch="intent"
+					className={setNavClassName}
 					to={`/til?${searchParamsWithoutOffset}`}
 				>
 					TIL

@@ -24,6 +24,7 @@ export type MdxPage = {
 		tag?: string
 		draft?: boolean
 		hero?: string
+		callOutType?: 'success' | 'warning' | 'alert' | 'info'
 	}
 
 	readTime: {
