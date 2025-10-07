@@ -1,3 +1,4 @@
+import { c } from 'node_modules/vite/dist/node/types.d-aGj9QkWt'
 import {
 	type LoaderFunctionArgs,
 	type MetaFunction,
@@ -7,6 +8,7 @@ import {
 	redirect,
 } from 'react-router'
 import { Callout } from '~/components/callout'
+import { Newsletter } from '~/components/newsletter/newsletter'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
 import { getMdxPageGql } from '~/utils/mdx-utils.server'
@@ -51,7 +53,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			contentDir: 'pages',
 			slug: params.page,
 		})
-		return { page }
+		const showNewsletter =
+			String(page?.frontmatter?.title).toLowerCase() === 'now'
+		return { page, showNewsletter }
 	} catch (err) {
 		throw data({ error: params.slug }, { status: 404 })
 	}
@@ -80,6 +84,7 @@ export default function Page() {
 						</H4>
 					) : null}
 					<Component />
+					{data.showNewsletter && <Newsletter />}
 				</main>
 			</div>
 		</div>
