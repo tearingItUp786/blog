@@ -89,8 +89,22 @@ export default function TilPage() {
 	const fetcher = useFetcher<typeof loader>()
 	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 
+	// TODO: migrate to useReducer
 	const [items, setItems] = useState<TilMdxPage[]>(fullList)
 	const [offset, setOffset] = useState<number>(serverEndOffset)
+	const [lastProcessedData, setLastProcessedData] = useState<
+		typeof fetcher.data | null
+	>(null)
+
+	// Handle fetcher data during render
+	if (
+		fetcher.data &&
+		fetcher.state !== 'loading' &&
+		fetcher.data !== lastProcessedData
+	) {
+		setLastProcessedData(fetcher.data)
+		setItems((prevItems) => [...prevItems, ...(fetcher?.data?.fullList ?? [])])
+	}
 
 	useFooterObserver({
 		onIntersect: () => {
@@ -113,19 +127,6 @@ export default function TilPage() {
 			lazyLoadRef.current.update()
 		}
 	}, [items])
-
-	useEffect(() => {
-		if (!fetcher.data || fetcher.state === 'loading') {
-			return
-		}
-
-		if (fetcher.data) {
-			setItems((prevAssets) => [
-				...prevAssets,
-				...(fetcher?.data?.fullList ?? []),
-			])
-		}
-	}, [fetcher.data])
 
 	return (
 		<main className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
