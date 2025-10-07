@@ -1,0 +1,5 @@
+{
+	"entry": ["index.{mjs,js,ts}"],
+	"project": ["**/*.{js,ts}"],
+	"ignore": ["**/other/**", "**/mocks/**", "**/content/**"]
+}

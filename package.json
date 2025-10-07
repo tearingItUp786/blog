@@ -18,7 +18,8 @@
     "dev": "node ./server/dev-server.mjs",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx|gql|graphql|vue)\"",
-    "start": "node index.mjs"
+    "start": "node index.mjs",
+    "knip": "knip"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.8.3",
@@ -67,7 +68,6 @@
     "express-rate-limit": "^7.4.0",
     "feed": "^4.2.2",
     "framer-motion": "^11.1.9",
-    "gsap": "^3.11.4",
     "hast": "^1.0.0",
     "hast-util-select": "^5.0.2",
     "hotkeys-js": "^3.10.3",
@@ -124,12 +124,13 @@
     "@sentry/vite-plugin": "^2.16.1",
     "@types/compression": "^1.7.2",
     "@types/morgan": "^1.9.4",
+    "@types/node": "^24.7.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/sanitize-html": "^2.15.0",
-    "concurrently": "^7.0.0",
     "eslint": "^9.16.0",
     "husky": "^8.0.3",
+    "knip": "^5.64.2",
     "lint-staged": "^13.1.2",
     "msw": "^2.7.0",
     "plop": "^3.1.2",
