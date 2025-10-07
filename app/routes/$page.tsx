@@ -84,8 +84,8 @@ export default function Page() {
 						</H4>
 					) : null}
 					<Component />
-					{data.showNewsletter && <Newsletter />}
 				</main>
+				{data.showNewsletter && <Newsletter />}
 			</div>
 		</div>
 	)
