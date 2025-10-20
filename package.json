@@ -81,7 +81,7 @@
     "morgan": "^1.10.0",
     "p-queue": "^7.2.0",
     "patch-package": "^8.0.0",
-    "playwright": "^1.52.0",
+    "playwright": "^1.55.1",
     "postcss": "^8.4.7",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
