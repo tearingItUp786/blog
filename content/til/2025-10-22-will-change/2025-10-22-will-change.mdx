@@ -1,0 +1,14 @@
+---
+title: will-change
+date: 2025-10-22
+tag: CSS
+---
+
+TIL about `will-change` in CSS. It's a way to hint to browsers that certain CSS properties of an element
+are likely to change. It's mostly used for animations, but it can be used for other things too.
+
+It should be noted that it should be used `sparingly` but if you're ever coming across a janky animation,
+remember that you should be animating transforms and opacities and maybe throw in a `will-change` for good measure.
+Maybe even consider removing `will-change` after animations complete, since leaving it on can waste memory.
+
+https://youtu.be/zwaanTsSH2M
