@@ -64,14 +64,16 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(morgan('combined'))
 }
 
-const maxMultiple = process.env.NODE_ENV === 'development' ? 10_000 : 5_000
+const maxMultiple = process.env.NODE_ENV === 'development' ? 10_000 : 1_000
 
 app.use(
 	rateLimit({
-		windowMs: 5 * 60 * 1000, // 5 minutes
-		limit: maxMultiple, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-		standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
-		legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+		windowMs: 15 * 60 * 1000, // 15 minutes
+		limit: maxMultiple, // per IP
+		standardHeaders: 'draft-8',
+		legacyHeaders: false,
+		// Different limits for different endpoints
+		keyGenerator: (req) => `${req.ip}:${req.path.split('/')[1]}`,
 	}),
 )
 
