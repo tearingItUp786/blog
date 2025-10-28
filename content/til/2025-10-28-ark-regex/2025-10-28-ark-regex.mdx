@@ -1,0 +1,22 @@
+---
+title: ArkRegex
+date: 2025-10-28
+tag: JS
+---
+
+Babe, babe, `ArkRegex` just droppped 🎉!
+
+```js
+import { regex } from 'arkregex'
+
+const ok = regex('^ok$', 'i')
+// Regex<"ok" | "oK" | "Ok" | "OK", { flags: "i" }>
+
+const semver = regex('^(\\d*)\\.(\\d*)\\.(\\d*)$')
+// Regex<`${bigint}.${bigint}.${bigint}`, { captures: [`${bigint}`, `${bigint}`, `${bigint}`] }>
+
+const email = regex('^(?<name>\\w+)@(?<domain>\\w+\\.\\w+)$')
+// Regex<`${string}@${string}.${string}`, { names: { name: string; domain: `${string}.${string}`; }; ...>
+```
+
+[Check it out](https://arktype.io/docs/blog/arkregex)
