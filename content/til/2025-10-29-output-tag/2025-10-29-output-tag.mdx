@@ -1,0 +1,36 @@
+---
+title: output tag
+date: 2025-10-29
+tag: web api
+---
+
+TIL about the `output` tag! The `<output>` element represents the result of a calculation performed by the application, or the result of a user action.
+
+```html
+<form id="example-form">
+	<input type="range" id="b" name="b" value="50" />
+	+
+	<input type="number" id="a" name="a" value="10" />
+	=
+	<output name="result" for="a b">60</output>
+</form>
+
+<script>
+	const form = document.getElementById('example-form')
+	const a = form.elements['a']
+	const b = form.elements['b']
+	const result = form.elements['result']
+
+	function updateResult() {
+		const aValue = a.valueAsNumber
+		const bValue = b.valueAsNumber
+		result.value = aValue + bValue
+	}
+
+	form.addEventListener('input', updateResult)
+
+	updateResult()
+</script>
+```
+
+[Check it out](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/output)
