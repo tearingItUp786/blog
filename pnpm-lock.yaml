@@ -324,6 +324,9 @@ importers:
       eslint:
         specifier: ^9.16.0
         version: 9.22.0(jiti@2.6.1)
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       husky:
         specifier: ^8.0.3
         version: 8.0.3
