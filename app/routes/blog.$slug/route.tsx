@@ -24,6 +24,7 @@ import { dotFormattedDate, invariantResponse } from '~/utils/misc'
 import '~/styles/blog.css'
 
 type LoaderData = {
+	nonce: string
 	page: MdxPage
 	reqUrl: string
 	next?: MdxPage
@@ -56,6 +57,7 @@ export const handle: ExternalScriptsHandle<LoaderData> = {
 			externalScripts.push({
 				src: 'https://platform.twitter.com/widgets.js',
 				async: true,
+				nonce: data.nonce,
 			})
 		}
 
@@ -75,7 +77,11 @@ export function shouldRevalidate({
 	return defaultShouldRevalidate
 }
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({
+	params,
+	request,
+	context,
+}: LoaderFunctionArgs) => {
 	invariantResponse(params?.slug, 'No slug provided')
 
 	const urlReq = new URL(request.url)
@@ -122,6 +128,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		}
 
 		const dataToSend: LoaderData = {
+			nonce: context.cspNonce,
 			page,
 			prev,
 			next,

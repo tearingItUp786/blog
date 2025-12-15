@@ -4,6 +4,7 @@ import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 import { type EntryContext, ServerRouter } from 'react-router'
 import { getEnv, init } from './utils/env.server'
+import { NonceProvider } from './utils/nonce-provider.ts'
 
 const ABORT_DELAY = 5000
 
@@ -15,6 +16,8 @@ export default function handleRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
+	// TODO: get rid of this any
+	loadContext: any,
 ) {
 	return isbot(request.headers.get('user-agent'))
 		? handleBotRequest(
@@ -22,12 +25,14 @@ export default function handleRequest(
 				responseStatusCode,
 				responseHeaders,
 				reactRouterContext,
+				loadContext,
 			)
 		: handleBrowserRequest(
 				request,
 				responseStatusCode,
 				responseHeaders,
 				reactRouterContext,
+				loadContext,
 			)
 }
 
@@ -36,13 +41,23 @@ function handleBotRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
+	// TODO: get rid of this any
+	loadContext: any,
 ) {
 	return new Promise((resolve, reject) => {
 		let didError = false
 
+		const nonce = loadContext.cspNonce ? String(loadContext.cspNonce) : ''
 		const { pipe, abort } = renderToPipeableStream(
-			<ServerRouter context={reactRouterContext} url={request.url} />,
+			<NonceProvider value={nonce}>
+				<ServerRouter
+					context={reactRouterContext}
+					url={request.url}
+					nonce={nonce}
+				/>
+			</NonceProvider>,
 			{
+				nonce,
 				onAllReady() {
 					const body = new PassThrough()
 					const stream = createReadableStreamFromReadable(body)
@@ -63,7 +78,6 @@ function handleBotRequest(
 				},
 				onError(error: unknown) {
 					didError = true
-
 					console.error(error)
 				},
 			},
@@ -78,13 +92,23 @@ function handleBrowserRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
+	// TODO: get rid of this any
+	loadContext: any,
 ) {
 	return new Promise((resolve, reject) => {
 		let didError = false
 
+		const nonce = loadContext.cspNonce ? String(loadContext.cspNonce) : ''
 		const { pipe, abort } = renderToPipeableStream(
-			<ServerRouter context={reactRouterContext} url={request.url} />,
+			<NonceProvider value={nonce}>
+				<ServerRouter
+					context={reactRouterContext}
+					url={request.url}
+					nonce={nonce}
+				/>
+			</NonceProvider>,
 			{
+				nonce,
 				onShellReady() {
 					const body = new PassThrough()
 					const stream = createReadableStreamFromReadable(body)
@@ -105,7 +129,6 @@ function handleBrowserRequest(
 				},
 				onError(error: unknown) {
 					didError = true
-
 					console.error(error)
 				},
 			},

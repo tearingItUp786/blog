@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { createRequestHandler } from '@react-router/express'
@@ -6,6 +7,7 @@ import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
 import morgan from 'morgan'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -56,15 +58,16 @@ if (viteDevServer) {
 	)
 }
 
-if (process.env.NODE_ENV === 'development') {
+const MODE = process.env.NODE_ENV
+if (MODE === 'development') {
 	app.use(morgan('dev'))
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (MODE === 'production') {
 	app.use(morgan('combined'))
 }
 
-const maxMultiple = process.env.NODE_ENV === 'development' ? 10_000 : 1_000
+const maxMultiple = MODE === 'development' ? 10_000 : 1_000
 
 app.use(
 	rateLimit({
@@ -85,12 +88,73 @@ app.use((_req, res, next) => {
 	next()
 })
 
+// NOTE: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
+app.use((req, res, next) => {
+	res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
+	next()
+})
+
+app.use(
+	helmet({
+		crossOriginEmbedderPolicy: false,
+		contentSecurityPolicy: {
+			directives: {
+				'connect-src': [
+					...(MODE === 'development' ? ['ws:'] : []),
+					"'self'",
+					'https://*.algolia.net',
+					'https://*.algolianet.com',
+				].filter(Boolean),
+				'font-src': ["'self'"],
+				'frame-src': [
+					"'self'",
+					'giphy.com',
+					'www.giphy.com',
+					'youtube.com',
+					'www.youtube.com',
+					'youtu.be',
+					'youtube-nocookie.com',
+					'www.youtube-nocookie.com',
+					'platform.twitter.com',
+					'twitter.com',
+					'x.com',
+				],
+				'img-src': [
+					"'self'",
+					'data:',
+					'res.cloudinary.com',
+					'giphy.com',
+					...(MODE === 'development' ? ['cloudflare-ipfs.com'] : []),
+				],
+				'media-src': ["'self'", 'res.cloudinary.com', 'data:', 'blob:'],
+				'script-src': [
+					"'strict-dynamic'",
+					"'unsafe-eval'",
+					"'self'",
+					(req, res) => `'nonce-${res.locals.cspNonce}'`,
+				],
+				'script-src-attr': [
+					"'unsafe-inline'",
+					// TODO: figure out how to make the nonce work instead of
+					// unsafe-inline. I tried adding a nonce attribute where we're using
+					// inline attributes, but that didn't work. I still got that it
+					// violated the CSP.
+				],
+				'upgrade-insecure-requests': null,
+			},
+		},
+	}),
+)
+
 app.all(
 	'*',
 	createRequestHandler({
 		build: viteDevServer
 			? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')
 			: await import('../build/server/index.js'),
+		getLoadContext(req, res) {
+			return { cspNonce: res.locals.cspNonce }
+		},
 	}),
 )
 

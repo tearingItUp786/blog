@@ -32,6 +32,7 @@ import { max } from '@cloudinary/url-gen/actions/roundCorners'
 import { honeypot } from './utils/honeypot.server'
 import { useOptimisticThemeMode } from './routes/action.theme-switcher'
 import { getThemeFromCookie } from './utils/theme.server'
+import { useNonce } from './utils/nonce-provider'
 
 const FAVICON = [
 	{
@@ -169,6 +170,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 const Document = ({ children }: { children: React.ReactNode }) => {
 	const data = useRouteLoaderData<typeof loader>('root')
+	const nonce = useNonce()
 	const optimisticTheme = useOptimisticThemeMode()
 	const themeToUse =
 		optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
@@ -191,14 +193,17 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 
 					{/* This is a script that is used to set the ENV variable  */}
 					<script
+						nonce={nonce}
+						suppressHydrationWarning
 						dangerouslySetInnerHTML={{
 							__html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
 						}}
 					/>
-					<ScrollRestoration />
+					<ScrollRestoration nonce={nonce} />
 					<ExternalScripts />
-					<Scripts />
+					<Scripts nonce={nonce} />
 					<script
+						nonce={nonce}
 						async
 						src="https://static.cloudflareinsights.com/beacon.min.js"
 						data-cf-beacon='{"token": "667612c4eccb40caafe9cac20dbc492c"}'
@@ -212,10 +217,13 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 
 export const ErrorBoundary = () => {
 	const error = useRouteError()
+
+	const nonce = useNonce()
 	const elementToRender = isRouteErrorResponse(error) ? (
 		<>
 			<H3>Not found: {error.status}</H3>
 			<iframe
+				nonce={nonce}
 				title="Not Found"
 				src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
 				width="480"
@@ -238,6 +246,7 @@ export const ErrorBoundary = () => {
 			<H3>Something went wrong with the server</H3>
 			<div className="relative h-0 w-[100%] pb-[56%]">
 				<iframe
+					nonce={nonce}
 					title="Not sure what happened"
 					src="https://giphy.com/embed/7wUn5bkB2fUBY8Jo1D"
 					width="100%"

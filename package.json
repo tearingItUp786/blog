@@ -70,6 +70,7 @@
     "framer-motion": "^11.1.9",
     "hast": "^1.0.0",
     "hast-util-select": "^5.0.2",
+    "helmet": "^8.1.0",
     "hotkeys-js": "^3.10.3",
     "inngest": "^3.35.1",
     "intl-parse-accept-language": "^1.0.0",
