@@ -4,7 +4,7 @@ import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 import { type EntryContext, ServerRouter } from 'react-router'
 import { getEnv, init } from './utils/env.server'
-import { NonceProvider } from './utils/nonce-provider.ts'
+import { NonceProvider } from './utils/nonce-provider'
 
 const ABORT_DELAY = 5000
 

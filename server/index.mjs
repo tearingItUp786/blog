@@ -131,6 +131,8 @@ app.use(
 					"'strict-dynamic'",
 					"'unsafe-eval'",
 					"'self'",
+					'https://platform.twitter.com',
+					'https://cdn.syndication.twimg.com',
 					(req, res) => `'nonce-${res.locals.cspNonce}'`,
 				],
 				'script-src-attr': [
