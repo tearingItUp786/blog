@@ -1,4 +1,5 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
+import { max } from '@cloudinary/url-gen/actions/roundCorners'
 import { withSentry } from '@sentry/remix'
 import {
 	type LinksFunction,
@@ -20,19 +21,17 @@ import { LoadingRoute } from './components/loading-route'
 import { Navbar } from './components/navbar'
 import { ScrollProgress } from './components/scroll-progress'
 import { H3 } from './components/typography'
+import { useOptimisticThemeMode } from './routes/action.theme-switcher'
+import { cloudinaryInstance } from './utils/cloudinary'
+import { getEnv } from './utils/env.server'
+import { honeypot } from './utils/honeypot.server'
+import { useNonce } from './utils/nonce-provider'
 import { redisClient } from './utils/redis.server'
+import { getThemeFromCookie } from './utils/theme.server'
 
 import '~/tailwind.css'
 import './styles/app.css'
 import './styles/new-prisma-theme.css'
-
-import { getEnv } from './utils/env.server'
-import { cloudinaryInstance } from './utils/cloudinary'
-import { max } from '@cloudinary/url-gen/actions/roundCorners'
-import { honeypot } from './utils/honeypot.server'
-import { useOptimisticThemeMode } from './routes/action.theme-switcher'
-import { getThemeFromCookie } from './utils/theme.server'
-import { useNonce } from './utils/nonce-provider'
 
 const FAVICON = [
 	{
