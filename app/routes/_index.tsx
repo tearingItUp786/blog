@@ -57,7 +57,7 @@ export default function Index() {
 					<div className="flex flex-wrap justify-center gap-[100%] space-y-5 lg:block">
 						<Pill>software engineer</Pill>
 						<Pill>vancouver, bc</Pill>
-						<Pill>7+ years experience</Pill>
+						<Pill>8+ years experience</Pill>
 						<Pill>self-taught</Pill>
 						<Pill>full-stack developer</Pill>
 						<Pill>typescript</Pill>
