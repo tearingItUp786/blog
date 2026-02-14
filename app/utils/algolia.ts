@@ -1,8 +1,19 @@
 import algoliasearch from 'algoliasearch/lite'
 
-const algoliaSearchClient = algoliasearch(
-	'1WK0J33355',
-	'1020981c7c75273359b7fe3f80a8909e',
-)
+function createAlgoliaSearchClient() {
+	if (typeof window === 'undefined') {
+		throw new Error('Algolia search client can only be created in the browser')
+	}
+
+	const { ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY } = window.ENV
+
+	if (!ALGOLIA_APP_ID || !ALGOLIA_SEARCH_KEY) {
+		throw new Error('Missing Algolia browser environment variables')
+	}
+
+	return algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY)
+}
+
+const algoliaSearchClient = createAlgoliaSearchClient()
 
 export { algoliaSearchClient }
