@@ -1,16 +1,25 @@
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { redirect, type ActionFunctionArgs } from 'react-router'
 import { SpamError } from 'remix-utils/honeypot/server'
 import { z } from 'zod'
 import { honeypot } from '~/utils/honeypot.server'
 
 export const schema = z.object({
-	convertKitFormId: z.string({ required_error: 'Form ID is required' }),
+	convertKitFormId: z.string({
+		error: (issue) =>
+			issue.input === undefined ? 'Form ID is required' : undefined,
+	}),
 	email: z
-		.string({ required_error: 'Email is required' })
+		.string({
+			error: (issue) =>
+				issue.input === undefined ? 'Email is required' : undefined,
+		})
 		.email('Email is invalid'),
 	name: z
-		.string({ required_error: 'Name is required' })
+		.string({
+			error: (issue) =>
+				issue.input === undefined ? 'Name is required' : undefined,
+		})
 		.max(250, 'Name is too long'),
 })
 
