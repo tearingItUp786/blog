@@ -150,10 +150,10 @@
     "sass-embedded-linux-x64": "^1.85.1"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "volta": {
-    "node": "20.10.0",
+    "node": "24.13.1",
     "pnpm": "10.6.3"
   }
 }

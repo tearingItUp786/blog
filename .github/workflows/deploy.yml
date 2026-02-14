@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24]
 
     outputs:
       DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
@@ -35,7 +35,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: 🔎 Determine deployable changes
         id: changes
@@ -63,10 +63,10 @@ jobs:
         with:
           version: 10.6.3
 
-      - name: Install Node 20
+      - name: Install Node 24
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
       - name: 📥 Download deps
         run: pnpm install --frozen-lockfile
@@ -93,10 +93,10 @@ jobs:
         with:
           version: 10.6.3
 
-      - name: Install Node 20
+      - name: Install Node 24
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
       - name: 📥 Download deps
         run: pnpm install --frozen-lockfile
@@ -170,7 +170,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: 🥬 Refresh Content
         run: node ./other/refresh-content.cjs

@@ -10,7 +10,7 @@ abstractions.
 
 - React Router (framework mode), React 18, TypeScript, Vite
 - Package manager: `pnpm` (`pnpm-lock.yaml`)
-- Runtime: Node `>=20` (Volta pins Node 20.10.0)
+- Runtime: Node `>=24` (Volta pins Node 24.13.1)
 - Styling: Tailwind + custom CSS
 - Content: MDX in `content/`
 - Data/cache: Redis + `@epic-web/cachified`

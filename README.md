@@ -16,7 +16,7 @@ It's my blog yo!
 
 ## Prerequisites
 
-- Node.js 20.x (Volta pins `20.10.0`)
+- Node.js 24.x (Volta pins `24.13.1`)
 - pnpm (Volta pins `10.6.3`)
 - Docker + Docker Compose (for Redis)
 - Chromium (used by Playwright/mermaid tooling)
