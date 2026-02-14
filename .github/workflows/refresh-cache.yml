@@ -32,5 +32,5 @@ jobs:
         run: node ./other/refresh-content.cjs
         env:
           REFRESH_CACHE_SECRET: ${{ secrets.REFRESH_CACHE_SECRET }}
-          FORCE_FRESH: 'true'
+          FORCE_FRESH: ${{ inputs.force_fresh }}
           NODE_ENV: production

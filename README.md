@@ -2,74 +2,88 @@
 
 ## Overview
 
-It's my blog, yo.
+It's my blog yo!
 
-## Tech Stack
+## Stack
 
-- **Frontend**: Remix (React framework)
-- **Package Manager**: pnpm
-- **Background Jobs**: Inngest
-- **Caching**: Redis
-- **Deployment**: Fly.io
+- Frontend: React 18 + React Router v7 + TypeScript + Vite
+- Styling: Tailwind CSS + custom styles
+- Content: MDX in `content/blog`, `content/til`, and `content/pages`
+- Caching: Redis + `@epic-web/cachified`
+- Background jobs: Inngest
+- Search and observability: Algolia + Sentry
+- Deployment: Fly.io
 
 ## Prerequisites
 
-Before getting started, ensure you have the following installed:
+- Node.js 20.x (Volta pins `20.10.0`)
+- pnpm (Volta pins `10.6.3`)
+- Docker + Docker Compose (for Redis)
+- Chromium (used by Playwright/mermaid tooling)
 
-### Required Tools
+Optional:
 
-- [Node.js](https://nodejs.org/) (managed by Volta)
-- [pnpm](https://pnpm.io/)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [Chromium](https://www.chromium.org/)
+- Volta for toolchain pinning
+- Dotenv Vault for pulling environment values
+- Inngest CLI for local function inspection
 
-### Optional but Recommended
+## Local Development
 
-- [Volta](https://volta.sh/) (Node version management)
-- [Dotenv Vault](https://www.dotenv.org/docs/security/vault.html)
-
-## Local Development Setup
-
-1. **Install Dependencies**
+1. Install dependencies:
 
    ```bash
    pnpm install
    ```
 
-2. **Set Up Environment Variables**
+2. Create local env values:
+
+   - copy `.env.example` to `.env`, or
+   - pull with dotenv vault:
 
    ```bash
    npx dotenv-vault pull
    ```
 
-3. **Start Services**
+3. Start Redis:
 
-   - Start Redis (via Docker Compose):
-     ```bash
-     docker-compose up -d
-     ```
-   - Start Inngest Development Server:
-     ```bash
-     npx inngest-cli@latest dev
-     ```
+   ```bash
+   docker-compose up -d
+   ```
 
-4. **Run Development Server**
+4. Optionally run Inngest locally:
+
+   ```bash
+   npx inngest-cli@latest dev
+   ```
+
+5. Start the app:
 
    ```bash
    pnpm dev
    ```
 
-   The development server will be available at `http://localhost:8080`
+App runs at `http://localhost:8080` by default.
 
-## Available Scripts
+## Scripts
 
-- `pnpm dev`: Start the development server
-- `pnpm clean`: Remove build artifacts
-- `npx dotenv-vault pull`: Fetch latest environment secrets
-- `npx inngest-cli@latest dev`: Start Inngest background job server
+- `pnpm dev` - start local dev server
+- `pnpm build` - build the app with React Router
+- `pnpm start` - run production server entry
+- `pnpm clean` - remove build/cache artifacts
+- `pnpm lint` - run ESLint
+- `pnpm typecheck` - run TypeScript project build checks
+- `pnpm format` - run Prettier
+- `pnpm knip` - check for unused files/deps/exports
+- `pnpm test` - placeholder script (no committed test runner yet)
+
+## Quality Gates
+
+- Pre-commit hook runs `lint-staged`.
+- `lint-staged` runs clean, test, lint, typecheck, and prettier on staged files.
+- CI deploy workflow runs lint and typecheck before deploy.
 
 ## Deployment
 
-The application is deployed on Fly.io. The default port is set to 8080 to align
-with Fly.io's preferences.
+- Deploy target is Fly.io (`fly.toml`).
+- Main deploy workflow lives in `.github/workflows/deploy.yml`.
+- Content refresh workflow lives in `.github/workflows/refresh-cache.yml`.
