@@ -46,7 +46,7 @@
     "@react-router/serve": "^7.5.2",
     "@remark-embedder/core": "^3.0.2",
     "@remark-embedder/transformer-oembed": "^5.0.1",
-    "@sentry/remix": "^7.118.0",
+    "@sentry/remix": "^10.38.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.2",
@@ -122,7 +122,7 @@
   "devDependencies": {
     "@react-router/dev": "^7.5.2",
     "@react-router/fs-routes": "^7.1.5",
-    "@sentry/vite-plugin": "^2.16.1",
+    "@sentry/vite-plugin": "^4.9.1",
     "@types/compression": "^1.7.2",
     "@types/morgan": "^1.9.4",
     "@types/node": "^24.7.0",
