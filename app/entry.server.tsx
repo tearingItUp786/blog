@@ -1,6 +1,6 @@
 import { PassThrough } from 'stream'
 import { createReadableStreamFromReadable } from '@react-router/node'
-import * as Sentry from '@sentry/remix'
+import * as Sentry from '@sentry/react-router'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 import { type EntryContext, ServerRouter } from 'react-router'
@@ -12,7 +12,7 @@ const ABORT_DELAY = 5000
 init()
 global.ENV = getEnv()
 
-export const handleError = Sentry.sentryHandleError
+export const handleError = Sentry.createSentryHandleError({ logErrors: false })
 
 export default function handleRequest(
 	request: Request,

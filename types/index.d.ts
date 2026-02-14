@@ -1,5 +1,3 @@
-/// <reference types="@remix-run/node/globals" />
-
 import type calculateReadingTime from 'reading-time'
 
 export type GitHubFile = { path: string; content: string }

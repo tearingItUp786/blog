@@ -1,6 +1,6 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
-import { withSentry, captureRemixErrorBoundaryError } from '@sentry/remix'
+import * as Sentry from '@sentry/react-router'
 import {
 	type LinksFunction,
 	type LoaderFunctionArgs,
@@ -216,7 +216,9 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 
 export const ErrorBoundary = () => {
 	const error = useRouteError()
-	captureRemixErrorBoundaryError(error)
+	if (!isRouteErrorResponse(error)) {
+		Sentry.captureException(error)
+	}
 
 	const nonce = useNonce()
 	const elementToRender = isRouteErrorResponse(error) ? (
@@ -284,4 +286,4 @@ const App = () => {
 	)
 }
 
-export default process.env.NODE_ENV === 'production' ? withSentry(App) : App
+export default App
