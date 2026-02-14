@@ -1,4 +1,6 @@
+import PQueue from 'p-queue'
 import { type FileSchema, inngest } from './client'
+import { replaceContent } from './utils'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
@@ -9,10 +11,8 @@ import {
 	getPaginatedBlogList,
 	getPaginatedTilList,
 } from '~/utils/mdx-utils.server'
-import { redisClient } from '~/utils/redis.server'
 import { sendNtfyNotification } from '~/utils/ntfy'
-import PQueue from 'p-queue'
-import { replaceContent } from './utils'
+import { redisClient } from '~/utils/redis.server'
 
 // Utility functions
 const P_QUEUE = new PQueue({ concurrency: 8 })
@@ -35,11 +35,19 @@ export const refreshCache = inngest.createFunction(
 
 		if (!contentFiles) return { ok: false }
 
+		await step.run('notify-cache-started', async () => {
+			await sendNtfyNotification('Cache refresh started ⌛')
+		})
+
 		if (forceFresh) {
-			await step.sendEvent('blog/handle-manual-refresh', {
-				name: 'blog/handle-manual-refresh',
+			// Use step.invoke() instead of step.sendEvent() so this orchestrator waits
+			// for child functions to finish before we mark the refresh as complete.
+			// step.invoke docs: https://www.inngest.com/docs/reference/functions/step-invoke
+			// step.sendEvent docs: https://www.inngest.com/docs/reference/functions/step-send-event
+			await step.invoke('blog/handle-manual-refresh', {
+				function: handleManualRefresh,
 			})
-			return { ok: true, process: 'manual-refresh-triggered' }
+			return { ok: true, process: 'manual-refresh-complete' }
 		}
 
 		const [bFiles, tilFiles, pagesFiles] = contentFiles.reduce(
@@ -53,35 +61,36 @@ export const refreshCache = inngest.createFunction(
 		)
 
 		if (tilFiles.length) {
-			await step.sendEvent('blog/refresh-til-list', {
-				name: 'blog/refresh-til-list',
-				data: { tilFiles },
+			await step.invoke('blog/refresh-til-list', {
+				function: refreshTilList,
 			})
 		}
 
 		if (bFiles.length) {
-			await step.sendEvent('blog/refresh-blog-files', {
-				name: 'blog/refresh-blog-files',
+			await step.invoke('blog/refresh-blog-files', {
+				function: refreshBlogFiles,
 				data: { bFiles },
 			})
 
-			await step.sendEvent('blog/handle-blog-list-refresh', {
-				name: 'blog/handle-blog-list-refresh',
+			await step.invoke('blog/handle-blog-list-refresh', {
+				function: handleBlogListRefresh,
 			})
 		}
 
 		if (pagesFiles.length) {
-			await step.sendEvent('blog/handle-redis-pages-refresh', {
-				name: 'blog/handle-redis-pages-refresh',
+			await step.invoke('blog/handle-redis-pages-refresh', {
+				function: handleRedisPagesRefresh,
 			})
 		}
 
 		// Regardless of whether or not anything was updated, we will update the tag list.
-		await step.sendEvent('blog/handle-tag-list-refresh', {
-			name: 'blog/handle-tag-list-refresh',
+		await step.invoke('blog/handle-tag-list-refresh', {
+			function: handleTagListRefresh,
 		})
 
-		await sendNtfyNotification('Cache refresh started! 🚀')
+		await step.run('notify-cache-finished', async () => {
+			await sendNtfyNotification('Cache refresh finished! 🚀')
+		})
 		return { ok: true }
 	},
 )
@@ -96,12 +105,14 @@ export const handleManualRefresh = inngest.createFunction(
 	{ id: 'blog/handle-manual-refresh', retries: 0 },
 	{ event: 'blog/handle-manual-refresh' },
 	async ({ step }) => {
-		await step.sendEvent('blog/handle-redis-pages-refresh', {
-			name: 'blog/handle-redis-pages-refresh',
+		// Same orchestration rule as refreshCache: invoke waits for completion,
+		// while sendEvent only guarantees enqueueing.
+		await step.invoke('blog/handle-redis-pages-refresh', {
+			function: handleRedisPagesRefresh,
 		})
 
-		await step.sendEvent('blog/handle-tag-list-refresh', {
-			name: 'blog/handle-tag-list-refresh',
+		await step.invoke('blog/handle-tag-list-refresh', {
+			function: handleTagListRefresh,
 		})
 
 		const tilList = await refreshTilListInternal()
@@ -124,7 +135,9 @@ export const handleManualRefresh = inngest.createFunction(
 
 		await ALGOLIA_INDEX.replaceAllObjects([...blogObjects, ...tilObjects])
 
-		await sendNtfyNotification('Manual cache refresh finished🚀')
+		await step.run('notify-manual-cache-finished', async () => {
+			await sendNtfyNotification('Manual cache refresh finished🚀')
+		})
 		return { ok: true, blogObjects, tilObjects }
 	},
 )
