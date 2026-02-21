@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch/lite'
+import { liteClient } from 'algoliasearch/lite'
 
 function createAlgoliaSearchClient() {
 	if (typeof window === 'undefined') {
@@ -11,7 +11,7 @@ function createAlgoliaSearchClient() {
 		throw new Error('Missing Algolia browser environment variables')
 	}
 
-	return algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY)
+	return liteClient(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY)
 }
 
 const algoliaSearchClient = createAlgoliaSearchClient()

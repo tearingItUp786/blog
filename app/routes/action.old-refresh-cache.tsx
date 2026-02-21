@@ -1,8 +1,7 @@
-import { type SearchIndex } from 'algoliasearch'
 import PQueue from 'p-queue'
 import { type ActionFunction, redirect } from 'react-router'
 import { type MdxPage, type TilMdxPage } from 'types'
-import { algoliaClient } from '~/utils/algolia.server'
+import { type AlgoliaIndex, algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
 	getFeaturedBlogPost,
@@ -173,7 +172,7 @@ const refreshTilList = async () => {
 	}
 }
 
-const handleManualRefresh = async (algoliaIndex: SearchIndex) => {
+const handleManualRefresh = async (algoliaIndex: AlgoliaIndex) => {
 	console.log('🔥 Manually force fresh invoked!')
 
 	// if redis doesn't have keys already, then we're outta luck here

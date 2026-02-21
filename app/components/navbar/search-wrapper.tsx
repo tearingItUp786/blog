@@ -53,8 +53,8 @@ export default function AlgoliaSearch({
 											queries: [
 												{
 													indexName: 'website',
-													query,
 													params: {
+														query,
 														hitsPerPage: 5,
 													},
 												},
