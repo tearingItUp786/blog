@@ -7,8 +7,18 @@ import * as dateFns from 'date-fns'
  */
 export function adjustUtcForLA(isoUtcString: string) {
 	const date = new Date(isoUtcString)
-	// LA is UTC-7 in daylight time (summer), so add 7h to match LA midnight
-	return dateFns.addHours(date, 7)
+
+	// Use the browser's Intl API to determine the actual LA offset at this date
+	const laTimeString = date.toLocaleString('en-US', {
+		timeZone: 'America/Los_Angeles',
+	})
+	const laDate = new Date(laTimeString)
+
+	// Calculate the offset in hours
+	const offsetMs = date.getTime() - laDate.getTime()
+	const offsetHours = offsetMs / (1000 * 60 * 60)
+
+	return dateFns.addHours(date, offsetHours)
 }
 
 export function invariantResponse(
