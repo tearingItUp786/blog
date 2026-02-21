@@ -1,7 +1,7 @@
 export const LineSvg = () => {
 	return (
 		<>
-			<div className="absolute left-0 top-[140px] hidden lg:block">
+			<div className="absolute top-[140px] left-0 hidden lg:block">
 				<svg
 					xmlSpace="preserve"
 					style={{
@@ -26,7 +26,7 @@ export const LineSvg = () => {
 						<g clipPath="url(#yolo)">
 							<path
 								d="M-11.158-11.159c-6.163 0-11.159 4.996-11.159 11.159 0 6.162 4.996 11.158 11.159 11.158S0 6.162 0 0c0-6.163-4.995-11.159-11.158-11.159"
-								className="fill-gray-300 dark:fill-white"
+								className="fill-charcoal-gray dark:fill-white"
 								style={{
 									fillRule: 'nonzero',
 								}}
@@ -47,7 +47,7 @@ export const LineSvg = () => {
 					</g>
 				</svg>
 			</div>
-			<div className="absolute left-20 top-[170px] hidden h-[calc(100%-170px)] w-[2px] bg-black dark:bg-white lg:block"></div>
+			<div className="absolute top-[170px] left-20 hidden h-[calc(100%-170px)] w-[2px] bg-black lg:block dark:bg-white"></div>
 		</>
 	)
 }
