@@ -35,7 +35,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 					'relative mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
 					noBorder
 						? ''
-						: 'border-[1.5px] border-solid border-border-color px-4 md:px-12',
+						: 'border-border-color border-[1.5px] border-solid px-4 md:px-12',
 				) + (noBorder ? '' : ' border-shine')
 			}
 		>
@@ -44,14 +44,14 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 					{...newsletterImage}
 					loading="lazy"
 					alt="Me looking very handsome"
-					className="max-w-[100px] dark:grayscale lg:max-w-[150px]"
+					className="max-w-25 lg:max-w-37.5 dark:grayscale"
 				/>
 				<H3 className="mb-2 block w-full text-center md:hidden">
 					Tear it up with Taran!
 				</H3>
 				<div className="flex flex-wrap md:pl-7">
 					<H3 className="mb-2 hidden md:block">Tear it up with Taran!</H3>
-					<p className="text-center text-[15px] leading-[20px] md:text-left">
+					<p className="text-center text-[15px] leading-5 md:text-left">
 						If you're down with my vibe, subscribe to my newsletter for
 						inspirational quotes, new things I've learned, and my code snippet
 						of the month 🔥
@@ -62,7 +62,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 				{form?.errors?.length ? (
 					<div className="flex flex-wrap gap-2">
 						{form.errors.map((error, index) => (
-							<p className="mb-2 text-sm text-alert" key={index}>
+							<p className="text-alert mb-2 text-sm" key={index}>
 								{error}
 							</p>
 						))}
@@ -82,7 +82,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							/>
 							<circle className="fill-pink" cx={36.091} cy={9.036} r={8.446} />
 						</svg>
-						<h3 className="mb-2 mt-4 flex-[1_0_100%] font-display text-xl font-medium">
+						<h3 className="font-display mt-4 mb-2 flex-[1_0_100%] text-xl font-medium">
 							Awesome, you're subscribed!
 						</h3>
 						<p className="max-w-96 text-sm">
@@ -114,10 +114,10 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								})}
 								placeholder="Preferred Name"
 								className={twMerge(
-									'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
+									'w-full rounded-md border border-black p-2 dark:border-white dark:bg-transparent',
 								)}
 							/>
-							<div className="text-sm text-alert" id={fields.name.errorId}>
+							<div className="text-alert text-sm" id={fields.name.errorId}>
 								{fields.name.errors}
 							</div>
 						</div>
@@ -127,7 +127,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							</label>
 							<input
 								className={twMerge(
-									'w-full rounded-md border-[1px] border-black p-2 dark:border-white dark:bg-transparent',
+									'w-full rounded-md border border-black p-2 dark:border-white dark:bg-transparent',
 									(fields.name.errors || fields.email.errors) && 'self-center',
 								)}
 								placeholder="Email Address"
@@ -135,13 +135,13 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 									type: 'email',
 								})}
 							/>
-							<div className="text-sm text-alert" id={fields.email.errorId}>
+							<div className="text-alert text-sm" id={fields.email.errorId}>
 								{fields.email.errors}
 							</div>
 						</div>
 						<button
 							className={twMerge(
-								'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white dark:bg-white dark:text-black md:mt-0',
+								'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white md:mt-0 dark:bg-white dark:text-black',
 								(fields.name.errors || fields.email.errors) && 'self-center',
 							)}
 						>

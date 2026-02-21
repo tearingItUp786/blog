@@ -53,8 +53,44 @@
 }
 
 @layer base {
+
+  html {
+    background-color: var(--color-light-gray);
+  }
+
+  html.dark {
+    background-color: var(--color-dark-gray-100);
+  }
+
+  html,
+  body {
+    position: relative;
+    color: var(--body-text);
+  }
+
   a {
     color: var(--accent);
+  }
+
+  p {
+    margin-bottom: 1.4rem;
+    font-size: 1.125rem;
+  }
+
+
+  ::selection {
+    background-color: #EB36A199;
+  }
+
+
+  [type='search']::-webkit-search-cancel-button,
+  [type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  mark {
+    background: var(--color-hot-pink);
   }
 }
 
@@ -82,13 +118,6 @@
   visibility: visible;
 }
 
-html {
-  background-color: var(--color-light-gray);
-}
-
-html.dark {
-  background-color: var(--color-dark-gray-100);
-}
 
 @keyframes grow-progress {
 	from { transform: scaleX(0); }
@@ -109,30 +138,6 @@ html.dark {
 	animation-timeline: scroll(root);
 }
 
-html,
-body {
-  position: relative;
-  color: var(--body-text);
-}
-
-::selection {
-  background-color: #EB36A199;
-}
-
-p {
-  margin-bottom: 1.4rem;
-  font-size: 1.125rem;
-}
-
-[type='search']::-webkit-search-cancel-button,
-[type='search']::-webkit-search-decoration {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-mark {
-  background: var(--color-hot-pink);
-}
 
 /* for the mermaid diagram */
 .label {
