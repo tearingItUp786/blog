@@ -2,13 +2,14 @@ import cachified, {
 	type CachifiedOptions,
 	verboseReporter,
 } from '@epic-web/cachified'
+import { queuedCompileMdxGql } from './mdx.server'
+import { redisCache, redisClient } from './redis.server'
 import {
 	type GithubGraphqlObject,
 	type MdxPage,
 	type MdxPageAndSlug,
-} from 'types'
-import { queuedCompileMdxGql } from './mdx.server'
-import { redisCache, redisClient } from './redis.server'
+	type TilMdxPage,
+} from '~/schemas/github'
 import { downloadDirGql } from '~/utils/github.server'
 
 type CommonGetProps = {
@@ -57,9 +58,9 @@ async function getMdxPageGql({
 			getFreshValue: async () => {
 				const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`)
 
-				const compiledPage = await queuedCompileMdxGql<MdxPage['frontmatter']>(
+				const compiledPage = await queuedCompileMdxGql(
 					`${contentDir}/${slug}`,
-					pageFile.repository.object.entries ?? [],
+					pageFile.repository.object?.entries ?? [],
 				).catch((err) => {
 					console.error(`Failed to compile mdx:`, {
 						contentDir,
@@ -112,8 +113,6 @@ async function getMaxNumberOfTil({ cachifiedOptions }: CommonGetProps = {}) {
 		verboseReporter(),
 	)
 }
-
-type TilMdxPage = MdxPageAndSlug & { offset: number }
 
 type PaginationArgs = {
 	endOffset: number
@@ -195,7 +194,7 @@ async function getMdxBlogListGraphql({
 			getFreshValue: async () => {
 				const dirList = await downloadDirGql('content/blog')
 				const pageData =
-					dirList.repository.object.entries
+					dirList.repository.object?.entries
 						?.sort((a, b) => {
 							return b.name
 								.toLowerCase()
@@ -341,7 +340,7 @@ async function getMdxTagListGql({ cachifiedOptions }: CommonGetProps = {}) {
 				])
 
 				const contentDirListFlat = contentDirList.flatMap(
-					(dir) => dir.repository.object.entries ?? [],
+					(dir) => dir.repository.object?.entries ?? [],
 				)
 
 				// get a map where the keys are the tag name, and the value is the count it shows up

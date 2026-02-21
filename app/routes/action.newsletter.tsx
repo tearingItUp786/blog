@@ -9,12 +9,10 @@ export const schema = z.object({
 		error: (issue) =>
 			issue.input === undefined ? 'Form ID is required' : undefined,
 	}),
-	email: z
-		.string({
-			error: (issue) =>
-				issue.input === undefined ? 'Email is required' : undefined,
-		})
-		.email('Email is invalid'),
+	email: z.email({
+		error: (issue) =>
+			issue.input === undefined ? 'Email is required' : 'Email is invalid',
+	}),
 	name: z
 		.string({
 			error: (issue) =>

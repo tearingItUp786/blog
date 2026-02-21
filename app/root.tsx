@@ -185,7 +185,7 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 					<Meta />
 					<Links />
 				</head>
-				<body className="flex min-h-svh flex-col bg-light-gray dark:bg-gray-100">
+				<body className="bg-light-gray flex min-h-svh flex-col dark:bg-gray-100">
 					<Navbar />
 					<ScrollProgress />
 					{children}
@@ -266,8 +266,8 @@ export const ErrorBoundary = () => {
 	)
 	return (
 		<Document>
-			<div className="w-100">
-				<div className="flex h-[calc(95vh_-_63.5px)] items-center bg-light-gray dark:bg-gray-100">
+			<div className="w-screen">
+				<div className="bg-light-gray flex h-[calc(95vh_-_63.5px)] items-center dark:bg-gray-100">
 					<div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
 						{elementToRender}
 					</div>

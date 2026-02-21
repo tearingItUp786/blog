@@ -1,6 +1,6 @@
 import PQueue from 'p-queue'
 import { type ActionFunction, redirect } from 'react-router'
-import { type MdxPage, type TilMdxPage } from 'types'
+import { type MdxPage, type TilMdxPage } from '~/schemas/github'
 import { type AlgoliaIndex, algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,

@@ -1,5 +1,8 @@
 import { graphql } from '@octokit/graphql'
-import { type GithubGraphqlObject } from '../../types'
+import {
+	GithubDownloadDirResponseSchema,
+	type GithubDownloadDirResponse,
+} from '~/schemas/github'
 
 const graphqlWithAuth = graphql.defaults({
 	headers: {
@@ -7,7 +10,9 @@ const graphqlWithAuth = graphql.defaults({
 	},
 })
 
-async function downloadDirGql(slug: string) {
+async function downloadDirGql(
+	slug: string,
+): Promise<GithubDownloadDirResponse> {
 	const data = await graphqlWithAuth(
 		`
       query downloadDir($slug: String!) {
@@ -53,8 +58,6 @@ async function downloadDirGql(slug: string) {
 		},
 	)
 
-	return data as {
-		repository: GithubGraphqlObject
-	}
+	return GithubDownloadDirResponseSchema.parse(data)
 }
 export { downloadDirGql }

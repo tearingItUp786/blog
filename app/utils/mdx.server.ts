@@ -7,7 +7,7 @@ import { bundleMDX } from 'mdx-bundler'
 import type TPQueue from 'p-queue'
 import calculateReadingTime from 'reading-time'
 
-import { type GithubGraphqlObject } from 'types'
+import { MdxPageSchema, type GithubGraphqlObject } from '~/schemas/github'
 
 if (process.platform === 'win32') {
 	process.env.ESBUILD_BINARY_PATH = path.join(
@@ -59,9 +59,10 @@ function makeEmbed(html: string, type: string, heightRatio = '56.25%') {
 `
 }
 
-export async function compileMdxForGraphql<
-	FrontmatterType extends Record<string, unknown>,
->(slug: string, githubFiles: Array<GithubGraphqlObject>) {
+export async function compileMdxForGraphql(
+	slug: string,
+	githubFiles: Array<GithubGraphqlObject>,
+) {
 	const { default: remarkAutolinkHeadings } = await import(
 		'remark-autolink-headings'
 	)
@@ -207,19 +208,28 @@ export async function compileMdxForGraphql<
 		const readTime = calculateReadingTime(mdxText)
 		if (frontmatter.tag) frontmatter.tag = frontmatter.tag?.toLowerCase()
 
-		return {
+		return MdxPageSchema.parse({
 			code,
 			readTime,
-			// @important: we need to stringify and parse the frontmatter
-			// because the Date can be a string or a Date object
-			frontmatter: JSON.parse(JSON.stringify(frontmatter)) as FrontmatterType,
+			frontmatter: JSON.parse(JSON.stringify(frontmatter)),
 			matter,
 			slug,
-		}
+		})
 	} catch (error: unknown) {
 		console.error(`Compilation error for slug: `, slug)
-		// @ts-ignore
-		console.error(error.errors[0])
+		const firstBuildError =
+			typeof error === 'object' &&
+			error !== null &&
+			'errors' in error &&
+			Array.isArray(error.errors)
+				? error.errors[0]
+				: undefined
+
+		if (firstBuildError !== undefined) {
+			console.error(firstBuildError)
+		} else {
+			console.error(error)
+		}
 		throw error
 	}
 }
@@ -235,13 +245,11 @@ async function getQueue() {
 
 // We have to use a queue because we can't run more than one of these at a time
 // or we'll hit an out of memory error because esbuild uses a lot of memory...
-async function queuedCompileMdxGql<
-	FrontmatterType extends Record<string, unknown>,
->(...args: Parameters<typeof compileMdxForGraphql>) {
+async function queuedCompileMdxGql(
+	...args: Parameters<typeof compileMdxForGraphql>
+) {
 	const queue = await getQueue()
-	const result = await queue.add(() =>
-		compileMdxForGraphql<FrontmatterType>(...args),
-	)
+	const result = await queue.add(() => compileMdxForGraphql(...args))
 
 	return result
 }

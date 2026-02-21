@@ -7,11 +7,11 @@ import {
 	useFetcher,
 	useLoaderData,
 } from 'react-router'
-import { type TilMdxPage } from 'types'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import { TilComponent } from './til-component'
 import { H1 } from '~/components/typography'
 import { useFooterObserver } from '~/hooks/use-footer-observer'
+import { type TilMdxPage } from '~/schemas/github'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 
 // css

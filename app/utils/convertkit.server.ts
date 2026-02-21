@@ -9,7 +9,7 @@ import { redisCache } from './redis.server'
 // Base broadcast schema for common fields
 const broadcastBaseSchema = z.object({
 	id: z.number(),
-	created_at: z.string().datetime(),
+	created_at: z.iso.datetime(),
 	subject: z.string(),
 })
 
@@ -25,11 +25,11 @@ const singleBroadcastResponseSchema = z.object({
 		description: z.string().nullable(),
 		content: z.string(),
 		public: z.boolean(),
-		published_at: z.string().datetime().nullable(),
-		send_at: z.string().datetime().nullable(),
+		published_at: z.iso.datetime().nullable(),
+		send_at: z.iso.datetime().nullable(),
 		thumbnail_alt: z.string().nullable(),
 		thumbnail_url: z.string().nullable(),
-		email_address: z.string().email(),
+		email_address: z.email(),
 		email_layout_template: z.string(),
 	}),
 })

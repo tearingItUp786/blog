@@ -1,5 +1,5 @@
-import { type TilMdxPage } from 'types'
 import { ContentCard } from './content-card'
+import { type TilMdxPage } from '~/schemas/github'
 import { useMdxComponent } from '~/utils/mdx-utils'
 
 export function TilComponent({ til }: { til: TilMdxPage }) {

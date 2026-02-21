@@ -1,8 +1,8 @@
 import { NavLink, useSearchParams } from 'react-router'
 import { twMerge } from 'tailwind-merge'
-import { type MdxPage } from 'types'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H2, InlineImage } from '~/components/typography'
+import { type MdxPage } from '~/schemas/github'
 import { dotFormattedDate } from '~/utils/misc'
 
 type Props = MdxPage['frontmatter'] & {
