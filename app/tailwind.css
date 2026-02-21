@@ -5,6 +5,75 @@
 @source './**/*.{js,jsx,ts,tsx,mdx,md,svg}';
 @source '../content/**/*.{js,jsx,ts,tsx,mdx,md}';
 
+@theme {
+	--color-pink: var(--color-hot-pink);
+	--color-white: var(--color-pure-white);
+	--color-off-white: var(--color-off-white);
+	--color-light-gray: var(--color-light-gray);
+	--color-silver-gray: var(--color-silver-gray);
+	--color-medium-gray: var(--color-medium-gray);
+	--color-gray-100: var(--color-dark-gray-100);
+	--color-gray-200: var(--color-dark-gray-200);
+	--color-charcoal-gray: var(--color-charcoal-gray);
+	--color-black: var(--color-true-black);
+
+	--color-accent: var(--accent);
+	--color-body: var(--body-text);
+	--color-inverse-body: var(--body-text-inverse);
+	--color-border-color: var(--border-color);
+	--color-bg-color: var(--bg-color);
+	--color-blog-title-color: var(--blog-title-color);
+	--color-section-title-color: var(--section-title-color);
+	--color-subheading-color: var(--subheading-color);
+	--color-alert: #b4198c;
+	--color-info: #1e6bc8;
+	--color-warning: #c87a00;
+	--color-success: #0d9b55;
+
+	--shadow-custom-black: 0px 0px 30px 0px #00000040;
+	--drop-shadow-toggle: 0 1px 2px rgb(0 0 0 / 0.18);
+
+	--animate-twinkle: twinkle 3s infinite alternate;
+	--animate-sparkle: sparkle 3s infinite;
+	--animate-fadeIn: fadeIn 1s ease-in-out;
+	--animate-spin-fast: spin 0.5s linear infinite;
+
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@keyframes sparkle {
+		0% {
+			transform: scale(0.25);
+		}
+
+		25% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes twinkle {
+		0%,
+		100% {
+			opacity: 1;
+		}
+
+		50% {
+			opacity: 0.5;
+		}
+	}
+}
+
 @font-face {
 	font-family: 'CommitMono';
 	src: url('/fonts/CommitMono-400-Regular.otf') format('opentype');

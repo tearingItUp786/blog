@@ -7,65 +7,11 @@ module.exports = {
 			lg: '1024px',
 			xl: '1536px',
 		},
-		colors: {
-			transparent: 'transparent',
-			current: 'currentColor',
-			// basic variable color set up
-			pink: 'var(--color-hot-pink)', // Updated to reflect vibrant hot-pink
-			white: 'var(--color-pure-white)', // Updated as per the new off-white definition
-			'off-white': 'var(--color-off-white)',
-			'light-gray': 'var(--color-light-gray)',
-			'silver-gray': 'var(--color-silver-gray)',
-			'medium-gray': 'var(--color-medium-gray)',
-			gray: {
-				100: 'var(--color-dark-gray-100)', // Adjusted naming for consistency with dark grays
-				200: 'var(--color-dark-gray-200)', // Reflects the expressive intent of its dark gray hue
-			},
-			'charcoal-gray': 'var(--color-charcoal-gray)',
-			black: 'var(--color-true-black)', // Updated for clarity using the new naming convention
-			// theme based colors
-			accent: 'var(--accent)',
-			body: 'var(--body-text)',
-			'inverse-body': 'var(--body-text-inverse)',
-			'border-color': 'var(--border-color)',
-			'bg-color': 'var(--bg-color)',
-			'blog-title-color': 'var(--blog-title-color)',
-			'section-title-color': 'var(--section-title-color)',
-			'subheading-color': 'var(--subheading-color)',
-			alert: '#B4198C', // Darker pink/magenta that complements #EB36A1
-			info: '#1E6BC8', // Rich blue that pairs well with the pink
-			warning: '#C87A00', // Amber/orange that complements the palette
-			success: '#0D9B55', // Emerald green that balances with the pink
-		},
 		fontFamily: {
 			body: ['CommitMono', ...defaultTheme.fontFamily.sans],
 			display: ['CommitMono', ...defaultTheme.fontFamily.sans],
 		},
 		extend: {
-			boxShadow: {
-				'custom-black': '0px 0px 30px 0px #00000040',
-			},
-			keyframes: {
-				fadeIn: {
-					'0%': { opacity: '0' },
-					'100%': { opacity: '1' },
-				},
-				sparkle: {
-					'0%': { transform: 'scale(0.25)' },
-					'25%': { opacity: 1 },
-					'100%': { opacity: 0 },
-				},
-				twinkle: {
-					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0.5' },
-				},
-			},
-			animation: {
-				twinkle: 'twinkle 3s infinite alternate',
-				sparkle: 'sparkle 3s infinite',
-				fadeIn: 'fadeIn 1s ease-in-out',
-				'spin-fast': 'spin .5s linear infinite',
-			},
 			fontSize: {
 				xl: '1.375rem', // 22px
 				'2xl': '1.5625rem', // 25px
@@ -80,9 +26,6 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: ['CommitMono', ...defaultTheme.fontFamily.sans],
-			},
-			dropShadow: {
-				toggle: '6px 4px 8px var(--color-gray-300)',
 			},
 			typography: (theme) => {
 				const fontSize = (size) => {
