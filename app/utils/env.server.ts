@@ -6,7 +6,6 @@ const schema = z
 		ALGOLIA_ADMIN_KEY: z.string(),
 		ALGOLIA_SEARCH_KEY: z.string().optional(),
 		AMPLITUDE_INIT: z.string(),
-		BOT_GITHUB_TOKEN: z.string(),
 		BOT_GRAPHQL_TOKEN: z.string(),
 		BOT_ALGOLIA_TOKEN: z.string().optional(),
 		CONVERT_KIT_API: z.string(),

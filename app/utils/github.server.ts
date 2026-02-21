@@ -1,6 +1,4 @@
 import { graphql } from '@octokit/graphql'
-import { throttling } from '@octokit/plugin-throttling'
-import { Octokit as createOctokit } from '@octokit/rest'
 import { type GithubGraphqlObject } from 'types'
 
 const graphqlWithAuth = graphql.defaults({
@@ -59,31 +57,4 @@ async function downloadDirGql(slug: string) {
 		repository: GithubGraphqlObject
 	}
 }
-
-const Octokit = createOctokit.plugin(throttling)
-
-type ThrottleOptions = {
-	method: string
-	url: string
-	request: { retryCount: number }
-}
-const octokit = new Octokit({
-	auth: process.env.BOT_GITHUB_TOKEN,
-	throttle: {
-		onRateLimit: (retryAfter: number, options: ThrottleOptions) => {
-			console.warn(
-				`Request quota exhausted for request ${options.method} ${options.url}. Retrying after ${retryAfter} seconds.`,
-			)
-
-			return true
-		},
-		onAbuseLimit: (_retryAfter: number, options: ThrottleOptions) => {
-			// does not retry, only logs a warning
-			octokit.log.warn(
-				`Abuse detected for request ${options.method} ${options.url}`,
-			)
-		},
-	},
-})
-
 export { downloadDirGql }
