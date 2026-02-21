@@ -29,7 +29,7 @@ export function BlogCard({
 			<InlineImage
 				lazyLoadImage={lazyLoadImage}
 				fetchpriority={lazyLoadImage ? 'auto' : 'high'}
-				aspectH="aspect-h-5"
+				imgDivClassName="aspect-[8/5]"
 				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
 				src={hero}
 				alt={title}
@@ -40,12 +40,12 @@ export function BlogCard({
 					prefetch="intent"
 					to={`/${slug}?${searchParams.toString()}`}
 				>
-					<H2 className="mb-2 mt-0 text-center font-normal md:text-left md:text-2xl">
+					<H2 className="mt-0 mb-2 text-center font-normal md:text-left md:text-2xl">
 						{title}
 					</H2>
 					<p
 						className={twMerge(
-							'text-center text-body dark:text-white md:text-left',
+							'text-body text-center md:text-left dark:text-white',
 						)}
 					>
 						{description ?? subtitle}

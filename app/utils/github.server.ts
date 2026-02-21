@@ -1,5 +1,5 @@
 import { graphql } from '@octokit/graphql'
-import { type GithubGraphqlObject } from 'types'
+import { type GithubGraphqlObject } from '../../types'
 
 const graphqlWithAuth = graphql.defaults({
 	headers: {

@@ -295,8 +295,5 @@ module.exports = {
 		fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md|svg)'),
 		fromRoot('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
 	],
-	plugins: [
-		require('@tailwindcss/typography'),
-		require('@tailwindcss/aspect-ratio'),
-	],
+	plugins: [require('@tailwindcss/typography')],
 }

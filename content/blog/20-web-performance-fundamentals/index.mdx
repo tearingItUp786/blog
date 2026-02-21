@@ -71,7 +71,7 @@ the difference isn't that great, from a percentage point of view, so we're proba
 <InlineImage
 	lazyLoadImage
 	containerClassName="w-full lg:w-1/2"
-	imgDivClassName="aspect-w-16 aspect-h-16"
+	imgDivClassName="aspect-[16/16]"
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755018163/blog/20-web-performance/weber-png_mjiis9.png"
 	alt="screenshot of weber's law"
 />
@@ -93,7 +93,7 @@ The bread and butter charts used for measuring web performance are waterfall cha
 	lazyLoadImage
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755470344/blog/20-web-performance/perf-image-one_mcmimy.png"
 	containerClassName="w-full lg:w-1/2"
-	imgDivClassName="aspect-w-2 aspect-h-2"
+	imgDivClassName="aspect-[2/2]"
 	alt="image of measuring le things"
 />
 
@@ -138,7 +138,7 @@ I mean the 75th percentile — 75% of visits are faster than that threshold, 25%
 	lazyLoadImage
 	src="https://res.cloudinary.com/dinypqsgl/image/upload/v1755097242/blog/20-web-performance/p75-web-vitals_zxurhc.png"
 	containerClassName="w-full lg:w-3/4"
-	imgDivClassName="aspect-w-2 aspect-h-1"
+	imgDivClassName="aspect-[2/1]"
 	alt="screenshot of p75 web vitals"
 />
 
@@ -317,7 +317,7 @@ entirely different images for different scenarios
 (for example, a cropped image on mobile and a wide landscape version on desktop).
 
 ```html
-<picture class="aspect-h-8 aspect-w-12 my-0 w-full">
+<picture class="my-0 aspect-[12/8] w-full">
 	<!-- ≤600px screens → 480w (small phones) -->
 	<source
 		media="(max-width: 600px)"

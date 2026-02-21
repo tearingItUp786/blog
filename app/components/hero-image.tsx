@@ -30,7 +30,7 @@ export const CloudinaryHeroImage = ({
 	const largestImageSource = sources[sources.length - 1]?.src || src
 
 	return (
-		<div className={twMerge('aspect-h-9 aspect-w-16 mb-6', containerClassName)}>
+		<div className={twMerge('mb-6 aspect-[16/9]', containerClassName)}>
 			<picture>
 				{sources.slice(0, -1).map((source, index) => (
 					<source
@@ -43,7 +43,7 @@ export const CloudinaryHeroImage = ({
 					/>
 				))}
 				<img
-					className="mb-4 mt-0"
+					className="mt-0 mb-4"
 					src={largestImageSource}
 					alt={alt}
 					width={sources[sources.length - 1]?.width || undefined}

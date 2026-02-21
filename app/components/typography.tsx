@@ -80,7 +80,7 @@ export const BlockQuote = ({
 }: CommonProps) => (
 	<blockquote
 		className={twJoin(
-			'font-body text-xl font-normal italic dark:text-white md:text-2xl [&>p]:my-0 [&>p]:text-xl [&>p]:md:text-2xl',
+			'font-body text-xl font-normal italic md:text-2xl dark:text-white [&>p]:my-0 [&>p]:text-xl [&>p]:md:text-2xl',
 			className,
 		)}
 		{...rest}
@@ -89,7 +89,7 @@ export const BlockQuote = ({
 		{author ? (
 			<span
 				className={twJoin(
-					'block text-right text-lg text-accent',
+					'text-accent block text-right text-lg',
 					authorClassName,
 				)}
 			>
@@ -108,7 +108,7 @@ export const ShortQuote = ({
 	<div
 		className={clsx(
 			titleColors['secondary'],
-			'my-4 font-body text-lg font-normal italic [&>p]:my-0',
+			'font-body my-4 text-lg font-normal italic [&>p]:my-0',
 			containerClassName,
 		)}
 		{...rest}
@@ -116,8 +116,8 @@ export const ShortQuote = ({
 		{children}
 		{author ? (
 			<>
-				<span className="ml-2 mr-2">-</span>
-				<span className="text-lg text-accent">{author}</span>
+				<span className="mr-2 ml-2">-</span>
+				<span className="text-accent text-lg">{author}</span>
 			</>
 		) : null}
 	</div>
@@ -125,14 +125,14 @@ export const ShortQuote = ({
 
 export const TextLink = ({ children, ...rest }: CommonProps) => {
 	return (
-		<a target="_blank" className="font-bold text-accent underline" {...rest}>
+		<a target="_blank" className="text-accent font-bold underline" {...rest}>
 			{children}
 		</a>
 	)
 }
 
 export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
-	<div className="font-body text-sm text-accent" {...rest}>
+	<div className="font-body text-accent text-sm" {...rest}>
 		{children}
 	</div>
 )
@@ -159,8 +159,8 @@ export const InlineImage = ({
 	children,
 	containerClassName,
 	imgDivClassName,
-	aspectW = 'aspect-w-8',
-	aspectH = 'aspect-h-4',
+	aspectW = 'aspect-[8/4]',
+	aspectH = '',
 	lazyLoadImage = false,
 	className,
 	openInNewTab = false,
@@ -199,6 +199,8 @@ export const InlineImage = ({
 	const hasChildren = Boolean(children)
 	const containerClass = hasChildren ? '' : 'mx-auto'
 	const fallbackSrc = srcSet[srcSet.length - 1]?.newSrc ?? src
+	const aspectClasses =
+		imgDivClassName ?? [aspectW, aspectH].filter(Boolean).join(' ')
 
 	// Create image props separately for clean application
 	const imageProps: React.ImgHTMLAttributes<HTMLImageElement> & {
@@ -224,21 +226,10 @@ export const InlineImage = ({
 			)}
 		>
 			{/* We require this div container so that the picture elment renders correctly in the $blog.index route*/}
-			<div
-				className={twMerge(
-					'w-full',
-					imgDivClassName ?? `${aspectW} ${aspectH}`,
-					containerClass,
-				)}
-			>
+			<div className={twMerge('w-full', aspectClasses, containerClass)}>
 				<LinkOrFragment href={openInNewTab ? src : undefined}>
 					{/* We require the CSS classes here so that the picture renders correctly in the blog slug routes */}
-					<picture
-						className={twMerge(
-							'my-0 w-full',
-							imgDivClassName ?? `${aspectW} ${aspectH}`,
-						)}
-					>
+					<picture className={twMerge('my-0 w-full', aspectClasses)}>
 						{/* Generate source elements for different screen sizes */}
 						{srcSet.slice(0, -1).map((source, index) => (
 							<source
