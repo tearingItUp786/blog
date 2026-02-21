@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @config '../tailwind.config.cjs';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source './**/*.{js,jsx,ts,tsx,mdx,md,svg}';
+@source '../content/**/*.{js,jsx,ts,tsx,mdx,md}';
 
 @font-face {
 	font-family: 'CommitMono';

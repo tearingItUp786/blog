@@ -1,9 +1,6 @@
-const path = require('path')
 const defaultTheme = require('tailwindcss/defaultTheme')
-const fromRoot = (p) => path.join(__dirname, p)
 
 module.exports = {
-	darkMode: 'class',
 	theme: {
 		screens: {
 			md: '640px',
@@ -290,10 +287,5 @@ module.exports = {
 			},
 		},
 	},
-
-	content: [
-		fromRoot('./app/**/*.+(js|jsx||ts|tsx|mdx|md|svg)'),
-		fromRoot('./content/**/*.+(js|jsx|ts|tsx|mdx|md)'),
-	],
 	plugins: [require('@tailwindcss/typography')],
 }
