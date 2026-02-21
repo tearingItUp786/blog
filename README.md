@@ -74,13 +74,15 @@ App runs at `http://localhost:8080` by default.
 - `pnpm typecheck` - run TypeScript project build checks
 - `pnpm format` - run Prettier
 - `pnpm knip` - check for unused files/deps/exports
-- `pnpm test` - placeholder script (no committed test runner yet)
+- `pnpm test` - run smoke tests via Vitest
+- `pnpm test:watch` - run Vitest in watch mode
+- `pnpm test:single` - run a single test file or filtered tests
 
 ## Quality Gates
 
 - Pre-commit hook runs `lint-staged`.
 - `lint-staged` runs clean, test, lint, typecheck, and prettier on staged files.
-- CI deploy workflow runs lint and typecheck before deploy.
+- CI deploy workflow runs lint, typecheck, and test before deploy.
 
 ## Deployment
 

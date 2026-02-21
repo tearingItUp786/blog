@@ -49,18 +49,14 @@ abstractions.
 
 ### Test status
 
-- `pnpm test` is a placeholder: `echo I should write some tests`
-- No committed runner config (`vitest`, `jest`, `playwright.config.*`)
-- No committed test files found
-- There is no real automated suite yet
+- Runner: Vitest (`vitest.config.ts`)
+- Full suite: `pnpm test` (`vitest run`)
+- Current coverage is a small smoke suite in `tests/smoke/*.test.ts`
 
 ### Running a single test
 
-- Current state: not available (placeholder script)
-- If adding a runner, add single-test commands to `package.json`
-- Playwright example file: `pnpm exec playwright test tests/a.spec.ts`
-- Playwright example test: `pnpm exec playwright test tests/a.spec.ts -g "name"`
-- Playwright line target: `pnpm exec playwright test tests/a.spec.ts:42`
+- File: `pnpm test:single tests/smoke/health-route.test.ts`
+- Test name: `pnpm test:single tests/smoke/env.server.test.ts -t "fallback"`
 
 ### Targeted command pattern
 
@@ -71,7 +67,7 @@ abstractions.
 
 - Pre-commit hook (`.husky/pre-commit`) runs `npx lint-staged`
 - `lint-staged` runs clean, test, lint, typecheck, and prettier
-- CI deploy workflow runs lint + typecheck before deploy
+- CI deploy workflow runs lint + typecheck + test before deploy
 
 ## Code Style Guidelines
 

@@ -8,7 +8,9 @@
   "scripts": {
     "prepare": "husky install || true",
     "postinstall": "patch-package",
-    "test": "echo I should write some tests 😅",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:single": "vitest run",
     "prebuild": "npm run clean && echo All clean ✨",
     "build": "react-router build",
     "clean": "npx rimraf ./node_modules/.cache ./server/dist ./build ./public/build \"./app/styles/**/*.css\"",
@@ -138,7 +140,8 @@
     "tsx": "^4.0.0",
     "typescript": "^5.8.2",
     "vite": "^5.4.15",
-    "vite-tsconfig-paths": "^4.2.3"
+    "vite-tsconfig-paths": "^4.2.3",
+    "vitest": "^4.0.18"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5",
