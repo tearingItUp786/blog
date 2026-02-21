@@ -91,6 +91,14 @@ const tagsChoices = [...tags].sort()
 const maxWidth = Math.max(
 	...tagsChoices.map(([, value]) => String(value).length),
 )
+const customTagValue = '__custom_tag__'
+const terminalRows = process.stdout.rows || 24
+const minimumTagPageSize = 5
+const promptPadding = 8
+const tagPageSize = Math.min(
+	tagsChoices.length + 1,
+	Math.max(minimumTagPageSize, terminalRows - promptPadding),
+)
 
 const now = formatDate(Date.now())
 module.exports = (plop) => {
@@ -116,19 +124,30 @@ module.exports = (plop) => {
 						name: `${String(count).padEnd(maxWidth)} | ${tag}`,
 						value: tag,
 					})),
-					'Other',
+					{
+						name: 'Other (type a custom tag)',
+						value: customTagValue,
+					},
 				],
-				message: `What tag is this TIL associated with? `,
-				pageSize: 30, // Limit visible options
+				message: 'What tag is this TIL associated with?',
+				pageSize: tagPageSize,
+				loop: true,
 			},
 			{
 				when: function (answers) {
-					return answers.tag === 'Other'
+					return answers.tag === customTagValue
 				},
 				type: 'input',
 				askAnswered: true,
 				name: 'tag',
 				message: 'What is your custom tag',
+			},
+			{
+				type: 'editor',
+				name: 'content',
+				message:
+					'Write your TIL markdown body. Save and close the editor when done.',
+				default: '## Today I learned\n\n',
 			},
 		],
 		actions: [
