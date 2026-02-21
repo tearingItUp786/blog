@@ -211,7 +211,7 @@ export async function compileMdxForGraphql(
 		return MdxPageSchema.parse({
 			code,
 			readTime,
-			frontmatter: JSON.parse(JSON.stringify(frontmatter)),
+			frontmatter,
 			matter,
 			slug,
 		})

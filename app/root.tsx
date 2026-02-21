@@ -246,7 +246,7 @@ export const ErrorBoundary = () => {
 	) : (
 		<>
 			<H3>Something went wrong with the server</H3>
-			<div className="relative h-0 w-[100%] pb-[56%]">
+			<div className="relative h-0 w-full pb-[56%]">
 				<iframe
 					nonce={nonce}
 					title="Not sure what happened"
@@ -267,8 +267,8 @@ export const ErrorBoundary = () => {
 	return (
 		<Document>
 			<div className="w-screen">
-				<div className="bg-light-gray flex h-[calc(95vh_-_63.5px)] items-center dark:bg-gray-100">
-					<div className="mx-auto flex max-w-[500px] flex-wrap items-center justify-center overflow-hidden">
+				<div className="bg-light-gray flex h-[calc(95vh-63.5px)] items-center dark:bg-gray-100">
+					<div className="mx-auto flex max-w-125 flex-wrap items-center justify-center overflow-hidden">
 						{elementToRender}
 					</div>
 				</div>

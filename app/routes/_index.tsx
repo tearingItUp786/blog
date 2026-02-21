@@ -69,7 +69,7 @@ export default function Index() {
 							className={twJoin(
 								PILL_CLASS_NAME,
 								PILL_CLASS_NAME_ACTIVE,
-								'py-[6px] text-lg leading-6',
+								'py-1.5 text-lg leading-6',
 							)}
 						>
 							follow me on 𝕏
