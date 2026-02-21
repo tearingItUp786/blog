@@ -45,12 +45,22 @@ jobs:
         run: |
           echo "DEPLOYABLE: ${{ steps.changes.outputs.DEPLOYABLE }}"
   quality:
-    name: ✅ Quality
+    name: ${{ matrix.check.label }}
     needs: [changes]
     if:
       needs.changes.outputs.DEPLOYABLE == 'true' ||
       needs.changes.outputs.DEPLOYABLE_MANUAL == 'true'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check:
+          - label: '⬣ ESLint'
+            command: 'pnpm run lint'
+          - label: 'ʦ :TypeScript'
+            command: 'pnpm run typecheck'
+          - label: '🧪 Tests'
+            command: 'pnpm run test'
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -73,14 +83,8 @@ jobs:
       - name: 📥 Download deps
         run: pnpm install --frozen-lockfile
 
-      - name: 🔬 Lint
-        run: pnpm run lint
-
-      - name: 🔎 Type check
-        run: pnpm run typecheck
-
-      - name: 🧪 Test
-        run: pnpm run test
+      - name: ${{ matrix.check.label }}
+        run: ${{ matrix.check.command }}
 
   deploy:
     name: 🚀 Deploy
