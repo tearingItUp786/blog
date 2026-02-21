@@ -4,10 +4,6 @@ const fromRoot = (p) => path.join(__dirname, p)
 
 module.exports = {
 	darkMode: 'class',
-	variants: {},
-	corePlugins: {
-		// aspectRatio: false,
-	},
 	theme: {
 		screens: {
 			md: '640px',
@@ -97,6 +93,20 @@ module.exports = {
 					return Array.isArray(result) ? result[0] : result
 				}
 
+				const fontFamily = (family, fallback) => {
+					const result = theme(`fontFamily.${family}`)
+
+					if (Array.isArray(result)) {
+						return result.join(', ')
+					}
+
+					if (typeof result === 'string') {
+						return result
+					}
+
+					return fallback
+				}
+
 				return {
 					DEFAULT: {
 						css: [
@@ -116,7 +126,8 @@ module.exports = {
 								'--tw-prose-pre-code': 'var(--body-text-inverse)',
 								'--tw-prose-pre-bg': 'var(--section-title-color)',
 								'--tw-prose-th-borders': 'var(--border-color)',
-								'--tw-prose-td-borders': 'var(--color-pink-200)', /* keep light tint for contrast */
+								'--tw-prose-td-borders':
+									'var(--color-pink-200)' /* keep light tint for contrast */,
 
 								'--tw-prose-invert-body': 'var(--body-text-inverse)',
 								'--tw-prose-invert-headings': 'var(--body-text-inverse)',
@@ -155,28 +166,28 @@ module.exports = {
 									},
 								},
 								h2: {
-									fontFamily: theme('fontFamily.display').join(', '),
+									fontFamily: fontFamily('display', 'CommitMono'),
 									fontWeight: theme('fontWeight.bold'),
 									fontSize: fontSize('3xl'),
 									marginTop: theme('spacing.10'),
 									marginBottom: theme('spacing.5'),
 								},
 								h3: {
-									fontFamily: theme('fontFamily.display').join(', '),
+									fontFamily: fontFamily('display', 'CommitMono'),
 									fontWeight: theme('fontWeight.bold'),
 									fontSize: fontSize('2xl'),
 									marginTop: theme('spacing.8'),
 									marginBottom: theme('spacing.2'),
 								},
 								h4: {
-									fontFamily: theme('fontFamily.body').join(', '),
+									fontFamily: fontFamily('body', 'CommitMono'),
 									fontSize: fontSize('xl'),
 									fontWeight: theme('fontWeight.normal'),
 									marginTop: theme('spacing.10'),
 									marginBottom: theme('spacing.1'),
 								},
 								h5: {
-									fontFamily: theme('fontFamily.body').join(', '),
+									fontFamily: fontFamily('body', 'CommitMono'),
 									fontSize: fontSize('lg'),
 									fontWeight: theme('fontWeight.normal'),
 									marginTop: theme('spacing.16'),

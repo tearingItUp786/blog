@@ -7,36 +7,36 @@ export function Footer() {
 	searchParamsWithoutOffset.delete('offset')
 
 	return (
-		<footer className="w-full border-t-[1px] border-body px-4 py-6">
+		<footer className="border-body w-full border-t-[1px] px-4 py-6">
 			<div className="mx-auto block w-full max-w-screen-xl justify-between text-center md:px-16 lg:flex lg:text-left">
-				<span className="mb-4 block text-sm text-body lg:mb-0">
+				<span className="text-body mb-4 block text-sm lg:mb-0">
 					Taran "tearing it up" Bains
 				</span>
-				<div className="block flex-grow flex-wrap justify-center lg:flex lg:justify-end">
+				<div className="block grow flex-wrap justify-center lg:flex lg:justify-end">
 					<NavLink
 						prefetch="intent"
-						className="mb-2 block px-8 text-sm text-body underline"
+						className="text-body mb-2 block px-8 text-sm underline"
 						to={`/til?${searchParamsWithoutOffset}`}
 					>
 						TIL
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="mb-2 block px-8 text-sm text-body underline"
+						className="text-body mb-2 block px-8 text-sm underline"
 						to={`/about?${searchParamsWithoutOffset}`}
 					>
 						ABOUT
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="mb-2 block px-8 text-sm text-body underline"
+						className="text-body mb-2 block px-8 text-sm underline"
 						to={`/blog?${searchParamsWithoutOffset}`}
 					>
 						BLOG
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="mb-2 block px-8 text-sm text-body underline"
+						className="text-body mb-2 block px-8 text-sm underline"
 						to={`/uses?${searchParamsWithoutOffset}`}
 					>
 						USES
@@ -44,7 +44,7 @@ export function Footer() {
 					<NavLink
 						prefetch="intent"
 						target="_blank"
-						className="mb-2 flex justify-center px-8 text-sm text-body underline"
+						className="text-body mb-2 flex justify-center px-8 text-sm underline"
 						to={`/newsletter/rss.xml`}
 					>
 						Newsletter RSS

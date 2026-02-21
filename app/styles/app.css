@@ -52,8 +52,10 @@
   fill: var(--accent);
 }
 
-a {
-  color: var(--accent);
+@layer base {
+  a {
+    color: var(--accent);
+  }
 }
 
 .title {

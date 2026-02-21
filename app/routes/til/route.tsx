@@ -130,7 +130,7 @@ export default function TilPage() {
 
 	return (
 		<main className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
-			<div className="mb-4 mt-6 flex items-center md:mb-10 md:mt-14">
+			<div className="mt-6 mb-4 flex items-center md:mt-14 md:mb-10">
 				<H1 className="">Today I Learned</H1>
 				<NavLink
 					target="_blank"
@@ -157,8 +157,8 @@ export default function TilPage() {
 					</svg>
 				</NavLink>
 			</div>
-			<div className='relative pb-8 after:absolute after:left-[0rem] after:top-[20px] after:hidden after:h-[calc(100%_-_20px)] after:w-[2px] after:bg-gray-100 after:content-[""] after:dark:bg-white md:pl-24 after:md:block lg:px-[6.5rem] xl:min-w-[1200px]'>
-				<div className="prose prose-light max-w-full dark:prose-dark">
+			<div className='relative pb-8 after:absolute after:top-[20px] after:left-[0rem] after:hidden after:h-[calc(100%_-_20px)] after:w-[2px] after:bg-gray-100 after:content-[""] md:pl-24 after:md:block lg:px-[6.5rem] xl:min-w-[1200px] dark:after:bg-white'>
+				<div className="prose prose-light dark:prose-dark max-w-full">
 					{items?.map((til) => {
 						return (
 							<TilComponent

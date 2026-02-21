@@ -74,7 +74,7 @@ export default function Blog() {
 	return (
 		<div
 			className={twMerge(
-				'relative mx-auto mb-4 mt-6 w-screen max-w-screen-xl flex-grow px-4 md:mb-10 md:mt-14 md:px-20',
+				'relative mx-auto mt-6 mb-4 w-screen max-w-screen-xl grow px-4 md:mt-14 md:mb-10 md:px-20',
 			)}
 		>
 			<H1 className="mb-8">Blog</H1>
@@ -83,7 +83,7 @@ export default function Blog() {
 					<BlogCard
 						{...featuredPost.frontmatter}
 						lazyLoadImage={false}
-						className="col-span-full flex flex-wrap items-center overflow-clip rounded-md border border-solid border-medium-gray focus-visible:outline-2 dark:border-white"
+						className="border-medium-gray col-span-full flex flex-wrap items-center overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
 						key={String(featuredPost.slug ?? '')}
 						slug={featuredPost.path ?? ''}
 					/>
@@ -91,7 +91,7 @@ export default function Blog() {
 				{paginatedData.posts.map((post) => (
 					<BlogCard
 						{...post.frontmatter}
-						className="col-span-4 overflow-clip rounded-md border border-solid border-medium-gray focus-visible:outline-2 dark:border-white"
+						className="border-medium-gray col-span-4 overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
 						key={String(post.slug ?? '')}
 						slug={post.path ?? ''}
 					/>

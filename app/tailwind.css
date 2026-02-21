@@ -1,11 +1,5 @@
-/* purgecss start ignore */
-@tailwind base;
-
-@tailwind components;
-/* purgecss end ignore */
-
-@tailwind utilities;
-@tailwind screens;
+@import 'tailwindcss';
+@config '../tailwind.config.cjs';
 
 @font-face {
 	font-family: 'CommitMono';
