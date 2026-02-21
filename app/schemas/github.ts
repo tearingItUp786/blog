@@ -11,7 +11,7 @@ export const GithubGraphqlObjectSchema = z.object({
 	name: z.string(),
 	type: z.string().optional(),
 	object: z.object({
-		text: z.string().optional(),
+		text: z.string().nullish(),
 		get entries() {
 			return z.array(GithubGraphqlObjectSchema).optional()
 		},
