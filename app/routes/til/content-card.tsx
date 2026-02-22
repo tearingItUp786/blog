@@ -19,29 +19,29 @@ const blackLinkClasses = `
     after:hidden
     after:md:block
     after:absolute
-    after:top-[20px]
+    after:top-5
     after:left-[-6rem]
     lg:after:left-[-6.5rem]
     after:bg-gray-100
     dark:after:bg-white
-    after:h-[2px]
-    after:w-[3rem]
-    lg:after:w-[4.5rem]
+    after:h-0.5
+    after:w-12
+    lg:after:w-18
 
     before:hidden
     before:md:block
     before:content: ""
     before:absolute
     before:rounded-full
-    before:h-[18px]
-    before:w-[18px]
-    before:top-[20px]
+    before:h-4.5
+    before:w-4.5
+    before:top-5
     before:left-[-2.5rem]
     before:bg-gray-100
     dark:before:bg-white
     before:translate-y-[-50%]
     before:translate-x-[-50%]
-`
+    `
 
 // used for the TIL and the blog
 export const ContentCard = ({
@@ -59,7 +59,7 @@ export const ContentCard = ({
 			id={id}
 			className={clsx(
 				showBlackLine && blackLinkClasses,
-				'relative scroll-mt-[1rem]',
+				'relative scroll-mt-4',
 			)}
 		>
 			<div className="">

@@ -23,7 +23,7 @@ const Pill = ({
 		<span
 			className={twJoin(
 				PILL_CLASS_NAME,
-				'py-[6px] text-lg leading-6',
+				'py-1.5 text-lg leading-6',
 				isActive
 					? 'border-accent text-accent hover:bg-accent'
 					: 'border-border-color text-border-color',

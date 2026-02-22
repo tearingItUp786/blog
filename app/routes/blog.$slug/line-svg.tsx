@@ -1,7 +1,7 @@
 export const LineSvg = () => {
 	return (
 		<>
-			<div className="absolute top-[140px] left-0 hidden lg:block">
+			<div className="absolute top-35 left-0 hidden lg:block">
 				<svg
 					xmlSpace="preserve"
 					style={{
@@ -47,7 +47,7 @@ export const LineSvg = () => {
 					</g>
 				</svg>
 			</div>
-			<div className="absolute top-[170px] left-20 hidden h-[calc(100%-170px)] w-[2px] bg-black lg:block dark:bg-white"></div>
+			<div className="absolute top-42.5 left-20 hidden h-[calc(100%-170px)] w-0.5 bg-black lg:block dark:bg-white"></div>
 		</>
 	)
 }

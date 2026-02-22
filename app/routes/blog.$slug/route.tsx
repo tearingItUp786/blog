@@ -255,7 +255,7 @@ export default function MdxScreen() {
 						className={twJoin(
 							PILL_CLASS_NAME,
 							PILL_CLASS_NAME_ACTIVE,
-							'mr-7 mb-4 py-[6px] text-lg leading-6 md:mb-0',
+							'mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
 						)}
 					>
 						Share on 𝕏
@@ -267,7 +267,7 @@ export default function MdxScreen() {
 						className={twJoin(
 							PILL_CLASS_NAME,
 							PILL_CLASS_NAME_ACTIVE,
-							'py-[6px] text-lg leading-6',
+							'py-1.5 text-lg leading-6',
 						)}
 						href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
 							{
