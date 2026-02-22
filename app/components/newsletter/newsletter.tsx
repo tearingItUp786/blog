@@ -59,15 +59,6 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 				</div>
 			</div>
 			<div className="basis-1/2">
-				{form?.errors?.length ? (
-					<div className="flex flex-wrap gap-2">
-						{form.errors.map((error, index) => (
-							<p className="text-alert mb-2 text-sm" key={index}>
-								{error}
-							</p>
-						))}
-					</div>
-				) : null}
 				{isLastResultSuccessful && (
 					<div className="flex flex-wrap justify-center text-center">
 						<svg
@@ -94,7 +85,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 				{!isLastResultSuccessful && (
 					<fetcher.Form
 						method="post"
-						className="w-full flex-nowrap items-end justify-between gap-4 md:flex"
+						className="w-full flex-nowrap items-end justify-between gap-4 space-y-4 md:flex md:space-y-0"
 						action="/action/newsletter"
 						{...getFormProps(form)}
 					>
@@ -112,6 +103,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								{...getInputProps(fields.name, {
 									type: 'text',
 								})}
+								autoComplete="name"
 								placeholder="Preferred Name"
 								className={twMerge(
 									'w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white',
@@ -126,9 +118,10 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								Email
 							</label>
 							<input
+								autoComplete="email"
+								data-invalid={form.status === 'error'}
 								className={twMerge(
-									'w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white',
-									(fields.name.errors || fields.email.errors) && 'self-center',
+									'w-full rounded-sm p-2 outline outline-black focus:outline-2 data-[invalid=true]:self-center dark:bg-transparent dark:outline-white',
 								)}
 								placeholder="Email Address"
 								{...getInputProps(fields.email, {
@@ -140,9 +133,9 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							</div>
 						</div>
 						<button
+							data-invalid={form.status === 'error'}
 							className={twMerge(
-								'mt-6 basis-1/4 self-end rounded bg-black px-6 py-2 text-white md:mt-0 dark:bg-white dark:text-black',
-								(fields.name.errors || fields.email.errors) && 'self-center',
+								'mt-4 mb-0 basis-1/4 self-end rounded bg-black px-6 py-2 text-white data-[invalid=true]:mt-0.5 data-[invalid=true]:mb-0 data-[invalid=true]:self-center md:mt-0 md:mb-1.25 dark:bg-white dark:text-black',
 							)}
 						>
 							Subscribe
