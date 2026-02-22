@@ -104,7 +104,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							name="convertKitFormId"
 							value={ENV.CONVERT_KIT_FORM_ID}
 						/>
-						<div className={'flex flex-wrap self-start'}>
+						<div className={'flex flex-wrap gap-1 self-start'}>
 							<label className="w-full" htmlFor={fields.name.id}>
 								Name
 							</label>
@@ -114,20 +114,20 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								})}
 								placeholder="Preferred Name"
 								className={twMerge(
-									'w-full rounded-md border border-black p-2 dark:border-white dark:bg-transparent',
+									'w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white',
 								)}
 							/>
 							<div className="text-alert text-sm" id={fields.name.errorId}>
 								{fields.name.errors}
 							</div>
 						</div>
-						<div className={'mt-6 basis-2/3 self-start md:mt-0'}>
+						<div className={'flex flex-wrap gap-1 self-start'}>
 							<label className="w-full" htmlFor={fields.email.id}>
 								Email
 							</label>
 							<input
 								className={twMerge(
-									'w-full rounded-md border border-black p-2 dark:border-white dark:bg-transparent',
+									'w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white',
 									(fields.name.errors || fields.email.errors) && 'self-center',
 								)}
 								placeholder="Email Address"
