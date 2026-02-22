@@ -48,30 +48,23 @@
 		}
 	}
 
-	@keyframes sparkle {
-		0% {
-			transform: scale(0.25);
-		}
-
-		25% {
-			opacity: 1;
-		}
-
-		100% {
-			opacity: 0;
-		}
-	}
-
-	@keyframes twinkle {
+	@keyframes borderPulse {
 		0%,
 		100% {
-			opacity: 1;
+			border-color: rgba(219, 68, 134, 0.5) !important;
+			box-shadow: 0 0 5px rgba(219, 68, 134, 0.15);
 		}
-
 		50% {
-			opacity: 0.5;
+			border-color: rgba(219, 68, 134, 0.7) !important;
+			box-shadow: 0 0 10px rgba(219, 68, 134, 0.25);
 		}
 	}
+}
+
+@utility border-shine {
+	animation: borderPulse 4s infinite alternate;
+	border-color: rgba(219, 68, 134, 0.6) !important;
+	box-shadow: 0 0 8px rgba(219, 68, 134, 0.2);
 }
 
 @font-face {

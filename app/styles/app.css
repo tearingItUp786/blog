@@ -92,6 +92,7 @@
   mark {
     background: var(--color-hot-pink);
   }
+
 }
 
 .title {
@@ -147,3 +148,5 @@
 g.cluster-label {
   line-height: 1.5rem;
 }
+
+

@@ -2,11 +2,9 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
-import { twMerge } from 'tailwind-merge'
 import { H3 } from '../typography'
 import { schema, type action } from '~/routes/action.newsletter'
 import { useNewsLetterData } from '~/utils/request-info'
-import './newsletter.css'
 
 export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 	const { newsletterImage, showNewsLetter } = useNewsLetterData()
@@ -27,16 +25,13 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 	}
 
 	const isLastResultSuccessful = lastResult?.status === 'success'
+	const hasBorder = !noBorder
 
 	return (
 		<div
+			data-border={hasBorder ? true : undefined}
 			className={
-				twMerge(
-					'relative mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
-					noBorder
-						? ''
-						: 'border-border-color border-[1.5px] border-solid px-4 md:px-12',
-				) + (noBorder ? '' : ' border-shine')
+				'data-border:border-border-color data-border:border-shine relative mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 data-border:border-2 data-border:border-solid data-border:px-4 md:py-10 data-border:md:px-12 lg:flex'
 			}
 		>
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
@@ -105,9 +100,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								})}
 								autoComplete="name"
 								placeholder="Preferred Name"
-								className={twMerge(
-									'w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white',
-								)}
+								className="w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white"
 							/>
 							<div className="text-alert text-sm" id={fields.name.errorId}>
 								{fields.name.errors}
@@ -120,9 +113,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							<input
 								autoComplete="email"
 								data-invalid={form.status === 'error'}
-								className={twMerge(
-									'w-full rounded-sm p-2 outline outline-black focus:outline-2 data-[invalid=true]:self-center dark:bg-transparent dark:outline-white',
-								)}
+								className="w-full rounded-sm p-2 outline outline-black focus:outline-2 data-[invalid=true]:self-center dark:bg-transparent dark:outline-white"
 								placeholder="Email Address"
 								{...getInputProps(fields.email, {
 									type: 'email',
@@ -134,9 +125,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 						</div>
 						<button
 							data-invalid={form.status === 'error'}
-							className={twMerge(
-								'mt-4 mb-0 basis-1/4 self-end rounded bg-black px-6 py-2 text-white data-[invalid=true]:mt-0.5 data-[invalid=true]:mb-0 data-[invalid=true]:self-center md:mt-0 md:mb-1.25 dark:bg-white dark:text-black',
-							)}
+							className="mt-4 mb-0 basis-1/4 self-end rounded bg-black px-6 py-2 text-white data-[invalid=true]:mt-0.5 data-[invalid=true]:mb-0 data-[invalid=true]:self-center md:mt-0 md:mb-1.25 dark:bg-white dark:text-black"
 						>
 							Subscribe
 						</button>
