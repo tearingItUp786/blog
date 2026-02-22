@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigation } from 'react-router'
 import { ToastUI } from './toast-ui'
@@ -15,7 +16,7 @@ export const LoadingRoute = () => {
 		if (navigation.state === 'loading' && pathname !== loc.pathname) {
 			timeout = setTimeout(() => {
 				setShowLoadingComponent(true)
-			}, 1000)
+			}, 300)
 		}
 
 		if (navigation.state === 'idle') {
@@ -32,7 +33,11 @@ export const LoadingRoute = () => {
 		}
 	}, [pathname, navigation.state, loc.pathname])
 
-	if (!showLoadingComponent || !pathname) return null
-
-	return <ToastUI msg={`Routing you to ${pathname}`} />
+	return (
+		<AnimatePresence>
+			{showLoadingComponent && pathname ? (
+				<ToastUI msg={`Routing you to ${pathname}`} />
+			) : null}
+		</AnimatePresence>
+	)
 }

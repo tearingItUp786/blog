@@ -1,6 +1,7 @@
 import { type BaseItem } from '@algolia/autocomplete-core'
 import { type AutocompleteApi } from '@algolia/autocomplete-js'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { twJoin } from 'tailwind-merge'
 import { ToastUI } from '../toast-ui'
 import { useHotkeys } from '~/hooks/use-hot-keys'
@@ -130,7 +131,11 @@ export function Search() {
 					/>
 				</Suspense>
 			) : null}
-			{showToast ? <ToastUI msg="Loading Search..." /> : null}
+			{showToast ? (
+				<AnimatePresence>
+					<ToastUI msg="Loading Search..." />
+				</AnimatePresence>
+			) : null}
 		</>
 	)
 }
