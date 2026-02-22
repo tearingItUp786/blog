@@ -20,8 +20,8 @@ const blackLinkClasses = `
     after:md:block
     after:absolute
     after:top-5
-    after:left-[-6rem]
-    lg:after:left-[-6.5rem]
+    after:-left-24
+    lg:after:-left-26
     after:bg-gray-100
     dark:after:bg-white
     after:h-0.5
@@ -36,11 +36,11 @@ const blackLinkClasses = `
     before:h-4.5
     before:w-4.5
     before:top-5
-    before:left-[-2.5rem]
+    before:-left-10
     before:bg-gray-100
     dark:before:bg-white
-    before:translate-y-[-50%]
-    before:translate-x-[-50%]
+    before:-translate-y-1/2
+    before:-translate-x-1/2
     `
 
 // used for the TIL and the blog

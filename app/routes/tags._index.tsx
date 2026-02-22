@@ -45,7 +45,7 @@ export default function TagPage() {
 	const [searchParams] = useSearchParams()
 
 	return (
-		<div className="relative mx-auto mb-4 mt-6 min-h-[100vh] w-full max-w-screen-xl px-4 pb-24 md:mb-10 md:mt-14 md:px-20">
+		<div className="relative mx-auto mt-6 mb-4 min-h-screen w-full max-w-screen-xl px-4 pb-24 md:mt-14 md:mb-10 md:px-20">
 			<main className="">
 				<H1>Tags</H1>
 				<div className="mt-8">

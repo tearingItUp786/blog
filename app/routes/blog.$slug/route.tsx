@@ -155,7 +155,7 @@ const FrontmatterSubtitle = ({
 	if (!date) return null
 	console.log('👀 date', typeof date)
 	return (
-		<div className="text-accent relative mb-4 block items-center uppercase after:border-gray-300 md:flex">
+		<div className="text-accent relative mb-4 block items-center uppercase after:border-gray-200 md:flex">
 			<NavLink
 				className={twMerge(
 					PILL_CLASS_NAME,

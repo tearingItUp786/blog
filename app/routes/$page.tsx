@@ -66,9 +66,9 @@ export default function Page() {
 	const Component = useMdxComponent(String(code))
 
 	return (
-		<div className="mx-auto mt-6 min-h-[100vh] w-full max-w-screen-xl px-4 pb-24 md:mt-14 md:px-20">
+		<div className="mx-auto mt-6 min-h-screen w-full max-w-screen-xl px-4 pb-24 md:mt-14 md:px-20">
 			<div className="">
-				<main className="prose prose-light relative max-w-7xl grid-cols-4 break-words dark:prose-dark">
+				<main className="prose prose-light dark:prose-dark relative max-w-7xl grid-cols-4 break-words">
 					<H1>{frontmatter.title}</H1>
 
 					{frontmatter.date ? (

@@ -82,7 +82,7 @@ export function Pagination({
 					to={createPageUrl(currentPage - 1)}
 					className={() =>
 						twMerge(
-							'inline-flex items-center justify-center rounded-md border border-solid border-medium-gray px-3 py-2 text-sm font-medium transition-colors hover:bg-white focus-visible:outline-2 dark:border-white',
+							'border-medium-gray inline-flex items-center justify-center rounded-md border border-solid px-3 py-2 text-sm font-medium transition-colors hover:bg-white focus-visible:outline-2 dark:border-white',
 						)
 					}
 					aria-label="Previous page"
@@ -126,7 +126,7 @@ export function Pagination({
 					to={createPageUrl(currentPage + 1)}
 					className={({ isActive }) =>
 						twMerge(
-							'inline-flex items-center justify-center rounded-md border border-solid border-medium-gray px-3 py-2 text-sm font-medium transition-colors hover:bg-white focus-visible:outline-2 dark:border-white',
+							'border-medium-gray inline-flex items-center justify-center rounded-md border border-solid px-3 py-2 text-sm font-medium transition-colors hover:bg-white focus-visible:outline-2 dark:border-white',
 							isActive ? 'text-accent' : '',
 						)
 					}

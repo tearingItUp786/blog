@@ -34,7 +34,7 @@ function SearchButton({ onClick, onPointerOver, onFocus }: SearchButtonProps) {
 				onClick={onClick}
 				onPointerOver={onPointerOver}
 				className={twJoin(
-					'group shadow-custom-black relative mr-12 block rounded bg-white px-6 py-1 lg:mr-0 dark:bg-gray-200',
+					'group shadow-custom-black relative mr-12 block rounded-sm bg-white px-6 py-1 lg:mr-0 dark:bg-gray-200',
 					!isMounted && 'cursor-not-allowed',
 				)}
 			>

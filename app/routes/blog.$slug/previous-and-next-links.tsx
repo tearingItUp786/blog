@@ -17,7 +17,7 @@ export function PreviousAndNextLinks({ previous, next, className }: Props) {
 	return (
 		<div
 			className={twMerge(
-				'mb-6 mt-8 flex',
+				'mt-8 mb-6 flex',
 				next && !previous ? 'justify-end' : 'justify-between',
 				className,
 			)}
@@ -35,7 +35,7 @@ export function PreviousAndNextLinks({ previous, next, className }: Props) {
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="order-0 mt-1 h-5 w-5 min-w-5 text-body transition-transform group-hover:translate-x-[-5px] md:mt-0 lg:block"
+							className="text-body order-0 mt-1 h-5 w-5 min-w-5 transition-transform group-hover:translate-x-[-5px] md:mt-0 lg:block"
 						>
 							<path
 								strokeLinecap="round"
@@ -61,7 +61,7 @@ export function PreviousAndNextLinks({ previous, next, className }: Props) {
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="order-1 mt-1 h-5 w-5 min-w-5 text-body transition-transform group-hover:translate-x-[4px] md:mt-0 lg:block"
+							className="text-body order-1 mt-1 h-5 w-5 min-w-5 transition-transform group-hover:translate-x-[4px] md:mt-0 lg:block"
 						>
 							<path
 								strokeLinecap="round"

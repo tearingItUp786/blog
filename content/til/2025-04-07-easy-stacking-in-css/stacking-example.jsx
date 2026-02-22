@@ -42,7 +42,7 @@ const CardStack = () => {
 				className={twJoin(
 					PILL_CLASS_NAME,
 					PILL_CLASS_NAME_ACTIVE,
-					'mb-6 py-[6px] text-lg leading-6 text-accent',
+					'text-accent mb-6 py-[6px] text-lg leading-6',
 				)}
 			>
 				{revealCode ? 'Hide Code' : 'Reveal Code'}
@@ -56,13 +56,13 @@ const CardStack = () => {
 
 			<div className="group relative grid h-48 w-72">
 				{/* Base Card */}
-				<div className="col-start-1 col-end-2 row-start-1 row-end-2 rounded-lg bg-alert p-5 shadow-md"></div>
+				<div className="bg-alert col-start-1 col-end-2 row-start-1 row-end-2 rounded-lg p-5 shadow-md"></div>
 
 				{/* Middle Card */}
-				<div className="col-start-1 col-end-2 row-start-1 row-end-2 translate-x-4 translate-y-4 rounded-lg bg-info p-5 shadow-md transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"></div>
+				<div className="bg-info col-start-1 col-end-2 row-start-1 row-end-2 translate-x-4 translate-y-4 rounded-lg p-5 shadow-md transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"></div>
 
 				{/* Top Card */}
-				<div className="col-start-1 col-end-2 row-start-1 row-end-2 translate-x-8 translate-y-8 rounded-lg bg-medium-gray p-5 shadow-md transition-transform duration-300 group-hover:translate-x-2 group-hover:translate-y-2">
+				<div className="bg-medium-gray col-start-1 col-end-2 row-start-1 row-end-2 translate-x-8 translate-y-8 rounded-lg p-5 shadow-md transition-transform duration-300 group-hover:translate-x-2 group-hover:translate-y-2">
 					<h3 className="text-lg font-bold text-white">Top Card</h3>
 					<p className="text-white">This card is on top... hover me!</p>
 				</div>

@@ -107,7 +107,7 @@ export function Autocomplete({
 				clearButton:
 					'text-white dark:text-gray-100 flex hidden:hidden items-center justify-center absolute top-0 right-0 h-full w-16 group text-charcoal-gray transition-colors hover:text-pink',
 				panel:
-					'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-300 divide-white/20 dark:divide-gray-300/20',
+					'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-200 divide-white/20 dark:divide-gray-200/20',
 			},
 			container: autocompleteContainer.current,
 			initialState: { isOpen: true, query: initialQuery, ...initialState },

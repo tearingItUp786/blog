@@ -22,7 +22,7 @@ export const ValidationDemo = () => {
         `}
 			</style>
 
-			<h2 className="mb-4 mt-0 text-xl font-bold">
+			<h2 className="mt-0 mb-4 text-xl font-bold">
 				Input Validation States Demo
 			</h2>
 

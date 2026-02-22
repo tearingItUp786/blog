@@ -17,6 +17,7 @@ import {
 	TextLink,
 } from '~/components/typography'
 import { cloudinaryInstance } from '~/utils/cloudinary'
+import { twMerge } from 'tailwind-merge'
 
 export function shouldRevalidate({
 	currentUrl,
@@ -45,17 +46,17 @@ const RandomThing = ({
 }) => {
 	return (
 		<main
-			className={clsx(
+			className={twMerge(
 				className,
-				'mb-8 w-full border border-solid border-gray-300 p-8 lg:mb-0 dark:border-white',
+				'mb-8 w-full border border-solid border-gray-200 p-8 lg:mb-0 dark:border-white',
 			)}
 		>
 			{icon ? (
-				<div className="mb-4 max-w-[40px] first:fill-gray-300 first:dark:fill-white">
+				<div className="mb-4 max-w-10 first:fill-gray-200 first:dark:fill-white">
 					{icon}
 				</div>
 			) : null}
-			<H4 className={clsx(titleClassName, 'mb-4')}>{title}</H4>
+			<H4 className={twMerge(titleClassName, 'mb-4')}>{title}</H4>
 			<p className="max-w-md">{description}</p>
 		</main>
 	)
@@ -102,7 +103,7 @@ export default function About() {
 	const data = useLoaderData<typeof loader>()
 
 	return (
-		<div className="mx-auto mt-8 min-h-[100vh] max-w-screen-xl pb-24">
+		<div className="mx-auto mt-8 min-h-screen max-w-screen-xl pb-24">
 			<div className="max-w-full px-4 md:px-20">
 				<FaceHero className="md:mx-0" />
 				<BlockQuote className="mx-auto mt-8 max-w-5xl" author="David Goggins">
@@ -110,7 +111,7 @@ export default function About() {
 					journey is by suffering. You have to suffer in order to grow. Some
 					people get it, some people don’t.
 				</BlockQuote>
-				<p className="relative mt-6 pt-6 before:absolute before:top-0 before:left-[50%] before:h-px before:w-50 before:-translate-x-1/2 before:bg-gray-100 before:content-['']">
+				<p className="relative mt-6 pt-6 before:absolute before:top-0 before:left-1/2 before:h-px before:w-50 before:-translate-x-1/2 before:bg-gray-100 before:content-['']">
 					Hey there, thanks for stopping by. I'm a self-taught software engineer
 					with over seven years of experience and I am based out of Vancouver,
 					Canada. I've got a passion for Typescript (both Frontend and Backend).

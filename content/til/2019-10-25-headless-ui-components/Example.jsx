@@ -57,7 +57,7 @@ function PrettyToggle() {
 						>
 							<input
 								className={clsx(
-									'transition-color h-7 w-7 cursor-pointer appearance-none rounded-full drop-shadow-toggle transition-transform ease-in-out',
+									'transition-color drop-shadow-toggle h-7 w-7 cursor-pointer appearance-none rounded-full transition-transform ease-in-out',
 									'translate-x-0 bg-white',
 									transClasses,
 								)}

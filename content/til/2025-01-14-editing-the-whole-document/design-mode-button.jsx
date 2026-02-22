@@ -24,7 +24,7 @@ export let DesignModeToggle = () => {
 					id="website-theme-toggle"
 					aria-label="Toggle theme mode"
 					className={twMerge(
-						'transition-color h-6 w-6 translate-x-0 cursor-pointer appearance-none rounded-full bg-white drop-shadow-toggle transition-transform ease-in-out',
+						'transition-color drop-shadow-toggle h-6 w-6 translate-x-0 cursor-pointer appearance-none rounded-full bg-white transition-transform ease-in-out',
 						`${edit ? 'translate-x-[135%] bg-white' : ''}`,
 					)}
 					type="checkbox"

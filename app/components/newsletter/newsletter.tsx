@@ -100,7 +100,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 								})}
 								autoComplete="name"
 								placeholder="Preferred Name"
-								className="w-full rounded-sm p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white"
+								className="w-full rounded-xs p-2 outline outline-black focus:outline-2 dark:bg-transparent dark:outline-white"
 							/>
 							<div className="text-alert text-sm" id={fields.name.errorId}>
 								{fields.name.errors}
@@ -113,7 +113,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 							<input
 								autoComplete="email"
 								data-invalid={form.status === 'error'}
-								className="w-full rounded-sm p-2 outline outline-black focus:outline-2 data-[invalid=true]:self-center dark:bg-transparent dark:outline-white"
+								className="w-full rounded-xs p-2 outline outline-black focus:outline-2 data-[invalid=true]:self-center dark:bg-transparent dark:outline-white"
 								placeholder="Email Address"
 								{...getInputProps(fields.email, {
 									type: 'email',
@@ -125,7 +125,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 						</div>
 						<button
 							data-invalid={form.status === 'error'}
-							className="mt-4 mb-0 basis-1/4 self-end rounded bg-black px-6 py-2 text-white data-[invalid=true]:mt-0.5 data-[invalid=true]:mb-0 data-[invalid=true]:self-center md:mt-0 md:mb-1.25 dark:bg-white dark:text-black"
+							className="mt-4 mb-0 basis-1/4 self-end rounded-sm bg-black px-6 py-2 text-white data-[invalid=true]:mt-0.5 data-[invalid=true]:mb-0 data-[invalid=true]:self-center md:mt-0 md:mb-1.25 dark:bg-white dark:text-black"
 						>
 							Subscribe
 						</button>

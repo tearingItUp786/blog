@@ -74,13 +74,13 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 	return (
 		<div
 			className={twMerge(
-				`text-md relative my-6 ml-6 max-w-full rounded-[20px] py-4 pl-8 pr-0`,
+				`text-md relative my-6 ml-6 max-w-full rounded-[20px] py-4 pr-0 pl-8`,
 				containerClassName,
 			)}
 			role="alert"
 		>
 			<svg
-				className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2"
+				className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				height={40}

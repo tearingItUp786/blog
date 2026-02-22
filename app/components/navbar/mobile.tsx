@@ -29,8 +29,8 @@ export function MobileNav({ isOpen, setIsOpen }: Props) {
 						'before:absolute before:left-0 before:h-0.5 before:w-6 before:transition-all before:duration-300 before:ease-in-out before:content-[""]',
 						'after:absolute after:top-4 after:left-0 after:h-0.5 after:w-6 after:transition-all after:duration-300 after:ease-in-out after:content-[""]',
 						isOpen
-							? 'before:bg-accent after:bg-accent bg-transparent before:top-2 before:rotate-[-45deg] after:top-2 after:rotate-[45deg]'
-							: 'bg-charcoal-gray before:bg-charcoal-gray after:bg-charcoal-gray before:top-2 before:rotate-0 after:top-4 after:rotate-[0deg] dark:bg-white dark:before:bg-white dark:after:bg-white',
+							? 'before:bg-accent after:bg-accent bg-transparent before:top-2 before:-rotate-45 after:top-2 after:rotate-45'
+							: 'bg-charcoal-gray before:bg-charcoal-gray after:bg-charcoal-gray before:top-2 before:rotate-0 after:top-4 after:rotate-0 dark:bg-white dark:before:bg-white dark:after:bg-white',
 					)}
 				/>
 			</button>
