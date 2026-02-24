@@ -221,7 +221,7 @@ export default function MdxScreen() {
 		const headingId = decodeHashValue(loc.hash.slice(1))
 		if (!headingId) return
 
-		let settleTimeoutId: number | null = null
+		let settleTimeoutId: ReturnType<typeof globalThis.setTimeout>
 
 		const scrollToHashHeading = () => {
 			const heading = document.getElementById(headingId)
@@ -232,20 +232,20 @@ export default function MdxScreen() {
 			// Some embeds can shift layout shortly after mount. One delayed re-scroll
 			// keeps deep links stable without adding retry loops.
 			if (data.hasTwitterEmbed) {
-				settleTimeoutId = window.setTimeout(() => {
+				settleTimeoutId = setTimeout(() => {
 					heading.scrollIntoView({ block: 'start' })
 				}, 120)
 			}
 		}
 
 		// Wait one paint so heading nodes from MDX are present before we scroll.
-		const rafId = window.requestAnimationFrame(scrollToHashHeading)
+		const rafId = requestAnimationFrame(scrollToHashHeading)
 
 		return () => {
-			window.cancelAnimationFrame(rafId)
+			cancelAnimationFrame(rafId)
 
 			if (settleTimeoutId !== null) {
-				window.clearTimeout(settleTimeoutId)
+				clearTimeout(settleTimeoutId)
 			}
 		}
 	}, [loc.hash, loc.pathname, data.hasTwitterEmbed])
