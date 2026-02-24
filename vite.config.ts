@@ -16,15 +16,16 @@ export default defineConfig({
 		// noExternal: [/@algolia.*/],
 	},
 	plugins: [
-		reactRouterDevTools(),
+		process.env.DEVTOOLS === 'true' && reactRouterDevTools(),
 		reactRouter(),
-		sentryVitePlugin({
-			org: process.env.SENTRY_ORG,
-			project: process.env.SENTRY_PROJECT,
+		process.env.NODE_ENV === 'production' &&
+			sentryVitePlugin({
+				org: process.env.SENTRY_ORG,
+				project: process.env.SENTRY_PROJECT,
 
-			// Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-			authToken: process.env.SENTRY_AUTH_TOKEN,
-		}),
+				// Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+				authToken: process.env.SENTRY_AUTH_TOKEN,
+			}),
 		tsconfigPaths(),
 	],
 	build: {

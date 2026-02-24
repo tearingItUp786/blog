@@ -31,7 +31,7 @@ async function run() {
 
 		// this command just watches for changes and restarts the server
 		const command =
-			'tsx watch --clear-screen=false --ignore "vite**" --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" --inspect=0 ./index.mjs'
+			'tsx watch --clear-screen=false --ignore "vite**" --ignore "app/**" --ignore "build/**" --ignore "node_modules/**" ./index.mjs'
 		const devProcess = execa(command, {
 			stdio: ['ignore', 'inherit', 'inherit'],
 			shell: true,
