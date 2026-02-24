@@ -63,9 +63,6 @@ export async function compileMdxForGraphql(
 	slug: string,
 	githubFiles: Array<GithubGraphqlObject>,
 ) {
-	const { default: remarkAutolinkHeadings } = await import(
-		'remark-autolink-headings'
-	)
 	const { default: gfm } = await import('remark-gfm')
 	const { default: capitalize } = await import('remark-capitalize')
 	const { default: emoji } = await import('remark-emoji')
@@ -122,7 +119,6 @@ export async function compileMdxForGraphql(
 					gfm,
 					smartypants,
 					[remarkImages, { maxWidth: 1200 }],
-					[remarkAutolinkHeadings, { behavior: 'wrap' }],
 					[
 						// Because of weird CommonJS and ESM interop, we have to check if default is defined and use it if it is
 						// I think I need to figure out why the msw is causing issues because that's the only cjs

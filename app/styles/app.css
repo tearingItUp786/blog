@@ -97,6 +97,7 @@
 
 .title {
   position: relative;
+  scroll-margin-top: 1rem;
 }
 
 .title a {
@@ -148,5 +149,4 @@
 g.cluster-label {
   line-height: 1.5rem;
 }
-
 

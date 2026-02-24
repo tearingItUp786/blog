@@ -131,9 +131,6 @@ importers:
       framer-motion:
         specifier: ^11.1.9
         version: 11.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      hast:
-        specifier: ^1.0.0
-        version: 1.0.0
       hast-util-select:
         specifier: ^5.0.2
         version: 5.0.5
@@ -216,8 +213,8 @@ importers:
         specifier: ^6.1.1
         version: 6.1.1
       rehype-code-titles:
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.1
+        version: 1.2.1
       rehype-external-links:
         specifier: ^3.0.0
         version: 3.0.0
@@ -230,9 +227,6 @@ importers:
       rehype-slug:
         specifier: ^6.0.0
         version: 6.0.0
-      remark-autolink-headings:
-        specifier: ^7.0.1
-        version: 7.0.1
       remark-capitalize:
         specifier: ^1.1.0
         version: 1.1.0
@@ -248,9 +242,6 @@ importers:
       remark-images:
         specifier: ^3.1.0
         version: 3.1.0
-      remark-slug:
-        specifier: ^7.0.1
-        version: 7.0.1
       remark-smartypants:
         specifier: ^3.0.2
         version: 3.0.2
@@ -5508,9 +5499,6 @@ packages:
     resolution: {integrity: sha512-xm45KwBR6Eu1jO4umx/o2M84v9TC7tdOBuzLx8ayhdR9H1FBiiG9azz31uC0esDvaWVBTDINpJ5USomk+ja8OQ==}
     engines: {node: '>=0.8'}
 
-  github-slugger@1.5.0:
-    resolution: {integrity: sha512-wIh+gKBI9Nshz2o46B0B3f5k/W+WI9ZAv6y5Dn5WJ5SK1t0TnDimB4WE5rmTD05ZAIn8HALCZVmCsvj0w0v0lw==}
-
   github-slugger@2.0.0:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
 
@@ -5774,10 +5762,6 @@ packages:
 
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
-
-  hast@1.0.0:
-    resolution: {integrity: sha512-vFUqlRV5C+xqP76Wwq2SrM0kipnmpxJm7OfvVXpB35Fp+Fn4MV+ozr+JZr5qFvyR1q/U+Foim2x+3P+x9S1PLA==}
-    deprecated: Renamed to rehype
 
   hastscript@6.0.0:
     resolution: {integrity: sha512-nDM6bvd7lIqDUiYEiu5Sl/+6ReP0BMk/2f4U/Rooccxkj0P5nm+acM5PrGJ/t5I8qPGiqZSE6hVAwZEdZIvP4w==}
@@ -8351,8 +8335,8 @@ packages:
   rehype-autolink-headings@6.1.1:
     resolution: {integrity: sha512-NMYzZIsHM3sA14nC5rAFuUPIOfg+DFmf9EY1YMhaNlB7+3kK/ZlE6kqPfuxr1tsJ1XWkTrMtMoyHosU70d35mA==}
 
-  rehype-code-titles@1.2.0:
-    resolution: {integrity: sha512-bSr2YJ0GHbHFarUNDZ3VpcGi9HqjLNrA9Lj3nuyox2aGGLhN53dFP2WJtPRnnRqU/vpbCatIgOYxEvWP1YYKrw==}
+  rehype-code-titles@1.2.1:
+    resolution: {integrity: sha512-MhDkbRT4SKepZKDBGr9aSUBQyzK6N7NUzj05CzraxCxPSDkeP9ETb+X89JNYOntPC4VE7IvqSD5j1IKTJjAsEA==}
     engines: {node: '>=16'}
 
   rehype-external-links@3.0.0:
@@ -8384,9 +8368,6 @@ packages:
   rehype@12.0.1:
     resolution: {integrity: sha512-ey6kAqwLM3X6QnMDILJthGvG1m1ULROS9NT4uG9IDCuv08SFyLlreSuvOa//DgEvbXx62DS6elGVqusWhRUbgw==}
 
-  remark-autolink-headings@7.0.1:
-    resolution: {integrity: sha512-a1BIwoJ0cSnX+sPp5u3AFULBFWHGYBt57Fo4a+7IlGiJOQxs8b7uYAE5Iu26Ocl7Y5cvinZy3FaGVruLCKg6vA==}
-
   remark-capitalize@1.1.0:
     resolution: {integrity: sha512-53OMspdGD5XLSvB2lwuoGZ+YQZm+n1xRmWoqFdMgXgdVmbTWSd4O5zBJxp47BCWdshVh17Xb0MCIxR0Oib7DCA==}
 
@@ -8417,9 +8398,6 @@ packages:
 
   remark-rehype@11.1.1:
     resolution: {integrity: sha512-g/osARvjkBXb6Wo0XvAeXQohVta8i84ACbenPpoSsxTOQH/Ae0/RGP4WZgnMH5pMLpsj4FG7OHmcIcXxpza8eQ==}
-
-  remark-slug@7.0.1:
-    resolution: {integrity: sha512-NRvYePr69LdeCkEGwL4KYAmq7kdWG5rEavCXMzUR4qndLoXHJAOLSUmPY6Qm4NJfKix7/EmgObyVaYivONAFhg==}
 
   remark-smartypants@3.0.2:
     resolution: {integrity: sha512-ILTWeOriIluwEvPjv67v7Blgrcx+LZOkAUVtKI3putuhlZm84FnqDORNXPPm+HY3NdZOMhyDwZ1E+eZB/Df5dA==}
@@ -9336,9 +9314,6 @@ packages:
 
   unist-util-visit@4.1.0:
     resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
-
-  unist-util-visit@4.1.2:
-    resolution: {integrity: sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==}
 
   unist-util-visit@5.0.0:
     resolution: {integrity: sha512-MR04uvD+07cwl/yhVuVWAtw+3GOR/knlL55Nd/wAdblk27GCVt3lqpTivy/tkJcZoNPzTwS1Y+KMojlLDhoTzg==}
@@ -15650,8 +15625,6 @@ snapshots:
       parse-github-url: 1.0.3
       remote-origin-url: 1.0.0
 
-  github-slugger@1.5.0: {}
-
   github-slugger@2.0.0: {}
 
   glob-parent@5.1.2:
@@ -16100,8 +16073,6 @@ snapshots:
   hast-util-whitespace@3.0.0:
     dependencies:
       '@types/hast': 3.0.4
-
-  hast@1.0.0: {}
 
   hastscript@6.0.0:
     dependencies:
@@ -19318,10 +19289,9 @@ snapshots:
       unified: 10.1.2
       unist-util-visit: 4.1.0
 
-  rehype-code-titles@1.2.0:
+  rehype-code-titles@1.2.1:
     dependencies:
-      hast: 1.0.0
-      unist-util-visit: 4.1.2
+      unist-util-visit: 5.0.0
 
   rehype-external-links@3.0.0:
     dependencies:
@@ -19392,14 +19362,6 @@ snapshots:
       rehype-parse: 8.0.5
       rehype-stringify: 9.0.4
       unified: 10.1.2
-
-  remark-autolink-headings@7.0.1:
-    dependencies:
-      '@types/hast': 2.3.10
-      '@types/mdast': 3.0.15
-      extend: 3.0.2
-      unified: 10.1.2
-      unist-util-visit: 4.1.0
 
   remark-capitalize@1.1.0:
     dependencies:
@@ -19476,15 +19438,6 @@ snapshots:
       mdast-util-to-hast: 13.2.0
       unified: 11.0.5
       vfile: 6.0.3
-
-  remark-slug@7.0.1:
-    dependencies:
-      '@types/hast': 2.3.10
-      '@types/mdast': 3.0.15
-      github-slugger: 1.5.0
-      mdast-util-to-string: 3.2.0
-      unified: 10.1.2
-      unist-util-visit: 4.1.0
 
   remark-smartypants@3.0.2:
     dependencies:
@@ -20517,12 +20470,6 @@ snapshots:
       unist-util-visit-parents: 3.1.1
 
   unist-util-visit@4.1.0:
-    dependencies:
-      '@types/unist': 2.0.11
-      unist-util-is: 5.2.1
-      unist-util-visit-parents: 5.1.3
-
-  unist-util-visit@4.1.2:
     dependencies:
       '@types/unist': 2.0.11
       unist-util-is: 5.2.1

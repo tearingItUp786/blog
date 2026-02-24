@@ -182,6 +182,14 @@ declare global {
 	}
 }
 
+const decodeHashValue = (hashValue: string) => {
+	try {
+		return decodeURIComponent(hashValue)
+	} catch {
+		return hashValue
+	}
+}
+
 export default function MdxScreen() {
 	const data = useLoaderData<typeof loader>()
 	const [searchParams] = useSearchParams()
@@ -205,7 +213,42 @@ export default function MdxScreen() {
 			// pulled from: https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-loading-and-initialization
 			window?.twttr?.widgets?.load?.()
 		}
-	}, [loc])
+	}, [loc.pathname, loc.search, data.hasTwitterEmbed])
+
+	useEffect(() => {
+		if (!loc.hash) return
+
+		const headingId = decodeHashValue(loc.hash.slice(1))
+		if (!headingId) return
+
+		let settleTimeoutId: number | null = null
+
+		const scrollToHashHeading = () => {
+			const heading = document.getElementById(headingId)
+			if (!heading) return
+
+			heading.scrollIntoView({ block: 'start' })
+
+			// Some embeds can shift layout shortly after mount. One delayed re-scroll
+			// keeps deep links stable without adding retry loops.
+			if (data.hasTwitterEmbed) {
+				settleTimeoutId = window.setTimeout(() => {
+					heading.scrollIntoView({ block: 'start' })
+				}, 120)
+			}
+		}
+
+		// Wait one paint so heading nodes from MDX are present before we scroll.
+		const rafId = window.requestAnimationFrame(scrollToHashHeading)
+
+		return () => {
+			window.cancelAnimationFrame(rafId)
+
+			if (settleTimeoutId !== null) {
+				window.clearTimeout(settleTimeoutId)
+			}
+		}
+	}, [loc.hash, loc.pathname, data.hasTwitterEmbed])
 
 	const previous = data.prev
 		? {
