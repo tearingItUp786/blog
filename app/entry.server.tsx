@@ -6,7 +6,9 @@ import { renderToPipeableStream } from 'react-dom/server'
 import {
 	type AppLoadContext,
 	type EntryContext,
+	type HandleErrorFunction,
 	ServerRouter,
+	isRouteErrorResponse,
 } from 'react-router'
 import { getEnv, init } from './utils/env.server'
 import { NonceProvider } from './utils/nonce-provider'
@@ -20,7 +22,18 @@ type ServerLoadContext = AppLoadContext & {
 init()
 global.ENV = getEnv()
 
-export const handleError = Sentry.createSentryHandleError({ logErrors: false })
+export const handleError: HandleErrorFunction = (error, { request }) => {
+	// Don't report aborted requests (navigations cancelled mid-flight)
+	if (request.signal.aborted) return
+
+	// Don't report expected route errors (404s, etc.) — bots will constantly
+	// hit non-existent paths and we don't want the noise in Sentry
+	if (isRouteErrorResponse(error) && error.status < 500) return
+
+	Sentry.captureException(error, {
+		mechanism: { type: 'react-router', handled: false },
+	})
+}
 
 export default function handleRequest(
 	request: Request,
