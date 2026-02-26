@@ -1,0 +1,29 @@
+---
+title: CSS Specificity Calculator
+date: 2026-02-26
+tag: css
+---
+
+## Today I learned
+
+TIL about a handy mathematical formula for determining and calculating CSS specificity. It's a triad: A, B, C.
+
+A is `id`-like (#main), B is `class`-like (.yolo), and C is `element`-like (div). It's often represented as (A, B, C) notation. There are
+even handy calculators to use online!
+
+```CSS
+/* (0, 0, 1) */
+p { color: red; }
+
+/* (0, 1, 0) */
+.intro { color: blue; }
+
+/* (0, 1, 1) */
+p.intro { color: green; }
+
+/* (1, 0, 0) */
+#main { color: purple; }
+
+```
+
+[Check it out](https://specificity.keegan.st/)
