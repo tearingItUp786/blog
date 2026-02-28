@@ -101,7 +101,7 @@
     "remark-code-titles": "^0.1.2",
     "remark-emoji": "^3.1.1",
     "remark-gfm": "^4.0.0",
-    "remark-images": "^3.1.0",
+    "remark-images": "^4.1.0",
     "remark-smartypants": "^3.0.2",
     "remark-toc": "^8.0.1",
     "remix-utils": "^9.0.1",
