@@ -124,7 +124,7 @@
     "@types/sanitize-html": "^2.15.0",
     "eslint": "^9.39.3",
     "gray-matter": "^4.0.3",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "knip": "^5.64.2",
     "lint-staged": "^13.1.2",
     "msw": "^2.7.0",
