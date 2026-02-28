@@ -154,7 +154,7 @@ importers:
         version: 5.1.35
       mdx-bundler:
         specifier: ^10.0.3
-        version: 10.1.1(acorn@8.14.1)(esbuild@0.25.1)
+        version: 10.1.1(acorn@8.15.0)(esbuild@0.25.1)
       mdx-mermaid:
         specifier: ^2.0.3
         version: 2.0.3(mermaid@10.9.3)(react@18.3.1)(typescript@5.8.2)(unist-util-visit@4.1.0)
@@ -171,8 +171,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1
       playwright:
-        specifier: ^1.52.0
-        version: 1.52.0
+        specifier: ^1.58.2
+        version: 1.58.2
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -220,7 +220,7 @@ importers:
         version: 3.0.0
       rehype-mermaid:
         specifier: ^3.0.0
-        version: 3.0.0(playwright@1.52.0)
+        version: 3.0.0(playwright@1.58.2)
       rehype-prism-plus:
         specifier: ^1.5.0
         version: 1.6.3
@@ -3917,6 +3917,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
 
   bcp-47-match@2.0.3:
     resolution: {integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==}
@@ -5506,6 +5507,7 @@ packages:
   glob@11.0.1:
     resolution: {integrity: sha512-zrQDm8XPnYEKawJScsnM0QzobJxlT/kHOOlRTio8IH/GrmxRE5fjllkzdaHclIuNjUQTJYH2xHNIGfdpJkDJUw==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@11.1.0:
@@ -5516,7 +5518,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-dirs@0.1.1:
     resolution: {integrity: sha512-NknMLn7F2J7aflwFOlGdNIuCDpN3VGoSoB+aap3KABFWbHVn1TCgFC+np23J8W2BiZbjfEw3BFBycSMv1AFblg==}
@@ -7617,8 +7619,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright-core@1.52.0:
-    resolution: {integrity: sha512-l2osTgLXSMeuLZOML9qYODUQoPPnUsKsb5/P6LJ2e6uPKXUdPK5WYhN4z03G+YNbWmGDY4YENauNu4ZKczreHg==}
+  playwright-core@1.58.2:
+    resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -7627,8 +7629,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.52.0:
-    resolution: {integrity: sha512-JAwMNMBlxJ2oD1kce4KPtMkDeKGHQstdpFPcPH3maElAXon/QZeTvtsfXmTMRyO9TslfoYOXkSsvao2nE1ilTw==}
+  playwright@1.58.2:
+    resolution: {integrity: sha512-vA30H8Nvkq/cPBnNw4Q8TWz1EJyqgpuinBcHET0YVJVFldr8JDNiU9LaWAE1KqSkRYazuaBhTpB5ZzShOezQ6A==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -8085,6 +8087,7 @@ packages:
   puppeteer@22.15.0:
     resolution: {integrity: sha512-XjCY1SiSEi1T7iSYuxS82ft85kwDJUS7wj1Z0eGVXKdtr5g4xnVcbjwxhq5xBnpK/E7x1VZZoJDxpjAOasHT4Q==}
     engines: {node: '>=18'}
+    deprecated: < 24.15.0 is no longer supported
     hasBin: true
 
   qs@6.13.0:
@@ -11000,9 +11003,9 @@ snapshots:
       refractor: 3.6.0
       unist-util-visit: 2.0.3
 
-  '@mdx-js/esbuild@3.1.0(acorn@8.14.1)(esbuild@0.25.1)':
+  '@mdx-js/esbuild@3.1.0(acorn@8.15.0)(esbuild@0.25.1)':
     dependencies:
-      '@mdx-js/mdx': 3.1.0(acorn@8.14.1)
+      '@mdx-js/mdx': 3.1.0(acorn@8.15.0)
       '@types/unist': 3.0.3
       esbuild: 0.25.1
       source-map: 0.7.4
@@ -11012,7 +11015,7 @@ snapshots:
       - acorn
       - supports-color
 
-  '@mdx-js/mdx@3.1.0(acorn@8.14.1)':
+  '@mdx-js/mdx@3.1.0(acorn@8.15.0)':
     dependencies:
       '@types/estree': 1.0.7
       '@types/estree-jsx': 1.0.5
@@ -11026,7 +11029,7 @@ snapshots:
       hast-util-to-jsx-runtime: 2.3.6
       markdown-extensions: 2.0.0
       recma-build-jsx: 1.0.0
-      recma-jsx: 1.0.0(acorn@8.14.1)
+      recma-jsx: 1.0.0(acorn@8.15.0)
       recma-stringify: 1.0.0
       rehype-recma: 1.0.0
       remark-mdx: 3.1.0
@@ -13428,12 +13431,14 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.14.1):
     dependencies:
       acorn: 8.14.1
+    optional: true
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
       acorn: 8.15.0
 
-  acorn@8.14.1: {}
+  acorn@8.14.1:
+    optional: true
 
   acorn@8.15.0: {}
 
@@ -17241,12 +17246,12 @@ snapshots:
 
   mdn-data@2.0.30: {}
 
-  mdx-bundler@10.1.1(acorn@8.14.1)(esbuild@0.25.1):
+  mdx-bundler@10.1.1(acorn@8.15.0)(esbuild@0.25.1):
     dependencies:
       '@babel/runtime': 7.26.9
       '@esbuild-plugins/node-resolve': 0.2.2(esbuild@0.25.1)
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
-      '@mdx-js/esbuild': 3.1.0(acorn@8.14.1)(esbuild@0.25.1)
+      '@mdx-js/esbuild': 3.1.0(acorn@8.15.0)(esbuild@0.25.1)
       esbuild: 0.25.1
       gray-matter: 4.0.3
       remark-frontmatter: 5.0.0
@@ -17288,12 +17293,12 @@ snapshots:
 
   merge2@1.4.1: {}
 
-  mermaid-isomorphic@3.0.4(playwright@1.52.0):
+  mermaid-isomorphic@3.0.4(playwright@1.58.2):
     dependencies:
       '@fortawesome/fontawesome-free': 6.7.2
       mermaid: 11.6.0
     optionalDependencies:
-      playwright: 1.52.0
+      playwright: 1.58.2
     transitivePeerDependencies:
       - supports-color
 
@@ -18523,7 +18528,7 @@ snapshots:
 
   playwright-core@1.51.0: {}
 
-  playwright-core@1.52.0: {}
+  playwright-core@1.58.2: {}
 
   playwright@1.51.0:
     dependencies:
@@ -18531,9 +18536,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  playwright@1.52.0:
+  playwright@1.58.2:
     dependencies:
-      playwright-core: 1.52.0
+      playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -19123,9 +19128,9 @@ snapshots:
       estree-util-build-jsx: 3.0.1
       vfile: 6.0.3
 
-  recma-jsx@1.0.0(acorn@8.14.1):
+  recma-jsx@1.0.0(acorn@8.15.0):
     dependencies:
-      acorn-jsx: 5.3.2(acorn@8.14.1)
+      acorn-jsx: 5.3.2(acorn@8.15.0)
       estree-util-to-js: 2.0.0
       recma-parse: 1.0.0
       recma-stringify: 1.0.0
@@ -19235,19 +19240,19 @@ snapshots:
       space-separated-tokens: 2.0.2
       unist-util-visit: 5.0.0
 
-  rehype-mermaid@3.0.0(playwright@1.52.0):
+  rehype-mermaid@3.0.0(playwright@1.58.2):
     dependencies:
       '@types/hast': 3.0.4
       hast-util-from-html-isomorphic: 2.0.0
       hast-util-to-text: 4.0.2
-      mermaid-isomorphic: 3.0.4(playwright@1.52.0)
+      mermaid-isomorphic: 3.0.4(playwright@1.58.2)
       mini-svg-data-uri: 1.4.4
       space-separated-tokens: 2.0.2
       unified: 11.0.5
       unist-util-visit-parents: 6.0.1
       vfile: 6.0.3
     optionalDependencies:
-      playwright: 1.52.0
+      playwright: 1.58.2
     transitivePeerDependencies:
       - supports-color
 
