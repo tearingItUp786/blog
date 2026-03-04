@@ -75,9 +75,8 @@ export async function compileMdxForGraphql(
 	// rehype plugins
 	const { default: rehypePrismPlus } = await import('rehype-prism-plus')
 	const { default: rehypeSlug } = await import('rehype-slug')
-	const { default: rehypeAutolinkHeadings } = await import(
-		'rehype-autolink-headings'
-	)
+	const { default: rehypeAutolinkHeadings } =
+		await import('rehype-autolink-headings')
 	const { default: rehypeCodeTitles } = await import('rehype-code-titles')
 	const { default: rehypeAddClasses } = await import('rehype-add-classes')
 	const { default: rehypeExternalLinks } = await import('rehype-external-links')
@@ -151,7 +150,10 @@ export async function compileMdxForGraphql(
 				]
 				options.rehypePlugins = [
 					...(options.rehypePlugins ?? []),
-					[rehypeMermaid, { strategy: 'img-svg' }],
+					[
+						rehypeMermaid,
+						{ strategy: 'img-svg', mermaidConfig: { theme: 'neutral' } },
+					],
 					[
 						rehypeCodeTitles,
 						{ titleSeparator: ':title=', customClassName: 'custom-code-title' },
