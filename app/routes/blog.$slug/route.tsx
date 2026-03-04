@@ -21,8 +21,6 @@ import { useMdxComponent } from '~/utils/mdx-utils'
 import { getMdxBlogListGraphql, getMdxPageGql } from '~/utils/mdx-utils.server'
 import { dotFormattedDate, invariantResponse } from '~/utils/misc'
 
-import '~/styles/blog.css'
-
 type LoaderData = {
 	nonce: string
 	page: MdxPage
