@@ -152,7 +152,7 @@ export async function compileMdxForGraphql(
 					...(options.rehypePlugins ?? []),
 					[
 						rehypeMermaid,
-						{ strategy: 'img-svg', mermaidConfig: { theme: 'neutral' } },
+						{ strategy: 'img-svg', mermaidConfig: { theme: 'dark' } },
 					],
 					[
 						rehypeCodeTitles,

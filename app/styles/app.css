@@ -150,3 +150,14 @@ g.cluster-label {
   line-height: 1.5rem;
 }
 
+/* Mermaid diagrams are rendered as dark-theme SVGs at build time.
+   Give them a dark card so they're legible on any page background. */
+img[id^='mermaid-'] {
+  background-color: var(--color-dark-gray-100);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
