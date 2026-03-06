@@ -6,7 +6,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "prepare": "husky install || true",
+    "prepare": "husky",
     "postinstall": "patch-package",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -124,7 +124,7 @@
     "@types/sanitize-html": "^2.16.0",
     "eslint": "^9.39.3",
     "gray-matter": "^4.0.3",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "knip": "^5.85.0",
     "lint-staged": "^13.1.2",
     "msw": "^2.12.10",

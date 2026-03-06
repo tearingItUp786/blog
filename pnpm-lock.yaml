@@ -154,7 +154,7 @@ importers:
         version: 5.1.35
       mdx-bundler:
         specifier: ^10.0.3
-        version: 10.1.1(acorn@8.16.0)(esbuild@0.27.3)
+        version: 10.1.1(acorn@8.14.1)(esbuild@0.27.3)
       mdx-mermaid:
         specifier: ^2.0.3
         version: 2.0.3(mermaid@10.9.3)(react@18.3.1)(typescript@5.9.3)(unist-util-visit@4.1.0)
@@ -304,8 +304,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       husky:
-        specifier: ^8.0.3
-        version: 8.0.3
+        specifier: ^9.1.7
+        version: 9.1.7
       knip:
         specifier: ^5.85.0
         version: 5.85.0(@types/node@24.7.0)(typescript@5.9.3)
@@ -5477,9 +5477,9 @@ packages:
     resolution: {integrity: sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==}
     engines: {node: '>=14.18.0'}
 
-  husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
     hasBin: true
 
   iconv-lite@0.4.24:
@@ -10141,9 +10141,9 @@ snapshots:
       refractor: 3.6.0
       unist-util-visit: 2.0.3
 
-  '@mdx-js/esbuild@3.1.0(acorn@8.16.0)(esbuild@0.27.3)':
+  '@mdx-js/esbuild@3.1.0(acorn@8.14.1)(esbuild@0.27.3)':
     dependencies:
-      '@mdx-js/mdx': 3.1.0(acorn@8.16.0)
+      '@mdx-js/mdx': 3.1.0(acorn@8.14.1)
       '@types/unist': 3.0.3
       esbuild: 0.27.3
       source-map: 0.7.4
@@ -10153,7 +10153,7 @@ snapshots:
       - acorn
       - supports-color
 
-  '@mdx-js/mdx@3.1.0(acorn@8.16.0)':
+  '@mdx-js/mdx@3.1.0(acorn@8.14.1)':
     dependencies:
       '@types/estree': 1.0.7
       '@types/estree-jsx': 1.0.5
@@ -10167,7 +10167,7 @@ snapshots:
       hast-util-to-jsx-runtime: 2.3.6
       markdown-extensions: 2.0.0
       recma-build-jsx: 1.0.0
-      recma-jsx: 1.0.0(acorn@8.16.0)
+      recma-jsx: 1.0.0(acorn@8.14.1)
       recma-stringify: 1.0.0
       rehype-recma: 1.0.0
       remark-mdx: 3.1.0
@@ -12601,7 +12601,6 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.14.1):
     dependencies:
       acorn: 8.14.1
-    optional: true
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
@@ -12611,8 +12610,7 @@ snapshots:
     dependencies:
       acorn: 8.16.0
 
-  acorn@8.14.1:
-    optional: true
+  acorn@8.14.1: {}
 
   acorn@8.15.0: {}
 
@@ -15019,7 +15017,7 @@ snapshots:
 
   human-signals@4.3.1: {}
 
-  husky@8.0.3: {}
+  husky@9.1.7: {}
 
   iconv-lite@0.4.24:
     dependencies:
@@ -16006,12 +16004,12 @@ snapshots:
 
   mdn-data@2.0.30: {}
 
-  mdx-bundler@10.1.1(acorn@8.16.0)(esbuild@0.27.3):
+  mdx-bundler@10.1.1(acorn@8.14.1)(esbuild@0.27.3):
     dependencies:
       '@babel/runtime': 7.26.9
       '@esbuild-plugins/node-resolve': 0.2.2(esbuild@0.27.3)
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
-      '@mdx-js/esbuild': 3.1.0(acorn@8.16.0)(esbuild@0.27.3)
+      '@mdx-js/esbuild': 3.1.0(acorn@8.14.1)(esbuild@0.27.3)
       esbuild: 0.27.3
       gray-matter: 4.0.3
       remark-frontmatter: 5.0.0
@@ -17757,9 +17755,9 @@ snapshots:
       estree-util-build-jsx: 3.0.1
       vfile: 6.0.3
 
-  recma-jsx@1.0.0(acorn@8.16.0):
+  recma-jsx@1.0.0(acorn@8.14.1):
     dependencies:
-      acorn-jsx: 5.3.2(acorn@8.16.0)
+      acorn-jsx: 5.3.2(acorn@8.14.1)
       estree-util-to-js: 2.0.0
       recma-parse: 1.0.0
       recma-stringify: 1.0.0
