@@ -9,6 +9,7 @@ import express from 'express'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import { rateLimitKeyGenerator } from './rate-limit-key-generator.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -76,7 +77,7 @@ app.use(
 		standardHeaders: 'draft-8',
 		legacyHeaders: false,
 		// Different limits for different endpoints
-		keyGenerator: (req) => `${req.ip}:${req.path.split('/')[1]}`,
+		keyGenerator: rateLimitKeyGenerator,
 	}),
 )
 
