@@ -6,7 +6,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "prepare": "husky",
+    "prepare": "husky || true",
     "postinstall": "patch-package",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -31,7 +31,6 @@ RUN apt-get update && \
 # --- Install full deps for build ---
 FROM base AS build
 WORKDIR /app
-ENV HUSKY=0
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 # If you use Prisma and need codegen, uncomment:
@@ -43,7 +42,6 @@ RUN pnpm run build
 # --- Install only prod deps for runtime ---
 FROM base AS prod-deps
 WORKDIR /app
-ENV HUSKY=0
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 
