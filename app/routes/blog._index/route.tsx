@@ -14,7 +14,7 @@ import { twMerge } from 'tailwind-merge'
 import { H1 } from '~/components/typography'
 import { Newsletter } from '~/components/newsletter/newsletter'
 import { useEffect, useRef } from 'react'
-import LazyLoad, { ILazyLoadInstance } from 'vanilla-lazyload'
+import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [
