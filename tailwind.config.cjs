@@ -67,7 +67,7 @@ module.exports = {
 								'--tw-prose-pre-bg': 'var(--section-title-color)',
 								'--tw-prose-th-borders': 'var(--border-color)',
 								'--tw-prose-td-borders':
-									'var(--color-pink-200)' /* keep light tint for contrast */,
+									'var(--accent)' /* keep light tint for contrast */,
 
 								'--tw-prose-invert-body': 'var(--body-text-inverse)',
 								'--tw-prose-invert-headings': 'var(--body-text-inverse)',
@@ -138,7 +138,7 @@ module.exports = {
 									marginBottom: theme('spacing.4'),
 									color: 'var(--body-text)',
 									fontWeight: 500,
-									fontSize: fontSize('md'),
+									fontSize: fontSize('base'),
 									lineHeight: theme('lineHeight.relaxed'),
 								},
 								strong: {
@@ -197,13 +197,13 @@ module.exports = {
 						css: [
 							{
 								'h1,h2': {
-									color: 'var(--color-gray-200)',
+									color: 'var(--color-dark-gray-200)',
 								},
 								'h3,h4,h5,h6': {
-									color: 'var(--color-gray-100)',
+									color: 'var(--color-dark-gray-100)',
 								},
 								'ul,ol': {
-									color: 'var(--color-gray-100)',
+									color: 'var(--color-dark-gray-100)',
 								},
 								code: {
 									color: 'var(--color-body)',

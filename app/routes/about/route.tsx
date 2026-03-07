@@ -48,11 +48,11 @@ const RandomThing = ({
 		<main
 			className={twMerge(
 				className,
-				'mb-8 w-full border border-solid border-gray-200 p-8 lg:mb-0 dark:border-white',
+				'border-dark-gray-200 mb-8 w-full border border-solid p-8 lg:mb-0 dark:border-white',
 			)}
 		>
 			{icon ? (
-				<div className="mb-4 max-w-10 first:fill-gray-200 first:dark:fill-white">
+				<div className="first:fill-dark-gray-200 mb-4 max-w-10 first:dark:fill-white">
 					{icon}
 				</div>
 			) : null}
@@ -111,7 +111,7 @@ export default function About() {
 					journey is by suffering. You have to suffer in order to grow. Some
 					people get it, some people don’t.
 				</BlockQuote>
-				<p className="relative mt-6 pt-6 before:absolute before:top-0 before:left-1/2 before:h-px before:w-50 before:-translate-x-1/2 before:bg-gray-100 before:content-['']">
+				<p className="before:bg-dark-gray-100 relative mt-6 pt-6 before:absolute before:top-0 before:left-1/2 before:h-px before:w-50 before:-translate-x-1/2 before:content-['']">
 					Hey there, thanks for stopping by. I'm a self-taught software engineer
 					with over seven years of experience and I am based out of Vancouver,
 					Canada. I've got a passion for Typescript (both Frontend and Backend).
@@ -159,7 +159,7 @@ export default function About() {
 				<H3>Some of my core values</H3>
 				<p>The following are some of my guiding principles</p>
 				<div className="my-12">
-					<H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+					<H4 className="border-dark-gray-100 border-b-[1px] border-solid pb-2">
 						Effort
 					</H4>
 					<ShortQuote author="Andrew D. Huberman">
@@ -174,7 +174,7 @@ export default function About() {
 				</div>
 				<div className="block lg:flex lg:justify-between">
 					<div className="w-full lg:w-[46%]">
-						<H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+						<H4 className="border-dark-gray-100 border-b-[1px] border-solid pb-2">
 							Accountability
 						</H4>
 						<ShortQuote author="Paramjit Singh Bains (My Father)">
@@ -192,7 +192,7 @@ export default function About() {
 						</p>
 					</div>
 					<div className="w-full lg:w-[46%]">
-						<H4 className="border-b-[1px] border-solid border-gray-100 pb-2">
+						<H4 className="border-dark-gray-100 border-b-[1px] border-solid pb-2">
 							Collaborate
 						</H4>
 						<ShortQuote author="Unknown">

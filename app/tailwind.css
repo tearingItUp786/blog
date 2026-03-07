@@ -1,30 +1,35 @@
 @import 'tailwindcss';
 @config '../tailwind.config.cjs';
 @custom-variant dark (&:where(.dark, .dark *));
-
 @source './**/*.{js,jsx,ts,tsx,mdx,md,svg}';
 @source '../content/**/*.{js,jsx,ts,tsx,mdx,md}';
 
-@theme {
-	--color-pink: var(--color-hot-pink);
-	--color-white: var(--color-pure-white);
-	--color-off-white: var(--color-off-white);
-	--color-light-gray: var(--color-light-gray);
-	--color-silver-gray: var(--color-silver-gray);
-	--color-medium-gray: var(--color-medium-gray);
-	--color-gray-100: var(--color-dark-gray-100);
-	--color-gray-200: var(--color-dark-gray-200);
-	--color-charcoal-gray: var(--color-charcoal-gray);
-	--color-black: var(--color-true-black);
+:root {
+	--sb-size: 10px;
+	--sb-track-color: var(--color-dark-gray-200);
+	--sb-thumb-color: var(--color-pure-white);
+}
 
-	--color-accent: var(--accent);
-	--color-body: var(--body-text);
-	--color-inverse-body: var(--body-text-inverse);
-	--color-border-color: var(--border-color);
-	--color-bg-color: var(--bg-color);
-	--color-blog-title-color: var(--blog-title-color);
-	--color-section-title-color: var(--section-title-color);
-	--color-subheading-color: var(--subheading-color);
+/*
+ * https://www.figma.com/design/YNTcIHrGFIyfkrKavYHKbU/Freelance
+ *
+ * In tailwind v4, these theme variables (or tokens) will generate utility classes that we can use
+ * in addition to creating the css variable definitions. So in tailwind I can do text-pink 
+ * but I can also do var(--color-pink).
+ *
+ * I should avoid trying to use the token values and lean into using the semantic colors whereever possible
+ */
+@theme {
+	--color-pink: #eb36a1;
+	--color-pure-white: #ffffff;
+	--color-off-white: #f3f3f7;
+	--color-light-gray: #e6e6e6;
+	--color-silver-gray: #a8a8a8;
+	--color-medium-gray: #737373;
+	--color-dark-gray-100: #262626;
+	--color-dark-gray-200: #353535;
+	--color-charcoal-gray: #1e1e1e;
+	--color-true-black: #000000;
 	--color-alert: #b4198c;
 	--color-info: #1e6bc8;
 	--color-warning: #c87a00;
@@ -59,6 +64,45 @@
 			box-shadow: 0 0 10px rgba(219, 68, 134, 0.25);
 		}
 	}
+}
+
+/**
+ * You can consider these the theme variables that need to change based on whether we are in dark or light mode .
+ * Ideally things like the border color and things should be used but sometimes, I end up using
+ * the token values like dark-gray-100. It's okay for such a small project but for a larger project, 
+ * I should really be leaning into semantic colors
+**/
+[class~='light'] {
+	--accent: var(--color-pink); /* the main color we use to emphasize the site */
+	--body-text: var(--color-charcoal-gray);
+	--body-text-inverse: var(--color-off-white);
+	--border-color: var(--color-medium-gray);
+	--bg-color: var(--color-pure-white);
+	--section-title-color: var(--color-charcoal-gray);
+	--subheading-color: var(--color-medium-gray);
+}
+
+[class~='dark'] {
+	--accent: var(--color-pink); /* the main color we use to emphasize the site */
+	--body-text: var(--color-off-white);
+	--body-text-inverse: var(--color-charcoal-gray);
+	--border-color: var(--color-silver-gray);
+	--bg-color: var(--color-dark-gray-100);
+	--section-title-color: var(--color-pure-white);
+	--subheading-color: var(--color-off-white);
+}
+
+@theme inline {
+	--color-accent: var(--accent);
+	--color-body: var(--body-text);
+	--color-inverse-body: var(--body-text-inverse);
+	--color-border-color: var(--border-color);
+	--color-bg-color: var(--bg-color);
+	--color-blog-title-color: var(--blog-title-color);
+	--color-section-title-color: var(--section-title-color);
+	--color-subheading-color: var(--subheading-color);
+	--color-black: var(--color-true-black);
+	--color-white: var(--color-pure-white);
 }
 
 @utility border-shine {

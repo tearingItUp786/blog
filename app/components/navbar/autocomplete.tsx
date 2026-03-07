@@ -93,21 +93,21 @@ export function Autocomplete({
 				detachedOverlay:
 					'px-4 md:px-20 p-24 z-30 absolute inset-0 transition-opacity max-w-screen-xl mx-auto',
 				detachedContainer:
-					'shadow-2xl bg-gray-100 dark:bg-white z-30 flex flex-col w-full max-h-screen  mx-auto overflow-hidden transition-all transform divide-y divide-white/20 dark:divide-charcoal-gray/20 shadow-2xl md:h-auto rounded-xl',
+					'shadow-2xl bg-dark-gray-100 dark:bg-white z-30 flex flex-col w-full max-h-screen  mx-auto overflow-hidden transition-all transform divide-y divide-white/20 dark:divide-charcoal-gray/20 shadow-2xl md:h-auto rounded-xl',
 				detachedFormContainer: 'flex relative flex-none',
 				detachedCancelButton: 'hidden',
 				form: 'flex-1',
-				inputWrapperPrefix: 'dark:text-white text-gray-100',
+				inputWrapperPrefix: 'dark:text-white text-dark-gray-100',
 				input:
-					'h-16 w-full border-0 bg-transparent px-14 pr-4 dark:text-charcoal-gray text-white placeholder-text-gray-100 focus:outline-hidden appearance-none',
+					'h-16 w-full border-0 bg-transparent px-14 pr-4 dark:text-charcoal-gray text-white placeholder-text-dark-gray-100 focus:outline-hidden appearance-none',
 				submitButton:
 					'absolute w-6 h-6 text-charcoal-gray pointer-events-none top-5 left-4 [&>svg]:fill-white [&>svg]:dark:fill-charcoal-gray',
 				loadingIndicator:
 					'absolute w-6 h-6 text-charcoal-gray pointer-events-none top-5 left-4 animate-spin',
 				clearButton:
-					'text-white dark:text-gray-100 flex hidden:hidden items-center justify-center absolute top-0 right-0 h-full w-16 group text-charcoal-gray transition-colors hover:text-pink',
+					'text-white dark:text-dark-gray-100 flex hidden:hidden items-center justify-center absolute top-0 right-0 h-full w-16 group text-charcoal-gray transition-colors hover:text-accent',
 				panel:
-					'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-gray-200 divide-white/20 dark:divide-gray-200/20',
+					'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-dark-gray-200 divide-white/20 dark:divide-dark-gray-200/20',
 			},
 			container: autocompleteContainer.current,
 			initialState: { isOpen: true, query: initialQuery, ...initialState },

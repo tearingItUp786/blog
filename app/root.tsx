@@ -185,7 +185,7 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 					<Meta />
 					<Links />
 				</head>
-				<body className="bg-light-gray flex min-h-svh flex-col dark:bg-gray-100">
+				<body className="bg-light-gray dark:bg-dark-gray-100 flex min-h-svh flex-col">
 					<Navbar />
 					<ScrollProgress />
 					{children}
@@ -234,9 +234,9 @@ export const ErrorBoundary = () => {
 				allowFullScreen
 			/>
 
-			<p className="text-pink">
+			<p className="text-accent">
 				<a
-					className="text-pink"
+					className="text-accent"
 					href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
 				>
 					via GIPHY
@@ -267,7 +267,7 @@ export const ErrorBoundary = () => {
 	return (
 		<Document>
 			<div className="w-screen">
-				<div className="bg-light-gray flex h-[calc(95vh-63.5px)] items-center dark:bg-gray-100">
+				<div className="bg-light-gray dark:bg-dark-gray-100 flex h-[calc(95vh-63.5px)] items-center">
 					<div className="mx-auto flex max-w-125 flex-wrap items-center justify-center overflow-hidden">
 						{elementToRender}
 					</div>

@@ -22,7 +22,7 @@ const blackLinkClasses = `
     after:top-5
     after:-left-24
     lg:after:-left-26
-    after:bg-gray-100
+    after:bg-dark-gray-100
     dark:after:bg-white
     after:h-0.5
     after:w-12
@@ -37,7 +37,7 @@ const blackLinkClasses = `
     before:w-4.5
     before:top-5
     before:-left-10
-    before:bg-gray-100
+    before:bg-dark-gray-100
     dark:before:bg-white
     before:-translate-y-1/2
     before:-translate-x-1/2

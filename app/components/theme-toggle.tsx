@@ -29,7 +29,7 @@ export const ServerThemeToggle = () => {
 					aria-label="Toggle theme mode"
 					className={twJoin(
 						'transition-color drop-shadow-toggle h-6 w-6 cursor-pointer appearance-none rounded-full ring-1 ring-black/10 transition-transform ease-in-out dark:ring-black/15',
-						'translate-x-0 bg-gray-100',
+						'bg-dark-gray-100 translate-x-0',
 						'dark:translate-x-[135%] dark:bg-white',
 					)}
 					type="checkbox"
