@@ -75,7 +75,7 @@ export default function AlgoliaSearch({
 											return (
 												<div className="aria-selected:bg-charcoal-gray dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none aria-selected:text-white">
 													<a
-														className="dark:text-charcoal-gray! flex items-center justify-between space-x-4 text-white"
+														className="dark:text-charcoal-gray! decoration-accent flex items-center justify-between space-x-4 text-white hover:underline focus-visible:underline"
 														href={
 															item.type === 'til'
 																? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`

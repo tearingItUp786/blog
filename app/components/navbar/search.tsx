@@ -1,7 +1,7 @@
 import { type BaseItem } from '@algolia/autocomplete-core'
 import { type AutocompleteApi } from '@algolia/autocomplete-js'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import { ToastUI } from '../toast-ui'
 import { useHotkeys } from '~/hooks/use-hot-keys'
