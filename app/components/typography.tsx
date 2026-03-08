@@ -159,6 +159,7 @@ export const InlineImage = ({
 	children,
 	containerClassName,
 	imgDivClassName,
+	imgWrapperClassName,
 	aspectW = 'aspect-[8/4]',
 	aspectH = '',
 	lazyLoadImage = false,
@@ -171,6 +172,7 @@ export const InlineImage = ({
 	aspectW?: string
 	aspectH?: string
 	imgDivClassName?: string
+	imgWrapperClassName?: string
 	lazyLoadImage?: boolean
 	openInNewTab?: boolean
 }) => {
@@ -197,7 +199,6 @@ export const InlineImage = ({
 	})
 
 	const hasChildren = Boolean(children)
-	const containerClass = hasChildren ? '' : 'mx-auto'
 	const fallbackSrc = srcSet[srcSet.length - 1]?.newSrc ?? src
 	const aspectClasses =
 		imgDivClassName ?? [aspectW, aspectH].filter(Boolean).join(' ')
@@ -226,7 +227,14 @@ export const InlineImage = ({
 			)}
 		>
 			{/* We require this div container so that the picture elment renders correctly in the $blog.index route*/}
-			<div className={twMerge('w-full', aspectClasses, containerClass)}>
+			<div
+				className={twMerge(
+					'w-full',
+					aspectClasses,
+					!hasChildren && 'mx-auto',
+					imgWrapperClassName,
+				)}
+			>
 				<LinkOrFragment href={openInNewTab ? src : undefined}>
 					{/* We require the CSS classes here so that the picture renders correctly in the blog slug routes */}
 					<picture className={twMerge('my-0 w-full', aspectClasses)}>

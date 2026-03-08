@@ -1,20 +1,20 @@
+import { useEffect, useRef } from 'react'
 import {
 	useLoaderData,
 	type LoaderFunctionArgs,
 	type MetaFunction,
 	type ShouldRevalidateFunctionArgs,
 } from 'react-router'
+import { twMerge } from 'tailwind-merge'
+import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
+import { BlogCard } from './blog-card'
+import { Pagination } from './pagination'
+import { Newsletter } from '~/components/newsletter/newsletter'
+import { H1 } from '~/components/typography'
 import {
 	getFeaturedBlogPost,
 	getPaginatedBlogList,
 } from '~/utils/mdx-utils.server'
-import { BlogCard } from './blog-card'
-import { Pagination } from './pagination'
-import { twMerge } from 'tailwind-merge'
-import { H1 } from '~/components/typography'
-import { Newsletter } from '~/components/newsletter/newsletter'
-import { useEffect, useRef } from 'react'
-import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [

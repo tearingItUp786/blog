@@ -30,6 +30,8 @@ export function BlogCard({
 				lazyLoadImage={lazyLoadImage}
 				fetchpriority={lazyLoadImage ? 'auto' : 'high'}
 				imgDivClassName="aspect-[8/5]"
+				imgWrapperClassName="relative overflow-hidden"
+				className="absolute inset-0 h-full w-full object-cover"
 				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
 				src={hero}
 				alt={title}
