@@ -20,20 +20,20 @@
  * I should avoid trying to use the token values and lean into using the semantic colors whereever possible
  */
 @theme {
-	--color-pink: #eb36a1;
-	--color-pure-white: #ffffff;
-	--color-off-white: #f3f3f7;
-	--color-light-gray: #e6e6e6;
-	--color-silver-gray: #a8a8a8;
-	--color-medium-gray: #737373;
-	--color-dark-gray-100: #262626;
-	--color-dark-gray-200: #353535;
-	--color-charcoal-gray: #1e1e1e;
-	--color-true-black: #000000;
-	--color-alert: #b4198c;
-	--color-info: #1e6bc8;
-	--color-warning: #c87a00;
-	--color-success: #0d9b55;
+	--color-pink: hsl(322 83% 57%);
+	--color-pure-white: hsl(0 0% 100%);
+	--color-off-white: hsl(240 11% 96%);
+	--color-light-gray: hsl(0 0% 90%);
+	--color-silver-gray: hsl(0 0% 66%);
+	--color-medium-gray: hsl(0 0% 45%);
+	--color-dark-gray-100: hsl(0 0% 15%);
+	--color-dark-gray-200: hsl(0 0% 21%);
+	--color-charcoal-gray: hsl(0 0% 12%);
+	--color-true-black: hsl(0 0% 0%);
+	--color-alert: hsl(314 72% 40%);
+	--color-info: hsl(212 75% 45%);
+	--color-warning: hsl(37 100% 39%);
+	--color-success: hsl(152 83% 33%);
 
 	--shadow-custom-black: 0px 0px 30px 0px #00000040;
 	--drop-shadow-toggle: 0 1px 2px rgb(0 0 0 / 0.18);
