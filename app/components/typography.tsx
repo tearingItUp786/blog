@@ -137,6 +137,23 @@ export const SmallAsterisk = ({ children, ...rest }: CommonProps) => (
 	</div>
 )
 
+type SrcSetEntry = (typeof SIZES_FOR_SCREENS)[number] & {
+	srcSetValue: string
+	newSrc: string
+}
+
+function buildSrcSet(src: string): SrcSetEntry[] {
+	const isGif = /\.gif$/i.test(src)
+	return SIZES_FOR_SCREENS.map(({ width, maxWidth }) => {
+		const optimization = isGif ? 'c_scale' : `f_auto,c_scale,w_${width}`
+		const newSrc = src.replace(
+			/(upload\/).*?((\d|\w)+\/)/,
+			`$1${optimization}/$2`,
+		)
+		return { srcSetValue: `${newSrc} ${width}w`, width, maxWidth, newSrc }
+	})
+}
+
 const LinkOrFragment = ({
 	href,
 	children,
@@ -144,7 +161,7 @@ const LinkOrFragment = ({
 	href?: string
 	children: React.ReactNode
 }) => {
-	if (!href) return <> {children} </>
+	if (!href) return <>{children}</>
 
 	return (
 		<Link target="_blank" to={href} rel="noreferrer">
@@ -154,14 +171,12 @@ const LinkOrFragment = ({
 }
 
 export const InlineImage = ({
-	src = '', // Default to empty string to avoid undefined issues
+	src = '',
 	alt,
 	children,
 	containerClassName,
-	imgDivClassName,
+	imgDivClassName = 'aspect-[8/4]',
 	imgWrapperClassName,
-	aspectW = 'aspect-[8/4]',
-	aspectH = '',
 	lazyLoadImage = false,
 	className,
 	openInNewTab = false,
@@ -169,54 +184,22 @@ export const InlineImage = ({
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
 	children?: React.ReactNode
 	containerClassName?: string
-	aspectW?: string
-	aspectH?: string
 	imgDivClassName?: string
 	imgWrapperClassName?: string
 	lazyLoadImage?: boolean
 	openInNewTab?: boolean
 }) => {
-	const isGif = /\.gif$/i.test(src)
-
-	// Generate srcset for different screen sizes
-	const srcSet = SIZES_FOR_SCREENS.map(({ width, maxWidth }) => {
-		const optimization = isGif ? 'c_scale' : `f_auto,c_scale,w_${width}`
-
-		//Example: If `src` is "upload/abc123/image.jpg"
-		//and `optimization` is "q_auto",
-		//it becomes "upload/q_auto/abc123/image.jpg".
-		const newSrc = src.replace(
-			/(upload\/).*?((\d|\w)+\/)/,
-			`$1${optimization}/$2`,
-		)
-
-		return {
-			srcSetValue: `${newSrc} ${width}w`,
-			width,
-			maxWidth,
-			newSrc,
-		}
-	})
-
+	const srcSet = buildSrcSet(src)
+	const [fallbackSource] = srcSet.slice(-1)
+	const responsiveSources = srcSet.slice(0, -1)
+	const fallbackSrc = fallbackSource?.newSrc ?? src
 	const hasChildren = Boolean(children)
-	const fallbackSrc = srcSet[srcSet.length - 1]?.newSrc ?? src
-	const aspectClasses =
-		imgDivClassName ?? [aspectW, aspectH].filter(Boolean).join(' ')
 
-	// Create image props separately for clean application
-	const imageProps: React.ImgHTMLAttributes<HTMLImageElement> & {
-		'data-src'?: string
-	} = {
+	const imageProps = {
 		className: twMerge('mx-auto my-0', lazyLoadImage && 'lazy', className),
 		alt,
+		...(lazyLoadImage ? { 'data-src': fallbackSrc } : { src: fallbackSrc }),
 		...imgProps,
-	}
-
-	// Add lazy loading attributes to the image if enabled
-	if (lazyLoadImage) {
-		imageProps['data-src'] = fallbackSrc
-	} else {
-		imageProps['src'] = fallbackSrc
 	}
 
 	return (
@@ -230,16 +213,16 @@ export const InlineImage = ({
 			<div
 				className={twMerge(
 					'w-full',
-					aspectClasses,
+					imgDivClassName,
 					!hasChildren && 'mx-auto',
 					imgWrapperClassName,
 				)}
 			>
 				<LinkOrFragment href={openInNewTab ? src : undefined}>
 					{/* We require the CSS classes here so that the picture renders correctly in the blog slug routes */}
-					<picture className={twMerge('my-0 w-full', aspectClasses)}>
+					<picture className={twMerge('my-0 w-full', imgDivClassName)}>
 						{/* Generate source elements for different screen sizes */}
-						{srcSet.slice(0, -1).map((source, index) => (
+						{responsiveSources.map((source, index) => (
 							<source
 								key={`source-${index}`}
 								media={
@@ -257,8 +240,8 @@ export const InlineImage = ({
 						{/* Fallback source for largest size */}
 						<source
 							{...(lazyLoadImage
-								? { 'data-srcset': srcSet[srcSet.length - 1]?.srcSetValue }
-								: { srcSet: srcSet[srcSet.length - 1]?.srcSetValue })}
+								? { 'data-srcset': fallbackSource?.srcSetValue }
+								: { srcSet: fallbackSource?.srcSetValue })}
 							type="image/webp"
 						/>
 
