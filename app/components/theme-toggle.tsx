@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { useFetcher } from 'react-router'
 import { twJoin } from 'tailwind-merge'
 import { useTheme as useThemeHook } from '~/routes/action.theme-switcher'
@@ -15,7 +14,7 @@ export const ServerThemeToggle = () => {
 			action="/action/theme-switcher"
 		>
 			<div
-				className={clsx(
+				className={twJoin(
 					'z-100',
 					'bg-accent flex h-8 w-18 cursor-pointer items-center rounded-full p-2 transition-colors',
 				)}

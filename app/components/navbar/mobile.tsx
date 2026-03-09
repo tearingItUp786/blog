@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'tailwind-merge'
 
 type Props = {
 	isOpen: boolean
@@ -8,7 +7,7 @@ type Props = {
 export function MobileNav({ isOpen, setIsOpen }: Props) {
 	return (
 		<div
-			className={clsx(
+			className={twJoin(
 				'lg:hidden',
 				isOpen
 					? 'before:scale-100 before:opacity-100'
@@ -18,7 +17,7 @@ export function MobileNav({ isOpen, setIsOpen }: Props) {
 		>
 			<button
 				aria-label="Hamburger menu"
-				className={clsx(
+				className={twJoin(
 					'border-radius-[-4px] pointer absolute top-3.5 right-0 z-20 translate-y-[-50%] border-none bg-transparent p-4 pt-5',
 				)}
 				onClick={() => setIsOpen((o: boolean) => !o)}

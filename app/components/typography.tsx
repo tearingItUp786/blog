@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { Link } from 'react-router'
 import { twJoin, twMerge } from 'tailwind-merge'
 import { SIZES_FOR_SCREENS } from './constants'
@@ -106,7 +105,7 @@ export const ShortQuote = ({
 	...rest
 }: CommonProps) => (
 	<div
-		className={clsx(
+		className={twJoin(
 			titleColors['secondary'],
 			'font-body my-4 text-lg font-normal italic [&>p]:my-0',
 			containerClassName,

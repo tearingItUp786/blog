@@ -1,6 +1,5 @@
-import clsx from 'clsx'
 import { NavLink, useSearchParams } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'tailwind-merge'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1 } from '~/components/typography'
 import { dotFormattedDate } from '~/utils/misc'
@@ -57,7 +56,7 @@ export const ContentCard = ({
 	return (
 		<div
 			id={id}
-			className={clsx(
+			className={twJoin(
 				showBlackLine && blackLinkClasses,
 				'relative scroll-mt-4',
 			)}

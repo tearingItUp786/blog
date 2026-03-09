@@ -1,11 +1,11 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
-import clsx from 'clsx'
 import {
 	type ShouldRevalidateFunctionArgs,
 	type MetaFunction,
 	useLoaderData,
 	data,
 } from 'react-router'
+import { twMerge } from 'tailwind-merge'
 
 import { BeltIcon, BookIcon, LotrIcon, PaletteIcon } from './icons'
 import { FaceHero } from '~/components/hero/face-motion'
@@ -17,7 +17,6 @@ import {
 	TextLink,
 } from '~/components/typography'
 import { cloudinaryInstance } from '~/utils/cloudinary'
-import { twMerge } from 'tailwind-merge'
 
 export function shouldRevalidate({
 	currentUrl,
