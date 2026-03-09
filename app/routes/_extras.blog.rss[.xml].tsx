@@ -1,7 +1,7 @@
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
 import { getMdxBlogListGraphql } from '~/utils/mdx-utils.server'
-import { adjustUtcForLA } from '~/utils/misc'
+import { adjustUtcForBC } from '~/utils/misc'
 
 export const loader: LoaderFunction = async () => {
 	const blogUrl = `https://taranveerbains.ca/blog`
@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async () => {
 		language: 'en',
 		updated:
 			publishedPages.length > 0
-				? adjustUtcForLA(publishedPages[0]?.frontmatter?.date ?? '')
+				? adjustUtcForBC(publishedPages[0]?.frontmatter?.date ?? '')
 				: new Date(),
 		generator: 'https://github.com/jpmonette/feed',
 		copyright: 'Taran "tearing it up" Bains',
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async () => {
 			id: postLink,
 			title: post.frontmatter.title ?? '',
 			link: postLink,
-			date: adjustUtcForLA(post.frontmatter.date ?? ''),
+			date: adjustUtcForBC(post.frontmatter.date ?? ''),
 			description:
 				post.frontmatter.description ?? post.frontmatter.subtitle ?? '',
 		})

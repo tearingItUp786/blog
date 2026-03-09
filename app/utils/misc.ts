@@ -1,21 +1,21 @@
 import * as dateFns from 'date-fns'
 
 /**
- * Adjust a UTC timestamp so that midnight in LA is treated as "today" locally.
+ * Adjust a UTC timestamp so that midnight in BC is treated as "today" locally.
  * @param isoUtcString e.g., "2025-08-14T00:00:00.000Z"
- * @returns Date object in UTC, shifted so LA sees the intended date
+ * @returns Date object in UTC, shifted so BC sees the intended date
  */
-export function adjustUtcForLA(isoUtcString: string) {
+export function adjustUtcForBC(isoUtcString: string) {
 	const date = new Date(isoUtcString)
 
-	// Use the browser's Intl API to determine the actual LA offset at this date
-	const laTimeString = date.toLocaleString('en-US', {
-		timeZone: 'America/Los_Angeles',
+	// Use the browser's Intl API to determine BC's offset at this date
+	const bcTimeString = date.toLocaleString('en-US', {
+		timeZone: 'America/Vancouver',
 	})
-	const laDate = new Date(laTimeString)
+	const bcDate = new Date(bcTimeString)
 
 	// Calculate the offset in hours
-	const offsetMs = date.getTime() - laDate.getTime()
+	const offsetMs = date.getTime() - bcDate.getTime()
 	const offsetHours = offsetMs / (1000 * 60 * 60)
 
 	return dateFns.addHours(date, offsetHours)
@@ -31,7 +31,7 @@ export function invariantResponse(
 			typeof message === 'function'
 				? message()
 				: message ||
-					'An invariant failed, please provide a message to explain why.',
+						'An invariant failed, please provide a message to explain why.',
 			{ status: 400, ...responseInit },
 		)
 	}
