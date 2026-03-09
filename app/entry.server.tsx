@@ -26,8 +26,11 @@ export const handleError: HandleErrorFunction = (error, { request }) => {
 	// Don't report aborted requests (navigations cancelled mid-flight)
 	if (request.signal.aborted) return
 
-	// Don't report expected route errors (404s, etc.) — bots will constantly
-	// hit non-existent paths and we don't want the noise in Sentry
+	// Don't report errors from bots — they constantly probe for non-existent
+	// paths (.php, .log, .env, etc.) and generate noise in Sentry
+	if (isbot(request.headers.get('user-agent'))) return
+
+	// Don't report expected route errors (404s, etc.)
 	if (isRouteErrorResponse(error) && error.status < 500) return
 
 	Sentry.captureException(error, {
