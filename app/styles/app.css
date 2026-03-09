@@ -40,7 +40,8 @@
   }
 
   mark {
-    background: var(--color-hot-pink);
+    background: var(--accent);
+    color: var(--color-charcoal-gray);
   }
 
 }
