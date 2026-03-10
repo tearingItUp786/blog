@@ -13,6 +13,7 @@ type Props = {
 	showBlackLine?: boolean
 	id?: string
 	titleTo: string
+	isAboveFold?: boolean
 }
 
 // Horizontal connector line classes (::after pseudo-element kept as CSS)
@@ -39,6 +40,7 @@ export const ContentCard = ({
 	children,
 	showBlackLine = true,
 	titleTo,
+	isAboveFold = false,
 }: Props) => {
 	const [searchParams] = useSearchParams()
 	const prefersReducedMotion = useReducedMotion()
@@ -77,7 +79,7 @@ export const ContentCard = ({
 				'relative scroll-mt-4',
 			)}
 			variants={revealVariants}
-			initial="hidden"
+			initial={isAboveFold ? false : 'hidden'}
 			whileInView="visible"
 			viewport={{ once: true, amount: 0.15 }}
 		>
@@ -87,7 +89,7 @@ export const ContentCard = ({
 					aria-hidden="true"
 					className="bg-dark-gray-100 absolute top-5 -left-10 hidden h-4.5 w-4.5 -translate-x-1/2 -translate-y-1/2 rounded-full md:block dark:bg-white"
 					variants={dotVariants}
-					initial="hidden"
+					initial={isAboveFold ? false : 'hidden'}
 					whileInView="visible"
 					viewport={{ once: true, amount: 0.15 }}
 				/>

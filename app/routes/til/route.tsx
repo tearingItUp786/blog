@@ -159,11 +159,12 @@ export default function TilPage() {
 			</div>
 			<div className='after:bg-dark-gray-100 relative pb-8 after:absolute after:top-5 after:left-0 after:hidden after:h-[calc(100%_-_20px)] after:w-0.5 after:content-[""] md:pl-24 after:md:block lg:px-26 xl:min-w-[1200px] dark:after:bg-white'>
 				<div className="prose prose-light dark:prose-dark max-w-full">
-					{items?.map((til) => {
+					{items?.map((til, index) => {
 						return (
 							<TilComponent
 								key={`${til.frontmatter.title}-${til.frontmatter.date}`}
 								til={til}
+								isAboveFold={index === 0}
 							/>
 						)
 					})}
