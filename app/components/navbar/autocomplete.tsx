@@ -108,6 +108,7 @@ export function Autocomplete({
 					'text-white dark:text-dark-gray-100 flex hidden:hidden items-center justify-center absolute top-0 right-0 h-full w-16 group text-charcoal-gray transition-colors hover:text-accent',
 				panel:
 					'overflow-y-auto flex-1 flex flex-col divide-y-[0.5px] border-white dark:border-dark-gray-200 divide-white/20 dark:divide-dark-gray-200/20',
+				item: 'aa-Item group',
 			},
 			container: autocompleteContainer.current,
 			initialState: { isOpen: true, query: initialQuery, ...initialState },
@@ -148,7 +149,7 @@ export function Autocomplete({
 
 	return (
 		<>
-			<div className="pointer-events-none fixed inset-0 z-20 overflow-y-auto md:p-6 lg:p-10">
+			<div className="fixed inset-0 z-20 overflow-y-auto md:p-6 lg:p-10">
 				<div className="flex items-end justify-center sm:block sm:p-0">
 					<div
 						data-id="autocomplete"

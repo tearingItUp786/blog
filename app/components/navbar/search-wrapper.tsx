@@ -44,7 +44,7 @@ export default function AlgoliaSearch({
 									sourceId: 'all_results',
 									getItemUrl({ item }: any) {
 										return item.type === 'til'
-											? `/${item.type}#${item.objectID}?offset=${item.offset}&q=${query}`
+											? `/${item.type}?offset=${item.offset}&q=${query}#${item.objectID}`
 											: `/${item.type}/${item.objectID}?q=${query}`
 									},
 									getItems() {
@@ -73,9 +73,9 @@ export default function AlgoliaSearch({
 										},
 										item({ item, components, state }: any) {
 											return (
-												<div className="aria-selected:bg-charcoal-gray dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none aria-selected:text-white">
+												<div className="group-aria-selected:bg-charcoal-gray dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none group-aria-selected:text-white">
 													<a
-														className="dark:text-charcoal-gray! decoration-accent flex items-center justify-between space-x-4 text-white hover:underline focus-visible:underline"
+														className="dark:text-charcoal-gray! decoration-accent flex items-center justify-between space-x-4 text-white group-aria-selected:underline hover:underline focus-visible:underline"
 														href={
 															item.type === 'til'
 																? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`
