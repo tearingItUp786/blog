@@ -103,7 +103,7 @@ export default function Blog() {
 			<motion.main
 				className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12"
 				variants={gridVariants}
-				initial="hidden"
+				initial={false}
 				animate="visible"
 			>
 				{currentPage === 1 && featuredPost ? (
