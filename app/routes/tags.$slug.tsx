@@ -115,7 +115,7 @@ export default function SingleTag() {
 								date={til.frontmatter.date}
 								tag={til.frontmatter.tag}
 								showBlackLine={false}
-								isAboveFold={i === 0}
+								isAboveFold={[0, 1, 2].includes(i)}
 							>
 								{Component ? <Component /> : null}
 							</GenericContentCard>

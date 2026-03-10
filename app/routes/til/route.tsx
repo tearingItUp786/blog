@@ -164,7 +164,7 @@ export default function TilPage() {
 							<TilComponent
 								key={`${til.frontmatter.title}-${til.frontmatter.date}`}
 								til={til}
-								isAboveFold={index === 0}
+								isAboveFold={[0, 1, 2].includes(index)}
 							/>
 						)
 					})}
