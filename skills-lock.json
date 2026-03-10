@@ -11,10 +11,25 @@
 			"sourceType": "github",
 			"computedHash": "d9678700cc105ae1af98763fb4f85168ba398395d241aae336ef421836d9dd82"
 		},
+		"audit": {
+			"source": "pbakaus/impeccable",
+			"sourceType": "github",
+			"computedHash": "49cbdf9ca35de3c03d060363207d70fd40b6ec7390e67710887ca43976244b2c"
+		},
+		"clarify": {
+			"source": "pbakaus/impeccable",
+			"sourceType": "github",
+			"computedHash": "848b37fa3e6445008d9a521930a539a9cf9bac254c0419f80f2757010d4d46db"
+		},
 		"colorize": {
 			"source": "pbakaus/impeccable",
 			"sourceType": "github",
 			"computedHash": "c6ad8d7ae05771fee9232b72a16a42180e0e111c7372795f9009bf1cc52ccb95"
+		},
+		"critique": {
+			"source": "pbakaus/impeccable",
+			"sourceType": "github",
+			"computedHash": "d1498e1b023ab9df934905b5e7ad0979bfee47d81bca174364c7889f7190013a"
 		},
 		"delight": {
 			"source": "pbakaus/impeccable",
