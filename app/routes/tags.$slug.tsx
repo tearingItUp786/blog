@@ -84,7 +84,6 @@ export default function SingleTag() {
 				<H1 className="w-full border-b-2 dark:border-b-white">
 					Today I learned about... <br />
 					<span
-						// TODO: figure out why this is not working
 						className={twJoin(
 							PILL_CLASS_NAME,
 							'text-body mt-2 mb-4 block px-4 py-4 text-3xl font-normal uppercase',

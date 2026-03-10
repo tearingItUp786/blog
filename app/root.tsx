@@ -106,8 +106,6 @@ export const links: LinksFunction = () => {
  */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const isFresh = new URL(request.url).searchParams.has('fresh')
-	const showNewsLetter = true
-	// const showNewsLetter = new URL(request.url).searchParams.has('newsletter')
 	const isDev = process.env.NODE_ENV === 'development'
 
 	const theme = (await getThemeFromCookie(request)) as string
@@ -161,7 +159,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 				width: 150,
 				height: 150,
 			},
-			showNewsLetter: showNewsLetter,
 		},
 		honeypotInputProps: await honeypot.getInputProps(),
 	}

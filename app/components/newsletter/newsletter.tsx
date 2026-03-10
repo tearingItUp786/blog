@@ -7,7 +7,7 @@ import { schema, type action } from '~/routes/action.newsletter'
 import { useNewsLetterData } from '~/utils/request-info'
 
 export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
-	const { newsletterImage, showNewsLetter } = useNewsLetterData()
+	const { newsletterImage } = useNewsLetterData()
 	const fetcher = useFetcher<ReturnType<typeof action>>({ key: 'newsletter' })
 	const lastResult: any = fetcher.data
 
@@ -19,10 +19,6 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 			return parseWithZod(formData, { schema })
 		},
 	})
-
-	if (!showNewsLetter) {
-		return null
-	}
 
 	const isLastResultSuccessful = lastResult?.status === 'success'
 	const hasBorder = !noBorder

@@ -8,7 +8,7 @@ export const ToastUI = ({ msg }: { msg: string }) => {
 			exit={{ opacity: 0, y: 20 }}
 			transition={{ duration: 0.25 }}
 			id="toast-simple"
-			className="space-x bg-dark-gray-100 dark:divide-dark-gray-200 dark:text-dark-gray-200 fixed bottom-0 left-0 z-50 flex w-full max-w-xl items-center space-x-4 divide-x divide-gray-700 divide-white rounded-lg p-4 text-white shadow-sm dark:bg-white"
+			className="space-x bg-dark-gray-100 dark:divide-dark-gray-200 dark:text-dark-gray-200 fixed bottom-0 left-0 z-50 flex w-full max-w-xl items-center space-x-4 divide-x divide-gray-700 rounded-lg p-4 text-white shadow-sm dark:bg-white"
 			role="alert"
 		>
 			<div

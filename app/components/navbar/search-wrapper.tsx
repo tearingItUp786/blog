@@ -22,7 +22,6 @@ export default function AlgoliaSearch({
 	// handle initial search provider results (just so we can render the icon properly)
 	return (
 		<InstantSearch
-			// TODO: figure out why this is not working
 			searchClient={algoliaSearchClient as any}
 			indexName="website"
 			future={{ preserveSharedStateOnUnmount: true }}
@@ -37,7 +36,6 @@ export default function AlgoliaSearch({
 						openOnFocus
 						placeholder="Search TIL/blog posts"
 						detachedMediaQuery=""
-						// TODO: figure out why this is not working
 						getSources={({ query }) => {
 							return [
 								{
