@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import {
 	useLoaderData,
@@ -15,6 +16,27 @@ import {
 	getFeaturedBlogPost,
 	getPaginatedBlogList,
 } from '~/utils/mdx-utils.server'
+
+const gridVariants = {
+	hidden: {},
+	visible: {
+		transition: {
+			staggerChildren: 0.06,
+		},
+	},
+}
+
+const cardVariants = {
+	hidden: { opacity: 0, y: 18 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.35,
+			ease: [0.25, 1, 0.5, 1], // ease-out-quart
+		},
+	},
+}
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [
@@ -78,25 +100,40 @@ export default function Blog() {
 			)}
 		>
 			<H1 className="mb-8">Blog</H1>
-			<main className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
+			<motion.main
+				className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12"
+				variants={gridVariants}
+				initial="hidden"
+				animate="visible"
+			>
 				{currentPage === 1 && featuredPost ? (
-					<BlogCard
-						{...featuredPost.frontmatter}
-						lazyLoadImage={false}
-						className="border-medium-gray col-span-full flex flex-wrap items-center overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+					<motion.div
+						variants={cardVariants}
+						className="col-span-full"
 						key={String(featuredPost.slug ?? '')}
-						slug={featuredPost.path ?? ''}
-					/>
+					>
+						<BlogCard
+							{...featuredPost.frontmatter}
+							lazyLoadImage={false}
+							className="border-medium-gray flex w-full flex-wrap items-center overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+							slug={featuredPost.path ?? ''}
+						/>
+					</motion.div>
 				) : null}
 				{paginatedData.posts.map((post) => (
-					<BlogCard
-						{...post.frontmatter}
-						className="border-medium-gray col-span-4 overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+					<motion.div
+						variants={cardVariants}
+						className="col-span-4"
 						key={String(post.slug ?? '')}
-						slug={post.path ?? ''}
-					/>
+					>
+						<BlogCard
+							{...post.frontmatter}
+							className="border-medium-gray overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+							slug={post.path ?? ''}
+						/>
+					</motion.div>
 				))}
-			</main>
+			</motion.main>
 
 			{/* Pagination Controls */}
 			<Pagination

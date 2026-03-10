@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import { NavLink, useSearchParams } from 'react-router'
 import { twJoin, twMerge } from 'tailwind-merge'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
@@ -14,7 +15,8 @@ type Props = {
 	titleTo: string
 }
 
-const blackLinkClasses = `
+// Horizontal connector line classes (::after pseudo-element kept as CSS)
+const connectorLineClasses = `
     after:hidden
     after:md:block
     after:absolute
@@ -26,20 +28,6 @@ const blackLinkClasses = `
     after:h-0.5
     after:w-12
     lg:after:w-18
-
-    before:hidden
-    before:md:block
-    before:content: ""
-    before:absolute
-    before:rounded-full
-    before:h-4.5
-    before:w-4.5
-    before:top-5
-    before:-left-10
-    before:bg-dark-gray-100
-    dark:before:bg-white
-    before:-translate-y-1/2
-    before:-translate-x-1/2
     `
 
 // used for the TIL and the blog
@@ -53,14 +41,58 @@ export const ContentCard = ({
 	titleTo,
 }: Props) => {
 	const [searchParams] = useSearchParams()
+	const prefersReducedMotion = useReducedMotion()
+
+	const revealVariants = {
+		hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 14 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: {
+				duration: 0.4,
+				ease: [0.25, 1, 0.5, 1], // ease-out-quart
+			},
+		},
+	}
+
+	const dotVariants = {
+		hidden: { scale: prefersReducedMotion ? 1 : 0, opacity: 0 },
+		visible: {
+			scale: 1,
+			opacity: 1,
+			transition: {
+				type: 'spring' as const,
+				stiffness: 320,
+				damping: 20,
+				delay: 0.15,
+			},
+		},
+	}
+
 	return (
-		<div
+		<motion.div
 			id={id}
 			className={twJoin(
-				showBlackLine && blackLinkClasses,
+				showBlackLine && connectorLineClasses,
 				'relative scroll-mt-4',
 			)}
+			variants={revealVariants}
+			initial="hidden"
+			whileInView="visible"
+			viewport={{ once: true, amount: 0.15 }}
 		>
+			{/* Timeline dot — real DOM element so Framer Motion can spring it */}
+			{showBlackLine ? (
+				<motion.span
+					aria-hidden="true"
+					className="bg-dark-gray-100 absolute top-5 -left-10 hidden h-4.5 w-4.5 -translate-x-1/2 -translate-y-1/2 rounded-full md:block dark:bg-white"
+					variants={dotVariants}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.15 }}
+				/>
+			) : null}
+
 			<div className="">
 				<div className="mb-4 flex items-center">
 					<NavLink
@@ -87,6 +119,6 @@ export const ContentCard = ({
 				</NavLink>
 			</div>
 			<div className="mt-2 text-lg md:text-left">{children}</div>
-		</div>
+		</motion.div>
 	)
 }

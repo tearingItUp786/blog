@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { NavLink, useSearchParams } from 'react-router'
 import { twMerge } from 'tailwind-merge'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
@@ -25,13 +26,20 @@ export function BlogCard({
 }: Props) {
 	const [searchParams] = useSearchParams()
 	return (
-		<div className={twMerge(`relative`, className)}>
+		<motion.div
+			className={twMerge(`group/card relative h-full`, className)}
+			whileHover={{
+				y: -4,
+				boxShadow: '0 8px 24px -4px rgba(235,54,161,0.15)',
+				transition: { type: 'spring', stiffness: 150, damping: 20 },
+			}}
+		>
 			<InlineImage
 				lazyLoadImage={lazyLoadImage}
 				fetchpriority={lazyLoadImage ? 'auto' : 'high'}
 				imgDivClassName="aspect-[8/5]"
 				imgWrapperClassName="relative overflow-hidden"
-				className="absolute inset-0 h-full w-full object-cover"
+				className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover/card:scale-[1.03]"
 				containerClassName="flex-1 basis-full lg:basis-7/12 mx-0 lg:mx-0 my-0 lg:my-0"
 				src={hero}
 				alt={title}
@@ -70,6 +78,6 @@ export function BlogCard({
 					</span>
 				</span>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
