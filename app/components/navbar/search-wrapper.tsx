@@ -73,7 +73,7 @@ export default function AlgoliaSearch({
 										},
 										item({ item, components, state }: any) {
 											return (
-												<div className="group-aria-selected:bg-charcoal-gray dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none group-aria-selected:text-white">
+												<div className="group-aria-selected:bg-charcoal-gray dark:group-aria-selected:bg-off-white dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none group-aria-selected:text-white">
 													<a
 														className="dark:text-charcoal-gray! decoration-accent flex items-center justify-between space-x-4 text-white group-aria-selected:underline hover:underline focus-visible:underline"
 														href={
