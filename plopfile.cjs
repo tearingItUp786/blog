@@ -91,7 +91,6 @@ const tagsChoices = [...tags].sort()
 const maxWidth = Math.max(
 	...tagsChoices.map(([, value]) => String(value).length),
 )
-const customTagValue = '__custom_tag__'
 const terminalRows = process.stdout.rows || 24
 const minimumTagPageSize = 5
 const promptPadding = 8
@@ -101,7 +100,10 @@ const tagPageSize = Math.min(
 )
 
 const now = formatDate(Date.now())
-module.exports = (plop) => {
+module.exports = async (plop) => {
+	const { default: autocompletePrompt } =
+		await import('inquirer-autocomplete-prompt')
+	plop.setPrompt('autocomplete', autocompletePrompt)
 	plop.setGenerator('til', {
 		description: 'Create a brand new TIL',
 		prompts: [
@@ -117,30 +119,23 @@ module.exports = (plop) => {
 				message: 'What is the date of this TIL',
 			},
 			{
-				type: 'list',
+				type: 'autocomplete',
 				name: 'tag',
-				choices: [
-					...tagsChoices.map(([tag, count]) => ({
-						name: `${String(count).padEnd(maxWidth)} | ${tag}`,
-						value: tag,
-					})),
-					{
-						name: 'Other (type a custom tag)',
-						value: customTagValue,
-					},
-				],
-				message: 'What tag is this TIL associated with?',
-				pageSize: tagPageSize,
-				loop: true,
-			},
-			{
-				when: function (answers) {
-					return answers.tag === customTagValue
+				message:
+					'What tag is this TIL associated with? (type to filter or create new)',
+				suggestOnly: true,
+				emptyText: 'No matching tags — press Enter to create this tag',
+				source: function (_answers, input) {
+					const query = (input || '').toLowerCase()
+					const matches = tagsChoices
+						.filter(([tag]) => tag.toLowerCase().includes(query))
+						.map(([tag, count]) => ({
+							name: `${String(count).padEnd(maxWidth)} | ${tag}`,
+							value: tag,
+						}))
+					return Promise.resolve(matches)
 				},
-				type: 'input',
-				askAnswered: true,
-				name: 'tag',
-				message: 'What is your custom tag',
+				pageSize: tagPageSize,
 			},
 			{
 				type: 'editor',
