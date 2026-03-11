@@ -13,7 +13,6 @@ type Props = {
 	showBlackLine?: boolean
 	id?: string
 	titleTo: string
-	isAboveFold?: boolean
 }
 
 // Horizontal connector line classes (::after pseudo-element kept as CSS)
@@ -40,22 +39,9 @@ export const ContentCard = ({
 	children,
 	showBlackLine = true,
 	titleTo,
-	isAboveFold = false,
 }: Props) => {
 	const [searchParams] = useSearchParams()
 	const prefersReducedMotion = useReducedMotion()
-
-	const revealVariants = {
-		hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 14 },
-		visible: {
-			opacity: 1,
-			y: 0,
-			transition: {
-				duration: 0.4,
-				ease: [0.25, 1, 0.5, 1], // ease-out-quart
-			},
-		},
-	}
 
 	const dotVariants = {
 		hidden: { scale: prefersReducedMotion ? 1 : 0, opacity: 0 },
@@ -78,18 +64,14 @@ export const ContentCard = ({
 				showBlackLine && connectorLineClasses,
 				'relative scroll-mt-4',
 			)}
-			variants={revealVariants}
-			initial={isAboveFold ? false : 'hidden'}
-			whileInView="visible"
-			viewport={{ once: true, amount: 0.15 }}
 		>
-			{/* Timeline dot — real DOM element so Framer Motion can spring it */}
+			{/* Timeline dot — springs in when the card scrolls into view */}
 			{showBlackLine ? (
 				<motion.span
 					aria-hidden="true"
 					className="bg-dark-gray-100 absolute top-5 -left-10 hidden h-4.5 w-4.5 -translate-x-1/2 -translate-y-1/2 rounded-full md:block dark:bg-white"
 					variants={dotVariants}
-					initial={isAboveFold ? false : 'hidden'}
+					initial="hidden"
 					whileInView="visible"
 					viewport={{ once: true, amount: 0.15 }}
 				/>

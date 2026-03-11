@@ -115,7 +115,6 @@ export default function SingleTag() {
 								date={til.frontmatter.date}
 								tag={til.frontmatter.tag}
 								showBlackLine={false}
-								isAboveFold={[0, 1, 2].includes(i)}
 							>
 								{Component ? <Component /> : null}
 							</GenericContentCard>
@@ -123,7 +122,7 @@ export default function SingleTag() {
 					)
 				})}
 
-				{blogList.map((blog, index) => {
+				{blogList.map((blog) => {
 					return (
 						<div
 							key={blog.frontmatter.title}
@@ -137,7 +136,6 @@ export default function SingleTag() {
 								date={blog.frontmatter.date}
 								tag={blog.frontmatter.tag}
 								showBlackLine={false}
-								isAboveFold={tilComponents.length === 0 && index === 0}
 							>
 								<H3>
 									Blog post about:{' '}
