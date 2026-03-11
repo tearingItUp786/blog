@@ -1,0 +1,21 @@
+---
+title: Starting Style
+date: 2026-03-11
+tag: CSS
+---
+
+TIL about `@starting-style`; it lets you define the initial styles of an element before its first style is applied
+— essentially giving you a "from" state for CSS transitions on elements that are
+being added to the DOM or transitioning from display: none.
+
+```css {3-6}
+.card {
+	transition:
+		opacity 0.3s,
+		transform 0.3s;
+	@starting-style {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+}
+```
