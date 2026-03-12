@@ -1,5 +1,5 @@
-import clsx from 'clsx'
 import React from 'react'
+import { twJoin } from 'tailwind-merge'
 
 class Toggle extends React.Component {
 	state = {
@@ -49,14 +49,14 @@ function PrettyToggle() {
 				return (
 					<div className="relative block h-[56px] w-[120px]">
 						<div
-							className={clsx(
+							className={twJoin(
 								'4 flex h-10 w-[5.5rem] cursor-pointer items-center rounded-full p-2 transition-colors',
 								divClasses,
 							)}
 							onClick={appliedHandleClick}
 						>
 							<input
-								className={clsx(
+								className={twJoin(
 									'transition-color drop-shadow-toggle h-7 w-7 cursor-pointer appearance-none rounded-full transition-transform ease-in-out',
 									'translate-x-0 bg-white',
 									transClasses,
