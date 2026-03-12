@@ -1,49 +1,77 @@
-// straight up copied from an LLM
 export function replaceContent(str = '') {
 	if (!str) return ''
 
-	// Handle all variations of code block formatting and fragments
-	let result = str
-		// First handle complete code blocks
-		.replace(/```[\s\S]*?```/g, '')
+	return (
+		str
+			// Pass 1: Fenced code blocks
+			// Strip all fenced code blocks (handles plain, :title=, {line}, title="...")
+			.replace(/```[\s\S]*?```/g, '')
+			// Strip any unclosed fenced block that runs to end of string
+			.replace(/```[\s\S]*$/g, '')
 
-		// Handle any remaining backtick fragments with language tags
-		.replace(/```\s*[a-zA-Z0-9]+[\s\S]*?(?:```|$)/g, '')
+			// Pass 2: MDX imports / exports
+			// Must be line-start anchored so we don't accidentally catch inline "import" words
+			.replace(/^import\s[\s\S]*?from\s['"].*?['"]\s*$/gm, '')
+			.replace(
+				/^export\s+(default|const|function)\s[\s\S]*?(?=\n\n|\n*$)/gm,
+				'',
+			)
 
-		// Handle standalone code markers that might be left
-		.replace(/```[^\n`]*(?:\n|$)/g, '')
+			// Pass 3: JSX components
+			// Self-closing PascalCase components: <InlineImage ... />
+			.replace(/<[A-Z][a-zA-Z]*[^>]*\/>/g, '')
+			// Paired PascalCase components and all their children: <BlockQuote>...</BlockQuote>
+			.replace(/<[A-Z][a-zA-Z]*[^>]*>[\s\S]*?<\/[A-Z][a-zA-Z]*>/g, '')
+			// Strip iframe/video entirely — no useful prose inside
+			.replace(/<(iframe|video)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+			.replace(/<(iframe|video|br)\b[^>]*\/>/gi, '')
+			// For div/p: strip the tag markers but keep inner content
+			// (may wrap markdown tables, prose, or mermaid blocks already gone from pass 1)
+			.replace(/<\/?(div|p)\b[^>]*>/gi, '')
 
-		// Strip MDX-specific content
-		.replace(/import\s+.*?\s+from\s+['"].*?['"]/g, '') // Remove import statements
-		.replace(/import\s+{\s*.*?\s*}\s+from\s+['"].*?['"]/g, '') // Remove named imports
-		.replace(/export\s+default\s+.*?(?:\r\n|\r|\n|$)/g, '') // Remove export default statements
-		.replace(/export\s+const\s+.*?(?:;|$)/g, '') // Remove export const statements
-		.replace(/<.*?gss.*?>.*?<\/.*?>/g, '') // Remove GSS component tags
-		.replace(/<.*?GSS.*?>.*?<\/.*?>/g, '') // Remove GSS component tags (capitalized)
-		.replace(/<.*?Component.*?>.*?<\/.*?>/g, '') // Remove generic component tags
-		.replace(/{`.*?`}/g, '') // Remove template literals in braces
-		.replace(/{\/\*.*?\*\/}/gs, '') // Remove JSX comments
-		.replace(/{\/\/.*?(?:\r\n|\r|\n|$)}/g, '') // Remove single-line comments in braces
-		.replace(/{.*?}/g, '') // Remove remaining JSX expressions
+			// Pass 4: JSX expressions
+			// Template literal props: description={`...`}
+			.replace(/\w+=\{`[^`]*`\}/g, '')
+			// Whitespace / string expressions: {' '}, {"text"}
+			.replace(/\{['"][^'"]*['"]\}/g, '')
+			// Block JSX comments: {/* ... */}
+			.replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
+			// Single-line JSX comments: {// ...}
+			.replace(/\{\/\/[^\n]*\}/g, '')
+			// Remaining JSX expressions (but not escaped \{...\} which are prose)
+			.replace(/(?<!\\)\{[^}]*\}/g, '')
 
-		// Original markdown stripping logic
-		.replace(/(<([^>]+)>)/gi, '') // Remove HTML tags
-		.replace(/!\[.*?\]\(.*?\)/g, '') // Remove image markdown
-		.replace(/\[(.*?)\]\(.*?\)/g, '$1') // Replace links with just the text
-		.replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2') // Remove bold formatting
-		.replace(/(\*|_)(.*?)(\*|_)/g, '$2') // Remove italic formatting
-		.replace(/(~~)(.*?)(~~)/g, '$2') // Remove strikethrough
-		.replace(/(?:\r\n|\r|\n|^)>.*(?:\r\n|\r|\n|$)/g, '') // Remove blockquotes
-		.replace(/(#{1,6}\s)(.*?)(\r\n|\r|\n)/g, '$2') // Remove headers
-		.replace(/(\r\n|\r|\n)\s*(\*|-|\+|[0-9]+\.)\s/g, '') // Remove list markers
-		.replace(/(\*\*|__|\*|_|~~)/g, '') // Remove any remaining markdown syntax
-		.replace(/`.*?`/g, '') // Remove inline code
+			// Pass 5: Markdown to plain text
+			// Images (strip entirely — no useful text for search)
+			.replace(/!\[.*?\]\(.*?\)/g, '')
+			// Links: keep the visible text
+			.replace(/\[(.*?)\]\(.*?\)/g, '$1')
+			// Bold
+			.replace(/(\*\*|__)(.*?)(\*\*|__)/g, '$2')
+			// Italic
+			.replace(/(\*|_)(.*?)(\*|_)/g, '$2')
+			// Strikethrough
+			.replace(/(~~)(.*?)(~~)/g, '$2')
+			// Heading markers (## My Heading -> My Heading)
+			.replace(/^#{1,6}\s+/gm, '')
+			// Unordered list markers
+			.replace(/^\s*[-*+]\s+/gm, '')
+			// Ordered list markers
+			.replace(/^\s*\d+\.\s+/gm, '')
+			// Blockquote markers
+			.replace(/^>\s*/gm, '')
+			// Any remaining HTML tags (strip tag, keep inner text)
+			.replace(/(<([^>]+)>)/gi, '')
 
-		// One final pass to catch any remaining backtick fragments
-		.replace(/`[^\n`]*(?:\n|$)/g, '')
-		.replace(/```/g, '')
+			// Pass 6: Inline code
+			// Strip backtick markers, keep the text: `@starting-style` -> @starting-style
+			.replace(/`([^`\n]+)`/g, '$1')
 
-		.trim() // Trim whitespace from the result
-
-	return result
+			// Pass 7: Cleanup
+			// Collapse 3+ blank lines to 2
+			.replace(/\n{3,}/g, '\n\n')
+			// Strip lines that are now only whitespace
+			.replace(/^[^\S\n]+$/gm, '')
+			.trim()
+	)
 }
