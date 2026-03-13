@@ -115,7 +115,7 @@ export default function Blog() {
 						<BlogCard
 							{...featuredPost.frontmatter}
 							lazyLoadImage={false}
-							className="border-medium-gray flex w-full flex-wrap items-center overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+							className="border-medium-gray items-center overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
 							slug={featuredPost.path ?? ''}
 						/>
 					</motion.div>
@@ -123,7 +123,7 @@ export default function Blog() {
 				{paginatedData.posts.map((post) => (
 					<motion.div
 						variants={cardVariants}
-						className="col-span-4"
+						className="col-span-full md:col-span-4"
 						key={String(post.slug ?? '')}
 					>
 						<BlogCard
