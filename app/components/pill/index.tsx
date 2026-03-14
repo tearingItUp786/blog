@@ -10,7 +10,7 @@ export const PILL_CLASS_NAME = `
 `
 
 export const PILL_CLASS_NAME_ACTIVE =
-	'transition-colors hover:bg-accent hover:text-charcoal-gray group-hover:text-charcoal-gray'
+	'transition-[color,background-color,letter-spacing] duration-150 hover:bg-accent hover:text-charcoal-gray hover:tracking-[0.02em] group-hover:text-charcoal-gray'
 
 const Pill = ({
 	children,
