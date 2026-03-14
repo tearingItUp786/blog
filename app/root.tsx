@@ -1,6 +1,7 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
 import * as Sentry from '@sentry/react-router'
+import { useEffect } from 'react'
 import {
 	type LinksFunction,
 	type LoaderFunctionArgs,
@@ -170,6 +171,24 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 	const optimisticTheme = useOptimisticThemeMode()
 	const themeToUse =
 		optimisticTheme ?? data?.requestInfo?.userPreferences?.theme
+
+	useEffect(() => {
+		console.log(
+			`%c
+  ████████╗ █████╗ ██████╗  █████╗ ███╗   ██╗
+  ╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗████╗  ██║
+     ██║   ███████║██████╔╝███████║██╔██╗ ██║
+     ██║   ██╔══██║██╔══██╗██╔══██║██║╚██╗██║
+     ██║   ██║  ██║██║  ██║██║  ██║██║ ╚████║
+     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+`,
+			'color: #EB36A1; font-family: monospace;',
+		)
+		console.log(
+			'%cDigging around in the console? We might become best friends. 🤝\nhttps://taran.dev',
+			'color: #EB36A1; font-size: 14px; font-family: monospace;',
+		)
+	}, [])
 
 	return (
 		<HoneypotProvider {...data?.honeypotInputProps}>
