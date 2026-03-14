@@ -164,14 +164,32 @@ export default function Index() {
 						>
 							<span className="sr-only">Generate a new stoic quote!</span>
 
-							<ArrowPathIcon
+							<motion.span
 								role="presentation"
-								className={twJoin(
-									'h-8 w-8',
-									(spin || fetcher.state === 'loading') &&
-										'animate-spin-fast text-accent',
-								)}
-							/>
+								animate={
+									spin || fetcher.state === 'loading'
+										? { rotate: 360 }
+										: { rotate: 0 }
+								}
+								transition={
+									spin || fetcher.state === 'loading'
+										? {
+												duration: 0.5,
+												type: 'spring',
+												stiffness: 200,
+												damping: 15,
+											}
+										: { duration: 0 }
+								}
+								className="inline-block cursor-pointer"
+							>
+								<ArrowPathIcon
+									className={twJoin(
+										'h-8 w-8',
+										(spin || fetcher.state === 'loading') && 'text-accent',
+									)}
+								/>
+							</motion.span>
 						</button>
 					</fetcher.Form>
 				</div>
