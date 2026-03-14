@@ -185,7 +185,7 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 			'color: #EB36A1; font-family: monospace;',
 		)
 		console.log(
-			'%cDigging around in the console? We might become best friends. 🤝\nhttps://taran.dev',
+			'%cDigging around in the console? We might become best friends. 🤝\n',
 			'color: #EB36A1; font-size: 14px; font-family: monospace;',
 		)
 	}, [])
