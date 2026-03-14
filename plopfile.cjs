@@ -142,7 +142,7 @@ module.exports = async (plop) => {
 				name: 'content',
 				message:
 					'Write your TIL markdown body. Save and close the editor when done.',
-				default: '## Today I learned\n\n',
+				default: '',
 			},
 		],
 		actions: [
