@@ -151,7 +151,6 @@ const FrontmatterSubtitle = ({
 }) => {
 	const [searchParams] = useSearchParams()
 	if (!date) return null
-	console.log('👀 date', typeof date)
 	return (
 		<div className="text-accent after:border-dark-gray-200 relative mb-4 block items-center uppercase md:flex">
 			<NavLink
