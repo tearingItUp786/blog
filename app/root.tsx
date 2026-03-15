@@ -1,6 +1,7 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
 import * as Sentry from '@sentry/react-router'
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import {
 	type LinksFunction,
@@ -14,6 +15,7 @@ import {
 	isRouteErrorResponse,
 	useRouteError,
 	useRouteLoaderData,
+	Link,
 } from 'react-router'
 import { ExternalScripts } from 'remix-utils/external-scripts'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
@@ -230,6 +232,26 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
+const containerVariants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.15,
+			delayChildren: 0.1,
+		},
+	},
+}
+
+const itemVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
+	},
+}
+
 export const ErrorBoundary = () => {
 	const error = useRouteError()
 	if (!isRouteErrorResponse(error)) {
@@ -238,31 +260,60 @@ export const ErrorBoundary = () => {
 
 	const nonce = useNonce()
 	const elementToRender = isRouteErrorResponse(error) ? (
-		<>
-			<H3>Not found: {error.status}</H3>
-			<iframe
-				nonce={nonce}
-				title="Not Found"
-				src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
-				width="480"
-				height="361"
-				className="giphy-embed"
-				allowFullScreen
-			/>
-
-			<p className="text-accent">
+		<motion.div
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+			className="flex flex-wrap items-center justify-center"
+		>
+			<motion.div variants={itemVariants}>
+				<H3>Not found: {error.status}</H3>
+			</motion.div>
+			<motion.div variants={itemVariants}>
+				<iframe
+					nonce={nonce}
+					title="Not Found"
+					src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
+					width="480"
+					height="361"
+					className="giphy-embed"
+					allowFullScreen
+				/>
+			</motion.div>
+			<motion.div variants={itemVariants} className="text-accent">
 				<a
 					className="text-accent"
 					href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
 				>
 					via GIPHY
 				</a>
-			</p>
-		</>
+			</motion.div>
+			<motion.div
+				variants={itemVariants}
+				className="mt-4 flex basis-full justify-center"
+			>
+				<Link
+					to="/"
+					className="text-accent decoration-accent hover:text-pink underline underline-offset-4 transition-colors"
+				>
+					Take me home
+				</Link>
+			</motion.div>
+		</motion.div>
 	) : (
-		<>
-			<H3>Something went wrong with the server</H3>
-			<div className="relative h-0 w-full pb-[56%]">
+		<motion.div
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+			className="flex flex-wrap items-center justify-center"
+		>
+			<motion.div variants={itemVariants}>
+				<H3>Something went wrong with the server</H3>
+			</motion.div>
+			<motion.div
+				variants={itemVariants}
+				className="relative h-0 w-full pb-[56%]"
+			>
 				<iframe
 					nonce={nonce}
 					title="Not sure what happened"
@@ -272,13 +323,24 @@ export const ErrorBoundary = () => {
 					className="giphy-embed absolute"
 					allowFullScreen
 				></iframe>
-			</div>
-			<p>
+			</motion.div>
+			<motion.div variants={itemVariants}>
 				<a href="https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7wUn5bkB2fUBY8Jo1D">
 					via GIPHY
 				</a>
-			</p>
-		</>
+			</motion.div>
+			<motion.div
+				variants={itemVariants}
+				className="mt-4 flex basis-full justify-center"
+			>
+				<Link
+					to="/"
+					className="text-accent decoration-accent hover:text-pink underline underline-offset-4 transition-colors"
+				>
+					Take me home
+				</Link>
+			</motion.div>
+		</motion.div>
 	)
 	return (
 		<Document>

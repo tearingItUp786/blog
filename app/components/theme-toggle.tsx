@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useFetcher } from 'react-router'
 import { twJoin } from 'tailwind-merge'
 import { useTheme as useThemeHook } from '~/routes/action.theme-switcher'
@@ -6,6 +7,7 @@ export const ServerThemeToggle = () => {
 	const mode = useThemeHook()
 	const fetcher = useFetcher()
 	const nextTheme = mode === 'dark' ? 'light' : 'dark'
+	const isDark = mode === 'dark'
 
 	return (
 		<fetcher.Form
@@ -23,16 +25,17 @@ export const ServerThemeToggle = () => {
 				}}
 			>
 				<input type="hidden" name="theme" value={nextTheme} />
-				<input
-					id="website-theme-toggle"
-					aria-label="Toggle theme mode"
+				<motion.div
+					animate={{ x: isDark ? '135%' : '0%' }}
+					transition={{ type: 'spring', stiffness: 300, damping: 22 }}
 					className={twJoin(
-						'transition-color drop-shadow-toggle h-6 w-6 cursor-pointer appearance-none rounded-full ring-1 ring-black/10 transition-transform ease-in-out dark:ring-black/15',
-						'bg-dark-gray-100 translate-x-0',
-						'dark:translate-x-[135%] dark:bg-white',
+						'drop-shadow-toggle h-6 w-6 cursor-pointer appearance-none rounded-full ring-1 ring-black/10 dark:ring-black/15',
+						'bg-dark-gray-100',
+						'dark:bg-white',
 					)}
-					type="checkbox"
 					role="switch"
+					aria-checked={isDark}
+					aria-label="Toggle theme mode"
 				/>
 			</div>
 		</fetcher.Form>

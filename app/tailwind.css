@@ -105,6 +105,32 @@
 	--color-white: var(--color-pure-white);
 }
 
+/* Lazy-loaded image fade-in — uses animation (not transition) to avoid
+   conflicting with Tailwind transition-* utilities on the same element */
+img.lazy {
+	opacity: 0;
+}
+
+img.loaded {
+	animation: lazy-fade-in 300ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes lazy-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	img.loaded {
+		animation: none;
+		opacity: 1;
+	}
+}
+
 @utility border-shine {
 	animation: borderPulse 4s infinite alternate;
 	border-color: rgba(219, 68, 134, 0.6) !important;
