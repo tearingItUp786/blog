@@ -28,6 +28,7 @@ type LoaderData = {
 	next?: MdxPage
 	prev?: MdxPage
 	hasTwitterEmbed: boolean
+	signOffMessage: string
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -74,6 +75,15 @@ export function shouldRevalidate({
 
 	return defaultShouldRevalidate
 }
+
+const SIGN_OFF_MESSAGES = [
+	'Appreciate you reading this.',
+	'Thanks for sticking around to the end.',
+	'Thanks for hanging out.',
+	'Grateful you spent some time here.',
+	'Hope this was worth your time.',
+	'Thanks for reading. Go build something cool.',
+] as const
 
 export const loader = async ({
 	params,
@@ -125,6 +135,9 @@ export const loader = async ({
 			throw new Response('Page not found', { status: 404 })
 		}
 
+		const signOffMessage =
+			SIGN_OFF_MESSAGES[Math.floor(Math.random() * SIGN_OFF_MESSAGES.length)]
+
 		const dataToSend: LoaderData = {
 			nonce: context.cspNonce,
 			page,
@@ -132,6 +145,7 @@ export const loader = async ({
 			next,
 			reqUrl: urlReq.origin + urlReq.pathname,
 			hasTwitterEmbed: twitterStatusRegex.test(String(page?.matter?.content)),
+			signOffMessage,
 		}
 
 		return data(dataToSend, { status: 200, headers })
@@ -350,6 +364,9 @@ export default function MdxScreen() {
 					</div>
 				</div>
 				<Component />
+				<p className="text-subheading-color col-span-full mt-12 mb-0 text-lg italic">
+					{data.signOffMessage}
+				</p>
 				<div className="pt-8 pb-4 md:flex md:flex-wrap">
 					<CopyLinkButton url={data.reqUrl} />
 
