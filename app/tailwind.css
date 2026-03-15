@@ -56,12 +56,12 @@
 	@keyframes borderPulse {
 		0%,
 		100% {
-			border-color: rgba(219, 68, 134, 0.5) !important;
-			box-shadow: 0 0 5px rgba(219, 68, 134, 0.15);
+			border-color: hsl(322 83% 57% / 0.5);
+			box-shadow: 0 0 5px hsl(322 83% 57% / 0.15);
 		}
 		50% {
-			border-color: rgba(219, 68, 134, 0.7) !important;
-			box-shadow: 0 0 10px rgba(219, 68, 134, 0.25);
+			border-color: hsl(322 83% 57% / 0.7);
+			box-shadow: 0 0 10px hsl(322 83% 57% / 0.25);
 		}
 	}
 }
@@ -133,8 +133,8 @@ img.loaded {
 
 @utility border-shine {
 	animation: borderPulse 4s infinite alternate;
-	border-color: rgba(219, 68, 134, 0.6) !important;
-	box-shadow: 0 0 8px rgba(219, 68, 134, 0.2);
+	border-color: hsl(322 83% 57% / 0.6);
+	box-shadow: 0 0 8px hsl(322 83% 57% / 0.2);
 }
 
 @font-face {
