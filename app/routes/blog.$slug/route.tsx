@@ -230,7 +230,7 @@ function CopyLinkButton({ url }: { url: string }) {
 			className={twJoin(
 				PILL_CLASS_NAME,
 				PILL_CLASS_NAME_ACTIVE,
-				'text-accent mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
+				'text-accent mr-7 mb-4 cursor-pointer py-1.5 text-lg leading-6 md:mb-0',
 			)}
 		>
 			{copied ? (
