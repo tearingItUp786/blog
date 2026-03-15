@@ -152,3 +152,48 @@ abstractions.
 - Keep server/client boundaries intact (`.server` must not leak client-side)
 - After non-trivial edits, run `pnpm lint` and `pnpm typecheck`
 - If you add tests, add full-suite + single-test commands and update this file
+
+## Design Context
+
+### Users
+
+- Primary: Other software developers reading technical content
+- Context: Reading on desktop or mobile, often during work breaks or personal
+  learning time
+- Job to be done: Find useful technical content quickly, browse TILs, stay
+  updated on posts
+
+### Brand Personality
+
+- **Playful developer** - voice that feels like a real person, not a content
+  machine
+- Confident monospace choice signals technical identity without apology
+- Humor and personality (Giphy errors, random quotes, easter eggs) is
+  intentional, not accidental
+
+### Aesthetic Direction
+
+- **Monospace-only typography**: CommitMono as the single font family - bold
+  choice that works
+- **Pink accent**: hsl(322, 83%, 57%) is the only color beyond neutrals - commit
+  to it
+- **Dark + light modes**: Both supported, no "default" - user preference wins
+- **Anti-patterns to avoid**:
+  - No gradient text
+  - No glassmorphism
+  - No hero metric layouts
+  - No generic shadows or glowing effects
+  - No centered-container everything
+
+### Design Principles
+
+1. **Personality first** - If a choice makes the site feel more like a real
+   person, do it
+2. **Technical identity** - The monospace font IS the brand; lean into it, don't
+   soften it
+3. **Pink is enough** - One accent color is stronger than five; resist adding
+   more
+4. **Avoid the template** - If it's a pattern you'd see on 100 AI-generated
+   sites, reject it
+5. **Motion with purpose** - Every animation should feel intentional, not
+   decorative
