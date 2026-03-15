@@ -230,7 +230,7 @@ function CopyLinkButton({ url }: { url: string }) {
 			className={twJoin(
 				PILL_CLASS_NAME,
 				PILL_CLASS_NAME_ACTIVE,
-				'mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
+				'text-accent mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
 			)}
 		>
 			{copied ? (
@@ -364,7 +364,7 @@ export default function MdxScreen() {
 					</div>
 				</div>
 				<Component />
-				<p className="text-subheading-color col-span-full mt-12 mb-0 text-lg italic">
+				<p className="text-subheading-color mt-12 mb-0 text-lg italic">
 					{data.signOffMessage}
 				</p>
 				<div className="pt-8 pb-4 md:flex md:flex-wrap">
