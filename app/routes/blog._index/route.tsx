@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import {
 	useLoaderData,
@@ -33,7 +33,19 @@ const cardVariants = {
 		y: 0,
 		transition: {
 			duration: 0.35,
-			ease: [0.25, 1, 0.5, 1], // ease-out-quart
+			ease: [0.25, 1, 0.5, 1],
+		},
+	},
+}
+
+const featuredCardVariants = {
+	hidden: { opacity: 0, y: 24 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.45,
+			ease: [0.25, 1, 0.5, 1],
 		},
 	},
 }
@@ -84,6 +96,7 @@ export default function Blog() {
 		useLoaderData<typeof loader>()
 	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 	const { pagination } = paginatedData
+	const shouldReduceMotion = useReducedMotion()
 
 	useEffect(() => {
 		if (lazyLoadRef.current === null) {
@@ -101,14 +114,15 @@ export default function Blog() {
 		>
 			<H1 className="mb-8">Blog</H1>
 			<motion.main
+				key={currentPage}
 				className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12"
 				variants={gridVariants}
-				initial={false}
+				initial={shouldReduceMotion ? false : 'hidden'}
 				animate="visible"
 			>
 				{currentPage === 1 && featuredPost ? (
 					<motion.div
-						variants={cardVariants}
+						variants={featuredCardVariants}
 						className="col-span-full"
 						key={String(featuredPost.slug ?? '')}
 					>
