@@ -52,18 +52,6 @@
 			opacity: 1;
 		}
 	}
-
-	@keyframes borderPulse {
-		0%,
-		100% {
-			border-color: hsl(322 83% 57% / 0.5);
-			box-shadow: 0 0 5px hsl(322 83% 57% / 0.15);
-		}
-		50% {
-			border-color: hsl(322 83% 57% / 0.7);
-			box-shadow: 0 0 10px hsl(322 83% 57% / 0.25);
-		}
-	}
 }
 
 /**
@@ -129,12 +117,6 @@ img.loaded {
 		animation: none;
 		opacity: 1;
 	}
-}
-
-@utility border-shine {
-	animation: borderPulse 4s infinite alternate;
-	border-color: hsl(322 83% 57% / 0.6);
-	box-shadow: 0 0 8px hsl(322 83% 57% / 0.2);
 }
 
 @font-face {

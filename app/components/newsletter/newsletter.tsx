@@ -50,8 +50,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 		<div
 			className={twJoin(
 				'relative mt-24 items-center gap-8 self-end rounded-md bg-transparent py-4 md:py-10 lg:flex',
-				hasBorder &&
-					'border-border-color border-shine border-2 border-solid px-4 md:px-12',
+				hasBorder && 'border-accent border-2 border-solid px-4 md:px-12',
 			)}
 		>
 			<div className="flex basis-1/2 flex-wrap items-center justify-center md:flex-nowrap">
