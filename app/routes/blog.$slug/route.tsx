@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
 	type LoaderFunctionArgs,
 	type MetaFunction,
@@ -187,6 +187,72 @@ const decodeHashValue = (hashValue: string) => {
 	}
 }
 
+function CopyLinkButton({ url }: { url: string }) {
+	const [copied, setCopied] = useState(false)
+
+	const handleCopy = async () => {
+		try {
+			await navigator.clipboard.writeText(url)
+			setCopied(true)
+			setTimeout(() => setCopied(false), 2000)
+		} catch {
+			const textArea = document.createElement('textarea')
+			textArea.value = url
+			textArea.style.position = 'fixed'
+			textArea.style.opacity = '0'
+			document.body.appendChild(textArea)
+			textArea.select()
+			document.execCommand('copy')
+			document.body.removeChild(textArea)
+			setCopied(true)
+			setTimeout(() => setCopied(false), 2000)
+		}
+	}
+
+	return (
+		<button
+			type="button"
+			onClick={handleCopy}
+			className={twJoin(
+				PILL_CLASS_NAME,
+				PILL_CLASS_NAME_ACTIVE,
+				'mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
+			)}
+		>
+			{copied ? (
+				<span className="flex items-center gap-1.5">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						className="h-4 w-4"
+					>
+						<path
+							fillRule="evenodd"
+							d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+							clipRule="evenodd"
+						/>
+					</svg>
+					Copied!
+				</span>
+			) : (
+				<span className="flex items-center gap-1.5">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						className="h-4 w-4"
+					>
+						<path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z" />
+						<path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 005.656 5.656l3-3a4 4 0 00-.225-5.865z" />
+					</svg>
+					Copy link
+				</span>
+			)}
+		</button>
+	)
+}
+
 export default function MdxScreen() {
 	const data = useLoaderData<typeof loader>()
 	const [searchParams] = useSearchParams()
@@ -284,7 +350,9 @@ export default function MdxScreen() {
 					</div>
 				</div>
 				<Component />
-				<div className="pt-8 pb-4 md:flex">
+				<div className="pt-8 pb-4 md:flex md:flex-wrap">
+					<CopyLinkButton url={data.reqUrl} />
+
 					<a
 						href={`https://twitter.com/intent/tweet?${new URLSearchParams({
 							url: data.reqUrl,
