@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router'
 import { twMerge } from 'tailwind-merge'
 import { H4 } from '~/components/typography'
@@ -29,6 +29,8 @@ const nextArrowVariants = {
 }
 
 export function PreviousAndNextLinks({ previous, next, className }: Props) {
+	const shouldReduceMotion = useReducedMotion()
+
 	return (
 		<div
 			className={twMerge(
@@ -51,8 +53,8 @@ export function PreviousAndNextLinks({ previous, next, className }: Props) {
 							strokeWidth={1.5}
 							stroke="currentColor"
 							className="text-body group-hover:text-accent order-0 mt-1 h-5 w-5 min-w-5 md:mt-0 lg:block"
-							variants={arrowVariants}
-							whileHover="hover"
+							variants={shouldReduceMotion ? undefined : arrowVariants}
+							whileHover={shouldReduceMotion ? undefined : 'hover'}
 						>
 							<path
 								strokeLinecap="round"
@@ -80,9 +82,9 @@ export function PreviousAndNextLinks({ previous, next, className }: Props) {
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="text-body group-hover:text-accent order-1 mt-1 h-5 w-5 min-w-5 md:mt-0 lg:block"
-							variants={nextArrowVariants}
-							whileHover="hover"
+							className="text-body group-hover:text-accent order-1 h-5 w-5 min-w-5 lg:block"
+							variants={shouldReduceMotion ? undefined : nextArrowVariants}
+							whileHover={shouldReduceMotion ? undefined : 'hover'}
 						>
 							<path
 								strokeLinecap="round"

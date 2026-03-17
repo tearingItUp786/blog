@@ -124,7 +124,12 @@ export const ShortQuote = ({
 
 export const TextLink = ({ children, ...rest }: CommonProps) => {
 	return (
-		<a target="_blank" className="text-accent font-bold underline" {...rest}>
+		<a
+			target="_blank"
+			rel="noopener noreferrer"
+			className="text-accent font-bold underline"
+			{...rest}
+		>
 			{children}
 		</a>
 	)

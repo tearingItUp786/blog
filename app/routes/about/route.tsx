@@ -44,7 +44,7 @@ const RandomThing = ({
 	titleClassName?: string
 }) => {
 	return (
-		<main
+		<section
 			className={twMerge(
 				className,
 				'border-dark-gray-200 mb-8 w-full border border-solid p-8 lg:mb-0 dark:border-white',
@@ -56,8 +56,8 @@ const RandomThing = ({
 				</div>
 			) : null}
 			<H4 className={twMerge(titleClassName, 'mb-4')}>{title}</H4>
-			<p className="max-w-md">{description}</p>
-		</main>
+			<p className="">{description}</p>
+		</section>
 	)
 }
 
@@ -112,13 +112,13 @@ export default function About() {
 				</BlockQuote>
 				<p className="before:bg-dark-gray-100 relative mt-6 pt-6 before:absolute before:top-0 before:left-1/2 before:h-px before:w-50 before:-translate-x-1/2 before:content-['']">
 					Hey there, thanks for stopping by. I'm a self-taught software engineer
-					with over seven years of experience and I am based out of Vancouver,
-					Canada. I've got a passion for Typescript (both Frontend and Backend).
+					with over eight years of experience and I am based out of Vancouver,
+					Canada. I've got a passion for TypeScript (both Frontend and Backend).
 					If you'd like to hear about how I went from being someone with a
 					Bachelor's degree in Business Administration to a Software Engineer,
 					feel free to reach out to me on{' '}
-					<TextLink href="https://twitter.com/tearingItUp786">twitter</TextLink>
-					; I'd be more than happy to walk you through my journey.
+					<TextLink href="https://x.com/tearingItUp786">𝕏</TextLink>; I'd be
+					more than happy to walk you through my journey.
 				</p>
 				<H3>Start with why</H3>
 				<p>
@@ -216,7 +216,7 @@ export default function About() {
 						<RandomThing
 							title="I'm a huge fan of Lord of the Rings (LOTR)"
 							description="From its deeply intricate lore, to the amazing stories of brotherhood and love, I love it all. 
-              Also, the fact that Tolkein wrote LOTR to help him process his PTSD from the Vietnam war adds another layer of depth
+              Also, the fact that Tolkien wrote LOTR to help him process his experiences from World War I adds another layer of depth
               and value to his legacy ❤️ "
 							icon={<LotrIcon />}
 						/>

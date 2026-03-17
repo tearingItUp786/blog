@@ -31,7 +31,7 @@ const IconMap: Record<keyof typeof cssClasses, React.ReactNode> = {
 			<path
 				d="M13.4231 27.1696L20.9432 35.919C21.9135 37.0479 23.6611 37.0478 24.6313 35.919L41.2531 16.5791"
 				className="stroke-success"
-				stroke-width="6.07886"
+				strokeWidth="6.07886"
 			/>
 		</>
 	),
@@ -90,7 +90,9 @@ export const Callout = ({ type, title, description }: CalloutProps) => {
 				{icon}
 			</svg>
 
-			<span className="sr-only">Info</span>
+			<span className="sr-only">
+				{type.charAt(0).toUpperCase() + type.slice(1)}
+			</span>
 			<div className="text-sm">
 				{title ? (
 					<span className={twJoin('block text-lg', description && 'mb-2')}>

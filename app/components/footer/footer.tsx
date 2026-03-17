@@ -15,28 +15,28 @@ export function Footer() {
 				<div className="block grow flex-wrap justify-center lg:flex lg:justify-end">
 					<NavLink
 						prefetch="intent"
-						className="text-body mb-2 block px-8 text-sm underline"
+						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
 						to={`/til?${searchParamsWithoutOffset}`}
 					>
 						TIL
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body mb-2 block px-8 text-sm underline"
+						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
 						to={`/about?${searchParamsWithoutOffset}`}
 					>
 						ABOUT
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body mb-2 block px-8 text-sm underline"
+						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
 						to={`/blog?${searchParamsWithoutOffset}`}
 					>
 						BLOG
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body mb-2 block px-8 text-sm underline"
+						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
 						to={`/uses?${searchParamsWithoutOffset}`}
 					>
 						USES
@@ -44,7 +44,8 @@ export function Footer() {
 					<NavLink
 						prefetch="intent"
 						target="_blank"
-						className="text-body mb-2 flex justify-center px-8 text-sm underline"
+						rel="noopener noreferrer"
+						className="text-body focus-visible:text-accent mb-2 flex justify-center px-8 text-sm underline focus-visible:outline-none"
 						to={`/newsletter/rss.xml`}
 					>
 						Newsletter RSS

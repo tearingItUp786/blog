@@ -34,9 +34,11 @@ function SearchButton({ onClick, onPointerOver, onFocus }: SearchButtonProps) {
 				onFocus={onFocus}
 				onClick={onClick}
 				onPointerOver={onPointerOver}
+				aria-label="Search (⌘+K)"
 				className={twJoin(
 					'group shadow-custom-black dark:bg-dark-gray-200 relative mr-12 block rounded-sm bg-white px-6 py-1 lg:mr-0',
 					!isMounted && 'cursor-not-allowed',
+					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 			>
 				<span

@@ -16,9 +16,11 @@ export function MobileNav({ isOpen, setIsOpen }: Props) {
 			)}
 		>
 			<button
-				aria-label="Hamburger menu"
+				aria-label={isOpen ? 'Close menu' : 'Open menu'}
+				aria-expanded={isOpen}
 				className={twJoin(
 					'border-radius-[-4px] pointer absolute top-3.5 right-0 z-20 translate-y-[-50%] border-none bg-transparent p-4 pt-5',
+					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 				onClick={() => setIsOpen((o: boolean) => !o)}
 			>

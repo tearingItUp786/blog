@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { twJoin } from 'tailwind-merge'
@@ -32,6 +32,7 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 	const { newsletterImage } = useNewsLetterData()
 	const fetcher = useFetcher<ReturnType<typeof action>>({ key: 'newsletter' })
 	const lastResult: any = fetcher.data
+	const shouldReduceMotion = useReducedMotion()
 
 	const [form, fields] = useForm({
 		id: 'form-newsletter',
@@ -77,10 +78,14 @@ export const Newsletter = ({ noBorder }: { noBorder?: boolean }) => {
 					{isLastResultSuccessful ? (
 						<motion.div
 							key="success"
-							variants={successVariants}
-							initial="hidden"
+							{...(shouldReduceMotion
+								? {}
+								: {
+										variants: successVariants,
+										initial: 'hidden',
+										exit: 'exit',
+									})}
 							animate="visible"
-							exit="exit"
 							className="flex flex-wrap justify-center text-center"
 							aria-live="polite"
 						>

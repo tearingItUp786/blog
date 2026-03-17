@@ -60,7 +60,7 @@ export function Navbar() {
 	}, [isOpen])
 
 	const navClassName =
-		'transition-[color] lg:ml-5 sm:pt-0 pl-2 pr-2 text-inverse-body lg:text-body lg:dark:text-off-white lg:text-charcoal-gray lg:bg-transparent duration-300 flex justify-center  hover:!text-accent focus:!text-pink text-body block  text-center text-xl items-center'
+		'transition-[color] lg:ml-5 sm:pt-0 pl-2 pr-2 text-inverse-body lg:text-body lg:dark:text-off-white lg:text-charcoal-gray lg:bg-transparent duration-300 flex justify-center  hover:!text-accent focus-visible:!text-accent focus-visible:underline text-body block  text-center text-xl items-center'
 	const activeClassName =
 		'!text-accent not-italic underline font-display font-normal  dark:lg:bg-dark-gray-100 '
 	const setNavClassName = ({ isActive }: { isActive: boolean }) => {
@@ -80,8 +80,8 @@ export function Navbar() {
 			<div
 				className={twMerge(
 					isOpen
-						? 'scale-100 opacity-100'
-						: 'lg:h-100vh h-auto scale-0 opacity-0 lg:visible lg:scale-100 lg:opacity-100',
+						? 'visible scale-100 opacity-100'
+						: 'invisible scale-0 opacity-0 lg:visible lg:scale-100 lg:opacity-100',
 					'fixed top-15.75 left-0 z-20 w-screen origin-top-right justify-center space-y-4 transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto lg:space-y-0',
 				)}
 			>

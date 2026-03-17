@@ -38,8 +38,6 @@
 	--shadow-custom-black: 0px 0px 30px 0px #00000040;
 	--drop-shadow-toggle: 0 1px 2px rgb(0 0 0 / 0.18);
 
-	--animate-twinkle: twinkle 3s infinite alternate;
-	--animate-sparkle: sparkle 3s infinite;
 	--animate-fadeIn: fadeIn 1s ease-in-out;
 	--animate-spin-fast: spin 0.5s linear infinite;
 
@@ -86,7 +84,6 @@
 	--color-inverse-body: var(--body-text-inverse);
 	--color-border-color: var(--border-color);
 	--color-bg-color: var(--bg-color);
-	--color-blog-title-color: var(--blog-title-color);
 	--color-section-title-color: var(--section-title-color);
 	--color-subheading-color: var(--subheading-color);
 	--color-black: var(--color-true-black);

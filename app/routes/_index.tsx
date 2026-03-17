@@ -1,5 +1,5 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useFetcher, useLoaderData } from 'react-router'
 import { twJoin } from 'tailwind-merge'
@@ -78,6 +78,7 @@ export default function Index() {
 	const loaderData = useLoaderData<typeof loader>()
 	const fetcher = useFetcher({ key: 'quote-fetcher' })
 	const quoteData = fetcher.data?.quoteData ?? loaderData.quoteData
+	const shouldReduceMotion = useReducedMotion()
 	const [spin, setSpin] = useState(false)
 
 	useEffect(() => {
@@ -98,23 +99,33 @@ export default function Index() {
 					<H1 className="mb-6 text-center lg:text-left">Taran Bains</H1>
 					<motion.div
 						className="flex flex-wrap justify-center gap-[100%] space-y-5 lg:block"
-						variants={pillContainerVariants}
-						initial="hidden"
+						variants={shouldReduceMotion ? undefined : pillContainerVariants}
+						initial={shouldReduceMotion ? false : 'hidden'}
 						animate="visible"
 					>
-						<motion.div variants={pillVariants}>
+						<motion.div
+							variants={shouldReduceMotion ? undefined : pillVariants}
+						>
 							<Pill>software engineer</Pill>
 						</motion.div>
-						<motion.div variants={pillVariants}>
+						<motion.div
+							variants={shouldReduceMotion ? undefined : pillVariants}
+						>
 							<Pill>vancouver, bc</Pill>
 						</motion.div>
-						<motion.div variants={pillVariants}>
+						<motion.div
+							variants={shouldReduceMotion ? undefined : pillVariants}
+						>
 							<Pill>8+ years experience</Pill>
 						</motion.div>
-						<motion.div variants={pillVariants}>
+						<motion.div
+							variants={shouldReduceMotion ? undefined : pillVariants}
+						>
 							<Pill>self-taught</Pill>
 						</motion.div>
-						<motion.div variants={pillVariants}>
+						<motion.div
+							variants={shouldReduceMotion ? undefined : pillVariants}
+						>
 							<Pill>full-stack developer</Pill>
 						</motion.div>
 						<motion.div variants={pillVariants}>

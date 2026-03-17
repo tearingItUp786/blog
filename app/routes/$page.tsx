@@ -56,7 +56,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 			String(page?.frontmatter?.title).toLowerCase() === 'now'
 		return { page, showNewsletter }
 	} catch (err) {
-		throw data({ error: params.slug }, { status: 404 })
+		throw data({ error: params.page }, { status: 404 })
 	}
 }
 

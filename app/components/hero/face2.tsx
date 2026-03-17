@@ -8,6 +8,8 @@ const FaceHero = (props: any) => (
 		fillRule="evenodd"
 		clipRule="evenodd"
 		strokeMiterlimit={10}
+		role="img"
+		aria-label="Illustrated portrait of Taran Bains"
 		{...props}
 	>
 		<path id="Page-2" fill="none" d="M0 0h1118v440H0z" />

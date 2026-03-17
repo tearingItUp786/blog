@@ -1,15 +1,21 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 export const ToastUI = ({ msg }: { msg: string }) => {
+	const shouldReduceMotion = useReducedMotion()
+
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 20 }}
+			{...(shouldReduceMotion
+				? {}
+				: {
+						initial: { opacity: 0, y: 20 },
+						exit: { opacity: 0, y: 20 },
+						transition: { duration: 0.25 },
+					})}
 			animate={{ opacity: 1, y: 0 }}
-			exit={{ opacity: 0, y: 20 }}
-			transition={{ duration: 0.25 }}
 			id="toast-simple"
 			className="space-x bg-dark-gray-100 dark:divide-dark-gray-200 dark:text-dark-gray-200 fixed bottom-0 left-0 z-50 flex w-full max-w-xl items-center space-x-4 divide-x divide-gray-700 rounded-lg p-4 text-white shadow-sm dark:bg-white"
-			role="alert"
+			role="status"
 		>
 			<div
 				className="text-primary inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
