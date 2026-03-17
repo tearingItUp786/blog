@@ -89,6 +89,13 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: 'preload',
+			href: '/fonts/CommitMono-400-Italic.otf',
+			as: 'font',
+			type: 'font/otf',
+			crossOrigin: 'anonymous',
+		},
+		{
+			rel: 'preload',
 			href: '/fonts/CommitMono-700-Italic.otf',
 			as: 'font',
 			type: 'font/otf',
