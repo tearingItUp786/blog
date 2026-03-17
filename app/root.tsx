@@ -1,7 +1,7 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import { max } from '@cloudinary/url-gen/actions/roundCorners'
 import * as Sentry from '@sentry/react-router'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect } from 'react'
 import {
 	type LinksFunction,
@@ -259,17 +259,19 @@ export const ErrorBoundary = () => {
 	}
 
 	const nonce = useNonce()
+	const prefersReducedMotion = useReducedMotion()
+
 	const elementToRender = isRouteErrorResponse(error) ? (
 		<motion.div
-			variants={containerVariants}
-			initial="hidden"
+			variants={prefersReducedMotion ? undefined : containerVariants}
+			initial={prefersReducedMotion ? false : 'hidden'}
 			animate="visible"
 			className="flex flex-wrap items-center justify-center"
 		>
-			<motion.div variants={itemVariants}>
+			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
 				<H3>Not found: {error.status}</H3>
 			</motion.div>
-			<motion.div variants={itemVariants}>
+			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
 				<iframe
 					nonce={nonce}
 					title="Not Found"
@@ -280,7 +282,10 @@ export const ErrorBoundary = () => {
 					allowFullScreen
 				/>
 			</motion.div>
-			<motion.div variants={itemVariants} className="text-accent">
+			<motion.div
+				variants={prefersReducedMotion ? undefined : itemVariants}
+				className="text-accent"
+			>
 				<a
 					className="text-accent"
 					href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
@@ -289,7 +294,7 @@ export const ErrorBoundary = () => {
 				</a>
 			</motion.div>
 			<motion.div
-				variants={itemVariants}
+				variants={prefersReducedMotion ? undefined : itemVariants}
 				className="mt-4 flex basis-full justify-center"
 			>
 				<Link
@@ -302,16 +307,16 @@ export const ErrorBoundary = () => {
 		</motion.div>
 	) : (
 		<motion.div
-			variants={containerVariants}
-			initial="hidden"
+			variants={prefersReducedMotion ? undefined : containerVariants}
+			initial={prefersReducedMotion ? false : 'hidden'}
 			animate="visible"
 			className="flex flex-wrap items-center justify-center"
 		>
-			<motion.div variants={itemVariants}>
+			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
 				<H3>Something went wrong with the server</H3>
 			</motion.div>
 			<motion.div
-				variants={itemVariants}
+				variants={prefersReducedMotion ? undefined : itemVariants}
 				className="relative h-0 w-full pb-[56%]"
 			>
 				<iframe
@@ -324,13 +329,13 @@ export const ErrorBoundary = () => {
 					allowFullScreen
 				></iframe>
 			</motion.div>
-			<motion.div variants={itemVariants}>
+			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
 				<a href="https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7wUn5bkB2fUBY8Jo1D">
 					via GIPHY
 				</a>
 			</motion.div>
 			<motion.div
-				variants={itemVariants}
+				variants={prefersReducedMotion ? undefined : itemVariants}
 				className="mt-4 flex basis-full justify-center"
 			>
 				<Link

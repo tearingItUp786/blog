@@ -100,9 +100,6 @@ export async function compileMdxForGraphql(
 
 	if (!mdxFile) return null
 
-	// @ts-ignore
-	// console.log('wtf', mdxMermaid, mdxMermaid.default)
-
 	try {
 		const mdxText = mdxFile.object?.text ?? ''
 		const { frontmatter, code, matter } = await bundleMDX({

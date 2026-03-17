@@ -1,4 +1,4 @@
-import { useAnimate } from 'framer-motion'
+import { useAnimate, useReducedMotion } from 'framer-motion'
 import { useEffect } from 'react'
 
 /**
@@ -20,10 +20,13 @@ import { useEffect } from 'react'
  */
 export function useCardReveal() {
 	const [scope, animate] = useAnimate()
+	const prefersReducedMotion = useReducedMotion()
 
 	useEffect(() => {
 		const el = scope.current
 		if (!el) return
+
+		if (prefersReducedMotion) return
 
 		let revealObserver: IntersectionObserver | null = null
 
@@ -73,7 +76,7 @@ export function useCardReveal() {
 			classifyObserver.disconnect()
 			revealObserver?.disconnect()
 		}
-	}, [animate, scope])
+	}, [animate, scope, prefersReducedMotion])
 
 	return scope
 }

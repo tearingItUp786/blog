@@ -42,7 +42,7 @@ function attachInitIndex(client: AlgoliaClient): AlgoliaClientWithInitIndex {
 	})
 }
 
-function createAgoliaClient(): AlgoliaClientWithInitIndex {
+function createAlgoliaClient(): AlgoliaClientWithInitIndex {
 	if (!global.algoliaClient) {
 		const client = algoliasearch(
 			process.env.ALGOLIA_APP_ID,
@@ -55,7 +55,7 @@ function createAgoliaClient(): AlgoliaClientWithInitIndex {
 	return global.algoliaClient
 }
 
-const algoliaClient = createAgoliaClient()
+const algoliaClient = createAlgoliaClient()
 
 export type { AlgoliaClientWithInitIndex, AlgoliaIndex }
 export { algoliaClient }
