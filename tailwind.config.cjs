@@ -138,7 +138,7 @@ module.exports = {
 									marginBottom: theme('spacing.4'),
 									color: 'var(--body-text)',
 									fontWeight: 500,
-									fontSize: fontSize('base'),
+									fontSize: fontSize('lg'),
 									lineHeight: theme('lineHeight.relaxed'),
 								},
 								strong: {
