@@ -1,0 +1,20 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:base"],
+	"minimumReleaseAge": "1 day",
+	"schedule": ["before 3am on Monday"],
+	"npm": {
+		"minimumReleaseAge": "1 day"
+	},
+	"separateMajorMinor": true,
+	"separateMinorPatch": false,
+	"automerge": true,
+	"platformAutomerge": true,
+	"packageRules": [
+		{
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "minor and patch dependencies",
+			"automerge": true
+		}
+	]
+}
