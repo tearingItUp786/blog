@@ -4,12 +4,12 @@ date: 2026-04-03
 tag: cool
 ---
 
-TIL about Foregjo (pronounced like "for hay") 🤔! It's a lightweight, self-hosted github alternative.
+Foregjo (pronounced like "for hay") is a lightweight, self-hosted github alternative. It's free and open source!
+Cards on the table 😅, I reached for this project because I could not justify spending actual money on something like Laravel Cloud
+or Fly.io for hosting a **hobby** project that generates no revenue.
 
-It's free and open source! I reached for this project because it allowed me to dockerize my laravel side projects
-(I don't want these in the public domain yet) and I got to learn more about how to set up my own self-hosted action runners.
-
-Cards on the table: I reached for this project because I could not justify spending actual money on something like Laravel Cloud
-or Fly.io for hosting a \*hobby\*\* project that generates no revenue.
+Forgejo ships with docker registry support so I was able to containerize my Laravel app and deploy it as a
+Docker container managed by Dockge. Pair this up with something like cloudflare tunnels (which we all know I'm using) and
+you've got free hosting friends!
 
 [Check it out](https://forgejo.org/)
