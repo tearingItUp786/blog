@@ -1,5 +1,6 @@
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import {
+	type HeadersFunction,
 	type ShouldRevalidateFunctionArgs,
 	type MetaFunction,
 	useLoaderData,
@@ -73,11 +74,17 @@ export const meta: MetaFunction<typeof loader> = () => {
 	]
 }
 
-export async function loader() {
-	const headers = {
-		'Cache-Control': 'public, max-age=604800',
-	}
+// This document is personalized by request cookies, including the theme read
+// in the root loader, so we vary on Cookie for correctness. The trade-off is
+// lower browser cache hit rates as more cookies are added over time.
+export const headers: HeadersFunction = ({ parentHeaders }) => {
+	const headers = new Headers(parentHeaders)
+	headers.set('Cache-Control', 'private, max-age=604800')
+	headers.set('Vary', 'Cookie')
+	return headers
+}
 
+export async function loader() {
 	const desktopImage = cloudinaryInstance
 		.image('blog/me')
 		.resize(scale().width(800))
@@ -86,13 +93,10 @@ export async function loader() {
 		.image('blog/me')
 		.resize(scale().width(500).height(500))
 
-	return data(
-		{
-			desktopImage: desktopImage.toURL(),
-			mobileImage: mobileImage.toURL(),
-		},
-		{ headers },
-	)
+	return data({
+		desktopImage: desktopImage.toURL(),
+		mobileImage: mobileImage.toURL(),
+	})
 }
 
 // need to fetch all content from the blog directory using github api

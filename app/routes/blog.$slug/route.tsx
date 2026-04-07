@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import {
+	type HeadersFunction,
 	type LoaderFunctionArgs,
 	type MetaFunction,
 	type ShouldRevalidateFunctionArgs,
@@ -29,6 +30,16 @@ type LoaderData = {
 	prev?: MdxPage
 	hasTwitterEmbed: boolean
 	signOffMessage: string
+}
+
+// This document is personalized by request cookies, including the theme read
+// in the root loader, so we vary on Cookie for correctness. The trade-off is
+// lower browser cache hit rates as more cookies are added over time.
+export const headers: HeadersFunction = ({ parentHeaders }) => {
+	const headers = new Headers(parentHeaders)
+	headers.set('Cache-Control', 'private, max-age=3600')
+	headers.set('Vary', 'Cookie')
+	return headers
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -109,11 +120,6 @@ export const loader = async ({
 			throw new Error('Page is a draft')
 		}
 
-		const headers = {
-			'Cache-Control': 'private, max-age=3600',
-			Vary: 'Cookie',
-		}
-
 		const { publishedPages, draftPages } = await getMdxBlogListGraphql()
 		const blogList =
 			process.env.NODE_ENV === 'production' && !showDrafts
@@ -148,7 +154,7 @@ export const loader = async ({
 			signOffMessage,
 		}
 
-		return data(dataToSend, { status: 200, headers })
+		return data(dataToSend, { status: 200 })
 	} catch (err) {
 		throw data({ error: params.slug, data: { page: null } }, { status: 404 })
 	}
