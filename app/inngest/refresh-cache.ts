@@ -1,6 +1,6 @@
 import PQueue from 'p-queue'
 import { type FileSchema, inngest } from './client'
-import { replaceContent } from './utils'
+import { replaceContent, scanRedisKeys } from './utils'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
@@ -202,9 +202,9 @@ export const handleRedisPagesRefresh = inngest.createFunction(
 	{ event: 'blog/handle-redis-pages-refresh' },
 	async () => {
 		// this is individual blog pages that are stored in redis
-		const blogKeys = await redisClient.keys('gql:blog:[0-9]*')
+		const blogKeys = await scanRedisKeys(redisClient, 'gql:blog:[0-9]*')
 		// this relates to one off pages like `uses`
-		const pageKeys = await redisClient.keys('gql:pages:*')
+		const pageKeys = await scanRedisKeys(redisClient, 'gql:pages:*')
 
 		const pageTasks = [...blogKeys, ...pageKeys].map((key) => async () => {
 			const [, contentDir, slug] = key.split(':')
