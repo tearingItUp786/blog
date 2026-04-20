@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import 'tailwindcss/index.css';
 @config '../tailwind.config.cjs';
 @custom-variant dark (&:where(.dark, .dark *));
 @source './**/*.{js,jsx,ts,tsx,mdx,md,svg}';
