@@ -1,0 +1,10 @@
+{
+	"$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+	"entry": ["./index.mjs"],
+	"ignorePatterns": ["**/*.generated.ts", "content/**/*"],
+	"rules": {
+		"unused-files": "error",
+		"unused-exports": "warn",
+		"unused-types": "off"
+	}
+}

@@ -70,8 +70,6 @@ export async function compileMdxForGraphql(
 	const { default: remarkImages } = await import('remark-images')
 	const { default: remarkToc } = await import('remark-toc')
 
-	// const { default: mdxMermaid } = await import('mdx-mermaid')
-
 	// rehype plugins
 	const { default: rehypePrismPlus } = await import('rehype-prism-plus')
 	const { default: rehypeSlug } = await import('rehype-slug')
