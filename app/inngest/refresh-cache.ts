@@ -1,5 +1,15 @@
 import PQueue from 'p-queue'
-import { type FileSchema, inngest } from './client'
+import {
+	handleBlogListRefreshEvent,
+	handleManualRefreshEvent,
+	handleRedisPagesRefreshEvent,
+	handleTagListRefreshEvent,
+	type FileSchema,
+	inngest,
+	refreshBlogFilesEvent,
+	refreshCacheEvent,
+	refreshTilListEvent,
+} from './client'
 import { replaceContent, scanRedisKeys } from './utils'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
@@ -28,8 +38,7 @@ const cachifiedOptions = {
  * the orchestrator for this entire refresh process.
  */
 export const refreshCache = inngest.createFunction(
-	{ id: 'refresh-cache', retries: 0 },
-	{ event: 'blog/refresh-cache' },
+	{ id: 'refresh-cache', retries: 0, triggers: [refreshCacheEvent] },
 	async ({ event, step }) => {
 		const { contentFiles, forceFresh } = event.data
 
@@ -102,8 +111,11 @@ export const refreshCache = inngest.createFunction(
  * I don't mind having one function just to handle the manual refresh process.
  */
 export const handleManualRefresh = inngest.createFunction(
-	{ id: 'blog/handle-manual-refresh', retries: 0 },
-	{ event: 'blog/handle-manual-refresh' },
+	{
+		id: 'blog/handle-manual-refresh',
+		retries: 0,
+		triggers: [handleManualRefreshEvent],
+	},
 	async ({ step }) => {
 		// Same orchestration rule as refreshCache: invoke waits for completion,
 		// while sendEvent only guarantees enqueueing.
@@ -143,8 +155,7 @@ export const handleManualRefresh = inngest.createFunction(
 )
 
 export const refreshTilList = inngest.createFunction(
-	{ id: 'blog/refresh-til-list' },
-	{ event: 'blog/refresh-til-list' },
+	{ id: 'blog/refresh-til-list', triggers: [refreshTilListEvent] },
 	async () => {
 		const tilList = await refreshTilListInternal()
 		const tilObjects = [...tilList].map((o) => {
@@ -164,8 +175,7 @@ export const refreshTilList = inngest.createFunction(
 
 // TODO: give this a better name
 export const refreshBlogFiles = inngest.createFunction(
-	{ id: 'blog/refresh-blog-files' },
-	{ event: 'blog/refresh-blog-files' },
+	{ id: 'blog/refresh-blog-files', triggers: [refreshBlogFilesEvent] },
 	async ({ event }) => {
 		const { bFiles } = event.data
 
@@ -198,8 +208,11 @@ export const refreshBlogFiles = inngest.createFunction(
  * TODO: give this a better name
  */
 export const handleRedisPagesRefresh = inngest.createFunction(
-	{ id: 'blog/handle-redis-pages-refresh', retries: 0 },
-	{ event: 'blog/handle-redis-pages-refresh' },
+	{
+		id: 'blog/handle-redis-pages-refresh',
+		retries: 0,
+		triggers: [handleRedisPagesRefreshEvent],
+	},
 	async () => {
 		// this is individual blog pages that are stored in redis
 		const blogKeys = await scanRedisKeys(redisClient, 'gql:blog:[0-9]*')
@@ -229,8 +242,11 @@ export const handleRedisPagesRefresh = inngest.createFunction(
  * and updated the algolia index
  */
 export const handleBlogListRefresh = inngest.createFunction(
-	{ id: 'blog/handle-blog-list-refresh', retries: 0 },
-	{ event: 'blog/handle-blog-list-refresh' },
+	{
+		id: 'blog/handle-blog-list-refresh',
+		retries: 0,
+		triggers: [handleBlogListRefreshEvent],
+	},
 	async ({ step }) => {
 		const blogList = await step.run('blog/refresh-blog-list', async () => {
 			return await refreshPaginatedBlogListInternal()
@@ -249,8 +265,11 @@ export const handleBlogListRefresh = inngest.createFunction(
 )
 
 export const handleTagListRefresh = inngest.createFunction(
-	{ id: 'blog/handle-tag-list-refresh', retries: 0 },
-	{ event: 'blog/handle-tag-list-refresh' },
+	{
+		id: 'blog/handle-tag-list-refresh',
+		retries: 0,
+		triggers: [handleTagListRefreshEvent],
+	},
 	async ({ step }) => {
 		const { tags } = await step.run('blog/refresh-tags-list', async () => {
 			return await getMdxTagListGql({ ...cachifiedOptions })

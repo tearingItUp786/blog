@@ -1,6 +1,6 @@
 import { type ActionFunction, redirect } from 'react-router'
 import { z } from 'zod'
-import { fileSchema, inngest } from '~/inngest/client'
+import { fileSchema, inngest, refreshCacheEvent } from '~/inngest/client'
 
 const BodySchema = z.object({
 	contentFiles: z.array(fileSchema),
@@ -23,13 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
 		// refresh til list, blog list, all blog articles, tag list, and  tags
 		const forceFresh = request.headers.get('x-force-fresh') === 'true'
 
-		await inngest.send({
-			name: 'blog/refresh-cache',
-			data: {
-				contentFiles,
-				forceFresh,
-			},
-		})
+		await inngest.send(refreshCacheEvent.create({ contentFiles, forceFresh }))
 
 		return { ok: true }
 	} catch (err) {

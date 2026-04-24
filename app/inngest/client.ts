@@ -1,4 +1,4 @@
-import { EventSchemas, Inngest } from 'inngest'
+import { eventType, Inngest } from 'inngest'
 import { z } from 'zod'
 
 export const fileSchema = z.object({
@@ -17,22 +17,33 @@ const refreshCacheDataSchema = z.object({
 	contentFiles: z.array(fileSchema),
 })
 
-type BlogNoDataEventSchemas = {
-	'blog/handle-manual-refresh': {}
-	'blog/refresh-til-list': {}
-	'blog/handle-redis-pages-refresh': {}
-	'blog/handle-blog-list-refresh': {}
-	'blog/handle-tag-list-refresh': {}
-}
+export const refreshBlogFilesEvent = eventType('blog/refresh-blog-files', {
+	schema: refreshBlogFilesDataSchema,
+})
+
+export const refreshCacheEvent = eventType('blog/refresh-cache', {
+	schema: refreshCacheDataSchema,
+})
+
+export const handleManualRefreshEvent = eventType('blog/handle-manual-refresh')
+
+export const refreshTilListEvent = eventType('blog/refresh-til-list')
+
+export const handleRedisPagesRefreshEvent = eventType(
+	'blog/handle-redis-pages-refresh',
+)
+
+export const handleBlogListRefreshEvent = eventType(
+	'blog/handle-blog-list-refresh',
+)
+
+export const handleTagListRefreshEvent = eventType(
+	'blog/handle-tag-list-refresh',
+)
 
 // Create a client to send and receive events
 export const inngest = new Inngest({
 	id: 'taran-blog',
 	eventKey: process.env.INNGEST_EVENT_KEY,
-	schemas: new EventSchemas()
-		.fromSchema({
-			'blog/refresh-blog-files': refreshBlogFilesDataSchema,
-			'blog/refresh-cache': refreshCacheDataSchema,
-		})
-		.fromRecord<BlogNoDataEventSchemas>(),
+	isDev: process.env.NODE_ENV !== 'production',
 })
