@@ -16,3 +16,4 @@ mocks/index.cjs
 
 .react-router
 tsconfig.tsbuildinfo
+.fallow
