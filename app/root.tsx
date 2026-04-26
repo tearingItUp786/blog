@@ -12,7 +12,6 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	isRouteErrorResponse,
 	useRouteError,
 	useRouteLoaderData,
 	Link,
@@ -27,6 +26,10 @@ import { H3 } from './components/typography'
 import { useOptimisticThemeMode } from './routes/action.theme-switcher'
 import { cloudinaryInstance } from './utils/cloudinary'
 import { getEnv } from './utils/env.server'
+import {
+	getErrorBoundaryContent,
+	shouldCaptureErrorBoundaryError,
+} from './utils/error-boundary-content'
 import { honeypot } from './utils/honeypot.server'
 import { useNonce } from './utils/nonce-provider'
 import { redisClient } from './utils/redis.server'
@@ -261,14 +264,18 @@ const itemVariants = {
 
 export const ErrorBoundary = () => {
 	const error = useRouteError()
-	if (!isRouteErrorResponse(error)) {
-		Sentry.captureException(error)
-	}
-
 	const nonce = useNonce()
 	const prefersReducedMotion = useReducedMotion()
+	const shouldCaptureError = shouldCaptureErrorBoundaryError(error)
+	const content = getErrorBoundaryContent(error)
 
-	const elementToRender = isRouteErrorResponse(error) ? (
+	useEffect(() => {
+		if (shouldCaptureError) {
+			Sentry.captureException(error)
+		}
+	}, [error, shouldCaptureError])
+
+	const elementToRender = (
 		<motion.div
 			variants={prefersReducedMotion ? undefined : containerVariants}
 			initial={prefersReducedMotion ? false : 'hidden'}
@@ -276,68 +283,27 @@ export const ErrorBoundary = () => {
 			className="flex flex-wrap items-center justify-center"
 		>
 			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
-				<H3>Not found: {error.status}</H3>
+				<H3>{content.heading}</H3>
 			</motion.div>
-			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
+			<motion.div
+				variants={prefersReducedMotion ? undefined : itemVariants}
+				className={content.iframeContainerClassName}
+			>
 				<iframe
 					nonce={nonce}
-					title="Not Found"
-					src="https://giphy.com/embed/UHAYP0FxJOmFBuOiC2"
-					width="480"
-					height="361"
-					className="giphy-embed"
+					title={content.iframeTitle}
+					src={content.iframeSrc}
+					width={content.iframeWidth}
+					height={content.iframeHeight}
+					className={content.iframeClassName}
 					allowFullScreen
 				/>
 			</motion.div>
 			<motion.div
 				variants={prefersReducedMotion ? undefined : itemVariants}
-				className="text-accent"
+				className={content.creditContainerClassName}
 			>
-				<a
-					className="text-accent"
-					href="https://giphy.com/gifs/gengar-jijidraws-jiji-knight-UHAYP0FxJOmFBuOiC2"
-				>
-					via GIPHY
-				</a>
-			</motion.div>
-			<motion.div
-				variants={prefersReducedMotion ? undefined : itemVariants}
-				className="mt-4 flex basis-full justify-center"
-			>
-				<Link
-					to="/"
-					className="text-accent decoration-accent hover:text-pink underline underline-offset-4 transition-colors"
-				>
-					Take me home
-				</Link>
-			</motion.div>
-		</motion.div>
-	) : (
-		<motion.div
-			variants={prefersReducedMotion ? undefined : containerVariants}
-			initial={prefersReducedMotion ? false : 'hidden'}
-			animate="visible"
-			className="flex flex-wrap items-center justify-center"
-		>
-			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
-				<H3>Something went wrong with the server</H3>
-			</motion.div>
-			<motion.div
-				variants={prefersReducedMotion ? undefined : itemVariants}
-				className="relative h-0 w-full pb-[56%]"
-			>
-				<iframe
-					nonce={nonce}
-					title="Not sure what happened"
-					src="https://giphy.com/embed/7wUn5bkB2fUBY8Jo1D"
-					width="100%"
-					height="100%"
-					className="giphy-embed absolute"
-					allowFullScreen
-				></iframe>
-			</motion.div>
-			<motion.div variants={prefersReducedMotion ? undefined : itemVariants}>
-				<a href="https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7wUn5bkB2fUBY8Jo1D">
+				<a className={content.creditLinkClassName} href={content.creditHref}>
 					via GIPHY
 				</a>
 			</motion.div>
@@ -354,6 +320,7 @@ export const ErrorBoundary = () => {
 			</motion.div>
 		</motion.div>
 	)
+
 	return (
 		<Document>
 			<div className="w-screen">

@@ -1,13 +1,11 @@
 import { z } from 'zod'
 
-export const GitHubFileSchema = z.object({
-	path: z.string(),
-	content: z.string(),
-})
+export type GitHubFile = {
+	path: string
+	content: string
+}
 
-export type GitHubFile = z.infer<typeof GitHubFileSchema>
-
-export const GithubGraphqlObjectSchema = z.object({
+const GithubGraphqlObjectSchema = z.object({
 	name: z.string(),
 	type: z.string().optional(),
 	object: z.object({
@@ -75,7 +73,7 @@ const MdxFrontmatterSchema = z.object({
 	callOutType: OptionalCalloutTypeSchema,
 })
 
-export const ReadTimeSchema = z.object({
+const ReadTimeSchema = z.object({
 	minutes: z.number(),
 	text: z.string(),
 	time: z.number(),
@@ -92,14 +90,10 @@ export const MdxPageSchema = z.object({
 
 export type MdxPage = z.infer<typeof MdxPageSchema>
 
-export const MdxPageAndSlugSchema = MdxPageSchema.extend({
-	path: z.string().optional(),
-})
+export type MdxPageAndSlug = MdxPage & {
+	path?: string
+}
 
-export type MdxPageAndSlug = z.infer<typeof MdxPageAndSlugSchema>
-
-export const TilMdxPageSchema = MdxPageAndSlugSchema.extend({
-	offset: z.number(),
-})
-
-export type TilMdxPage = z.infer<typeof TilMdxPageSchema>
+export type TilMdxPage = MdxPageAndSlug & {
+	offset: number
+}
