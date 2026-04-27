@@ -13,24 +13,18 @@ import {
 import { type ExternalScriptsHandle } from 'remix-utils/external-scripts'
 import { twJoin, twMerge } from 'tailwind-merge'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
+import {
+	type BlogPostLoaderData,
+	getBlogPostLoaderData,
+} from './blog-post-loader.server'
 import { LineSvg } from './line-svg'
 import { PreviousAndNextLinks } from './previous-and-next-links'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1, H4 } from '~/components/typography'
-import { type MdxPage } from '~/schemas/github'
 import { useMdxComponent } from '~/utils/mdx-utils'
-import { getMdxBlogListGraphql, getMdxPageGql } from '~/utils/mdx-utils.server'
 import { dotFormattedDate, invariantResponse } from '~/utils/misc'
 
-type LoaderData = {
-	nonce: string
-	page: MdxPage
-	reqUrl: string
-	next?: MdxPage
-	prev?: MdxPage
-	hasTwitterEmbed: boolean
-	signOffMessage: string
-}
+type LoaderData = BlogPostLoaderData
 
 // This document is personalized by request cookies, including the theme read
 // in the root loader, so we vary on Cookie for correctness. The trade-off is
@@ -87,15 +81,6 @@ export function shouldRevalidate({
 	return defaultShouldRevalidate
 }
 
-const SIGN_OFF_MESSAGES = [
-	'Appreciate you reading this.',
-	'Thanks for sticking around to the end.',
-	'Thanks for hanging out.',
-	'Grateful you spent some time here.',
-	'Hope this was worth your time.',
-	'Thanks for reading. Go build something cool.',
-] as const
-
 export const loader = async ({
 	params,
 	request,
@@ -103,61 +88,13 @@ export const loader = async ({
 }: LoaderFunctionArgs) => {
 	invariantResponse(params?.slug, 'No slug provided')
 
-	const urlReq = new URL(request.url)
-	const showDrafts = urlReq.searchParams.has('showDrafts')
+	const dataToSend = await getBlogPostLoaderData({
+		slug: params.slug,
+		requestUrl: request.url,
+		cspNonce: String(context.cspNonce ?? ''),
+	})
 
-	try {
-		const page = await getMdxPageGql({
-			contentDir: 'blog',
-			slug: params.slug,
-		})
-
-		if (
-			page?.frontmatter.draft &&
-			process.env.NODE_ENV === 'production' &&
-			!showDrafts
-		) {
-			throw new Error('Page is a draft')
-		}
-
-		const { publishedPages, draftPages } = await getMdxBlogListGraphql()
-		const blogList =
-			process.env.NODE_ENV === 'production' && !showDrafts
-				? publishedPages
-				: [...draftPages, ...publishedPages]
-
-		const currentIndex = blogList.findIndex(
-			(el) => el.frontmatter?.title === page?.frontmatter?.title,
-		)
-		const prev = blogList?.[currentIndex - 1]
-		const next = blogList?.[currentIndex + 1]
-
-		// If the content of the page contains a twitter status link, load the twitter widget script
-		const twitterStatusRegex = new RegExp(
-			'https://twitter\\.com/([a-zA-Z0-9_]+)/status/(\\d+)',
-			'i',
-		)
-		if (!page) {
-			throw new Response('Page not found', { status: 404 })
-		}
-
-		const signOffMessage =
-			SIGN_OFF_MESSAGES[Math.floor(Math.random() * SIGN_OFF_MESSAGES.length)]
-
-		const dataToSend: LoaderData = {
-			nonce: context.cspNonce,
-			page,
-			prev,
-			next,
-			reqUrl: urlReq.origin + urlReq.pathname,
-			hasTwitterEmbed: twitterStatusRegex.test(String(page?.matter?.content)),
-			signOffMessage,
-		}
-
-		return data(dataToSend, { status: 200 })
-	} catch (err) {
-		throw data({ error: params.slug, data: { page: null } }, { status: 404 })
-	}
+	return data(dataToSend, { status: 200 })
 }
 
 const FrontmatterSubtitle = ({
