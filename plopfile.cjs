@@ -123,16 +123,27 @@ module.exports = async (plop) => {
 				name: 'tag',
 				message:
 					'What tag is this TIL associated with? (type to filter or create new)',
-				suggestOnly: true,
 				emptyText: 'No matching tags — press Enter to create this tag',
 				source: function (_answers, input) {
-					const query = (input || '').toLowerCase()
+					const inputValue = (input || '').trim()
+					const query = inputValue.toLowerCase()
 					const matches = tagsChoices
 						.filter(([tag]) => tag.toLowerCase().includes(query))
 						.map(([tag, count]) => ({
 							name: `${String(count).padEnd(maxWidth)} | ${tag}`,
 							value: tag,
 						}))
+
+					if (
+						inputValue &&
+						!tagsChoices.some(([tag]) => tag.toLowerCase() === query)
+					) {
+						matches.push({
+							name: `Create new tag "${inputValue}"`,
+							value: inputValue,
+						})
+					}
+
 					return Promise.resolve(matches)
 				},
 				pageSize: tagPageSize,
