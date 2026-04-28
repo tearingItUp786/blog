@@ -71,7 +71,8 @@ export async function compileMdxForGraphql(
 	const { default: remarkToc } = await import('remark-toc')
 
 	// rehype plugins
-	const { default: rehypePrismPlus } = await import('rehype-prism-plus')
+	const { default: rehypeShiki } = await import('@shikijs/rehype')
+	const { transformerMetaHighlight } = await import('@shikijs/transformers')
 	const { default: rehypeSlug } = await import('rehype-slug')
 	const { default: rehypeAutolinkHeadings } =
 		await import('rehype-autolink-headings')
@@ -153,7 +154,27 @@ export async function compileMdxForGraphql(
 						rehypeCodeTitles,
 						{ titleSeparator: ':title=', customClassName: 'custom-code-title' },
 					],
-					[rehypePrismPlus, { showLineNumbers: true }],
+					[
+						rehypeShiki,
+						{
+							themes: {
+								light: 'vitesse-light',
+								dark: 'vitesse-dark',
+							},
+							defaultColor: false,
+							defaultLanguage: 'text',
+							fallbackLanguage: 'text',
+							addLanguageClass: true,
+							langAlias: {
+								JS: 'javascript',
+								JavaScript: 'javascript',
+								CSS: 'css',
+								JSON: 'json',
+								Scala: 'scala',
+							},
+							transformers: [transformerMetaHighlight()],
+						},
+					],
 					rehypeSlug,
 					[
 						rehypeAutolinkHeadings,

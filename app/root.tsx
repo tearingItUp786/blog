@@ -37,7 +37,7 @@ import { getThemeFromCookie } from './utils/theme.server'
 
 import '~/tailwind.css'
 import './styles/app.css'
-import './styles/new-prisma-theme.css'
+import './styles/code-blocks.css'
 
 const FAVICON = [
 	{
