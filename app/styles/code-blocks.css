@@ -1,10 +1,10 @@
 .custom-code-title {
 	position: relative;
-	z-index: 1;
-	margin-bottom: -0.7rem;
+	z-index: 0;
+	margin-bottom: -0.9rem;
 	padding: 0.5em 1em;
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
+	border-top-left-radius: 0.3em;
+	border-top-right-radius: 0.3em;
 	background-color: var(--color-dark-gray-200);
 	color: var(--color-pure-white);
 	font-family: inherit;
@@ -12,8 +12,8 @@
 
 pre.shiki {
 	margin: 0.5em 0;
-	padding: 1rem 0;
-	overflow-x: auto;
+	padding: 1em;
+	overflow: auto;
 	border-radius: 0.5rem;
 	font-size: 0.9rem;
 	line-height: 1.5;
@@ -23,72 +23,53 @@ pre.shiki {
 
 pre.shiki code {
 	display: block;
-	width: fit-content;
+	float: left;
 	min-width: 100%;
 	font-family: inherit;
+	white-space: normal;
 }
 
 pre.shiki .line {
-	position: relative;
 	display: block;
-	min-width: 100%;
-	padding-right: 1rem;
-	padding-left: 3.5rem;
+	padding-right: 16px;
+	padding-left: 16px;
+	margin-right: -16px;
+	margin-left: -16px;
 	border-left: 4px solid transparent;
 	counter-increment: code-line;
+	white-space: pre;
 }
 
 pre.shiki .line::before {
-	position: absolute;
-	left: 0;
-	width: 2.5rem;
-	padding-right: 1rem;
-	color: var(--color-medium-gray);
+	display: inline-block;
+	width: 1rem;
+	margin-right: 16px;
+	margin-left: -8px;
+	color: rgb(156 163 175);
 	text-align: right;
 	content: counter(code-line);
 	user-select: none;
 }
 
 [data-theme='dark'] pre.shiki .line::before {
-	color: var(--color-silver-gray);
+	color: rgb(156 163 175);
 }
 
-[data-theme='light'] pre.shiki {
-	background-color: var(--shiki-light-bg, var(--color-pure-white)) !important;
-	color: var(--shiki-light, var(--color-charcoal-gray)) !important;
+[data-theme='light'] pre.shiki .line.highlighted {
+	background-color: rgba(55, 65, 81, 0.5) !important;
 }
 
-[data-theme='light'] pre.shiki span {
-	color: var(--shiki-light, inherit) !important;
-	font-style: var(--shiki-light-font-style, inherit) !important;
-	font-weight: var(--shiki-light-font-weight, inherit) !important;
-	text-decoration: var(--shiki-light-text-decoration, inherit) !important;
-}
-
-[data-theme='dark'] pre.shiki {
-	background-color: var(--shiki-dark-bg, var(--color-dark-gray-100)) !important;
-	color: var(--shiki-dark, var(--color-off-white)) !important;
-}
-
-[data-theme='dark'] pre.shiki span {
-	color: var(--shiki-dark, inherit) !important;
-	font-style: var(--shiki-dark-font-style, inherit) !important;
-	font-weight: var(--shiki-dark-font-weight, inherit) !important;
-	text-decoration: var(--shiki-dark-text-decoration, inherit) !important;
-}
-
-[data-theme='light'] pre.shiki .line.highlighted,
-[data-theme='light'] pre.shiki .line.highlighted span {
-	background-color: hsl(322 83% 57% / 0.12) !important;
-}
-
-[data-theme='dark'] pre.shiki .line.highlighted,
-[data-theme='dark'] pre.shiki .line.highlighted span {
-	background-color: hsl(322 83% 57% / 0.18) !important;
+[data-theme='dark'] pre.shiki .line.highlighted {
+	background-color: rgba(55, 65, 81, 0.5) !important;
 }
 
 pre.shiki .line.highlighted {
 	border-left-color: var(--color-pink);
+}
+
+pre.shiki:focus-visible {
+	outline: 2px solid var(--color-pink);
+	outline-offset: 2px;
 }
 
 pre.shiki::selection,
