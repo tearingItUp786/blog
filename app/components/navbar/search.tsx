@@ -1,51 +1,67 @@
 import { type BaseItem } from '@algolia/autocomplete-core'
 import { type AutocompleteApi } from '@algolia/autocomplete-js'
 import { AnimatePresence } from 'framer-motion'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import {
+	lazy,
+	Suspense,
+	useCallback,
+	useEffect,
+	useReducer,
+	useRef,
+	useState,
+} from 'react'
 import { twJoin } from 'tailwind-merge'
 import { ToastUI } from '../toast-ui'
+import {
+	initialSearchState,
+	searchStateReducer,
+	shouldShowSearchToast,
+} from './search-state'
 import { useHotkeys } from '~/hooks/use-hot-keys'
 
-const loadSearch = async (cb?: any) => {
-	const comp = await import('./search-wrapper')
-	cb?.()
-	return comp
+const importSearchModule = () => import('./search-wrapper')
+
+let searchModulePromise: ReturnType<typeof importSearchModule> | null = null
+
+function loadSearch() {
+	searchModulePromise ??= importSearchModule()
+	return searchModulePromise
 }
 
 const LazyAlgoliaSearch = lazy(loadSearch)
 
 type SearchButtonProps = {
 	onClick: React.MouseEventHandler<HTMLButtonElement>
-	onPointerOver?: React.MouseEventHandler<HTMLButtonElement>
+	onPointerOver?: React.PointerEventHandler<HTMLButtonElement>
 	onFocus?: React.FocusEventHandler<HTMLButtonElement>
 }
 
 function SearchButton({ onClick, onPointerOver, onFocus }: SearchButtonProps) {
-	const [isMounted, setIsMounted] = useState(false)
+	const [hasHydrated, setHasHydrated] = useState(false)
 
 	useEffect(() => {
-		setIsMounted(true)
+		setHasHydrated(true)
 	}, [])
 
 	return (
 		<>
 			<button
-				disabled={!isMounted}
+				disabled={!hasHydrated}
 				onFocus={onFocus}
 				onClick={onClick}
 				onPointerOver={onPointerOver}
 				aria-label="Search (⌘+K)"
 				className={twJoin(
 					'group shadow-custom-black dark:bg-dark-gray-200 relative mr-12 block rounded-sm bg-white px-6 py-1 lg:mr-0',
-					!isMounted && 'cursor-not-allowed',
+					!hasHydrated && 'cursor-not-allowed',
 					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 			>
 				<span
 					className={twJoin(
 						'text-body flex h-10 items-center rounded-xs border-0 bg-transparent text-xl transition-colors',
-						isMounted && 'group-hover:text-accent',
-						!isMounted && 'cursor-not-allowed',
+						hasHydrated && 'group-hover:text-accent',
+						!hasHydrated && 'cursor-not-allowed',
 					)}
 				>
 					{'⌘+K'}
@@ -61,83 +77,82 @@ function SearchButton({ onClick, onPointerOver, onFocus }: SearchButtonProps) {
  */
 export function Search() {
 	const searchRef = useRef<AutocompleteApi<BaseItem> | null>(null)
-	const [mountedStatus, setMountedStatus] = useState<
-		'mounting' | 'mounted' | 'idle'
-	>('idle')
-
+	const [searchState, dispatch] = useReducer(
+		searchStateReducer,
+		initialSearchState,
+	)
 	const [showToast, setShowToast] = useState(false)
-	const [showAlgoliaSearch, setShowAlgoliaSearch] = useState(false)
+	const isWaitingToOpen = shouldShowSearchToast(searchState)
+
+	const preloadSearch = useCallback(() => {
+		void loadSearch()
+	}, [])
+
+	const requestOpenSearch = useCallback(() => {
+		// NOTE: when we have the reference to the Aloglia search ready, we are ready to use its internal state handler to open it.
+		if (searchState.isSearchReady) {
+			searchRef.current?.setIsOpen(true)
+			return
+		}
+
+		// Module is not ready to be used (no reference to search) so dispatch a state update and preloadSearch
+		dispatch({ type: 'request-open' })
+		preloadSearch()
+	}, [preloadSearch, searchState.isSearchReady])
+
+	const handleSearchReady = useCallback(() => {
+		dispatch({ type: 'ready' })
+	}, [])
 
 	useHotkeys(
 		'cmd+k, ctrl+k',
 		(event) => {
-			event.preventDefault()
-			if (showAlgoliaSearch) {
-				searchRef.current?.setIsOpen(false)
+			// no-op; handled by child module
+			if (searchState.isSearchReady) {
 				return
 			}
 
-			setShowAlgoliaSearch(true)
-			setMountedStatus('mounting')
+			event.preventDefault()
+			requestOpenSearch()
 		},
-		[mountedStatus],
+		[requestOpenSearch, searchState.isSearchReady],
 	)
 
 	useEffect(() => {
-		if (mountedStatus === 'mounting') {
-			const timeout = setTimeout(() => setShowToast(true), 750)
-			return () => clearTimeout(timeout)
-		}
-
-		if (mountedStatus === 'mounted') {
+		if (!isWaitingToOpen) {
 			setShowToast(false)
-		}
-	}, [mountedStatus])
-
-	const loadHandler = async () => {
-		if (mountedStatus === 'idle') {
-			setMountedStatus('mounting')
-			await loadSearch(() => {
-				setMountedStatus('mounted')
-			})
-		}
-	}
-
-	const onClick = async () => {
-		if (mountedStatus === 'idle') {
-			await loadHandler()
+			return
 		}
 
-		if (mountedStatus === 'mounting') {
-			setShowAlgoliaSearch(true)
-		}
+		const timeout = setTimeout(() => setShowToast(true), 750)
+		return () => clearTimeout(timeout)
+	}, [isWaitingToOpen])
 
-		if (mountedStatus === 'mounted') {
+	useEffect(() => {
+		if (searchState.hasPendingOpenRequest && searchState.isSearchReady) {
 			searchRef.current?.setIsOpen(true)
-			setShowAlgoliaSearch(true)
+			dispatch({ type: 'opened' })
 		}
-	}
+	}, [searchState.hasPendingOpenRequest, searchState.isSearchReady])
 
 	return (
 		<>
 			<SearchButton
-				onFocus={() => loadHandler()}
-				onPointerOver={() => loadHandler()}
-				onClick={onClick}
+				onFocus={preloadSearch}
+				onPointerOver={preloadSearch}
+				onClick={requestOpenSearch}
 			/>
-			{showAlgoliaSearch ? (
+			{searchState.hasRenderedSearch ? (
 				<Suspense>
 					<LazyAlgoliaSearch
-						setOnMount={() => setMountedStatus('mounted')}
+						setOnMount={handleSearchReady}
 						searchRef={searchRef}
 					/>
 				</Suspense>
 			) : null}
-			{showToast ? (
-				<AnimatePresence>
-					<ToastUI msg="Loading Search..." />
-				</AnimatePresence>
-			) : null}
+			<AnimatePresence>
+				{showToast ? <ToastUI msg="Loading Search..." /> : null}
+			</AnimatePresence>
 		</>
 	)
 }
