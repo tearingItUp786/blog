@@ -52,7 +52,7 @@
     "close-with-grace": "^2.5.0",
     "compression": "^1.8.1",
     "cssnano": "^7.0.0",
-    "date-fns": "^2.29.3",
+    "date-fns": "^4.0.0",
     "dotenv": "^16.3.1",
     "esbuild": "^0.27.4",
     "execa": "^7.1.1",
