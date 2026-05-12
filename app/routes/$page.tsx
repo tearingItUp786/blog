@@ -3,8 +3,6 @@ import {
 	type MetaFunction,
 	type ShouldRevalidateFunctionArgs,
 	useLoaderData,
-	data,
-	redirect,
 } from 'react-router'
 import { Callout } from '~/components/callout'
 import { Newsletter } from '~/components/newsletter/newsletter'
@@ -12,6 +10,7 @@ import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
 import { getMdxPageGql } from '~/utils/mdx-utils.server'
 import { dateFormat, invariantResponse } from '~/utils/misc'
+import { getPageRouteLoaderData } from '~/utils/route-loader-helpers.server'
 
 export function shouldRevalidate({
 	currentUrl,
@@ -42,22 +41,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	invariantResponse(params?.page, 'No slug provided')
 
-	// if anyone attempts to acces the rss feed, redirect them to the blog rss feed
-	if (params.page.includes(`.xml`)) {
-		throw redirect(`/blog/rss.xml`)
-	}
-
-	try {
-		const page = await getMdxPageGql({
-			contentDir: 'pages',
-			slug: params.page,
-		})
-		const showNewsletter =
-			String(page?.frontmatter?.title).toLowerCase() === 'now'
-		return { page, showNewsletter }
-	} catch (err) {
-		throw data({ error: params.page }, { status: 404 })
-	}
+	return getPageRouteLoaderData({
+		pageParam: params.page,
+		getMdxPageGql,
+	})
 }
 
 export default function Page() {

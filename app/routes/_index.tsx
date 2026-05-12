@@ -11,26 +11,21 @@ import {
 } from '~/components/pill'
 import { H1, H2 } from '~/components/typography'
 import { getQuote, getQuoteForClientSide } from '~/utils/quote.server'
+import {
+	getHomeActionData,
+	getHomeLoaderData,
+} from '~/utils/route-loader-helpers.server'
 
 export function shouldRevalidate() {
 	return false
 }
 
 export async function action() {
-	const quoteData = await getQuoteForClientSide()
-	return {
-		quoteData,
-		count: 1,
-	}
+	return getHomeActionData({ getQuoteForClientSide })
 }
 
 export async function loader() {
-	const count = Math.floor(Math.random() * 5) + 1
-	const quoteData = await getQuote({ count })
-	return {
-		quoteData,
-		count,
-	}
+	return getHomeLoaderData({ getQuote })
 }
 
 const pillContainerVariants = {

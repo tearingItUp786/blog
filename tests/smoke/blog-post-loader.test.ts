@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest'
 
 import {
 	getAdjacentBlogPosts,
-	getBlogPostLoaderData,
 	getRandomSignOffMessage,
 	getVisibleBlogList,
 	hasTwitterStatusUrl,
-} from '~/routes/blog.$slug/blog-post-loader.server'
+} from '~/routes/blog.$slug/blog-post-loader.helpers'
+import { getBlogPostLoaderData } from '~/routes/blog.$slug/blog-post-loader.server'
 import { type MdxPage, type MdxPageAndSlug } from '~/schemas/github'
 
 const makePage = (overrides: Partial<MdxPage> = {}): MdxPage => ({

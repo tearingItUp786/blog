@@ -4,13 +4,19 @@ import {
 	handleManualRefreshEvent,
 	handleRedisPagesRefreshEvent,
 	handleTagListRefreshEvent,
-	type FileSchema,
 	inngest,
 	refreshBlogFilesEvent,
 	refreshCacheEvent,
 	refreshTilListEvent,
 } from './client'
-import { replaceContent, scanRedisKeys } from './utils'
+import {
+	buildBlogAlgoliaObject,
+	buildTilAlgoliaObject,
+	getBlogSlugFromContentFilename,
+	getRedisPageArgsFromKey,
+	partitionContentFiles,
+} from './refresh-cache-helpers'
+import { scanRedisKeys } from './utils'
 import { algoliaClient } from '~/utils/algolia.server'
 import {
 	delMdxPageGql,
@@ -59,15 +65,11 @@ export const refreshCache = inngest.createFunction(
 			return { ok: true, process: 'manual-refresh-complete' }
 		}
 
-		const [bFiles, tilFiles, pagesFiles] = contentFiles.reduce(
-			([blog, til, pages], file) => {
-				if (file.filename.startsWith('content/blog')) blog.push(file)
-				else if (file.filename.startsWith('content/til')) til.push(file)
-				else if (file.filename.startsWith('content/pages')) pages.push(file)
-				return [blog, til, pages]
-			},
-			[[], [], []] as [FileSchema[], FileSchema[], FileSchema[]],
-		)
+		const {
+			blogFiles: bFiles,
+			tilFiles,
+			pagesFiles,
+		} = partitionContentFiles(contentFiles)
 
 		if (tilFiles.length) {
 			await step.invoke('blog/refresh-til-list', {
@@ -130,20 +132,13 @@ export const handleManualRefresh = inngest.createFunction(
 		const tilList = await refreshTilListInternal()
 		const blogList = await refreshPaginatedBlogListInternal()
 
-		const blogObjects = blogList.map((o) => ({
-			...o.matter,
-			type: 'blog',
-			objectID: o.slug,
-			content: replaceContent(String(o?.matter?.content)),
-		}))
+		const blogObjects = blogList.map((o) =>
+			buildBlogAlgoliaObject(o.matter ?? {}, o.slug ?? ''),
+		)
 
-		const tilObjects = tilList.map((o) => ({
-			...o.matter,
-			type: 'til',
-			offset: o.offset,
-			objectID: o.slug,
-			content: replaceContent(String(o?.matter?.content)),
-		}))
+		const tilObjects = tilList.map((o) =>
+			buildTilAlgoliaObject(o.matter ?? {}, o.slug ?? '', o.offset ?? 1),
+		)
 
 		await ALGOLIA_INDEX.replaceAllObjects([...blogObjects, ...tilObjects])
 
@@ -158,15 +153,9 @@ export const refreshTilList = inngest.createFunction(
 	{ id: 'blog/refresh-til-list', triggers: [refreshTilListEvent] },
 	async () => {
 		const tilList = await refreshTilListInternal()
-		const tilObjects = [...tilList].map((o) => {
-			return {
-				...o.matter,
-				type: 'til',
-				offset: o.offset,
-				objectID: o.slug,
-				content: replaceContent(String(o?.matter?.content)),
-			}
-		})
+		const tilObjects = [...tilList].map((o) =>
+			buildTilAlgoliaObject(o.matter ?? {}, o.slug ?? '', o.offset ?? 1),
+		)
 
 		await ALGOLIA_INDEX.saveObjects([...tilObjects])
 		return { ok: true, tilObjects }
@@ -180,10 +169,7 @@ export const refreshBlogFiles = inngest.createFunction(
 		const { bFiles } = event.data
 
 		for (const file of bFiles) {
-			const slug = file.filename
-				.replace('content/blog', '')
-				.replace(/\w+\.mdx?$/, '')
-				.replace(/\//g, '')
+			const slug = getBlogSlugFromContentFilename(file.filename)
 
 			if (
 				file.changeType === 'deleted' ||
@@ -220,12 +206,12 @@ export const handleRedisPagesRefresh = inngest.createFunction(
 		const pageKeys = await scanRedisKeys(redisClient, 'gql:pages:*')
 
 		const pageTasks = [...blogKeys, ...pageKeys].map((key) => async () => {
-			const [, contentDir, slug] = key.split(':')
-			if (contentDir && slug) {
+			const args = getRedisPageArgsFromKey(key)
+			if (args) {
 				return P_QUEUE.add(() =>
 					getMdxPageGql({
-						contentDir,
-						slug,
+						contentDir: args.contentDir,
+						slug: args.slug,
 						...cachifiedOptions,
 					}),
 				)
@@ -252,12 +238,9 @@ export const handleBlogListRefresh = inngest.createFunction(
 			return await refreshPaginatedBlogListInternal()
 		})
 
-		const blogObjects = blogList.map((o) => ({
-			...o?.matter,
-			type: 'blog',
-			objectID: `${o?.slug}`, // create our own object id so when we upload to algolia, there's no duplicates
-			content: replaceContent(String(o?.matter?.content)), // strip out the html tags from the content -- this could be better but it fits my needs
-		}))
+		const blogObjects = blogList.map((o) =>
+			buildBlogAlgoliaObject(o?.matter ?? {}, o?.slug ?? ''),
+		)
 		await ALGOLIA_INDEX.saveObjects([...blogObjects])
 
 		return { ok: true, blogObjects }

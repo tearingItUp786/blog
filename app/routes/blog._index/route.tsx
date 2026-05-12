@@ -4,7 +4,6 @@ import {
 	useLoaderData,
 	type LoaderFunctionArgs,
 	type MetaFunction,
-	type ShouldRevalidateFunctionArgs,
 } from 'react-router'
 import { twMerge } from 'tailwind-merge'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
@@ -16,6 +15,7 @@ import {
 	getFeaturedBlogPost,
 	getPaginatedBlogList,
 } from '~/utils/mdx-utils.server'
+import { getBlogIndexLoaderData } from '~/utils/route-loader-helpers.server'
 
 const gridVariants = {
 	hidden: {},
@@ -63,32 +63,11 @@ export const meta: MetaFunction<typeof loader> = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const url = new URL(request.url)
-	const showDrafts = url.searchParams.has('showDrafts')
-	const pageParam = url.searchParams.get('page')
-	let page = pageParam ? parseInt(pageParam, 10) : 1
-
-	if (isNaN(page)) {
-		page = 1
-	}
-
-	// Get the featured post
-	const featuredPost = await getFeaturedBlogPost({
-		includeDrafts: showDrafts,
+	return getBlogIndexLoaderData({
+		requestUrl: request.url,
+		getFeaturedBlogPost,
+		getPaginatedBlogList,
 	})
-
-	const paginatedData = await getPaginatedBlogList({
-		page,
-		perPage: 9,
-		includeDrafts: showDrafts,
-		excludeFeatured: true,
-	})
-
-	return {
-		featuredPost,
-		paginatedData,
-		currentPage: page,
-	}
 }
 
 export default function Blog() {

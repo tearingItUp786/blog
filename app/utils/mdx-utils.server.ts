@@ -2,10 +2,15 @@ import cachified, {
 	type CachifiedOptions,
 	verboseReporter,
 } from '@epic-web/cachified'
+import {
+	buildTagCounts,
+	getGithubGqlObjForMdx,
+	groupTagCountsByInitial,
+	mapFromMdxPageToMdxListItem,
+} from './mdx-utils-helpers.server'
 import { queuedCompileMdxGql } from './mdx.server'
 import { redisCache, redisClient } from './redis.server'
 import {
-	type GithubGraphqlObject,
 	type MdxPage,
 	type MdxPageAndSlug,
 	type TilMdxPage,
@@ -14,19 +19,6 @@ import { downloadDirGql } from '~/utils/github.server'
 
 type CommonGetProps = {
 	cachifiedOptions?: Partial<Pick<CachifiedOptions<any>, 'forceFresh' | 'key'>>
-}
-
-function getGithubGqlObjForMdx(entry: GithubGraphqlObject) {
-	if (entry?.object?.text) {
-		return {
-			name: entry?.name,
-			files: [entry],
-		}
-	}
-	return {
-		name: entry?.name,
-		files: entry?.object?.entries ?? [],
-	}
 }
 
 async function delMdxPageGql({
@@ -343,62 +335,11 @@ async function getMdxTagListGql({ cachifiedOptions }: CommonGetProps = {}) {
 					(dir) => dir.repository.object?.entries ?? [],
 				)
 
-				// get a map where the keys are the tag name, and the value is the count it shows up
-				const tags = contentDirListFlat.reduce(
-					(acc, curr) => {
-						const firstMdxFile = curr?.object?.text
-							? curr
-							: curr?.object?.entries?.find((any) => any.name.endsWith('.mdx'))
-
-						if (!firstMdxFile) return acc
-
-						const tag = firstMdxFile?.object?.text
-							?.match(/tag: (.*)/)?.[1]
-							?.toLowerCase()
-							?.trim()
-
-						if (!tag) return acc
-
-						if (acc[tag] === undefined) {
-							acc[tag] = 0
-						}
-
-						const currentCount = acc[tag] ?? 0
-						acc[tag] = currentCount + 1
-
-						return acc
-					},
-					{} as { [key: string]: number },
-				)
-
-				// we want to create a map where the first letter
-				// is the key and the value is an array
-				// of objects with the name and value
-				const tagList = Object.entries(tags).reduce(
-					(acc, [name, value]) => {
-						const tagObj = { name, value }
-
-						const firstLetter = name.charAt(0).toUpperCase()
-						if (!acc[firstLetter]) {
-							acc[firstLetter] = []
-						}
-						acc?.[firstLetter]?.push(tagObj)
-
-						acc?.[firstLetter]?.sort((a, b) =>
-							new Intl.Collator().compare(a.name, b.name),
-						)
-
-						return acc
-					},
-					{} as { [key: string]: Array<{ name: string; value: number }> },
-				)
-
-				const sortedList = Object.entries(tagList).sort((a, b) =>
-					new Intl.Collator().compare(a[0], b[0]),
-				)
+				const tags = buildTagCounts(contentDirListFlat)
+				const tagList = groupTagCountsByInitial(tags)
 
 				return {
-					tagList: sortedList,
+					tagList,
 					tags: Object.keys(tags),
 				}
 			},
@@ -492,13 +433,6 @@ async function getMdxIndividualTagGql({
 		},
 		verboseReporter(),
 	)
-}
-
-function mapFromMdxPageToMdxListItem(
-	page: MdxPage,
-): Omit<MdxPageAndSlug, 'code'> {
-	const { code, ...mdxListItem } = page
-	return mdxListItem
 }
 
 /**

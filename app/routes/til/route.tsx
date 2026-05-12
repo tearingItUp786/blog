@@ -13,6 +13,7 @@ import { H1 } from '~/components/typography'
 import { useFooterObserver } from '~/hooks/use-footer-observer'
 import { type TilMdxPage } from '~/schemas/github'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
+import { getTilLoaderData } from '~/utils/route-loader-helpers.server'
 
 // css
 import '~/styles/til.css'
@@ -40,47 +41,10 @@ export const meta: MetaFunction<typeof loader> = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	const url = new URL(request.url)
-	const endOffsetParam = url.searchParams.get('offset')
-	const fromFetcher = url.searchParams.has('fromFetcher')
-
-	// Use a logical OR to provide a default value for endOffset
-	const endOffset = Number(endOffsetParam) || 1
-
-	// Fetch initial data to determine maxOffset
-	const initialData = await getPaginatedTilList({ endOffset })
-	let maxOffset = initialData.maxOffset
-	const effectiveEndOffset = Math.min(endOffset, maxOffset)
-
-	// If fromFetcher is true, return early
-	if (fromFetcher) {
-		return {
-			fullList: initialData.fullList,
-			serverEndOffset: effectiveEndOffset,
-			maxOffset,
-		}
-	}
-
-	// Create a list of promises for each offset
-	// This will allow us to fetch all the data in parallel
-	const promises = Array.from({ length: effectiveEndOffset }, (_, i) =>
-		getPaginatedTilList({ endOffset: i + 1 }),
-	)
-
-	// Use Promise.all to wait for all promises and flatMap to combine the results
-	// since we don't want to return an array of array's to our user
-	const fullList: Array<TilMdxPage> = (await Promise.all(promises)).flatMap(
-		(value) => {
-			maxOffset = value.maxOffset // Update maxOffset if needed
-			return value.fullList
-		},
-	)
-
-	return {
-		fullList,
-		serverEndOffset: effectiveEndOffset,
-		maxOffset,
-	}
+	return getTilLoaderData({
+		requestUrl: request.url,
+		getPaginatedTilList,
+	})
 }
 
 export default function TilPage() {

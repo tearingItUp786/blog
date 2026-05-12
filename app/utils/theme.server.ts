@@ -1,7 +1,7 @@
 import { createCookie } from 'react-router'
 import { ThemeSchema } from './theme'
 
-export const ThemeCookieSchema = ThemeSchema.catch('light')
+const ThemeCookieSchema = ThemeSchema.catch('light')
 
 export const themeCookie = createCookie('theme', {
 	httpOnly: true,

@@ -8,8 +8,11 @@ import {
 import { InstantSearch } from 'react-instantsearch-core'
 import { H3 } from '../typography'
 import { Autocomplete } from './autocomplete'
+import { getSearchResultUrl } from './search-result-url'
 import { algoliaSearchClient } from '~/utils/algolia'
 
+// Consumed by React.lazy(import('./search-wrapper')).
+// fallow-ignore-next-line unused-export
 export default function AlgoliaSearch({
 	searchRef,
 	setOnMount,
@@ -41,9 +44,12 @@ export default function AlgoliaSearch({
 								{
 									sourceId: 'all_results',
 									getItemUrl({ item }: any) {
-										return item.type === 'til'
-											? `/${item.type}?offset=${item.offset}&q=${query}#${item.objectID}`
-											: `/${item.type}/${item.objectID}?q=${query}`
+										return getSearchResultUrl({
+											type: item.type,
+											objectID: item.objectID,
+											offset: item.offset,
+											query,
+										})
 									},
 									getItems() {
 										const results = getAlgoliaResults({
@@ -74,11 +80,12 @@ export default function AlgoliaSearch({
 												<div className="group-aria-selected:bg-charcoal-gray dark:group-aria-selected:bg-off-white dark:text-charcoal-gray cursor-default rounded-md p-3 text-sm text-white select-none group-aria-selected:text-white">
 													<a
 														className="dark:text-charcoal-gray! decoration-accent flex items-center justify-between space-x-4 text-white group-aria-selected:underline hover:underline focus-visible:underline"
-														href={
-															item.type === 'til'
-																? `/${item.type}?offset=${item.offset}&q=${state.query}#${item.objectID}`
-																: `/${item.type}/${item.objectID}?q=${state.query}`
-														}
+														href={getSearchResultUrl({
+															type: item.type,
+															objectID: item.objectID,
+															offset: item.offset,
+															query: state.query,
+														})}
 													>
 														<div>
 															<H3 className="dark:text-charcoal-gray! my-2 text-white">
