@@ -131,7 +131,7 @@
   },
   "pnpm": {
     "overrides": {
-      "protobufjs": "8.0.2"
+      "protobufjs": "8.2.0"
     }
   },
   "engines": {
