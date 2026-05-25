@@ -1,0 +1,8 @@
+allowBuilds:
+  '@sentry/cli': true
+  esbuild: true
+  msw: true
+  protobufjs: true
+  unrs-resolver: true
+overrides:
+  protobufjs: 8.2.0

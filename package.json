@@ -1,6 +1,7 @@
 {
   "name": "taran blog",
   "private": true,
+  "packageManager": "pnpm@11.3.0",
   "description": "",
   "license": "",
   "sideEffects": false,
@@ -129,16 +130,11 @@
     "@rollup/rollup-linux-x64-gnu": "4.59.0",
     "sass-embedded-linux-x64": "^1.98.0"
   },
-  "pnpm": {
-    "overrides": {
-      "protobufjs": "8.2.0"
-    }
-  },
   "engines": {
     "node": ">=24"
   },
   "volta": {
     "node": "24.13.1",
-    "pnpm": "10.6.3"
+    "pnpm": "11.3.0"
   }
 }
