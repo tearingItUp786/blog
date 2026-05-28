@@ -3,7 +3,7 @@ FROM node:24-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN npm i -g pnpm@10.5.2
+RUN npm i -g pnpm@11.3.0
 
 # System deps required by Playwright/Chromium
 RUN apt-get update && \
@@ -31,7 +31,7 @@ RUN apt-get update && \
 # --- Install full deps for build ---
 FROM base AS build
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 # If you use Prisma and need codegen, uncomment:
 # COPY prisma ./prisma
@@ -42,7 +42,7 @@ RUN pnpm run build
 # --- Install only prod deps for runtime ---
 FROM base AS prod-deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 
 # --- Final runtime image ---
