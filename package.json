@@ -59,7 +59,7 @@
     "execa": "^9.0.0",
     "express": "^5.0.0",
     "express-rate-limit": "^8.3.1",
-    "feed": "^4.2.2",
+    "feed": "^5.0.0",
     "framer-motion": "^11.1.9",
     "helmet": "^8.1.0",
     "hotkeys-js": "^3.10.3",
