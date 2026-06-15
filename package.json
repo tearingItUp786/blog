@@ -67,7 +67,7 @@
     "isbot": "^5.1.36",
     "mdx-bundler": "^10.0.3",
     "morgan": "^1.10.1",
-    "p-queue": "^7.2.0",
+    "p-queue": "^9.0.0",
     "patch-package": "^8.0.1",
     "playwright": "^1.58.2",
     "postcss": "^8.5.8",
