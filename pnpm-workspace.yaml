@@ -5,4 +5,4 @@ allowBuilds:
   protobufjs: true
   unrs-resolver: true
 overrides:
-  protobufjs: 8.2.0
+  protobufjs: 8.6.0
