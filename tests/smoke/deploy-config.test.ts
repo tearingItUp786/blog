@@ -15,13 +15,14 @@ describe('deploy config smoke tests', () => {
 			'COPY --from=prod-deps /app/node_modules /app/node_modules',
 		)
 		const playwrightInstall = dockerfile.indexOf(
-			'RUN pnpm exec playwright install chromium',
+			'RUN node node_modules/playwright/cli.js install chromium',
 		)
 		const finalSourceCopy = dockerfile.lastIndexOf('COPY . .')
 
 		expect(prodModulesCopy).toBeGreaterThan(-1)
 		expect(playwrightInstall).toBeGreaterThan(prodModulesCopy)
 		expect(playwrightInstall).toBeLessThan(finalSourceCopy)
+		expect(dockerfile).not.toContain('pnpm exec playwright install chromium')
 	})
 
 	it('bounds Fly deploy time and keeps the deploy condition valid', () => {

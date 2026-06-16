@@ -59,7 +59,7 @@ COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=prod-deps /app/package.json /app/package.json
 
 # Install Chromium browsers in a dependency-only layer so Fly remote builds can cache it.
-RUN pnpm exec playwright install chromium
+RUN node node_modules/playwright/cli.js install chromium
 
 # Build artifacts / static
 COPY --from=build /app/build /app/build
