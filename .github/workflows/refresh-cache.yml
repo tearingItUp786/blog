@@ -23,10 +23,11 @@ jobs:
         with:
           fetch-depth: '50'
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+      - name: Setup pnpm + Node 24
+        uses: pnpm/setup@v1
         with:
-          node-version: 24
+          runtime: node@24
+          install: false
 
       - name: 🥬 Refresh Content
         run: node ./other/refresh-content.cjs
