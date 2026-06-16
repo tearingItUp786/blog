@@ -58,15 +58,14 @@ WORKDIR /app
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=prod-deps /app/package.json /app/package.json
 
+# Install Chromium browsers in a dependency-only layer so Fly remote builds can cache it.
+RUN pnpm exec playwright install chromium
+
 # Build artifacts / static
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
 # If you need other runtime files (e.g., server entry), copy them:
 COPY . .
-
-# Install Chromium browsers in the final layer so paths match at runtime
-# (Slimmer than installing all browsers; rehype-mermaid only needs Chromium)
-RUN pnpm exec playwright install chromium
 
 # If you need extra fonts or locales, add them here.
 
