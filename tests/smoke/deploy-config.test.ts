@@ -9,20 +9,21 @@ function readProjectFile(filePath: string) {
 }
 
 describe('deploy config smoke tests', () => {
-	it('keeps Playwright browser install in a cacheable Docker layer', () => {
+	it('does not install Playwright browsers in the Docker image', () => {
 		const dockerfile = readProjectFile('Dockerfile')
-		const prodModulesCopy = dockerfile.indexOf(
-			'COPY --from=prod-deps /app/node_modules /app/node_modules',
-		)
-		const playwrightInstall = dockerfile.indexOf(
-			'RUN node node_modules/playwright/cli.js install chromium',
-		)
-		const finalSourceCopy = dockerfile.lastIndexOf('COPY . .')
 
-		expect(prodModulesCopy).toBeGreaterThan(-1)
-		expect(playwrightInstall).toBeGreaterThan(prodModulesCopy)
-		expect(playwrightInstall).toBeLessThan(finalSourceCopy)
+		expect(dockerfile).not.toContain('PLAYWRIGHT_BROWSERS_PATH')
+		expect(dockerfile).not.toContain(
+			'node node_modules/playwright/cli.js install chromium',
+		)
 		expect(dockerfile).not.toContain('pnpm exec playwright install chromium')
+	})
+
+	it('keeps Mermaid rendering browser-free at build time', () => {
+		const mdxServer = readProjectFile('app/utils/mdx.server.ts')
+
+		expect(mdxServer).toContain("strategy: 'pre-mermaid'")
+		expect(mdxServer).not.toContain("strategy: 'img-svg'")
 	})
 
 	it('bounds Fly deploy time and keeps the deploy condition valid', () => {

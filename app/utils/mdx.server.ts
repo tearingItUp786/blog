@@ -146,10 +146,7 @@ export async function compileMdxForGraphql(
 				]
 				options.rehypePlugins = [
 					...(options.rehypePlugins ?? []),
-					[
-						rehypeMermaid,
-						{ strategy: 'img-svg', mermaidConfig: { theme: 'dark' } },
-					],
+					[rehypeMermaid, { strategy: 'pre-mermaid' }],
 					[
 						rehypeCodeTitles,
 						{ titleSeparator: ':title=', customClassName: 'custom-code-title' },

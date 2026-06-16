@@ -49,17 +49,12 @@ RUN pnpm install --frozen-lockfile --prod
 FROM base
 
 ENV NODE_ENV=production
-# Where Playwright will look for browsers we install below
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 WORKDIR /app
 
-# Prod node_modules (must include `playwright` in dependencies)
+# Prod node_modules
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=prod-deps /app/package.json /app/package.json
-
-# Install Chromium browsers in a dependency-only layer so Fly remote builds can cache it.
-RUN node node_modules/playwright/cli.js install chromium
 
 # Build artifacts / static
 COPY --from=build /app/build /app/build
