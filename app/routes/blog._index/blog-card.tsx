@@ -17,16 +17,16 @@ const cardHoverVariants = {
 	rest: {
 		y: 0,
 		boxShadow: '0 0 0 0 rgba(235,54,161,0)',
-		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] },
+		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] as const },
 	},
 	hover: {
 		y: -2,
 		boxShadow: '0 8px 24px -4px rgba(235,54,161,0.15)',
-		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] },
+		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] as const },
 	},
 	focus: {
 		boxShadow: '0 8px 24px -4px rgba(235,54,161,0.15)',
-		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] },
+		transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] as const },
 	},
 }
 

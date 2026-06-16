@@ -60,7 +60,7 @@ export function useCardReveal() {
 						void animate(
 							el,
 							{ opacity: 1, y: 0 },
-							{ duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+							{ duration: 0.4, ease: [0.25, 1, 0.5, 1] as const },
 						)
 					},
 					{ threshold: 0.15 },

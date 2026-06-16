@@ -15,7 +15,7 @@ const successVariants = {
 		y: 0,
 		transition: {
 			duration: 0.25,
-			ease: [0.25, 1, 0.5, 1], // ease-out-quart
+			ease: [0.25, 1, 0.5, 1] as const, // ease-out-quart
 		},
 	},
 	exit: {
@@ -23,7 +23,7 @@ const successVariants = {
 		y: -8,
 		transition: {
 			duration: 0.15,
-			ease: [0.4, 0, 1, 1], // ease-in
+			ease: [0.4, 0, 1, 1] as const, // ease-in
 		},
 	},
 }

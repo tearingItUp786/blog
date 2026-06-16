@@ -44,7 +44,7 @@ const pillVariants = {
 		y: 0,
 		transition: {
 			duration: 0.3,
-			ease: [0.25, 1, 0.5, 1], // ease-out-quart
+			ease: [0.25, 1, 0.5, 1] as const, // ease-out-quart
 		},
 	},
 }
@@ -56,7 +56,7 @@ const quoteVariants = {
 		y: 0,
 		transition: {
 			duration: 0.25,
-			ease: [0.25, 1, 0.5, 1],
+			ease: [0.25, 1, 0.5, 1] as const,
 		},
 	},
 	exit: {
@@ -64,7 +64,7 @@ const quoteVariants = {
 		y: -8,
 		transition: {
 			duration: 0.15,
-			ease: [0.4, 0, 1, 1], // ease-in
+			ease: [0.4, 0, 1, 1] as const, // ease-in
 		},
 	},
 }
