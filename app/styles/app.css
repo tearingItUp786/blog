@@ -104,22 +104,40 @@
 }
 
 
-/* for the mermaid diagram */
-.label {
+/* Mermaid diagrams hydrate from pre.mermaid on the client, keeping Docker browser-free. */
+pre.mermaid,
+img[id^='mermaid-'] {
+  background-color: var(--color-dark-gray-100);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 0.5rem;
+  color: var(--color-light-gray);
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+pre.mermaid {
+  line-height: 1.5;
+  white-space: pre;
+}
+
+pre.mermaid[data-processed] {
+  text-align: center;
+}
+
+pre.mermaid[data-processed] svg {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.mermaid .label {
   line-height: 1;
 }
 
-g.cluster-label {
+.mermaid g.cluster-label {
   line-height: 1.5rem;
-}
-
-/* Mermaid diagrams are rendered as dark-theme SVGs at build time.
-   Give them a dark card so they're legible on any page background. */
-img[id^='mermaid-'] {
-  background-color: var(--color-dark-gray-100);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
 }

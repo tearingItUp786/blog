@@ -150,7 +150,7 @@ app.use(
 )
 
 app.all(
-	'*',
+	'/{*splat}',
 	createRequestHandler({
 		build: viteDevServer
 			? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')

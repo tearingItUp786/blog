@@ -20,6 +20,7 @@ import { ExternalScripts } from 'remix-utils/external-scripts'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { Footer } from './components/footer/footer'
 import { LoadingRoute } from './components/loading-route'
+import { MermaidRenderer } from './components/mermaid-renderer'
 import { Navbar } from './components/navbar'
 import { ScrollProgress } from './components/scroll-progress'
 import { H3 } from './components/typography'
@@ -338,6 +339,7 @@ const App = () => {
 	return (
 		<Document>
 			<Outlet />
+			<MermaidRenderer />
 			<LoadingRoute />
 		</Document>
 	)
