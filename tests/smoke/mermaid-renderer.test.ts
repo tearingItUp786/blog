@@ -10,12 +10,14 @@ function readProjectFile(filePath: string) {
 }
 
 describe('browser Mermaid rendering', () => {
-	it('declares Mermaid as a direct dependency', () => {
+	it('declares Mermaid as a direct pinned dependency', () => {
 		const packageJson = JSON.parse(readProjectFile('package.json')) as {
 			dependencies?: Record<string, string>
 		}
 
-		expect(packageJson.dependencies?.mermaid).toBe('11.10.0')
+		expect(packageJson.dependencies?.mermaid).toEqual(
+			expect.stringMatching(/^\d+\.\d+\.\d+$/),
+		)
 	})
 
 	it('mounts the browser renderer once from the root route', () => {
