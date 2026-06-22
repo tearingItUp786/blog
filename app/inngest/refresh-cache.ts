@@ -317,13 +317,13 @@ async function refreshTilListInternal() {
  */
 async function refreshPaginatedBlogListInternal() {
 	const pattern = 'gql:blog:paginated:[0-9]*'
-	let cursor = 0
+	let cursor = '0'
 	do {
 		const reply = await redisClient.scan(cursor, { MATCH: pattern, COUNT: 200 })
-		cursor = Number(reply.cursor)
+		cursor = reply.cursor
 		const keys = reply.keys
 		if (keys.length) await redisClient.del(keys)
-	} while (cursor !== 0)
+	} while (cursor !== '0')
 
 	const featuredBlogPost = await getFeaturedBlogPost({ ...cachifiedOptions })
 	const { pagination, posts } = await getPaginatedBlogList({

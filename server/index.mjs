@@ -9,6 +9,7 @@ import express from 'express'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import { hostileRequestGuard } from './hostile-request-guard.mjs'
 import { rateLimitKeyGenerator } from './rate-limit-key-generator.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -148,6 +149,8 @@ app.use(
 		},
 	}),
 )
+
+app.use(hostileRequestGuard)
 
 app.all(
 	'/{*splat}',

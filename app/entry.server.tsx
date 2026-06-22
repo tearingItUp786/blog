@@ -8,10 +8,10 @@ import {
 	type EntryContext,
 	type HandleErrorFunction,
 	ServerRouter,
-	isRouteErrorResponse,
 } from 'react-router'
 import { getEnv, init } from './utils/env.server'
 import { NonceProvider } from './utils/nonce-provider'
+import { shouldTreatServerRenderErrorAsFatal } from './utils/server-render-errors.server'
 
 const ABORT_DELAY = 5000
 
@@ -31,7 +31,7 @@ export const handleError: HandleErrorFunction = (error, { request }) => {
 	if (isbot(request.headers.get('user-agent'))) return
 
 	// Don't report expected route errors (404s, etc.)
-	if (isRouteErrorResponse(error) && error.status < 500) return
+	if (!shouldTreatServerRenderErrorAsFatal(error)) return
 
 	Sentry.captureException(error, {
 		mechanism: { type: 'react-router', handled: false },
@@ -102,6 +102,8 @@ function handleBotRequest(
 					reject(error)
 				},
 				onError(error: unknown) {
+					if (!shouldTreatServerRenderErrorAsFatal(error)) return
+
 					didError = true
 					console.error(error)
 				},
@@ -152,6 +154,8 @@ function handleBrowserRequest(
 					reject(err)
 				},
 				onError(error: unknown) {
+					if (!shouldTreatServerRenderErrorAsFatal(error)) return
+
 					didError = true
 					console.error(error)
 				},

@@ -77,13 +77,13 @@ export function replaceContent(str = '') {
 }
 
 type RedisScanReply = {
-	cursor: number | string
+	cursor: string
 	keys: string[]
 }
 
 type RedisScanClient = {
 	scan: (
-		cursor: number,
+		cursor: string,
 		options: { MATCH: string; COUNT: number },
 	) => Promise<RedisScanReply>
 }
@@ -93,7 +93,7 @@ export async function scanRedisKeys(
 	pattern: string,
 	count = 200,
 ) {
-	let cursor = 0
+	let cursor = '0'
 	const keys: string[] = []
 
 	do {
@@ -101,9 +101,9 @@ export async function scanRedisKeys(
 			MATCH: pattern,
 			COUNT: count,
 		})
-		cursor = Number(reply.cursor)
+		cursor = reply.cursor
 		keys.push(...reply.keys)
-	} while (cursor !== 0)
+	} while (cursor !== '0')
 
 	return keys
 }
