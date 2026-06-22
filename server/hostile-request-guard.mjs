@@ -1,5 +1,7 @@
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])
 
+const REACT_ROUTER_DATA_SUFFIX = '.data'
+
 const ALLOWED_DOT_SEGMENTS = new Set(['.well-known'])
 
 const DANGEROUS_PATH_SEGMENTS = new Set([
@@ -85,9 +87,23 @@ function getExtension(segment) {
 	return segment.slice(lastDotIndex + 1)
 }
 
+function normalizeReactRouterDataPathname(pathname) {
+	const lowerPathname = pathname.toLowerCase()
+
+	if (lowerPathname === '/_root.data') {
+		return '/'
+	}
+
+	if (lowerPathname.endsWith(REACT_ROUTER_DATA_SUFFIX)) {
+		return pathname.slice(0, -REACT_ROUTER_DATA_SUFFIX.length) || '/'
+	}
+
+	return pathname
+}
+
 export function isHostileProbeRequest({ method, path }) {
 	const methodName = method.toUpperCase()
-	const segments = getSegments(getPathname(path))
+	const segments = getSegments(normalizeReactRouterDataPathname(getPathname(path)))
 	const lastSegment = segments.at(-1) ?? ''
 	const extension = getExtension(lastSegment)
 

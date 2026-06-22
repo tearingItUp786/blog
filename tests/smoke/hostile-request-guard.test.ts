@@ -59,6 +59,27 @@ describe('hostile request guard', () => {
 		)
 	})
 
+	it('allows React Router data requests for app routes', () => {
+		expect(
+			isHostileProbeRequest({ method: 'POST', path: '/_root.data?index' }),
+		).toBe(false)
+		expect(
+			isHostileProbeRequest({
+				method: 'POST',
+				path: '/action/newsletter.data',
+			}),
+		).toBe(false)
+	})
+
+	it('still blocks hostile probes sent through React Router data URLs', () => {
+		expect(
+			isHostileProbeRequest({ method: 'POST', path: '/xmlrpc.php.data' }),
+		).toBe(true)
+		expect(isHostileProbeRequest({ method: 'POST', path: '/robots.txt' })).toBe(
+			true,
+		)
+	})
+
 	it('returns a clean 404 and skips downstream handlers for probes', () => {
 		let statusCode = 200
 		let contentType = ''
@@ -109,6 +130,31 @@ describe('hostile request guard', () => {
 
 		hostileRequestGuard(
 			{ method: 'GET', path: '/blog/some-post' },
+			response,
+			() => {
+				didCallNext = true
+			},
+		)
+
+		expect(didCallNext).toBe(true)
+	})
+
+	it('passes React Router data requests to downstream handlers', () => {
+		let didCallNext = false
+		const response = {
+			status() {
+				return response
+			},
+			type() {
+				return response
+			},
+			send() {
+				return response
+			},
+		}
+
+		hostileRequestGuard(
+			{ method: 'POST', path: '/_root.data', url: '/_root.data?index' },
 			response,
 			() => {
 				didCallNext = true
