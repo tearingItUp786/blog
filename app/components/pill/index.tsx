@@ -1,4 +1,4 @@
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 
 export const PILL_CLASS_NAME = `
   group

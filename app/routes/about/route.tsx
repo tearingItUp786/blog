@@ -6,7 +6,7 @@ import {
 	useLoaderData,
 	data,
 } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 
 import { BeltIcon, BookIcon, LotrIcon, PaletteIcon } from './icons'
 import { FaceHero } from '~/components/hero/face-motion'

@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'cnfast'
 import { SIZES_FOR_SCREENS } from './constants'
 
 const fontSizes = {

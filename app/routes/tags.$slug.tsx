@@ -9,7 +9,7 @@ import {
 	useSearchParams,
 } from 'react-router'
 
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 import LazyLoad from 'vanilla-lazyload'
 import { ContentCard as GenericContentCard } from './til/content-card'
 import { PILL_CLASS_NAME } from '~/components/pill'

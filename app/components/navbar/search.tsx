@@ -10,7 +10,7 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 import { ToastUI } from '../toast-ui'
 import {
 	initialSearchState,

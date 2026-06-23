@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { NavLink, useSearchParams } from 'react-router'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'cnfast'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1 } from '~/components/typography'
 import { dotFormattedDate } from '~/utils/misc'

@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { useFetcher } from 'react-router'
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 import { useTheme as useThemeHook } from '~/routes/action.theme-switcher'
 
 export const ServerThemeToggle = () => {

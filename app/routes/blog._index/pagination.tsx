@@ -1,5 +1,5 @@
 import { NavLink, useSearchParams } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 
 type PaginationProps = {
 	currentPage: number

@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 import { H4 } from '~/components/typography'
 
 type BlogLink = {

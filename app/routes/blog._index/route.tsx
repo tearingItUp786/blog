@@ -5,7 +5,7 @@ import {
 	type LoaderFunctionArgs,
 	type MetaFunction,
 } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import { BlogCard } from './blog-card'
 import { Pagination } from './pagination'

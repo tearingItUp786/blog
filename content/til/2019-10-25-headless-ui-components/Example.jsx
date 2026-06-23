@@ -1,5 +1,5 @@
 import React from 'react'
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 
 class Toggle extends React.Component {
 	state = {

@@ -5,7 +5,7 @@ import {
 	useLoaderData,
 	useSearchParams,
 } from 'react-router'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1, H2 } from '~/components/typography'
 import { getMdxTagListGql } from '~/utils/mdx-utils.server'

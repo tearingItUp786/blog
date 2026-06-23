@@ -1,4 +1,4 @@
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'cnfast'
 
 type CalloutProps = {
 	type: 'alert' | 'info' | 'success' | 'warning'

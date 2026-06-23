@@ -11,7 +11,7 @@ import {
 	useSearchParams,
 } from 'react-router'
 import { type ExternalScriptsHandle } from 'remix-utils/external-scripts'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'cnfast'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import {
 	type BlogPostLoaderData,

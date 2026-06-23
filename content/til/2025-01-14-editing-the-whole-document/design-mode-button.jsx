@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 
 export let DesignModeToggle = () => {
 	const [edit, setEdit] = useState(false)

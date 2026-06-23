@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 import { SIZES_FOR_SCREENS } from './constants'
 import { SmallAsterisk, TextLink } from './typography'
 

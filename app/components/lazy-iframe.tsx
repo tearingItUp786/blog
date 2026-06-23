@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'cnfast'
 import { TextLink } from './typography'
 
 /**

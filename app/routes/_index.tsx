@@ -2,7 +2,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useFetcher, useLoaderData } from 'react-router'
-import { twJoin } from 'tailwind-merge'
+import { twJoin } from 'cnfast'
 import { Newsletter } from '~/components/newsletter/newsletter'
 import {
 	Pill,

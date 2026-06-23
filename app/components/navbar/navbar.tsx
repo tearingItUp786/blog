@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin, twMerge } from 'cnfast'
 import { MobileNav } from './mobile'
 import { Search } from './search'
 import { ServerThemeToggle } from '~/components/theme-toggle'
