@@ -34,4 +34,10 @@ describe('Shiki code block styles', () => {
 		expect(css).toContain('white-space: normal;')
 		expect(css).toContain('white-space: pre;')
 	})
+
+	it('keeps plaintext Shiki blocks readable inside prose color modifiers', async () => {
+		const css = await readFile(codeBlockStylesPath, 'utf8')
+
+		expect(css).toMatch(/pre\.shiki code\s*\{[^}]*color:\s*inherit;/)
+	})
 })

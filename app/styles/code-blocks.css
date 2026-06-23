@@ -25,6 +25,7 @@ pre.shiki code {
 	display: block;
 	float: left;
 	min-width: 100%;
+	color: inherit;
 	font-family: inherit;
 	white-space: normal;
 }
