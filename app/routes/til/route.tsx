@@ -15,7 +15,11 @@ import { useFooterObserver } from '~/hooks/use-footer-observer'
 import { type TilMdxPage } from '~/schemas/github'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 import { getTilLoaderData } from '~/utils/route-loader-helpers.server'
-import { shouldUseTilScrollFallback } from '~/utils/til-url'
+import {
+	getInitialDocumentUrl,
+	getTilDocumentUrl,
+	shouldUseTilScrollFallback,
+} from '~/utils/til-url'
 
 // css
 import '~/styles/til.css'
@@ -55,6 +59,7 @@ export default function TilPage() {
 	const fetcher = useFetcher<typeof loader>()
 	const location = useLocation()
 	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
+	const hasUsedTilScrollFallbackRef = useRef(false)
 
 	// TODO: migrate to useReducer
 	const [items, setItems] = useState<TilMdxPage[]>(fullList)
@@ -99,9 +104,14 @@ export default function TilPage() {
 		const targetId = new URLSearchParams(location.search).get('til')
 
 		if (
+			hasUsedTilScrollFallbackRef.current ||
 			!targetId ||
 			!shouldUseTilScrollFallback({
-				locationKey: location.key,
+				initialDocumentUrl: getInitialDocumentUrl(),
+				currentDocumentUrl: getTilDocumentUrl({
+					pathname: location.pathname,
+					search: location.search,
+				}),
 				hash: location.hash,
 				targetId,
 			})
@@ -110,11 +120,16 @@ export default function TilPage() {
 		}
 
 		const animationFrameId = requestAnimationFrame(() => {
-			document.getElementById(targetId)?.scrollIntoView()
+			const target = document.getElementById(targetId)
+
+			if (!target) return
+
+			target.scrollIntoView()
+			hasUsedTilScrollFallbackRef.current = true
 		})
 
 		return () => cancelAnimationFrame(animationFrameId)
-	}, [location.hash, location.key, location.search])
+	}, [location.hash, location.pathname, location.search])
 
 	return (
 		<main className="mx-auto w-full max-w-screen-xl px-4 md:px-20">

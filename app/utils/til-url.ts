@@ -17,14 +17,36 @@ export function getTilRssItemUrl({
 	return `${baseUrl}?${params}#${slug}`
 }
 
+let initialDocumentUrl: string | null = null
+
+export function getTilDocumentUrl({
+	pathname,
+	search,
+}: {
+	pathname: string
+	search: string
+}) {
+	return `${pathname}${search}`
+}
+
+export function setInitialDocumentUrl(url: string) {
+	initialDocumentUrl = url
+}
+
+export function getInitialDocumentUrl() {
+	return initialDocumentUrl
+}
+
 export function shouldUseTilScrollFallback({
-	locationKey,
+	initialDocumentUrl,
+	currentDocumentUrl,
 	hash,
 	targetId,
 }: {
-	locationKey: string
+	initialDocumentUrl: string | null
+	currentDocumentUrl: string
 	hash: string
 	targetId: string | null
 }) {
-	return locationKey === 'default' && !hash && Boolean(targetId)
+	return Boolean(targetId) && !hash && initialDocumentUrl === currentDocumentUrl
 }

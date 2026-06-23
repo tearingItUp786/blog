@@ -20,7 +20,8 @@ describe('shouldUseTilScrollFallback', () => {
 	it('allows fallback scrolling for initial document loads without a hash', () => {
 		expect(
 			shouldUseTilScrollFallback({
-				locationKey: 'default',
+				initialDocumentUrl: '/til?offset=14&til=2026-05-28-herdr',
+				currentDocumentUrl: '/til?offset=14&til=2026-05-28-herdr',
 				hash: '',
 				targetId: '2026-05-28-herdr',
 			}),
@@ -30,7 +31,8 @@ describe('shouldUseTilScrollFallback', () => {
 	it('does not fallback scroll when native hash navigation is available', () => {
 		expect(
 			shouldUseTilScrollFallback({
-				locationKey: 'default',
+				initialDocumentUrl: '/til?offset=14&til=2026-05-28-herdr',
+				currentDocumentUrl: '/til?offset=14&til=2026-05-28-herdr',
 				hash: '#2026-05-28-herdr',
 				targetId: '2026-05-28-herdr',
 			}),
@@ -40,7 +42,8 @@ describe('shouldUseTilScrollFallback', () => {
 	it('does not fallback scroll during client-side navigation', () => {
 		expect(
 			shouldUseTilScrollFallback({
-				locationKey: 'abc123',
+				initialDocumentUrl: '/blog',
+				currentDocumentUrl: '/til?offset=14&til=2026-05-28-herdr',
 				hash: '',
 				targetId: '2026-05-28-herdr',
 			}),
@@ -50,7 +53,8 @@ describe('shouldUseTilScrollFallback', () => {
 	it('does not fallback scroll without a target id', () => {
 		expect(
 			shouldUseTilScrollFallback({
-				locationKey: 'default',
+				initialDocumentUrl: '/til?offset=14',
+				currentDocumentUrl: '/til?offset=14',
 				hash: '',
 				targetId: null,
 			}),
