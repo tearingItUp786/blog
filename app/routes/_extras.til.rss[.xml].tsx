@@ -2,6 +2,7 @@ import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 import { adjustUtcForBC } from '~/utils/misc'
+import { getTilRssItemUrl } from '~/utils/til-url'
 
 export const loader: LoaderFunction = async () => {
 	const blogUrl = `https://taranveerbains.ca/til`
@@ -26,7 +27,11 @@ export const loader: LoaderFunction = async () => {
 	})
 
 	fullList.forEach((post) => {
-		const postLink = `${blogUrl}?offset=${maxOffset}#${post.slug}`
+		const postLink = getTilRssItemUrl({
+			baseUrl: blogUrl,
+			offset: maxOffset,
+			slug: post.slug!,
+		})
 		const postDate = adjustUtcForBC(post.frontmatter.date ?? '')
 
 		feed.addItem({

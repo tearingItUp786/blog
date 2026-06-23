@@ -6,6 +6,7 @@ import {
 	type ShouldRevalidateFunctionArgs,
 	useFetcher,
 	useLoaderData,
+	useLocation,
 } from 'react-router'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import { TilComponent } from './til-component'
@@ -14,6 +15,7 @@ import { useFooterObserver } from '~/hooks/use-footer-observer'
 import { type TilMdxPage } from '~/schemas/github'
 import { getPaginatedTilList } from '~/utils/mdx-utils.server'
 import { getTilLoaderData } from '~/utils/route-loader-helpers.server'
+import { shouldUseTilScrollFallback } from '~/utils/til-url'
 
 // css
 import '~/styles/til.css'
@@ -51,6 +53,7 @@ export default function TilPage() {
 	const { fullList, maxOffset, serverEndOffset } =
 		useLoaderData<typeof loader>()
 	const fetcher = useFetcher<typeof loader>()
+	const location = useLocation()
 	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
 
 	// TODO: migrate to useReducer
@@ -91,6 +94,27 @@ export default function TilPage() {
 			lazyLoadRef.current.update()
 		}
 	}, [items])
+
+	useEffect(() => {
+		const targetId = new URLSearchParams(location.search).get('til')
+
+		if (
+			!targetId ||
+			!shouldUseTilScrollFallback({
+				locationKey: location.key,
+				hash: location.hash,
+				targetId,
+			})
+		) {
+			return
+		}
+
+		const animationFrameId = requestAnimationFrame(() => {
+			document.getElementById(targetId)?.scrollIntoView()
+		})
+
+		return () => cancelAnimationFrame(animationFrameId)
+	}, [location.hash, location.key, location.search])
 
 	return (
 		<main className="mx-auto w-full max-w-screen-xl px-4 md:px-20">
