@@ -213,8 +213,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1
       remix-utils:
-        specifier: ^9.3.1
-        version: 9.3.1(@oslojs/crypto@1.0.1)(@oslojs/encoding@1.1.0)(@standard-schema/spec@1.1.0)(react-router@7.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        specifier: ^10.0.0
+        version: 10.0.0(@oslojs/crypto@1.0.1)(@oslojs/encoding@1.1.0)(@standard-schema/spec@1.1.0)(react-router@7.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       sanitize-html:
         specifier: ^2.17.1
         version: 2.17.1
@@ -7085,9 +7085,9 @@ packages:
   remark-toc@8.0.1:
     resolution: {integrity: sha512-7he2VOm/cy13zilnOTZcyAoyoolV26ULlon6XyCFU+vG54Z/LWJnwphj/xKIDLOt66QmJUgTyUvLVHi2aAElyg==}
 
-  remix-utils@9.3.1:
-    resolution: {integrity: sha512-Z/CVE9mPKYOKxhSV5q2IeXd5W4zl/B4q9YLQfuR3EYNSOop8riQso6QXGJXd+71S96Ox8/haMl34GyV/WBnoVg==}
-    engines: {node: '>=20.0.0'}
+  remix-utils@10.0.0:
+    resolution: {integrity: sha512-v5voIsJQof6e/1m8te4qyH5YXATWxv+zEgbxd98CwtVxRLCXVc+P9rQ2uDRRYPLCvF9A2ZBOizK0ZTUfm4qJpw==}
+    engines: {node: '>=22.22.0'}
     peerDependencies:
       '@edgefirst-dev/batcher': ^1.0.0
       '@edgefirst-dev/jwt': ^1.2.0
@@ -7097,8 +7097,8 @@ packages:
       '@standard-schema/spec': ^1.0.0
       intl-parse-accept-language: ^1.0.0
       is-ip: ^5.0.1
-      react: ^18.0.0 || ^19.0.0
-      react-router: ^7.0.0
+      react: '>=19.2.7'
+      react-router: ^8.0.0
     peerDependenciesMeta:
       '@edgefirst-dev/batcher':
         optional: true
@@ -16027,9 +16027,7 @@ snapshots:
       mdast-util-toc: 6.1.1
       unified: 10.1.2
 
-  remix-utils@9.3.1(@oslojs/crypto@1.0.1)(@oslojs/encoding@1.1.0)(@standard-schema/spec@1.1.0)(react-router@7.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
-    dependencies:
-      type-fest: 5.4.4
+  remix-utils@10.0.0(@oslojs/crypto@1.0.1)(@oslojs/encoding@1.1.0)(@standard-schema/spec@1.1.0)(react-router@7.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     optionalDependencies:
       '@oslojs/crypto': 1.0.1
       '@oslojs/encoding': 1.1.0
