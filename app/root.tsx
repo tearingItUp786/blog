@@ -34,6 +34,7 @@ import {
 import { honeypot } from './utils/honeypot.server'
 import { useNonce } from './utils/nonce-provider'
 import { redisClient } from './utils/redis.server'
+import { serializeJsonForInlineScript } from './utils/serialize-json'
 import { getThemeFromCookie } from './utils/theme.server'
 
 import '~/tailwind.css'
@@ -224,7 +225,7 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 						nonce={nonce}
 						suppressHydrationWarning
 						dangerouslySetInnerHTML={{
-							__html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
+							__html: `window.ENV = ${serializeJsonForInlineScript(data?.ENV)}`,
 						}}
 					/>
 					<ScrollRestoration nonce={nonce} />

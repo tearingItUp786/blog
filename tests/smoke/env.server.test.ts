@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { getEnv, init } from '~/utils/env.server'
+import { serializeJsonForInlineScript } from '~/utils/serialize-json'
 
 const baseEnv = {
 	ALGOLIA_APP_ID: 'algolia-app-id',
@@ -73,6 +74,22 @@ describe('env smoke tests', () => {
 			expect(() => init()).not.toThrow()
 			expect(getEnv().ALGOLIA_SEARCH_KEY).toBe(baseEnv.BOT_ALGOLIA_TOKEN)
 		})
+	})
+
+	it('serializes public env safely for an inline script', async () => {
+		await withEnv(
+			{
+				ALGOLIA_SEARCH_KEY:
+					'</script><script>globalThis.injected = true</script>',
+			},
+			() => {
+				const env = getEnv()
+				const serializedEnv = serializeJsonForInlineScript(env)
+
+				expect(serializedEnv).not.toContain('<')
+				expect(JSON.parse(serializedEnv)).toEqual(env)
+			},
+		)
 	})
 
 	it('fails init when both search keys are missing', async () => {
