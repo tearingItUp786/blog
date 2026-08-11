@@ -62,9 +62,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 	]
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ url }: LoaderFunctionArgs) => {
 	return getBlogIndexLoaderData({
-		requestUrl: request.url,
+		requestUrl: url.href,
 		getFeaturedBlogPost,
 		getPaginatedBlogList,
 	})

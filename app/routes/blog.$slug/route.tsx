@@ -23,6 +23,7 @@ import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
 import { dotFormattedDate, invariantResponse } from '~/utils/misc'
+import { cspNonceContext } from '~/utils/request-context.server.mjs'
 
 type LoaderData = BlogPostLoaderData
 
@@ -36,10 +37,9 @@ export const headers: HeadersFunction = ({ parentHeaders }) => {
 	return headers
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-	const loaderData = data as LoaderData
-	const blogPostTitle =
-		loaderData.page.frontmatter?.title ?? 'A single blog post'
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
+	const data = loaderData as LoaderData
+	const blogPostTitle = data.page.frontmatter?.title ?? 'A single blog post'
 	return [
 		{
 			title: `Taran "tearing it up" Bains | Blog | ${blogPostTitle}`,
@@ -47,8 +47,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 		{
 			name: 'description',
 			content:
-				loaderData.page.frontmatter?.description ??
-				'A blog post by Taran Bains',
+				data.page.frontmatter?.description ?? 'A blog post by Taran Bains',
 		},
 	]
 }
@@ -81,17 +80,13 @@ export function shouldRevalidate({
 	return defaultShouldRevalidate
 }
 
-export const loader = async ({
-	params,
-	request,
-	context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, url, context }: LoaderFunctionArgs) => {
 	invariantResponse(params?.slug, 'No slug provided')
 
 	const dataToSend = await getBlogPostLoaderData({
 		slug: params.slug,
-		requestUrl: request.url,
-		cspNonce: String(context.cspNonce ?? ''),
+		requestUrl: url.href,
+		cspNonce: String(context.get(cspNonceContext)),
 	})
 
 	return data(dataToSend, { status: 200 })

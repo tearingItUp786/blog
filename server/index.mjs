@@ -9,6 +9,7 @@ import express from 'express'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import { createRequestContext } from '../app/utils/request-context.server.mjs'
 import { hostileRequestGuard } from './hostile-request-guard.mjs'
 import { rateLimitKeyGenerator } from './rate-limit-key-generator.mjs'
 
@@ -158,8 +159,8 @@ app.all(
 		build: viteDevServer
 			? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')
 			: await import('../build/server/index.js'),
-		getLoadContext(req, res) {
-			return { cspNonce: res.locals.cspNonce }
+		getLoadContext(_req, res) {
+			return createRequestContext(res.locals.cspNonce)
 		},
 	}),
 )

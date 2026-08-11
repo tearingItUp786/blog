@@ -24,8 +24,8 @@ export function shouldRevalidate({
 	return defaultShouldRevalidate
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-	const { page } = data ?? {}
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
+	const { page } = loaderData ?? {}
 	const { frontmatter } = page ?? {}
 	return [
 		{

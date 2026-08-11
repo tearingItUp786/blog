@@ -4,20 +4,17 @@ import * as Sentry from '@sentry/react-router'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 import {
-	type AppLoadContext,
 	type EntryContext,
 	type HandleErrorFunction,
+	type RouterContextProvider,
 	ServerRouter,
 } from 'react-router'
 import { getEnv, init } from './utils/env.server'
 import { NonceProvider } from './utils/nonce-provider'
+import { cspNonceContext } from './utils/request-context.server.mjs'
 import { shouldTreatServerRenderErrorAsFatal } from './utils/server-render-errors.server'
 
 const ABORT_DELAY = 5000
-
-type ServerLoadContext = AppLoadContext & {
-	cspNonce?: string
-}
 
 init()
 global.ENV = getEnv()
@@ -43,7 +40,7 @@ export default function handleRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
-	loadContext: ServerLoadContext,
+	loadContext: RouterContextProvider,
 ) {
 	return isbot(request.headers.get('user-agent'))
 		? handleBotRequest(
@@ -67,12 +64,12 @@ function handleBotRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
-	loadContext: ServerLoadContext,
+	loadContext: RouterContextProvider,
 ) {
 	return new Promise((resolve, reject) => {
 		let didError = false
 
-		const nonce = loadContext.cspNonce ? String(loadContext.cspNonce) : ''
+		const nonce = String(loadContext.get(cspNonceContext))
 		const { pipe, abort } = renderToPipeableStream(
 			<NonceProvider value={nonce}>
 				<ServerRouter
@@ -119,12 +116,12 @@ function handleBrowserRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	reactRouterContext: EntryContext,
-	loadContext: ServerLoadContext,
+	loadContext: RouterContextProvider,
 ) {
 	return new Promise((resolve, reject) => {
 		let didError = false
 
-		const nonce = loadContext.cspNonce ? String(loadContext.cspNonce) : ''
+		const nonce = String(loadContext.get(cspNonceContext))
 		const { pipe, abort } = renderToPipeableStream(
 			<NonceProvider value={nonce}>
 				<ServerRouter

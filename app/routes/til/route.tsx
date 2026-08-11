@@ -46,9 +46,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 	]
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ url }: LoaderFunctionArgs) {
 	return getTilLoaderData({
-		requestUrl: request.url,
+		requestUrl: url.href,
 		getPaginatedTilList,
 	})
 }

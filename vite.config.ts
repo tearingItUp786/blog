@@ -11,9 +11,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
 	ssr: {
-		// things to exclude from the server bundle
-		// noExternal: [/^gsap.*/, /@algolia.*/],
-		// noExternal: [/@algolia.*/],
+		noExternal: ['remix-utils'],
 	},
 	plugins: [
 		process.env.DEVTOOLS === 'true' && reactRouterDevTools(),

@@ -119,8 +119,8 @@ export const links: LinksFunction = () => {
 /**
  * This is a loader function that is used to set the ENV variable
  */
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const isFresh = new URL(request.url).searchParams.has('fresh')
+export const loader = async ({ request, url }: LoaderFunctionArgs) => {
+	const isFresh = url.searchParams.has('fresh')
 	const isDev = process.env.NODE_ENV === 'development'
 
 	const theme = (await getThemeFromCookie(request)) as string
