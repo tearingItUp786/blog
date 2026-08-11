@@ -18,6 +18,7 @@ import {
 } from './refresh-cache-helpers'
 import { scanRedisKeys } from './utils'
 import { algoliaClient } from '~/utils/algolia.server'
+import { getMdxPageCacheKey } from '~/utils/mdx-utils-helpers.server'
 import {
 	delMdxPageGql,
 	getFeaturedBlogPost,
@@ -201,9 +202,11 @@ export const handleRedisPagesRefresh = inngest.createFunction(
 	},
 	async () => {
 		// this is individual blog pages that are stored in redis
-		const blogKeys = await scanRedisKeys(redisClient, 'gql:blog:[0-9]*')
-		// this relates to one off pages like `uses`
-		const pageKeys = await scanRedisKeys(redisClient, 'gql:pages:*')
+		const [blogKeys, pageKeys] = await Promise.all([
+			scanRedisKeys(redisClient, getMdxPageCacheKey('blog', '[0-9]*')),
+			// This relates to one-off pages like `uses`.
+			scanRedisKeys(redisClient, getMdxPageCacheKey('pages', '*')),
+		])
 
 		const pageTasks = [...blogKeys, ...pageKeys].map((key) => async () => {
 			const args = getRedisPageArgsFromKey(key)

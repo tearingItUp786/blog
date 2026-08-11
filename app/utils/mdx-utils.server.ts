@@ -6,6 +6,7 @@ import {
 	buildTagCounts,
 	getGithubGqlObjForMdx,
 	groupTagCountsByInitial,
+	getMdxPageCacheKey,
 	mapFromMdxPageToMdxListItem,
 } from './mdx-utils-helpers.server'
 import { queuedCompileMdxGql } from './mdx.server'
@@ -13,6 +14,7 @@ import { redisCache, redisClient } from './redis.server'
 import {
 	type MdxPage,
 	type MdxPageAndSlug,
+	type MdxListItem,
 	type TilMdxPage,
 } from '~/schemas/github'
 import { downloadDirGql } from '~/utils/github.server'
@@ -28,7 +30,7 @@ async function delMdxPageGql({
 	contentDir: string
 	slug: string
 }): Promise<any> {
-	return redisClient.del(`gql:${contentDir}:${slug}`)
+	return redisClient.del(getMdxPageCacheKey(contentDir, slug))
 }
 
 /**
@@ -45,7 +47,7 @@ async function getMdxPageGql({
 }): Promise<MdxPage | null | void> {
 	return cachified(
 		{
-			key: `gql:${contentDir}:${slug}`,
+			key: getMdxPageCacheKey(contentDir, slug),
 			cache: redisCache,
 			getFreshValue: async () => {
 				const pageFile = await downloadDirGql(`content/${contentDir}/${slug}`)
@@ -211,15 +213,15 @@ async function getMdxBlogListGraphql({
 						...mapFromMdxPageToMdxListItem(page),
 						path: `blog/${pageData?.[i]?.name ?? ''}`,
 					}
-				}) as Omit<MdxPageAndSlug, 'code'>[]
+				}) as MdxListItem[]
 
 				const draftPages = allPages.filter(
 					(el) => el.frontmatter?.draft,
-				) as Omit<MdxPageAndSlug, 'code'>[]
+				) as MdxListItem[]
 
 				const publishedPages = allPages.filter(
 					(el) => el.frontmatter?.draft !== true,
-				) as Omit<MdxPageAndSlug, 'code'>[]
+				) as MdxListItem[]
 
 				return {
 					publishedPages,
@@ -252,7 +254,7 @@ async function getPaginatedBlogList({
 	includeDrafts = false,
 	excludeFeatured = false,
 }: Partial<BlogPaginationArgs> = {}): Promise<{
-	posts: Array<Omit<MdxPageAndSlug, 'code'>>
+	posts: MdxListItem[]
 	pagination: {
 		currentPage: number
 		totalPages: number
@@ -409,19 +411,25 @@ async function getMdxIndividualTagGql({
 									dataToPass.name,
 									dataToPass?.files,
 								)
-								return {
+								if (!data) return null
+
+								const page = {
 									...data,
 									slug: dataToPass.name,
 								}
+
+								return key === 'blog' ? mapFromMdxPageToMdxListItem(page) : page
 							}),
 						)
 
-						return retArray as Array<MdxPageAndSlug>
+						return retArray.filter(
+							(page): page is MdxListItem | MdxPageAndSlug => page !== null,
+						)
 					}),
 				)
 
-				const blogList = retObject[0] ?? []
-				const tilList = retObject[1] ?? []
+				const blogList = (retObject[0] ?? []) as MdxListItem[]
+				const tilList = (retObject[1] ?? []) as MdxPageAndSlug[]
 
 				return {
 					blogList,
@@ -443,10 +451,9 @@ async function getMdxIndividualTagGql({
 async function getFeaturedBlogPost({
 	cachifiedOptions,
 	includeDrafts = false,
-}: CommonGetProps & { includeDrafts?: boolean } = {}): Promise<Omit<
-	MdxPageAndSlug,
-	'code'
-> | null> {
+}: CommonGetProps & {
+	includeDrafts?: boolean
+} = {}): Promise<MdxListItem | null> {
 	return cachified(
 		{
 			key: `gql:blog:featured`,

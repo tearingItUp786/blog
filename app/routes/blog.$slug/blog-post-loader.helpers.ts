@@ -1,6 +1,6 @@
-import { type MdxPageAndSlug } from '~/schemas/github'
+import { type MdxListItem } from '~/schemas/github'
 
-export type BlogPostListItem = Omit<MdxPageAndSlug, 'code'>
+export type BlogPostListItem = MdxListItem
 
 export type BlogList = {
 	publishedPages: BlogPostListItem[]

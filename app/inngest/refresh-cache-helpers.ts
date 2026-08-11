@@ -55,10 +55,14 @@ export function buildTilAlgoliaObject(
 
 export function getRedisPageArgsFromKey(key: string) {
 	const segments = key.split(':')
-	if (segments.length < 3) return null
-	if (segments[0] !== 'gql') return null
+	if (segments.length < 5) return null
 
-	const [, contentDir, ...slugParts] = segments
+	const [protocol, namespace, version, contentDir, ...slugParts] = segments
+	if (protocol !== 'gql' || namespace !== 'mdx-page' || version !== 'v2') {
+		return null
+	}
+
 	const slug = slugParts.join(':')
+	if (!contentDir || !slug) return null
 	return { contentDir, slug }
 }

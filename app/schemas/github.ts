@@ -80,12 +80,21 @@ const ReadTimeSchema = z.object({
 	words: z.number(),
 })
 
+const MdxHeadingSchema = z.object({
+	id: z.string(),
+	text: z.string(),
+	depth: z.union([z.literal(2), z.literal(3)]),
+})
+
+export type MdxHeading = z.infer<typeof MdxHeadingSchema>
+
 export const MdxPageSchema = z.object({
 	code: z.string().optional(),
 	readTime: ReadTimeSchema.optional(),
 	frontmatter: MdxFrontmatterSchema,
 	matter: MdxMatterSchema,
 	slug: OptionalStringSchema,
+	headings: z.array(MdxHeadingSchema).default([]),
 })
 
 export type MdxPage = z.infer<typeof MdxPageSchema>
@@ -93,6 +102,8 @@ export type MdxPage = z.infer<typeof MdxPageSchema>
 export type MdxPageAndSlug = MdxPage & {
 	path?: string
 }
+
+export type MdxListItem = Omit<MdxPageAndSlug, 'code' | 'headings'>
 
 export type TilMdxPage = MdxPageAndSlug & {
 	offset: number

@@ -99,19 +99,23 @@ describe('buildTilAlgoliaObject', () => {
 describe('getRedisPageArgsFromKey', () => {
 	it('parses a valid gql key into contentDir and slug', () => {
 		expect(
-			getRedisPageArgsFromKey('gql:blog:20-web-performance-fundamentals'),
+			getRedisPageArgsFromKey(
+				'gql:mdx-page:v2:blog:20-web-performance-fundamentals',
+			),
 		).toEqual({ contentDir: 'blog', slug: '20-web-performance-fundamentals' })
 	})
 
 	it('parses pages keys correctly', () => {
-		expect(getRedisPageArgsFromKey('gql:pages:uses')).toEqual({
+		expect(getRedisPageArgsFromKey('gql:mdx-page:v2:pages:uses')).toEqual({
 			contentDir: 'pages',
 			slug: 'uses',
 		})
 	})
 
-	it('returns null for keys with fewer than 3 segments', () => {
-		expect(getRedisPageArgsFromKey('gql:blog')).toBeNull()
+	it('returns null for keys outside the current MDX page namespace', () => {
+		expect(
+			getRedisPageArgsFromKey('gql:blog:20-web-performance-fundamentals'),
+		).toBeNull()
 	})
 
 	it('returns null for keys without expected prefix', () => {

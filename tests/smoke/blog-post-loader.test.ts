@@ -7,7 +7,7 @@ import {
 	hasTwitterStatusUrl,
 } from '~/routes/blog.$slug/blog-post-loader.helpers'
 import { getBlogPostLoaderData } from '~/routes/blog.$slug/blog-post-loader.server'
-import { type MdxPage, type MdxPageAndSlug } from '~/schemas/github'
+import { type MdxListItem, type MdxPage } from '~/schemas/github'
 
 const makePage = (overrides: Partial<MdxPage> = {}): MdxPage => ({
 	frontmatter: {
@@ -29,13 +29,14 @@ const makePage = (overrides: Partial<MdxPage> = {}): MdxPage => ({
 		...overrides.readTime,
 	},
 	slug: 'blog/current-post',
+	headings: [],
 	...overrides,
 })
 
 const makeListItem = (
 	slug: string,
-	overrides: Partial<Omit<MdxPageAndSlug, 'code'>> = {},
-): Omit<MdxPageAndSlug, 'code'> => ({
+	overrides: Partial<MdxListItem> = {},
+): MdxListItem => ({
 	frontmatter: {
 		title: slug,
 		date: '2026-04-26',

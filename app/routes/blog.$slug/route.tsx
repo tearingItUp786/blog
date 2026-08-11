@@ -1,3 +1,4 @@
+import { twJoin, twMerge } from 'cnfast'
 import { useEffect, useRef, useState } from 'react'
 import {
 	type HeadersFunction,
@@ -11,7 +12,6 @@ import {
 	useSearchParams,
 } from 'react-router'
 import { type ExternalScriptsHandle } from 'remix-utils/external-scripts'
-import { twJoin, twMerge } from 'cnfast'
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload'
 import {
 	type BlogPostLoaderData,
@@ -19,6 +19,11 @@ import {
 } from './blog-post-loader.server'
 import { LineSvg } from './line-svg'
 import { PreviousAndNextLinks } from './previous-and-next-links'
+import {
+	DesktopTableOfContents,
+	MobileTableOfContents,
+} from './table-of-contents'
+import { useActiveHeadingId } from './use-active-heading'
 import { PILL_CLASS_NAME, PILL_CLASS_NAME_ACTIVE } from '~/components/pill'
 import { H1, H4 } from '~/components/typography'
 import { useMdxComponent } from '~/utils/mdx-utils'
@@ -208,10 +213,12 @@ function CopyLinkButton({ url }: { url: string }) {
 export default function MdxScreen() {
 	const data = useLoaderData<typeof loader>()
 	const [searchParams] = useSearchParams()
-	const { code, frontmatter, readTime } = data.page
+	const { code, frontmatter, headings, readTime } = data.page
 	const Component = useMdxComponent(String(code))
 	const loc = useLocation()
 	const lazyLoadRef = useRef<ILazyLoadInstance | null>(null)
+	const activeHeadingId = useActiveHeadingId(headings)
+	const hasTableOfContents = headings.length >= 2
 
 	const tweetMessage = `I just read "${
 		frontmatter!.title
@@ -285,63 +292,84 @@ export default function MdxScreen() {
 				Blog
 			</H1>
 
-			<main className="prose prose-light dark:prose-dark relative grid max-w-full grid-cols-4 break-words md:mb-12 md:grid-cols-12">
-				<FrontmatterSubtitle
-					tag={frontmatter.tag}
-					time={readTime?.text}
-					date={frontmatter.date}
+			<div
+				className={twJoin(
+					hasTableOfContents &&
+						'min-[1280px]:grid min-[1280px]:grid-cols-[minmax(0,1fr)_14rem] min-[1280px]:gap-12',
+				)}
+			>
+				<DesktopTableOfContents
+					headings={headings}
+					activeHeadingId={activeHeadingId}
 				/>
-				<div className="">
-					<div className="col-span-full lg:col-span-8 lg:col-start-3">
-						<H1 className="mb-4">{frontmatter.title}</H1>
-						{frontmatter.subtitle ? (
-							<H4 As="h2" variant="secondary" className="my-0 leading-tight">
-								{frontmatter.subtitle}
-							</H4>
-						) : null}
+				<main
+					className={twJoin(
+						'blog-post prose prose-light dark:prose-dark relative grid max-w-full min-w-0 grid-cols-4 break-words md:mb-12 md:grid-cols-12',
+						hasTableOfContents &&
+							'min-[1280px]:col-start-1 min-[1280px]:row-start-1',
+					)}
+				>
+					<FrontmatterSubtitle
+						tag={frontmatter.tag}
+						time={readTime?.text}
+						date={frontmatter.date}
+					/>
+					<div>
+						<div className="col-span-full lg:col-span-8 lg:col-start-3">
+							<H1 className="mb-4">{frontmatter.title}</H1>
+							{frontmatter.subtitle ? (
+								<H4 As="h2" variant="secondary" className="my-0 leading-tight">
+									{frontmatter.subtitle}
+								</H4>
+							) : null}
+						</div>
 					</div>
-				</div>
-				<Component />
-				<p className="text-subheading-color mt-12 mb-0 text-lg italic">
-					{data.signOffMessage}
-				</p>
-				<div className="pt-8 pb-4 md:flex md:flex-wrap">
-					<CopyLinkButton url={data.reqUrl} />
+					<MobileTableOfContents
+						headings={headings}
+						activeHeadingId={activeHeadingId}
+					/>
+					<Component />
+					<p className="text-subheading-color mt-12 mb-0 text-lg italic">
+						{data.signOffMessage}
+					</p>
+					<div className="pt-8 pb-4 md:flex md:flex-wrap">
+						<CopyLinkButton url={data.reqUrl} />
 
-					<a
-						href={`https://twitter.com/intent/tweet?${new URLSearchParams({
-							url: data.reqUrl,
-							text: tweetMessage,
-						})}`}
-						target="_blank"
-						rel="noreferrer"
-						className={twJoin(
-							PILL_CLASS_NAME,
-							PILL_CLASS_NAME_ACTIVE,
-							'mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
-						)}
-					>
-						Share on 𝕏
-					</a>
-
-					<a
-						target="_blank"
-						rel="noreferrer"
-						className={twJoin(
-							PILL_CLASS_NAME,
-							PILL_CLASS_NAME_ACTIVE,
-							'py-1.5 text-lg leading-6',
-						)}
-						href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
-							{
+						<a
+							href={`https://twitter.com/intent/tweet?${new URLSearchParams({
 								url: data.reqUrl,
-							},
-						)}`}
-					>
-						Share on LinkedIn
-					</a>
-				</div>
-			</main>
+								text: tweetMessage,
+							})}`}
+							target="_blank"
+							rel="noreferrer"
+							className={twJoin(
+								PILL_CLASS_NAME,
+								PILL_CLASS_NAME_ACTIVE,
+								'mr-7 mb-4 py-1.5 text-lg leading-6 md:mb-0',
+							)}
+						>
+							Share on 𝕏
+						</a>
+
+						<a
+							target="_blank"
+							rel="noreferrer"
+							className={twJoin(
+								PILL_CLASS_NAME,
+								PILL_CLASS_NAME_ACTIVE,
+								'py-1.5 text-lg leading-6',
+							)}
+							href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams(
+								{
+									url: data.reqUrl,
+								},
+							)}`}
+						>
+							Share on LinkedIn
+						</a>
+					</div>
+				</main>
+			</div>
 			<div className="relative">
 				<PreviousAndNextLinks
 					className="mt-4 mb-12 flex px-0 lg:px-24"

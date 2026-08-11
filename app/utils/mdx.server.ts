@@ -7,7 +7,13 @@ import { bundleMDX } from 'mdx-bundler'
 import type TPQueue from 'p-queue'
 import calculateReadingTime from 'reading-time'
 
-import { MdxPageSchema, type GithubGraphqlObject } from '~/schemas/github'
+import {
+	MdxPageSchema,
+	type GithubGraphqlObject,
+	type MdxHeading,
+	type MdxPage,
+} from '~/schemas/github'
+import { rehypeExtractHeadings } from '~/utils/rehype-extract-headings.server'
 
 if (process.platform === 'win32') {
 	process.env.ESBUILD_BINARY_PATH = path.join(
@@ -101,6 +107,7 @@ export async function compileMdxForGraphql(
 
 	try {
 		const mdxText = mdxFile.object?.text ?? ''
+		const headings: MdxHeading[] = []
 		const { frontmatter, code, matter } = await bundleMDX({
 			source: mdxText,
 			files,
@@ -179,6 +186,7 @@ export async function compileMdxForGraphql(
 						},
 					],
 					rehypeSlug,
+					[rehypeExtractHeadings, { headings }],
 					[
 						rehypeAutolinkHeadings,
 						{
@@ -231,6 +239,7 @@ export async function compileMdxForGraphql(
 			frontmatter,
 			matter,
 			slug,
+			headings,
 		})
 	} catch (error: unknown) {
 		console.error(`Compilation error for slug: `, slug)
@@ -264,11 +273,11 @@ async function getQueue() {
 // or we'll hit an out of memory error because esbuild uses a lot of memory...
 async function queuedCompileMdxGql(
 	...args: Parameters<typeof compileMdxForGraphql>
-) {
+): Promise<MdxPage | null> {
 	const queue = await getQueue()
 	const result = await queue.add(() => compileMdxForGraphql(...args))
 
-	return result
+	return result ?? null
 }
 
 export { queuedCompileMdxGql }

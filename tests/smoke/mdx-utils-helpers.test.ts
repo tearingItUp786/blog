@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { type GithubGraphqlObject, type MdxPage } from '~/schemas/github'
 import {
 	buildTagCounts,
+	getMdxPageCacheKey,
 	getGithubGqlObjForMdx,
 	groupTagCountsByInitial,
 	mapFromMdxPageToMdxListItem,
@@ -95,17 +96,27 @@ describe('groupTagCountsByInitial', () => {
 })
 
 describe('mapFromMdxPageToMdxListItem', () => {
-	it('removes code and preserves other fields', () => {
+	it('removes page-only fields and preserves list metadata', () => {
 		const page: MdxPage = {
 			code: 'export default function Post() {}',
 			frontmatter: { title: 'Hello', date: '2026-04-26' },
 			matter: { content: 'Hi', data: {} },
 			readTime: { minutes: 1, text: '1 min read', time: 60000, words: 100 },
 			slug: 'blog/hello',
+			headings: [{ id: 'hello', text: 'Hello', depth: 2 }],
 		}
 		const result = mapFromMdxPageToMdxListItem(page)
 		expect(result).not.toHaveProperty('code')
+		expect(result).not.toHaveProperty('headings')
 		expect(result.frontmatter).toEqual(page.frontmatter)
 		expect(result.slug).toBe('blog/hello')
+	})
+})
+
+describe('getMdxPageCacheKey', () => {
+	it('uses a versioned namespace for individual MDX pages', () => {
+		expect(getMdxPageCacheKey('blog', 'my-post')).toBe(
+			'gql:mdx-page:v2:blog:my-post',
+		)
 	})
 })

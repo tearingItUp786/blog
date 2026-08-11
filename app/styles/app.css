@@ -56,6 +56,16 @@
   scroll-margin-top: 1rem;
 }
 
+.blog-post .title {
+  scroll-margin-top: 4.5rem;
+}
+
+@media (min-width: 1280px) {
+  .blog-post .title {
+    scroll-margin-top: 1rem;
+  }
+}
+
 .title a {
   position: absolute;
   left: 0;
@@ -100,6 +110,23 @@
   #progress {
     animation: none;
     transform: scaleX(1);
+  }
+}
+
+@keyframes reveal-mobile-toc {
+  from {
+    opacity: 0;
+    transform: translateY(-0.125rem);
+  }
+}
+
+.mobile-toc[open] .mobile-toc-panel {
+  animation: reveal-mobile-toc 120ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-toc[open] .mobile-toc-panel {
+    animation: none;
   }
 }
 

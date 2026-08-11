@@ -7,7 +7,7 @@ import {
 } from './route-data-helpers.server'
 import {
 	type MdxPage,
-	type MdxPageAndSlug,
+	type MdxListItem,
 	type TilMdxPage,
 } from '~/schemas/github'
 
@@ -53,14 +53,14 @@ export async function getBlogIndexLoaderData({
 	requestUrl: string
 	getFeaturedBlogPost: (args: {
 		includeDrafts: boolean
-	}) => Promise<Omit<MdxPageAndSlug, 'code'> | null>
+	}) => Promise<MdxListItem | null>
 	getPaginatedBlogList: (args: {
 		page: number
 		perPage: number
 		includeDrafts: boolean
 		excludeFeatured: boolean
 	}) => Promise<{
-		posts: Array<Omit<MdxPageAndSlug, 'code'>>
+		posts: MdxListItem[]
 		pagination: {
 			currentPage: number
 			totalPages: number

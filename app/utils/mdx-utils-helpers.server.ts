@@ -1,8 +1,12 @@
 import {
 	type GithubGraphqlObject,
+	type MdxListItem,
 	type MdxPage,
-	type MdxPageAndSlug,
 } from '~/schemas/github'
+
+export function getMdxPageCacheKey(contentDir: string, slug: string) {
+	return `gql:mdx-page:v2:${contentDir}:${slug}`
+}
 
 export function getGithubGqlObjForMdx(entry: GithubGraphqlObject) {
 	if (entry?.object?.text) {
@@ -74,9 +78,7 @@ export function groupTagCountsByInitial(
 	)
 }
 
-export function mapFromMdxPageToMdxListItem(
-	page: MdxPage,
-): Omit<MdxPageAndSlug, 'code'> {
-	const { code, ...mdxListItem } = page
+export function mapFromMdxPageToMdxListItem(page: MdxPage): MdxListItem {
+	const { code, headings, ...mdxListItem } = page
 	return mdxListItem
 }

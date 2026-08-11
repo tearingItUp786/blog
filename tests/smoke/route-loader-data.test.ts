@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { type MdxPage, type MdxPageAndSlug } from '~/schemas/github'
+import { type MdxListItem, type MdxPage } from '~/schemas/github'
 import {
 	getEffectiveTilOffset,
 	isTilFromFetcher,
@@ -26,13 +26,14 @@ const makePage = (overrides: Partial<MdxPage> = {}): MdxPage => ({
 		...overrides.readTime,
 	},
 	slug: 'blog/test',
+	headings: [],
 	...overrides,
 })
 
 const makeListItem = (
 	slug: string,
-	overrides: Partial<Omit<MdxPageAndSlug, 'code'>> = {},
-): Omit<MdxPageAndSlug, 'code'> => ({
+	overrides: Partial<MdxListItem> = {},
+): MdxListItem => ({
 	frontmatter: { title: slug, date: '2026-04-26', ...overrides.frontmatter },
 	matter: { content: '', data: {}, ...overrides.matter },
 	readTime: {
@@ -227,6 +228,7 @@ describe('getPageRouteLoaderData', () => {
 					code: '',
 					frontmatter: {},
 					matter: { content: '' },
+					headings: [],
 				}),
 			}),
 		).rejects.toMatchObject({ status: 302 })
