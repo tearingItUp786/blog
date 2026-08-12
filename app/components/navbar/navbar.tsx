@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { NavLink, useLocation, useSearchParams } from 'react-router'
 import { twJoin, twMerge } from 'cnfast'
+import { FocusTrap } from 'focus-trap-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { NavLink, useLocation, useSearchParams } from 'react-router'
 import { MobileNav } from './mobile'
 import { Search } from './search'
 import { ServerThemeToggle } from '~/components/theme-toggle'
@@ -32,15 +33,37 @@ export function Navbar() {
 	searchParamsWithoutOffset.delete('page')
 
 	const [isOpen, setIsOpen] = useState(false)
+	const [isMobile, setIsMobile] = useState(false)
+	const [menuPanel, setMenuPanel] = useState<HTMLElement | null>(null)
+	const [menuControls, setMenuControls] = useState<HTMLDivElement | null>(null)
+	const firstLinkRef = useRef<HTMLAnchorElement>(null)
+	const menuButtonRef = useRef<HTMLButtonElement>(null)
+	const shouldReturnFocusRef = useRef(true)
 	const loc = useLocation()
+	const setMenuButtonRefs = useCallback((button: HTMLButtonElement | null) => {
+		if (!button) return
+
+		menuButtonRef.current = button
+	}, [])
 
 	useEffect(() => {
-		setIsOpen((prev) => {
-			if (prev) {
-				return false
+		const mobileQuery = window.matchMedia('(max-width: 1023px)')
+		const updateIsMobile = () => {
+			setIsMobile(mobileQuery.matches)
+			if (!mobileQuery.matches) {
+				shouldReturnFocusRef.current = false
+				setIsOpen(false)
 			}
-			return prev
-		})
+		}
+
+		updateIsMobile()
+		mobileQuery.addEventListener('change', updateIsMobile)
+		return () => mobileQuery.removeEventListener('change', updateIsMobile)
+	}, [])
+
+	useEffect(() => {
+		shouldReturnFocusRef.current = false
+		setIsOpen(false)
 	}, [loc])
 
 	useEffect(() => {
@@ -51,6 +74,14 @@ export function Navbar() {
 			)
 			document.body.classList.add('overflow-hidden', 'lg:overflow-auto')
 		} else {
+			document.documentElement.classList.remove(
+				'overflow-hidden',
+				'lg:overflow-auto',
+			)
+			document.body.classList.remove('overflow-hidden', 'lg:overflow-auto')
+		}
+
+		return () => {
 			document.documentElement.classList.remove(
 				'overflow-hidden',
 				'lg:overflow-auto',
@@ -77,7 +108,10 @@ export function Navbar() {
 			>
 				<HomeIcon />
 			</NavLink>
-			<div
+			<nav
+				ref={setMenuPanel}
+				id="mobile-navigation"
+				aria-label="Primary navigation"
 				className={twMerge(
 					isOpen
 						? 'visible scale-100 opacity-100'
@@ -86,6 +120,7 @@ export function Navbar() {
 				)}
 			>
 				<NavLink
+					ref={firstLinkRef}
 					prefetch="intent"
 					className={setNavClassName}
 					to={`/about?${searchParamsWithoutOffset}`}
@@ -123,10 +158,40 @@ export function Navbar() {
 				<div className="flex w-full items-center justify-center lg:ml-6">
 					<ServerThemeToggle />
 				</div>
-			</div>
+			</nav>
 
 			<div className="relative flex w-20 grow items-center justify-end md:pr-0 lg:grow">
-				<MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />
+				<FocusTrap
+					active={isOpen && isMobile}
+					containerElements={
+						menuPanel && menuControls ? [menuPanel, menuControls] : []
+					}
+					focusTrapOptions={{
+						delayInitialFocus: false,
+						escapeDeactivates: () => {
+							shouldReturnFocusRef.current = true
+							setIsOpen(false)
+							return false
+						},
+						initialFocus: () => firstLinkRef.current,
+						setReturnFocus: () => {
+							const menuButton = menuButtonRef.current
+							return shouldReturnFocusRef.current && menuButton
+								? menuButton
+								: false
+						},
+					}}
+				>
+					<MobileNav
+						isOpen={isOpen}
+						setIsOpen={(nextIsOpen) => {
+							shouldReturnFocusRef.current = true
+							setIsOpen(nextIsOpen)
+						}}
+						buttonRef={setMenuButtonRefs}
+						containerRef={setMenuControls}
+					/>
+				</FocusTrap>
 				<Search />
 			</div>
 		</div>

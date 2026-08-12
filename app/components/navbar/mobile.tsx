@@ -3,10 +3,18 @@ import { twJoin, twMerge } from 'cnfast'
 type Props = {
 	isOpen: boolean
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+	buttonRef: React.Ref<HTMLButtonElement>
+	containerRef: React.Ref<HTMLDivElement>
 }
-export function MobileNav({ isOpen, setIsOpen }: Props) {
+export function MobileNav({
+	isOpen,
+	setIsOpen,
+	buttonRef,
+	containerRef,
+}: Props) {
 	return (
 		<div
+			ref={containerRef}
 			className={twJoin(
 				'lg:hidden',
 				isOpen
@@ -16,8 +24,10 @@ export function MobileNav({ isOpen, setIsOpen }: Props) {
 			)}
 		>
 			<button
+				ref={buttonRef}
 				aria-label={isOpen ? 'Close menu' : 'Open menu'}
 				aria-expanded={isOpen}
+				aria-controls="mobile-navigation"
 				className={twJoin(
 					'border-radius-[-4px] pointer absolute top-3.5 right-0 z-20 translate-y-[-50%] border-none bg-transparent p-4 pt-5',
 					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
