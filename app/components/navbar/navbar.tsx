@@ -68,7 +68,7 @@ export function Navbar() {
 	}
 
 	return (
-		<div className="relative mx-auto flex min-h-13.75 w-full max-w-screen-xl justify-between px-4 pt-8 md:px-20">
+		<div className="relative z-30 mx-auto flex min-h-13.75 w-full max-w-screen-xl justify-between px-4 pt-8 md:px-20 lg:z-auto">
 			<NavLink
 				aria-label="Link to home page"
 				prefetch="intent"
