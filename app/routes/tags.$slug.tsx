@@ -1,3 +1,4 @@
+import { twJoin } from 'cnfast'
 import { useEffect, useMemo, useRef } from 'react'
 import {
 	type LoaderFunctionArgs,
@@ -8,12 +9,11 @@ import {
 	useParams,
 	useSearchParams,
 } from 'react-router'
-
-import { twJoin } from 'cnfast'
 import LazyLoad from 'vanilla-lazyload'
+import { BlogCard } from './blog._index/blog-card'
 import { ContentCard as GenericContentCard } from './til/content-card'
 import { PILL_CLASS_NAME } from '~/components/pill'
-import { H1, H3 } from '~/components/typography'
+import { H1, H2 } from '~/components/typography'
 import { getMdxIndividualTagGql } from '~/utils/mdx-utils.server'
 import { delRedisKey } from '~/utils/redis.server'
 import { tilMapper } from '~/utils/til-list'
@@ -79,8 +79,8 @@ export default function SingleTag() {
 	}, [])
 
 	return (
-		<div className="relative mx-auto mt-6 mb-4 w-screen max-w-screen-xl grow px-4 md:mt-14 md:mb-10 md:px-20">
-			<main className="prose prose-light dark:prose-dark relative grid max-w-full grid-cols-4 wrap-break-word md:mb-12 md:grid-cols-12 md:*:col-span-12">
+		<div className="relative mx-auto mt-6 mb-4 w-full max-w-screen-xl grow px-4 md:mt-14 md:mb-10 md:px-20">
+			<header className="prose prose-light dark:prose-dark max-w-full wrap-break-word">
 				<H1 className="w-full border-b-2 dark:border-b-white">
 					Today I learned about... <br />
 					<span
@@ -95,58 +95,65 @@ export default function SingleTag() {
 				<NavLink
 					prefetch="intent"
 					to={'/tags?' + searchParams.toString()}
-					className="group no-underline"
+					className="text-accent inline-block text-sm font-medium no-underline hover:underline focus-visible:outline-2 focus-visible:outline-offset-4"
 				>
-					<H3 className="group-hover:text-accent inline">Back to all tags</H3>
+					← All tags
 				</NavLink>
-				{tilComponents.map((til, i) => {
-					const Component: any = tilComponents?.[i]?.component ?? null
-					if (!til?.frontmatter) return null
-					return (
-						<div
-							key={til.frontmatter.title}
-							className="mb-20 first-of-type:mt-12 last-of-type:mb-0"
-						>
-							<GenericContentCard
-								id={til?.slug}
-								titleTo={`?${searchParams.toString()}#${til?.slug}`}
-								key={`${til.frontmatter.title}-${til.frontmatter.date}`}
-								title={til.frontmatter.title}
-								date={til.frontmatter.date}
-								tag={til.frontmatter.tag}
-								showBlackLine={false}
-							>
-								{Component ? <Component /> : null}
-							</GenericContentCard>
-						</div>
-					)
-				})}
+			</header>
 
-				{blogList.map((blog) => {
-					return (
-						<div
-							key={blog.frontmatter.title}
-							className="mb-20 first-of-type:mt-12 last-of-type:mb-0"
-						>
-							{/* TODO: figure how a generic component can be used here */}
-							<GenericContentCard
-								titleTo={`/blog/${blog.slug}?${searchParams.toString()}`}
-								key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
-								title={blog.frontmatter.title}
-								date={blog.frontmatter.date}
-								tag={blog.frontmatter.tag}
-								showBlackLine={false}
-							>
-								<H3>
-									Blog post about:{' '}
-									{blog.frontmatter.subtitle ??
-										blog.frontmatter.description ??
-										'This blog entry needs a description'}
-								</H3>
-							</GenericContentCard>
+			<main className="mt-10 space-y-20 md:mb-12">
+				{tilComponents.length > 0 ? (
+					<section aria-labelledby="til-results-heading">
+						<H2 id="til-results-heading" className="mb-6 text-xl md:text-2xl">
+							TILs
+						</H2>
+						<div className="prose prose-light dark:prose-dark max-w-full md:max-w-5xl">
+							{tilComponents.map((til) => {
+								const Component = til.component
+								if (!til.frontmatter) return null
+								return (
+									<div
+										key={`${til.frontmatter.title}-${til.frontmatter.date}`}
+										className="mb-16 last:mb-0 md:mb-20"
+									>
+										<GenericContentCard
+											id={til.slug}
+											titleTo={`?${searchParams.toString()}#${til.slug}`}
+											title={til.frontmatter.title}
+											date={til.frontmatter.date}
+											tag={til.frontmatter.tag}
+											showBlackLine={false}
+										>
+											<Component />
+										</GenericContentCard>
+									</div>
+								)
+							})}
 						</div>
-					)
-				})}
+					</section>
+				) : null}
+
+				{blogList.length > 0 ? (
+					<section aria-labelledby="blog-results-heading">
+						<H2 id="blog-results-heading" className="mb-8 text-xl md:text-2xl">
+							Blog posts
+						</H2>
+						<div className="grid grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
+							{blogList.map((blog) => (
+								<div
+									key={`${blog.frontmatter.title}-${blog.frontmatter.date}`}
+									className="col-span-full md:col-span-4 lg:col-span-6"
+								>
+									<BlogCard
+										{...blog.frontmatter}
+										className="border-medium-gray overflow-clip rounded-md border border-solid focus-visible:outline-2 dark:border-white"
+										slug={`blog/${blog.slug}`}
+									/>
+								</div>
+							))}
+						</div>
+					</section>
+				) : null}
 			</main>
 		</div>
 	)
