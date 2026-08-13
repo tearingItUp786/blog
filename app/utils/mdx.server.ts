@@ -14,6 +14,7 @@ import {
 	type MdxPage,
 } from '~/schemas/github'
 import { rehypeExtractHeadings } from '~/utils/rehype-extract-headings.server'
+import { rehypeGeneratedMermaid } from '~/utils/rehype-generated-mermaid.server'
 
 if (process.platform === 'win32') {
 	process.env.ESBUILD_BINARY_PATH = path.join(
@@ -153,6 +154,7 @@ export async function compileMdxForGraphql(
 				]
 				options.rehypePlugins = [
 					...(options.rehypePlugins ?? []),
+					[rehypeGeneratedMermaid, { files, slug }],
 					[rehypeMermaid, { strategy: 'pre-mermaid' }],
 					[
 						rehypeCodeTitles,

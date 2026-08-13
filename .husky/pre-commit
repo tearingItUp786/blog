@@ -1,1 +1,2 @@
+pnpm diagrams:precommit
 npx lint-staged

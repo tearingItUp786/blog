@@ -172,12 +172,8 @@ export const refreshBlogFiles = inngest.createFunction(
 		for (const file of bFiles) {
 			const slug = getBlogSlugFromContentFilename(file.filename)
 
-			if (
-				file.changeType === 'deleted' ||
-				file.changeType === 'modified' ||
-				file.changeType === 'moved'
-			) {
-				await delMdxPageGql({ contentDir: 'blog', slug })
+			await delMdxPageGql({ contentDir: 'blog', slug })
+			if (file.changeType !== 'added') {
 				try {
 					await ALGOLIA_INDEX.deleteObject(slug)
 				} catch {

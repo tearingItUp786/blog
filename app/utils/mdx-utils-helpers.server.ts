@@ -8,11 +8,17 @@ export function getMdxPageCacheKey(contentDir: string, slug: string) {
 	return `gql:mdx-page:v2:${contentDir}:${slug}`
 }
 
-export function getGithubGqlObjForMdx(entry: GithubGraphqlObject) {
+export function getGithubGqlObjForMdx(
+	entry: GithubGraphqlObject,
+	siblings: GithubGraphqlObject[] = [],
+) {
 	if (entry?.object?.text) {
 		return {
 			name: entry?.name,
-			files: [entry],
+			files: [
+				entry,
+				...siblings.filter((sibling) => sibling.name?.endsWith('.svg')),
+			],
 		}
 	}
 	return {

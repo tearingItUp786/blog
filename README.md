@@ -36,7 +36,6 @@ Optional:
    ```
 
 2. Create local env values:
-
    - copy `.env.example` to `.env`, or
    - pull with dotenv vault:
 
@@ -77,12 +76,14 @@ App runs at `http://localhost:8080` by default.
 - `pnpm test` - run smoke tests via Vitest
 - `pnpm test:watch` - run Vitest in watch mode
 - `pnpm test:single` - run a single test file or filtered tests
+- `pnpm diagrams:check` - verify Mermaid fences have current sibling SVGs
 
 ## Quality Gates
 
-- Pre-commit hook runs `lint-staged`.
+- Pre-commit generates missing/stale Mermaid SVGs through OpenCode and stops for
+  review before running `lint-staged`.
 - `lint-staged` runs clean, test, lint, typecheck, and prettier on staged files.
-- CI deploy workflow runs lint, typecheck, and test before deploy.
+- CI validates diagram assets before both deploy and content-only refresh paths.
 
 ## Deployment
 

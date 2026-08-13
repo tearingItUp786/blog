@@ -145,6 +145,54 @@ img[id^='mermaid-'] {
   padding: 1rem;
 }
 
+.generated-mermaid-scroll {
+  background-color: var(--color-dark-gray-100);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  margin: 2rem auto;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  width: 100%;
+}
+
+.generated-mermaid-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+svg.generated-mermaid {
+  background-color: var(--color-dark-gray-100);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  display: block;
+  height: auto;
+  margin: 2rem auto;
+  max-width: 100%;
+  padding: 1rem;
+  width: 100%;
+}
+
+.generated-mermaid-scroll svg.generated-mermaid {
+  border: 0;
+  border-radius: 0;
+  display: block;
+  height: auto;
+  margin: 0;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+
+@media (max-width: 40rem) {
+  /* Preserve label legibility; narrow screens pan instead of shrinking the diagram. */
+  .generated-mermaid-scroll svg.generated-mermaid {
+    min-width: 40rem;
+  }
+}
+
 pre.mermaid {
   line-height: 1.5;
   white-space: pre;

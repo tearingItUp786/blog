@@ -16,15 +16,9 @@ export function partitionContentFiles(contentFiles: FileSchema[]) {
 }
 
 export function getBlogSlugFromContentFilename(filename: string) {
-	const slug = filename.replace('content/blog', '')
-
-	// Directory-style: /dir/index.mdx -> /dir
-	// Top-level: /post.mdx -> /post
-	const stripped = slug.includes('/', 1)
-		? slug.replace(/\/[^/]+\.mdx?$/, '')
-		: slug.replace(/\.mdx?$/, '')
-
-	return stripped.replace(/\//g, '')
+	const relativePath = filename.replace(/^content\/blog\/?/, '')
+	const [firstSegment] = relativePath.split('/')
+	return firstSegment?.replace(/\.mdx?$/, '') ?? ''
 }
 
 export function buildBlogAlgoliaObject(

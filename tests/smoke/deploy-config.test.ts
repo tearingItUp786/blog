@@ -32,4 +32,13 @@ describe('deploy config smoke tests', () => {
 		expect(deployWorkflow).toContain('timeout-minutes: 30')
 		expect(deployWorkflow).not.toContain('}} ||')
 	})
+
+	it('checks generated diagrams before deploys and content-only refreshes', () => {
+		const deployWorkflow = readProjectFile('.github/workflows/deploy.yml')
+
+		expect(deployWorkflow).toContain('diagrams:')
+		expect(deployWorkflow).toContain('run: pnpm run diagrams:check')
+		expect(deployWorkflow).toContain('needs: [changes, quality, diagrams]')
+		expect(deployWorkflow).toContain('needs: [changes, diagrams]')
+	})
 })

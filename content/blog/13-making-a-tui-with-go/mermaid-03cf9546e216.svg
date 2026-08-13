@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="bubble-tea-title bubble-tea-desc">
+  <title id="bubble-tea-title">Bubble Tea program architecture</title>
+  <desc id="bubble-tea-desc">Architecture showing package main starting a Bubble Tea program, initialization entering an event loop where Update changes Model, Model feeds View, commands produce messages, and keyboard side effects feed updates.</desc>
+  <defs>
+    <marker id="bubble-tea-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a6a6a6" /></marker>
+    <marker id="bubble-tea-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb36a1" /></marker>
+  </defs>
+
+  <rect width="960" height="600" fill="#262626" />
+
+  <rect x="232" y="144" width="688" height="376" rx="8" fill="#2b2b2b" stroke="#666666" stroke-width="1" stroke-dasharray="4 4" />
+  <rect x="252" y="136" width="128" height="24" rx="4" fill="#262626" />
+  <text x="316" y="152" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="12" text-anchor="middle" letter-spacing="1.2">BUBBLE TEA</text>
+
+  <rect x="448" y="176" width="432" height="304" rx="8" fill="#303030" stroke="#555555" stroke-width="1" />
+  <rect x="468" y="168" width="128" height="24" rx="4" fill="#262626" />
+  <text x="532" y="184" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="12" text-anchor="middle" letter-spacing="1.2">EVENT LOOP</text>
+
+  <g fill="none" stroke="#a6a6a6" stroke-width="2" marker-end="url(#bubble-tea-arrow)">
+    <path d="M 200 100 H 256" />
+    <path d="M 344 136 V 176" />
+    <path d="M 424 212 H 472 Q 480 212 480 220 V 244" />
+    <path d="M 480 404 H 424" />
+    <path d="M 344 368 V 344" />
+    <path d="M 536 368 V 280" />
+    <path d="M 640 244 H 688" />
+    <path d="M 424 308 H 576 Q 584 308 584 316 V 368" />
+    <path d="M 768 280 V 368" />
+    <path d="M 688 404 H 656" />
+  </g>
+
+  <g font-family="CommitMono, monospace" text-anchor="middle">
+    <g>
+      <rect x="40" y="64" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="120" y="96" fill="#f5f5f5" font-size="16">package main</text>
+      <text x="120" y="120" fill="#a6a6a6" font-size="12">entry point</text>
+    </g>
+    <g>
+      <rect x="256" y="64" width="176" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="344" y="96" fill="#f5f5f5" font-size="16">Bubble Tea</text>
+      <text x="344" y="120" fill="#a6a6a6" font-size="12">program</text>
+    </g>
+    <g>
+      <rect x="264" y="176" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="344" y="208" fill="#f5f5f5" font-size="16">Init</text>
+      <text x="344" y="232" fill="#a6a6a6" font-size="12">bootstrap</text>
+    </g>
+    <g>
+      <rect x="480" y="208" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="560" y="252" fill="#f5f5f5" font-size="16">Model</text>
+    </g>
+    <g>
+      <rect x="688" y="208" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="768" y="252" fill="#f5f5f5" font-size="16">View</text>
+    </g>
+    <g>
+      <rect x="480" y="368" width="176" height="72" rx="8" fill="#3b2937" stroke="#eb36a1" stroke-width="2" />
+      <text x="568" y="400" fill="#f5f5f5" font-size="16">Update</text>
+      <text x="568" y="424" fill="#f5f5f5" font-size="12">state transition</text>
+    </g>
+    <g>
+      <rect x="688" y="368" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="768" y="400" fill="#f5f5f5" font-size="16">Keyboard</text>
+      <text x="768" y="424" fill="#a6a6a6" font-size="12">side effect</text>
+    </g>
+    <g>
+      <rect x="264" y="272" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="344" y="304" fill="#f5f5f5" font-size="16">Message</text>
+      <text x="344" y="328" fill="#a6a6a6" font-size="12">event</text>
+    </g>
+    <g>
+      <rect x="264" y="368" width="160" height="72" rx="8" fill="#303030" stroke="#777777" />
+      <text x="344" y="400" fill="#f5f5f5" font-size="16">Command</text>
+      <text x="344" y="424" fill="#a6a6a6" font-size="12">effect</text>
+    </g>
+  </g>
+
+  <line x1="40" y1="560" x2="920" y2="560" stroke="#4d4d4d" />
+  <text x="40" y="584" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="12">UPDATE → MODEL → VIEW · EFFECTS RETURN AS MESSAGES</text>
+</svg>

@@ -79,8 +79,9 @@ async function getMaxNumberOfTil({ cachifiedOptions }: CommonGetProps = {}) {
 			cache: redisCache,
 			getFreshValue: async () => {
 				const dirList = await downloadDirGql(`content/til`)
+				const entries = dirList.repository.object?.entries ?? []
 				const pageData =
-					dirList.repository.object?.entries?.map(getGithubGqlObjForMdx) ?? []
+					entries.map((entry) => getGithubGqlObjForMdx(entry, entries)) ?? []
 
 				// have some tils that aren't in directories
 				const sanitizedPageNames = pageData.map((page) => {
@@ -406,7 +407,7 @@ async function getMdxIndividualTagGql({
 
 						const retArray = await Promise.all(
 							listItemsWithTag.map(async (listItem) => {
-								const dataToPass = getGithubGqlObjForMdx(listItem)
+								const dataToPass = getGithubGqlObjForMdx(listItem, list)
 								const data = await queuedCompileMdxGql(
 									dataToPass.name,
 									dataToPass?.files,

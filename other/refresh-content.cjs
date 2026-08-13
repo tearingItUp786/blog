@@ -80,7 +80,20 @@ async function go() {
 	try {
 		if (isProd) await checkAlive()
 
-		const changes = await getChangedFiles('HEAD^', 'HEAD')
+		const beforeSha = process.env.BEFORE_SHA
+		const changes = await getChangedFiles(
+			beforeSha && !/^0+$/.test(beforeSha) ? beforeSha : 'HEAD^',
+			process.env.COMMIT_SHA ?? 'HEAD',
+		)
+		if (changes === null) {
+			console.log('Unable to determine content range; requesting a full refresh.')
+			await postRefreshCache({
+				postData: {contentFiles: []},
+				options: {headers: {'x-force-fresh': 'true'}},
+			})
+			return
+		}
+
 		const contentFiles = changes.filter((change) =>
 			change.filename.startsWith('content'),
 		)

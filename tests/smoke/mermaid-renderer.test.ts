@@ -47,6 +47,12 @@ describe('browser Mermaid rendering', () => {
 
 		expect(css).toContain('pre.mermaid')
 		expect(css).toContain('pre.mermaid[data-processed] svg')
-		expect(css).toContain('overflow-x: auto')
+		expect(css).toMatch(
+			/\.generated-mermaid-scroll\s*\{[^}]*overflow-x:\s*auto[^}]*width:\s*100%/s,
+		)
+		expect(css).toMatch(
+			/\.generated-mermaid-scroll svg\.generated-mermaid\s*\{[^}]*min-width:\s*40rem/s,
+		)
+		expect(css).toMatch(/svg\.generated-mermaid\s*\{[^}]*width:\s*100%/s)
 	})
 })

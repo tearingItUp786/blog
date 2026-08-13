@@ -46,6 +46,7 @@ abstractions.
 - Typecheck: `pnpm typecheck`
 - Format: `pnpm format`
 - Extra checks: `pnpm knip`
+- Diagram assets: `pnpm diagrams:check`
 
 ### Test status
 
@@ -66,9 +67,11 @@ abstractions.
 
 ## Pre-commit and CI
 
-- Pre-commit hook (`.husky/pre-commit`) runs `npx lint-staged`
+- Pre-commit checks staged Mermaid MDX first, then runs `npx lint-staged`
+- Missing/stale diagram assets invoke the project OpenCode
+  `update-blog-diagrams` command and stop the commit for artwork review
 - `lint-staged` runs clean, test, lint, typecheck, and prettier
-- CI deploy workflow runs lint + typecheck + test before deploy
+- CI validates diagrams before deploys and content-only refreshes
 
 ## Code Style Guidelines
 
@@ -140,6 +143,10 @@ abstractions.
 - Reuse shared UI primitives before adding new ones
 - MDX compile path: `app/utils/mdx.server.ts`
 - MDX cache/list path: `app/utils/mdx-utils.server.ts`
+- Mermaid fences remain canonical; generated `mermaid-{hash}.svg` files live
+  beside their MDX file and must never be placed in `public/`
+- To regenerate explicitly, run the OpenCode `update-blog-diagrams` command or
+  ask an agent to "update the blog diagrams"
 
 ## Cursor/Copilot Rules
 
@@ -153,6 +160,7 @@ abstractions.
 - Keep server/client boundaries intact (`.server` must not leak client-side)
 - After non-trivial edits, run `pnpm lint` and `pnpm typecheck`
 - If you add tests, add full-suite + single-test commands and update this file
+- After Mermaid changes, run `pnpm diagrams:check`
 
 ## Design Context
 

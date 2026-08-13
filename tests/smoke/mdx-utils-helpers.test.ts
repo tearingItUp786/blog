@@ -34,6 +34,17 @@ describe('getGithubGqlObjForMdx', () => {
 		expect(result.name).toBe('post-dir')
 		expect(result.files).toEqual([child])
 	})
+
+	it('includes generated SVG siblings for top-level MDX blobs', () => {
+		const mdx = makeBlob('post.mdx', '```mermaid\ngraph LR\n```')
+		const svg = makeBlob('mermaid-deadbeef1234.svg', '<svg />')
+		const otherMdx = makeBlob('other.mdx', '# Other')
+
+		expect(getGithubGqlObjForMdx(mdx, [mdx, svg, otherMdx])).toEqual({
+			name: 'post.mdx',
+			files: [mdx, svg],
+		})
+	})
 })
 
 describe('buildTagCounts', () => {

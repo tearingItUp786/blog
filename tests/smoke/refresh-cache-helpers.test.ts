@@ -68,6 +68,14 @@ describe('getBlogSlugFromContentFilename', () => {
 			),
 		).toBe('07-canadian-mortgages')
 	})
+
+	it('extracts the post slug from a sibling generated SVG path', () => {
+		expect(
+			getBlogSlugFromContentFilename(
+				'content/blog/16-self-hosting/mermaid-72760a809c3d.svg',
+			),
+		).toBe('16-self-hosting')
+	})
 })
 
 describe('buildBlogAlgoliaObject', () => {
