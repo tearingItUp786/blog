@@ -102,6 +102,8 @@ quite a bit and it's the _basic_ understanding that I arrived at after watching
 the video and playing around with some bubbletea examples. Don't `@` me if it's
 not perfect 😅.
 
+<div className="my-8 hidden md:block">
+
 ```mermaid
 %%{
   init: {
@@ -147,6 +149,34 @@ graph TD
   end
 
 ```
+
+</div>
+
+<div className="my-8 block md:hidden">
+
+```mermaid
+flowchart TD
+    Main[package main]
+    Program[Bubble Tea program]
+    Init[Init]
+    Model[Model]
+    View[View]
+    Keyboard[Keyboard input]
+    Update[Update]
+    Effects[Effects and messages]
+
+    Main --> Program
+    Program --> Init
+    Init --> Model
+    Model --> View
+    View --> Keyboard
+    Keyboard --> Update
+    Update --> Model
+    Update --> Effects
+    Effects --> Update
+```
+
+</div>
 
 This type of architecture was fun to wrestle with and I'm glad I did (I freaking
 love diagramming)! One of the most fun things for me was trying to figure out

@@ -26,15 +26,18 @@ Requirements:
    CommitMono for all text, pink `#eb36a1` as the only accent, neutral
    light/dark surfaces, no shadows, no gradients, and no remote font imports.
    For `doc-inline` assets, use at least 16 SVG units for primary node labels
-   and 12 SVG units for supporting labels; the blog preserves a 640px minimum
-   diagram width on narrow screens.
+   and 12 SVG units for supporting labels. Mobile-only diagrams must use a
+   compact vertical layout and a tight viewBox so primary labels render at least
+   14 CSS pixels and supporting labels at least 11 CSS pixels at 375px.
 8. Preserve `viewBox`, `role="img"`, prefixed `<title>` and `<desc>` IDs, and
    resolving accessible-name references. Prefix every internal SVG ID.
 9. Remove obsolete sibling `mermaid-*.svg` files whose hashes are no longer
    referenced by a Mermaid fence.
 10. Render each affected post at 1280px and 375px widths. Confirm text remains
-    inside the SVG viewBox, labels are readable, and narrow diagrams scroll
-    horizontally instead of shrinking below their minimum width.
+    inside the SVG viewBox, labels are readable, and every visible diagram fits
+    its content column without horizontal scrolling. When one layout cannot do
+    both jobs, preserve the detailed landscape fence inside `hidden md:block`
+    and add a simplified vertical fence inside `block md:hidden`.
 11. Run `pnpm diagrams:check`, the relevant MDX tests, `pnpm typecheck`, and
     `pnpm lint`.
 

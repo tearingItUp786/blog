@@ -42,7 +42,7 @@ describe('browser Mermaid rendering', () => {
 		expect(renderer).toContain('suppressErrors: true')
 	})
 
-	it('styles source and rendered Mermaid diagrams', () => {
+	it('lets generated Mermaid diagrams fit narrow containers', () => {
 		const css = readProjectFile('app/styles/app.css')
 
 		expect(css).toContain('pre.mermaid')
@@ -51,8 +51,12 @@ describe('browser Mermaid rendering', () => {
 			/\.generated-mermaid-scroll\s*\{[^}]*overflow-x:\s*auto[^}]*width:\s*100%/s,
 		)
 		expect(css).toMatch(
-			/\.generated-mermaid-scroll svg\.generated-mermaid\s*\{[^}]*min-width:\s*40rem/s,
+			/\.generated-mermaid-scroll svg\.generated-mermaid\s*\{[^}]*max-width:\s*100%/s,
 		)
+		expect(css).toMatch(
+			/\.generated-mermaid-scroll svg\.generated-mermaid\s*\{[^}]*min-width:\s*0/s,
+		)
+		expect(css).not.toMatch(/min-width:\s*40rem/)
 		expect(css).toMatch(/svg\.generated-mermaid\s*\{[^}]*width:\s*100%/s)
 	})
 })

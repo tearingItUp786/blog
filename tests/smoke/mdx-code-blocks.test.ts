@@ -121,7 +121,7 @@ ${mermaid}
 
 		const code = page?.code ?? ''
 		expect(code).toContain('generated-mermaid-scroll')
-		expect(code).toContain('"aria-label":"Scrollable diagram"')
+		expect(code).toContain('"aria-label":"Diagram"')
 		expect(code).toContain('role:"region"')
 		expect(code).toContain('generated-mermaid')
 		expect(code).toContain('Generated request path')

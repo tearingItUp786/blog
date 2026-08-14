@@ -55,7 +55,7 @@ export function rehypeGeneratedMermaid(options: GeneratedMermaidOptions) {
 							type: 'element',
 							tagName: 'div',
 							properties: {
-								ariaLabel: 'Scrollable diagram',
+								ariaLabel: 'Diagram',
 								className: ['generated-mermaid-scroll'],
 								role: 'region',
 								tabIndex: 0,

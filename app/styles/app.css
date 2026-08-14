@@ -181,16 +181,10 @@ svg.generated-mermaid {
   display: block;
   height: auto;
   margin: 0;
-  max-width: none;
+  max-width: 100%;
+  min-width: 0;
   padding: 0;
   width: 100%;
-}
-
-@media (max-width: 40rem) {
-  /* Preserve label legibility; narrow screens pan instead of shrinking the diagram. */
-  .generated-mermaid-scroll svg.generated-mermaid {
-    min-width: 40rem;
-  }
 }
 
 pre.mermaid {

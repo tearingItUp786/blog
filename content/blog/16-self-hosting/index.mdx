@@ -313,7 +313,7 @@ that explain how the underlying technology works. I've included the diagram
 below that explains my understaning of the setup -- note that it only covers the
 general gist of how the Tunnel works.
 
-<div className="my-8">
+<div className="my-8 hidden md:block">
 
 ```mermaid
 sequenceDiagram
@@ -326,6 +326,22 @@ sequenceDiagram
     Cloudflare->>CloudflareTunnel: HTTP req to yolo.taranveerbains.ca
     CloudflareTunnel->>MyCoolify: HTTP req to yolo.taranveerbains.ca
 
+```
+
+</div>
+
+<div className="my-8 block md:hidden">
+
+```mermaid
+flowchart TD
+    User[User browser]
+    Edge[Cloudflare edge]
+    Tunnel[Cloudflare Tunnel]
+    Coolify[Coolify app]
+
+    User -->|HTTP request| Edge
+    Edge -->|Forward request| Tunnel
+    Tunnel -->|Private connection| Coolify
 ```
 
 </div>

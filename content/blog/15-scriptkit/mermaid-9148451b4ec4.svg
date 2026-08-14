@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="scriptkit-wide-title scriptkit-wide-desc">
-<title id="scriptkit-wide-title">Manual production release check</title>
-<desc id="scriptkit-wide-desc">Flowchart showing a production update, cache invalidation, repeated version checks, waiting when unchanged, and notifying QA when the version updates.</desc>
-<defs><marker id="scriptkit-wide-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a6a6a6" /></marker><marker id="scriptkit-wide-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb36a1" /></marker></defs>
-<rect width="960" height="600" fill="#262626" />
-<text x="48" y="56" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="8" letter-spacing="1.2">RELEASE CHECK · DESKTOP</text>
-<g fill="none" stroke="#a6a6a6" stroke-width="2" marker-end="url(#scriptkit-wide-arrow)"><path d="M 188 256 H 260" /><path d="M 404 256 H 468" /><path d="M 624 256 H 696" /><path d="M 546 334 V 402 H 450" /><path d="M 338 438 H 280 Q 248 438 248 406 V 334 H 468" /></g>
-<path d="M 840 256 H 880" fill="none" stroke="#eb36a1" stroke-width="2" marker-end="url(#scriptkit-wide-accent)" />
-<g font-family="CommitMono, monospace" text-anchor="middle"><g><rect x="44" y="220" width="144" height="72" rx="20" fill="#303030" stroke="#777777" /><text x="116" y="252" fill="#f5f5f5" font-size="12">Update prod</text><text x="116" y="272" fill="#a6a6a6" font-size="8">release starts</text></g><g><rect x="260" y="220" width="144" height="72" rx="6" fill="#303030" stroke="#777777" /><text x="332" y="252" fill="#f5f5f5" font-size="12">Invalidate cache</text><text x="332" y="272" fill="#a6a6a6" font-size="8">wait for edge</text></g><g><polygon points="548,180 624,256 548,332 472,256" fill="#3b2937" stroke="#eb36a1" stroke-width="2" /><text x="548" y="248" fill="#f5f5f5" font-size="12">Version</text><text x="548" y="268" fill="#f5f5f5" font-size="12">updated?</text></g><g><rect x="696" y="220" width="144" height="72" rx="6" fill="#303030" stroke="#777777" /><text x="768" y="252" fill="#f5f5f5" font-size="12">Notify QA</text><text x="768" y="272" fill="#a6a6a6" font-size="8">testing can begin</text></g><g><rect x="304" y="404" width="144" height="72" rx="6" fill="#303030" stroke="#777777" /><text x="376" y="436" fill="#f5f5f5" font-size="12">Wait longer</text><text x="376" y="456" fill="#a6a6a6" font-size="8">check again</text></g><circle cx="900" cy="256" r="20" fill="#eb36a1" /><circle cx="900" cy="256" r="8" fill="#262626" /></g>
-<text x="656" y="240" fill="#eb36a1" font-family="CommitMono, monospace" font-size="8">YES</text><text x="560" y="376" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="8">NO</text>
-<line x1="48" y1="528" x2="912" y2="528" stroke="#4d4d4d" /><text x="48" y="556" fill="#a6a6a6" font-family="CommitMono, monospace" font-size="8">THE LOOP HOLDS ATTENTION UNTIL THE CACHE CATCHES UP</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="scriptkit-wide-title scriptkit-wide-desc" font-family="CommitMono, monospace">
+  <title id="scriptkit-wide-title">Manual production release check</title>
+  <desc id="scriptkit-wide-desc">Flowchart showing a production update, cache invalidation, repeated version checks, waiting when unchanged, and notifying QA when the version updates.</desc>
+  <defs>
+    <marker id="scriptkit-wide-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#a6a6a6" /></marker>
+    <marker id="scriptkit-wide-arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#eb36a1" /></marker>
+  </defs>
+  <rect width="960" height="520" fill="#262626" />
+  <text x="40" y="40" fill="#a6a6a6" font-size="12" letter-spacing="1.2">RELEASE CHECK · DESKTOP</text>
+
+  <g fill="none" stroke="#a6a6a6" stroke-width="2" marker-end="url(#scriptkit-wide-arrow)">
+    <line x1="200" y1="220" x2="240" y2="220" />
+    <line x1="400" y1="220" x2="460" y2="220" />
+    <path d="M 520 280 V 360" />
+    <path d="M 560 360 V 280" />
+  </g>
+  <path d="M 620 220 H 680" fill="none" stroke="#eb36a1" stroke-width="2" marker-end="url(#scriptkit-wide-arrow-accent)" />
+  <path d="M 840 220 H 864" fill="none" stroke="#eb36a1" stroke-width="2" marker-end="url(#scriptkit-wide-arrow-accent)" />
+
+  <rect x="632" y="192" width="40" height="16" rx="4" fill="#262626" />
+  <text x="652" y="204" fill="#eb36a1" font-size="12" text-anchor="middle">YES</text>
+  <rect x="476" y="312" width="32" height="16" rx="4" fill="#262626" />
+  <text x="492" y="324" fill="#a6a6a6" font-size="12" text-anchor="middle">NO</text>
+  <rect x="572" y="312" width="88" height="16" rx="4" fill="#262626" />
+  <text x="616" y="324" fill="#a6a6a6" font-size="12" text-anchor="middle">CHECK AGAIN</text>
+
+  <g text-anchor="middle">
+    <g><rect x="40" y="180" width="160" height="80" rx="20" fill="#303030" stroke="#777777" /><text x="120" y="216" fill="#f5f5f5" font-size="16">Update prod</text><text x="120" y="240" fill="#a6a6a6" font-size="12">release starts</text></g>
+    <g><rect x="240" y="180" width="160" height="80" rx="8" fill="#303030" stroke="#777777" /><text x="320" y="216" fill="#f5f5f5" font-size="16">Invalidate cache</text><text x="320" y="240" fill="#a6a6a6" font-size="12">wait for edge</text></g>
+    <g><polygon points="540,140 620,220 540,300 460,220" fill="#3b2937" stroke="#eb36a1" stroke-width="2" /><text x="540" y="216" fill="#f5f5f5" font-size="16">Version</text><text x="540" y="240" fill="#f5f5f5" font-size="16">updated?</text></g>
+    <g><rect x="680" y="180" width="160" height="80" rx="8" fill="#303030" stroke="#777777" /><text x="760" y="216" fill="#f5f5f5" font-size="16">Notify QA</text><text x="760" y="240" fill="#a6a6a6" font-size="12">testing can begin</text></g>
+    <g><rect x="452" y="360" width="176" height="80" rx="8" fill="#303030" stroke="#777777" /><text x="540" y="396" fill="#f5f5f5" font-size="16">Wait longer</text><text x="540" y="420" fill="#a6a6a6" font-size="12">check again</text></g>
+    <circle cx="888" cy="220" r="20" fill="#eb36a1" /><circle cx="888" cy="220" r="8" fill="#262626" />
+  </g>
+
+  <line x1="40" y1="472" x2="920" y2="472" stroke="#4d4d4d" />
+  <text x="40" y="500" fill="#a6a6a6" font-size="12">THE LOOP HOLDS ATTENTION UNTIL THE CACHE CATCHES UP</text>
 </svg>

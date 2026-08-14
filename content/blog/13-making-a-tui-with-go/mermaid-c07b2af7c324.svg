@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 720" role="img" aria-labelledby="tui-mobile-title tui-mobile-desc" font-family="CommitMono, monospace">
+  <title id="tui-mobile-title">Bubble Tea event loop</title>
+  <desc id="tui-mobile-desc">Flow showing package main starting Bubble Tea, initialization creating the model, the model producing a view, keyboard input triggering updates, and effects returning messages to update the model.</desc>
+  <defs>
+    <marker id="tui-mobile-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#a6a6a6" /></marker>
+    <marker id="tui-mobile-arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#eb36a1" /></marker>
+  </defs>
+  <rect width="352" height="720" fill="#262626" />
+  <text x="24" y="28" fill="#a6a6a6" font-size="16" letter-spacing="1.2">BUBBLE TEA · MOBILE</text>
+  <g fill="none" stroke="#a6a6a6" stroke-width="2" marker-end="url(#tui-mobile-arrow)">
+    <line x1="180" y1="92" x2="180" y2="120" />
+    <line x1="180" y1="176" x2="180" y2="204" />
+    <line x1="180" y1="260" x2="180" y2="288" />
+    <line x1="180" y1="344" x2="180" y2="372" />
+    <line x1="180" y1="428" x2="180" y2="456" />
+    <line x1="180" y1="512" x2="180" y2="540" />
+    <path d="M 288 568 H 316 Q 324 568 324 560 V 324 Q 324 316 316 316 H 288" />
+    <line x1="160" y1="596" x2="160" y2="636" />
+    <line x1="200" y1="636" x2="200" y2="596" />
+  </g>
+  <g text-anchor="middle">
+    <g><rect x="72" y="36" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="72" fill="#f5f5f5" font-size="16">package main</text></g>
+    <g><rect x="72" y="120" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="156" fill="#f5f5f5" font-size="16">Bubble Tea program</text></g>
+    <g><rect x="72" y="204" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="240" fill="#f5f5f5" font-size="16">Init</text></g>
+    <g><rect x="72" y="288" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="324" fill="#f5f5f5" font-size="16">Model</text></g>
+    <g><rect x="72" y="372" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="408" fill="#f5f5f5" font-size="16">View</text></g>
+    <g><rect x="72" y="456" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="492" fill="#f5f5f5" font-size="16">Keyboard input</text></g>
+    <g><rect x="72" y="540" width="216" height="56" rx="8" fill="#3b2937" stroke="#eb36a1" stroke-width="2" /><text x="180" y="576" fill="#f5f5f5" font-size="16">Update</text></g>
+    <g><rect x="72" y="636" width="216" height="56" rx="8" fill="#303030" stroke="#777777" /><text x="180" y="660" fill="#f5f5f5" font-size="16">Effects and messages</text><text x="180" y="680" fill="#a6a6a6" font-size="16">commands return events</text></g>
+  </g>
+</svg>
