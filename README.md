@@ -24,7 +24,6 @@ It's my blog yo!
 Optional:
 
 - Volta for toolchain pinning
-- Dotenv Vault for pulling environment values
 - Inngest CLI for local function inspection
 
 ## Local Development
@@ -35,13 +34,11 @@ Optional:
    pnpm install
    ```
 
-2. Create local env values:
-   - copy `.env.example` to `.env`, or
-   - pull with dotenv vault:
+2. Copy `.env.example` to `.env` and add your local values.
 
-   ```bash
-   npx dotenv-vault pull
-   ```
+   Production values are encrypted in `.env.production`. The private key stays
+   in the ignored `.env.keys` file and is configured on Fly as the single
+   `DOTENV_PRIVATE_KEY_PRODUCTION` secret.
 
 3. Start Redis:
 
@@ -62,6 +59,23 @@ Optional:
    ```
 
 App runs at `http://localhost:8080` by default.
+
+## Environment Files
+
+- `.env` contains plaintext local development values and is ignored by Git.
+- `.env.production` contains encrypted production values and is committed.
+- `.env.keys` contains the production decryption key and is ignored by Git.
+- Fly stores only `DOTENV_PRIVATE_KEY_PRODUCTION`; dotenvx decrypts
+  `.env.production` when the app starts.
+
+Back up both the plaintext production values and `.env.keys` in 1Password. Never
+commit `.env` or `.env.keys`, and never use local `.env` values to update the
+production file. For a single production change, update the encrypted file
+without decrypting it in the repository:
+
+```bash
+pnpm exec dotenvx set NAME value -f .env.production
+```
 
 ## Scripts
 

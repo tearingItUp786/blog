@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import './load-env.mjs'
 import closeWithGrace from 'close-with-grace'
 import { z } from 'zod'
 

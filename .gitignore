@@ -10,7 +10,7 @@ node_modules
 .env*
 .flaskenv*
 !.env.project
-!.env.vault
+!.env.production
 mocks/index.cjs
 
 

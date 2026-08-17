@@ -4,4 +4,4 @@ Dockerfile
 .env*
 .flaskenv*
 !.env.project
-!.env.vault
+!.env.production

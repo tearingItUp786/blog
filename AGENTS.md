@@ -29,10 +29,18 @@ abstractions.
 ## Setup
 
 - Install deps: `pnpm install`
-- Pull env (optional): `npx dotenv-vault pull`
+- Copy `.env.example` to `.env` and add local values
 - Start Redis: `docker-compose up -d`
 - Optional Inngest server: `npx inngest-cli@latest dev`
 - Start app: `pnpm dev` (usually `http://localhost:8080`)
+
+### Environment files
+
+- `.env` is plaintext, ignored, and only for local development
+- `.env.production` is encrypted with dotenvx and committed
+- `.env.keys` is ignored and backed up in 1Password
+- Fly receives only `DOTENV_PRIVATE_KEY_PRODUCTION`
+- Never use values from `.env` to populate `.env.production`
 
 ## Build/Lint/Typecheck/Test
 
@@ -58,6 +66,7 @@ abstractions.
 
 - File: `pnpm test:single tests/smoke/health-route.test.ts`
 - Test name: `pnpm test:single tests/smoke/env.server.test.ts -t "fallback"`
+- Environment startup: `pnpm test:single tests/smoke/startup-env.test.ts`
 - Mobile navbar focus: `pnpm test:single tests/navbar-focus-trap.test.ts`
 
 ### Targeted command pattern
