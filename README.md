@@ -60,22 +60,107 @@ Optional:
 
 App runs at `http://localhost:8080` by default.
 
-## Environment Files
+## Secrets and Environment
 
-- `.env` contains plaintext local development values and is ignored by Git.
-- `.env.production` contains encrypted production values and is committed.
-- `.env.keys` contains the production decryption key and is ignored by Git.
-- Fly stores only `DOTENV_PRIVATE_KEY_PRODUCTION`; dotenvx decrypts
-  `.env.production` when the app starts.
+The project uses dotenvx for local environment loading and encrypted production
+configuration. It does not depend on a hosted secret-management service.
 
-Back up both the plaintext production values and `.env.keys` in 1Password. Never
-commit `.env` or `.env.keys`, and never use local `.env` values to update the
-production file. For a single production change, update the encrypted file
-without decrypting it in the repository:
+| File or variable                | Purpose                                            | Storage    |
+| ------------------------------- | -------------------------------------------------- | ---------- |
+| `.env.example`                  | Supported variable names and safe defaults         | Git        |
+| `.env`                          | Plaintext local development values                 | Gitignored |
+| `.env.production`               | Encrypted production values                        | Git        |
+| `.env.keys`                     | Private key used to decrypt `.env.production`      | Gitignored |
+| `DOTENV_PRIVATE_KEY_PRODUCTION` | Production private key provided to the application | Fly secret |
+
+### Runtime Selection
+
+`load-env.mjs` selects the environment file using `NODE_ENV`:
+
+- Development loads `.env`.
+- Production loads `.env.production` in strict mode.
+- The Docker image includes `.env.production` but excludes `.env` and
+  `.env.keys`.
+- Fly provides `DOTENV_PRIVATE_KEY_PRODUCTION` when the container starts.
+
+Local development cannot accidentally inherit production values merely because
+`.env.keys` exists on the machine.
+
+### Local Setup
+
+Create the local development file:
 
 ```bash
-pnpm exec dotenvx set NAME value -f .env.production
+cp .env.example .env
 ```
+
+Add local-only values to `.env`. Never use local `.env` values to populate the
+production file.
+
+If production access is required on a new machine, restore `.env.keys` from
+1Password into the repository root. Never commit that file.
+
+### Backups
+
+Keep the following in 1Password:
+
+- The plaintext production environment as a secure document.
+- `.env.keys` as a secure document or attachment.
+
+Git contains the encrypted `.env.production`, but its values cannot be recovered
+without either `.env.keys` or the plaintext backup.
+
+### Verify Production Decryption
+
+Verify that `.env.production` and `.env.keys` match without printing secret
+values:
+
+```bash
+NODE_ENV=production pnpm exec dotenvx run \
+  -f .env.production \
+  -fk .env.keys \
+  -- node -e "console.log('production env decrypts')"
+```
+
+### Update a Production Value
+
+Update one encrypted value without decrypting the entire file:
+
+```bash
+pnpm exec dotenvx set NAME VALUE \
+  -f .env.production \
+  -fk .env.keys
+```
+
+Values passed directly may remain in shell history. Prefer retrieving the value
+through the 1Password CLI or using a temporary shell session with history
+disabled.
+
+After changing production values:
+
+1. Verify production decryption.
+2. Commit `.env.production`.
+3. Push to `main` and let the normal Fly deployment run.
+
+Routine value changes reuse the existing private key, so they do not require a
+Fly secret update.
+
+### Rotate the Production Key
+
+Rotate the key only if `.env.keys` is exposed or intentionally replaced. First
+use the plaintext 1Password backup to produce a matching new `.env.production`
+and `.env.keys` outside the repository. Replace the local files, then stage the
+new key so Fly applies it with the image containing the newly encrypted
+`.env.production`:
+
+```bash
+fly secrets import --stage --app staging-taran-v2 < .env.keys
+pnpm deploy
+```
+
+Verify Fly health checks and `/health` after the deployment. Do not import a
+rotated key without `--stage`; restarting the current image with a mismatched
+key will prevent production startup.
 
 ## Scripts
 
@@ -104,3 +189,8 @@ pnpm exec dotenvx set NAME value -f .env.production
 - Deploy target is Fly.io (`fly.toml`).
 - Main deploy workflow lives in `.github/workflows/deploy.yml`.
 - Content refresh workflow lives in `.github/workflows/refresh-cache.yml`.
+- Deployments build the committed encrypted `.env.production` into the image.
+- Fly injects `DOTENV_PRIVATE_KEY_PRODUCTION` at runtime.
+- GitHub Actions and Docker builds do not need `.env.keys`.
+- Normal production-value changes require a commit and deployment, but no Fly
+  secret update.
