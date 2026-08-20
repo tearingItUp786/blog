@@ -96,7 +96,7 @@ export const ContentCard = ({
 				<NavLink className="group no-underline" to={titleTo}>
 					<H1
 						As="h2"
-						className="break-word my-4 leading-[1em] transition-all group-hover:underline md:my-0 md:break-normal"
+						className="my-4 leading-[1em] wrap-break-word transition-all group-hover:underline md:my-0"
 					>
 						{title}
 					</H1>
