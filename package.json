@@ -1,7 +1,7 @@
 {
   "name": "taran blog",
   "private": true,
-  "packageManager": "pnpm@11.3.0",
+  "packageManager": "pnpm@12.4.1",
   "description": "",
   "license": "",
   "sideEffects": false,
@@ -144,6 +144,6 @@
   },
   "volta": {
     "node": "24.13.1",
-    "pnpm": "11.3.0"
+    "pnpm": "12.4.1"
   }
 }
