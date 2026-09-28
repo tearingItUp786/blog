@@ -47,7 +47,7 @@
     "@react-router/serve": "^8.3.0",
     "@remark-embedder/core": "^3.0.2",
     "@remark-embedder/transformer-oembed": "^5.0.1",
-    "@sentry/react-router": "^10.70.0",
+    "@sentry/react-router": "^11.0.0",
     "@shikijs/rehype": "^4.0.2",
     "@shikijs/transformers": "^4.0.2",
     "@tailwindcss/typography": "^0.5.19",
