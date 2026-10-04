@@ -67,6 +67,7 @@ abstractions.
 - File: `pnpm test:single tests/smoke/health-route.test.ts`
 - Test name: `pnpm test:single tests/smoke/env.server.test.ts -t "fallback"`
 - Environment startup: `pnpm test:single tests/smoke/startup-env.test.ts`
+- Newsletter RSS cache: `pnpm test:single tests/smoke/newsletter-rss.test.ts`
 - Mobile navbar focus: `pnpm test:single tests/navbar-focus-trap.test.ts`
 
 ### Targeted command pattern

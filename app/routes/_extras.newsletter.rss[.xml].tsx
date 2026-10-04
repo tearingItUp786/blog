@@ -1,3 +1,4 @@
+import cachified, { verboseReporter } from '@epic-web/cachified'
 import { Feed } from 'feed'
 import { type LoaderFunction } from 'react-router'
 import sanitizeHtml from 'sanitize-html'
@@ -5,6 +6,7 @@ import {
 	broadcastListResponseSchema,
 	getSingleBroadcast,
 } from '~/utils/convertkit.server'
+import { redisCache } from '~/utils/redis.server'
 
 // Helper function to convert title to slug format
 function slugify(text: string): string {
@@ -19,7 +21,7 @@ function slugify(text: string): string {
 		.replace(/-+$/, '') // Trim hyphens from end
 }
 
-export const loader: LoaderFunction = async () => {
+async function generateNewsletterRss() {
 	const params = {
 		api_key: String(process.env.CONVERT_KIT_API_KEY),
 		sort_order: 'desc',
@@ -43,62 +45,75 @@ export const loader: LoaderFunction = async () => {
 	const parsedData = broadcastListResponseSchema.parse(data)
 	const { broadcasts } = parsedData
 
+	// Fetch detailed content for each broadcast
+	const broadcastPromises = broadcasts.map((broadcast) =>
+		getSingleBroadcast({ id: broadcast.id }),
+	)
+	const broadcastsWithContent = await Promise.all(broadcastPromises)
+
+	// Create RSS feed
+	const newsletterUrl = `https://taranveerbains.kit.com/posts`
+
+	const feed = new Feed({
+		id: newsletterUrl,
+		title: 'Taran Bains Newsletter',
+		description: 'Latest updates from Taran Bains',
+		link: newsletterUrl,
+		language: 'en',
+		updated:
+			broadcastsWithContent.length > 0
+				? new Date(
+						broadcastsWithContent[0].published_at ||
+							broadcastsWithContent[0].created_at,
+					)
+				: new Date(),
+		generator: 'https://github.com/jpmonette/feed',
+		copyright: 'Taran Bains',
+	})
+
+	// Add each newsletter broadcast as an item in the feed
+	broadcastsWithContent.forEach((broadcast) => {
+		if (broadcast.public) {
+			const postLink = `${newsletterUrl}/${slugify(broadcast.subject)}`
+			// Sanitize HTML content to remove style tags and attributes
+			const sanitizedContent = sanitizeHtml(broadcast.content, {
+				allowedTags: sanitizeHtml.defaults.allowedTags,
+				allowedAttributes: {
+					...sanitizeHtml.defaults.allowedAttributes,
+				},
+			})
+
+			feed.addItem({
+				id: postLink,
+				title: broadcast.subject,
+				link: postLink,
+				date: new Date(broadcast.published_at || broadcast.created_at),
+				description: broadcast.description ?? '',
+				content: sanitizedContent,
+				image: broadcast.thumbnail_url || undefined,
+			})
+		}
+	})
+
+	return feed.rss2()
+}
+
+export const loader: LoaderFunction = async () => {
 	try {
-		// Fetch detailed content for each broadcast
-		const broadcastPromises = broadcasts.map((broadcast) =>
-			getSingleBroadcast({ id: broadcast.id }),
+		const xml = await cachified(
+			{
+				key: 'convertkit:newsletter:rss:v1',
+				cache: redisCache,
+				ttl: 60 * 60 * 1000,
+				getFreshValue: generateNewsletterRss,
+			},
+			verboseReporter(),
 		)
-		const broadcastsWithContent = await Promise.all(broadcastPromises)
 
-		// Create RSS feed
-		const newsletterUrl = `https://taranveerbains.kit.com/posts`
-
-		const feed = new Feed({
-			id: newsletterUrl,
-			title: 'Taran Bains Newsletter',
-			description: 'Latest updates from Taran Bains',
-			link: newsletterUrl,
-			language: 'en',
-			updated:
-				broadcastsWithContent.length > 0
-					? new Date(
-							broadcastsWithContent[0].published_at ||
-								broadcastsWithContent[0].created_at,
-						)
-					: new Date(),
-			generator: 'https://github.com/jpmonette/feed',
-			copyright: 'Taran Bains',
-		})
-
-		// Add each newsletter broadcast as an item in the feed
-		broadcastsWithContent.forEach((broadcast) => {
-			if (broadcast.public) {
-				const postLink = `${newsletterUrl}/${slugify(broadcast.subject)}`
-				// Sanitize HTML content to remove style tags and attributes
-				const sanitizedContent = sanitizeHtml(broadcast.content, {
-					allowedTags: sanitizeHtml.defaults.allowedTags,
-					allowedAttributes: {
-						...sanitizeHtml.defaults.allowedAttributes,
-					},
-				})
-
-				feed.addItem({
-					id: postLink,
-					title: broadcast.subject,
-					link: postLink,
-					date: new Date(broadcast.published_at || broadcast.created_at),
-					description: broadcast.description ?? '',
-					content: sanitizedContent,
-					image: broadcast.thumbnail_url || undefined,
-				})
-			}
-		})
-
-		return new Response(feed.rss2(), {
+		return new Response(xml, {
 			headers: {
 				'Content-Type': 'application/xml',
-				'Cache-Control':
-					'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=86400',
+				'Cache-Control': 'public, max-age=300, s-maxage=300',
 			},
 		})
 	} catch (error) {
