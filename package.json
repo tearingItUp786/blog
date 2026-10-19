@@ -105,7 +105,7 @@
   "devDependencies": {
     "@react-router/dev": "^8.3.0",
     "@react-router/fs-routes": "^8.3.0",
-    "@sentry/vite-plugin": "^5.0.0",
+    "@sentry/vite-plugin": "^11.0.0",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/compression": "^1.8.1",
     "@types/hast": "^3.0.4",
