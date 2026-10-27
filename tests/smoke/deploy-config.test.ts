@@ -19,6 +19,12 @@ describe('deploy config smoke tests', () => {
 		expect(dockerfile).not.toContain('pnpm exec playwright install chromium')
 	})
 
+	it('starts production without runtime dependency installation', () => {
+		const dockerfile = readProjectFile('Dockerfile')
+
+		expect(dockerfile).toContain('CMD ["node", "index.mjs"]')
+	})
+
 	it('keeps Mermaid rendering browser-free at build time', () => {
 		const mdxServer = readProjectFile('app/utils/mdx.server.ts')
 

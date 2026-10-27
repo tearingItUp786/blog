@@ -64,4 +64,4 @@ COPY . .
 
 # If you need extra fonts or locales, add them here.
 
-CMD ["pnpm", "start"]
+CMD ["node", "index.mjs"]
