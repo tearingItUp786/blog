@@ -3,7 +3,7 @@ import { githubHandlers } from './github'
 
 const server = setupServer(...githubHandlers)
 
-server.listen({ onUnhandledRequest: 'warn' })
+server.listen({ onUnhandledFrame: 'warn' })
 console.info('🔶 Mock server installed')
 
 process.once('SIGINT', () => server.close())

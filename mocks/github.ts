@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import { graphql, HttpResponse } from 'msw'
+import { HttpResponse } from 'msw'
+import { graphql } from 'msw/graphql'
 import { type GithubGraphqlObject } from '../app/schemas/github'
 
 const github = graphql.link('https://api.github.com/graphql')
