@@ -20,7 +20,7 @@ export function KeyboardShortcuts() {
 			<button
 				ref={triggerRef}
 				type="button"
-				className={`${buttonClass} text-body mb-2 block px-8`}
+				className="text-body hover:text-accent focus-visible:outline-accent block text-sm underline focus-visible:outline-2 focus-visible:outline-offset-4"
 				onClick={() => setIsOpen(true)}
 			>
 				Keyboard shortcuts

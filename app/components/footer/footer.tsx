@@ -1,6 +1,9 @@
 import { NavLink, useSearchParams } from 'react-router'
 import { KeyboardShortcuts } from '~/components/hotkeys/keyboard-shortcuts'
 
+const footerLinkClass =
+	'text-body focus-visible:text-accent block text-sm underline focus-visible:outline-none'
+
 export function Footer() {
 	const [searchParams] = useSearchParams()
 	const searchParamsWithoutOffset = new URLSearchParams(searchParams)
@@ -9,36 +12,36 @@ export function Footer() {
 
 	return (
 		<footer className="border-body w-full border-t-[1px] px-4 py-6">
-			<div className="mx-auto block w-full max-w-screen-xl justify-between text-center md:px-16 lg:flex lg:text-left">
-				<span className="text-body mb-4 block text-sm lg:mb-0">
+			<div className="mx-auto block w-full max-w-screen-xl justify-between gap-6 text-center md:px-16 lg:flex lg:items-start lg:text-left">
+				<span className="text-body mb-4 block shrink-0 text-sm lg:mb-0">
 					Taran "tearing it up" Bains
 				</span>
-				<div className="block grow flex-wrap justify-center lg:flex lg:justify-end">
+				<div className="flex grow flex-col items-center gap-x-6 gap-y-2 lg:flex-row lg:flex-wrap lg:justify-end">
 					<KeyboardShortcuts />
 					<NavLink
 						prefetch="intent"
-						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
+						className={footerLinkClass}
 						to={`/til?${searchParamsWithoutOffset}`}
 					>
 						TIL
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
+						className={footerLinkClass}
 						to={`/about?${searchParamsWithoutOffset}`}
 					>
 						ABOUT
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
+						className={footerLinkClass}
 						to={`/blog?${searchParamsWithoutOffset}`}
 					>
 						BLOG
 					</NavLink>
 					<NavLink
 						prefetch="intent"
-						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
+						className={footerLinkClass}
 						to={`/uses?${searchParamsWithoutOffset}`}
 					>
 						USES
@@ -47,7 +50,7 @@ export function Footer() {
 						prefetch="intent"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-body focus-visible:text-accent mb-2 flex justify-center px-8 text-sm underline focus-visible:outline-none"
+						className="text-body focus-visible:text-accent flex items-center text-sm underline focus-visible:outline-none"
 						to={`/newsletter/rss.xml`}
 					>
 						Newsletter RSS
