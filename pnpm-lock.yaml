@@ -183,7 +183,7 @@ importers:
         version: 1.17.1(react@19.2.7)
       '@conform-to/zod':
         specifier: ^1.17.1
-        version: 1.17.1(zod@4.3.6)
+        version: 1.17.1(zod@4.6.6)
       '@dotenvx/dotenvx':
         specifier: ^2.21.0
         version: 2.21.0
@@ -294,7 +294,7 @@ importers:
         version: 8.1.0
       inngest:
         specifier: ^4.2.4
-        version: 4.2.4(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(express@5.2.1(supports-color@8.1.1))(react@19.2.7)(supports-color@8.1.1)(typescript@6.0.3)(zod@4.3.6)
+        version: 4.2.4(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(express@5.2.1(supports-color@8.1.1))(react@19.2.7)(supports-color@8.1.1)(typescript@6.0.3)(zod@4.6.6)
       isbot:
         specifier: ^5.1.36
         version: 5.1.36
@@ -387,7 +387,7 @@ importers:
         version: 19.1.3
       zod:
         specifier: ^4.3.6
-        version: 4.3.6
+        version: 4.6.6
     devDependencies:
       '@react-router/dev':
         specifier: ^8.3.0
@@ -1418,10 +1418,6 @@ packages:
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
-  '@jridgewell/gen-mapping@0.3.8':
-    resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
-    engines: {node: '>=6.0.0'}
-
   '@jridgewell/remapping@2.3.5':
     resolution: {integrity: sha512-LI9u/+laYG4Ds1TDKSJW2YPrIlcVYOwi2fUC6xB43lueCjgxV4lffOCZCtYFiH6TNOX+tQKXx97T4IKHbhyHEQ==}
 
@@ -1429,15 +1425,8 @@ packages:
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
     engines: {node: '>=6.0.0'}
 
-  '@jridgewell/set-array@1.2.1':
-    resolution: {integrity: sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==}
-    engines: {node: '>=6.0.0'}
-
   '@jridgewell/sourcemap-codec@1.6.0':
     resolution: {integrity: sha512-T7jf+5zgsZHwNJ4lvQ7/aezbyk0nNX+zJVWpmHA7VYsEx7a7qr5Rg5IbtJFqkgze5Y2sruq1RUY8Q837Od7iFw==}
-
-  '@jridgewell/trace-mapping@0.3.25':
-    resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
@@ -7813,10 +7802,6 @@ packages:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
 
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
-    engines: {node: '>=0.10.0'}
-
   react@19.2.7:
     resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
     engines: {node: '>=0.10.0'}
@@ -9124,8 +9109,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  zod@4.3.6:
-    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+  zod@4.6.6:
+    resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
@@ -9387,7 +9372,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.29.7
       '@babel/helper-validator-option': 7.29.7
-      browserslist: 4.28.2
+      browserslist: 4.28.8
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -9641,10 +9626,10 @@ snapshots:
       '@conform-to/dom': 1.17.1
       react: 19.2.7
 
-  '@conform-to/zod@1.17.1(zod@4.3.6)':
+  '@conform-to/zod@1.17.1(zod@4.6.6)':
     dependencies:
       '@conform-to/dom': 1.17.1
-      zod: 4.3.6
+      zod: 4.6.6
 
   '@csstools/color-helpers@6.1.0': {}
 
@@ -10084,27 +10069,14 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.6.0
       '@jridgewell/trace-mapping': 0.3.31
 
-  '@jridgewell/gen-mapping@0.3.8':
-    dependencies:
-      '@jridgewell/set-array': 1.2.1
-      '@jridgewell/sourcemap-codec': 1.6.0
-      '@jridgewell/trace-mapping': 0.3.31
-
   '@jridgewell/remapping@2.3.5':
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.8
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/gen-mapping': 0.3.13
+      '@jridgewell/trace-mapping': 0.3.31
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
-  '@jridgewell/set-array@1.2.1': {}
-
   '@jridgewell/sourcemap-codec@1.6.0': {}
-
-  '@jridgewell/trace-mapping@0.3.25':
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.6.0
 
   '@jridgewell/trace-mapping@0.3.31':
     dependencies:
@@ -12733,7 +12705,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.59.3
       debug: 4.4.3(supports-color@8.1.1)
       minimatch: 10.2.5
-      semver: 7.8.0
+      semver: 7.8.5
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -14070,8 +14042,8 @@ snapshots:
       '@babel/parser': 7.29.7
       eslint: 10.2.0(jiti@2.7.0)(supports-color@8.1.1)
       hermes-parser: 0.25.1
-      zod: 4.3.6
-      zod-validation-error: 4.0.2(zod@4.3.6)
+      zod: 4.6.6
+      zod-validation-error: 4.0.2(zod@4.6.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -14908,7 +14880,7 @@ snapshots:
 
   inline-style-parser@0.2.4: {}
 
-  inngest@4.2.4(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(express@5.2.1(supports-color@8.1.1))(react@19.2.7)(supports-color@8.1.1)(typescript@6.0.3)(zod@4.3.6):
+  inngest@4.2.4(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(express@5.2.1(supports-color@8.1.1))(react@19.2.7)(supports-color@8.1.1)(typescript@6.0.3)(zod@4.6.6):
     dependencies:
       '@bufbuild/protobuf': 2.11.0
       '@inngest/ai': 0.1.7
@@ -14933,7 +14905,7 @@ snapshots:
       serialize-error-cjs: 0.1.4
       temporal-polyfill: 0.2.5
       ulid: 2.4.0
-      zod: 4.3.6
+      zod: 4.6.6
     optionalDependencies:
       express: 5.2.1(supports-color@8.1.1)
       react: 19.2.7
@@ -14969,12 +14941,12 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  instantsearch-ui-components@0.21.0(react@18.3.1):
+  instantsearch-ui-components@0.21.0(react@19.2.7):
     dependencies:
       '@swc/helpers': 0.5.18
-      markdown-to-jsx: 7.7.17(react@18.3.1)
-      zod: 4.3.6
-      zod-to-json-schema: 3.24.6(zod@4.3.6)
+      markdown-to-jsx: 7.7.17(react@19.2.7)
+      zod: 4.6.6
+      zod-to-json-schema: 3.24.6(zod@4.6.6)
     transitivePeerDependencies:
       - react
 
@@ -14990,13 +14962,13 @@ snapshots:
       algoliasearch-helper: 3.28.0(algoliasearch@5.49.2)
       hogan.js: 3.0.2
       htm: 3.1.1
-      instantsearch-ui-components: 0.21.0(react@18.3.1)
+      instantsearch-ui-components: 0.21.0(react@19.2.7)
       preact: 10.29.0
       qs: 6.15.0
-      react: 18.3.1
+      react: 19.2.7
       search-insights: 2.17.3
-      zod: 4.3.6
-      zod-to-json-schema: 3.24.6(zod@4.3.6)
+      zod: 4.6.6
+      zod-to-json-schema: 3.24.6(zod@4.6.6)
 
   internal-slot@1.1.0:
     dependencies:
@@ -15331,7 +15303,7 @@ snapshots:
       strip-json-comments: 5.0.3
       unbash: 2.2.0
       yaml: 2.8.3
-      zod: 4.3.6
+      zod: 4.6.6
 
   launch-editor@2.13.2:
     dependencies:
@@ -15542,9 +15514,9 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  markdown-to-jsx@7.7.17(react@18.3.1):
+  markdown-to-jsx@7.7.17(react@19.2.7):
     optionalDependencies:
-      react: 18.3.1
+      react: 19.2.7
 
   marked@16.4.2: {}
 
@@ -17050,8 +17022,8 @@ snapshots:
       instantsearch.js: 4.91.0(algoliasearch@5.49.2)
       react: 19.2.7
       use-sync-external-store: 1.6.0(react@19.2.7)
-      zod: 4.3.6
-      zod-to-json-schema: 3.24.6(zod@4.3.6)
+      zod: 4.6.6
+      zod-to-json-schema: 3.24.6(zod@4.6.6)
 
   react-is@16.13.1: {}
 
@@ -17122,10 +17094,6 @@ snapshots:
       classnames: 2.5.1
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-
-  react@18.3.1:
-    dependencies:
-      loose-envify: 1.4.0
 
   react@19.2.7: {}
 
@@ -18578,15 +18546,15 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod-to-json-schema@3.24.6(zod@4.3.6):
+  zod-to-json-schema@3.24.6(zod@4.6.6):
     dependencies:
-      zod: 4.3.6
+      zod: 4.6.6
 
-  zod-validation-error@4.0.2(zod@4.3.6):
+  zod-validation-error@4.0.2(zod@4.6.6):
     dependencies:
-      zod: 4.3.6
+      zod: 4.6.6
 
-  zod@4.3.6: {}
+  zod@4.6.6: {}
 
   zwitch@1.0.5: {}
 
