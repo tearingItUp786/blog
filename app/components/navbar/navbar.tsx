@@ -1,9 +1,11 @@
+import { HotkeysProvider, useHotkey } from '@tanstack/react-hotkeys'
 import { twJoin, twMerge } from 'cnfast'
 import { FocusTrap } from 'focus-trap-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router'
 import { MobileNav } from './mobile'
 import { Search } from './search'
+import { appHotkeys } from '~/components/hotkeys/registry'
 import { ServerThemeToggle } from '~/components/theme-toggle'
 
 const HomeIcon = () => {
@@ -108,57 +110,69 @@ export function Navbar() {
 			>
 				<HomeIcon />
 			</NavLink>
-			<nav
-				ref={setMenuPanel}
-				id="mobile-navigation"
-				aria-label="Primary navigation"
-				className={twMerge(
-					isOpen
-						? 'visible scale-100 opacity-100'
-						: 'invisible scale-0 opacity-0 lg:visible lg:scale-100 lg:opacity-100',
-					'fixed top-15.75 left-0 z-20 w-screen origin-top-right justify-center space-y-4 transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto lg:space-y-0',
-				)}
+			<HotkeysProvider
+				scope="mobile-menu"
+				exclusive
+				enabled={isOpen && isMobile}
 			>
-				<NavLink
-					ref={firstLinkRef}
-					prefetch="intent"
-					className={setNavClassName}
-					to={`/about?${searchParamsWithoutOffset}`}
+				<MenuDismissal
+					onClose={() => {
+						shouldReturnFocusRef.current = true
+						setIsOpen(false)
+					}}
+				/>
+				<nav
+					ref={setMenuPanel}
+					id="mobile-navigation"
+					aria-label="Primary navigation"
+					className={twMerge(
+						isOpen
+							? 'visible scale-100 opacity-100'
+							: 'invisible scale-0 opacity-0 lg:visible lg:scale-100 lg:opacity-100',
+						'fixed top-15.75 left-0 z-20 w-screen origin-top-right justify-center space-y-4 transition-transform lg:relative lg:top-[inherit] lg:flex lg:w-auto lg:space-y-0',
+					)}
 				>
-					about
-				</NavLink>
-				<NavLink
-					prefetch="intent"
-					className={setNavClassName}
-					to={`/uses?${searchParamsWithoutOffset}`}
-				>
-					uses
-				</NavLink>
-				<NavLink
-					prefetch="intent"
-					className={setNavClassName}
-					to={`/now?${searchParamsWithoutOffset}`}
-				>
-					now
-				</NavLink>
-				<NavLink
-					prefetch="intent"
-					className={setNavClassName}
-					to={`/til?${searchParamsWithoutOffset}`}
-				>
-					TIL
-				</NavLink>
-				<NavLink
-					prefetch="intent"
-					className={setNavClassName}
-					to={`/blog?${searchParamsWithoutOffset}`}
-				>
-					blog
-				</NavLink>
-				<div className="flex w-full items-center justify-center lg:ml-6">
-					<ServerThemeToggle />
-				</div>
-			</nav>
+					<NavLink
+						ref={firstLinkRef}
+						prefetch="intent"
+						className={setNavClassName}
+						to={`/about?${searchParamsWithoutOffset}`}
+					>
+						about
+					</NavLink>
+					<NavLink
+						prefetch="intent"
+						className={setNavClassName}
+						to={`/uses?${searchParamsWithoutOffset}`}
+					>
+						uses
+					</NavLink>
+					<NavLink
+						prefetch="intent"
+						className={setNavClassName}
+						to={`/now?${searchParamsWithoutOffset}`}
+					>
+						now
+					</NavLink>
+					<NavLink
+						prefetch="intent"
+						className={setNavClassName}
+						to={`/til?${searchParamsWithoutOffset}`}
+					>
+						TIL
+					</NavLink>
+					<NavLink
+						prefetch="intent"
+						className={setNavClassName}
+						to={`/blog?${searchParamsWithoutOffset}`}
+					>
+						blog
+					</NavLink>
+					<div className="flex w-full items-center justify-center lg:ml-6">
+						<ServerThemeToggle />
+					</div>
+				</nav>
+			</HotkeysProvider>
 
 			<div className="relative flex w-20 grow items-center justify-end md:pr-0 lg:grow">
 				<FocusTrap
@@ -168,11 +182,7 @@ export function Navbar() {
 					}
 					focusTrapOptions={{
 						delayInitialFocus: false,
-						escapeDeactivates: () => {
-							shouldReturnFocusRef.current = true
-							setIsOpen(false)
-							return false
-						},
+						escapeDeactivates: false,
 						initialFocus: () => firstLinkRef.current,
 						setReturnFocus: () => {
 							const menuButton = menuButtonRef.current
@@ -196,4 +206,9 @@ export function Navbar() {
 			</div>
 		</div>
 	)
+}
+
+function MenuDismissal({ onClose }: { onClose: () => void }) {
+	useHotkey(appHotkeys['menu.close'], onClose, { ignoreInputs: false })
+	return null
 }

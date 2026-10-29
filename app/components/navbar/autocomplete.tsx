@@ -8,12 +8,12 @@ import { createElement, Fragment, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { usePagination, useSearchBox } from 'react-instantsearch-core'
 import { useSearchParams } from 'react-router'
-import { useHotkeys } from '~/hooks/use-hot-keys'
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
 	className?: string
 	searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
 	setOnMount: () => void
+	onOpenChange: (isOpen: boolean) => void
 }
 
 type SetInstantSearchUiStateOptions = {
@@ -26,6 +26,7 @@ export function Autocomplete({
 	searchRef,
 	initialState,
 	setOnMount,
+	onOpenChange,
 	...autocompleteProps
 }: AutocompleteProps) {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -64,23 +65,6 @@ export function Autocomplete({
 		}
 	}, [instantSearchUiState])
 
-	useHotkeys(
-		'cmd+k, ctrl+k',
-		(event: any) => {
-			event.preventDefault()
-			searchRef.current?.setIsOpen(!instantSearchUiState.isOpen)
-		},
-		[instantSearchUiState.isOpen],
-	)
-
-	useHotkeys(
-		'escape',
-		() => {
-			searchRef.current?.setIsOpen(false)
-		},
-		[instantSearchUiState.isOpen],
-	)
-
 	useEffect(() => {
 		if (!autocompleteContainer.current) {
 			return
@@ -113,6 +97,7 @@ export function Autocomplete({
 			container: autocompleteContainer.current,
 			initialState: { isOpen: true, query: initialQuery, ...initialState },
 			onStateChange({ prevState, state }) {
+				if (prevState.isOpen !== state.isOpen) onOpenChange(state.isOpen)
 				if (
 					prevState.query !== state.query ||
 					prevState.isOpen !== state.isOpen
@@ -139,6 +124,7 @@ export function Autocomplete({
 		})
 
 		searchRef.current = autocompleteInstance
+		onOpenChange(Boolean(initialState?.isOpen ?? true))
 		setOnMount()
 
 		return () => {

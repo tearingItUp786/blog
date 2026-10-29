@@ -17,10 +17,12 @@ export default function AlgoliaSearch({
 	searchRef,
 	setOnMount,
 	initialState,
+	onOpenChange,
 }: {
 	searchRef: React.MutableRefObject<AutocompleteApi<BaseItem> | null>
 	setOnMount: () => void
 	initialState?: Partial<AutocompleteState<BaseItem>>
+	onOpenChange: (isOpen: boolean) => void
 }) {
 	// handle initial search provider results (just so we can render the icon properly)
 	return (
@@ -33,6 +35,7 @@ export default function AlgoliaSearch({
 				<div className="flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 					<Autocomplete
 						setOnMount={setOnMount}
+						onOpenChange={onOpenChange}
 						initialState={initialState}
 						className="hidden"
 						searchRef={searchRef}

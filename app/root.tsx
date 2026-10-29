@@ -19,6 +19,7 @@ import {
 import { ExternalScripts } from 'remix-utils/external-scripts'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { Footer } from './components/footer/footer'
+import { AppHotkeysProvider } from './components/hotkeys/provider'
 import { LoadingRoute } from './components/loading-route'
 import { MermaidRenderer } from './components/mermaid-renderer'
 import { Navbar } from './components/navbar'
@@ -216,28 +217,30 @@ const Document = ({ children }: { children: React.ReactNode }) => {
 					<Links />
 				</head>
 				<body className="bg-light-gray dark:bg-dark-gray-100 flex min-h-svh flex-col">
-					<Navbar />
-					<ScrollProgress />
-					{children}
+					<AppHotkeysProvider>
+						<Navbar />
+						<ScrollProgress />
+						{children}
 
-					{/* This is a script that is used to set the ENV variable  */}
-					<script
-						nonce={nonce}
-						suppressHydrationWarning
-						dangerouslySetInnerHTML={{
-							__html: `window.ENV = ${serializeJsonForInlineScript(data?.ENV)}`,
-						}}
-					/>
-					<ScrollRestoration nonce={nonce} />
-					<ExternalScripts />
-					<Scripts nonce={nonce} />
-					<script
-						nonce={nonce}
-						async
-						src="https://static.cloudflareinsights.com/beacon.min.js"
-						data-cf-beacon='{"token": "667612c4eccb40caafe9cac20dbc492c"}'
-					></script>
-					<Footer />
+						{/* This is a script that is used to set the ENV variable  */}
+						<script
+							nonce={nonce}
+							suppressHydrationWarning
+							dangerouslySetInnerHTML={{
+								__html: `window.ENV = ${serializeJsonForInlineScript(data?.ENV)}`,
+							}}
+						/>
+						<ScrollRestoration nonce={nonce} />
+						<ExternalScripts />
+						<Scripts nonce={nonce} />
+						<script
+							nonce={nonce}
+							async
+							src="https://static.cloudflareinsights.com/beacon.min.js"
+							data-cf-beacon='{"token": "667612c4eccb40caafe9cac20dbc492c"}'
+						></script>
+						<Footer />
+					</AppHotkeysProvider>
 				</body>
 			</html>
 		</HoneypotProvider>

@@ -13,7 +13,7 @@ async function run() {
 		console.log('👀 Starting dev server')
 		const { execa } = await import('execa')
 
-		const compileCommand = `esbuild index.ts --outfile=index.cjs --bundle  --platform=node  --format=cjs --target=es2020`
+		const compileCommand = `esbuild index.ts --outfile=index.cjs --bundle --packages=external --platform=node --format=cjs --target=es2020`
 
 		console.log('🔨 Compiling mock files')
 		await execa(compileCommand, {

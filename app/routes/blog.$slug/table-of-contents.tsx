@@ -1,7 +1,9 @@
+import { HotkeysProvider, useHotkey } from '@tanstack/react-hotkeys'
 import { twJoin } from 'cnfast'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { getHeadingProgress } from './use-active-heading'
+import { appHotkeys } from '~/components/hotkeys/registry'
 import { type MdxHeading } from '~/schemas/github'
 
 function HeadingLinks({
@@ -81,6 +83,11 @@ export function MobileTableOfContents({
 }: TableOfContentsProps) {
 	const detailsRef = useRef<HTMLDetailsElement>(null)
 	const summaryRef = useRef<HTMLElement>(null)
+	const [isOpen, setIsOpen] = useState(false)
+	const close = () => {
+		if (detailsRef.current) detailsRef.current.open = false
+		setIsOpen(false)
+	}
 	const { current, total } = getHeadingProgress(headings, activeHeadingId)
 	const activeHeading = headings[current - 1]
 
@@ -98,80 +105,98 @@ export function MobileTableOfContents({
 			}
 
 			details.open = false
-		}
-
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key !== 'Escape' || !details.open) return
-
-			details.open = false
-			summaryRef.current?.focus()
+			setIsOpen(false)
 		}
 
 		document.addEventListener('pointerdown', handlePointerDown)
-		document.addEventListener('keydown', handleKeyDown)
+		const desktop = window.matchMedia?.('(min-width: 1280px)')
+		const closeOnDesktop = () => {
+			if (desktop?.matches) {
+				details.open = false
+				setIsOpen(false)
+			}
+		}
+		desktop?.addEventListener('change', closeOnDesktop)
 
 		return () => {
 			document.removeEventListener('pointerdown', handlePointerDown)
-			document.removeEventListener('keydown', handleKeyDown)
+			desktop?.removeEventListener('change', closeOnDesktop)
 		}
 	}, [])
 
 	if (headings.length < 2) return null
 
 	return (
-		<div className="not-prose sticky top-0 z-20 col-span-full mt-6 mb-8 min-[1280px]:hidden lg:col-span-10 lg:col-start-2">
-			<details ref={detailsRef} className="mobile-toc group relative">
-				<summary
-					ref={summaryRef}
-					aria-label={`On this page, section ${current} of ${total}: ${activeHeading?.text}`}
-					className="border-border-color bg-light-gray focus-visible:outline-accent dark:bg-dark-gray-100 flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 border-b px-1 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-details-marker]:hidden"
+		<HotkeysProvider scope="article-toc" exclusive enabled={isOpen}>
+			<TocDismissal
+				onClose={() => {
+					close()
+					summaryRef.current?.focus()
+				}}
+			/>
+			<div className="not-prose sticky top-0 z-20 col-span-full mt-6 mb-8 min-[1280px]:hidden lg:col-span-10 lg:col-start-2">
+				<details
+					ref={detailsRef}
+					onToggle={(event) => setIsOpen(event.currentTarget.open)}
+					className="mobile-toc group relative"
 				>
-					<span className="flex min-w-0 items-baseline gap-3">
-						<span
-							aria-hidden="true"
-							className="text-accent w-5 shrink-0 text-sm font-bold tabular-nums"
-						>
-							{String(current).padStart(2, '0')}
+					<summary
+						ref={summaryRef}
+						aria-label={`On this page, section ${current} of ${total}: ${activeHeading?.text}`}
+						className="border-border-color bg-light-gray focus-visible:outline-accent dark:bg-dark-gray-100 flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 border-b px-1 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-details-marker]:hidden"
+					>
+						<span className="flex min-w-0 items-baseline gap-3">
+							<span
+								aria-hidden="true"
+								className="text-accent w-5 shrink-0 text-sm font-bold tabular-nums"
+							>
+								{String(current).padStart(2, '0')}
+							</span>
+							<span className="text-body truncate text-sm md:text-base">
+								{activeHeading?.text}
+							</span>
 						</span>
-						<span className="text-body truncate text-sm md:text-base">
-							{activeHeading?.text}
+						<span className="flex shrink-0 items-center gap-3">
+							<span className="text-subheading-color text-xs tabular-nums">
+								{String(current).padStart(2, '0')}/
+								{String(total).padStart(2, '0')}
+							</span>
+							<span
+								aria-hidden="true"
+								className="text-accent w-3 text-center text-base font-bold"
+							>
+								<span className="group-open:hidden">+</span>
+								<span className="hidden group-open:inline">-</span>
+							</span>
 						</span>
-					</span>
-					<span className="flex shrink-0 items-center gap-3">
-						<span className="text-subheading-color text-xs tabular-nums">
-							{String(current).padStart(2, '0')}/
-							{String(total).padStart(2, '0')}
-						</span>
-						<span
-							aria-hidden="true"
-							className="text-accent w-3 text-center text-base font-bold"
-						>
-							<span className="group-open:hidden">+</span>
-							<span className="hidden group-open:inline">-</span>
-						</span>
-					</span>
-				</summary>
-				<nav
-					aria-label="Table of contents"
-					className="mobile-toc-panel border-border-color bg-light-gray dark:bg-dark-gray-100 absolute inset-x-0 top-full z-30 max-h-[min(42svh,20rem)] overflow-y-auto overscroll-contain border-b py-2"
-				>
-					<HeadingLinks
-						headings={headings}
-						activeHeadingId={activeHeading?.id}
-						showNumbers
-						onNavigate={(heading) => {
-							if (detailsRef.current) detailsRef.current.open = false
-							requestAnimationFrame(() => {
-								const headingElement = document.getElementById(heading.id)
-								headingElement?.setAttribute('tabindex', '-1')
-								headingElement?.focus({ preventScroll: true })
-							})
-						}}
-					/>
-				</nav>
-			</details>
-		</div>
+					</summary>
+					<nav
+						aria-label="Table of contents"
+						className="mobile-toc-panel border-border-color bg-light-gray dark:bg-dark-gray-100 absolute inset-x-0 top-full z-30 max-h-[min(42svh,20rem)] overflow-y-auto overscroll-contain border-b py-2"
+					>
+						<HeadingLinks
+							headings={headings}
+							activeHeadingId={activeHeading?.id}
+							showNumbers
+							onNavigate={(heading) => {
+								close()
+								requestAnimationFrame(() => {
+									const headingElement = document.getElementById(heading.id)
+									headingElement?.setAttribute('tabindex', '-1')
+									headingElement?.focus({ preventScroll: true })
+								})
+							}}
+						/>
+					</nav>
+				</details>
+			</div>
+		</HotkeysProvider>
 	)
+}
+
+function TocDismissal({ onClose }: { onClose: () => void }) {
+	useHotkey(appHotkeys['toc.close'], onClose, { ignoreInputs: false })
+	return null
 }
 
 export function DesktopTableOfContents({

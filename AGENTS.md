@@ -69,6 +69,9 @@ abstractions.
 - Environment startup: `pnpm test:single tests/smoke/startup-env.test.ts`
 - Newsletter RSS cache: `pnpm test:single tests/smoke/newsletter-rss.test.ts`
 - Mobile navbar focus: `pnpm test:single tests/navbar-focus-trap.test.ts`
+- Shortcut preferences and rebinding: `pnpm test:single tests/hotkeys.test.ts`
+- Lazy search shortcuts: `pnpm test:single tests/search-hotkeys.test.ts`
+- Article TOC shortcuts: `pnpm test:single tests/toc-hotkeys.test.ts`
 - Deploy config: `pnpm test:single tests/smoke/deploy-config.test.ts`
 
 ### Targeted command pattern

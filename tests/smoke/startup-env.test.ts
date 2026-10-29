@@ -65,6 +65,41 @@ async function runEnvironmentLoader(nodeEnv: 'development' | 'production') {
 }
 
 describe('startup environment loading', () => {
+	it('loads the compiled development mocks with their runtime dependencies', async () => {
+		const source = await readFile('server/dev-server.mjs', 'utf8')
+		const command = source.match(/const compileCommand = `([^`]+)`/)?.[1]
+		expect(command).toBeDefined()
+		const directory = await mkdtemp(path.resolve('mocks/.startup-test-'))
+		try {
+			const bundlePath = path.join(directory, 'index.cjs')
+			const args = command!
+				.split(/\s+/)
+				.slice(1)
+				.map((arg) =>
+					arg.startsWith('--outfile=') ? `--outfile=${bundlePath}` : arg,
+				)
+			const build = spawnSync(path.resolve('node_modules/.bin/esbuild'), args, {
+				cwd: path.resolve('mocks'),
+				encoding: 'utf8',
+				timeout: 10_000,
+			})
+			expect(build.status).toBe(0)
+			const runtime = spawnSync(
+				process.execPath,
+				['-e', `require(${JSON.stringify(bundlePath)})`],
+				{
+					encoding: 'utf8',
+					timeout: 10_000,
+				},
+			)
+			expect(runtime.stderr).toBe('')
+			expect(runtime.status).toBe(0)
+			expect(runtime.stdout).toContain('Mock server installed')
+		} finally {
+			await rm(directory, { recursive: true, force: true })
+		}
+	})
+
 	it('includes every production key required by server initialization', async () => {
 		const productionEnv = await readFile(
 			path.resolve('.env.production'),

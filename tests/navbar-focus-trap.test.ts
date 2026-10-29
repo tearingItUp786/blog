@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 
+import { HotkeysProvider, useHotkey } from '@tanstack/react-hotkeys'
 import { act, createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MemoryRouter } from 'react-router'
@@ -42,7 +43,18 @@ describe('mobile navbar focus trap', () => {
 		document.body.append(container)
 		const root = createRoot(container)
 		await act(async () => {
-			root.render(createElement(MemoryRouter, null, createElement(Navbar)))
+			root.render(
+				createElement(
+					MemoryRouter,
+					null,
+					createElement(
+						HotkeysProvider,
+						null,
+						createElement(BackgroundShortcut),
+						createElement(Navbar),
+					),
+				),
+			)
 		})
 
 		return {
@@ -75,6 +87,38 @@ describe('mobile navbar focus trap', () => {
 		await openMenu(navbar.container)
 
 		expect(document.activeElement?.textContent).toBe('about')
+	})
+
+	it('suspends background hotkeys only while the mobile menu is open', async () => {
+		using navbar = await renderNavbar()
+		const count = navbar.container.querySelector('output')!
+		const press = () =>
+			document.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					bubbles: true,
+					key: 'k',
+					code: 'KeyK',
+					ctrlKey: true,
+				}),
+			)
+		await act(async () => {
+			press()
+		})
+		expect(count.textContent).toBe('1')
+		await openMenu(navbar.container)
+		await act(async () => {
+			press()
+		})
+		expect(count.textContent).toBe('1')
+		await act(async () => {
+			document.activeElement?.dispatchEvent(
+				new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }),
+			)
+		})
+		await act(async () => {
+			press()
+		})
+		expect(count.textContent).toBe('2')
 	})
 
 	it('closes on Escape and restores focus to the menu button', async () => {
@@ -130,3 +174,14 @@ describe('mobile navbar focus trap', () => {
 		expect(navigation?.getAttribute('aria-label')).toBe('Primary navigation')
 	})
 })
+
+function BackgroundShortcut() {
+	const ref = (element: HTMLOutputElement | null) => {
+		if (element) element.textContent = '0'
+	}
+	useHotkey('Mod+K', () => {
+		const output = document.querySelector('output')!
+		output.textContent = String(Number(output.textContent) + 1)
+	})
+	return createElement('output', { ref })
+}

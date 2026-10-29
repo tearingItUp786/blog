@@ -1,4 +1,5 @@
 import { NavLink, useSearchParams } from 'react-router'
+import { KeyboardShortcuts } from '~/components/hotkeys/keyboard-shortcuts'
 
 export function Footer() {
 	const [searchParams] = useSearchParams()
@@ -13,6 +14,7 @@ export function Footer() {
 					Taran "tearing it up" Bains
 				</span>
 				<div className="block grow flex-wrap justify-center lg:flex lg:justify-end">
+					<KeyboardShortcuts />
 					<NavLink
 						prefetch="intent"
 						className="text-body focus-visible:text-accent mb-2 block px-8 text-sm underline focus-visible:outline-none"
