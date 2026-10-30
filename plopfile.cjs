@@ -104,6 +104,8 @@ module.exports = async (plop) => {
 	const { default: autocompletePrompt } =
 		await import('inquirer-autocomplete-prompt')
 	plop.setPrompt('autocomplete', autocompletePrompt)
+	// JSON strings are valid YAML scalars and preserve punctuation and newlines.
+	plop.setHelper('yamlString', (value) => JSON.stringify(value))
 	plop.setGenerator('til', {
 		description: 'Create a brand new TIL',
 		prompts: [
@@ -161,7 +163,7 @@ module.exports = async (plop) => {
 				// Add a new file
 				type: 'add',
 				// Path for the new file
-				path: `content/til/${now}-{{ dashCase title }}/${now}-{{ dashCase title }}.mdx`,
+				path: 'content/til/{{ date }}-{{ dashCase title }}/{{ date }}-{{ dashCase title }}.mdx',
 				// Handlebars template used to generate content of new file
 				templateFile: 'plop-templates/til.mdx.hbs',
 			},

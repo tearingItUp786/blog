@@ -460,6 +460,9 @@ importers:
       msw:
         specifier: ^3.0.0
         version: 3.0.2(@types/node@24.7.0)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.7.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.9.0))(graphql@16.13.0)(supports-color@8.1.1)(typescript@6.0.3)
+      node-plop:
+        specifier: 0.32.3
+        version: 0.32.3(@types/node@24.7.0)
       plop:
         specifier: ^4.0.5
         version: 4.0.5(@types/node@24.7.0)
@@ -18552,7 +18555,7 @@ snapshots:
       handlebars: 4.7.9
       inquirer: 9.3.8(@types/node@24.7.0)
       isbinaryfile: 5.0.7
-      resolve: 1.22.11
+      resolve: 1.22.12
       tinyglobby: 0.2.17
       title-case: 4.3.2
     transitivePeerDependencies:

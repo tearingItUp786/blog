@@ -22,6 +22,7 @@ type GeneratorConfig = {
 }
 
 type PlopApi = {
+	setHelper: (name: string, helper: (value: unknown) => string) => void
 	setPrompt: (name: string, prompt: unknown) => void
 	setGenerator: (name: string, config: GeneratorConfig) => void
 }
@@ -35,6 +36,7 @@ async function getTagPrompt() {
 	let generator: GeneratorConfig | undefined
 
 	await loadPlopfile({
+		setHelper() {},
 		setPrompt() {},
 		setGenerator(_name, config) {
 			generator = config

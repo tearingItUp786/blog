@@ -20,5 +20,5 @@ export default [
 	includeIgnoreFile(
 		path.join(path.dirname(fileURLToPath(import.meta.url)), '.gitignore'),
 	),
-	{ ignores: ['.opencode/plugins/swamp-audit.ts'] },
+	{ ignores: ['.opencode/plugins/swamp-audit.ts', 'extensions/**'] },
 ]

@@ -184,6 +184,29 @@ abstractions.
 - Swamp audit plugin: `pnpm test:single tests/smoke/swamp-audit-plugin.test.ts`
 - Hook/staging/CI policy:
   `pnpm test:single tests/smoke/developer-tooling.test.ts`
+- Non-interactive Plop TIL generation:
+  `pnpm test:single tests/smoke/create-til.test.ts`
+- Swamp TIL adapter (Deno, checked separately from app TypeScript):
+  `~/.swamp/deno/deno test --no-config -A extensions/models/til_test.ts`
+
+### Creating a TIL with swamp
+
+- The `@tearingitup786/til` model uses `plopfile.cjs` and
+  `plop-templates/til.mdx.hbs`; do not duplicate the template.
+- Run `swamp model method run til create --input '<JSON>' --json` with `title`,
+  `date` (`YYYY-MM-DD`), `tag`, `content`, and `sourceUrl` (HTTP/HTTPS) in the
+  JSON object. The model appends a final `[Check it out](sourceUrl)` link;
+  supply only the body in `content`.
+- Preserve the author's words with barely any changes. Do not rewrite notes into
+  generic prose, add filler, or invent personal experiences. Read existing TILs
+  for context and existing tags, but the author's supplied wording wins. Make
+  only minimal edits needed for clarity or Markdown formatting.
+- Use a supplied source URL or verify the relevant source; never guess a link.
+- If the `til` instance is missing, create it with
+  `swamp model create @tearingitup786/til til --json`.
+- Node and `pnpm install` are required. Existing posts are never overwritten.
+- The created path and inputs are recorded in the `post` data spec, instance
+  `created`. No publishing, git commits, or content refresh is performed.
 
 ### Targeted command pattern
 

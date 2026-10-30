@@ -39,6 +39,7 @@ export const toolingConfig = {
 			'**/.wrangler/**',
 			'**/worker-configuration.d.ts',
 			'.opencode/plugins/swamp-audit.ts',
+			'extensions/**', // Deno extensions are checked with Deno, not app TypeScript.
 		],
 		rules: {
 			'no-unexpected-multiline': 'error',
