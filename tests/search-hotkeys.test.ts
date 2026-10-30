@@ -148,7 +148,7 @@ describe('search keyboard integration', () => {
 			`#${button.getAttribute('aria-describedby')}`,
 		)
 		expect(helper?.textContent).toMatch(/Press.*Ctrl.*J.*to search/)
-		expect(button.textContent).toContain('Search')
+		expect(button.textContent).toMatch(/^\s*Ctrl\W*J\s*$/)
 		await act(async () => vi.advanceTimersByTime(2999))
 		expect(button.getAttribute('data-shortcut-hint')).toBe('true')
 		await act(async () => vi.advanceTimersByTime(1))
@@ -164,8 +164,19 @@ describe('search keyboard integration', () => {
 	it('reveals the current search shortcut after a standalone Command tap on macOS', async () => {
 		vi.spyOn(navigator, 'platform', 'get').mockReturnValue('MacIntel')
 		using view = await renderSearch()
+		const button = view.container.querySelector('button')!
+		expect(button.textContent).toBe('⌘+K')
+		expect(button.querySelector('kbd')?.classList.contains('font-body')).toBe(
+			true,
+		)
 		await press('Meta')
-		expect(view.container.textContent).toMatch(/Press.*⌘.*K.*to search/)
+		const helper = view.container.querySelector(
+			`#${button.getAttribute('aria-describedby')}`,
+		)!
+		expect(helper.textContent).toBe('Press ⌘+K to search')
+		expect(helper.querySelector('kbd')?.classList.contains('font-body')).toBe(
+			true,
+		)
 	})
 
 	it.each(['c', 'Tab', 'Shift'])(
@@ -313,11 +324,10 @@ describe('search keyboard integration', () => {
 				.getAttribute('data-shortcut-hint'),
 		).toBe('true')
 		await act(async () => view.container.querySelectorAll('button')[1]!.click())
-		expect(
-			view.container
-				.querySelector('button')!
-				.getAttribute('data-shortcut-hint'),
-		).toBe('false')
+		const button = view.container.querySelector('button')!
+		expect(button.textContent?.trim()).toBe('Search')
+		expect(button.getAttribute('aria-label')).toBe('Search')
+		expect(button.getAttribute('data-shortcut-hint')).toBe('false')
 		await press('Control')
 		expect(view.container.textContent).not.toContain('to search')
 	})
