@@ -1,0 +1,9 @@
+type: '@swamp/stagecraft/tracker'
+typeVersion: 2026.10.12.2
+id: 08318c7e-11b1-40ab-976e-a1f486b6e9b3
+name: tvb-tracker
+version: 1
+tags: {}
+globalArguments:
+  prefix: tvb
+methods: {}

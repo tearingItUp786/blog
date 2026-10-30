@@ -1,0 +1,791 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    Turn an API's OpenAPI spec into swamp models: scope the spec, map its
+    resources to models, have the mapping reviewed and approved, implement
+    the models as a swamp extension, check it, have the change reviewed, try
+    it against the live API if the person wants to, and release it.
+
+    For: using an API from swamp (Honeycomb, say) when no extension has its
+    models yet. One work item is one API, the whole spec or a slice of it (a
+    tag, or a few paths); a later slice is a new work item. At the end the
+    person has an extension whose models call the API. People decide at five
+    points: approving the mapping, waiving the quality score, trying it live,
+    releasing, and abandoning the work. A review with a blocking finding, a
+    failed check or a failed live try sends the work back. Every check and the
+    release are bound to the commit named in change-summary. Tests never call
+    the live API; only try-it does, with the person's key from a vault and on
+    their word.
+
+    Change first: release's route (registry push, or keep the extension
+    local), and how a large spec is sliced in scope.
+
+  stages:
+    - id: scope
+      initial: true
+      tracker:
+        status: open
+        duplicate:
+          on: { approve: duplicate-confirmation }
+          record: duplicate-of
+          field: primary
+      description:
+        Find the spec and decide which part of it this work item covers.
+      work:
+        mode: interactive
+        systemPrompt: |
+          First, check the work is not a duplicate of another ticket. If it
+          is, find out whether that ticket, the primary, already has a work
+          item: run the tracker's claim on it with dryRun=true, which writes
+          nothing. Record duplicate-of with the primary's stable id, its
+          display id and why, and wait for a person to approve
+          duplicate-confirmation. Once it is approved, move the work to the
+          primary. When the primary has no work item, retarget this work item
+          onto the primary's externalRefs and publish at once, then scope the
+          primary's work here. When it has one, take the duplicate exit.
+
+          Find the API's OpenAPI spec with the person: its URL or file, and
+          its version. Read it. If it is large, suggest a slice (one tag, or a
+          few paths) that is useful on its own, and agree it with the person;
+          the rest becomes new work items later, not part of this one. Record
+          spec-scope with the API's name, the spec's source and version, the
+          slice, and how the API authenticates.
+      artifacts:
+        - name: spec-scope
+          schema:
+            type: object
+            required: [api, source, version, slice, auth]
+            properties:
+              api: { type: string, minLength: 1 }
+              source:
+                description: The spec's URL or path.
+                type: string
+                minLength: 1
+              version: { type: string, minLength: 1 }
+              slice:
+                type: object
+                required: [kind]
+                additionalProperties: false
+                properties:
+                  kind: { enum: [whole, tags, paths] }
+                  include:
+                    { type: array, items: { type: string, minLength: 1 } }
+                if:
+                  properties: { kind: { enum: [tags, paths] } }
+                then:
+                  required: [include]
+                  properties: { include: { minItems: 1 } }
+              auth:
+                description: >-
+                  How the API authenticates (an API key header, a bearer token,
+                  OAuth), from the spec's security schemes.
+                type: string
+                minLength: 1
+        - name: duplicate-of
+          schema:
+            type: object
+            required: [primary, display, reason]
+            additionalProperties: false
+            properties:
+              primary:
+                description: The primary ticket's stable id.
+                type: string
+                minLength: 1
+              display:
+                description: The primary ticket's display id.
+                type: string
+                minLength: 1
+              reason: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: mapping
+          gates:
+            - type: artifact-exists
+              config: { artifact: spec-scope }
+        - name: duplicate
+          to: duplicate
+          description: >-
+            The work duplicates a primary ticket that already has a work item; a
+            person confirms it. When the primary has none, the work item is
+            retargeted onto it instead, and the cel gate closes this exit to it.
+            "builtin" there is the built-in tracker's externalRefs key; a
+            definition for Linear names "linear".
+          gates:
+            - type: human-approval
+              config: { id: duplicate-confirmation }
+            - type: cel
+              config:
+                expr: >-
+                  "duplicate-of" in artifacts && (!("builtin" in
+                  item.externalRefs) || item.externalRefs["builtin"] !=
+                  artifacts["duplicate-of"].payload.primary)
+                message: >-
+                  this work item is on the primary ticket now; scope it here
+
+    - id: mapping
+      tracker: { status: open }
+      maxCycles: 3
+      description: >-
+        Map the slice's resources to swamp models and methods. Entered at most
+        three times: a review or a person sends it back, and after that a person
+        decides whether another round is worth it.
+      work:
+        mode: interactive
+        skills: [swamp]
+        systemPrompt: |
+          Map the slice of the spec in spec-scope to a swamp extension. Name
+          the extension. For each resource, name the model, the spec
+          operations its methods call (operationId, or method and path), and
+          the fields that are secrets, which go to a vault and never into a
+          model's arguments in the clear. Say how the API key reaches the
+          models, and how the tests will run without the live API. Record
+          mapping.
+
+          On a later mapping, read the injected mapping (the last one),
+          mapping-review (its review) and mapping-feedback (the person's latest
+          feedback). After a review sends it back, address its findings. After
+          revise, address the feedback, and record feedbackIncorporated as the
+          last mapping's list with the feedback added word for word.
+        context:
+          inject: [spec-scope, mapping, mapping-review, mapping-feedback]
+      artifacts:
+        - name: mapping
+          schema:
+            type: object
+            required: [extension, models, auth, testingStrategy]
+            properties:
+              extension: { type: string, minLength: 1 }
+              models:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [name, resource, methods]
+                  additionalProperties: false
+                  properties:
+                    name: { type: string, minLength: 1 }
+                    resource: { type: string, minLength: 1 }
+                    methods:
+                      type: array
+                      minItems: 1
+                      items:
+                        type: object
+                        required: [name, operation]
+                        additionalProperties: false
+                        properties:
+                          name: { type: string, minLength: 1 }
+                          operation: { type: string, minLength: 1 }
+                    sensitiveFields:
+                      type: array
+                      items: { type: string, minLength: 1 }
+              auth: { type: string, minLength: 1 }
+              testingStrategy: { type: string, minLength: 1 }
+              feedbackIncorporated:
+                description: >-
+                  Every round of a person's feedback this mapping answers,
+                  oldest first.
+                type: array
+                items: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: mapping-review
+          gates:
+            - type: artifact-exists
+              config: { artifact: mapping }
+
+    - id: mapping-review
+      tracker: { status: open }
+      description: >-
+        Adversarial review of the mapping against the spec. Open blocking
+        findings send it back; none lets it through to a person's approval. With
+        nothing blocking, approving carries the open medium and low findings
+        into implement, which receives mapping-review.
+      work:
+        mode: dispatch
+        skills: [swamp]
+        systemPrompt: |
+          You are an adversarial reviewer. Try to refute this mapping of the
+          {{api}} spec ({{source}}) to the swamp extension {{extension}}.
+          Check each method against the operation it names, that every secret
+          in the slice is marked sensitive, that the slice in spec-scope is
+          covered and nothing outside it is, and that the tests can run
+          without the live API.
+          Rate a finding critical or high only if the mapping would call the
+          wrong operation, leak a secret, leave a resource in the slice
+          unusable, or need the live API to test. Naming, method grouping and
+          missing nice-to-have methods are medium at most. Judge the mapping
+          against the size of the change: do not ask for coverage beyond the
+          slice, and give the smallest adequate fix for each finding. Report
+          findings with severities, and do not soften the severity of a real
+          defect.
+        let:
+          api: artifacts["spec-scope"].payload.api
+          source: artifacts["spec-scope"].payload.source
+          extension: artifacts["mapping"].payload.extension
+        context:
+          inject: [spec-scope, mapping]
+      artifacts:
+        - name: mapping-review
+          kind: findings
+          reviews: mapping
+      evidence:
+        - name: mapping-feedback
+          description: >-
+            A person's feedback on the mapping, in their words; revise needs it.
+          recordedBy: person
+          schema:
+            type: object
+            required: [feedback]
+            additionalProperties: false
+            properties:
+              feedback: { type: string, minLength: 1 }
+      transitions:
+        - name: approve
+          to: implement
+          gates:
+            - type: artifact-fresh
+              config: { artifact: mapping-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: mapping-review, blocking: [critical, high] }
+            - type: human-approval
+              config: { id: mapping-approval }
+        - name: rework
+          to: mapping
+          description: >-
+            The fresh mapping review has an open critical or high finding, so
+            the mapping goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: mapping-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: mapping-review, blocking: [critical, high] }
+        - name: revise
+          to: mapping
+          manual: true
+          description: >-
+            A person sent the mapping back without a blocking finding, to change
+            it and have it reviewed again. Manual, so it never fires on its own,
+            and the person's feedback is recorded first, so every revision
+            carries its reason to the next mapping.
+          gates:
+            - type: evidence-recorded
+              description: The person's feedback on this mapping is recorded.
+              config: { name: mapping-feedback }
+
+    - id: implement
+      tracker: { status: in_progress }
+      maxCycles: 3
+      description: >-
+        Write the extension's models and its manifest, with tests that run on a
+        local fake of the API, and commit it. Entered at most three times: a
+        failed check, review or live try sends the work back, and after that a
+        person decides whether another round is worth it.
+      work:
+        mode: interactive
+        skills: [swamp]
+        systemPrompt: |
+          Implement the approved mapping as a swamp extension, with its
+          manifest, so swamp extension quality can score it. Test each method
+          against a local server (Deno.serve on port 0) that serves the spec's
+          response examples, or fixtures written from its response schemas
+          where it has none. Tests never call the live API. Commit the work,
+          then record change-summary with the full SHA of the commit to check
+          and review, and the manifest's version. After rework, record it
+          again for the new commit.
+        context:
+          inject: [spec-scope, mapping, mapping-review]
+      artifacts:
+        - name: change-summary
+          schema:
+            type: object
+            required: [summary, commit, files, manifestVersion]
+            properties:
+              summary: { type: string, minLength: 1 }
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              files: { type: array, minItems: 1, items: { type: string } }
+              manifestVersion:
+                type: string
+                pattern: "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$"
+      transitions:
+        - name: submit
+          to: check
+          gates:
+            - type: artifact-exists
+              config: { artifact: change-summary }
+            - type: cel
+              config:
+                expr: >-
+                  !("checks" in evidence) || evidence["checks"].payload.commit
+                  != artifacts["change-summary"].payload.commit
+                message: >-
+                  change-summary still names the commit already checked; record
+                  it for the new commit
+        - name: recheck
+          to: check
+          manual: true
+          description: >-
+            Check the same commit again, for a failure that was not the code's
+            (a flaky test, a broken tool). A person decides.
+
+    - id: check
+      tracker: { status: in_progress }
+      description: >-
+        Run the extension's checks (swamp extension fmt, type check, lint,
+        tests) and swamp extension quality on the change-summary commit. A
+        person can waive the quality score when it cannot be met yet; if the
+        waiver is granted while a recorded quality score also failed, both
+        passed-with-quality-waiver and quality-failed are satisfied, and the
+        driver asks which to take.
+      work:
+        mode: interactive
+        skills: [swamp]
+        systemPrompt: |
+          Check commit {{commit}}. Run swamp extension fmt, the type check,
+          lint and tests, and record checks. Then run
+          swamp extension quality --json and record quality from its output,
+          adding the commit it scored.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+      evidence:
+        - name: checks
+          schema:
+            type: object
+            required: [commit, status, results]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              status: { enum: [passed, failed] }
+              results:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [name, status]
+                  additionalProperties: false
+                  properties:
+                    name: { type: string, minLength: 1 }
+                    status: { enum: [passed, failed, skipped] }
+                    detail: { type: string }
+            $comment: An overall pass cannot contain a failed result.
+            if:
+              properties: { status: { const: passed } }
+            then:
+              properties:
+                results:
+                  not:
+                    contains:
+                      properties: { status: { const: failed } }
+        - name: quality
+          description: >-
+            The output of swamp extension quality --json, plus the commit it
+            scored. Only the stable top-level fields are named; the rest is kept
+            as recorded.
+          schema:
+            type: object
+            required: [commit, status, allPassed]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              status: { type: string, minLength: 1 }
+              allPassed: { type: boolean }
+              rubricVersion: { type: integer }
+              earnedPoints: { type: integer, minimum: 0 }
+              maxClientEarnablePoints: { type: integer, minimum: 0 }
+              percentage: { type: number, minimum: 0, maximum: 100 }
+              factors:
+                type: array
+                items:
+                  type: object
+                  required: [id, status]
+                  properties:
+                    id: { type: string, minLength: 1 }
+                    status: { type: string, minLength: 1 }
+      transitions:
+        - name: passed
+          to: code-review
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: passed } }
+            - type: evidence-recorded
+              config: { name: quality, requireField: { allPassed: true } }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["checks"].payload.commit ==
+                  artifacts["change-summary"].payload.commit && "quality" in
+                  evidence && evidence["quality"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: >-
+                  checks and quality must be for the change-summary commit
+        - name: passed-with-quality-waiver
+          to: code-review
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: passed } }
+            - type: human-approval
+              config: { id: quality-waiver }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["checks"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: checks must be for the change-summary commit
+        - name: failed
+          to: implement
+          description: >-
+            The checks failed, so the change goes back to be fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: failed } }
+        - name: quality-failed
+          to: implement
+          description: >-
+            The quality checks did not all pass, so the change goes back to be
+            fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: quality, requireField: { allPassed: false } }
+
+    - id: code-review
+      tracker: { status: in_progress }
+      description: >-
+        Adversarial review of the checked change against the approved mapping.
+        Open critical or high findings send it back; none lets it through to
+        try-it.
+      work:
+        mode: dispatch
+        skills: [swamp]
+        systemPrompt: |
+          You are an adversarial reviewer. Review commit {{commit}}:
+          {{changeSummary}}
+          Check it against the approved mapping and the spec: each method
+          calls the operation the mapping names, secrets stay sensitive, and
+          no test reaches the live API.
+          Rate a finding critical or high only if the change would ship a
+          defect, leak a secret, break a stated rule, or make the declared
+          checks meaningless. Gaps in process, logistics or manual verification
+          that the automated checks already cover are medium at most. Judge the
+          change against the size of the change: do not ask for verification
+          machinery bigger than the change, and give the smallest adequate fix
+          for each finding. Report findings with severities, and do not soften
+          the severity of a real defect.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+          changeSummary: artifacts["change-summary"].payload.summary
+        context:
+          inject: [mapping, change-summary, checks]
+      artifacts:
+        - name: code-review
+          kind: findings
+          reviews: change-summary
+      transitions:
+        - name: accept
+          to: try-it
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: code-review, blocking: [critical, high] }
+        - name: rework
+          to: implement
+          description: >-
+            The fresh code review has an open critical or high finding, so the
+            change goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: code-review, blocking: [critical, high] }
+
+    - id: try-it
+      tracker: { status: in_progress }
+      description: >-
+        Optionally, call the live API once before release, with the person's own
+        key from a vault. The person says whether to try it, and records the
+        outcome or a skip with its reason, so a work item never waits on a key
+        nobody has. Releasing also needs their approval.
+      work:
+        mode: interactive
+        skills: [swamp]
+        systemPrompt: |
+          Ask the person whether to try the extension against the live {{api}}
+          API before release. If they say yes, have them put their key in a
+          vault (never in a file or the chat), then run one read-only method
+          and show them what came back. Record live-try on their word, with
+          onBehalfOf naming them: passed or failed with the method and what
+          happened, or skipped with their reason. Then ask whether to release.
+        let:
+          api: artifacts["spec-scope"].payload.api
+      evidence:
+        - name: live-try
+          description: >-
+            Whether the extension worked against the live API, or why it was not
+            tried.
+          recordedBy: person
+          schema:
+            type: object
+            required: [outcome, detail]
+            additionalProperties: false
+            properties:
+              outcome: { enum: [passed, failed, skipped] }
+              method: { type: string, minLength: 1 }
+              detail: { type: string, minLength: 1 }
+            if:
+              properties: { outcome: { enum: [passed, failed] } }
+            then:
+              required: [method]
+      transitions:
+        - name: tried
+          to: release
+          gates:
+            - type: evidence-recorded
+              config: { name: live-try, requireField: { outcome: passed } }
+            - type: human-approval
+              config: { id: release-approval }
+        - name: skipped
+          to: release
+          gates:
+            - type: evidence-recorded
+              config: { name: live-try, requireField: { outcome: skipped } }
+            - type: human-approval
+              config: { id: release-approval }
+        - name: failed
+          to: implement
+          description: >-
+            The extension did not work against the live API, so the change goes
+            back to be fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: live-try, requireField: { outcome: failed } }
+
+    - id: release
+      tracker: { status: in_progress }
+      description: >-
+        Release the reviewed commit: swamp extension push publishes it to the
+        registry, or the person keeps the extension local in this repository. A
+        registry push must publish the manifestVersion recorded in
+        change-summary.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Release commit {{commit}} the way the person chose. Either run
+          swamp extension push and record release with the version it
+          published and its URL, or record release with via local when the
+          extension stays in this repository.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+      evidence:
+        - name: release
+          schema:
+            type: object
+            required: [via, commit]
+            properties:
+              via: { enum: [registry-push, local] }
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              url: { type: string, format: uri }
+              version:
+                type: string
+                pattern: "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$"
+            if:
+              properties: { via: { const: registry-push } }
+            then:
+              required: [version, url]
+      transitions:
+        - name: released
+          to: done
+          gates:
+            - type: evidence-recorded
+              config: { name: release }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["release"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: the release must ship the reviewed commit
+            - type: cel
+              config:
+                expr: >-
+                  evidence["release"].payload.via != "registry-push" ||
+                  evidence["release"].payload.version ==
+                  artifacts["change-summary"].payload.manifestVersion
+                message: >-
+                  a registry push must publish the manifestVersion recorded in
+                  change-summary
+        - name: rework
+          to: implement
+          manual: true
+          description: The release was blocked; go back and change the work.
+
+    - id: done
+      terminal: true
+      tracker: { status: shipped }
+
+    - id: duplicate
+      terminal: true
+      description: >-
+        The work duplicated a primary ticket that has its own work item.
+      tracker: { status: closed }
+
+    - id: abandoned
+      terminal: true
+      tracker: { status: closed }
+
+  globalTransitions:
+    - name: abandon
+      to: abandoned
+      gates:
+        - type: human-approval
+          config: { id: abandon-confirmation }
+scenarios:
+  - scenario: spec-to-local-release
+    description: >-
+      A slice of a spec walks from scope to a local release. A high mapping
+      finding sends the mapping back; a failed check sends the work back to
+      implement; the person skips the live try for want of a key, approves the
+      release, and keeps the extension local.
+    steps:
+      - record: { artifact: spec-scope }
+        payload:
+          api: Honeycomb
+          source: https://api.honeycomb.io/api.yaml
+          version: '1.0'
+          slice: { kind: tags, include: [Datasets] }
+          auth: An API key in the X-Honeycomb-Team header
+      - move: submit
+      - record: { artifact: mapping }
+        payload:
+          extension: '@me/honeycomb'
+          models:
+            - name: dataset
+              resource: Datasets
+              methods: [{ name: list, operation: listDatasets }]
+          auth: The key comes from a vault
+          testingStrategy: A local server serving the spec's examples
+      - move: submit
+      - record: { artifact: mapping-review }
+        payload:
+          findings:
+            - id: M1
+              severity: high
+              description:
+                The slice has getDataset and the mapping leaves it out
+      - approve: mapping-approval
+      - move: approve
+        expect: { refused: 'unresolved blocking finding' }
+      - move: rework
+      - expect: { stage: mapping }
+      - record: { artifact: mapping }
+        payload:
+          extension: '@me/honeycomb'
+          models:
+            - name: dataset
+              resource: Datasets
+              methods:
+                - { name: list, operation: listDatasets }
+                - { name: get, operation: getDataset }
+          auth: The key comes from a vault
+          testingStrategy: A local server serving the spec's examples
+      - move: submit
+      - record: { artifact: mapping-review }
+        payload: { findings: [] }
+      - approve: mapping-approval
+      - move: approve
+      - record: { artifact: change-summary }
+        payload:
+          summary: Dataset model with list and get
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          files: [extensions/models/dataset.ts]
+          manifestVersion: 2026.10.02.1
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: failed
+          results: [{ name: test, status: failed, detail: get returned 404 }]
+      - move: failed
+      - expect: { stage: implement }
+      - record: { artifact: change-summary }
+        payload:
+          summary: Dataset model with list and get, fixed
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          files: [extensions/models/dataset.ts]
+          manifestVersion: 2026.10.02.1
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          status: passed
+          results: [{ name: test, status: passed }]
+      - record: { evidence: quality }
+        payload:
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          status: pass
+          allPassed: true
+      - move: passed
+      - record: { artifact: code-review }
+        payload: { findings: [] }
+      - move: accept
+      - expect: { stage: try-it }
+      - record: { evidence: live-try }
+        payload: { outcome: skipped, detail: No Honeycomb key yet }
+      - move: skipped
+        expect: { refused: "awaiting approval 'release-approval'" }
+      - approve: release-approval
+      - move: skipped
+      - record: { evidence: release }
+        payload:
+          { via: local, commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae }
+      - move: released
+      - expect: { stage: done }
+  - scenario: live-try-fails
+    description: >-
+      The live try fails, so the work goes back to implement; a release approval
+      does not open release while the try failed.
+    steps:
+      - record: { artifact: spec-scope }
+        payload:
+          api: Honeycomb
+          source: https://api.honeycomb.io/api.yaml
+          version: '1.0'
+          slice: { kind: whole }
+          auth: An API key header
+      - move: submit
+      - record: { artifact: mapping }
+        payload:
+          extension: '@me/honeycomb'
+          models:
+            - name: dataset
+              resource: Datasets
+              methods: [{ name: list, operation: listDatasets }]
+          auth: The key comes from a vault
+          testingStrategy: Fixtures from the response schemas
+      - move: submit
+      - record: { artifact: mapping-review }
+        payload: { findings: [] }
+      - approve: mapping-approval
+      - move: approve
+      - record: { artifact: change-summary }
+        payload:
+          summary: Dataset model
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          files: [extensions/models/dataset.ts]
+          manifestVersion: 2026.10.02.1
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: passed
+          results: [{ name: test, status: passed }]
+      - approve: quality-waiver
+      - move: passed-with-quality-waiver
+      - record: { artifact: code-review }
+        payload: { findings: [] }
+      - move: accept
+      - record: { evidence: live-try }
+        payload:
+          outcome: failed
+          method: list
+          detail: The API wants the key in a different header
+      - approve: release-approval
+      - move: tried
+        expect: { refused: 'field ''outcome'' is "failed"' }
+      - move: failed
+      - expect: { stage: implement }

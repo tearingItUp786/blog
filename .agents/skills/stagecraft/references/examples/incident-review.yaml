@@ -1,0 +1,392 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    A post-incident review, from timeline to published: write the timeline,
+    analyse what contributed and what to do about it, have the analysis
+    reviewed, have a person sign off on the action items, and publish.
+
+    For: teams that write up incidents. Nothing in it is about code. A person
+    signs off on the action items before anything is published, and confirms
+    abandoning the review. A review with a blocking finding sends the analysis
+    back; a person can also send it back by hand with their feedback. Stages
+    name tracker status keys, so a work item can drive a ticket; drop the
+    stages' tracker blocks if it will not.
+
+    Change first: the timeline and analysis schemas (what your write-ups hold),
+    the review prompt's idea of a blocking finding, and publish's description
+    (where your reviews go).
+
+  stages:
+    - id: timeline
+      initial: true
+      tracker:
+        status: open
+        duplicate:
+          on: { approve: duplicate-confirmation }
+          record: duplicate-of
+          field: primary
+      description: Write down what happened, in order, and its impact.
+      work:
+        mode: interactive
+        systemPrompt: |
+          First, check the incident is not a duplicate of another ticket. If it
+          is, find out whether that ticket, the primary, already has a work
+          item: run the tracker's claim on it with dryRun=true, which writes
+          nothing. Record duplicate-of with the primary's stable id, its
+          display id and why, and wait for a person to approve
+          duplicate-confirmation. Once it is approved, move the work to the
+          primary. When the primary has no work item, retarget this work item
+          onto the primary's externalRefs and publish at once, then write the
+          primary's timeline here. When it has one, take the duplicate exit.
+
+          Build the timeline with the person from what they have: chat logs,
+          alerts, dashboards, their memory. Record timeline with the incident's
+          name, a one-line summary, the events in order (when, and what
+          happened) and the impact on the people the service is for. Record
+          only what the sources say; mark anything that is a guess as one.
+      artifacts:
+        - name: timeline
+          schema:
+            type: object
+            required: [incident, summary, events, impact]
+            properties:
+              incident: { type: string, minLength: 1 }
+              summary: { type: string, minLength: 1 }
+              events:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [at, what]
+                  additionalProperties: false
+                  properties:
+                    at: { type: string, minLength: 1 }
+                    what: { type: string, minLength: 1 }
+              impact: { type: string, minLength: 1 }
+        - name: duplicate-of
+          schema:
+            type: object
+            required: [primary, display, reason]
+            additionalProperties: false
+            properties:
+              primary:
+                description: The primary ticket's stable id.
+                type: string
+                minLength: 1
+              display:
+                description: The primary ticket's display id.
+                type: string
+                minLength: 1
+              reason: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: analysis
+          gates:
+            - type: artifact-exists
+              config: { artifact: timeline }
+        - name: duplicate
+          to: duplicate
+          description: >-
+            The incident duplicates a primary ticket that already has a work
+            item; a person confirms it. When the primary has none, the work item
+            is retargeted onto it instead, and the cel gate closes this exit to
+            it. "builtin" there is the built-in tracker's externalRefs key; a
+            definition for Linear names "linear".
+          gates:
+            - type: human-approval
+              config: { id: duplicate-confirmation }
+            - type: cel
+              config:
+                expr: >-
+                  "duplicate-of" in artifacts && (!("builtin" in
+                  item.externalRefs) || item.externalRefs["builtin"] !=
+                  artifacts["duplicate-of"].payload.primary)
+                message: >-
+                  this work item is on the primary ticket now; review it here
+
+    - id: analysis
+      tracker: { status: in_progress }
+      maxCycles: 3
+      description: >-
+        Find what contributed to the incident and what to do about each, without
+        blame. Entered at most three times: a review or a person sends it back,
+        and after that a person decides whether another round is worth it.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Analyse the incident from the timeline. Record analysis with the
+          contributing factors (what made it possible, worse or slower to fix,
+          never who), the action items (each with an owner who agreed to it)
+          and what went well.
+
+          On a later round, read the injected analysis (the last one),
+          incident-review (its review) and review-feedback (the person's latest
+          feedback). After a review sends it back, address its findings. After
+          revise, address the feedback, and record feedbackIncorporated as the
+          last analysis's list with the feedback added word for word.
+        context:
+          inject: [timeline, analysis, incident-review, review-feedback]
+      artifacts:
+        - name: analysis
+          schema:
+            type: object
+            required: [contributingFactors, actionItems, wentWell]
+            properties:
+              contributingFactors:
+                type: array
+                minItems: 1
+                items: { type: string, minLength: 1 }
+              actionItems:
+                type: array
+                items:
+                  type: object
+                  required: [action, owner]
+                  additionalProperties: false
+                  properties:
+                    action: { type: string, minLength: 1 }
+                    owner: { type: string, minLength: 1 }
+              wentWell: { type: array, items: { type: string, minLength: 1 } }
+              feedbackIncorporated:
+                description: >-
+                  Every round of a person's feedback this analysis answers,
+                  oldest first.
+                type: array
+                items: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: review
+          gates:
+            - type: artifact-exists
+              config: { artifact: analysis }
+
+    - id: review
+      tracker: { status: in_progress }
+      description: >-
+        A second reader challenges the analysis. Open blocking findings send it
+        back; none lets it through to sign-off.
+      work:
+        mode: dispatch
+        systemPrompt: |
+          You are a second reader of this incident review. Try to refute the
+          analysis of {{incident}} against its timeline: a contributing factor
+          the timeline does not support, one it shows and the analysis missed,
+          an action item that would not prevent or shorten a repeat, an action
+          item with no owner, or blame on a person.
+          Rate a finding critical or high only if the analysis gets the cause
+          wrong, misses a factor that would let the incident happen again, or
+          blames a person. Wording, ordering and formatting are medium at most.
+          Judge the review against the size of the incident: do not ask for an
+          investigation bigger than the incident, and give the smallest
+          adequate fix for each finding. Report findings with severities, and
+          do not soften the severity of a real defect.
+        let:
+          incident: artifacts["timeline"].payload.incident
+        context:
+          inject: [timeline, analysis]
+      artifacts:
+        - name: incident-review
+          kind: findings
+          reviews: analysis
+      transitions:
+        - name: accept
+          to: sign-off
+          gates:
+            - type: artifact-fresh
+              config: { artifact: incident-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: incident-review, blocking: [critical, high] }
+        - name: rework
+          to: analysis
+          description: >-
+            The fresh review has an open critical or high finding, so the
+            analysis goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: incident-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: incident-review, blocking: [critical, high] }
+
+    - id: sign-off
+      tracker: { status: in_progress }
+      description: >-
+        A person reads the analysis and its review and signs off on the action
+        items, or sends the analysis back with their feedback.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Show the person the analysis, its action items with their owners, and
+          the review's open findings. Ask them to sign off, or to say what to
+          change.
+        context:
+          inject: [timeline, analysis, incident-review]
+      evidence:
+        - name: review-feedback
+          description: >-
+            A person's feedback on the analysis, in their words; revise needs
+            it.
+          recordedBy: person
+          schema:
+            type: object
+            required: [feedback]
+            additionalProperties: false
+            properties:
+              feedback: { type: string, minLength: 1 }
+      transitions:
+        - name: approve
+          to: publish
+          gates:
+            - type: human-approval
+              config: { id: sign-off }
+        - name: revise
+          to: analysis
+          manual: true
+          description: >-
+            A person sent the analysis back to change it. Manual, so it never
+            fires on its own, and the person's feedback is recorded first, so
+            the next analysis knows what to answer.
+          gates:
+            - type: evidence-recorded
+              description: The person's feedback on this analysis is recorded.
+              config: { name: review-feedback }
+
+    - id: publish
+      tracker: { status: in_progress }
+      description: >-
+        Publish the signed-off review where your team keeps them (a wiki page, a
+        document, a shared folder), and record where.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Publish the timeline and the signed-off analysis where the person
+          keeps incident reviews, and record published with its location.
+        context:
+          inject: [timeline, analysis]
+      evidence:
+        - name: published
+          schema:
+            type: object
+            required: [location]
+            properties:
+              location: { type: string, minLength: 1 }
+      transitions:
+        - name: published
+          to: done
+          gates:
+            - type: evidence-recorded
+              config: { name: published }
+
+    - id: done
+      terminal: true
+      tracker: { status: shipped }
+
+    - id: duplicate
+      terminal: true
+      description: >-
+        The incident duplicated a primary ticket that has its own work item.
+      tracker: { status: closed }
+
+    - id: abandoned
+      terminal: true
+      tracker: { status: closed }
+
+  globalTransitions:
+    - name: abandon
+      to: abandoned
+      gates:
+        - type: human-approval
+          config: { id: abandon-confirmation }
+scenarios:
+  - scenario: timeline-to-published
+    description: >-
+      An incident walks from timeline to published. A high finding sends the
+      analysis back; a low one blocks nothing; a person signs off before it is
+      published.
+    steps:
+      - record: { artifact: timeline }
+        payload:
+          incident: Checkout outage
+          summary: Checkout failed for 40 minutes after a config push
+          events:
+            - { at: '14:02', what: Config pushed }
+            - { at: '14:05', what: Error rate alert }
+            - { at: '14:42', what: Config rolled back }
+          impact: No orders for 40 minutes
+      - move: submit
+      - record: { artifact: analysis }
+        payload:
+          contributingFactors: [The config push skipped staging]
+          actionItems: []
+          wentWell: [The alert fired in three minutes]
+      - move: submit
+      - record: { artifact: incident-review }
+        payload:
+          findings:
+            - id: F1
+              severity: high
+              description: No action item stops an unstaged push
+      - move: accept
+        expect: { refused: 'unresolved blocking finding' }
+      - move: rework
+      - expect: { stage: analysis }
+      - record: { artifact: analysis }
+        payload:
+          contributingFactors: [The config push skipped staging]
+          actionItems:
+            - { action: Make config pushes go through staging, owner: Sam }
+          wentWell: [The alert fired in three minutes]
+      - move: submit
+      - record: { artifact: incident-review }
+        payload: { findings: [{ id: F2, severity: low, description: Wording }] }
+      - move: rework
+        expect: { refused: 'no unresolved finding at a blocking severity' }
+      - move: accept
+      - move: approve
+        expect: { refused: "awaiting approval 'sign-off'" }
+      - approve: sign-off
+      - move: approve
+      - record: { evidence: published }
+        payload: { location: https://wiki.example.com/incidents/checkout }
+      - move: published
+      - expect: { stage: done }
+  - scenario: sign-off-feedback
+    description: >-
+      A person does not sign off and sends the analysis back. revise is refused
+      until their feedback is recorded, and the next analysis lists the feedback
+      it answers.
+    steps:
+      - record: { artifact: timeline }
+        payload:
+          incident: Login slow
+          summary: Logins took 30 seconds
+          events: [{ at: '09:00', what: Slow logins reported }]
+          impact: Users waited to log in
+      - move: submit
+      - record: { artifact: analysis }
+        payload:
+          contributingFactors: [A cache expired]
+          actionItems: [{ action: Warm the cache, owner: Ana }]
+          wentWell: []
+      - move: submit
+      - record: { artifact: incident-review }
+        payload: { findings: [] }
+      - move: accept
+      - decline: sign-off
+        note: The person thinks the cache is not the whole story
+      - move: revise
+        manual: true
+        expect: { refused: "evidence 'review-feedback' has not been recorded" }
+      - record: { evidence: review-feedback }
+        payload: { feedback: Say why the cache expired all at once }
+      - move: revise
+        manual: true
+      - expect: { stage: analysis }
+      - record: { artifact: analysis }
+        payload:
+          contributingFactors:
+            - A cache expired
+            - Every entry had the same expiry time
+          actionItems: [{ action: Spread cache expiry, owner: Ana }]
+          wentWell: []
+          feedbackIncorporated: [Say why the cache expired all at once]
+      - move: submit
+      - expect: { stage: review }

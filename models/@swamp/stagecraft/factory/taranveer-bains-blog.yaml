@@ -1,0 +1,596 @@
+type: '@swamp/stagecraft/factory'
+typeVersion: 2026.10.12.1
+id: 00dcb349-2e03-4f3f-bb52-32ba4e384098
+name: taranveer-bains-blog
+version: 1
+tags: {}
+globalArguments:
+  tracker: tvb-tracker
+  definition:
+    schemaVersion: 3
+    description: |-
+      Taranveer Bains’ blog: software changes from a clarified goal to a reviewed
+      plan, implementation on a separate branch, checks, code review, and merge
+      into main. Based on Stagecraft's shipped starter example.
+
+      Taranveer approves the reviewed plan before implementation and explicitly
+      approves merging the reviewed commit before release. Before each decision,
+      show the relevant artifacts, findings, checks, and available ways back.
+      Done means the reviewed commit is merged into origin/main, not merely
+      committed or reviewed; deployment is outside this factory's scope.
+      Failed checks and blocking findings return to fixes. Loops stop after five
+      visits unless a person explicitly grants an override. Tickets use the
+      local built-in tracker; its data is not shared through git.
+    stages:
+      - id: plan
+        initial: true
+        maxCycles: 5
+        tracker:
+          status: open
+          duplicate:
+            on: { approve: duplicate-confirmation }
+            record: duplicate-of
+            field: primary
+        description:
+          Clarify the desired outcome with Taranveer, then plan the change.
+        work:
+          mode: interactive
+          skills: [brainstorming]
+          systemPrompt: |
+            Read AGENTS.md and the code the ticket touches. Clarify the desired
+            outcome, acceptance criteria and unanswered questions with Taranveer
+            before writing a plan. Do not implement at this stage.
+            First check for duplicate tickets. If one exists, use the tracker's
+            claim with dryRun=true on its primary, record duplicate-of, and wait
+            for duplicate-confirmation. If the primary has no work item, retarget
+            onto its externalRefs and publish before planning it here. Otherwise
+            take the duplicate exit only after the person's confirmation.
+            Record plan with a summary, ordered steps naming touched files, and
+            testingStrategy. Specify a separate implementation branch and how it
+            will merge into origin/main; clarify the landing method with the
+            person rather than assuming permission to push or open a PR.
+            On rework, address plan-review. On revise, incorporate the person's
+            plan-feedback word for word in feedbackIncorporated, preserving the
+            prior list without appending the same last entry twice.
+          context: { inject: [plan, plan-review, plan-feedback] }
+        artifacts:
+          - name: plan
+            schema:
+              type: object
+              required: [summary, steps, testingStrategy]
+              properties:
+                summary: { type: string, minLength: 1 }
+                steps:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required: [description, files]
+                    additionalProperties: false
+                    properties:
+                      description: { type: string, minLength: 1 }
+                      files:
+                        { type: array, items: { type: string, minLength: 1 } }
+                testingStrategy: { type: string, minLength: 1 }
+                feedbackIncorporated:
+                  type: array
+                  items: { type: string, minLength: 1 }
+          - name: duplicate-of
+            schema:
+              type: object
+              required: [primary, display, reason]
+              additionalProperties: false
+              properties:
+                primary: { type: string, minLength: 1 }
+                display: { type: string, minLength: 1 }
+                reason: { type: string, minLength: 1 }
+        transitions:
+          - name: submit
+            to: plan-review
+            gates:
+              - type: artifact-exists
+                config: { artifact: plan }
+          - name: duplicate
+            to: duplicate
+            description:
+              A person confirms this duplicates a primary that already has a
+              work item.
+            gates:
+              - type: human-approval
+                config: { id: duplicate-confirmation }
+              - type: cel
+                config:
+                  expr: >-
+                    "duplicate-of" in artifacts && (!("builtin" in
+                    item.externalRefs) || item.externalRefs["builtin"] !=
+                    artifacts["duplicate-of"].payload.primary)
+                  message:
+                    this work item is on the primary ticket now; plan it here
+      - id: plan-review
+        maxCycles: 5
+        tracker: { status: open }
+        description:
+          Review the plan; blocking findings return to planning, otherwise wait
+          for Taranveer.
+        work:
+          mode: dispatch
+          skills: [verification-before-completion]
+          systemPrompt: |
+            Independently try to refute this plan: {{planSummary}}
+            Read the relevant code and AGENTS.md. Check the proposed steps,
+            acceptance criteria, branch/merge approach and testing strategy.
+            Critical or high means a real defect, data loss, broken stated rule,
+            or meaningless checks. Process wording and logistics are medium at
+            most. Scale the review to the change and propose the smallest fix.
+            Report findings with severities; do not invent or soften defects.
+            Before plan-approval, show Taranveer the plan and findings and explain
+            what implementation will do. Never approve on the person's behalf.
+          let: { planSummary: 'artifacts["plan"].payload.summary' }
+          context: { inject: [plan] }
+        artifacts:
+          - name: plan-review
+            kind: findings
+            reviews: plan
+        evidence:
+          - name: plan-feedback
+            description:
+              Taranveer's feedback in their own words, needed for manual
+              revision.
+            recordedBy: person
+            schema:
+              type: object
+              required: [feedback]
+              additionalProperties: false
+              properties:
+                feedback: { type: string, minLength: 1 }
+        transitions:
+          - name: approve
+            to: implement
+            gates:
+              - type: artifact-fresh
+                config: { artifact: plan-review, recordedThisCycle: true }
+              - type: findings-clear
+                config: { artifact: plan-review, blocking: [critical, high] }
+              - type: human-approval
+                description:
+                  Taranveer explicitly approves the reviewed plan before
+                  implementation.
+                config: { id: plan-approval }
+          - name: rework
+            to: plan
+            description:
+              Fix the fresh plan review's open critical or high findings.
+            gates:
+              - type: artifact-fresh
+                config: { artifact: plan-review, recordedThisCycle: true }
+              - type: findings-open
+                config: { artifact: plan-review, blocking: [critical, high] }
+          - name: revise
+            to: plan
+            manual: true
+            description:
+              A person requests a revised plan even without a blocking finding.
+            gates:
+              - type: evidence-recorded
+                config: { name: plan-feedback }
+      - id: implement
+        maxCycles: 5
+        tracker: { status: in_progress }
+        description:
+          Implement the approved plan on its own branch and commit only this
+          ticket's work.
+        work:
+          mode: interactive
+          skills: [test-driven-development]
+          systemPrompt: |
+            Implement the approved plan on a separate branch, never directly on
+            main. Preserve unrelated user changes. Follow AGENTS.md and applicable
+            skills. Commit only this ticket's changes; do not open a PR or merge.
+            Record change-summary with the full 40-character commit SHA and files.
+            After failed checks or blocking review, fix, commit, and record the
+            new change-summary. Carry forward non-blocking review findings.
+          context: { inject: [plan, plan-review] }
+        artifacts:
+          - name: change-summary
+            schema:
+              type: object
+              required: [summary, commit, files]
+              properties:
+                summary: { type: string, minLength: 1 }
+                commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+                files: { type: array, minItems: 1, items: { type: string } }
+        transitions:
+          - name: submit
+            to: verify
+            gates:
+              - type: artifact-exists
+                config: { artifact: change-summary }
+      - id: verify
+        maxCycles: 5
+        tracker: { status: in_progress }
+        description:
+          Run lint, typecheck and tests on the exact change-summary commit.
+        work:
+          mode: interactive
+          skills: [verification-before-completion, pnpm]
+          command: pnpm lint && pnpm typecheck && pnpm test
+          systemPrompt: |
+            Verify HEAD equals {{commit}} and the files being checked match it.
+            Do not discard unrelated changes or check them as if part of this
+            commit; use an isolated checkout when needed. Run pnpm lint, pnpm
+            typecheck and pnpm test, recording each result under those exact
+            names. Also run pnpm diagrams:check for Mermaid changes and the
+            plan's targeted checks. Run the checks independently so one failure
+            does not hide later results. Record only observed results, with the
+            exact commit, overall status, and failure output in detail. A failed
+            or skipped required check must never count as an overall pass.
+          let: { commit: 'artifacts["change-summary"].payload.commit' }
+        evidence:
+          - name: checks
+            schema:
+              type: object
+              required: [commit, status, results]
+              properties:
+                commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+                status: { enum: [passed, failed] }
+                results:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required: [name, status]
+                    additionalProperties: false
+                    properties:
+                      name: { type: string, minLength: 1 }
+                      status: { enum: [passed, failed, skipped] }
+                      detail: { type: string }
+              if:
+                properties: { status: { const: passed } }
+              then:
+                properties:
+                  results:
+                    not:
+                      contains:
+                        properties: { status: { const: failed } }
+        transitions:
+          - name: passed
+            to: code-review
+            gates:
+              - type: evidence-recorded
+                config: { name: checks, requireField: { status: passed } }
+              - type: cel
+                config:
+                  expr:
+                    evidence["checks"].payload.commit ==
+                    artifacts["change-summary"].payload.commit
+                  message: checks must be for the change-summary commit
+              - type: cel
+                config:
+                  expr: >-
+                    ["pnpm lint", "pnpm typecheck", "pnpm test"].all(required,
+                    evidence["checks"].payload.results.exists(result,
+                    result.name == required && result.status == "passed")) &&
+                    evidence["checks"].payload.results.all(result, result.status
+                    == "passed")
+                  message: all required checks must pass without skipped results
+          - name: failed
+            to: implement
+            description:
+              Failed checks return the change to implementation for fixes.
+            gates:
+              - type: evidence-recorded
+                config: { name: checks, requireField: { status: failed } }
+      - id: code-review
+        maxCycles: 5
+        tracker: { status: in_progress }
+        description:
+          Independently review the checked commit, then wait for explicit merge
+          approval.
+        work:
+          mode: dispatch
+          skills: [verification-before-completion]
+          systemPrompt: |
+            Independently review commit {{commit}}: {{changeSummary}}
+            Read the actual diff against main, the plan and the relevant code.
+            Critical or high means a shipping defect, data loss, broken stated
+            rule or meaningless checks. Process wording and logistics are medium
+            at most. Scale review to the change and propose the smallest fix.
+            Report findings with severities; do not invent or soften defects.
+            Before release-approval, the driving agent must show Taranveer the
+            changes, exact commit, check results and all findings, and explain
+            what will merge into origin/main, how and why. Never merge or approve
+            for them. New commits require fresh checks and review.
+          let:
+            commit: artifacts["change-summary"].payload.commit
+            changeSummary: artifacts["change-summary"].payload.summary
+          context: { inject: [plan, change-summary, checks] }
+        artifacts:
+          - name: code-review
+            kind: findings
+            reviews: change-summary
+        transitions:
+          - name: accept
+            to: release
+            gates:
+              - type: artifact-fresh
+                config: { artifact: code-review, recordedThisCycle: true }
+              - type: findings-clear
+                config: { artifact: code-review, blocking: [critical, high] }
+              - type: human-approval
+                description:
+                  Taranveer explicitly approves merging this checked and
+                  reviewed commit into main.
+                config: { id: release-approval }
+          - name: rework
+            to: implement
+            description:
+              Fix the fresh code review's open critical or high findings.
+            gates:
+              - type: artifact-fresh
+                config: { artifact: code-review, recordedThisCycle: true }
+              - type: findings-open
+                config: { artifact: code-review, blocking: [critical, high] }
+          - name: revise
+            to: implement
+            manual: true
+            description:
+              A person requests code changes without a blocking finding.
+      - id: release
+        maxCycles: 5
+        tracker: { status: in_progress }
+        description:
+          Merge the approved reviewed commit into origin/main and verify it
+          landed.
+        work:
+          mode: interactive
+          skills: [verification-before-completion]
+          systemPrompt: |
+            Only after Taranveer explicitly approves release-approval, merge the
+            reviewed commit {{commit}} into origin/main using the landing method
+            agreed in the plan and approval. Use installed service models where
+            available; do not guess authorization for a different merge method.
+            Recheck the source SHA before merging. If the source changed or main
+            needs conflict resolution, stop; request rework and new verification,
+            review and approval. Never bypass protected-branch checks, force-push
+            or discard unrelated work. Verify the actual remote merge result.
+            Record release with commit (the reviewed source SHA), target main,
+            merged true, and a real PR or merged-commit URL. Do not record success
+            for an open PR, local-only merge, failed command, or deployment.
+          let: { commit: 'artifacts["change-summary"].payload.commit' }
+          context: { inject: [plan, change-summary, checks, code-review] }
+        evidence:
+          - name: release
+            schema:
+              type: object
+              required: [commit, url, target, merged]
+              properties:
+                commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+                url: { type: string, format: uri }
+                target: { const: main }
+                merged: { const: true }
+        transitions:
+          - name: released
+            to: done
+            gates:
+              - type: evidence-recorded
+                config:
+                  {
+                    name: release,
+                    requireField: { target: main, merged: true },
+                  }
+              - type: cel
+                config:
+                  expr:
+                    evidence["release"].payload.commit ==
+                    artifacts["change-summary"].payload.commit
+                  message: merge evidence must name the reviewed commit
+          - name: rework
+            to: implement
+            manual: true
+            description:
+              A person sends a blocked merge back for changes and fresh
+              verification.
+      - id: done
+        terminal: true
+        description:
+          The approved reviewed change is verified merged into origin/main.
+        tracker: { status: shipped }
+      - id: duplicate
+        terminal: true
+        description:
+          A confirmed duplicate whose primary already has a work item.
+        tracker: { status: closed }
+      - id: abandoned
+        terminal: true
+        description: Work abandoned only after a person's explicit confirmation.
+        tracker: { status: closed }
+    globalTransitions:
+      - name: abandon
+        to: abandoned
+        gates:
+          - type: human-approval
+            config: { id: abandon-confirmation }
+  scenarios:
+    - scenario: plan-feedback
+      description:
+        Manual plan revision requires the person's feedback and returns to
+        planning.
+      steps:
+        - record: { artifact: plan }
+          payload: &plan
+            summary: Add list
+            steps: [{ description: Add list, files: [x.ts] }]
+            testingStrategy: Unit tests
+        - move: submit
+        - record: { artifact: plan-review }
+          payload: { findings: [] }
+        - decline: plan-approval
+          note: Split the list method from pagination before implementation
+        - move: revise
+          manual: true
+          expect: { refused: "evidence 'plan-feedback' has not been recorded" }
+        - record: { evidence: plan-feedback }
+          payload: { feedback: Split the list method from pagination }
+        - move: revise
+          manual: true
+        - expect: { stage: plan }
+        - record: { artifact: plan }
+          payload:
+            summary: Add list, then pagination
+            steps: [{ description: Add list, files: [x.ts] }]
+            testingStrategy: Unit tests
+            feedbackIncorporated: [Split the list method from pagination]
+        - move: submit
+        - expect: { stage: plan-review }
+    - scenario: plan-to-done
+      description: >-
+        Plan and merge approvals are mandatory; blocking reviews and failed
+        checks return to fixes. Wrong-commit or skipped checks cannot pass, and
+        done requires merge evidence for the reviewed commit on main.
+      steps:
+        - record: { artifact: plan }
+          payload: *plan
+        - move: submit
+        - record: { artifact: plan-review }
+          payload:
+            {
+              findings:
+                [{ id: F1, severity: high, description: Would lose data }],
+            }
+        - approve: plan-approval
+        - move: approve
+          expect: { refused: unresolved blocking finding }
+        - move: rework
+        - expect: { stage: plan }
+        - record: { artifact: plan }
+          payload: *plan
+        - move: submit
+        - record: { artifact: plan-review }
+          payload:
+            { findings: [{ id: F2, severity: low, description: Naming }] }
+        - move: rework
+          expect: { refused: no unresolved finding at a blocking severity }
+        - move: approve
+          expect: { refused: "awaiting approval 'plan-approval'" }
+        - approve: plan-approval
+        - move: approve
+        - record: { artifact: change-summary }
+          payload:
+            summary: Added list
+            commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+            files: [x.ts]
+        - move: submit
+        - record: { evidence: checks }
+          payload:
+            commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+            status: failed
+            results: [{ name: pnpm test, status: failed, detail: 1 failed }]
+        - move: passed
+          expect: { refused: 'field ''status'' is "failed"' }
+        - move: failed
+        - expect: { stage: implement }
+        - record: { artifact: change-summary }
+          payload:
+            summary: Added list, fixed
+            commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+            files: [x.ts]
+        - move: submit
+        - record: { evidence: checks }
+          payload:
+            commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+            status: passed
+            results: &passing-checks
+              - { name: pnpm lint, status: passed }
+              - { name: pnpm typecheck, status: passed }
+              - { name: pnpm test, status: passed }
+        - move: passed
+          expect: { refused: checks must be for the change-summary commit }
+        - record: { evidence: checks }
+          payload:
+            commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+            status: passed
+            results:
+              - { name: pnpm lint, status: passed }
+              - { name: pnpm typecheck, status: passed }
+              - { name: pnpm test, status: skipped }
+        - move: passed
+          expect: { refused: all required checks must pass }
+        - record: { evidence: checks }
+          payload: &passed
+            commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+            status: passed
+            results: *passing-checks
+        - move: passed
+        - record: { artifact: code-review }
+          payload:
+            {
+              findings:
+                [{ id: C1, severity: critical, description: Secret leak }],
+            }
+        - move: accept
+          expect: { refused: unresolved blocking finding }
+        - move: rework
+        - expect: { stage: implement }
+        - move: submit
+        - record: { evidence: checks }
+          payload: *passed
+        - move: passed
+        - record: { artifact: code-review }
+          payload: { findings: [] }
+        - move: accept
+          expect: { refused: "awaiting approval 'release-approval'" }
+        - approve: release-approval
+        - move: accept
+        - move: released
+          expect: { refused: "evidence 'release' has not been recorded" }
+        - record: { evidence: release }
+          payload:
+            commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+            target: main
+            merged: true
+            url: https://github.com/tearingItUp786/blog/pull/1
+        - move: released
+          expect: { refused: merge evidence must name the reviewed commit }
+        - record: { evidence: release }
+          payload:
+            commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+            target: main
+            merged: true
+            url: https://github.com/tearingItUp786/blog/pull/1
+        - move: released
+        - expect: { stage: done }
+    - scenario: duplicate-exit
+      description: A confirmed duplicate ends only after the person approves it.
+      externalRefs: { builtin: dup-1, builtin.display: '#dup-1' }
+      steps:
+        - record: { artifact: duplicate-of }
+          payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+        - move: duplicate
+          expect: { refused: duplicate-confirmation }
+        - approve: duplicate-confirmation
+        - move: duplicate
+        - expect: { stage: duplicate }
+    - scenario: duplicate-after-retarget
+      description:
+        Work retargeted onto its primary is planned, not ended as a duplicate.
+      externalRefs: { builtin: prim-1, builtin.display: '#prim-1' }
+      steps:
+        - record: { artifact: duplicate-of }
+          payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+        - approve: duplicate-confirmation
+        - move: duplicate
+          expect: { refused: on the primary ticket now }
+        - record: { artifact: plan }
+          payload: *plan
+        - move: submit
+        - expect: { stage: plan-review }
+    - scenario: abandon-confirmation
+      description:
+        Abandoning work always waits for a person's explicit confirmation.
+      steps:
+        - move: abandon
+          expect: { refused: abandon-confirmation }
+        - approve: abandon-confirmation
+        - move: abandon
+        - expect: { stage: abandoned }
+methods: {}

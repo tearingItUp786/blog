@@ -1,0 +1,741 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    Build a swamp extension from plan to release: plan it, have the plan
+    reviewed, implement it, check it, have the change reviewed, and release it.
+    build-swamp-extension.md, beside this factory definition, walks one work item
+    through it from start to done.
+
+    For: a developer building their own swamp extension. For other code, start
+    from starter.yaml.
+
+    Change first: the release route your repository uses (below), and the
+    skills the plan-review and code-review stages load.
+
+    It releases one of two ways. registry-push: `swamp extension push`
+    publishes the extension. pull-request: a pull request is merged and CI
+    publishes it; a repository that verifies before a pull request opens (as
+    swamp-extensions does) records the attestation id.
+
+    People decide at four points: approving the plan, waiving the quality score,
+    releasing, and abandoning the work. A person can also always send the work
+    back by hand (revise, recheck), so declining an approval never leaves
+    abandon as the only way out. Every check and the release are bound to the
+    commit named in change-summary, which is the commit that was reviewed.
+    Commits are full 40-character SHAs, so the same commit always compares
+    equal.
+
+    Stages declare tracker entries, so a tracker that keeps a ticket history
+    (the built-in one does) records which plan version was reviewed and
+    approved, how many findings each review had, and which check attempt
+    passed.
+
+    The CEL vocabulary in let values and cel gates is defined in
+    extensions/models/_lib/engine/cel_context.ts. This factory definition relies
+    on one rule of it: in CEL, evidence["x"] is the latest record of x in the era
+    from any stage, unlike the evidence-recorded gate, which only accepts evidence
+    from the current stage and cycle. implement.submit depends on it.
+
+  stages:
+    - id: plan
+      initial: true
+      tracker:
+        status: open
+        entries:
+          - on: { record: plan }
+            cycle: first
+            step: plan_generated
+            emoji: '📝'
+            summary: 'Plan generated (v{{$version}}): {{summary}}'
+          - on: { record: plan }
+            cycle: later
+            step: plan_revised
+            emoji: '🔄'
+            summary:
+              'Plan revised (v{{$version}}), round {{$cycle}}: {{summary}}'
+        duplicate:
+          on: { approve: duplicate-confirmation }
+          record: duplicate-of
+          field: primary
+      description: Plan the change to the extension.
+      work:
+        mode: interactive
+        systemPrompt: |
+          First, check the work is not a duplicate of another ticket. If it
+          is, find out whether that ticket, the primary, already has a work
+          item: run the tracker's claim on it with dryRun=true, which writes
+          nothing. Record duplicate-of with the primary's stable id, its
+          display id and why, and wait for a person to approve
+          duplicate-confirmation; do not plan. Once it is approved, move the
+          work to the primary. When the primary has no work item, retarget
+          this work item onto the primary's externalRefs and publish at once,
+          so the ticket index follows before anyone claims the primary, then
+          plan the primary's work here. When it has one, take the duplicate
+          exit.
+
+          Plan the change. Name the files each step touches, how it will be
+          tested, and whether the manifest version needs a bump (any behaviour
+          change to a published extension does).
+
+          On a later plan, read the injected plan (the last one), plan-review
+          (its review) and plan-feedback (the person's latest feedback); the
+          first plan has none of them. After rework, address the review's open
+          critical and high findings. After revise, address the feedback.
+          Record feedbackIncorporated as the last plan's list, adding the
+          feedback word for word unless it is already the list's last entry:
+          after rework, plan-feedback is the feedback the last plan already
+          answered.
+        context:
+          inject: [plan, plan-review, plan-feedback]
+      artifacts:
+        - name: plan
+          schema:
+            type: object
+            required: [summary, steps, testingStrategy, versionBump]
+            properties:
+              summary: { type: string, minLength: 1 }
+              steps:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [description, files]
+                  additionalProperties: false
+                  properties:
+                    description: { type: string, minLength: 1 }
+                    files:
+                      { type: array, items: { type: string, minLength: 1 } }
+              testingStrategy: { type: string, minLength: 1 }
+              versionBump:
+                type: object
+                required: [needed, reason]
+                additionalProperties: false
+                properties:
+                  needed: { type: boolean }
+                  reason: { type: string, minLength: 1 }
+              feedbackIncorporated:
+                description: >-
+                  Every round of a person's plan feedback this plan answers,
+                  oldest first.
+                type: array
+                items: { type: string, minLength: 1 }
+        - name: duplicate-of
+          schema:
+            type: object
+            required: [primary, display, reason]
+            additionalProperties: false
+            properties:
+              primary:
+                description: The primary ticket's stable id.
+                type: string
+                minLength: 1
+              display:
+                description: The primary ticket's display id.
+                type: string
+                minLength: 1
+              reason: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: plan-review
+          gates:
+            - type: artifact-exists
+              config: { artifact: plan }
+        - name: duplicate
+          to: duplicate
+          description: >-
+            The work duplicates a primary ticket that already has a work item; a
+            person confirms it. When the primary has none, the work item is
+            retargeted onto it instead, and the cel gate closes this exit to it.
+            "builtin" there is the built-in tracker's externalRefs key; a
+            definition for Linear names "linear".
+          gates:
+            - type: human-approval
+              config: { id: duplicate-confirmation }
+            - type: cel
+              config:
+                expr: >-
+                  "duplicate-of" in artifacts && (!("builtin" in
+                  item.externalRefs) || item.externalRefs["builtin"] !=
+                  artifacts["duplicate-of"].payload.primary)
+                message: >-
+                  this work item is on the primary ticket now; plan it here
+
+    - id: plan-review
+      tracker:
+        status: open
+        entries:
+          - on: { record: plan-review }
+            step: plan_reviewed
+            emoji: '🔍'
+            summary: >-
+              Plan review (plan v{{$version.plan}}): {{count findings
+              severity=critical}} critical, {{count findings severity=high}}
+              high, {{count findings}} in all
+          - on: { approve: plan-approval }
+            step: plan_approved
+            emoji: '✅'
+            summary: 'Plan approved (v{{$version.plan}})'
+      description: >-
+        Adversarial review of the current plan. Approval needs a fresh review
+        with no open critical or high findings and a person's sign-off; open
+        critical or high findings send the plan back. Approving carries the open
+        medium and low findings into implement, which receives plan-review;
+        revise is for when the person wants the plan itself changed and reviewed
+        again.
+      work:
+        mode: dispatch
+        systemPrompt: |
+          You are an adversarial reviewer. Try to refute this plan:
+          {{planSummary}}
+          Check its steps against the code, its testing strategy against the
+          risks, and whether the version bump call is right.
+          Rate a finding critical or high only if the plan would ship a
+          defect, lose data, break a stated rule, or make the declared checks
+          meaningless. Gaps in process, logistics or manual verification that
+          the automated checks already cover are medium at most. Judge the
+          plan against the size of the change: do not ask for verification
+          machinery bigger than the change, and give the smallest adequate fix
+          for each finding. Report findings with severities, and do not soften
+          the severity of a real defect.
+        let:
+          planSummary: artifacts["plan"].payload.summary
+        context:
+          inject: [plan]
+      artifacts:
+        - name: plan-review
+          kind: findings
+          reviews: plan
+      evidence:
+        - name: plan-feedback
+          description: >-
+            A person's feedback on the plan, in their words; revise needs it.
+            The round is the cycle it was recorded in.
+          recordedBy: person
+          schema:
+            type: object
+            required: [feedback]
+            additionalProperties: false
+            properties:
+              feedback: { type: string, minLength: 1 }
+      transitions:
+        - name: approve
+          to: implement
+          gates:
+            - type: artifact-fresh
+              config: { artifact: plan-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: plan-review, blocking: [critical, high] }
+            - type: human-approval
+              config: { id: plan-approval }
+        - name: rework
+          to: plan
+          description: >-
+            The fresh plan review has an open critical or high finding, so the
+            plan goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: plan-review, recordedThisCycle: true }
+            - type: cel
+              config:
+                expr: >-
+                  "plan-review" in artifacts &&
+                  artifacts["plan-review"].payload.findings.exists(f,
+                  (f.severity == "critical" || f.severity == "high") &&
+                  !(has(f.resolved) && f.resolved))
+                message: rework needs an open critical or high finding
+        - name: revise
+          to: plan
+          manual: true
+          description: >-
+            A person declined the plan without a blocking finding, to change the
+            plan itself and have it reviewed again. To act on non-blocking
+            findings during implement, approve instead. Manual, so it never
+            fires on its own, and the person's feedback is recorded first, so
+            every revision carries its reason to the next plan.
+          gates:
+            - type: evidence-recorded
+              description: The person's feedback on this plan is recorded.
+              config: { name: plan-feedback }
+
+    - id: implement
+      tracker: { status: in_progress }
+      description: Implement the approved plan and commit it.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Implement the approved plan. Commit the work, then record
+          change-summary with the full SHA of the commit you want checked and
+          reviewed. After rework, record it again for the new commit.
+        context:
+          inject: [plan, plan-review]
+      artifacts:
+        - name: change-summary
+          schema:
+            type: object
+            required: [summary, commit, files]
+            properties:
+              summary: { type: string, minLength: 1 }
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              files: { type: array, minItems: 1, items: { type: string } }
+              manifestVersion:
+                type: string
+                pattern: "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$"
+      transitions:
+        - name: submit
+          to: check
+          gates:
+            - type: artifact-exists
+              config: { artifact: change-summary }
+            - type: cel
+              config:
+                expr: >-
+                  !("checks" in evidence) || evidence["checks"].payload.commit
+                  != artifacts["change-summary"].payload.commit
+                message: >-
+                  change-summary still names the commit already checked; record
+                  it for the new commit
+        - name: recheck
+          to: check
+          manual: true
+          description: >-
+            Check the same commit again, for a failure that was not the code's
+            (a flaky test, a broken tool). A person decides.
+
+    - id: check
+      tracker:
+        status: in_progress
+        entries:
+          - on: dispatch
+            step: checks_started
+            emoji: '🧪'
+            summary: 'Checks started on {{$input.commit}}, attempt {{$cycle}}'
+          - on: { record: checks }
+            match: { status: passed }
+            step: checks_passed
+            emoji: '✅'
+            summary: 'Checks passed on {{commit}}'
+          - on: { record: checks }
+            match: { status: failed }
+            step: checks_failed
+            emoji: '❌'
+            summary: 'Checks failed on {{commit}}'
+      description: >-
+        Run the extension's checks (swamp extension fmt, type check, lint,
+        tests) and swamp extension quality on the change-summary commit. An
+        extension with no manifest yet cannot be scored; a person can waive the
+        quality score instead. If the waiver is granted while a recorded quality
+        score also failed, both passed-with-quality-waiver and quality-failed
+        are satisfied, and the driver asks which to take. When checks and
+        quality both fail, failed and quality-failed are both satisfied; both
+        return to implement.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Check commit {{commit}}. Run swamp extension fmt, the type check,
+          lint and tests, and record checks. Then run
+          swamp extension quality --json and record quality from its output,
+          adding the commit it scored.
+          If the extension has no manifest yet, record checks and ask for the
+          quality waiver instead.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+      evidence:
+        - name: checks
+          schema:
+            type: object
+            required: [commit, status, results]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              status: { enum: [passed, failed] }
+              results:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [name, status]
+                  additionalProperties: false
+                  properties:
+                    name: { type: string, minLength: 1 }
+                    status: { enum: [passed, failed, skipped] }
+                    detail: { type: string }
+            $comment: An overall pass cannot contain a failed result.
+            if:
+              properties: { status: { const: passed } }
+            then:
+              properties:
+                results:
+                  not:
+                    contains:
+                      properties: { status: { const: failed } }
+        - name: quality
+          description: >-
+            The output of swamp extension quality --json, plus the commit it
+            scored. Only the stable top-level fields are named; the rest is kept
+            as recorded.
+          schema:
+            type: object
+            required: [commit, status, allPassed]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              status: { type: string, minLength: 1 }
+              allPassed: { type: boolean }
+              rubricVersion: { type: integer }
+              earnedPoints: { type: integer, minimum: 0 }
+              maxClientEarnablePoints: { type: integer, minimum: 0 }
+              percentage: { type: number, minimum: 0, maximum: 100 }
+              factors:
+                type: array
+                items:
+                  type: object
+                  required: [id, status]
+                  properties:
+                    id: { type: string, minLength: 1 }
+                    status: { type: string, minLength: 1 }
+      transitions:
+        - name: passed
+          to: code-review
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: passed } }
+            - type: evidence-recorded
+              config: { name: quality, requireField: { allPassed: true } }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["checks"].payload.commit ==
+                  artifacts["change-summary"].payload.commit && "quality" in
+                  evidence && evidence["quality"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: >-
+                  checks and quality must be for the change-summary commit
+        - name: passed-with-quality-waiver
+          to: code-review
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: passed } }
+            - type: human-approval
+              config: { id: quality-waiver }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["checks"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: checks must be for the change-summary commit
+        - name: failed
+          to: implement
+          description: >-
+            The checks failed, so the change goes back to be fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: failed } }
+        - name: quality-failed
+          to: implement
+          description: >-
+            The quality checks did not all pass, so the change goes back to be
+            fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: quality, requireField: { allPassed: false } }
+
+    - id: code-review
+      tracker:
+        status: in_progress
+        entries:
+          - on: { record: code-review }
+            step: code_reviewed
+            emoji: '🔍'
+            summary: >-
+              Code review (change v{{$version.change-summary}}): {{count
+              findings severity=critical}} critical, {{count findings
+              severity=high}} high, {{count findings}} in all
+          - on: { approve: release-approval }
+            step: release_approved
+            emoji: '✅'
+            summary: 'Release approved (change v{{$version.change-summary}})'
+      description: >-
+        Adversarial review of the checked change. Releasing needs a fresh review
+        with no open critical or high findings and a person's approval; open
+        critical or high findings send the change back.
+      work:
+        mode: dispatch
+        systemPrompt: |
+          You are an adversarial reviewer. Review commit {{commit}}:
+          {{changeSummary}}
+          Check it against the approved plan.
+          Rate a finding critical or high only if the change would ship a
+          defect, lose data, break a stated rule, or make the declared checks
+          meaningless. Gaps in process, logistics or manual verification that
+          the automated checks already cover are medium at most. Judge the
+          change against the size of the change: do not ask for verification
+          machinery bigger than the change, and give the smallest adequate fix
+          for each finding. Report findings with severities, and do not soften
+          the severity of a real defect.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+          changeSummary: artifacts["change-summary"].payload.summary
+        context:
+          inject: [plan, change-summary, checks]
+      artifacts:
+        - name: code-review
+          kind: findings
+          reviews: change-summary
+      transitions:
+        - name: accept
+          to: release
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: code-review, blocking: [critical, high] }
+            - type: human-approval
+              config: { id: release-approval }
+        - name: rework
+          to: implement
+          description: >-
+            The fresh code review has an open critical or high finding, so the
+            change goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: cel
+              config:
+                expr: >-
+                  "code-review" in artifacts &&
+                  artifacts["code-review"].payload.findings.exists(f,
+                  (f.severity == "critical" || f.severity == "high") &&
+                  !(has(f.resolved) && f.resolved))
+                message: rework needs an open critical or high finding
+        - name: revise
+          to: implement
+          manual: true
+          description: >-
+            A person declined the release without a blocking finding; change the
+            work. Manual, so it never fires on its own.
+
+    - id: release
+      tracker:
+        status: in_progress
+        entries:
+          - on: { record: release }
+            step: released
+            emoji: '🚀'
+            summary: 'Released by {{via}}, attempt {{$cycle}}: {{url}}'
+          - on: { transition: released }
+            step: complete
+            emoji: '🏁'
+            summary: Complete
+      description: >-
+        Release the reviewed commit: swamp extension push, or a pull request
+        that CI publishes when it merges. commit is the reviewed head that
+        shipped; the merge's own commit goes in mergeCommit, which a
+        pull-request release must record, so it cannot be recorded before the
+        merge. A registry push must publish the manifestVersion recorded in
+        change-summary.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Release commit {{commit}}. Either run swamp extension push and record
+          the version it published, or open a pull request (after posting the
+          verification attestation, where the repository requires one) and
+          record the release with its merge commit once it merges.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+      evidence:
+        - name: release
+          schema:
+            type: object
+            required: [via, commit, url]
+            properties:
+              via: { enum: [registry-push, pull-request] }
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              mergeCommit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              url: { type: string, format: uri }
+              version:
+                type: string
+                pattern: "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$"
+              pullRequest: { type: string, format: uri }
+              attestationId: { type: string, minLength: 1 }
+            allOf:
+              - if:
+                  properties: { via: { const: registry-push } }
+                then:
+                  required: [version]
+              - if:
+                  properties: { via: { const: pull-request } }
+                then:
+                  required: [pullRequest, attestationId, mergeCommit]
+      transitions:
+        - name: released
+          to: done
+          gates:
+            - type: evidence-recorded
+              config: { name: release }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["release"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: the release must ship the reviewed commit
+            - type: cel
+              config:
+                expr: >-
+                  evidence["release"].payload.via != "registry-push" ||
+                  ("manifestVersion" in artifacts["change-summary"].payload &&
+                  evidence["release"].payload.version ==
+                  artifacts["change-summary"].payload.manifestVersion)
+                message: >-
+                  a registry push must publish the manifestVersion recorded in
+                  change-summary
+        - name: rework
+          to: implement
+          manual: true
+          description: The release was blocked; go back and change the work.
+
+    - id: done
+      terminal: true
+      tracker: { status: shipped }
+
+    - id: duplicate
+      terminal: true
+      description: >-
+        The work duplicated a primary ticket that has its own work item.
+      tracker: { status: closed }
+
+    - id: abandoned
+      terminal: true
+      tracker: { status: closed }
+
+  globalTransitions:
+    - name: abandon
+      to: abandoned
+      gates:
+        - type: human-approval
+          config: { id: abandon-confirmation }
+scenarios:
+  - scenario: plan-churn
+    description: >-
+      The plan keeps coming back. plan is entered once at the start and again on
+      each revise, which the person's recorded feedback opens, and maxCycles
+      defaults to 5, so the fifth revise is refused until a person grants one
+      more pass.
+    steps:
+      - record: { artifact: plan }
+        payload:
+          summary: s
+          steps: [{ description: d, files: [] }]
+          testingStrategy: t
+          versionBump: { needed: false, reason: none }
+      - move: submit
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+      - move: submit
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+      - move: submit
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+      - move: submit
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+      - move: submit
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+        expect: { refused: "cycle override for 'plan'" }
+      - wait: 3600
+        note: The work item sits at the cycle limit until someone looks
+      - override: { stage: plan, note: one more pass }
+      - record: { evidence: plan-feedback }
+        payload: { feedback: f }
+      - move: revise
+        manual: true
+      - expect: { stage: plan }
+  - scenario: plan-to-release
+    description: >-
+      A new method walks plan to release through the real gates: the plan is
+      reviewed and approved, the change is checked, reviewed and released by a
+      registry push of the reviewed version.
+    steps:
+      - record: { artifact: plan }
+        payload:
+          summary: Add list
+          steps: [{ description: Add list, files: [x.ts] }]
+          testingStrategy: Unit tests
+          versionBump: { needed: true, reason: New method }
+      - move: submit
+      - record: { artifact: plan-review }
+        payload: { findings: [{ id: F1, severity: low, description: Naming }] }
+      - approve: plan-approval
+      - move: approve
+      - record: { artifact: change-summary }
+        payload:
+          summary: Added list
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          files: [x.ts]
+          manifestVersion: 2026.09.28.1
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: passed
+          results: [{ name: test, status: passed }]
+      - record: { evidence: quality }
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: passed
+          allPassed: true
+      - move: passed
+      - record: { artifact: code-review }
+        payload: { findings: [] }
+      - approve: release-approval
+      - move: accept
+      - record: { evidence: release }
+        payload:
+          via: registry-push
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          url: https://registry.example.com/extensions/@me/thing
+          version: 2026.09.28.1
+      - expect: { stage: release }
+  - scenario: duplicate-exit
+    description: >-
+      The ticket duplicates a primary that already has a work item. The agent
+      records duplicate-of, a person approves, and the work item ends at
+      duplicate; publish marks the ticket a duplicate and closes it.
+    externalRefs: { builtin: dup-1, builtin.display: '#dup-1' }
+    steps:
+      - record: { artifact: duplicate-of }
+        payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+      - move: duplicate
+        expect: { refused: duplicate-confirmation }
+      - approve: duplicate-confirmation
+      - move: duplicate
+      - expect: { stage: duplicate }
+  - scenario: duplicate-after-retarget
+    description: >-
+      The primary had no work item, so the work item was retargeted onto it. The
+      approved gate no longer ends it: the duplicate exit is closed on the
+      primary, and the work is planned there.
+    externalRefs: { builtin: prim-1, builtin.display: '#prim-1' }
+    steps:
+      - record: { artifact: duplicate-of }
+        payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+      - approve: duplicate-confirmation
+      - move: duplicate
+        expect: { refused: on the primary ticket now }
+      - record: { artifact: plan }
+        payload:
+          summary: s
+          steps: [{ description: d, files: [] }]
+          testingStrategy: t
+          versionBump: { needed: false, reason: none }
+      - move: submit
+      - expect: { stage: plan-review }

@@ -1,0 +1,562 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    A general software change, from plan to release: plan, review the plan,
+    implement, verify, review the change, release.
+
+    For: changes to any codebase. A person approves the plan and the release,
+    and confirms abandoning the work. A review with a blocking finding, or a
+    failed verify, sends the work back. Every check and the release are bound
+    to the commit named in change-summary. Stages name tracker status keys, so
+    a work item can drive a ticket; drop the stages' tracker blocks if it will
+    not. For a swamp extension, build-swamp-extension.yaml adds a quality score
+    and a manifest version check.
+
+    Change first: verify's command (your project's checks), the skills the
+    plan-review and code-review stages load, and release's description (how
+    your project ships).
+
+  stages:
+    - id: plan
+      initial: true
+      tracker:
+        status: open
+        duplicate:
+          on: { approve: duplicate-confirmation }
+          record: duplicate-of
+          field: primary
+      description: Plan the change.
+      work:
+        mode: interactive
+        skills: []
+        systemPrompt: |
+          First, check the work is not a duplicate of another ticket. If it
+          is, find out whether that ticket, the primary, already has a work
+          item: run the tracker's claim on it with dryRun=true, which writes
+          nothing. Record duplicate-of with the primary's stable id, its
+          display id and why, and wait for a person to approve
+          duplicate-confirmation; do not plan. Once it is approved, move the
+          work to the primary. When the primary has no work item, retarget
+          this work item onto the primary's externalRefs and publish at once,
+          so the ticket index follows before anyone claims the primary, then
+          plan the primary's work here. When it has one, take the duplicate
+          exit.
+
+          Plan the change with the person. Read the code it touches first.
+          Record plan with a summary, the steps in order (each naming the files
+          it touches) and the testing strategy.
+
+          On a later plan, read the injected plan (the last one), plan-review
+          (its review) and plan-feedback (the person's latest feedback); the
+          first plan has none of them. After a review sends the plan back,
+          address its findings. After revise, address the feedback. Record
+          feedbackIncorporated as the last plan's list, adding the feedback word
+          for word unless it is already the list's last entry: after rework,
+          plan-feedback is the feedback the last plan already answered.
+        context:
+          inject: [plan, plan-review, plan-feedback]
+      artifacts:
+        - name: plan
+          schema:
+            type: object
+            required: [summary, steps, testingStrategy]
+            properties:
+              summary: { type: string, minLength: 1 }
+              steps:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [description, files]
+                  additionalProperties: false
+                  properties:
+                    description: { type: string, minLength: 1 }
+                    files:
+                      { type: array, items: { type: string, minLength: 1 } }
+              testingStrategy: { type: string, minLength: 1 }
+              feedbackIncorporated:
+                description: >-
+                  Every round of a person's plan feedback this plan answers,
+                  oldest first.
+                type: array
+                items: { type: string, minLength: 1 }
+        - name: duplicate-of
+          schema:
+            type: object
+            required: [primary, display, reason]
+            additionalProperties: false
+            properties:
+              primary:
+                description: The primary ticket's stable id.
+                type: string
+                minLength: 1
+              display:
+                description: The primary ticket's display id.
+                type: string
+                minLength: 1
+              reason: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: plan-review
+          gates:
+            - type: artifact-exists
+              config: { artifact: plan }
+        - name: duplicate
+          to: duplicate
+          description: >-
+            The work duplicates a primary ticket that already has a work item; a
+            person confirms it. When the primary has none, the work item is
+            retargeted onto it instead, and the cel gate closes this exit to it.
+            "builtin" there is the built-in tracker's externalRefs key; a
+            definition for Linear names "linear".
+          gates:
+            - type: human-approval
+              config: { id: duplicate-confirmation }
+            - type: cel
+              config:
+                expr: >-
+                  "duplicate-of" in artifacts && (!("builtin" in
+                  item.externalRefs) || item.externalRefs["builtin"] !=
+                  artifacts["duplicate-of"].payload.primary)
+                message: >-
+                  this work item is on the primary ticket now; plan it here
+
+    - id: plan-review
+      tracker: { status: open }
+      description: >-
+        Adversarial review of the current plan. Open blocking findings send it
+        back; none lets it through. With nothing blocking, approving carries the
+        open medium and low findings into implement, which receives plan-review;
+        revise is for when the person wants the plan itself changed and reviewed
+        again.
+      work:
+        mode: dispatch
+        skills: [adversarial-review]
+        systemPrompt: |
+          You are an adversarial reviewer. Try to refute this plan:
+          {{planSummary}}
+          Check its steps against the code and its testing strategy against the
+          risks.
+          Rate a finding critical or high only if the plan would ship a
+          defect, lose data, break a stated rule, or make the declared checks
+          meaningless. Gaps in process, logistics or manual verification that
+          the automated checks already cover are medium at most. Judge the
+          plan against the size of the change: do not ask for verification
+          machinery bigger than the change, and give the smallest adequate fix
+          for each finding. Report findings with severities, and do not soften
+          the severity of a real defect.
+        let:
+          planSummary: artifacts["plan"].payload.summary
+        context:
+          inject: [plan]
+      artifacts:
+        - name: plan-review
+          kind: findings
+          reviews: plan
+      evidence:
+        - name: plan-feedback
+          description: >-
+            A person's feedback on the plan, in their words; revise needs it.
+            The round is the cycle it was recorded in.
+          recordedBy: person
+          schema:
+            type: object
+            required: [feedback]
+            additionalProperties: false
+            properties:
+              feedback: { type: string, minLength: 1 }
+      transitions:
+        - name: approve
+          to: implement
+          gates:
+            - type: artifact-fresh
+              config: { artifact: plan-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: plan-review, blocking: [critical, high] }
+            - type: human-approval
+              config: { id: plan-approval }
+        - name: rework
+          to: plan
+          description: >-
+            The fresh plan review has an open critical or high finding, so the
+            plan goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: plan-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: plan-review, blocking: [critical, high] }
+        - name: revise
+          to: plan
+          manual: true
+          description: >-
+            A person sent the plan back without a blocking finding, to change
+            the plan itself and have it reviewed again. To act on non-blocking
+            findings during implement, approve instead. Manual, so it never
+            fires on its own, and the person's feedback is recorded first, so
+            every revision carries its reason to the next plan.
+          gates:
+            - type: evidence-recorded
+              description: The person's feedback on this plan is recorded.
+              config: { name: plan-feedback }
+
+    - id: implement
+      tracker: { status: in_progress }
+      description: Implement the plan and commit it.
+      work:
+        mode: interactive
+        skills: []
+        systemPrompt: |
+          Implement the plan. Commit the work, then record change-summary with
+          the full 40-character SHA of the commit to check and review. Do not
+          open a pull request. After a check or review sends the work back, fix
+          it, commit, and record change-summary again for the new commit.
+        context:
+          inject: [plan, plan-review]
+      artifacts:
+        - name: change-summary
+          schema:
+            type: object
+            required: [summary, commit, files]
+            properties:
+              summary: { type: string, minLength: 1 }
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              files: { type: array, minItems: 1, items: { type: string } }
+      transitions:
+        - name: submit
+          to: verify
+          gates:
+            - type: artifact-exists
+              config: { artifact: change-summary }
+
+    - id: verify
+      tracker: { status: in_progress }
+      description: >-
+        Run the checks on the change-summary commit and record checks, with one
+        result per check.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Check out commit {{commit}} and run the stage's command. Record checks
+          with that commit, the overall status, and one result per check (its
+          name, status and, when it failed, the output that shows why). Record
+          only what you ran and saw.
+        command: >-
+          the project's format, lint, type and test checks (replace this with
+          the real commands)
+        let:
+          commit: artifacts["change-summary"].payload.commit
+      evidence:
+        - name: checks
+          schema:
+            type: object
+            required: [commit, status, results]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              status: { enum: [passed, failed] }
+              results:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  required: [name, status]
+                  additionalProperties: false
+                  properties:
+                    name: { type: string, minLength: 1 }
+                    status: { enum: [passed, failed, skipped] }
+                    detail: { type: string }
+            $comment: An overall pass cannot contain a failed result.
+            if:
+              properties: { status: { const: passed } }
+            then:
+              properties:
+                results:
+                  not:
+                    contains:
+                      properties: { status: { const: failed } }
+      transitions:
+        - name: passed
+          to: code-review
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: passed } }
+            - type: cel
+              config:
+                expr: >-
+                  evidence["checks"].payload.commit ==
+                  artifacts["change-summary"].payload.commit
+                message: checks must be for the change-summary commit
+        - name: failed
+          to: implement
+          description: >-
+            The checks failed, so the change goes back to be fixed.
+          gates:
+            - type: evidence-recorded
+              config: { name: checks, requireField: { status: failed } }
+
+    - id: code-review
+      tracker: { status: in_progress }
+      description: >-
+        Adversarial review of the change. Open blocking findings send it back;
+        none lets it through.
+      work:
+        mode: dispatch
+        skills: [code-review]
+        systemPrompt: |
+          You are an adversarial reviewer. Review commit {{commit}}:
+          {{changeSummary}}
+          Check it against the plan.
+          Rate a finding critical or high only if the change would ship a
+          defect, lose data, break a stated rule, or make the declared checks
+          meaningless. Gaps in process, logistics or manual verification that
+          the automated checks already cover are medium at most. Judge the
+          change against the size of the change: do not ask for verification
+          machinery bigger than the change, and give the smallest adequate fix
+          for each finding. Report findings with severities, and do not soften
+          the severity of a real defect.
+        let:
+          commit: artifacts["change-summary"].payload.commit
+          changeSummary: artifacts["change-summary"].payload.summary
+        context:
+          inject: [plan, change-summary]
+      artifacts:
+        - name: code-review
+          kind: findings
+          reviews: change-summary
+      transitions:
+        - name: accept
+          to: release
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: code-review, blocking: [critical, high] }
+            - type: human-approval
+              config: { id: release-approval }
+        - name: rework
+          to: implement
+          description: >-
+            The fresh code review has an open critical or high finding, so the
+            change goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: code-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: code-review, blocking: [critical, high] }
+        - name: revise
+          to: implement
+          manual: true
+          description: >-
+            A person sent the change back without a blocking finding. Manual, so
+            it never fires on its own.
+
+    - id: release
+      tracker: { status: in_progress }
+      description: Release the reviewed commit.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Release the reviewed commit, and record release with the commit that
+          shipped and where.
+      evidence:
+        - name: release
+          schema:
+            type: object
+            required: [commit, url]
+            properties:
+              commit: { type: string, pattern: '^[0-9a-f]{40}$' }
+              url: { type: string, format: uri }
+      transitions:
+        - name: released
+          to: done
+          gates:
+            - type: evidence-recorded
+              config: { name: release }
+        - name: rework
+          to: implement
+          manual: true
+          description: The release was blocked; go back and change the work.
+
+    - id: done
+      terminal: true
+      tracker: { status: shipped }
+
+    - id: duplicate
+      terminal: true
+      description: >-
+        The work duplicated a primary ticket that has its own work item.
+      tracker: { status: closed }
+
+    - id: abandoned
+      terminal: true
+      tracker: { status: closed }
+
+  globalTransitions:
+    - name: abandon
+      to: abandoned
+      gates:
+        - type: human-approval
+          config: { id: abandon-confirmation }
+scenarios:
+  - scenario: plan-feedback
+    description: >-
+      A person declines the plan without a blocking finding and sends it back
+      with feedback. revise is refused until the feedback is recorded, and the
+      next plan lists the feedback it answers.
+    steps:
+      - record: { artifact: plan }
+        payload:
+          summary: Add list
+          steps: [{ description: Add list, files: [x.ts] }]
+          testingStrategy: Unit tests
+      - move: submit
+      - record: { artifact: plan-review }
+        payload: { findings: [] }
+      - decline: plan-approval
+        note: The person wants the plan split before any code is written
+      - move: revise
+        manual: true
+        expect: { refused: "evidence 'plan-feedback' has not been recorded" }
+      - record: { evidence: plan-feedback }
+        payload: { feedback: Split the list method from the pagination change }
+      - move: revise
+        manual: true
+      - expect: { stage: plan }
+      - record: { artifact: plan }
+        payload:
+          summary: Add list, then pagination
+          steps:
+            - { description: Add list, files: [x.ts] }
+            - { description: Add pagination, files: [x.ts] }
+          testingStrategy: Unit tests
+          feedbackIncorporated:
+            - Split the list method from the pagination change
+      - move: submit
+      - expect: { stage: plan-review }
+  - scenario: plan-to-done
+    description: >-
+      A change walks from plan to done through the real gates, with a rework
+      round from each review and from verify. A high plan finding sends the plan
+      back and holds approval; a low one blocks nothing; a failed check and a
+      critical code-review finding each send the work back to implement; checks
+      for another commit do not count.
+    steps:
+      - record: { artifact: plan }
+        payload:
+          summary: Add list
+          steps: [{ description: Add list, files: [x.ts] }]
+          testingStrategy: Unit tests
+      - move: submit
+      - record: { artifact: plan-review }
+        payload:
+          { findings: [{ id: F1, severity: high, description: No tests }] }
+      - approve: plan-approval
+      - move: approve
+        expect: { refused: 'unresolved blocking finding' }
+      - move: rework
+      - expect: { stage: plan }
+      - record: { artifact: plan }
+        payload:
+          summary: Add list
+          steps: [{ description: Add list, files: [x.ts] }]
+          testingStrategy: Tests
+      - move: submit
+      - record: { artifact: plan-review }
+        payload: { findings: [{ id: F2, severity: low, description: Naming }] }
+      - move: rework
+        expect: { refused: 'no unresolved finding at a blocking severity' }
+      - move: approve
+        expect: { refused: "awaiting approval 'plan-approval'" }
+      - approve: plan-approval
+      - move: approve
+      - record: { artifact: change-summary }
+        payload:
+          summary: Added list
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          files: [x.ts]
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: failed
+          results: [{ name: test, status: failed, detail: 1 failed }]
+      - move: passed
+        expect: { refused: 'field ''status'' is "failed"' }
+      - move: failed
+      - expect: { stage: implement }
+      - record: { artifact: change-summary }
+        payload:
+          summary: Added list, fixed
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          files: [x.ts]
+      - move: submit
+      - record: { evidence: checks }
+        note: Checks for another commit do not count
+        payload:
+          commit: c5aaad329c9ceb4edc0504a98ff5d6e5528ac8fd
+          status: passed
+          results: [{ name: test, status: passed }]
+      - move: passed
+        expect: { refused: 'checks must be for the change-summary commit' }
+      - record: { evidence: checks }
+        payload:
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          status: passed
+          results: [{ name: test, status: passed }]
+      - move: passed
+      - record: { artifact: code-review }
+        payload:
+          { findings: [{ id: C1, severity: critical, description: Leak }] }
+      - move: accept
+        expect: { refused: 'unresolved blocking finding' }
+      - move: rework
+      - expect: { stage: implement }
+      - move: submit
+      - record: { evidence: checks }
+        payload:
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          status: passed
+          results: [{ name: test, status: passed }]
+      - move: passed
+      - record: { artifact: code-review }
+        payload: { findings: [] }
+      - approve: release-approval
+      - move: accept
+      - record: { evidence: release }
+        payload:
+          commit: d6bbbe43ad0dfc5fce1615b09ff6e6f6639bd9ae
+          url: https://example.com/pr/1
+      - move: released
+      - expect: { stage: done }
+  - scenario: duplicate-exit
+    description: >-
+      The ticket duplicates a primary that already has a work item. The agent
+      records duplicate-of, a person approves, and the work item ends at
+      duplicate; publish marks the ticket a duplicate and closes it.
+    externalRefs: { builtin: dup-1, builtin.display: '#dup-1' }
+    steps:
+      - record: { artifact: duplicate-of }
+        payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+      - move: duplicate
+        expect: { refused: duplicate-confirmation }
+      - approve: duplicate-confirmation
+      - move: duplicate
+      - expect: { stage: duplicate }
+  - scenario: duplicate-after-retarget
+    description: >-
+      The primary had no work item, so the work item was retargeted onto it. The
+      approved gate no longer ends it: the duplicate exit is closed on the
+      primary, and the work is planned there.
+    externalRefs: { builtin: prim-1, builtin.display: '#prim-1' }
+    steps:
+      - record: { artifact: duplicate-of }
+        payload: { primary: prim-1, display: '#prim-1', reason: same bug }
+      - approve: duplicate-confirmation
+      - move: duplicate
+        expect: { refused: on the primary ticket now }
+      - record: { artifact: plan }
+        payload:
+          summary: s
+          steps: [{ description: d, files: [] }]
+          testingStrategy: t
+      - move: submit
+      - expect: { stage: plan-review }

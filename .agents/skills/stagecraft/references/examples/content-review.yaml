@@ -1,0 +1,332 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    A piece of content, from draft to published: write the draft, have an
+    editor review it, have a person approve it, and publish it.
+
+    For: web posts, announcements, newsletters, documentation pages, anything
+    written that goes out under your name. A person approves every piece before
+    it is published, and confirms abandoning one. An editorial review with a
+    blocking finding sends the draft back; a person can also send it back by
+    hand with their feedback. Stages name tracker status keys, so a work item
+    can drive a ticket; drop the stages' tracker blocks if it will not.
+
+    Change first: the editorial review prompt (your voice and what you never
+    publish), the draft schema (what a piece records), and publish's
+    description (where your content goes).
+
+  stages:
+    - id: draft
+      initial: true
+      tracker:
+        status: open
+        duplicate:
+          on: { approve: duplicate-confirmation }
+          record: duplicate-of
+          field: primary
+      maxCycles: 3
+      description: >-
+        Write the draft. Entered at most three times: a review or a person sends
+        it back, and after that a person decides whether another round is worth
+        it.
+      work:
+        mode: interactive
+        systemPrompt: |
+          First, check the piece is not a duplicate of another ticket. If it
+          is, find out whether that ticket, the primary, already has a work
+          item: run the tracker's claim on it with dryRun=true, which writes
+          nothing. Record duplicate-of with the primary's stable id, its
+          display id and why, and wait for a person to approve
+          duplicate-confirmation. Once it is approved, move the work to the
+          primary. When the primary has no work item, retarget this work item
+          onto the primary's externalRefs and publish at once, then write the
+          primary's draft here. When it has one, take the duplicate exit.
+
+          Write the draft with the person: who it is for, what it should leave
+          them knowing or doing, and the facts it rests on. Save it where the
+          person keeps drafts, and record draft with its title, audience, where
+          it is, and a short summary.
+
+          On a later draft, read the injected draft (the last one),
+          editorial-review (its review) and editorial-feedback (the person's
+          latest feedback). After a review sends it back, address its findings.
+          After revise, address the feedback, and record feedbackIncorporated as
+          the last draft's list with the feedback added word for word.
+        context:
+          inject: [draft, editorial-review, editorial-feedback]
+      artifacts:
+        - name: draft
+          schema:
+            type: object
+            required: [title, audience, location, summary]
+            properties:
+              title: { type: string, minLength: 1 }
+              audience: { type: string, minLength: 1 }
+              location:
+                description: Where the draft is, a path or a link.
+                type: string
+                minLength: 1
+              summary: { type: string, minLength: 1 }
+              feedbackIncorporated:
+                description: >-
+                  Every round of a person's feedback this draft answers, oldest
+                  first.
+                type: array
+                items: { type: string, minLength: 1 }
+        - name: duplicate-of
+          schema:
+            type: object
+            required: [primary, display, reason]
+            additionalProperties: false
+            properties:
+              primary:
+                description: The primary ticket's stable id.
+                type: string
+                minLength: 1
+              display:
+                description: The primary ticket's display id.
+                type: string
+                minLength: 1
+              reason: { type: string, minLength: 1 }
+      transitions:
+        - name: submit
+          to: editorial-review
+          gates:
+            - type: artifact-exists
+              config: { artifact: draft }
+        - name: duplicate
+          to: duplicate
+          description: >-
+            The piece duplicates a primary ticket that already has a work item;
+            a person confirms it. When the primary has none, the work item is
+            retargeted onto it instead, and the cel gate closes this exit to it.
+            "builtin" there is the built-in tracker's externalRefs key; a
+            definition for Linear names "linear".
+          gates:
+            - type: human-approval
+              config: { id: duplicate-confirmation }
+            - type: cel
+              config:
+                expr: >-
+                  "duplicate-of" in artifacts && (!("builtin" in
+                  item.externalRefs) || item.externalRefs["builtin"] !=
+                  artifacts["duplicate-of"].payload.primary)
+                message: >-
+                  this work item is on the primary ticket now; draft it here
+
+    - id: editorial-review
+      tracker: { status: in_progress }
+      description: >-
+        An editor reads the draft. Open blocking findings send it back; none
+        lets it through to approval.
+      work:
+        mode: dispatch
+        systemPrompt: |
+          You are an editor. Read the draft "{{title}}" at {{location}}, for
+          {{audience}}. Look for claims that are wrong or unsupported, anything
+          that could harm a reader or the person publishing it, anything that
+          misses what the piece is for, and anything a reader would trip on.
+          Rate a finding critical or high only if publishing it as it is would
+          state something false, cause harm, or miss the brief. Style, wording
+          and structure are medium at most. Judge the draft against the size of
+          the piece: do not ask for research bigger than the piece, and give
+          the smallest adequate fix for each finding. Report findings with
+          severities, and do not soften the severity of a real defect.
+        let:
+          title: artifacts["draft"].payload.title
+          location: artifacts["draft"].payload.location
+          audience: artifacts["draft"].payload.audience
+        context:
+          inject: [draft]
+      artifacts:
+        - name: editorial-review
+          kind: findings
+          reviews: draft
+      transitions:
+        - name: accept
+          to: approval
+          gates:
+            - type: artifact-fresh
+              config: { artifact: editorial-review, recordedThisCycle: true }
+            - type: findings-clear
+              config: { artifact: editorial-review, blocking: [critical, high] }
+        - name: rework
+          to: draft
+          description: >-
+            The fresh editorial review has an open critical or high finding, so
+            the draft goes back to be fixed.
+          gates:
+            - type: artifact-fresh
+              config: { artifact: editorial-review, recordedThisCycle: true }
+            - type: findings-open
+              config: { artifact: editorial-review, blocking: [critical, high] }
+
+    - id: approval
+      tracker: { status: in_progress }
+      description: >-
+        A person reads the draft and the editor's open findings, and approves it
+        for publishing or sends it back with their feedback.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Show the person where the draft is and the editorial review's open
+          findings. Ask them to approve it for publishing, or to say what to
+          change.
+        context:
+          inject: [draft, editorial-review]
+      evidence:
+        - name: editorial-feedback
+          description: >-
+            A person's feedback on the draft, in their words; revise needs it.
+          recordedBy: person
+          schema:
+            type: object
+            required: [feedback]
+            additionalProperties: false
+            properties:
+              feedback: { type: string, minLength: 1 }
+      transitions:
+        - name: approve
+          to: publish
+          gates:
+            - type: human-approval
+              config: { id: publish-approval }
+        - name: revise
+          to: draft
+          manual: true
+          description: >-
+            A person sent the draft back to change it. Manual, so it never fires
+            on its own, and the person's feedback is recorded first, so the next
+            draft knows what to answer.
+          gates:
+            - type: evidence-recorded
+              description: The person's feedback on this draft is recorded.
+              config: { name: editorial-feedback }
+
+    - id: publish
+      tracker: { status: in_progress }
+      description: >-
+        Publish the approved draft where your content goes (a site, a blog, a
+        newsletter tool), and record where it went.
+      work:
+        mode: interactive
+        systemPrompt: |
+          Publish the approved draft at {{location}} as it was approved, and
+          record published with the URL it is live at.
+        let:
+          location: artifacts["draft"].payload.location
+      evidence:
+        - name: published
+          schema:
+            type: object
+            required: [url]
+            properties:
+              url: { type: string, format: uri }
+      transitions:
+        - name: published
+          to: done
+          gates:
+            - type: evidence-recorded
+              config: { name: published }
+
+    - id: done
+      terminal: true
+      tracker: { status: shipped }
+
+    - id: duplicate
+      terminal: true
+      description: >-
+        The piece duplicated a primary ticket that has its own work item.
+      tracker: { status: closed }
+
+    - id: abandoned
+      terminal: true
+      tracker: { status: closed }
+
+  globalTransitions:
+    - name: abandon
+      to: abandoned
+      gates:
+        - type: human-approval
+          config: { id: abandon-confirmation }
+scenarios:
+  - scenario: draft-to-published
+    description: >-
+      A post walks from draft to published. A high editorial finding sends the
+      draft back; a low one blocks nothing; a person approves it before it is
+      published.
+    steps:
+      - record: { artifact: draft }
+        payload:
+          title: Our new pricing
+          audience: Existing customers
+          location: drafts/pricing.md
+          summary: What changes and when
+      - move: submit
+      - record: { artifact: editorial-review }
+        payload:
+          findings:
+            - id: E1
+              severity: high
+              description: The start date contradicts the pricing page
+      - move: accept
+        expect: { refused: 'unresolved blocking finding' }
+      - move: rework
+      - expect: { stage: draft }
+      - record: { artifact: draft }
+        payload:
+          title: Our new pricing
+          audience: Existing customers
+          location: drafts/pricing.md
+          summary: What changes and when, with the right date
+      - move: submit
+      - record: { artifact: editorial-review }
+        payload:
+          { findings: [{ id: E2, severity: low, description: Long title }] }
+      - move: rework
+        expect: { refused: 'no unresolved finding at a blocking severity' }
+      - move: accept
+      - move: approve
+        expect: { refused: "awaiting approval 'publish-approval'" }
+      - approve: publish-approval
+      - move: approve
+      - record: { evidence: published }
+        payload: { url: https://example.com/blog/new-pricing }
+      - move: published
+      - expect: { stage: done }
+  - scenario: approval-feedback
+    description: >-
+      A person does not approve the draft and sends it back. revise is refused
+      until their feedback is recorded, and the next draft lists the feedback it
+      answers.
+    steps:
+      - record: { artifact: draft }
+        payload:
+          title: Release notes
+          audience: Users
+          location: drafts/notes.md
+          summary: What shipped this month
+      - move: submit
+      - record: { artifact: editorial-review }
+        payload: { findings: [] }
+      - move: accept
+      - decline: publish-approval
+        note: The person wants the security fix first
+      - move: revise
+        manual: true
+        expect:
+          { refused: "evidence 'editorial-feedback' has not been recorded" }
+      - record: { evidence: editorial-feedback }
+        payload: { feedback: Lead with the security fix }
+      - move: revise
+        manual: true
+      - expect: { stage: draft }
+      - record: { artifact: draft }
+        payload:
+          title: Release notes
+          audience: Users
+          location: drafts/notes.md
+          summary: The security fix, then what else shipped
+          feedbackIncorporated: [Lead with the security fix]
+      - move: submit
+      - expect: { stage: editorial-review }

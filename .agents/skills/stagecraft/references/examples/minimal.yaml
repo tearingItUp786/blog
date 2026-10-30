@@ -1,0 +1,32 @@
+definition:
+  schemaVersion: 3
+  description: |-
+    The smallest useful factory definition: one stage of work, then done.
+
+    For: a first look at stagecraft. Start a work item, record the
+    summary, advance, and the item is done. It has no reviews, approvals or
+    tracker status keys; see starter.yaml for a full process.
+
+    Change first: the work stage's description (what the work is), and the
+    summary artifact's schema (what a finished piece of work records).
+  stages:
+    - id: work
+      initial: true
+      description: Do the work and summarize it.
+      work:
+        mode: interactive
+      artifacts:
+        - name: summary
+          schema:
+            type: object
+            required: [text]
+            properties:
+              text: { type: string, minLength: 1 }
+      transitions:
+        - name: finish
+          to: done
+          gates:
+            - type: artifact-exists
+              config: { artifact: summary }
+    - id: done
+      terminal: true

@@ -9,4 +9,9 @@ const __dirname = path.dirname(__filename)
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
 /** @type {import('eslint').Linter.Config} */
-export default [...defaultConfig, includeIgnoreFile(gitignorePath)]
+export default [
+	...defaultConfig,
+	includeIgnoreFile(gitignorePath),
+	// Swamp manages this plugin for OpenCode's separate Bun environment.
+	{ ignores: ['.opencode/plugins/swamp-audit.ts'] },
+]
