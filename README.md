@@ -6,7 +6,7 @@ It's my blog yo!
 
 ## Stack
 
-- Frontend: React 18 + React Router v7 + TypeScript + Vite
+- Frontend: React 19 + React Router v8 + TypeScript + Vite+
 - Styling: Tailwind CSS + custom styles
 - Content: MDX in `content/blog`, `content/til`, and `content/pages`
 - Caching: Redis + `@epic-web/cachified`
@@ -17,7 +17,7 @@ It's my blog yo!
 ## Prerequisites
 
 - Node.js 24.x (Volta pins `24.13.1`)
-- pnpm (Volta pins `10.6.3`)
+- pnpm (Volta pins `12.4.1`)
 - Docker + Docker Compose (for Redis)
 - Chromium (used by Playwright/mermaid tooling)
 
@@ -168,21 +168,37 @@ key will prevent production startup.
 - `pnpm build` - build the app with React Router
 - `pnpm start` - run production server entry
 - `pnpm clean` - remove build/cache artifacts
-- `pnpm lint` - run ESLint
+- `pnpm check` - check formatting, lint, and types across the project
+- `pnpm lint` - run Oxlint plus the narrow ESLint compatibility checks
 - `pnpm typecheck` - run TypeScript project build checks
-- `pnpm format` - run Prettier
+- `pnpm format` - format with Oxfmt (including Tailwind class sorting)
 - `pnpm knip` - check for unused files/deps/exports
-- `pnpm test` - run smoke tests via Vitest
+- `pnpm test` - run the full suite via Vite+'s bundled Vitest
 - `pnpm test:watch` - run Vitest in watch mode
 - `pnpm test:single` - run a single test file or filtered tests
 - `pnpm diagrams:check` - verify Mermaid fences have current sibling SVGs
 
 ## Quality Gates
 
-- Pre-commit generates missing/stale Mermaid SVGs through OpenCode and stops for
-  review before running `lint-staged`.
-- `lint-staged` runs clean, test, lint, typecheck, and prettier on staged files.
+- Husky checks Mermaid assets first, generating missing/stale SVGs through
+  OpenCode and stopping for artwork review before any formatting.
+- `vp staged` then formats supported staged files and lints staged scripts.
+  Partial staging is preserved. Commits do not clean caches, run the full test
+  suite, or typecheck the whole project.
+- Run `pnpm check` and `pnpm test` before opening a pull request. Every pull
+  request runs these full checks and `pnpm diagrams:check`, including
+  content-only changes.
 - CI validates diagram assets before both deploy and content-only refresh paths.
+
+Vite+ is installed locally; no global `vp` install or runtime-manager change is
+required. Keep using `pnpm dev` for the mock-enabled server and `pnpm build` for
+React Router builds. Use `pnpm exec vp` for direct tooling commands.
+
+Formatting and native lint rules live in `vite.config.ts`. Full checks retain
+`tsc -b` as the authoritative TypeScript gate and a small `eslint.config.mjs`
+compatibility layer for import ordering, Epic Web disposal rules, and Playwright
+rules. These do not run on every commit. `other/staged-lint.config.ts` shares
+the native rules but disables project-wide type analysis on the staged path.
 
 ## Deployment
 

@@ -103,7 +103,9 @@ function normalizeReactRouterDataPathname(pathname) {
 
 export function isHostileProbeRequest({ method, path }) {
 	const methodName = method.toUpperCase()
-	const segments = getSegments(normalizeReactRouterDataPathname(getPathname(path)))
+	const segments = getSegments(
+		normalizeReactRouterDataPathname(getPathname(path)),
+	)
 	const lastSegment = segments.at(-1) ?? ''
 	const extension = getExtension(lastSegment)
 
@@ -137,7 +139,10 @@ export function isHostileProbeRequest({ method, path }) {
 
 export function hostileRequestGuard(req, res, next) {
 	if (
-		isHostileProbeRequest({ method: req.method, path: req.path ?? req.url ?? '/' })
+		isHostileProbeRequest({
+			method: req.method,
+			path: req.path ?? req.url ?? '/',
+		})
 	) {
 		res.status(404).type('text/plain').send('Not Found')
 		return

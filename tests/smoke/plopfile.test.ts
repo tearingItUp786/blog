@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module'
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 type Choice = {
 	name: string

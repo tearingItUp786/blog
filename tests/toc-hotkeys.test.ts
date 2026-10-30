@@ -3,7 +3,7 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { act, createElement, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 import { AppHotkeysProvider } from '~/components/hotkeys/provider'
 import { MobileTableOfContents } from '~/routes/blog.$slug/table-of-contents'
 

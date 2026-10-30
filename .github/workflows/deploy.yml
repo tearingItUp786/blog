@@ -56,10 +56,8 @@ jobs:
       fail-fast: false
       matrix:
         check:
-          - label: '⬣ ESLint'
-            command: 'pnpm run lint'
-          - label: 'ʦ :TypeScript'
-            command: 'pnpm run typecheck'
+          - label: '⬣ Format, lint, and types'
+            command: 'pnpm run check'
           - label: '🧪 Tests'
             command: 'pnpm run test'
     steps:

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { getPrecommitDiagramAction } from '../other/precommit-diagrams'
 import { getMermaidAssetName } from '~/utils/mermaid-diagrams'

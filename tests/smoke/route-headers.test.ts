@@ -1,5 +1,5 @@
 import { type HeadersArgs } from 'react-router'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import * as aboutRoute from '~/routes/about/route'
 import * as blogSlugRoute from '~/routes/blog.$slug/route'

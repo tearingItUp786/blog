@@ -114,7 +114,7 @@ abstractions.
 
 ## Stack Snapshot
 
-- React Router (framework mode), React 18, TypeScript, Vite
+- React Router 8 (framework mode), React 19, TypeScript, Vite+ 1.4
 - Package manager: `pnpm` (`pnpm-lock.yaml`)
 - Runtime: Node `>=24` (Volta pins Node 24.13.1)
 - Styling: Tailwind + custom CSS
@@ -130,7 +130,8 @@ abstractions.
 - Inngest: `app/inngest/`
 - Content: `content/blog`, `content/til`, `content/pages`
 - Server entry: `index.mjs`, `server/index.mjs`, `server/dev-server.mjs`
-- Config: `tsconfig.json`, `eslint.config.mjs`, `prettier.config.js`
+- Config: `tsconfig.json`, `vite.config.ts`, `vitest.config.ts`,
+  `eslint.config.mjs`
 
 ## Setup
 
@@ -157,6 +158,7 @@ abstractions.
 - Build: `pnpm build`
 - Start prod: `pnpm start`
 - Lint: `pnpm lint`
+- Full format/lint/type gate: `pnpm check`
 - Typecheck: `pnpm typecheck`
 - Format: `pnpm format`
 - Extra checks: `pnpm knip`
@@ -164,8 +166,8 @@ abstractions.
 
 ### Test status
 
-- Runner: Vitest (`vitest.config.ts`)
-- Full suite: `pnpm test` (`vitest run`)
+- Runner: Vite+ bundled Vitest (`vitest.config.ts`, imports `vite-plus/test`)
+- Full suite: `pnpm test` (`vp test run`)
 - Current coverage is a small smoke suite in `tests/smoke/*.test.ts`
 
 ### Running a single test
@@ -180,27 +182,35 @@ abstractions.
 - Article TOC shortcuts: `pnpm test:single tests/toc-hotkeys.test.ts`
 - Deploy config: `pnpm test:single tests/smoke/deploy-config.test.ts`
 - Swamp audit plugin: `pnpm test:single tests/smoke/swamp-audit-plugin.test.ts`
+- Hook/staging/CI policy:
+  `pnpm test:single tests/smoke/developer-tooling.test.ts`
 
 ### Targeted command pattern
 
-- Lint one file: `pnpm lint -- app/routes/_index.tsx`
+- Native lint one file: `pnpm exec vp lint app/routes/_index.tsx`
+- Full lint (including compatibility rules): `pnpm lint`
 - Typecheck is project-wide (`tsc -b .`), so use `pnpm typecheck`
 
 ## Pre-commit and CI
 
-- Pre-commit checks staged Mermaid MDX first, then runs `npx lint-staged`
+- Husky checks staged Mermaid MDX first, then runs `pnpm exec vp staged`
 - Missing/stale diagram assets invoke the project OpenCode
   `update-blog-diagrams` command and stop the commit for artwork review
-- `lint-staged` runs clean, test, lint, typecheck, and prettier
+- Staged checks format supported files and lint scripts without whole-project
+  type analysis; preserve partially staged edits. No clean or full test suite.
+- Every pull request runs `pnpm check`, `pnpm test`, and `pnpm diagrams:check`
 - CI validates diagrams before deploys and content-only refreshes
 
 ## Code Style Guidelines
 
 ### Formatting and linting
 
-- Prettier is source of truth (`prettier.config.js`)
-- ESLint config is `eslint.config.mjs`
-- Prettier/ESLint both extend `@epic-web/config/*`
+- Oxfmt and native Oxlint configuration live in `vite.config.ts`
+- Narrow ESLint compatibility rules live in `eslint.config.mjs` (import order,
+  Epic Web disposal, Playwright); full checks only, not staged commits
+- Keep `tsc -b` in full checks; Vite+ type diagnostics are supplementary
+- Staged lint shares native rules via `other/staged-lint.config.ts` with type
+  analysis disabled; do not replace custom dev/build scripts with generic `vp`
 - Prefer fixing warnings instead of disabling rules
 - Existing style: single quotes, trailing commas, minimal semicolons
 

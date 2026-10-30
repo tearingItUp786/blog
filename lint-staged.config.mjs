@@ -1,9 +1,0 @@
-export default {
-	'*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|mdx|md|graphql|mdx|vue)': [
-		() => `pnpm run clean`,
-		`pnpm run test --silent -- --watch=false`,
-		`pnpm run lint`,
-		() => `pnpm run typecheck`,
-		`prettier --write`,
-	],
-}
