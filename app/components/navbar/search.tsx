@@ -80,33 +80,27 @@ function SearchButton({
 				aria-expanded={isOpen}
 				data-shortcut-hint={showHint}
 				className={twJoin(
-					'group shadow-custom-black dark:bg-dark-gray-200 relative block rounded-sm bg-white px-3 py-1 sm:px-6',
+					'group border-border-color dark:bg-dark-gray-200 relative block rounded-sm border bg-white px-3 py-1',
 					!hasHydrated && 'cursor-not-allowed',
 					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 			>
 				<span
 					className={twJoin(
-						'text-body flex h-10 items-center gap-3 rounded-xs border-0 bg-transparent text-xl transition-colors',
+						'text-body flex h-10 items-center rounded-xs border-0 bg-transparent text-sm font-medium transition-colors',
 						hasHydrated && 'group-hover:text-accent',
 						!hasHydrated && 'cursor-not-allowed',
 					)}
 				>
-					Search
-					{label ? (
-						<kbd className="font-inherit text-subheading-color text-sm">
-							{label}
-						</kbd>
-					) : null}
+					{label ? <kbd className="font-inherit">{label}</kbd> : 'Search'}
 				</span>
 			</button>
 			{showHint ? (
 				<p
 					id={hintId}
-					className="border-border-color bg-light-gray text-body dark:bg-dark-gray-100 pointer-events-none absolute top-full right-0 z-40 mt-3 w-max max-w-[min(18rem,calc(100vw-5rem))] rounded-sm border px-3 py-2 text-left text-sm wrap-anywhere"
+					className="border-accent bg-charcoal-gray text-off-white dark:bg-off-white dark:text-charcoal-gray pointer-events-none absolute top-full right-0 z-40 m-0 mt-3 w-max max-w-[min(18rem,calc(100vw-5rem))] rounded-sm border px-3 py-2 text-left text-sm wrap-anywhere"
 				>
-					Press <kbd className="text-accent font-inherit">{label}</kbd> to
-					search
+					Press <kbd className="font-inherit font-bold">{label}</kbd> to search
 				</p>
 			) : null}
 		</div>
