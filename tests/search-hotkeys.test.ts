@@ -148,7 +148,7 @@ describe('search keyboard integration', () => {
 			`#${button.getAttribute('aria-describedby')}`,
 		)
 		expect(helper?.textContent).toMatch(/Press.*Ctrl.*J.*to search/)
-		expect(button.textContent).toContain('Search')
+		expect(button.textContent).toMatch(/^\s*Ctrl\W*J\s*$/)
 		await act(async () => vi.advanceTimersByTime(2999))
 		expect(button.getAttribute('data-shortcut-hint')).toBe('true')
 		await act(async () => vi.advanceTimersByTime(1))

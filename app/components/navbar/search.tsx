@@ -87,17 +87,12 @@ function SearchButton({
 			>
 				<span
 					className={twJoin(
-						'text-body flex h-10 items-center gap-3 rounded-xs border-0 bg-transparent text-xl transition-colors',
+						'text-body flex h-10 items-center rounded-xs border-0 bg-transparent text-xl transition-colors',
 						hasHydrated && 'group-hover:text-accent',
 						!hasHydrated && 'cursor-not-allowed',
 					)}
 				>
-					Search
-					{label ? (
-						<kbd className="font-inherit text-subheading-color text-sm">
-							{label}
-						</kbd>
-					) : null}
+					{label ? <kbd className="font-inherit">{label}</kbd> : 'Search'}
 				</span>
 			</button>
 			{showHint ? (
