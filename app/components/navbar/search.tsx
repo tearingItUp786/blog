@@ -80,19 +80,24 @@ function SearchButton({
 				aria-expanded={isOpen}
 				data-shortcut-hint={showHint}
 				className={twJoin(
-					'group border-border-color dark:bg-dark-gray-200 relative block rounded-sm border bg-white px-3 py-1',
+					'group shadow-custom-black dark:bg-dark-gray-200 relative block rounded-sm bg-white px-3 py-1 sm:px-6',
 					!hasHydrated && 'cursor-not-allowed',
 					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 			>
 				<span
 					className={twJoin(
-						'text-body flex h-10 items-center rounded-xs border-0 bg-transparent text-sm font-medium transition-colors',
+						'text-body flex h-10 items-center gap-3 rounded-xs border-0 bg-transparent text-xl transition-colors',
 						hasHydrated && 'group-hover:text-accent',
 						!hasHydrated && 'cursor-not-allowed',
 					)}
 				>
-					{label ? <kbd className="font-inherit">{label}</kbd> : 'Search'}
+					Search
+					{label ? (
+						<kbd className="font-inherit text-subheading-color text-sm">
+							{label}
+						</kbd>
+					) : null}
 				</span>
 			</button>
 			{showHint ? (

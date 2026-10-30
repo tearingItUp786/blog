@@ -104,13 +104,6 @@ describe('search keyboard integration', () => {
 		).toMatch(/Search.*Ctrl.*K/)
 	})
 
-	it('shows only the effective shortcut in the bound search trigger', async () => {
-		using view = await renderSearch()
-		expect(view.container.querySelector('button')!.textContent).toMatch(
-			/^\s*Ctrl\W*K\s*$/,
-		)
-	})
-
 	it('keeps one toggle owner across lazy loading, dismissal, and reopening', async () => {
 		using view = await renderSearch()
 		const button = view.container.querySelector('button')!
@@ -155,6 +148,7 @@ describe('search keyboard integration', () => {
 			`#${button.getAttribute('aria-describedby')}`,
 		)
 		expect(helper?.textContent).toMatch(/Press.*Ctrl.*J.*to search/)
+		expect(button.textContent).toContain('Search')
 		await act(async () => vi.advanceTimersByTime(2999))
 		expect(button.getAttribute('data-shortcut-hint')).toBe('true')
 		await act(async () => vi.advanceTimersByTime(1))
