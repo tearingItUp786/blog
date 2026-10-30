@@ -103,6 +103,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@opencode/plugin": "2.0.26",
     "@react-router/dev": "^8.3.0",
     "@react-router/fs-routes": "^8.3.0",
     "@sentry/vite-plugin": "^11.0.0",

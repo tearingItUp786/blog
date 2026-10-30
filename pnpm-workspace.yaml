@@ -1,6 +1,7 @@
 allowBuilds:
   '@sentry/cli': true
   esbuild: true
+  msgpackr-extract: false
   msw: true
   protobufjs: true
   unrs-resolver: true

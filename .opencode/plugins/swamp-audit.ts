@@ -1,41 +1,51 @@
 // Swamp audit plugin for OpenCode
-// Records bash tool invocations for the swamp audit timeline.
-// This is a managed file — it will be overwritten on swamp upgrade.
+// Records shell tool invocations for the swamp audit timeline (OpenCode V2).
+// Locally ported: swamp upgrade may replace this file with its managed template.
 
-import type { Plugin } from '@opencode-ai/plugin'
+import childProcess from 'node:child_process'
+import { Plugin } from '@opencode/plugin'
 
-const pendingCommands = new Map()
-
-export const SwampAudit: Plugin = async ({ directory }) => {
-	return {
-		'tool.execute.before': async (input, output) => {
-			if (input.tool !== 'bash') return
-			const command = output.args?.command
-			if (command && input.sessionID) {
-				pendingCommands.set(input.sessionID, command)
-			}
-		},
-		'tool.execute.after': async (input) => {
-			if (input.tool !== 'bash') return
-			const command = pendingCommands.get(input.sessionID)
-			pendingCommands.delete(input.sessionID)
-			if (!command) return
+export default Plugin.define({
+	id: 'swamp-audit',
+	async setup(ctx) {
+		await ctx.tool.hook('execute.after', async (event) => {
+			if (event.tool !== 'shell' && event.tool !== 'bash') return
+			if (!event.input || typeof event.input !== 'object') return
+			const command = (event.input as { command?: unknown }).command
+			if (typeof command !== 'string' || !command || !event.sessionID) return
 
 			try {
+				const session = await ctx.session.get({ sessionID: event.sessionID })
+				const directory = session.location.directory
 				const payload = JSON.stringify({
+					// Swamp's hook parser still expects the bash tool name.
 					tool_name: 'bash',
 					tool_input: { command },
 					cwd: directory,
-					session_id: input.sessionID,
+					session_id: event.sessionID,
 				})
-				const proc = Bun.spawn(
-					['swamp', 'audit', 'record', '--from-hook', '--tool', 'opencode'],
-					{ stdin: new Blob([payload]) },
-				)
-				await proc.exited
+				await new Promise<void>((resolve) => {
+					const proc = childProcess.spawn(
+						'swamp',
+						['audit', 'record', '--from-hook', '--tool', 'opencode'],
+						{ cwd: directory, stdio: ['pipe', 'ignore', 'ignore'] },
+					)
+					const timer = setTimeout(() => {
+						proc.kill('SIGKILL')
+						resolve()
+					}, 5000)
+					const finish = () => {
+						clearTimeout(timer)
+						resolve()
+					}
+					proc.once('error', finish)
+					proc.once('close', finish)
+					proc.stdin.on('error', () => {})
+					proc.stdin.end(payload)
+				})
 			} catch {
-				// Must never throw — this is a hook
+				// Auditing must never break tool execution.
 			}
-		},
-	}
-}
+		})
+	},
+})

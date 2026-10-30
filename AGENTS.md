@@ -179,6 +179,7 @@ abstractions.
 - Lazy search shortcuts: `pnpm test:single tests/search-hotkeys.test.ts`
 - Article TOC shortcuts: `pnpm test:single tests/toc-hotkeys.test.ts`
 - Deploy config: `pnpm test:single tests/smoke/deploy-config.test.ts`
+- Swamp audit plugin: `pnpm test:single tests/smoke/swamp-audit-plugin.test.ts`
 
 ### Targeted command pattern
 
