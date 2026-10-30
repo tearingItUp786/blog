@@ -164,8 +164,19 @@ describe('search keyboard integration', () => {
 	it('reveals the current search shortcut after a standalone Command tap on macOS', async () => {
 		vi.spyOn(navigator, 'platform', 'get').mockReturnValue('MacIntel')
 		using view = await renderSearch()
+		const button = view.container.querySelector('button')!
+		expect(button.textContent).toBe('⌘+K')
+		expect(button.querySelector('kbd')?.classList.contains('font-body')).toBe(
+			true,
+		)
 		await press('Meta')
-		expect(view.container.textContent).toMatch(/Press.*⌘.*K.*to search/)
+		const helper = view.container.querySelector(
+			`#${button.getAttribute('aria-describedby')}`,
+		)!
+		expect(helper.textContent).toBe('Press ⌘+K to search')
+		expect(helper.querySelector('kbd')?.classList.contains('font-body')).toBe(
+			true,
+		)
 	})
 
 	it.each(['c', 'Tab', 'Shift'])(

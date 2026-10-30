@@ -57,7 +57,9 @@ function SearchButton({
 	)
 	const binding = searchHotkey?.appHotkey
 	const label =
-		hasHydrated && binding?.hotkey ? formatForDisplay(binding.hotkey) : ''
+		hasHydrated && binding?.hotkey
+			? formatForDisplay(binding.hotkey, { separatorToken: '+' })
+			: ''
 	const showHint = useSearchShortcutHint(
 		hasHydrated && !isOpen && searchHotkey?.status === 'active',
 		label,
@@ -92,7 +94,7 @@ function SearchButton({
 						!hasHydrated && 'cursor-not-allowed',
 					)}
 				>
-					{label ? <kbd className="font-inherit">{label}</kbd> : 'Search'}
+					{label ? <kbd className="font-body">{label}</kbd> : 'Search'}
 				</span>
 			</button>
 			{showHint ? (
@@ -100,7 +102,7 @@ function SearchButton({
 					id={hintId}
 					className="border-accent bg-charcoal-gray text-off-white dark:bg-off-white dark:text-charcoal-gray pointer-events-none absolute top-full right-0 z-40 m-0 mt-3 w-max max-w-[min(18rem,calc(100vw-5rem))] rounded-sm border px-3 py-2 text-left text-sm wrap-anywhere"
 				>
-					Press <kbd className="font-inherit font-bold">{label}</kbd> to search
+					Press <kbd className="font-body font-bold">{label}</kbd> to search
 				</p>
 			) : null}
 		</div>
