@@ -1,6 +1,6 @@
 import { type CacheEntry } from '@epic-web/cachified'
 import { RouterContextProvider } from 'react-router'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 import { loader } from '~/routes/_extras.newsletter.rss[.xml]'
 
 const entries = vi.hoisted(() => new Map<string, CacheEntry>())

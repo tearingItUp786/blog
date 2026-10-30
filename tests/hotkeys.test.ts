@@ -3,7 +3,7 @@
 import { useAppHotkeys, useHotkey } from '@tanstack/react-hotkeys'
 import { act, createElement, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it } from 'vite-plus/test'
 import { KeyboardShortcuts } from '~/components/hotkeys/keyboard-shortcuts'
 import { AppHotkeysProvider } from '~/components/hotkeys/provider'
 

@@ -2,7 +2,7 @@ import childProcess from 'node:child_process'
 import { EventEmitter } from 'node:events'
 import { Writable } from 'node:stream'
 import { type Plugin } from '@opencode/plugin'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import * as pluginModule from '../../.opencode/plugins/swamp-audit'
 
 type Context = Parameters<Plugin.Plugin['setup']>[0]

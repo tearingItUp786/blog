@@ -11,7 +11,7 @@ import {
 	expect,
 	it,
 	vi,
-} from 'vitest'
+} from 'vite-plus/test'
 import { AppHotkeysProvider } from '~/components/hotkeys/provider'
 import { Search } from '~/components/navbar/search'
 

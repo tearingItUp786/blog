@@ -1,5 +1,5 @@
 import { ipKeyGenerator } from 'express-rate-limit'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 import { rateLimitKeyGenerator } from '../../server/rate-limit-key-generator.mjs'
 
 describe('rate limit keyGenerator', () => {

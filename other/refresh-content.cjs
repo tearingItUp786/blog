@@ -86,10 +86,12 @@ async function go() {
 			process.env.COMMIT_SHA ?? 'HEAD',
 		)
 		if (changes === null) {
-			console.log('Unable to determine content range; requesting a full refresh.')
+			console.log(
+				'Unable to determine content range; requesting a full refresh.',
+			)
 			await postRefreshCache({
-				postData: {contentFiles: []},
-				options: {headers: {'x-force-fresh': 'true'}},
+				postData: { contentFiles: [] },
+				options: { headers: { 'x-force-fresh': 'true' } },
 			})
 			return
 		}

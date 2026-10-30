@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 import { getEnv, init } from '~/utils/env.server'
 import { serializeJsonForInlineScript } from '~/utils/serialize-json'
 

@@ -1,2 +1,2 @@
 pnpm diagrams:precommit
-npx lint-staged
+pnpm exec vp staged
