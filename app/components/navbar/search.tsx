@@ -3,9 +3,8 @@ import { type AutocompleteApi } from '@algolia/autocomplete-js'
 import {
 	HotkeysProvider,
 	formatForDisplay,
-	useAppHotkeys,
+	useAppHotkeyList,
 	useHotkey,
-	useHotkeyHint,
 } from '@tanstack/react-hotkeys'
 import { twJoin } from 'cnfast'
 import { AnimatePresence } from 'framer-motion'
@@ -14,6 +13,7 @@ import {
 	Suspense,
 	useCallback,
 	useEffect,
+	useId,
 	useReducer,
 	useRef,
 	useState,
@@ -24,6 +24,7 @@ import {
 	searchStateReducer,
 	shouldShowSearchToast,
 } from './search-state'
+import { useSearchShortcutHint } from './use-search-shortcut-hint'
 import { appHotkeys } from '~/components/hotkeys/registry'
 
 const importSearchModule = () => import('./search-wrapper')
@@ -51,44 +52,64 @@ function SearchButton({
 	isOpen,
 }: SearchButtonProps) {
 	const [hasHydrated, setHasHydrated] = useState(false)
-	const hotkeys = useAppHotkeys()
-	const binding = hotkeys['search.toggle']
-	const showHint = useHotkeyHint(binding)
+	const searchHotkey = useAppHotkeyList().find(
+		({ appHotkey }) => appHotkey.id === 'search.toggle',
+	)
+	const binding = searchHotkey?.appHotkey
 	const label =
-		hasHydrated && binding.hotkey ? formatForDisplay(binding.hotkey) : 'Search'
+		hasHydrated && binding?.hotkey ? formatForDisplay(binding.hotkey) : ''
+	const showHint = useSearchShortcutHint(
+		hasHydrated && !isOpen && searchHotkey?.status === 'active',
+		label,
+	)
+	const hintId = useId()
 
 	useEffect(() => {
 		setHasHydrated(true)
 	}, [])
 
 	return (
-		<>
+		<div className="relative mr-12 lg:mr-0">
 			<button
 				disabled={!hasHydrated}
 				onFocus={onFocus}
 				onClick={onClick}
 				onPointerOver={onPointerOver}
-				aria-label={label === 'Search' ? 'Search' : `Search (${label})`}
+				aria-label={label ? `Search (${label})` : 'Search'}
+				aria-describedby={showHint ? hintId : undefined}
 				aria-expanded={isOpen}
 				data-shortcut-hint={showHint}
 				className={twJoin(
-					'group shadow-custom-black dark:bg-dark-gray-200 relative mr-12 block rounded-sm bg-white px-6 py-1 lg:mr-0',
+					'group shadow-custom-black dark:bg-dark-gray-200 relative block rounded-sm bg-white px-3 py-1 sm:px-6',
 					!hasHydrated && 'cursor-not-allowed',
 					'focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2',
 				)}
 			>
 				<span
 					className={twJoin(
-						'text-body flex h-10 items-center rounded-xs border-0 bg-transparent text-xl transition-colors',
+						'text-body flex h-10 items-center gap-3 rounded-xs border-0 bg-transparent text-xl transition-colors',
 						hasHydrated && 'group-hover:text-accent',
 						!hasHydrated && 'cursor-not-allowed',
-						showHint && 'text-accent underline underline-offset-4',
 					)}
 				>
-					{label}
+					Search
+					{label ? (
+						<kbd className="font-inherit text-subheading-color text-sm">
+							{label}
+						</kbd>
+					) : null}
 				</span>
 			</button>
-		</>
+			{showHint ? (
+				<p
+					id={hintId}
+					className="border-border-color bg-light-gray text-body dark:bg-dark-gray-100 pointer-events-none absolute top-full right-0 z-40 mt-3 w-max max-w-[min(18rem,calc(100vw-5rem))] rounded-sm border px-3 py-2 text-left text-sm wrap-anywhere"
+				>
+					Press <kbd className="text-accent font-inherit">{label}</kbd> to
+					search
+				</p>
+			) : null}
+		</div>
 	)
 }
 
