@@ -121,7 +121,7 @@
     "gray-matter": "^4.0.3",
     "husky": "^9.1.7",
     "inquirer-autocomplete-prompt": "^3.0.1",
-    "jsdom": "^30.0.1",
+    "jsdom": "^31.0.0",
     "knip": "^6.0.0",
     "msw": "^3.0.0",
     "node-plop": "0.32.3",
