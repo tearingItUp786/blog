@@ -176,6 +176,9 @@ abstractions.
 - Test name: `pnpm test:single tests/smoke/env.server.test.ts -t "fallback"`
 - Environment startup: `pnpm test:single tests/smoke/startup-env.test.ts`
 - Newsletter RSS cache: `pnpm test:single tests/smoke/newsletter-rss.test.ts`
+- Redis cache fallback: `pnpm test:single tests/smoke/redis-cache.test.ts`
+- Redis connection recovery:
+  `pnpm test:single tests/smoke/redis-recovery.test.ts`
 - Mobile navbar focus: `pnpm test:single tests/navbar-focus-trap.test.ts`
 - Shortcut preferences and rebinding: `pnpm test:single tests/hotkeys.test.ts`
 - Lazy search shortcuts: `pnpm test:single tests/search-hotkeys.test.ts`
