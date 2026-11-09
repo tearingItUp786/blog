@@ -1,3 +1,4 @@
+import { setTimeout as delay } from 'node:timers/promises'
 import { graphql } from '@octokit/graphql'
 import {
 	GithubDownloadDirResponseSchema,
@@ -13,8 +14,7 @@ const graphqlWithAuth = graphql.defaults({
 async function downloadDirGql(
 	slug: string,
 ): Promise<GithubDownloadDirResponse> {
-	const data = await graphqlWithAuth(
-		`
+	const query = `
       query downloadDir($slug: String!) {
          repository(owner: "tearingitup786", name: "blog") {
           object(expression: $slug) {
@@ -52,12 +52,24 @@ async function downloadDirGql(
           }
         }
       }
-`,
-		{
-			slug: `main:${slug}`,
-		},
-	)
+`
 
-	return GithubDownloadDirResponseSchema.parse(data)
+	for (let attempt = 0; ; attempt++) {
+		try {
+			const data = await graphqlWithAuth(query, { slug: `main:${slug}` })
+			return GithubDownloadDirResponseSchema.parse(data)
+		} catch (error) {
+			// Retry temporary gateway failures, not auth/rate limits or invalid data.
+			if (
+				attempt >= 2 ||
+				!(error instanceof Error) ||
+				!('status' in error) ||
+				![502, 503, 504].includes(Number(error.status))
+			) {
+				throw error
+			}
+			await delay(250 * 2 ** attempt)
+		}
+	}
 }
 export { downloadDirGql }
